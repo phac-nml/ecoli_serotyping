@@ -7,6 +7,12 @@ from Bio import SeqIO
 
 
 def parseCommandLine():
+  """
+  Initalizing the two main commands of the command line for the project.
+  - input: refers to the location of the file(s) that will be processed
+  - database: refers to the location of the BLAST database that will be used
+  :return parser.parse_args():
+  """
 
   parser = argparse.ArgumentParser()
 
@@ -17,6 +23,12 @@ def parseCommandLine():
 
 
 def getListGenomes(input_data):
+  """
+  Creating a list out of the files entered (where each file name is its absolute path). This creates a uniform
+  format that works for both single files and directories.
+  :param input_data:
+  :return files:
+  """
 
   files = []
 
@@ -38,7 +50,15 @@ def getListGenomes(input_data):
 
   return files
 
+
 def checkFiles(listGenomes):
+  """
+  Creating a list containig only valid .fasta files out of the previously formed list (from the getListGenomes method).
+  If the newly created list is empty, the program exits with a warning.
+  This filters out the invalid files before querying the database for matches or other purposes.
+  :param listGenomes:
+  :return newListGenomes:
+  """
   newListGenomes = []
 
   for filename in listGenomes:
@@ -60,7 +80,6 @@ def checkFiles(listGenomes):
 
 
 if __name__=='__main__':
-  #call functions
   args = parseCommandLine()
   roughListGenomes = getListGenomes(args.input)
   listGenomes = checkFiles(roughListGenomes)
