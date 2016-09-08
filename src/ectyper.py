@@ -5,6 +5,7 @@ import os
 from Bio import SeqIO
 
 
+
 def parseCommandLine():
 
   parser = argparse.ArgumentParser()
@@ -23,8 +24,10 @@ def getListGenomes(input_data):
     #print("Using files from " + input_data)
     tmp = os.listdir(input_data)
 
-    for f in tmp:
-      files.append(os.path.abspath(f))
+    fullPath = os.path.normpath(input_data)
+
+    for filename in tmp:
+      files.append(fullPath + "/" + filename)
 
     print files
 
