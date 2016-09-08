@@ -39,14 +39,13 @@ def checkFiles(listGenomes):
   newListGenomes = []
 
   for filename in listGenomes:
-    try:
-      for seq_record in SeqIO.parse(filename, "fasta"):
-        print(seq_record)
+    counter=0
+    for seq_record in SeqIO.parse(filename, "fasta"):
+      counter+=1
+    if counter>0:
       newListGenomes.append(filename)
-
-    except ValueError:
-      print(filename + " is in invalid format")
-      continue
+    else:
+      print("File is in invalid format")
 
   if not newListGenomes:
     print("No valid fasta files")
