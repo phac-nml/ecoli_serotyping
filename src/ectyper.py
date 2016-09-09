@@ -64,6 +64,7 @@ def checkFiles(listGenomes):
     counter=0
     for seq_record in SeqIO.parse(filename, "fasta"):
       counter+=1
+      print seq_record.id
     if counter>0:
       newListGenomes.append(filename)
     else:

@@ -37,9 +37,11 @@ def test_checkFiles():
 
     assert checkFiles(getListGenomes(REL_DIR)) == expectedList1
 
-   # assert checkFiles(getListGenomes(SCRIPT_DIRECTORY + '../Data/Invalid Files/')) == []
+    assert checkFiles(getListGenomes(SCRIPT_DIRECTORY + '../Data/Invalid Files/')) == [SCRIPT_DIRECTORY + '../Data/Invalid Files/Rabbit-in-Hat.jpg']
 
-   # assert checkFiles(getListGenomes(SCRIPT_DIRECTORY + '../Data/')) == expectedList1
+    expectedList2.remove(SCRIPT_DIRECTORY + '../Data/Invalid Files/Invalid-File-1.txt')
+
+    assert checkFiles(getListGenomes(SCRIPT_DIRECTORY + '../Data/')) == expectedList2
 
 
 
