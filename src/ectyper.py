@@ -55,7 +55,7 @@ def checkFiles(listGenomes):
   """
   Creating a list containig only valid .fasta files out of the previously formed list (from the getListGenomes method).
   If the newly created list is empty, the program exits with a warning.
-  This filters out the invalid files before querying the database for matches or other purposes.
+  This filters out the invalid files.
   :param listGenomes:
   :return newListGenomes:
   """

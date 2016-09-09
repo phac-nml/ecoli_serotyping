@@ -1,11 +1,16 @@
-from nose.tools import *
-import main
+import unittest
+import ectyper
 
-def setup():
-    print "SETUP!"
+class TestEctyper(unittest.TestCase):
 
-def teardown():
-    print "TEAR DOWN!"
+    def test_getListGenomes():
+        assert getListGenomes() ==
+        assert getListGenomes() ==
+        assert getListGenomes() ==
+        assert getListGenomes() ==
 
-def test_basic():
-    print "I RAN!"
+    def test_checkFiles():
+        assert checkList() ==
+        assert checklist() ==
+        assert checklist() ==
+        assert checklist() ==
