@@ -30,25 +30,24 @@ def getListGenomes(input_data):
   :return files:
   """
 
-  files = []
+  filesList = []
 
   if os.path.isdir(input_data):
     #print("Using files from " + input_data)
     tmp = os.listdir(input_data)
 
-    fullPath = os.path.normpath(input_data)
+    for root, dirs, files in os.walk(input_data):
+     for filename in files:
+       filesList.append(os.path.join(root,filename))
 
-    for filename in tmp:
-      files.append(fullPath + "/" + filename)
-
-    print files
+    print filesList
 
   else:
     # print("Using file " + input_data)
-    files.append(os.path.abspath(input_data))
-    print files
+    filesList.append(os.path.abspath(input_data))
+    print filesList
 
-  return files
+  return sorted(filesList)
 
 
 def checkFiles(listGenomes):
