@@ -67,14 +67,14 @@ def checkFiles(listGenomes):
     if counter>0:
       newListGenomes.append(filename)
     else:
-      print("File is in invalid format")
+      print("File " + filename+ " is in invalid format")
 
   if not newListGenomes:
     print("No valid fasta files")
     exit(1)
 
   else:
-    return newListGenomes
+    return sorted(newListGenomes)
 
 
 
