@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 from Bio import SeqIO
 
 
@@ -61,11 +62,16 @@ def checkFiles(listGenomes):
   newListGenomes = []
 
   for filename in listGenomes:
-    counter=0
+    flag = 0
+    print filename
     for seq_record in SeqIO.parse(filename, "fasta"):
-      counter+=1
-      print seq_record.id
-    if counter>0:
+      match = re.search('(^[a-zA-Z]+)', str(seq_record.seq))
+      if not match:
+        break
+      else:
+        flag = 1
+
+    if flag>0:
       newListGenomes.append(filename)
     else:
       print("File " + filename+ " is in invalid format")
