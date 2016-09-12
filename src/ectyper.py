@@ -4,6 +4,7 @@ import argparse
 import os
 import re
 from Bio import SeqIO
+from Bio.Blast.Applications import NcbiblastnCommandline
 
 
 
@@ -19,7 +20,7 @@ def parseCommandLine():
 
   parser.add_argument("input", help="Location of new file(s). Can be a single file or a directory")
   parser.add_argument("database", help="Location of the BLAST database.")
-  parser.add_argument("-output", help="", default="")
+  parser.add_argument("-out", "-output", help="", default="STDOUT")
 
   return parser.parse_args()
 
@@ -82,7 +83,14 @@ def checkFiles(listGenomes):
     return sorted(newListGenomes)
 
 
-def initializeDB():
+def initializeDB(database):
+
+  if not os.path.isfile(database):
+
+
+  # blastn_cline = NcbiblastnCommandline(cmd="blastn", db="ECTyperDB", outfmt=5, out="EcOH.xml")
+  # print blastn_cline
+
 
 
 
@@ -92,4 +100,4 @@ if __name__=='__main__':
   roughListGenomes = getListGenomes(args.input)
   listGenomes = checkFiles(roughListGenomes)
 
-  initializeDB()
+  initializeDB(args.database)
