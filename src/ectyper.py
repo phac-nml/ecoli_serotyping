@@ -17,8 +17,9 @@ def parseCommandLine():
 
   parser = argparse.ArgumentParser()
 
-  parser.add_argument("input", help="Location of new file(s).")
+  parser.add_argument("input", help="Location of new file(s). Can be a single file or a directory")
   parser.add_argument("database", help="Location of the BLAST database.")
+  parser.add_argument("-output", help="", default="")
 
   return parser.parse_args()
 
@@ -41,12 +42,9 @@ def getListGenomes(input_data):
      for filename in files:
        filesList.append(os.path.join(root,filename))
 
-    print filesList
-
   else:
     # print("Using file " + input_data)
     filesList.append(os.path.abspath(input_data))
-    print filesList
 
   return sorted(filesList)
 
@@ -84,9 +82,14 @@ def checkFiles(listGenomes):
     return sorted(newListGenomes)
 
 
+def initializeDB():
+
+
+
 
 if __name__=='__main__':
   args = parseCommandLine()
   roughListGenomes = getListGenomes(args.input)
   listGenomes = checkFiles(roughListGenomes)
-  print(listGenomes)
+
+  initializeDB()
