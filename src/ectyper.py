@@ -10,6 +10,7 @@ from Bio.Blast import NCBIXML
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
+
 def parseCommandLine():
   """
   Initalizing the two main commands of the command line for the project.
@@ -50,6 +51,30 @@ def getListGenomes(input_data):
 
   return sorted(filesList)
 
+def getGenomeName(file):
+
+  record = SeqIO.parse(file,"fasta")[0]
+  recordId = str(record.id)
+  genomeName = ''
+
+  if re.search('lcl\|([\w-]*)', recordId):
+    genomeName =
+  elif re.search('',recordId):
+    genomeName =
+  elif re.search('',recordId):
+    genomeName =
+  elif re.search('',recordId):
+    genomeName =
+  elif re.search('', recordId):
+    genomeName =
+  elif re.search('', recordId):
+    genomeName =
+  elif re.search('', recordId):
+    genomeName =
+  else:
+    genomeName =
+
+
 
 def checkFiles(listGenomes):
   """
@@ -63,8 +88,8 @@ def checkFiles(listGenomes):
 
   for filename in listGenomes:
     flag = 0
-    for seq_record in SeqIO.parse(filename, "fasta"):
-      match = re.search('(^[a-zA-Z]+)', str(seq_record.seq))
+    for record in SeqIO.parse(filename, "fasta"):
+      match = re.search('(^[a-zA-Z]+)', str(record.seq))
       if not match:
         break
       else:
@@ -72,6 +97,7 @@ def checkFiles(listGenomes):
 
     if flag>0:
       newListGenomes.append(filename)
+      genomeName = getGenomeName(filename)
     else:
       print("File " + filename+ " is in invalid format")
 
@@ -139,6 +165,7 @@ def findPerfectMatches(hspList):
   for hsp in hspList:
     if len(hsp.query) == hsp.positives:
       identicalList.append(hsp)
+      print hsp
     else:
       predictionList.append(hsp)
 
@@ -155,8 +182,6 @@ if __name__=='__main__':
     results = runBlast(listGenomes)
     hspList = parseResults(results)
     identicalList, predictionList = findPerfectMatches(hspList)
-
-
 
   else:
     print("Oops something happened")
