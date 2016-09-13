@@ -4,6 +4,7 @@ import argparse
 import os
 import re
 from Bio import SeqIO
+import subprocess
 from Bio.Blast.Applications import NcbiblastnCommandline
 
 
@@ -19,7 +20,7 @@ def parseCommandLine():
   parser = argparse.ArgumentParser()
 
   parser.add_argument("input", help="Location of new file(s). Can be a single file or a directory")
-  parser.add_argument("database", help="Location of the BLAST database.")
+ # parser.add_argument("database", help="Location of the BLAST database.")
   parser.add_argument("-out", "-output", help="", default="STDOUT")
 
   return parser.parse_args()
@@ -83,14 +84,18 @@ def checkFiles(listGenomes):
     return sorted(newListGenomes)
 
 
-def initializeDB(database):
+def initializeDB():
 
-  if not os.path.isfile(database):
+  SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+
+  if os.path.isfile(SCRIPT_DIRECTORY + '../Data/ECTyperDB.nsq'):
+    return 0
+  else:
+    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY + "../Data/ECTyperDB"])
 
 
   # blastn_cline = NcbiblastnCommandline(cmd="blastn", db="ECTyperDB", outfmt=5, out="EcOH.xml")
   # print blastn_cline
-
 
 
 
@@ -100,4 +105,5 @@ if __name__=='__main__':
   roughListGenomes = getListGenomes(args.input)
   listGenomes = checkFiles(roughListGenomes)
 
-  initializeDB(args.database)
+  if initializeDB() == 0:
+    print "Woohoo it worked!"
