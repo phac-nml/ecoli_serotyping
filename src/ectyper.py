@@ -6,6 +6,7 @@ import re
 from Bio import SeqIO
 import subprocess
 from Bio.Blast.Applications import NcbiblastnCommandline
+from Bio.Blast import NCBIXML
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
@@ -37,15 +38,14 @@ def getListGenomes(input_data):
   filesList = []
 
   if os.path.isdir(input_data):
-    #print("Using files from " + input_data)
-    tmp = os.listdir(input_data)
+    print("Using files from " + input_data)
 
     for root, dirs, files in os.walk(input_data):
      for filename in files:
        filesList.append(os.path.join(root,filename))
 
   else:
-    # print("Using file " + input_data)
+    print("Using file " + input_data)
     filesList.append(os.path.abspath(input_data))
 
   return sorted(filesList)
@@ -63,7 +63,6 @@ def checkFiles(listGenomes):
 
   for filename in listGenomes:
     flag = 0
-    print filename
     for seq_record in SeqIO.parse(filename, "fasta"):
       match = re.search('(^[a-zA-Z]+)', str(seq_record.seq))
       if not match:
@@ -77,7 +76,7 @@ def checkFiles(listGenomes):
       print("File " + filename+ " is in invalid format")
 
   if not newListGenomes:
-    print("No valid fasta files")
+    print("No valid fasta files \n Exiting")
     exit(1)
 
   else:
@@ -86,26 +85,50 @@ def checkFiles(listGenomes):
 
 def initializeDB():
 
+  REL_DIR = SCRIPT_DIRECTORY + '../temp/'
 
-
-  if os.path.isfile(SCRIPT_DIRECTORY + '../temp/ECTyperDB.nin'):
-    print "The database already exists"
+  if os.path.isfile(REL_DIR + 'ECTyperDB.nin'):
+    print "Database already exists"
     return 0
   else:
     print "Generating the database"
-    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY + "../temp/ECTyperDB"])
+    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
-def runBlastCommand(listGenomes):
+def runBlast(listGenomes):
 
+  REL_DIR = SCRIPT_DIRECTORY + '../temp/'
+  resultList = []
+
+  print "Searching the database..."
 
   for file in listGenomes:
     filename = os.path.basename(file)
     filename = os.path.splitext(filename)
-    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= SCRIPT_DIRECTORY + "../temp/ECTyperDB", outfmt=5, out= SCRIPT_DIRECTORY+ "../temp/" + filename[0] +".xml")
-    print blastn_cline
-    stdout, stderr = blastn_cline()
 
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + "ECTyperDB", outfmt=5, out= REL_DIR + filename[0] +".xml")
+
+    stdout, stderr = blastn_cline()
+    resultList.append(REL_DIR+filename[0] + ".xml")
+
+  print("Generated " + str(len(resultList)) + " .xml file(s)")
+  return resultList
+
+
+def parseResults(results):
+
+  hspList = []
+
+  for result in results:
+    result_handle = open(result)
+    blast_records = NCBIXML.parse(result_handle)
+
+    for blast_record in blast_records:
+      for alignment in blast_record.alignments:
+         hspList.append(alignment.hsps[0])
+
+  print("Found " + str(len(hspList)) + " objects")
+  return hspList
 
 
 
@@ -115,4 +138,5 @@ if __name__=='__main__':
   listGenomes = checkFiles(roughListGenomes)
 
   if initializeDB() == 0:
-    runBlastCommand(listGenomes)
+    results = runBlast(listGenomes)
+    hspList = parseResults(results)
