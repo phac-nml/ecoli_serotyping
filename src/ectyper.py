@@ -91,7 +91,6 @@ def initializeDB():
     print "Database already exists"
     return 0
   else:
-    print "Generating the database"
     return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
@@ -126,9 +125,24 @@ def parseResults(results):
     for blast_record in blast_records:
       for alignment in blast_record.alignments:
          hspList.append(alignment.hsps[0])
+         #print("HSP: \n" + str(alignment.hsps[0]))
 
   print("Found " + str(len(hspList)) + " objects")
   return hspList
+
+
+def findPerfectMatches(hspList):
+
+  identicalList = []
+  predictionList = []
+
+  for hsp in hspList:
+    if len(hsp.query) == hsp.positives:
+      identicalList.append(hsp)
+    else:
+      predictionList.append(hsp)
+
+  return identicalList, predictionList
 
 
 
@@ -140,3 +154,9 @@ if __name__=='__main__':
   if initializeDB() == 0:
     results = runBlast(listGenomes)
     hspList = parseResults(results)
+    identicalList, predictionList = findPerfectMatches(hspList)
+
+
+
+  else:
+    print("Oops something happened")
