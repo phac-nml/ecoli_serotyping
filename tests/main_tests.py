@@ -46,8 +46,13 @@ def test_checkFiles():
 
 
 
+def test_initializeDB():
 
+    assert
 
+    assert
+
+    assert
 
 
 

@@ -7,7 +7,7 @@ from Bio import SeqIO
 import subprocess
 from Bio.Blast.Applications import NcbiblastnCommandline
 
-
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def parseCommandLine():
   """
@@ -86,16 +86,25 @@ def checkFiles(listGenomes):
 
 def initializeDB():
 
-  SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
-  if os.path.isfile(SCRIPT_DIRECTORY + '../Data/ECTyperDB.nsq'):
+
+  if os.path.isfile(SCRIPT_DIRECTORY + '../temp/ECTyperDB.nin'):
+    print "The database already exists"
     return 0
   else:
-    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY + "../Data/ECTyperDB"])
+    print "Generating the database"
+    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY + "../temp/ECTyperDB"])
 
 
-  # blastn_cline = NcbiblastnCommandline(cmd="blastn", db="ECTyperDB", outfmt=5, out="EcOH.xml")
-  # print blastn_cline
+def runBlastCommand(listGenomes):
+
+
+  for file in listGenomes:
+    filename = os.path.basename(file)
+    filename = os.path.splitext(filename)
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= SCRIPT_DIRECTORY + "../temp/ECTyperDB", outfmt=5, out= SCRIPT_DIRECTORY+ "../temp/" + filename[0] +".xml")
+    print blastn_cline
+    stdout, stderr = blastn_cline()
 
 
 
@@ -106,4 +115,4 @@ if __name__=='__main__':
   listGenomes = checkFiles(roughListGenomes)
 
   if initializeDB() == 0:
-    print "Woohoo it worked!"
+    runBlastCommand(listGenomes)
