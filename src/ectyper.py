@@ -16,6 +16,7 @@ def parseCommandLine():
   Initalizing the two main commands of the command line for the project.
   - input: refers to the location of the file(s) that will be processed
   - database: refers to the location of the BLAST database that will be used
+
   :return parser.parse_args():
   """
 
@@ -31,8 +32,8 @@ def getListGenomes(data):
   """
   Creating a list out of the files entered (where each file name is its absolute path). This creates a uniform
   format that works for both single files and directories.
-  :param input_data:
-  :return files:
+  :param data:
+  :return filesList:
   """
 
   filesList = []
@@ -146,7 +147,7 @@ def runBlastQuery(genomesList):
   """
   Generating the .xml files containing the genomes that were queried by using the command line.
 
-  :param listGenomes:
+  :param genomesList:
   :return resultList:
   """
 
