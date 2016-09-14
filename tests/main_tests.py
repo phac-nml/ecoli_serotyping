@@ -83,8 +83,20 @@ def test_initializeDB():
     assert initializeDB() == 0
 
 
-# def test_runBlastQuery():
-#
+def test_runBlastQuery():
+
+    REL_DIR2 = SCRIPT_DIRECTORY + '../temp/'
+    expectedList3 = sorted([REL_DIR2 + 'AAJT02.1.xml',
+                            REL_DIR2 + 'NC_002127.1.xml',
+                            REL_DIR2 + 'NC_002128.1.xml',
+                            REL_DIR2 + 'NC_002695.1.xml',
+                            REL_DIR2 + 'NC_011739.1.xml',
+                            REL_DIR2 + 'NC_011749.1.xml',
+                            REL_DIR2 + 'NC_011750.1.xml',
+                            REL_DIR2 + 'NC_011751.1.xml'])
+    assert runBlastQuery(expectedList1) == expectedList3
+
+
 # def test_parseResults():
 #
 # def test_findPerfectMatches():

@@ -166,7 +166,7 @@ def runBlastQuery(genomesList):
     resultsList.append(REL_DIR + filename[0] + ".xml")
 
   print("Generated " + str(len(resultsList)) + " .xml file(s)")
-  return resultsList
+  return sorted(resultsList)
 
 
 def parseResults(resultsList):
