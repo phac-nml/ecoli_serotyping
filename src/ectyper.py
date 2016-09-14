@@ -65,40 +65,40 @@ def getGenomeName(recordID, filename):
   if re.search('lcl\|([\w-]*)', recordID):
     match = re.search('lcl\|([\w-]*)', recordID)
     match = str(match.group())
-    genomeName = match.split('|')[1]
+    genome_name = match.split('|')[1]
 
   elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)',recordID):
     match = re.search('(\w{8}\.\d)',recordID)
-    genomeName = str(match.group())
+    genome_name = str(match.group())
 
   elif re.search('ref\|\w{2}_\w{8}|(gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID):
     match = re.search('ref\|\w{2}_\w{8}|(gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID)
     match = str(match.group())
-    genomeName = match.split('|')[1]
+    genome_name = match.split('|')[1]
 
   elif re.search('gi\|\d{8}', recordID):
     match = re.search('gi\|\d{8}', recordID)
     match = str(match.group())
-    genomeName = match.split('|')[1]
+    genome_name = match.split('|')[1]
 
   else:
-    genomeName = filename
+    genome_name = filename
 
-  return genomeName
+  return genome_name
 
 
-def checkFiles(listGenomes):
+def checkFiles(genomesList):
   """
-  Creating a list containig only valid .fasta files out of the previously formed list (from the getListGenomes method).
+  Creating a list containing only valid .fasta files out of the previously formed list (from the getListGenomes method).
   If the newly created list is empty, the program exits with a warning.
   This filters out the invalid files.
 
-  :param: listGenomes
-  :return: newListGenomes
+  :param: genomesList
+  :return: newGenomesList
   """
-  newListGenomes = []
+  newGenomesList = []
 
-  for file in listGenomes:
+  for file in genomesList:
     flag = 0
     for record in SeqIO.parse(file, "fasta"):
       match = re.search('(^[a-zA-Z]+)', str(record.seq))
@@ -108,22 +108,22 @@ def checkFiles(listGenomes):
         flag = 1
 
     if flag>0:
-      newListGenomes.append(file)
+      newGenomesList.append(file)
 
-      fileName = os.path.basename(file)
-      fileName = os.path.splitext(fileName)
-      genomeName = getGenomeName(list(SeqIO.parse(file,"fasta"))[0], fileName)
+      filename = os.path.basename(file)
+      filename = os.path.splitext(filename)
+      genome_name = getGenomeName(list(SeqIO.parse(file,"fasta"))[0], filename)
 
-      GENOMES[genomeName] = ''
+      GENOMES[genome_name] = ''
     else:
       print("File " + file+ " is in invalid format")
 
-  if not newListGenomes:
+  if not newGenomesList:
     print("No valid fasta files \n Exiting")
     exit(1)
 
   else:
-    return sorted(newListGenomes)
+    return sorted(newGenomesList)
 
 
 def initializeDB():
@@ -142,7 +142,7 @@ def initializeDB():
     return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
-def runBlast(listGenomes):
+def runBlastQuery(genomesList):
   """
   Generating the .xml files containing the genomes that were queried by using the command line.
 
@@ -151,50 +151,61 @@ def runBlast(listGenomes):
   """
 
   REL_DIR = SCRIPT_DIRECTORY + '../temp/'
-  resultList = []
+  resultsList = []
 
   print "Searching the database..."
 
-  for file in listGenomes:
-    fileName = os.path.basename(file)
-    fileName = os.path.splitext(fileName)
+  for file in genomesList:
+    filename = os.path.basename(file)
+    filename = os.path.splitext(filename)
 
-    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + "ECTyperDB", outfmt=5, out= REL_DIR + fileName[0] +".xml")
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + "ECTyperDB", outfmt=5, out= REL_DIR + filename[0] +".xml")
 
     stdout, stderr = blastn_cline()
-    resultList.append(REL_DIR+fileName[0] + ".xml")
+    resultsList.append(REL_DIR + filename[0] + ".xml")
 
-  print("Generated " + str(len(resultList)) + " .xml file(s)")
-  return resultList
+  print("Generated " + str(len(resultsList)) + " .xml file(s)")
+  return resultsList
 
 
-def parseResults(results):
+def parseResults(resultsList):
+  """
+  Searching the result list to find the hsps necessary to identify the sequences.
+  The method stores them in a dictionary that will be stored in GENOMES dictionary.
 
-  alignments = {}
+  :param resultsList:
+  :return alignmentsDict:
+  """
+  alignmentsDict = {}
 
-  for result in results:
+  for result in resultsList:
     result_handle = open(result)
     blast_records = NCBIXML.parse(result_handle)
-    fileName = os.path.basename(result)
-    fileName = os.path.splitext(fileName)
+    filename = os.path.basename(result)
+    filename = os.path.splitext(filename)
 
     for blast_record in blast_records:
-      genomeName = getGenomeName(blast_record.query, fileName)
+      genome_name = getGenomeName(blast_record.query, filename)
       for alignment in blast_record.alignments:
-        #hspList.append(alignment.hsps[0])
-         #print("HSP: \n" + str(alignment.hsps[0]))
-        alignments[alignment.title] = alignment.hsps[0]
-      GENOMES[genomeName] = alignments
+        alignmentsDict[alignment.title] = alignment.hsps[0]
+      GENOMES[genome_name] = alignmentsDict
 
-  print("Found " + str(len(alignments)) + " objects")
-  return alignments
+  print("Found " + str(len(alignmentsDict)) + " objects")
+  return alignmentsDict
 
-def findPerfectMatches(alignments):
 
+def findPerfectMatches(alignmentsDict):
+  """
+  Identifying the identical matches and the ones that will need a prediction.
+  The method stores them in different dictionaries.
+
+  :param alignmentsDict:
+  :return identicalDict, predictionDict:
+  """
   identicalDict = {}
   predictionDict = {}
 
-  for title,hsp in alignments.iteritems():
+  for title,hsp in alignmentsDict.iteritems():
     if len(hsp.query) == hsp.positives:
       identicalDict[title] = hsp
       #print hsp
@@ -208,13 +219,13 @@ def findPerfectMatches(alignments):
 
 if __name__=='__main__':
   args = parseCommandLine()
-  roughListGenomes = getListGenomes(args.input)
-  listGenomes = checkFiles(roughListGenomes)
+  roughGenomesList = getListGenomes(args.input)
+  genomesList = checkFiles(roughGenomesList)
 
   if initializeDB() == 0:
-    results = runBlast(listGenomes)
-    alignments = parseResults(results)
-    identicalDict, predictionDict = findPerfectMatches(alignments)
+    resultsList = runBlastQuery(genomesList)
+    alignmentsDict = parseResults(resultsList)
+    identicalDict, predictionDict = findPerfectMatches(alignmentsDict)
 
   else:
     print("Oops something happened")
