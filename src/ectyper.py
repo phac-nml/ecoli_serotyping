@@ -72,8 +72,8 @@ def getGenomeName(recordID, filename):
     match = re.search('(\w{8}\.\d)',recordID)
     genome_name = str(match.group())
 
-  elif re.search('ref\|\w{2}_\w{8}|(gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID):
-    match = re.search('ref\|\w{2}_\w{8}|(gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID)
+  elif re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID):
+    match = re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID)
     match = str(match.group())
     genome_name = match.split('|')[1]
 

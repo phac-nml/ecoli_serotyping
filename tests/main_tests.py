@@ -35,6 +35,25 @@ def test_getListGenomes():
     assert getListGenomes(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty Folder/') == []
 
 
+def test_getGenomeName():
+
+    assert getGenomeName('AAJT0203.1|gi|190904618|gb|AAJT02000002.1|emb|AAJT0201|dbj|AAJT0202|lcl|AAJT0204|ref|AA_JT0205| Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AAJT0204'
+
+    assert getGenomeName('AAJT0203.1|gi|190904618|gb|AAJT02000002.1|emb|AAJT0201|dbj|AAJT0202|ref|AA_JT0205| Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AAJT0203.1'
+
+    assert getGenomeName('gi|190904618|gb|AAJT02000002.1|emb|AAJT0201|dbj|AAJT0202|ref|AA_JT0205| Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AAJT0200'
+
+    assert getGenomeName('gi|190904618|emb|AAJT0201|dbj|AAJT0202|ref|AA_JT0205 Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AAJT0201'
+
+    assert getGenomeName('gi|190904618|dbj|AAJT0202|ref|AA_JT0205| Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AAJT0202'
+
+    assert getGenomeName('gi|190904618|ref|AA_JT0205| Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AA_JT0205'
+
+    assert getGenomeName('gi|190904618| Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02' ) == '19090461'
+
+    assert getGenomeName('Escherichia coli B7A gcontig_1112495745514, whole genome shotgun sequence', 'AAJT02') == 'AAJT02'
+
+
 def test_checkFiles():
 
     assert checkFiles(getListGenomes(REL_DIR)) == expectedList1
@@ -48,11 +67,25 @@ def test_checkFiles():
 
 def test_initializeDB():
 
-    assert
+    os.chdir('/home/calarose/Documents/')
 
-    assert
+    assert initializeDB() == 0
 
-    assert
+    os.chdir('/home/calarose/ectyper/Data/')
+
+    assert initializeDB() == 0
+
+    os.chdir('/home/calarose/ectyper/')
+
+    assert initializeDB() == 0
+
+# def test_runBlastQuery():
+#
+# def test_parseResults():
+#
+# def test_findPerfectMatches():
+
+
 
 
 
