@@ -67,17 +67,21 @@ def test_checkFiles():
 
 def test_initializeDB():
 
-    os.chdir('/home/calarose/Documents/')
+    assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB"]) == 1
 
+    assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
+
+    assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY , "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
+
+    os.chdir('/home/calarose/Documents/')
     assert initializeDB() == 0
 
     os.chdir('/home/calarose/ectyper/Data/')
-
     assert initializeDB() == 0
 
     os.chdir('/home/calarose/ectyper/')
-
     assert initializeDB() == 0
+
 
 # def test_runBlastQuery():
 #

@@ -11,3 +11,4 @@
 [2016/09/14 - Camille La Rose]
 - documentation adds + fixes
 - adjusted the methods runBlastQuery and parseResults (lists to dictionaries)
+- wrote the tests for initializeDB and getGenomeName
