@@ -159,11 +159,12 @@ def runBlastQuery(genomesList):
   for file in genomesList:
     filename = os.path.basename(file)
     filename = os.path.splitext(filename)
+    newFilename = os.path.abspath(REL_DIR + filename[0] + ".xml")
 
-    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + "ECTyperDB", outfmt=5, out= REL_DIR + filename[0] +".xml")
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + "ECTyperDB", outfmt=5, out= newFilename)
 
     stdout, stderr = blastn_cline()
-    resultsList.append(REL_DIR + filename[0] + ".xml")
+    resultsList.append(newFilename)
 
   print("Generated " + str(len(resultsList)) + " .xml file(s)")
   return sorted(resultsList)
@@ -213,7 +214,7 @@ def findPerfectMatches(alignmentsDict):
     else:
       predictionDict[title] = hsp
 
-  print identicalDict
+  #print identicalDict
   return identicalDict, predictionDict
 
 
