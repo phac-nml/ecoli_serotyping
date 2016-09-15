@@ -199,7 +199,7 @@ def parseResults(resultsList):
 def findPerfectMatches(alignmentsDict):
   """
   Identifying the identical matches and the ones that will need a prediction.
-  The method stores them in different dictionaries.
+  The method stores them in two dictionaries: one for identical matches and one that will need a prediction.
 
   :param alignmentsDict:
   :return identicalDict, predictionDict:
@@ -210,11 +210,9 @@ def findPerfectMatches(alignmentsDict):
   for title,hsp in alignmentsDict.iteritems():
     if len(hsp.query) == hsp.positives:
       identicalDict[title] = hsp
-      #print hsp
     else:
       predictionDict[title] = hsp
 
-  #print identicalDict
   return identicalDict, predictionDict
 
 
