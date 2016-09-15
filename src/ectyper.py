@@ -3,10 +3,15 @@
 import argparse
 import os
 import re
-from Bio import SeqIO
 import subprocess
+import sys
+
+#from ectyper.src.ecprediction import *
+
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
+from Bio import SeqIO
+
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
@@ -23,7 +28,9 @@ def parseCommandLine():
   parser = argparse.ArgumentParser()
 
   parser.add_argument("input", help="Location of new file(s). Can be a single file or a directory")
-  parser.add_argument("-out", "-output", help="", default="STDOUT")
+  parser.add_argument("-out", "-output", help="", default='STDOUT')
+  parser.add_argument("-pi", "-percentIdentity", type=int, help="", default=90)
+  parser.add_argument("-pl", "-percentLength", type=int, help="", default=90)
 
   return parser.parse_args()
 
@@ -218,6 +225,7 @@ def findPerfectMatches(alignmentsDict):
 
 
 if __name__=='__main__':
+  print sys.path
   args = parseCommandLine()
   roughGenomesList = getListGenomes(args.input)
   genomesList = checkFiles(roughGenomesList)
@@ -226,6 +234,7 @@ if __name__=='__main__':
     resultsList = runBlastQuery(genomesList)
     alignmentsDict = parseResults(resultsList)
     identicalDict, predictionDict = findPerfectMatches(alignmentsDict)
+    #predictionDict = filterPredictions(predictionDict)
 
   else:
     print("Oops something happened")

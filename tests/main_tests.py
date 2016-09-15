@@ -1,8 +1,11 @@
-from pytest import raises
+
 import hashlib
 import pytest
+import os.path
+
 from ectyper.src.ectyper import *
-import os
+from pytest import raises
+
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference Genomes"

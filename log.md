@@ -12,3 +12,7 @@
 - documentation adds + fixes
 - adjusted the methods runBlastQuery and parseResults (lists to dictionaries)
 - wrote the tests for initializeDB and getGenomeName
+
+[2016/09/15 - Camille La Rose]
+- finished writing tests for parseResults and  findPerfectMatches
+- created  new module ecprediction.py for prediction methods
