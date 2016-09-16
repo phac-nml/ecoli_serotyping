@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import os
 import re
@@ -180,7 +182,7 @@ def parseResults(resultsList):
     :param resultsList:
     :return alignmentsDict:
     """
-    alignmentsDict = {}
+
 
     for result in resultsList:
         result_handle = open(result)
@@ -189,10 +191,10 @@ def parseResults(resultsList):
         filename = os.path.splitext(filename)
 
         for blast_record in blast_records:
+            alignmentsDict = {}
             genome_name = getGenomeName(blast_record.query, filename)
             for alignment in blast_record.alignments:
                 alignmentsDict[alignment.title] = alignment.hsps[0]
-            GENOMES[genome_name] = alignmentsDict
+                GENOMES[genome_name] = alignmentsDict
 
-    print("Found " + str(len(alignmentsDict)) + " objects")
-    return alignmentsDict
+    return GENOMES

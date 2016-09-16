@@ -103,7 +103,7 @@ def test_runBlastQuery():
 
 def test_parseResults():
 
-    expectedDict = {
+    expectedDict = {'NC_002127': '', 'NC_002128': '','NC_011749': '', 'NC_002695': '', 'NC_011739': '', 'NC_011751': '', 'NC_011750': '', 'AAJT0200': {
         'gnl|BL_ORD_ID|175 8__wzx__wzx-O148__176 DQ167407.1;O antigen flippase;O148' : 'aee07ddae92b95074a93148a06624a29', 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148' : 'c10c9586ec7845c902fbbd55f7df991f',
         'gnl|BL_ORD_ID|190 8__wzx__wzx-O159__191 EU294176.1;O antigen flippase;O159' : '8cab52763f6262bcecaa41bece2ae41f', 'gnl|BL_ORD_ID|165 8__wzx__wzx-O140__166 AB812060.1;O antigen flippase;O140' : '27d4fd2e1144f746437c3fc4bfcf7ec3',
         'gnl|BL_ORD_ID|28 1__fliC__fliC-H28__29 AY250010.1;flagellin;H28' : '6dfdab8081e7d834f1b3243985472b2d', 'gnl|BL_ORD_ID|31 1__fliC__fliC-H31__32 AY250013.1;flagellin;H31' : '0ef43266b0331ed986db7371dabdfc98',
@@ -145,22 +145,28 @@ def test_parseResults():
         'gnl|BL_ORD_ID|22 1__fliC__fliC-H21__23 AY250004.1;flagellin;H21' : '8b4b3b29ab37a007ca04a57923520032', 'gnl|BL_ORD_ID|6 1__fliC__fliC-H11__7 AY249996.1;flagellin;H11' : '8b4b3b29ab37a007ca04a57923520032',
         'gnl|BL_ORD_ID|14 1__fliC__fliC-H16__15 AY337477.1;flagellin;H16' : '09064bc24643dc9bb5ffa42624ec78d5', 'gnl|BL_ORD_ID|13 1__fliC__fliC-H16__14 AY337476.1;flagellin;H16' : '09064bc24643dc9bb5ffa42624ec78d5' ,
         'gnl|BL_ORD_ID|12 1__fliC__fliC-H16__13 AY337475.1;flagellin;H16' : '09064bc24643dc9bb5ffa42624ec78d5', 'gnl|BL_ORD_ID|15 1__fliC__fliC-H16__16 AY250000.1;flagellin;H16' : '51f3c3538e86bd56fd16761505da4630',
-        'gnl|BL_ORD_ID|25 1__fliC__fliC-H25__26 AY250007.1;flagellin;H25' : '94f0f51796d70c5e0a890beb107786e0' }
+        'gnl|BL_ORD_ID|25 1__fliC__fliC-H25__26 AY250007.1;flagellin;H25' : '94f0f51796d70c5e0a890beb107786e0' }}
 
     testDict = parseResults([REL_DIR2 + 'NC_011749.1.xml',REL_DIR2 + 'AAJT02.1.xml'])
 
-    for test_title, test_hsp in testDict.iteritems():
-        hash_hsp = hashlib.md5()
-        hash_hsp.update(str(test_hsp))
-        if expectedDict[test_title] != str(hash_hsp.hexdigest()):
-            pytest.fail("The dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
+    for test_genome, test_value in testDict.iteritems():
+        if test_genome in expectedDict:
+            if isinstance(test_value, dict):
+                for test_title, test_hsp in test_value.iteritems():
+                    hash_hsp = hashlib.md5()
+                    hash_hsp.update(str(test_hsp))
+                    if expectedDict[test_genome][test_title] != str(hash_hsp.hexdigest()):
+                        pytest.fail("The dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
+        else:
+            pytest.fail("The dictionaries aren't the same. Test failed. \nCAUSE \n" + str(test_genome) + " isn't a key")
+
 
 def test_findPerfectMatches():
 
-    expected_identical = {'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148' : 'c10c9586ec7845c902fbbd55f7df991f',
-                     'gnl|BL_ORD_ID|190 8__wzx__wzx-O159__191 EU294176.1;O antigen flippase;O159' : '8cab52763f6262bcecaa41bece2ae41f' }
+    expected_identical = {'AAJT0200':{'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148' : 'c10c9586ec7845c902fbbd55f7df991f',
+                     'gnl|BL_ORD_ID|190 8__wzx__wzx-O159__191 EU294176.1;O antigen flippase;O159' : '8cab52763f6262bcecaa41bece2ae41f' }}
 
-    expected_prediction = {'gnl|BL_ORD_ID|175 8__wzx__wzx-O148__176 DQ167407.1;O antigen flippase;O148' : 'aee07ddae92b95074a93148a06624a29', 'gnl|BL_ORD_ID|165 8__wzx__wzx-O140__166 AB812060.1;O antigen flippase;O140' : '27d4fd2e1144f746437c3fc4bfcf7ec3',
+    expected_prediction = {'AAJT0200':{'gnl|BL_ORD_ID|175 8__wzx__wzx-O148__176 DQ167407.1;O antigen flippase;O148' : 'aee07ddae92b95074a93148a06624a29', 'gnl|BL_ORD_ID|165 8__wzx__wzx-O140__166 AB812060.1;O antigen flippase;O140' : '27d4fd2e1144f746437c3fc4bfcf7ec3',
                        'gnl|BL_ORD_ID|28 1__fliC__fliC-H28__29 AY250010.1;flagellin;H28' : '6dfdab8081e7d834f1b3243985472b2d', 'gnl|BL_ORD_ID|31 1__fliC__fliC-H31__32 AY250013.1;flagellin;H31' : '0ef43266b0331ed986db7371dabdfc98',
                        'gnl|BL_ORD_ID|10 1__fliC__fliC-H14__11 AY249998.1;flagellin;H14' : 'd4fb30f63599ca22f5ce3c6b9f8028d5', 'gnl|BL_ORD_ID|7 1__fliC__fliC-H12__8 AY337471.1;flagellin;H12' : 'b8c9c7ae76ae13eea5287cdd654d3907',
                        'gnl|BL_ORD_ID|8 1__fliC__fliC-H12__9 AY337474.1;flagellin;H12' : 'ac09ce2077f2225059bc306c8c83318d', 'gnl|BL_ORD_ID|62 1__fliC__fliC-H6__63 AY249991.1;flagellin;H6' : 'a52719aff71d6a30d58d0e6a2023a995',
@@ -200,22 +206,24 @@ def test_findPerfectMatches():
                        'gnl|BL_ORD_ID|22 1__fliC__fliC-H21__23 AY250004.1;flagellin;H21' : '8b4b3b29ab37a007ca04a57923520032', 'gnl|BL_ORD_ID|6 1__fliC__fliC-H11__7 AY249996.1;flagellin;H11' : '8b4b3b29ab37a007ca04a57923520032',
                        'gnl|BL_ORD_ID|14 1__fliC__fliC-H16__15 AY337477.1;flagellin;H16' : '09064bc24643dc9bb5ffa42624ec78d5', 'gnl|BL_ORD_ID|13 1__fliC__fliC-H16__14 AY337476.1;flagellin;H16' : '09064bc24643dc9bb5ffa42624ec78d5' ,
                        'gnl|BL_ORD_ID|12 1__fliC__fliC-H16__13 AY337475.1;flagellin;H16' : '09064bc24643dc9bb5ffa42624ec78d5', 'gnl|BL_ORD_ID|15 1__fliC__fliC-H16__16 AY250000.1;flagellin;H16' : '51f3c3538e86bd56fd16761505da4630',
-                       'gnl|BL_ORD_ID|25 1__fliC__fliC-H25__26 AY250007.1;flagellin;H25' : '94f0f51796d70c5e0a890beb107786e0' }
+                       'gnl|BL_ORD_ID|25 1__fliC__fliC-H25__26 AY250007.1;flagellin;H25' : '94f0f51796d70c5e0a890beb107786e0' }}
 
     test_identical, test_prediction = findPerfectMatches(parseResults([REL_DIR2 + 'NC_011749.1.xml',REL_DIR2 + 'AAJT02.1.xml']))
 
-    for test_title, test_hsp in test_identical.iteritems():
-        hash_hsp = hashlib.md5()
-        hash_hsp.update(str(test_hsp))
-        if not test_identical[test_title] != str(hash_hsp.hexdigest()):
-            pytest.fail("The IDENTICAL dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
+    for test_genome, test_value in test_identical.iteritems():
+        for test_title, test_hsp in test_value.iteritems():
+            hash_hsp = hashlib.md5()
+            hash_hsp.update(str(test_hsp))
+            if not test_identical[test_title] != str(hash_hsp.hexdigest()):
+                pytest.fail("The IDENTICAL dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
 
 
-    for test_title, test_hsp in test_prediction.iteritems():
-        hash_hsp = hashlib.md5()
-        hash_hsp.update(str(test_hsp))
-        if not test_prediction[test_title] != str(hash_hsp.hexdigest()):
-            pytest.fail("The PREDICTION dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
+    for test_genome, test_value in test_identical.iteritems():
+        for test_title, test_hsp in test_value.iteritems():
+            hash_hsp = hashlib.md5()
+            hash_hsp.update(str(test_hsp))
+            if not test_prediction[test_title] != str(hash_hsp.hexdigest()):
+                pytest.fail("The PREDICTION dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
 
 
 

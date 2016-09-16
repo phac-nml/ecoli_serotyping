@@ -1,21 +1,24 @@
 #!/usr/bin/env python
 
-def findPerfectMatches(alignmentsDict):
+def findPerfectMatches(genomesDict):
     """
     Identifying the identical matches and the ones that will need a prediction.
     The method stores them in two dictionaries: one for identical matches and one that will need a prediction.
 
-    :param alignmentsDict:
+    :param genomesDict:
     :return identicalDict, predictionDict:
     """
     identicalDict = {}
     predictionDict = {}
 
-    for title,hsp in alignmentsDict.iteritems():
-        if len(hsp.query) == hsp.positives:
-            identicalDict[title] = hsp
-        else:
-            predictionDict[title] = hsp
+    for genome_name, value in genomesDict.iteritems():
+        if isinstance(value, dict):
+            for title, hsp in value.iteritems():
+                tempDict = {title: hsp}
+                if len(hsp.query) == hsp.positives:
+                    identicalDict[genome_name] = tempDict
+                else:
+                    predictionDict[genome_name] = tempDict
 
     return identicalDict, predictionDict
 
@@ -38,14 +41,14 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     percent_identity = float(percent_identity)/100
     percent_length = float(percent_length)/100
 
-    for title, hsp in predictionDict.iteritems():
+    for genome_name, value in predictionDict.iteritems():
+        for title, hsp in value.iteritems():
+         hsp_length = float(hsp.align_length)/len(hsp.query)
+         hsp_identity = float(hsp.positives)/hsp.align_length
 
-        hsp_length = float(hsp.align_length)/len(hsp.query)
-        hsp_identity = float(hsp.positives)/hsp.align_length
-
-        if hsp_length >= percent_length:
-            if hsp_identity >= percent_identity:
-                newDict[title] = hsp
+         if hsp_length >= percent_length:
+           if hsp_identity >= percent_identity:
+               newDict[title] = hsp
 
     return newDict
 
