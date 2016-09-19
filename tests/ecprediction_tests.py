@@ -99,16 +99,18 @@ def test_filterPredictions():
                 if expected_num >=id_num:
                     exp_dict[expected_title] = expected_list[0]
 
-        test_pre = filterPredictions(test_prediction, id_num, length_num)
+        test_pred = filterPredictions(test_prediction, id_num, length_num)
 
-        if len(exp_dict) != len(test_pre):
-            pytest.fail(str(len(exp_dict)) + " The resulting dictionary is not the same length as the expected dictionary. " + str(len(test_pre)))
+        length_test_pred = 0
 
+        for test_genome, test_value in test_pred.iteritems():
+            for test_title, test_hsp in test_value.iteritems():
+                hash_hsp = hashlib.md5()
+                hash_hsp.update(str(test_hsp[0]))
+                if exp_dict[test_title] != str(hash_hsp.hexdigest()):
+                    pytest.fail("The dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
+                length_test_pred += 1
 
-        for test_title, test_hsp in test_pre.iteritems():
-           hash_hsp = hashlib.md5()
-           hash_hsp.update(str(test_hsp))
-           if exp_dict[test_title] != str(hash_hsp.hexdigest()):
-              pytest.fail("The dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
-
+        if len(exp_dict) != length_test_pred:
+            pytest.fail(" The resulting dictionary is not the same length as the expected dictionary. ")
         i+=1

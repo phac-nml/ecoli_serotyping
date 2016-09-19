@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import re
+
 
 def findPerfectMatches(genomesDict):
     """
@@ -17,6 +19,7 @@ def findPerfectMatches(genomesDict):
         if isinstance(value, dict):
             for title, hsp in value.iteritems():
                 if len(hsp.query) == hsp.positives:
+                    print title
                     tempIDict[title] = hsp
                     identicalDict[genome_name] = tempIDict
                 else:
@@ -45,13 +48,30 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     percent_length = float(percent_length)/100
 
     for genome_name, value in predictionDict.iteritems():
+        tempDict = {}
+
         for title, hsp in value.iteritems():
          hsp_length = float(hsp.align_length)/len(hsp.query)
          hsp_identity = float(hsp.positives)/hsp.align_length
-
+         print genome_name
          if hsp_length >= percent_length:
-           if hsp_identity >= percent_identity:
-               newDict[title] = hsp
+            if hsp_identity >= percent_identity:
+               tempDict[title] = [hsp, hsp_length*hsp_identity]
+               newDict[genome_name] = tempDict
 
     return newDict
+
+
+# def findTopMatch(predictionDict):
+#
+#     topMatchDict = {}
+#
+#     for genome_name, value in predictionDict.iteritems():
+#         tempDict = {}
+#
+#         for title, hsp in value.iteritems():
+#
+#             if re.search('(fliC-H\d|fliC\-H\d\d)', title):
+
+
 
