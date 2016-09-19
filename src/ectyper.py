@@ -11,8 +11,8 @@ if __name__=='__main__':
 
   if initializeDB() == 0:
     resultsList = runBlastQuery(genomesList)
-    alignmentsDict = parseResults(resultsList)
-    identicalDict, predictionDict = findPerfectMatches(alignmentsDict)
+    genomesDict = parseResults(resultsList)
+    identicalDict, predictionDict = findPerfectMatches(genomesDict)
     predictionDict = filterPredictions(predictionDict, args.pi, args.pl)
 
   else:

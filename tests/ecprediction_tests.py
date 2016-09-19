@@ -1,7 +1,7 @@
 import hashlib
 import os.path
 import pytest
-import math
+import random
 
 from ectyper.src.ecprediction import *
 from ectyper.src.ecvalidatingfiles import *
@@ -57,32 +57,58 @@ expected_prediction = {'AAJT0200':{'gnl|BL_ORD_ID|175 8__wzx__wzx-O148__176 DQ16
 def test_findPerfectMatches():
 
 
+    parse_dict = parseResults([REL_DIR + 'AAJT02.1.xml'])
+    test_identical, test_prediction = findPerfectMatches(parse_dict)
 
-    test_identical, test_prediction = findPerfectMatches(parseResults([REL_DIR + 'NC_011749.1.xml',REL_DIR + 'AAJT02.1.xml']))
+    if len(test_identical) != len(expected_identical):
+        pytest.fail("The resulting IDENTICAL dictionary is not the same length as the expected dictionary.")
+
+    if len(test_prediction) != len(expected_prediction):
+        pytest.fail("The resulting PREDICTION dictionary is not the same length as the expected dictionary.")
 
     for test_genome, test_value in test_identical.iteritems():
         for test_title, test_hsp in test_value.iteritems():
             hash_hsp = hashlib.md5()
             hash_hsp.update(str(test_hsp))
-            if not expected_identical[test_title] != str(hash_hsp.hexdigest()):
+            if expected_identical[test_genome][test_title] != str(hash_hsp.hexdigest()):
                 pytest.fail("The IDENTICAL dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
 
 
-    for test_genome, test_value in test_identical.iteritems():
+    for test_genome, test_value in test_prediction.iteritems():
         for test_title, test_hsp in test_value.iteritems():
             hash_hsp = hashlib.md5()
             hash_hsp.update(str(test_hsp))
-            if not expected_prediction[test_title][0] != str(hash_hsp.hexdigest()):
+            if expected_prediction[test_genome][test_title][0] != str(hash_hsp.hexdigest()):
                 pytest.fail("The PREDICTION dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
 
 
-# def test_filterPredictions():
-#
-#     test_identical, test_prediction = findPerfectMatches(parseResults([REL_DIR + 'NC_011749.1.xml',REL_DIR + 'AAJT02.1.xml']))
-#
-#     i = 0
-#
-#     while i<4:
-#         id_num = math.random() * 100
-#         length_num = math.random() * 100
-#         test_prediction = filterPredictions(test_prediction, id_num, length_num)
+def test_filterPredictions():
+
+     test_identical, test_prediction = findPerfectMatches(parseResults([REL_DIR + 'AAJT02.1.xml']))
+
+     i = 0
+
+     while i<4:
+        id_num = random.random() * 100
+        length_num = random.random() * 100
+        exp_dict = {}
+
+        for expected_genome, expected_value in expected_prediction.iteritems():
+            for expected_title, expected_list in expected_value.iteritems():
+                expected_num = expected_list[1] * 100
+                if expected_num >=id_num:
+                    exp_dict[expected_title] = expected_list[0]
+
+        test_pre = filterPredictions(test_prediction, id_num, length_num)
+
+        if len(exp_dict) != len(test_pre):
+            pytest.fail(str(len(exp_dict)) + " The resulting dictionary is not the same length as the expected dictionary. " + str(len(test_pre)))
+
+
+        for test_title, test_hsp in test_pre.iteritems():
+           hash_hsp = hashlib.md5()
+           hash_hsp.update(str(test_hsp))
+           if exp_dict[test_title] != str(hash_hsp.hexdigest()):
+              pytest.fail("The dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
+
+        i+=1

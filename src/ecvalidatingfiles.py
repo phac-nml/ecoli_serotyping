@@ -195,7 +195,9 @@ def parseResults(resultsList):
 
         for blast_record in blast_records:
             genome_name = getGenomeName(blast_record.query, filename)
-            alignmentsDict = dict(GENOMES[genome_name])
+            alignmentsDict = {}
+            if genome_name in GENOMES:
+             alignmentsDict = dict(GENOMES[genome_name])
 
             for alignment in blast_record.alignments:
                 alignmentsDict[alignment.title] = alignment.hsps[0]

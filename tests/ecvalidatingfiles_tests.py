@@ -1,9 +1,10 @@
 
 import hashlib
 import os.path
+import pytest
 
 from ectyper.src.ectyper import *
-from pytest import *
+from pytest import raises
 
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
