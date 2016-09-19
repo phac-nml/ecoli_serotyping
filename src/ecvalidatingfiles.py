@@ -118,9 +118,12 @@ def checkFiles(genomesList):
 
             filename = os.path.basename(file)
             filename = os.path.splitext(filename)
-            genome_name = getGenomeName(list(SeqIO.parse(file,"fasta"))[0], filename)
 
-            GENOMES[genome_name] = ''
+            for record in SeqIO.parse(file,"fasta"):
+                genome_name = getGenomeName(record, filename)
+                if not genome_name in GENOMES:
+                    GENOMES[genome_name] = ''
+
         else:
             print("File " + file+ " is in invalid format")
 
@@ -191,8 +194,9 @@ def parseResults(resultsList):
         filename = os.path.splitext(filename)
 
         for blast_record in blast_records:
-            alignmentsDict = {}
             genome_name = getGenomeName(blast_record.query, filename)
+            alignmentsDict = dict(GENOMES[genome_name])
+
             for alignment in blast_record.alignments:
                 alignmentsDict[alignment.title] = alignment.hsps[0]
                 GENOMES[genome_name] = alignmentsDict

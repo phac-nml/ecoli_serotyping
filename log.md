@@ -16,3 +16,13 @@
 [2016/09/15 - Camille La Rose]
 - finished writing tests for parseResults and  findPerfectMatches
 - created  new module ecprediction.py for prediction methods
+
+[2016/09/16 - Camille La Rose]
+- created new module ecvalidatingfiles.py for validation methods
+- fixed tests for parseResults and findPerfectMatches
+- fixed methods parseResults and findPerfectMatches so that it returns the GENOME dict.
+- added filterPredictions method
+
+[2016/09/19 - Camille La Rose]
+- created a new test module (ecprediction_tests) to separate the tests by module
+-

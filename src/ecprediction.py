@@ -12,13 +12,14 @@ def findPerfectMatches(genomesDict):
     predictionDict = {}
 
     for genome_name, value in genomesDict.iteritems():
+        tempDict = {}
         if isinstance(value, dict):
             for title, hsp in value.iteritems():
-                tempDict = {title: hsp}
+                tempDict[title] = hsp
                 if len(hsp.query) == hsp.positives:
                     identicalDict[genome_name] = tempDict
                 else:
-                    predictionDict[genome_name] = tempDict
+                    predictionDict[genome_name]= tempDict
 
     return identicalDict, predictionDict
 
@@ -45,6 +46,10 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
         for title, hsp in value.iteritems():
          hsp_length = float(hsp.align_length)/len(hsp.query)
          hsp_identity = float(hsp.positives)/hsp.align_length
+         print title
+         print hsp_length
+         print hsp_identity
+         print "\n"
 
          if hsp_length >= percent_length:
            if hsp_identity >= percent_identity:
