@@ -200,7 +200,7 @@ def parseResults(resultsList):
              alignmentsDict = dict(GENOMES[genome_name])
 
             for alignment in blast_record.alignments:
-                alignmentsDict[alignment.title] = alignment.hsps[0]
+                alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
                 GENOMES[genome_name] = alignmentsDict
 
     return GENOMES

@@ -25,4 +25,9 @@
 
 [2016/09/19 - Camille La Rose]
 - created a new test module (ecprediction_tests) to separate the tests by module
--
+- created new method findTopMatch
+- finished the tests for findPerfectMatches and filterPredictions
+
+[2016/09/20 - Camille La Rose]
+- removed findPerfectMatches and its test method
+- finished findTopMatch

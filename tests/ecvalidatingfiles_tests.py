@@ -150,10 +150,12 @@ def test_parseResults():
 
     testDict = parseResults([REL_DIR2 + 'NC_011749.1.xml',REL_DIR2 + 'AAJT02.1.xml'])
 
-    for test_genome, test_value in testDict.iteritems():
+    for test_genome, test_alignment in testDict.iteritems():
         if test_genome in expectedDict:
-            if isinstance(test_value, dict):
-                for test_title, test_hsp in test_value.iteritems():
+            if isinstance(test_alignment, dict):
+                for test_title, test_info in test_alignment.iteritems():
+                    test_length = test_info.keys()[0]
+                    test_hsp = test_info[test_length]
                     hash_hsp = hashlib.md5()
                     hash_hsp.update(str(test_hsp))
                     if expectedDict[test_genome][test_title] != str(hash_hsp.hexdigest()):
