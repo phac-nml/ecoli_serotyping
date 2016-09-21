@@ -53,37 +53,10 @@ expected_prediction = {'AAJT0200':{
    'gnl|BL_ORD_ID|25 1__fliC__fliC-H25__26 AY250007.1;flagellin;H25' : ['94f0f51796d70c5e0a890beb107786e0', 0.131996658312, 0.934911242604], 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148' : ['c10c9586ec7845c902fbbd55f7df991f', 1.0, 1.0],
    'gnl|BL_ORD_ID|190 8__wzx__wzx-O159__191 EU294176.1;O antigen flippase;O159' : ['8cab52763f6262bcecaa41bece2ae41f', 0.0304347826087, 1.0] }}
 
-# def test_findPerfectMatches():
-#
-#
-#     parse_dict = parseResults([REL_DIR + 'AAJT02.1.xml'])
-#     test_identical, test_prediction = findPerfectMatches(parse_dict)
-#
-#     if len(test_identical) != len(expected_identical):
-#         pytest.fail("The resulting IDENTICAL dictionary is not the same length as the expected dictionary.")
-#
-#     if len(test_prediction) != len(expected_prediction):
-#         pytest.fail("The resulting PREDICTION dictionary is not the same length as the expected dictionary.")
-#
-#     for test_genome, test_value in test_identical.iteritems():
-#         for test_title, test_hsp in test_value.iteritems():
-#             hash_hsp = hashlib.md5()
-#             hash_hsp.update(str(test_hsp))
-#             if expected_identical[test_genome][test_title] != str(hash_hsp.hexdigest()):
-#                 pytest.fail("The IDENTICAL dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
-#
-#
-#     for test_genome, test_value in test_prediction.iteritems():
-#         for test_title, test_hsp in test_value.iteritems():
-#             hash_hsp = hashlib.md5()
-#             hash_hsp.update(str(test_hsp))
-#             if expected_prediction[test_genome][test_title][0] != str(hash_hsp.hexdigest()):
-#                 pytest.fail("The PREDICTION dictionaries aren't the same. Test failed. \nCAUSE \nAlignment title: " + str(test_title) + "\nHSP:\n" + str(test_hsp))
-
 
 def test_filterPredictions():
 
-     test_prediction = parseResults([REL_DIR + 'AAJT02.1.xml'])
+     test_prediction = parseResults([REL_DIR + 'NC_011749.1.xml',REL_DIR + 'AAJT02.1.xml'])
 
      i = 0
 

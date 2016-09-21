@@ -38,6 +38,15 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
                    if hsp_identity >= percent_identity:
                       tempDict[title] = [hsp, al_length]
                       newDict[genome_name] = tempDict
+                   else:
+                      tempDict[title] = [hsp, 'NA']
+                      newDict[genome_name] = tempDict
+                else:
+                   tempDict[title] = [hsp, 'NA']
+                   newDict[genome_name] = tempDict
+
+        elif not alignment:
+            newDict[genome_name] = 'NA'
 
     return newDict
 
@@ -56,48 +65,56 @@ def sortMatches(predictionDict):
      for genome_name, value in predictionDict.iteritems():
          tempDict = {'fliC':[],'flnaA':[], 'fllA':[], 'fmlA': [], 'flkA': [], 'gnd': [], 'wzx': [], 'wzy':[], 'wzm':[], 'wzt': []}
 
-         for title, hsp in value.iteritems():
+         if value == 'NA':
+             sortedMatchDict[genome_name] = 'NA'
 
-             if re.search('(fliC-H\d)', title):
-                tempDict['fliC'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(wzx-O\d)', title):
-                tempDict['wzx'].append({'title':title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(wzy-O\d)', title):
-                tempDict['wzy'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(wzt-O\d)', title):
-                tempDict['wzt'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(wzm-O\d)', title):
-                tempDict['wzm'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(flnaA-H\d)', title):
-                tempDict['flnaA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(fllA-H\d)', title):
-                tempDict['fllA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(fmlA-H\d)', title):
-                tempDict['fmlA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(flkA-H\d)', title):
-                tempDict['flkA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
-
-             elif re.search('(gnd-O\d)', title):
-                tempDict['gnd'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': getProductPercentage(hsp[1], hsp[0])})
+         else:
+             for title, hsp in value.iteritems():
+                 productPercentage = 'NA'
+                 if hsp[1] != 'NA':
+                     productPercentage = getProductPercentage(hsp[1], hsp[0])
 
 
+                 if re.search('(fliC-H\d)', title):
+                    tempDict['fliC'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-         for type in tempDict.keys():
-             if not tempDict[type]:
-                 emptyList = tempDict.pop(type, None)
-             else:
-                 sortedList = sorted(tempDict[type], key=lambda k: k['perc'], reverse = True)
-                 tempDict[type] = sortedList
+                 elif re.search('(wzx-O\d)', title):
+                    tempDict['wzx'].append({'title':title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-         sortedMatchDict[genome_name] = tempDict
+                 elif re.search('(wzy-O\d)', title):
+                    tempDict['wzy'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(wzt-O\d)', title):
+                    tempDict['wzt'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(wzm-O\d)', title):
+                    tempDict['wzm'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(flnaA-H\d)', title):
+                    tempDict['flnaA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(fllA-H\d)', title):
+                    tempDict['fllA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(fmlA-H\d)', title):
+                    tempDict['fmlA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(flkA-H\d)', title):
+                    tempDict['flkA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+                 elif re.search('(gnd-O\d)', title):
+                    tempDict['gnd'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
+
+
+
+             for type in tempDict.keys():
+                 if not tempDict[type]:
+                     emptyList = tempDict.pop(type, None)
+                 else:
+                     sortedList = sorted(tempDict[type], key=lambda k: k['perc'], reverse = True)
+                     tempDict[type] = sortedList
+
+             sortedMatchDict[genome_name] = tempDict
 
      return sortedMatchDict
 
@@ -110,11 +127,19 @@ def searchType(title, type):
 
 
 def findType(topMatch, matchDict, topMatchList):
-    topPerc = topMatch.get('perc')
+
 
     for type, alignmentList in matchDict.iteritems():
-        perc = int(alignmentList[0].get('perc'))
-        if perc > topPerc:
+        perc = alignmentList[0].get('perc')
+        topPerc = topMatch.get('perc')
+
+        if topPerc == 'NA':
+            topMatch = alignmentList[0]
+            topMatchList = alignmentList
+
+        elif perc == 'NA':
+            continue
+        elif perc > topPerc:
             topMatch = alignmentList[0]
             topMatchList = alignmentList
         elif perc == topPerc and str(alignmentList[0].get('title')) != str(topMatch.get('title')):
@@ -141,6 +166,7 @@ def findType(topMatch, matchDict, topMatchList):
         else:
             continue
 
+
     return topMatch
 
 
@@ -149,33 +175,47 @@ def findType(topMatch, matchDict, topMatchList):
 def findTopMatch(matchDict):
 
     topMatchDict={}
-    print matchDict
 
     print "Finding O and H types..."
 
     for genome_name, typeDict in matchDict.iteritems():
+        tempDict = {}
 
-        oTypeDict = {
-            k: typeDict[k] for k in typeDict.keys() if
-            searchType(str(typeDict[k][0].get('title')), k).startswith('O')
-        }
+        if typeDict == 'NA':
+            topMatchDict[genome_name] = {'otype': 'NA', 'htype': 'NA', 'predictionstrength': 'tbd'}
 
-        hTypeDict = {
-            k: typeDict[k] for k in typeDict.keys() if
-            searchType(str(typeDict[k][0].get('title')), k).startswith('H')
+        else:
+
+            oTypeDict = {
+                k: typeDict[k] for k in typeDict.keys() if
+                searchType(str(typeDict[k][0].get('title')), k).startswith('O')
             }
 
-        oKey = oTypeDict.keys()[0]
-        oTypeList = oTypeDict[oKey]
-        oTypeMatch = findType(oTypeList[0], oTypeDict, oTypeList)
+            hTypeDict = {
+                k: typeDict[k] for k in typeDict.keys() if
+                searchType(str(typeDict[k][0].get('title')), k).startswith('H')
+            }
 
-        hKey = hTypeDict.keys()[0]
-        hTypeList = hTypeDict[hKey]
-        hTypeMatch = findType(hTypeList[0], hTypeDict, hTypeList)
 
-        print oTypeMatch
-        print hTypeMatch
 
-        topMatchDict[genome_name] = {'otype': oTypeMatch, 'htype': hTypeMatch, 'predictionstrength': 'tbd'}
+            oKey = oTypeDict.keys()[0]
+            oTypeList = oTypeDict[oKey]
+            oTypeMatch = findType(oTypeList[0], oTypeDict, oTypeList)
+
+            if oTypeMatch['perc'] == 'NA':
+                tempDict['otype'] = 'NA'
+            else:
+                tempDict['otype'] = oTypeMatch
+
+            hKey = hTypeDict.keys()[0]
+            hTypeList = hTypeDict[hKey]
+            hTypeMatch = findType(hTypeList[0], hTypeDict, hTypeList)
+
+            if hTypeMatch['perc'] == 'NA':
+                tempDict['htype'] = 'NA'
+            else:
+                tempDict['htype'] = hTypeMatch
+
+            topMatchDict[genome_name] = tempDict
 
     return topMatchDict
