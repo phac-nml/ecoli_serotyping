@@ -14,7 +14,8 @@ if __name__=='__main__':
     genomesDict = parseResults(resultsList)
     #identicalDict, predictionDict = findPerfectMatches(genomesDict)
     predictionDict = filterPredictions(genomesDict, args.pi, args.pl)
-    topMatchDict = findTopMatch(predictionDict)
+    matchDict = sortMatches(predictionDict)
+    topMatch = findTopMatch(matchDict)
 
   else:
     print("Oops something happened")
