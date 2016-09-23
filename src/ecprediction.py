@@ -3,9 +3,28 @@ import re
 
 
 def getProductPercentage(length, hsp):
-    hsp_length = float(hsp.positives)/length
-    hsp_identity = float(hsp.identities)/hsp.align_length
-    return hsp_identity*hsp_length
+        """
+        Calculating the product of percentages (identity and length), to be used for comparisons when sorting the matches
+        later on. If the product is higher than 1, it returns 0, as it's not permitted.
+
+        :param length:
+        :param hsp:
+        :return product: or 0
+        """
+
+        if 0>= length:
+            return 0
+
+        hsp_length = abs(1-(1-float(hsp.positives)/length))
+        hsp_identity = float(hsp.identities)/hsp.align_length
+
+        product = hsp_identity*hsp_length
+
+        if product>1:
+            return 0
+        else:
+            return product
+
 
 
 def filterPredictions(predictionDict, percent_identity, percent_length):
@@ -19,6 +38,7 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     :param percent_length:
     :return newDict:
     """
+
     newDict = {}
 
     print "Filtering..."
@@ -45,7 +65,7 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
                    tempDict[title] = [hsp, 'NA']
                    newDict[genome_name] = tempDict
 
-        elif not alignment:
+        else:
             newDict[genome_name] = 'NA'
 
     return newDict
@@ -59,6 +79,7 @@ def sortMatches(predictionDict):
      :param predictionDict:
      :return topMatchDict:
      """
+
      print "Sorting matches..."
      sortedMatchDict = {}
 
@@ -70,7 +91,7 @@ def sortMatches(predictionDict):
 
          else:
              for title, hsp in value.iteritems():
-                 productPercentage = 'NA'
+                 productPercentage = 0
                  if hsp[1] != 'NA':
                      productPercentage = getProductPercentage(hsp[1], hsp[0])
 
@@ -120,24 +141,52 @@ def sortMatches(predictionDict):
 
 
 def searchType(title, type):
+    """
+    Searching the name of the type in the title. If there is no match, the method returns None.
+
+    :param title:
+    :param type:
+    :return match:
+    """
+
     match = re.search('(%s-[a-zA-Z]\d+)' % type, title)
-    match = str(match.group())
-    match = match.split('-')[1]
+
+    if match != None:
+     match = str(match.group())
+     match = match.split('-')[1]
+
     return match
 
 
 def findType(topMatch, matchDict, topMatchList):
+    """
+    Filtering the type dictionaries to find the best match to the user's query(ies). Help method to the findTopMatch method.
+    Starts with an assigned top match, compares it to the other matches one by one(with percentage):
+    1- if the top match's percentage is 0, then assign a new different match as the top match and go to the next match
+    2- if a match's percentage is 0, go to the next match
+    3- if the top match has a smaller percentage than a match, assign said match with the greater percentage as top match and go to
+    the next match
+    4- if the top match and another match have the same percentage but are not the same types, filter through their match
+    lists to find similar matches, compare the percentages, and then step 3 is applied
+
+
+    :param topMatch:
+    :param matchDict:
+    :param topMatchList:
+    :return topMatch:
+    """
 
 
     for type, alignmentList in matchDict.iteritems():
+
         perc = alignmentList[0].get('perc')
         topPerc = topMatch.get('perc')
 
-        if topPerc == 'NA':
+        if topPerc == 0:
             topMatch = alignmentList[0]
             topMatchList = alignmentList
-
-        elif perc == 'NA':
+            continue
+        elif perc == 0:
             continue
         elif perc > topPerc:
             topMatch = alignmentList[0]
@@ -173,6 +222,14 @@ def findType(topMatch, matchDict, topMatchList):
 
 
 def findTopMatch(matchDict):
+    """
+    Dividing the matches dictionary in two, O-types and H-types, to then find the best match.
+    If the O-type or H-type dictionary is empty, its O-type or H-type will be NA.
+    The top match dictionary contains the genomes names, their O-type, their H-type and their prediction strength.
+
+    :param matchDict:
+    :return topMatchDict:
+    """
 
     topMatchDict={}
 
@@ -182,7 +239,7 @@ def findTopMatch(matchDict):
         tempDict = {}
 
         if typeDict == 'NA':
-            topMatchDict[genome_name] = {'otype': 'NA', 'htype': 'NA', 'predictionstrength': 'tbd'}
+            topMatchDict[genome_name] = {'otype': 'NA', 'htype': 'NA', 'predictionstrength': 'NA'}
 
         else:
 
@@ -191,31 +248,35 @@ def findTopMatch(matchDict):
                 searchType(str(typeDict[k][0].get('title')), k).startswith('O')
             }
 
-            hTypeDict = {
-                k: typeDict[k] for k in typeDict.keys() if
-                searchType(str(typeDict[k][0].get('title')), k).startswith('H')
-            }
-
-
-
-            oKey = oTypeDict.keys()[0]
+            if not oTypeDict:
+                tempDict['otype'] = 'NA'
+            else:
+                oKey = oTypeDict.keys()[0]
             oTypeList = oTypeDict[oKey]
             oTypeMatch = findType(oTypeList[0], oTypeDict, oTypeList)
 
-            if oTypeMatch['perc'] == 'NA':
+            if oTypeMatch['length'] == 'NA':
                 tempDict['otype'] = 'NA'
             else:
                 tempDict['otype'] = oTypeMatch
 
-            hKey = hTypeDict.keys()[0]
-            hTypeList = hTypeDict[hKey]
-            hTypeMatch = findType(hTypeList[0], hTypeDict, hTypeList)
-
-            if hTypeMatch['perc'] == 'NA':
+            hTypeDict = {
+                k: typeDict[k] for k in typeDict.keys() if
+                searchType(str(typeDict[k][0].get('title')), k).startswith('H')
+            }
+            if not hTypeDict:
                 tempDict['htype'] = 'NA'
             else:
-                tempDict['htype'] = hTypeMatch
+                hKey = hTypeDict.keys()[0]
+                hTypeList = hTypeDict[hKey]
+                hTypeMatch = findType(hTypeList[0], hTypeDict, hTypeList)
 
+                if hTypeMatch['length'] == 'NA':
+                    tempDict['htype'] = 'NA'
+                else:
+                    tempDict['htype'] = hTypeMatch
+
+            tempDict['predictionstrength'] = 'Top match'
             topMatchDict[genome_name] = tempDict
 
     return topMatchDict
