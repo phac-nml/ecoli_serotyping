@@ -31,3 +31,16 @@
 [2016/09/20 - Camille La Rose]
 - removed findPerfectMatches and its test method
 - finished findTopMatch
+
+[2016-09-21 - Camille La Rose]
+- fixed findTopMatch and findTopMatches
+- started tests for the above, as well as for searchType and getProductPercentage
+
+[2016-09-22 - Camille La Rose]
+- fixed filterPredictions to include NAs
+- fixed test for filterPredictions
+- still writing tests for findTopMatch, findTopMatches, searchType and getProductPercentage
+
+[2016-09-23 - Camille La Rose]
+- finished tests for findTopMatch, findTopMatches, searchType and getProductPercentage
+- added documentation for the above methods

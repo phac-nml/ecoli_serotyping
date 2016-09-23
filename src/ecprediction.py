@@ -158,7 +158,7 @@ def searchType(title, type):
     return match
 
 
-def findType(topMatch, matchDict, topMatchList):
+def findTopMatch(topMatch, matchDict, topMatchList):
     """
     Filtering the type dictionaries to find the best match to the user's query(ies). Help method to the findTopMatch method.
     Starts with an assigned top match, compares it to the other matches one by one(with percentage):
@@ -221,7 +221,7 @@ def findType(topMatch, matchDict, topMatchList):
 
 
 
-def findTopMatch(matchDict):
+def findTopMatches(matchDict):
     """
     Dividing the matches dictionary in two, O-types and H-types, to then find the best match.
     If the O-type or H-type dictionary is empty, its O-type or H-type will be NA.
@@ -253,7 +253,7 @@ def findTopMatch(matchDict):
             else:
                 oKey = oTypeDict.keys()[0]
             oTypeList = oTypeDict[oKey]
-            oTypeMatch = findType(oTypeList[0], oTypeDict, oTypeList)
+            oTypeMatch = findTopMatch(oTypeList[0], oTypeDict, oTypeList)
 
             if oTypeMatch['length'] == 'NA':
                 tempDict['otype'] = 'NA'
@@ -269,7 +269,7 @@ def findTopMatch(matchDict):
             else:
                 hKey = hTypeDict.keys()[0]
                 hTypeList = hTypeDict[hKey]
-                hTypeMatch = findType(hTypeList[0], hTypeDict, hTypeList)
+                hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList)
 
                 if hTypeMatch['length'] == 'NA':
                     tempDict['htype'] = 'NA'

@@ -177,7 +177,7 @@ def test_findType():
                        'GENOME_3': {'wzx':[{'title': 'gnl|BL_ORD_ID|377 9__wzx__wzx-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': 'NA', 'perc': 0}]}}
 
     test_prediction = (filterPredictions(parseResults([REL_DIR + 'AAJT02.1.xml']), 0, 0))
-    test_top_matches = findTopMatch(sortMatches(test_prediction))
+    test_top_matches = findTopMatches(sortMatches(test_prediction))
 
     for test_genome, test_value in test_top_matches.iteritems():
         test_otype = test_value.get('otype')
@@ -188,7 +188,7 @@ def test_findType():
         assert exp_top_match1[test_genome][otype_title][5] == 'O148'
         assert exp_top_match1[test_genome][htype_title][5] == 'H28'
 
-    assert findTopMatch(exp_top_match_2) == {
+    assert findTopMatches(exp_top_match_2) == {
         'GENOME_1': {'otype': 'NA', 'htype': 'NA', 'predictionstrength': 'NA'},
         'GENOME_2': {'otype': {'title': 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': '1166', 'perc': 0.964}, 'htype': 'NA', 'predictionstrength': 'Top match'},
         'GENOME_3': {'otype': 'NA', 'htype': 'NA', 'predictionstrength': 'Top match'}
