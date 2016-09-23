@@ -166,7 +166,7 @@ def test_searchType():
     assert searchType('fliC-H15', ' ') == None
 
 
-def test_findType():
+def test_findTopMatches():
 
     exp_top_match1 = {'AAJT0200':{
         'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148' : ['c10c9586ec7845c902fbbd55f7df991f', 1.0, 1.0, 1143, 'wzy', 'O148'],

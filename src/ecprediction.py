@@ -278,5 +278,5 @@ def findTopMatches(matchDict):
 
             tempDict['predictionstrength'] = 'Top match'
             topMatchDict[genome_name] = tempDict
-
+    print topMatchDict
     return topMatchDict
