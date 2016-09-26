@@ -18,7 +18,9 @@ def parseCommandLine():
     """
     Initalizing the two main commands of the command line for the project.
     - input: refers to the location of the file(s) that will be processed
-    - database: refers to the location of the BLAST database that will be used
+    - out: refers to the output of the program. Default is STDOUT
+    - pi: refers to the percentage of identity wanted. Default is 90%
+    - pl: refers to the percentage of length wanted. Default is 90%.
 
     :return parser.parse_args():
     """

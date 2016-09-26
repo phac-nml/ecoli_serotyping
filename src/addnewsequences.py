@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-import argparse
-import os
-import re
 from ecvalidatingfiles import *
 from Bio import SeqIO
 
@@ -12,18 +9,27 @@ TITLES = {}
 
 def parseCommandLine():
     """
+    Initalizing the two main commands of the command line for the project.
+    - names: location of the file(s) containing the desired names to format
+    - sequences: location of the files containing the sequences to add to the database
 
     :return parser.parse_args():
     """
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("names", help="")
-    parser.add_argument("sequences", help="")
+    parser.add_argument("names", help="Location of the file(s) of the names to format. Can be a single file or a directory.")
+    parser.add_argument("sequences", help="Location of the file(s) of the sequences to add to the database. Can be a single file or a directory.")
 
     return parser.parse_args()
 
 
 def formatNames(filesList):
+    """
+    Formatting the sequence names so that they are separated by type. If a sequence shares multiple types, a title will
+    be assigned to each.
+
+    :param filesList:
+    """
 
     filesDict = {}
 
@@ -46,6 +52,13 @@ def formatNames(filesList):
 
 
 def addSeqToDB(filesList):
+    """
+    Filtering through the sequences to find the ones with titles that match those of the names list.
+    If matching, the sequence is added to the database.
+
+    :param filesList:
+    """
+
 
     with open(SCRIPT_DIRECTORY + "../Data/EcOH.fasta", 'a+') as handle:
         for file in filesList:
@@ -58,8 +71,7 @@ def addSeqToDB(filesList):
                         record.name = title
                         SeqIO.write(record, handle, "fasta")
 
-
-
+    subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY+ "../temp/ECTyperDB"])
 
 
 if __name__=='__main__':

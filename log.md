@@ -113,3 +113,8 @@
         wzx_405_5564-64_O128ac
         wzy_400_KP835694_O125ab
         wzy_405_5564-64_O128ac
+
+[2016/09/26 - Camille La Rose]
+- created script to add the above sequences to the database (as well as format their titles)
+- documentation
+-
