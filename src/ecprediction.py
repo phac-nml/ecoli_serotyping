@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import re
+import logging
 
 
 def getProductPercentage(length, hsp):
@@ -22,6 +23,7 @@ def getProductPercentage(length, hsp):
 
         if product>1:
             return 0
+            logging.warning("Product was higher than 1. Now set to 0.")
         else:
             return product
 
@@ -39,15 +41,17 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     :return newDict:
     """
 
-    newDict = {}
+    logging.info("Filtering predictions with " + str(percent_identity) + "% identity and "+ str(percent_length) + "% length.")
 
-    print "Filtering..."
+    newDict = {}
 
     percent_identity = float(percent_identity)/100
     percent_length = float(percent_length)/100
 
     for genome_name, alignment in predictionDict.iteritems():
+        logging.info(str(genome_name))
         tempDict = {}
+
         if isinstance(alignment, dict):
             for title, info in alignment.iteritems():
                 al_length = info.keys()[0]
@@ -61,12 +65,15 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
                    else:
                       tempDict[title] = [hsp, 'NA']
                       newDict[genome_name] = tempDict
+                      logging.info("Percentage of identity was not high enough. \nAlignment: " + str(title))
                 else:
                    tempDict[title] = [hsp, 'NA']
                    newDict[genome_name] = tempDict
+                   logging.info("Percentage of length was not high enough. \nAlignment: " + str(title))
 
         else:
             newDict[genome_name] = 'NA'
+            logging.info("There are no matches for genome " + str(genome_name))
 
     return newDict
 
@@ -80,7 +87,8 @@ def sortMatches(predictionDict):
      :return topMatchDict:
      """
 
-     print "Sorting matches..."
+
+     logging.info("Sorting matches from " + str(predictionDict))
      sortedMatchDict = {}
 
      for genome_name, value in predictionDict.iteritems():
@@ -96,34 +104,34 @@ def sortMatches(predictionDict):
                      productPercentage = getProductPercentage(hsp[1], hsp[0])
 
 
-                 if re.search('(fliC-H\d)', title):
+                 if re.search('fliC', title):
                     tempDict['fliC'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(wzx-O\d)', title):
+                 elif re.search('wzx', title):
                     tempDict['wzx'].append({'title':title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(wzy-O\d)', title):
+                 elif re.search('wzy', title):
                     tempDict['wzy'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(wzt-O\d)', title):
+                 elif re.search('wzt', title):
                     tempDict['wzt'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(wzm-O\d)', title):
+                 elif re.search('wzm', title):
                     tempDict['wzm'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(flnaA-H\d)', title):
+                 elif re.search('flnaA', title):
                     tempDict['flnaA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(fllA-H\d)', title):
+                 elif re.search('fllA', title):
                     tempDict['fllA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(fmlA-H\d)', title):
+                 elif re.search('fmlA', title):
                     tempDict['fmlA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(flkA-H\d)', title):
+                 elif re.search('flkA', title):
                     tempDict['flkA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
-                 elif re.search('(gnd-O\d)', title):
+                 elif re.search('gnd', title):
                     tempDict['gnd'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'perc': productPercentage})
 
 
@@ -149,16 +157,19 @@ def searchType(title, type):
     :return match:
     """
 
-    match = re.search('(%s-[a-zA-Z]\d+)' % type, title)
+    match = re.search('(%s\d+)' % type, title)
 
     if match != None:
      match = str(match.group())
-     match = match.split('-')[1]
+     #match = match.split('-')[1]
+    else:
+        logging.warning("There are no matches in " + str(title) + " with the type " + str(type))
+        match = 'none'
 
     return match
 
 
-def findTopMatch(topMatch, matchDict, topMatchList):
+def findTopMatch(topMatch, matchDict, topMatchList, ohType):
     """
     Filtering the type dictionaries to find the best match to the user's query(ies). Help method to the findTopMatch method.
     Starts with an assigned top match, compares it to the other matches one by one(with percentage):
@@ -185,26 +196,35 @@ def findTopMatch(topMatch, matchDict, topMatchList):
         if topPerc == 0:
             topMatch = alignmentList[0]
             topMatchList = alignmentList
+
+            logging.info("Current top match (" + str(topMatch.get('title')) +  ") has percentage of 0. Setting " + str(alignmentList[0].get('title')) + " as the new top match.")
             continue
+
         elif perc == 0:
+            logging.info("The percentage of " + str(alignmentList[0].get('title')) + " is 0. Continuing with current top match (" + str(topMatch.get('title')) +".")
             continue
+
         elif perc > topPerc:
             topMatch = alignmentList[0]
             topMatchList = alignmentList
+
+            logging.info("Setting " + str(alignmentList[0].get('title')) + " as new top match.")
+            continue
+
         elif perc == topPerc and str(alignmentList[0].get('title')) != str(topMatch.get('title')):
             item1 = 0
             item2 = 0
-            match1 = searchType(alignmentList[0].get('title'), type)
-            topMatch1 = searchType(topMatch.get('title'),'[a-zA-Z]')
+            match1 = searchType(alignmentList[0].get('title'), ohType)
+            topMatch1 = searchType(topMatch.get('title'),ohType)
 
             for alignment in alignmentList:
-                match2 = searchType(alignment.get('title'), type)
+                match2 = searchType(alignment.get('title'), ohType)
                 if match2 == topMatch1:
                     item1 = alignment.get('perc')
                     break
 
             for alignment in topMatchList:
-                topMatch2 = searchType(alignment.get('title'), '[a-zA-Z]')
+                topMatch2 = searchType(alignment.get('title'), ohType)
                 if topMatch2 == match1:
                     item2 == alignment.get('perc')
                     break
@@ -212,6 +232,10 @@ def findTopMatch(topMatch, matchDict, topMatchList):
             if item1>item2:
                 topMatch = alignmentList[0]
                 topMatchList = alignmentList
+                logging.info("Setting " + str(alignmentList[0].get('title')) + " as new top match.")
+
+            continue
+
         else:
             continue
 
@@ -233,9 +257,9 @@ def findTopMatches(matchDict):
 
     topMatchDict={}
 
-    print "Finding O and H types..."
-
     for genome_name, typeDict in matchDict.iteritems():
+
+        logging.info("Finding top matches for genome " + str(genome_name) + ".")
         tempDict = {}
 
         if typeDict == 'NA':
@@ -245,31 +269,31 @@ def findTopMatches(matchDict):
 
             oTypeDict = {
                 k: typeDict[k] for k in typeDict.keys() if
-                searchType(str(typeDict[k][0].get('title')), k).startswith('O')
+                searchType(str(typeDict[k][0].get('title')), 'O').startswith('O')
             }
 
             if not oTypeDict:
                 tempDict['otype'] = 'NA'
             else:
                 oKey = oTypeDict.keys()[0]
-            oTypeList = oTypeDict[oKey]
-            oTypeMatch = findTopMatch(oTypeList[0], oTypeDict, oTypeList)
+                oTypeList = oTypeDict[oKey]
+                oTypeMatch = findTopMatch(oTypeList[0], oTypeDict, oTypeList, 'O')
 
-            if oTypeMatch['length'] == 'NA':
-                tempDict['otype'] = 'NA'
-            else:
-                tempDict['otype'] = oTypeMatch
+                if oTypeMatch['length'] == 'NA':
+                    tempDict['otype'] = 'NA'
+                else:
+                    tempDict['otype'] = oTypeMatch
 
             hTypeDict = {
                 k: typeDict[k] for k in typeDict.keys() if
-                searchType(str(typeDict[k][0].get('title')), k).startswith('H')
+                searchType(str(typeDict[k][0].get('title')), 'H').startswith('H')
             }
             if not hTypeDict:
                 tempDict['htype'] = 'NA'
             else:
                 hKey = hTypeDict.keys()[0]
                 hTypeList = hTypeDict[hKey]
-                hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList)
+                hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList, 'H')
 
                 if hTypeMatch['length'] == 'NA':
                     tempDict['htype'] = 'NA'
@@ -278,5 +302,4 @@ def findTopMatches(matchDict):
 
             tempDict['predictionstrength'] = 'Top match'
             topMatchDict[genome_name] = tempDict
-    print topMatchDict
     return topMatchDict

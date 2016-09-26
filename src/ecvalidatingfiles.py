@@ -2,8 +2,9 @@
 
 import argparse
 import os
-import re
 import subprocess
+import logging
+import re
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
@@ -25,14 +26,14 @@ def parseCommandLine():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("input", help="Location of new file(s). Can be a single file or a directory")
-    parser.add_argument("-out", "-output", help="", default='STDOUT')
-    parser.add_argument("-pi", "-percentIdentity", type=int, help="", default=90)
-    parser.add_argument("-pl", "-percentLength", type=int, help="", default=90)
+    parser.add_argument("-out", "-output", help="Output of the program. Default is STDOUT.", default='STDOUT')
+    parser.add_argument("-pi", "-percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
+    parser.add_argument("-pl", "-percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
 
     return parser.parse_args()
 
 
-def getListGenomes(data):
+def getFilesList(data):
     """
     Creating a list out of the files entered (where each file name is its absolute path). This creates a uniform
     format that works for both single files and directories.
@@ -44,14 +45,14 @@ def getListGenomes(data):
     filesList = []
 
     if os.path.isdir(data):
-        print("Using files from " + data)
+        logging.info("Using files from " + data)
 
         for root, dirs, files in os.walk(data):
             for filename in files:
                 filesList.append(os.path.join(root,filename))
 
     else:
-        print("Using file " + data)
+        logging.info("Using file " + data)
         filesList.append(os.path.abspath(data))
 
     return sorted(filesList)
@@ -105,13 +106,12 @@ def checkFiles(genomesList):
     newGenomesList = []
 
     for file in genomesList:
-        flag = 0
+        flag = 1
         for record in SeqIO.parse(file, "fasta"):
             match = re.search('(^[a-zA-Z]+)', str(record.seq))
             if not match:
+                flag = 0
                 break
-            else:
-                flag = 1
 
         if flag>0:
             newGenomesList.append(file)
@@ -125,10 +125,10 @@ def checkFiles(genomesList):
                     GENOMES[genome_name] = ''
 
         else:
-            print("File " + file+ " is in invalid format")
+            logging.warning("File " + file + " is in invalid format")
 
     if not newGenomesList:
-        print("No valid fasta files \n Exiting")
+        logging.error("No valid fasta files \n Exiting")
         exit(1)
 
     else:
@@ -161,8 +161,6 @@ def runBlastQuery(genomesList):
     REL_DIR = SCRIPT_DIRECTORY + '../temp/'
     resultsList = []
 
-    print "Searching the database..."
-
     for file in genomesList:
         filename = os.path.basename(file)
         filename = os.path.splitext(filename)
@@ -173,7 +171,7 @@ def runBlastQuery(genomesList):
         stdout, stderr = blastn_cline()
         resultsList.append(newFilename)
 
-    print("Generated " + str(len(resultsList)) + " .xml file(s)")
+    logging.info("Generated " + str(len(resultsList)) + " .xml file(s)")
     return sorted(resultsList)
 
 
@@ -185,7 +183,7 @@ def parseResults(resultsList):
     :param resultsList:
     :return alignmentsDict:
     """
-
+    logging.info("Parsing results from " + str(resultsList))
 
     for result in resultsList:
         result_handle = open(result)
@@ -202,5 +200,6 @@ def parseResults(resultsList):
             for alignment in blast_record.alignments:
                 alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
                 GENOMES[genome_name] = alignmentsDict
+
 
     return GENOMES

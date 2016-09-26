@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
+import logging
+
 from ecprediction import *
 from ecvalidatingfiles import *
 
 
 if __name__=='__main__':
+  logging.basicConfig(filename='ectyper.log',level=logging.INFO)
+
   args = parseCommandLine()
-  roughGenomesList = getListGenomes(args.input)
+  roughGenomesList = getFilesList(args.input)
   genomesList = checkFiles(roughGenomesList)
 
   if initializeDB() == 0:
@@ -14,7 +18,8 @@ if __name__=='__main__':
     genomesDict = parseResults(resultsList)
     predictionDict = filterPredictions(genomesDict, args.pi, args.pl)
     matchDict = sortMatches(predictionDict)
-    topMatch = findTopMatches(matchDict)
+    topMatches = findTopMatches(matchDict)
+    logging.info('Top matches are ' + str(topMatches))
 
   else:
-    print("Oops something happened")
+    logging.error('There was an error while generating the database.')
