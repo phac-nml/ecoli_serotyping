@@ -32,16 +32,16 @@
 - removed findPerfectMatches and its test method
 - finished findTopMatch
 
-[2016-09-21 - Camille La Rose]
+[2016/09/21 - Camille La Rose]
 - fixed findTopMatch and findTopMatches
 - started tests for the above, as well as for searchType and getProductPercentage
 
-[2016-09-22 - Camille La Rose]
+[2016/09/22 - Camille La Rose]
 - fixed filterPredictions to include NAs
 - fixed test for filterPredictions
 - still writing tests for findTopMatch, findTopMatches, searchType and getProductPercentage
 
-[2016-09-23 - Camille La Rose]
+[2016/09/23 - Camille La Rose]
 - finished tests for findTopMatch, findTopMatches, searchType and getProductPercentage
 - added documentation for the above methods
 - added logging
@@ -117,4 +117,6 @@
 [2016/09/26 - Camille La Rose]
 - created script to add the above sequences to the database (as well as format their titles)
 - documentation
--
+
+[2016/09/27 - Camille La Rose]
+- added test script to compare with the Danish database

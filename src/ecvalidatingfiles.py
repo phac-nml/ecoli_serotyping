@@ -152,7 +152,7 @@ def initializeDB():
         return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
-def runBlastQuery(genomesList):
+def runBlastQuery(genomesList, db_name):
     """
     Generating the .xml files containing the genomes that were queried by using the command line.
 
@@ -168,7 +168,7 @@ def runBlastQuery(genomesList):
         filename = os.path.splitext(filename)
         newFilename = os.path.abspath(REL_DIR + filename[0] + ".xml")
 
-        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + "ECTyperDB", outfmt=5, out= newFilename)
+        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + db_name, outfmt=5, out= newFilename)
 
         stdout, stderr = blastn_cline()
         resultsList.append(newFilename)
