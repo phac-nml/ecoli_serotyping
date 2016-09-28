@@ -6,6 +6,7 @@ from Bio import SeqIO
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 TITLES = {}
 
+### This module is subject to change, depending on the input format of the sequence names ###
 
 def parseCommandLine():
     """
@@ -36,18 +37,27 @@ def formatNames(filesList):
     for file in filesList:
         filesDict[file] = [line.rstrip('\n') for line in open(file)]
 
-
+    count = 1
     for file, lines in filesDict.iteritems():
         for line in lines:
-            matches = re.findall('(O\d+\w*|H\d+\w*)', line)
+            matches = re.search('serogroup=O\w+', line)
             if matches != None:
                 oldLine = line
                 TITLES[oldLine] = []
-                for match in matches:
-                    line  = re.sub(r'(O\d+\w*|H\d+\w*|[/]*)', '', line)
-                    match = str(match)
-                    TITLES[oldLine].append(line+match)
-
+                matches = str(matches.group())
+                # for gnd files
+                match = matches.split('=')[1]
+                if match != 'OUT':
+                    line = 'gnd|' + str(count) +  "_"  + str(match)
+                else:
+                    line = 'gnd|' + str(count) +  "_OR"
+                TITLES[oldLine].append(line)
+                count +=1
+                #for the Danish database type files
+                # for match in matches:
+                #     line  = re.sub(r'(O\d+\w*|H\d+\w*|[/]*)', '', line)
+                #     match = str(match)
+                #     TITLES[oldLine].append(line+match)
 
 
 
@@ -63,12 +73,12 @@ def addSeqToDB(filesList):
     with open(SCRIPT_DIRECTORY + "../Data/EcOH.fasta", 'a+') as handle:
         for file in filesList:
             for record in SeqIO.parse(file, "fasta"):
-
-                if record.id in TITLES:
-                    for title in TITLES[record.id]:
+                if record.description in TITLES:
+                    for title in TITLES[record.description]:
                         record.id = title
                         record.description = title
                         record.name = title
+                        print record
                         SeqIO.write(record, handle, "fasta")
 
     subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY+ "../temp/ECTyperDB"])

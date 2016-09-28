@@ -26,10 +26,10 @@ def writeFile(topMatches, results):
             row1.update({'Type':keys[0]})
 
 
-            if serotype[keys[0]] == 'NA':
-                row1.update({'Serotype Finder': 'No prediction could be made'})
-            if results[genome_name][keys[0]] == 'NA':
-                row1.update({'E.C. Typer': 'No prediction could be made'})
+            if serotype[keys[0]] == 'NM':
+                row1.update({'Serotype Finder': 'No prediction could be made (non-motile).'})
+            if results[genome_name][keys[0]] == 'NM':
+                row1.update({'E.C. Typer': 'No prediction could be made (non-motile).'})
 
             else:
                 tempDict1 = {}

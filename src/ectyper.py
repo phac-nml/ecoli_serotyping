@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 
-import logging
-
-from ecprediction import *
-from ecvalidatingfiles import *
 from compareresults import *
 
-TEST= True
+TEST= False
 
 if __name__=='__main__':
   logging.basicConfig(filename='ectyper.log',level=logging.INFO)

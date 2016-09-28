@@ -157,7 +157,7 @@ def searchType(title, type):
     :return match:
     """
 
-    match = re.search('(%s\d+)$' % type, title)
+    match = re.search('(%s\d+)$ | (OR)$' % type, title)
 
     if match != None:
      match = str(match.group())
@@ -289,14 +289,14 @@ def findTopMatches(matchDict):
                 searchType(str(typeDict[k][0].get('title')), 'H').startswith('H')
             }
             if not hTypeDict:
-                tempDict['htype'] = 'NA'
+                tempDict['htype'] = 'NM'
             else:
                 hKey = hTypeDict.keys()[0]
                 hTypeList = hTypeDict[hKey]
                 hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList, 'H')
 
                 if hTypeMatch['length'] == 'NA':
-                    tempDict['htype'] = 'NA'
+                    tempDict['htype'] = 'NM'
                 else:
                     tempDict['htype'] = hTypeMatch
 

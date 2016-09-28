@@ -194,6 +194,7 @@ def parseResults(resultsList):
         filename = os.path.splitext(filename)
 
         for blast_record in blast_records:
+
             genome_name = getGenomeName(blast_record.query, filename)
             alignmentsDict = {}
             if genome_name in GENOMES:
