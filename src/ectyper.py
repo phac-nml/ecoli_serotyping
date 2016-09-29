@@ -2,7 +2,7 @@
 
 from compareresults import *
 
-TEST= False
+TEST= True
 
 if __name__=='__main__':
   logging.basicConfig(filename='ectyper.log',level=logging.INFO)

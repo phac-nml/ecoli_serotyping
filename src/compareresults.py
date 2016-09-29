@@ -8,11 +8,26 @@ import csv
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def initializeDanishDB():
+    """
+    Generating the Serotype Finder database to later query it.
+
+    :return 0 if the database was created successfully, 1 otherwise:
+    """
+
     REL_DIR = SCRIPT_DIRECTORY + '../temp/'
 
     return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"])
 
+
+
 def writeFile(topMatches, results):
+    """
+    Writing a table containing all the results (top matches) from both the Serotype Finder database and the EcOH database.
+    The method compares them, and add comments if they have different results.
+
+    :param topMatches:
+    :param results:
+    """
 
     with open(SCRIPT_DIRECTORY + "../temp/results.csv", 'wb') as csvfile:
         header = ['Genomes','Type', 'Serotype Finder', 'E.C. Typer', 'Notes']
@@ -24,7 +39,6 @@ def writeFile(topMatches, results):
 
             row1 = {'Genomes': genome_name}
             row1.update({'Type':keys[0]})
-
 
             if serotype[keys[0]] == 'NM':
                 row1.update({'Serotype Finder': 'No prediction could be made (non-motile).'})
@@ -88,7 +102,7 @@ def writeFile(topMatches, results):
 
 def compareResults(filesList, results):
 
-    #if initializeDanishDB() == 0:
+    if initializeDanishDB() == 0:
         resultsList = runBlastQuery(filesList, 'SerotypeFinderDB')
         genomesDict = parseResults(resultsList)
         predictionDict = filterPredictions(genomesDict, 85, 60)

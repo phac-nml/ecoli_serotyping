@@ -157,14 +157,19 @@ def searchType(title, type):
     :return match:
     """
 
-    match = re.search('(%s\d+)$ | (OR)$' % type, title)
+    match = re.search('(%s\d+)$' % type, title)
 
     if match != None:
      match = str(match.group())
      #match = match.split('-')[1]
     else:
-        logging.warning("There are no matches in " + str(title) + " with the type " + str(type))
-        match = 'none'
+        match = re.search('OR$', title)
+
+        if match != None:
+            match = str(match.group())
+        else:
+            logging.warning("There are no matches in " + str(title) + " with the type " + str(type))
+            match = 'none'
 
     return match
 
@@ -263,7 +268,7 @@ def findTopMatches(matchDict):
         tempDict = {}
 
         if typeDict == 'NA':
-            topMatchDict[genome_name] = {'otype': 'NA', 'htype': 'NA', 'prediction_strength': 'NA'}
+            topMatchDict[genome_name] = {'otype': 'NA', 'htype': 'NM', 'prediction_strength': 'NA'}
 
         else:
 
@@ -294,7 +299,6 @@ def findTopMatches(matchDict):
                 hKey = hTypeDict.keys()[0]
                 hTypeList = hTypeDict[hKey]
                 hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList, 'H')
-
                 if hTypeMatch['length'] == 'NA':
                     tempDict['htype'] = 'NM'
                 else:
