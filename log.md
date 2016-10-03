@@ -120,3 +120,6 @@
 
 [2016/09/27 - Camille La Rose]
 - added test script to compare with the Danish database
+
+[2016/10/03 - Camille La Rose]
+- added Flask API for python to send results to browser
