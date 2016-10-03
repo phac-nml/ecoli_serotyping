@@ -31,6 +31,7 @@ def parseCommandLine():
     parser.add_argument("-out", "-output", help="Output of the program. Default is STDOUT.", default='STDOUT')
     parser.add_argument("-pi", "-percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "-percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
+    parser.add_argument("-v", "-verbose", help="Information desired, true being full information, false being the serotype only.", default="false")
 
     return parser.parse_args()
 
