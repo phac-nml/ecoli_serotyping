@@ -29,7 +29,7 @@ def writeFile(topMatches, results):
     :param results:
     """
 
-    with open(SCRIPT_DIRECTORY + "../temp/results.csv", 'wb') as csvfile:
+    with open(SCRIPT_DIRECTORY + "../temp/Results/compare_results.csv", 'wb') as csvfile:
         header = ['Genomes','Type', 'Serotype Finder', 'E.C. Typer', 'Notes']
         w = csv.DictWriter(csvfile, header)
         w.writeheader()

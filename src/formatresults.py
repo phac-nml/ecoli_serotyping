@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import csv
-import json
+import os.path
 
 from flask import jsonify
 from ecprediction import *
 
-
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def toResultDict(topMatches, verbose):
     resultDict = {}
@@ -65,7 +65,7 @@ def toResultDict(topMatches, verbose):
 def toCSV(genomes_parsed, verbose):
     header = ['Genome', 'O Type', 'H Type']
 
-    serotype_file = open('Serotype_Results.csv', 'wb')
+    serotype_file = open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'wb')
     csvwriter = csv.DictWriter(serotype_file, header)
     csvwriter.writeheader()
 
@@ -100,7 +100,7 @@ def toCSV(genomes_parsed, verbose):
             row.update({'H Type': genomes_parsed[genome_name], 'O Type': genomes_parsed[genome_name]})
         csvwriter.writerow(row)
 
-    csvwriter.close()
+    serotype_file.close()
 
 
 
