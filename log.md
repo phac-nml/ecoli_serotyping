@@ -123,3 +123,7 @@
 
 [2016/10/03 - Camille La Rose]
 - added Flask API for python to send results to browser
+
+[2016/10/04 - Camille La Rose]
+- added formatresults.py module to return the results in an organized way (JSON and CSV file)
+- fixed the documentation for all of the methods (explanation of parameters)

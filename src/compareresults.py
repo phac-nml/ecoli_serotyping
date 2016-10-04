@@ -11,7 +11,7 @@ def initializeDanishDB():
     """
     Generating the Serotype Finder database to later query it.
 
-    :return 0 if the database was created successfully, 1 otherwise:
+    :return: 0 if the database was generated without any issues, 1 otherwise.
     """
 
     REL_DIR = SCRIPT_DIRECTORY + '../temp/'
@@ -25,8 +25,8 @@ def writeFile(topMatches, results):
     Writing a table containing all the results (top matches) from both the Serotype Finder database and the EcOH database.
     The method compares them, and add comments if they have different results.
 
-    :param topMatches:
-    :param results:
+    :param topMatches: Top matches dictionary containing the results from the Serotype Finder database.
+    :param results: Top matches dictionary containing the results from the EcOH database.
     """
 
     with open(SCRIPT_DIRECTORY + "../temp/Results/compare_results.csv", 'wb') as csvfile:

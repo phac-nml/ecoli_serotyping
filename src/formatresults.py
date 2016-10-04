@@ -8,6 +8,15 @@ from ecprediction import *
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def toResultDict(topMatches, verbose):
+    """
+    Filtering through the top matches dictionary to only keep the necessary result information (may be changed later
+    on).
+
+    :param topMatches: Top matches dictionary containing all the unfiltered results.
+    :param verbose: Boolean stating whether the user wants full information or not.
+    :return resultDict: Top matches dictionary containing the filtered results.
+    """
+
     resultDict = {}
     if verbose == 'true':
         for genome_name, serotype in topMatches.iteritems():
@@ -63,44 +72,49 @@ def toResultDict(topMatches, verbose):
 
 
 def toCSV(genomes_parsed, verbose):
+    """
+    Writing final results in a CSV file.
+
+    :param genomes_parsed: Top matches dictionary with the final results.
+    :param verbose: Boolean stating whether the user wants full information or not.
+    """
+
     header = ['Genome', 'O Type', 'H Type']
 
-    serotype_file = open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'wb')
-    csvwriter = csv.DictWriter(serotype_file, header)
-    csvwriter.writeheader()
+    with open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'wb') as csvfile:
+        csvwriter = csv.DictWriter(csvfile, header)
+        csvwriter.writeheader()
 
-    for genome_name, type in genomes_parsed.iteritems():
-        row = {'Genome': genome_name}
+        for genome_name, type in genomes_parsed.iteritems():
+            row = {'Genome': genome_name}
 
-        if verbose == 'false':
-            if isinstance(type, dict):
-                keys = sorted(type.keys())
-                row.update({'H Type': genomes_parsed[genome_name][keys[0]], 'O Type': genomes_parsed[genome_name][keys[1]]})
+            if verbose == 'false':
+                if isinstance(type, dict):
+                    keys = sorted(type.keys())
+                    row.update({'H Type': genomes_parsed[genome_name][keys[0]], 'O Type': genomes_parsed[genome_name][keys[1]]})
+                else:
+                    row.update({'H Type': genomes_parsed[genome_name], 'O Type': genomes_parsed[genome_name]})
+            elif isinstance(type, dict):
+                oTempStr =''
+                hTempStr = ''
+
+                if isinstance(genomes_parsed[genome_name]['htype'], dict):
+                    for title, info in genomes_parsed[genome_name]['htype'].iteritems():
+                        hTempStr+= str(title) + ": " + str(info) + "\n"
+                    row.update({'H Type': hTempStr})
+                else:
+                    row.update({'H Type': genomes_parsed[genome_name]['htype']})
+
+                if isinstance(genomes_parsed[genome_name]['otype'], dict):
+                    for title, info in genomes_parsed[genome_name]['otype'].iteritems():
+                        oTempStr += str(title) + ": " + str(info) + "\n"
+                    row.update({'O Type': oTempStr})
+                else:
+                    row.update({'O Type': genomes_parsed[genome_name]['otype']})
+
             else:
                 row.update({'H Type': genomes_parsed[genome_name], 'O Type': genomes_parsed[genome_name]})
-        elif isinstance(type, dict):
-            oTempStr =''
-            hTempStr = ''
-
-            if isinstance(genomes_parsed[genome_name]['htype'], dict):
-                for title, info in genomes_parsed[genome_name]['htype'].iteritems():
-                    hTempStr+= str(title) + ": " + str(info) + "\n"
-                row.update({'H Type': hTempStr})
-            else:
-                row.update({'H Type': genomes_parsed[genome_name]['htype']})
-
-            if isinstance(genomes_parsed[genome_name]['otype'], dict):
-                for title, info in genomes_parsed[genome_name]['otype'].iteritems():
-                    oTempStr += str(title) + ": " + str(info) + "\n"
-                row.update({'O Type': oTempStr})
-            else:
-                row.update({'O Type': genomes_parsed[genome_name]['otype']})
-
-        else:
-            row.update({'H Type': genomes_parsed[genome_name], 'O Type': genomes_parsed[genome_name]})
-        csvwriter.writerow(row)
-
-    serotype_file.close()
+            csvwriter.writerow(row)
 
 
 

@@ -22,7 +22,7 @@ def parseCommandLine():
     - pi: refers to the percentage of identity wanted. Default is 90%
     - pl: refers to the percentage of length wanted. Default is 90%.
 
-    :return parser.parse_args():
+    :return parser.parse_args(): Data from the commands.
     """
 
     parser = argparse.ArgumentParser()
@@ -41,8 +41,8 @@ def getFilesList(data):
     Creating a list out of the files entered (where each file name is its absolute path). This creates a uniform
     format that works for both single files and directories.
 
-    :param data:
-    :return filesList:
+    :param data: Data (file or directory) taken from the input command.
+    :return filesList: List of all the files found in the data.
     """
 
     filesList = []
@@ -65,9 +65,9 @@ def getGenomeName(recordID, filename):
     """
     Getting the name of the genome by hierarchy to store or search in the GENOMES dictionary in the later called methods.
 
-    :param recordID:
-    :param filename:
-    :return genomeName:
+    :param recordID: ID of a record of a sequence.
+    :param filename: Name of the file containing the record.
+    :return genomeName: Name of the genome contained in the file (or sequence).
     """
 
     recordID = str(recordID)
@@ -103,8 +103,8 @@ def checkFiles(genomesList):
     If the newly created list is empty, the program exits with a warning.
     This filters out the invalid files.
 
-    :param: genomesList
-    :return: newGenomesList
+    :param genomesList: Unfiletered files list.
+    :return newGenomesList: List containing only valid fasta files.
     """
     newGenomesList = []
 
@@ -157,8 +157,9 @@ def runBlastQuery(genomesList, db_name):
     """
     Generating the .xml files containing the genomes that were queried by using the command line.
 
-    :param genomesList:
-    :return resultList:
+    :param genomesList: List containing all the files to be compared to the database.
+    :param db_name: Name of the database to search.
+    :return resultList: List of all the new .xml files containing the results of the search.
     """
 
     REL_DIR = SCRIPT_DIRECTORY + '../temp/'
@@ -183,8 +184,9 @@ def parseResults(resultsList):
     Searching the result list to find the hsps necessary to identify the sequences.
     The method stores them in a dictionary that will be stored in GENOMES dictionary.
 
-    :param resultsList:
-    :return alignmentsDict:
+    :param resultsList: List of all the .xml files to be parsed.
+    :return alignmentsDict: Dictionary containing all the information about the matches found in the database for each
+    genome.
     """
     logging.info("Parsing results from " + str(resultsList))
 

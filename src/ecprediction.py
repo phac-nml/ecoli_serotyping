@@ -8,9 +8,9 @@ def getProductPercentage(length, hsp):
         Calculating the product of percentages (identity and length), to be used for comparisons when sorting the matches
         later on. If the product is higher than 1, it returns 0, as it's not permitted.
 
-        :param length:
-        :param hsp:
-        :return product: or 0
+        :param length: Length of the alignment
+        :param hsp: HSP
+        :return product: Returns 0 if the product is greater than 1.
         """
 
         if 0>= length:
@@ -35,10 +35,10 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     % identity. Instead of removing them from the initial dictionary, the method creates a new one and assigns the
     good matches.
 
-    :param predictionDict:
-    :param percent_identity:
-    :param percent_length:
-    :return newDict:
+    :param predictionDict: Unfiltered dictionary containing all the information about possible matches.
+    :param percent_identity: Percentage of identity desired by the user.
+    :param percent_length: Percentage of length desired by the user.
+    :return newDict: Dictionary with matches that fill the percentage requirements.
     """
 
     logging.info("Filtering predictions with " + str(percent_identity) + "% identity and "+ str(percent_length) + "% length.")
@@ -83,8 +83,8 @@ def sortMatches(predictionDict):
      Going through the prediction dictionary and finding the top possibles matches (can be perfect match or not).
      The return dictionary stores multiple types: fliC, wzx, wzy, wzm, wzt, fllA, flnaA, flkA, fmlA, gnd.
 
-     :param predictionDict:
-     :return topMatchDict:
+     :param predictionDict: Unsorted dictionary with all the possible matches.
+     :return topMatchDict: Sorted dictionary with all the matches ordered by percentage.
      """
 
 
@@ -152,9 +152,9 @@ def searchType(title, type):
     """
     Searching the name of the type in the title. If there is no match, the method returns None.
 
-    :param title:
-    :param type:
-    :return match:
+    :param title: String that will be searched to find the type.
+    :param type: Usually O or H, to simplify the search.
+    :return match: Result found when searching the string. If it is None, then the method returns the string 'none'.
     """
 
     match = re.search('(%s\d+)$' % type, title)
@@ -186,10 +186,10 @@ def findTopMatch(topMatch, matchDict, topMatchList, ohType):
     lists to find similar matches, compare the percentages, and then step 3 is applied
 
 
-    :param topMatch:
-    :param matchDict:
-    :param topMatchList:
-    :return topMatch:
+    :param topMatch: Current top match to be compared with other matches.
+    :param matchDict: Dictionary containing all the matches for a genome.
+    :param topMatchList: List containing the current top match.
+    :return topMatch: Top match for the genome.
     """
 
 
@@ -256,8 +256,8 @@ def findTopMatches(matchDict):
     If the O-type or H-type dictionary is empty, its O-type or H-type will be NA.
     The top match dictionary contains the genomes names, their O-type, their H-type and their prediction strength.
 
-    :param matchDict:
-    :return topMatchDict:
+    :param matchDict: Dictionary containing all matches for every genome.
+    :return topMatchDict: Dictionary containing only the top matches for every genome.
     """
 
     topMatchDict={}

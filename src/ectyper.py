@@ -9,7 +9,7 @@ TEST= False
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/ectyper/results")
 def runProgram():
   logging.basicConfig(filename='ectyper.log',level=logging.INFO)
 
