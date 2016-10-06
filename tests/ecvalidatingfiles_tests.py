@@ -38,15 +38,15 @@ expectedList3 = sorted([os.path.abspath(REL_DIR2 + 'AAJT02.1.xml'),
 
 def test_getListGenomes():
 
-    assert getListGenomes(REL_DIR) == expectedList1
+    assert getFilesList(REL_DIR) == expectedList1
 
-    assert getListGenomes(REL_DIR + '/NC_011750.1.fasta') == [os.path.abspath(REL_DIR + '/NC_011750.1.fasta')]
+    assert getFilesList(REL_DIR + '/NC_011750.1.fasta') == [os.path.abspath(REL_DIR + '/NC_011750.1.fasta')]
 
     expectedList2.extend(expectedList1)
 
-    assert getListGenomes(SCRIPT_DIRECTORY +'../Data/Testing_Data/') == sorted(expectedList2)
+    assert getFilesList(SCRIPT_DIRECTORY +'../Data/Testing_Data/') == sorted(expectedList2)
 
-    assert getListGenomes(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty Folder/') == []
+    assert getFilesList(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty Folder/') == []
 
 
 def test_getGenomeName():
@@ -70,12 +70,12 @@ def test_getGenomeName():
 
 def test_checkFiles():
 
-    assert checkFiles(getListGenomes(REL_DIR)) == expectedList1
+    assert checkFiles(getFilesList(REL_DIR)) == expectedList1
 
     with raises(SystemExit):
-        checkFiles(getListGenomes(SCRIPT_DIRECTORY + '../Data/Testing_Data/Invalid Files/'))
+        checkFiles(getFilesList(SCRIPT_DIRECTORY + '../Data/Testing_Data/Invalid Files/'))
 
-    assert checkFiles(getListGenomes(SCRIPT_DIRECTORY + '../Data/Testing_Data')) == expectedList1
+    assert checkFiles(getFilesList(SCRIPT_DIRECTORY + '../Data/Testing_Data')) == expectedList1
 
 
 
