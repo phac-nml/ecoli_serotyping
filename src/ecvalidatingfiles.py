@@ -27,7 +27,7 @@ def parseCommandLine():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("input", help="Location of new file(s). Can be a single file or a directory")
+    parser.add_argument("-input", help="Location of new file(s). Can be a single file or a directory")
     parser.add_argument("-out", "-output", help="Output of the program. Default is STDOUT.", default='STDOUT')
     parser.add_argument("-pi", "-percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "-percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
@@ -106,6 +106,7 @@ def checkFiles(genomesList):
     :param genomesList: Unfiletered files list.
     :return newGenomesList: List containing only valid fasta files.
     """
+    global GENOMES
     newGenomesList = []
 
     for file in genomesList:
@@ -188,6 +189,8 @@ def parseResults(resultsList):
     :return alignmentsDict: Dictionary containing all the information about the matches found in the database for each
     genome.
     """
+
+    global GENOMES
     logging.info("Parsing results from " + str(resultsList))
 
     for result in resultsList:

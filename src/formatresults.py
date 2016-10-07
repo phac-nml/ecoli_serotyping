@@ -123,4 +123,4 @@ def formatResults(topMatches, verbose):
     json_data =  toResultDict(topMatches,verbose)
     toCSV(json_data, verbose)
 
-    return jsonify(json_data)
+    return json_data
