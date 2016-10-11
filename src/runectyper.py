@@ -4,9 +4,11 @@ from ectyper import *
 from flask_uploads import *
 from flask import *
 import subprocess
+import ast
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 OUTPUT = {}
+I = 0
 
 
 app = Flask(__name__)
@@ -18,19 +20,29 @@ configure_uploads(app, (files,))
 @app.route('/ectyper/upload', methods =['POST', 'GET'])
 def uploadFiles():
     if request.method == 'POST':
-       file = request.files['file']
-       if not file:
+       resultFiles = request.files.getlist('file')
+       if not resultFiles:
             return 'No files were uploaded.'
        global OUTPUT
-       filename = file.filename
-       files.save(request.files['file'])
-       OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename)])
+       global I
+
+       if len(resultFiles) == 1:
+           filename = resultFiles[0].filename
+           files.save(resultFiles[0])
+           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename)])
+       else:
+           os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+           for file in resultFiles:
+               files.save(file,'temp_dir'+ str(I))
+           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I)])
+       I +=1
        return redirect(url_for('getResults'))
     return render_template('uploadfile.html')
 
 @app.route('/ectyper/results', methods=['GET'])
 def getResults():
-    return jsonify({'GENOMES' :OUTPUT})
+    return jsonify(ast.literal_eval(OUTPUT))
+
 
 @app.errorhandler(404)
 def not_found(error):
