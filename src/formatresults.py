@@ -2,10 +2,47 @@
 import csv
 import os.path
 
-from flask import jsonify
+from flask import url_for
 from ecprediction import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+
+
+def toHTML():
+    with open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        stylesheet_url = url_for('static',filename='style.css')
+        html_info = "<!DOCTYPE html> \
+                     <html lang='en'> \
+                     <head> \
+                        <meta charset='UTF-8'> \
+                        <title>Results</title> \
+                        <link rel='stylesheet' type='text/css' href=" + str(stylesheet_url) + ">  \
+                     </head>\
+                     <body>"
+        result_table = "<div id='results-div'><table class=results><caption class='results-caption'>SEROTYPE PREDICTION RESULTS" \
+                       "</caption>" \
+                       "<thead class='results-head'><tr>" \
+                            "<th>Genome</th>" \
+                            "<th>O Type</th>" \
+                            "<th>H Type</th>" \
+                       "</tr></thead><tbody>"
+
+        for line in reader:
+            result_genome = str(line['Genome']).replace(";", '<br>')
+            result_otype = str(line['O Type']).replace(";", '<br>')
+            result_htype = str(line['H Type']).replace(";", '<br>')
+
+            result_table+= "<tr><td id='result-genome'>" + result_genome + "</td><td>" + result_otype + "</td><td>" + \
+                           result_htype + "</td></tr>"
+
+        result_table+= "</tbody></table></div>"
+
+        return_button = "<div id='return-button'>" \
+                        "<input type='button' class='button return-button' onclick='" + 'location.href="http://127.0.0.1:5000/ectyper/upload";' + \
+                        "' value='Return to main page'/></div>"
+
+        return html_info + result_table + return_button + "</body></html>"
 
 def toResultDict(topMatches, verbose):
     """
@@ -100,14 +137,20 @@ def toCSV(genomes_parsed, verbose):
 
                 if isinstance(genomes_parsed[genome_name]['htype'], dict):
                     for title, info in genomes_parsed[genome_name]['htype'].iteritems():
-                        hTempStr+= str(title) + ": " + str(info) + "\n"
+                        if title == 'RESULT':
+                            hTempStr= str(title) + ": " + str(info) + "; \n" + hTempStr
+                        else:
+                            hTempStr+= str(title) + ": " + str(info) + "; \n"
                     row.update({'H Type': hTempStr})
                 else:
                     row.update({'H Type': genomes_parsed[genome_name]['htype']})
 
                 if isinstance(genomes_parsed[genome_name]['otype'], dict):
                     for title, info in genomes_parsed[genome_name]['otype'].iteritems():
-                        oTempStr += str(title) + ": " + str(info) + "\n"
+                        if title == 'RESULT':
+                            oTempStr = str(title) + ": " + str(info) + "; \n" + oTempStr
+                        else:
+                            oTempStr += str(title) + ": " + str(info) + "; \n"
                     row.update({'O Type': oTempStr})
                 else:
                     row.update({'O Type': genomes_parsed[genome_name]['otype']})

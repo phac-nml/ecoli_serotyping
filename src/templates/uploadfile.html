@@ -3,11 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Upload a file</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
 </head>
 <body>
-    <form action="http://127.0.0.1:5000/ectyper/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" multiple=""><br>
-        <input type="submit" value="Upload">
+    <h1 class="header1">
+        <em>E. coli</em> Typer
+    </h1>
+    <form action="http://127.0.0.1:5000/ectyper/upload" method="POST" enctype="multipart/form-data"
+        class="uploadform">
+        <p>
+            <label for="file">Upload a single or multiple files</label><br>
+            <input type="file" name="file" id="file" multiple="">
+        </p>
+        <p>
+            <label for="perc-id">Identity percentage desired: </label>
+            <input type="number" name="perc-id" value="90" class="perc-input" min="0" max="100">
+        </p>
+        <p>
+            <label for="perc-len">Length percentage desired: </label>
+            <input type="number" name="perc-len" value="90" class="perc-input" min="0" max="100">
+        </p>
+        <p class="verbosity">
+            <input type="radio" name="verbosity" value="false" checked> Serotype only
+            <input type="radio" name="verbosity" value="true"> Full information
+        </p>
+
+        <p>
+            <label for="table-checkbox" class="table-checkbox-label">I want the results in a table (default is JSON format)</label>
+            <input type="checkbox" name="table-checkbox" value="True">
+        </p>
+
+        <input type="submit" value="UPLOAD" class="button">
     </form>
 
 
