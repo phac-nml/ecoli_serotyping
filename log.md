@@ -127,3 +127,9 @@
 [2016/10/04 - Camille La Rose]
 - added formatresults.py module to return the results in an organized way (JSON and CSV file)
 - fixed the documentation for all of the methods (explanation of parameters)
+
+[2016/10/12 - Camille La Rose]
+- added uploadfile.html
+- added toHTML() method in fortmatresults.py
+- added style.css
+- fixed a few issues in runectyper.py

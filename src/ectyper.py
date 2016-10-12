@@ -16,21 +16,24 @@ def runProgram():
   roughGenomesList = getFilesList(args.input)
   genomesList = checkFiles(roughGenomesList)
 
-  if initializeDB() == 0:
-    resultsList = runBlastQuery(genomesList, 'ECTyperDB')
-    genomesDict = parseResults(resultsList)
-    predictionDict = filterPredictions(genomesDict, args.pi, args.pl)
-    matchDict = sortMatches(predictionDict)
-    GENOMES = findTopMatches(matchDict)
-    logging.info('Top matches are ' + str(GENOMES))
+  if isinstance(genomesList, list):
+    if initializeDB() == 0:
+      resultsList = runBlastQuery(genomesList, 'ECTyperDB')
+      genomesDict = parseResults(resultsList)
+      predictionDict = filterPredictions(genomesDict, args.pi, args.pl)
+      matchDict = sortMatches(predictionDict)
+      GENOMES = findTopMatches(matchDict)
+      logging.info('Top matches are ' + str(GENOMES))
 
-    if TEST == True:
-      compareResults(roughGenomesList, GENOMES)
+      if TEST == True:
+        compareResults(roughGenomesList, GENOMES)
 
-    print formatResults(GENOMES, args.v)
+      print formatResults(GENOMES, args.v)
 
+    else:
+      logging.error('There was an error while generating the database.')
   else:
-    logging.error('There was an error while generating the database.')
+    print genomesList
 
 
 

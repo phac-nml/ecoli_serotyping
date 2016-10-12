@@ -1,3 +1,4 @@
+/** uploadfile.html CSS**/
 .header1 {
     text-align: center;
     color: teal;
@@ -21,6 +22,7 @@
     text-align: center;
     font-family: "Bookman", Georgia, "Times New Roman", serif;
     font-size: large;
+    color: #1c3e5c;
 }
 
 input.perc-input {
@@ -41,6 +43,8 @@ input.perc-input {
     font-size: medium;
 }
 
+
+/** Results CSS**/
 .results {
     border: 2px solid teal;
     border-collapse: collapse;

@@ -133,7 +133,7 @@ def checkFiles(genomesList):
 
     if not newGenomesList:
         logging.error("No valid fasta files \n Exiting")
-        exit(1)
+        return 'Error'
 
     else:
         return sorted(newGenomesList)

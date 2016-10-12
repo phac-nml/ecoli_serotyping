@@ -3,12 +3,14 @@
 from ectyper import *
 from flask_uploads import *
 from flask import *
+import Tkinter
+import tkMessageBox
 import subprocess
 import ast
 import formatresults
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-OUTPUT = {}
+OUTPUT = ''
 RESULTS = False
 I = 0
 
@@ -38,7 +40,10 @@ def uploadFiles():
        if len(resultFiles) == 1:
            filename = resultFiles[0].filename
            if not filename:
-            return 'No files were uploaded.'
+              root = Tkinter.Tk()
+              root.withdraw()
+              tkMessageBox.showwarning('Oops!','No files were uploaded. Please try again.')
+              return render_template('uploadfile.html')
            else:
             files.save(resultFiles[0])
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
@@ -55,7 +60,13 @@ def uploadFiles():
 
 @app.route('/ectyper/results', methods=['GET'])
 def getResults():
-    if RESULTS:
+    if 'Error' in OUTPUT:
+        root = Tkinter.Tk()
+        root.withdraw()
+        tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
+        return render_template('uploadfile.html')
+
+    elif RESULTS:
         return formatresults.toHTML()
     else:
        return jsonify(ast.literal_eval(OUTPUT))

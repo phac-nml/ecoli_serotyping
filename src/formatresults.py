@@ -39,7 +39,8 @@ def toHTML():
         result_table+= "</tbody></table></div>"
 
         return_button = "<div id='return-button'>" \
-                        "<input type='button' class='button return-button' onclick='" + 'location.href="http://127.0.0.1:5000/ectyper/upload";' + \
+                        "<input type='button' class='button return-button' onclick='" + \
+                        'location.href="http://127.0.0.1:5000/ectyper/upload";' + \
                         "' value='Return to main page'/></div>"
 
         return html_info + result_table + return_button + "</body></html>"
