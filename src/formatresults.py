@@ -7,43 +7,108 @@ from ecprediction import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
+def toSimpleDict(data, verbose):
+    """
+    Taking the results dictionary and converting it into a non-nested simple dictionary.
 
-def toHTML():
-    with open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'r') as csvfile:
-        reader = csv.DictReader(csvfile)
-        stylesheet_url = url_for('static',filename='style.css')
-        html_info = "<!DOCTYPE html> \
-                     <html lang='en'> \
-                     <head> \
-                        <meta charset='UTF-8'> \
-                        <title>Results</title> \
-                        <link rel='stylesheet' type='text/css' href=" + str(stylesheet_url) + ">  \
-                     </head>\
-                     <body>"
-        result_table = "<div id='results-div'><table class=results><caption class='results-caption'>SEROTYPE PREDICTION RESULTS" \
-                       "</caption>" \
-                       "<thead class='results-head'><tr>" \
-                            "<th>Genome</th>" \
-                            "<th>O Type</th>" \
-                            "<th>H Type</th>" \
-                       "</tr></thead><tbody>"
+    :param data: Original results dictionary
+    :param verbose: Boolean defining the type of information desired by the user.
+    :return resultDict: Non-nested dictionary.
+    """
 
-        for line in reader:
-            result_genome = str(line['Genome']).replace(";", '<br>')
-            result_otype = str(line['O Type']).replace(";", '<br>')
-            result_htype = str(line['H Type']).replace(";", '<br>')
+    resultDict= {}
 
-            result_table+= "<tr><td id='result-genome'>" + result_genome + "</td><td>" + result_otype + "</td><td>" + \
-                           result_htype + "</td></tr>"
+    for genome_name, type in data.iteritems():
+        resultDict[genome_name] = {}
+        if verbose == 'false':
+            if isinstance(type, dict):
+                keys = sorted(type.keys())
+                resultDict[genome_name]['htype'] = data[genome_name][keys[0]]
+                resultDict[genome_name]['otype'] = data[genome_name][keys[1]]
+            else:
+                resultDict[genome_name]['htype'] = data[genome_name]
+                resultDict[genome_name]['otype'] = data[genome_name]
+        elif isinstance(type, dict):
+            oTempStr =''
+            hTempStr = ''
 
-        result_table+= "</tbody></table></div>"
+            if isinstance(data[genome_name]['htype'], dict):
+                for title, info in data[genome_name]['htype'].iteritems():
+                    if title == 'RESULT':
+                        hTempStr= str(title) + ": " + str(info) + "; " + hTempStr
+                    else:
+                        hTempStr+= str(title) + ": " + str(info) + "; "
+                resultDict[genome_name]['htype'] =  hTempStr
+            else:
+                resultDict[genome_name]['htype'] = data[genome_name]['htype']
 
-        return_button = "<div id='return-button'>" \
-                        "<input type='button' class='button return-button' onclick='" + \
-                        'location.href="http://127.0.0.1:5000/ectyper/upload";' + \
-                        "' value='Return to main page'/></div>"
+            if isinstance(data[genome_name]['otype'], dict):
+                for title, info in data[genome_name]['otype'].iteritems():
+                    if title == 'RESULT':
+                        oTempStr = str(title) + ": " + str(info) + "; " + oTempStr
+                    else:
+                        oTempStr += str(title) + ": " + str(info) + "; "
+                resultDict[genome_name]['otype'] = oTempStr
+            else:
+                resultDict[genome_name]['otype'] = data[genome_name]['otype']
 
-        return html_info + result_table + return_button + "</body></html>"
+        else:
+            resultDict[genome_name]['htype'] = data[genome_name]
+            resultDict[genome_name]['otype'] = data[genome_name]
+    return resultDict
+
+
+
+def toHTML(data, verbose):
+    """
+    Rendering the results dictionary in an HTML table.
+
+    :param data: Results dictionary.
+    :param verbose: Boolean defining the type of information the user desires.
+    :return: String containing the HTML page containing the table.
+    """
+
+
+    resultDict = toSimpleDict(data, verbose)
+    stylesheet_url = url_for('static',filename='css/style.css')
+    js_url = url_for('static', filename='js/results.js')
+    html_info = "<!DOCTYPE html> \
+                 <html lang='en'> \
+                 <head> \
+                    <meta charset='UTF-8'> \
+                    <title>Results</title> \
+                    <link rel='stylesheet' type='text/css' href=" + str(stylesheet_url) + ">" \
+                   "<script type='text/javascript' src='" + js_url + "'></script>  \
+                 </head>\
+                 <body>"
+    result_table = "<div id='results-div'><table class=results><caption class='results-caption'>SEROTYPE PREDICTION RESULTS" \
+                   "</caption>" \
+                   "<thead class='results-head'><tr>" \
+                        "<th>Genome</th>" \
+                        "<th>O Type</th>" \
+                        "<th>H Type</th>" \
+                   "</tr></thead><tbody>"
+
+    for genome_name in resultDict.keys():
+        result_genome = str(genome_name)
+        result_otype = str(resultDict[genome_name]['otype']).replace(";", '<br>')
+        result_htype = str(resultDict[genome_name]['htype']).replace(";", '<br>')
+
+        result_table+= "<tr><td id='result-genome'>" + result_genome + "</td><td>" + result_otype + "</td><td>" + \
+                       result_htype + "</td></tr>"
+
+    result_table+= "</tbody></table></div>"
+
+
+    return_button = "<div id='result-button'>" \
+                    "<input type='button' class='button result-button' onclick='" + \
+                    'location.href="/ectyper/upload";' + \
+                    "' value='Return to main page'/>" \
+                    "<button type='button' id='download-button' class='button result-button'>Download the results"\
+                    "</button></div>"
+
+    return html_info + result_table + return_button + "</body></html>"
+
 
 def toResultDict(topMatches, verbose):
     """
@@ -109,62 +174,26 @@ def toResultDict(topMatches, verbose):
     return resultDict
 
 
-def toCSV(genomes_parsed, verbose):
+def toCSV(data, verbose):
     """
     Writing final results in a CSV file.
 
-    :param genomes_parsed: Top matches dictionary with the final results.
+    :param data: Top matches dictionary with the final results.
     :param verbose: Boolean stating whether the user wants full information or not.
     """
-
+    resultDict = toSimpleDict(data, verbose)
     header = ['Genome', 'O Type', 'H Type']
 
     with open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'wb') as csvfile:
         csvwriter = csv.DictWriter(csvfile, header)
         csvwriter.writeheader()
 
-        for genome_name, type in genomes_parsed.iteritems():
-            row = {'Genome': genome_name}
-
-            if verbose == 'false':
-                if isinstance(type, dict):
-                    keys = sorted(type.keys())
-                    row.update({'H Type': genomes_parsed[genome_name][keys[0]], 'O Type': genomes_parsed[genome_name][keys[1]]})
-                else:
-                    row.update({'H Type': genomes_parsed[genome_name], 'O Type': genomes_parsed[genome_name]})
-            elif isinstance(type, dict):
-                oTempStr =''
-                hTempStr = ''
-
-                if isinstance(genomes_parsed[genome_name]['htype'], dict):
-                    for title, info in genomes_parsed[genome_name]['htype'].iteritems():
-                        if title == 'RESULT':
-                            hTempStr= str(title) + ": " + str(info) + "; \n" + hTempStr
-                        else:
-                            hTempStr+= str(title) + ": " + str(info) + "; \n"
-                    row.update({'H Type': hTempStr})
-                else:
-                    row.update({'H Type': genomes_parsed[genome_name]['htype']})
-
-                if isinstance(genomes_parsed[genome_name]['otype'], dict):
-                    for title, info in genomes_parsed[genome_name]['otype'].iteritems():
-                        if title == 'RESULT':
-                            oTempStr = str(title) + ": " + str(info) + "; \n" + oTempStr
-                        else:
-                            oTempStr += str(title) + ": " + str(info) + "; \n"
-                    row.update({'O Type': oTempStr})
-                else:
-                    row.update({'O Type': genomes_parsed[genome_name]['otype']})
-
-            else:
-                row.update({'H Type': genomes_parsed[genome_name], 'O Type': genomes_parsed[genome_name]})
+        for genome_name in resultDict.keys():
+            row = {'Genome': genome_name, 'H Type': resultDict[genome_name]['htype'], 'O Type': resultDict[genome_name]['otype']}
             csvwriter.writerow(row)
-
 
 
 def formatResults(topMatches, verbose):
 
-    json_data =  toResultDict(topMatches,verbose)
-    toCSV(json_data, verbose)
-
-    return json_data
+    data =  toResultDict(topMatches, verbose)
+    return data

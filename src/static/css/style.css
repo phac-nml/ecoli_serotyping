@@ -81,13 +81,13 @@ td#result-genome {
     font-weight: bolder;
 }
 
-input.return-button {
+.result-button {
     font-size: small;
-    width: 15%;
+    width: 150px;
     height: 20px;
 }
 
-div#return-button {
+div#result-button {
     margin: 15px;
     text-align: center;
     font-size: small;

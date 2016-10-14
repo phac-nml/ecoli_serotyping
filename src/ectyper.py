@@ -28,6 +28,9 @@ def runProgram():
       if TEST == True:
         compareResults(roughGenomesList, GENOMES)
 
+      if args.csv == 'true':
+        toCSV(GENOMES, args.v)
+
       print formatResults(GENOMES, args.v)
 
     else:

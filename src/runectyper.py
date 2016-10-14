@@ -12,6 +12,7 @@ import formatresults
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 OUTPUT = ''
 RESULTS = False
+VERBOSITY = 'false'
 I = 0
 
 
@@ -27,11 +28,12 @@ def uploadFiles():
        global OUTPUT
        global I
        global RESULTS
+       global VERBOSITY
 
        perc_id = request.form['perc-id']
        perc_len = request.form['perc-len']
        resultFiles = request.files.getlist('file')
-       verbosity = request.form['verbosity']
+       VERBOSITY = request.form['verbosity']
        if 'table-checkbox' in request.form:
             RESULTS = True
        else:
@@ -47,27 +49,32 @@ def uploadFiles():
            else:
             files.save(resultFiles[0])
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
-                                                "-pl", perc_len, "-pi", perc_id, '-v', verbosity])
+                                                "-pl", perc_len, "-pi", perc_id, '-v', VERBOSITY, '-csv', 'false'])
        else:
            os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
-                                                "-pl", perc_len, "-pi", perc_id, '-v', verbosity])
+                                                "-pl", perc_len, "-pi", perc_id, '-v', VERBOSITY, '-csv', 'false'])
        I +=1
        return redirect(url_for('getResults'))
     return render_template('uploadfile.html')
 
-@app.route('/ectyper/results', methods=['GET'])
+
+@app.route('/ectyper/results', methods=['GET', 'POST'])
 def getResults():
-    if 'Error' in OUTPUT:
+    if request.method == 'POST':
+        toCSV(ast.literal_eval(OUTPUT), VERBOSITY)
+        return formatresults.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
+
+    elif 'Error' in OUTPUT:
         root = Tkinter.Tk()
         root.withdraw()
         tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
         return render_template('uploadfile.html')
 
     elif RESULTS:
-        return formatresults.toHTML()
+        return formatresults.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
     else:
        return jsonify(ast.literal_eval(OUTPUT))
 

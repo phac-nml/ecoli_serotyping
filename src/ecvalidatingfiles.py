@@ -21,6 +21,8 @@ def parseCommandLine():
     - out: refers to the output of the program. Default is STDOUT
     - pi: refers to the percentage of identity wanted. Default is 90%
     - pl: refers to the percentage of length wanted. Default is 90%.
+    - v: refers to the verbosity.
+    - csv: if the user wants a csv copy of the results.
 
     :return parser.parse_args(): Data from the commands.
     """
@@ -32,6 +34,7 @@ def parseCommandLine():
     parser.add_argument("-pi", "-percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "-percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-v", "-verbose", help="Information desired, true being full information, false being the serotype only.", default="false")
+    parser.add_argument("-csv", help="If set to true, the results will be sent to a .csv file in the temp/Results folder.", default='true')
 
     return parser.parse_args()
 

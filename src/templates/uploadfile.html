@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Upload a file</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 </head>
 <body>
     <h1 class="header1">
         <em>E. coli</em> Typer
     </h1>
-    <form action="http://127.0.0.1:5000/ectyper/upload" method="POST" enctype="multipart/form-data"
+    <form action="/ectyper/upload" method="POST" enctype="multipart/form-data"
         class="uploadform">
         <p>
             <label for="file">Upload a single or multiple files</label><br>
             <input type="file" name="file" id="file" multiple="">
         </p>
         <p>
-            <label for="perc-id">Identity percentage desired: </label>
-            <input type="number" name="perc-id" value="90" class="perc-input" min="0" max="100">
+            <label for="id">Identity percentage desired: </label>
+            <input type="number" name="perc-id" value="90" id="id" class="perc-input" min="0" max="100">
         </p>
         <p>
-            <label for="perc-len">Length percentage desired: </label>
-            <input type="number" name="perc-len" value="90" class="perc-input" min="0" max="100">
+            <label for="len">Length percentage desired: </label>
+            <input type="number" name="perc-len" value="90" id="len" class="perc-input" min="0" max="100">
         </p>
         <p class="verbosity">
             <input type="radio" name="verbosity" value="false" checked> Serotype only
