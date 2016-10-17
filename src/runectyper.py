@@ -13,6 +13,8 @@ SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 OUTPUT = ''
 RESULTS = False
 VERBOSITY = 'false'
+PERC_ID = 90
+PERC_LEN = 90
 I = 0
 
 
@@ -33,13 +35,10 @@ def uploadFiles():
     """
 
     if request.method == 'POST':
-       global OUTPUT
-       global I
-       global RESULTS
-       global VERBOSITY
+       global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LENR
 
-       perc_id = request.form['perc-id']
-       perc_len = request.form['perc-len']
+       PERC_ID = request.form['perc-id']
+       PERC_LEN = request.form['perc-len']
        resultFiles = request.files.getlist('file')
        VERBOSITY = request.form['verbosity']
        if 'table-checkbox' in request.form:
@@ -59,13 +58,13 @@ def uploadFiles():
            else:
             files.save(resultFiles[0])
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
-                                                "-pl", perc_len, "-pi", perc_id, '-v', VERBOSITY, '-csv', 'false'])
+                                                "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        else:
            os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
-                                                "-pl", perc_len, "-pi", perc_id, '-v', VERBOSITY, '-csv', 'false'])
+                                                "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        I +=1
        return redirect(url_for('getResults'))
     return render_template('uploadfile.html')
