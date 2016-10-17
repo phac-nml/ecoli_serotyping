@@ -16,6 +16,7 @@ VERBOSITY = 'false'
 PERC_ID = 90
 PERC_LEN = 90
 I = 0
+IS_CURL = False
 
 
 app = Flask(__name__)
@@ -35,12 +36,14 @@ def uploadFiles():
     """
 
     if request.method == 'POST':
-       global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LENR
+       global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
 
        PERC_ID = request.form['perc-id']
        PERC_LEN = request.form['perc-len']
        resultFiles = request.files.getlist('file')
        VERBOSITY = request.form['verbosity']
+       IS_CURL = False
+
        if 'table-checkbox' in request.form:
             RESULTS = True
        else:
@@ -70,6 +73,34 @@ def uploadFiles():
     return render_template('uploadfile.html')
 
 
+@app.route('/ectyper/curl-upload', methods=['POST'])
+def curl_uploadFiles():
+    if request.method == 'POST':
+        global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
+
+        resultFiles = request.files.getlist('file')
+        IS_CURL = True
+        RESULTS = False
+
+        if len(resultFiles) == 1:
+            filename = resultFiles[0].filename
+            if not filename:
+                return 'No files were uploaded.'
+            else:
+                files.save(resultFiles[0])
+                OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
+                                                  "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
+        else:
+            os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+            for file in resultFiles:
+                files.save(file,'temp_dir'+ str(I))
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
+                                              "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
+        I +=1
+        return redirect(url_for('getResults'))
+    return 'No HTTP requests were made.'
+
+
 @app.route('/ectyper/results', methods=['GET'])
 def getResults():
     """
@@ -79,6 +110,8 @@ def getResults():
     """
 
     if 'Error' in OUTPUT:
+        if IS_CURL:
+            return 'No valid files were uploaded.'
         root = Tkinter.Tk()
         root.withdraw()
         tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
