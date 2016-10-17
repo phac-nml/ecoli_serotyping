@@ -133,3 +133,13 @@
 - added toHTML() method in fortmatresults.py
 - added style.css
 - fixed a few issues in runectyper.py
+
+[2016/10/14 - Camille La Rose]
+- finished writing uploadfile.html
+- added download and return to main page buttons to results page
+- added some styling to the upload and result pages
+- added results.coffee for the download button
+- added error handlers in runectyper.py
+- added directories xml, database, js, css, coffee
+- fixed a few methods in ecvalidatingfiles.py to work with the new directories
+- added Cakefile to compile results.coffee
