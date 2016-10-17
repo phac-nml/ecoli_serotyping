@@ -149,7 +149,7 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/'
+    REL_DIR = SCRIPT_DIRECTORY + '../temp/database/'
 
     if os.path.isfile(REL_DIR + 'ECTyperDB.nin'):
         return 0
@@ -172,9 +172,9 @@ def runBlastQuery(genomesList, db_name):
     for file in genomesList:
         filename = os.path.basename(file)
         filename = os.path.splitext(filename)
-        newFilename = os.path.abspath(REL_DIR + filename[0] + ".xml")
+        newFilename = os.path.abspath(REL_DIR + 'xml/' + filename[0] + ".xml")
 
-        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + db_name, outfmt=5, out= newFilename)
+        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + 'database/' +  db_name, outfmt=5, out= newFilename)
 
         stdout, stderr = blastn_cline()
         resultsList.append(newFilename)

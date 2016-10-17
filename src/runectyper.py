@@ -24,6 +24,14 @@ configure_uploads(app, (files,))
 
 @app.route('/ectyper/upload', methods =['POST', 'GET'])
 def uploadFiles():
+    """
+    Uploading files method. When the request is POST, the program runs the ectyper through the command line with the
+    information provided by the user on the upload file form (files, percentages, result format).
+    When the request is GET, the program returns the upload file form.
+
+    :return: Results in table or JSON format or the upload a file form.
+    """
+
     if request.method == 'POST':
        global OUTPUT
        global I
@@ -45,7 +53,9 @@ def uploadFiles():
               root = Tkinter.Tk()
               root.withdraw()
               tkMessageBox.showwarning('Oops!','No files were uploaded. Please try again.')
+
               return render_template('uploadfile.html')
+
            else:
             files.save(resultFiles[0])
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
@@ -61,13 +71,15 @@ def uploadFiles():
     return render_template('uploadfile.html')
 
 
-@app.route('/ectyper/results', methods=['GET', 'POST'])
+@app.route('/ectyper/results', methods=['GET'])
 def getResults():
-    if request.method == 'POST':
-        toCSV(ast.literal_eval(OUTPUT), VERBOSITY)
-        return formatresults.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
+    """
+    Results formatting method. Used by the uploadFiles() method.
 
-    elif 'Error' in OUTPUT:
+    :return: Results in the format desired by the user (table or JSON).
+    """
+
+    if 'Error' in OUTPUT:
         root = Tkinter.Tk()
         root.withdraw()
         tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
