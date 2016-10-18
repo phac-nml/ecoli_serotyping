@@ -73,7 +73,7 @@ def uploadFiles():
     return render_template('uploadfile.html')
 
 
-@app.route('ectyper/curl-upload', methods=['POST'])
+@app.route('/ectyper/curl-upload', methods=['POST'])
 def curl_uploadFiles():
     if request.method == 'POST':
         global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
