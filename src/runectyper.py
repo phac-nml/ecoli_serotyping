@@ -73,7 +73,7 @@ def uploadFiles():
     return render_template('uploadfile.html')
 
 
-@app.route('/curl-upload', methods=['POST'])
+@app.route('ectyper/curl-upload', methods=['POST'])
 def curl_uploadFiles():
     if request.method == 'POST':
         global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
@@ -101,7 +101,7 @@ def curl_uploadFiles():
     return 'No HTTP requests were made.'
 
 
-@app.route('/results', methods=['GET'])
+@app.route('/ectyper/results', methods=['GET'])
 def getResults():
     """
     Results formatting method. Used by the uploadFiles() method.
