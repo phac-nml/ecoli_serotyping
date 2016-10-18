@@ -101,7 +101,7 @@ def curl_uploadFiles():
     return 'No HTTP requests were made.'
 
 
-@app.route('/ectyper/results', methods=['GET'])
+@app.route('/superphy/ectyper/results', methods=['GET'])
 def getResults():
     """
     Results formatting method. Used by the uploadFiles() method.
