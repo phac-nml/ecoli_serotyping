@@ -102,7 +102,7 @@ def toHTML(data, verbose):
 
     return_button = "<div id='result-button'>" \
                     "<input type='button' class='button result-button' onclick='" + \
-                    'location.href="/upload";' + \
+                    'location.href="upload";' + \
                     "' value='Return to main page'/>" \
                     "<button type='button' id='download-button' class='button result-button'>Download the results"\
                     "</button></div>"
