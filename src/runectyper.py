@@ -25,7 +25,7 @@ app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt'])
 files = UploadSet('fastafiles')
 configure_uploads(app, (files,))
 
-@app.route('upload', methods =['POST', 'GET'])
+@app.route('/upload', methods =['POST', 'GET'])
 def uploadFiles():
     """
     Uploading files method. When the request is POST, the program runs the ectyper through the command line with the
@@ -73,7 +73,7 @@ def uploadFiles():
     return render_template('uploadfile.html')
 
 
-@app.route('curl-upload', methods=['POST'])
+@app.route('/curl-upload', methods=['POST'])
 def curl_uploadFiles():
     if request.method == 'POST':
         global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
@@ -101,7 +101,7 @@ def curl_uploadFiles():
     return 'No HTTP requests were made.'
 
 
-@app.route('results', methods=['GET'])
+@app.route('/results', methods=['GET'])
 def getResults():
     """
     Results formatting method. Used by the uploadFiles() method.
