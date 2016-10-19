@@ -25,7 +25,7 @@ app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt'])
 files = UploadSet('fastafiles')
 configure_uploads(app, (files,))
 
-@app.route('/upload', methods =['POST', 'GET'])
+@app.route('/ectyper/upload', methods =['POST', 'GET'])
 def uploadFiles():
     """
     Uploading files method. When the request is POST, the program runs the ectyper through the command line with the
@@ -101,7 +101,7 @@ def curl_uploadFiles():
     return 'No HTTP requests were made.'
 
 
-@app.route('/results', methods=['GET'])
+@app.route('/ectyper/results', methods=['GET'])
 def getResults():
     """
     Results formatting method. Used by the uploadFiles() method.
