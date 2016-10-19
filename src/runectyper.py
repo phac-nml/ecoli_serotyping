@@ -104,6 +104,9 @@ def curl_uploadFiles():
                 OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
                                                   "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         else:
+            if os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I)):
+                shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+
             os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
             for file in resultFiles:
                 files.save(file,'temp_dir'+ str(I))

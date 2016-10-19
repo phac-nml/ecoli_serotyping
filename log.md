@@ -143,3 +143,5 @@
 - added directories xml, database, js, css, coffee
 - fixed a few methods in ecvalidatingfiles.py to work with the new directories
 - added Cakefile to compile results.coffee
+
+[2016/10/19 - Camille La Rose
