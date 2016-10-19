@@ -16,7 +16,6 @@ VERBOSITY = 'false'
 PERC_ID = 90
 PERC_LEN = 90
 I = 0
-IS_CURL = False
 
 
 app = Flask(__name__)
@@ -44,7 +43,6 @@ def uploadFiles():
        PERC_LEN = request.form['perc-len']
        resultFiles = request.files.getlist('file')
        VERBOSITY = request.form['verbosity']
-       IS_CURL = False
 
        logging.info('In uploadFiles, method == POST')
 
@@ -85,7 +83,6 @@ def curl_uploadFiles():
         global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
 
         resultFiles = request.files.getlist('file')
-        IS_CURL = True
         RESULTS = False
 
         if len(resultFiles) == 1:
@@ -103,7 +100,7 @@ def curl_uploadFiles():
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         I +=1
-        return redirect(url_for('getResults'))
+        return jsonify(ast.literal_eval(OUTPUT))
     return 'No HTTP requests were made.'
 
 
@@ -118,8 +115,6 @@ def getResults():
 
     if 'Error' in OUTPUT:
         logging.info('No valid files uploaded')
-        if IS_CURL:
-            return 'No valid files were uploaded.'
         root = Tkinter.Tk()
         root.withdraw()
         tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
