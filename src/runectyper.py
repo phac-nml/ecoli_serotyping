@@ -114,6 +114,7 @@ def getResults():
 
     :return: Results in the format desired by the user (table or JSON).
     """
+    logging.info('In getResults')
 
     if 'Error' in OUTPUT:
         logging.info('No valid files uploaded')
