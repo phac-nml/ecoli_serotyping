@@ -3,6 +3,8 @@
 from ectyper import *
 from flask_uploads import *
 from flask import *
+
+import shutil
 import Tkinter
 import tkMessageBox
 import subprocess
@@ -66,6 +68,9 @@ def uploadFiles():
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
                                                 "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        else:
+           if os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I)):
+               shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+
            os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
            logging.info('Directory')
            for file in resultFiles:
@@ -79,6 +84,13 @@ def uploadFiles():
 
 @app.route('/curl-upload', methods=['POST'])
 def curl_uploadFiles():
+    """
+    Uploading files method for the command line. When the request is POST, the program runs the ectyper through
+    the command line with the information provided by the user in the curl command line.
+    When the request is GET, the program returns a string.
+
+    :return: Results in JSON format.
+    """
     if request.method == 'POST':
         global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
 
@@ -95,7 +107,8 @@ def curl_uploadFiles():
             os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
             for file in resultFiles:
                 files.save(file,'temp_dir'+ str(I))
-            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input",
+                                              SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         I +=1
         return jsonify(ast.literal_eval(OUTPUT))
