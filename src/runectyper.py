@@ -24,7 +24,7 @@ app.config['UPLOADED_FASTAFILES_DEST'] = SCRIPT_DIRECTORY + '../temp/Uploads'
 app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt'])
 files = UploadSet('fastafiles')
 configure_uploads(app, (files,))
-logging.basicConfig(filename='ectyper.log',level=logging.DEBUG)
+logging.basicConfig(filename='ectyperdebug.log',level=logging.INFO)
 
 @app.route('/upload', methods =['POST', 'GET'])
 def uploadFiles():
@@ -46,7 +46,7 @@ def uploadFiles():
        VERBOSITY = request.form['verbosity']
        IS_CURL = False
 
-       logging.debug('In uploadFiles, method == POST')
+       logging.info('In uploadFiles, method == POST')
 
        if 'table-checkbox' in request.form:
             RESULTS = True
@@ -64,12 +64,12 @@ def uploadFiles():
 
            else:
             files.save(resultFiles[0])
-            logging.debug('Single file')
+            logging.info('Single file')
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
                                                 "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        else:
            os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
-           logging.debug('Directory')
+           logging.info('Directory')
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
@@ -116,7 +116,7 @@ def getResults():
     """
 
     if 'Error' in OUTPUT:
-        logging.debug('No valid files uploaded')
+        logging.info('No valid files uploaded')
         if IS_CURL:
             return 'No valid files were uploaded.'
         root = Tkinter.Tk()
@@ -125,10 +125,10 @@ def getResults():
         return render_template('uploadfile.html')
 
     elif RESULTS:
-        logging.debug('To HTML table')
+        logging.info('To HTML table')
         return formatresults.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
     else:
-        logging.debug('To JSON format')
+        logging.info('To JSON format')
         return jsonify(ast.literal_eval(OUTPUT))
 
 
