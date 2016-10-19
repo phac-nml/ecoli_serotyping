@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from flask import *
 from formatresults import *
 from compareresults import *
 

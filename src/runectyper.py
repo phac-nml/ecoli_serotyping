@@ -82,9 +82,7 @@ def curl_uploadFiles():
     if request.method == 'POST':
         global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
 
-        resultFiles = request.files.getlist('file')
-        RESULTS = False
-
+        resultFiles = request.files.getlist('files[]')
         if len(resultFiles) == 1:
             filename = resultFiles[0].filename
             if not filename:
