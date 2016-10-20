@@ -144,4 +144,6 @@
 - fixed a few methods in ecvalidatingfiles.py to work with the new directories
 - added Cakefile to compile results.coffee
 
-[2016/10/19 - Camille La Rose
+[2016/10/19 - Camille La Rose]
+- changed the urls for Flask
+- added curl_uploadFiles method in runectyper.py for curl commands
