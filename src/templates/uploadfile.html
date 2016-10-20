@@ -8,20 +8,23 @@
 <body>
 <!--Upload file form-->
     <h1 class="header1">
-        <em>E. coli</em> Typer
+        <em>E. coli</em> Serotyper
     </h1>
     <form action="upload" method="POST" enctype="multipart/form-data"
         class="uploadform">
         <p>
             <label for="file">Upload a single or multiple files</label><br>
+            <span style="font-size: small">
+                Only complete (and draft) assembled genomes in valid .fasta files are accepted.
+            </span><br>
             <input type="file" name="file" id="file" multiple="">
         </p>
         <p>
-            <label for="id">Identity percentage desired: </label>
+            <label for="id">Identity percentage cutoff: </label>
             <input type="number" name="perc-id" value="90" id="id" class="perc-input" min="0" max="100">
         </p>
         <p>
-            <label for="len">Length percentage desired: </label>
+            <label for="len">Length percentage cutoff: </label>
             <input type="number" name="perc-len" value="90" id="len" class="perc-input" min="0" max="100">
         </p>
         <p class="verbosity">

@@ -85,6 +85,7 @@ td#result-genome {
     font-size: small;
     width: 150px;
     height: 20px;
+    margin: 1px;
 }
 
 div#result-button {
