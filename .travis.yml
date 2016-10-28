@@ -4,6 +4,7 @@ python:
 before_install:
   - pip install pytest
   - export PYTHONPATH='.'
+  - pip install biopython
 # command to run tests
 script:
   - py.test
