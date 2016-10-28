@@ -3,8 +3,8 @@ import pytest
 import random
 import json
 
-from src.ecprediction import *
-from src.ecvalidatingfiles import *
+from ectyper.src.ecprediction import *
+from ectyper.src.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + '../temp/'

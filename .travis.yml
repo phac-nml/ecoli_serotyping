@@ -2,7 +2,8 @@ language: python
 python:
   - "2.7"
 before_install:
-  - pip install pytest pytest-cov
+  - pip install pytest
+  - export PYTHONPATH='.'
 # command to run tests
 script:
   - py.test
