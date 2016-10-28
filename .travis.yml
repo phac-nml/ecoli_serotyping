@@ -7,4 +7,5 @@ before_install:
   - pip install biopython
 # command to run tests
 script:
-  - py.test
+  - py.test tests/test_ecvalidatingfiles.py
+  - py.test tests/test_ecprediction.py
