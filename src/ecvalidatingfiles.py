@@ -5,6 +5,7 @@ import os
 import subprocess
 import logging
 import re
+from ecprediction import getProductPercentage
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
@@ -113,12 +114,14 @@ def checkFiles(genomesList):
     newGenomesList = []
 
     for file in genomesList:
-        flag = 1
+        flag = 0
         for record in SeqIO.parse(file, "fasta"):
             match = re.search('(^[a-zA-Z]+)', str(record.seq))
             if not match:
                 flag = 0
                 break
+            else:
+                flag = 1
 
         if flag>0:
             newGenomesList.append(file)
@@ -151,6 +154,9 @@ def initializeDB():
 
     REL_DIR = SCRIPT_DIRECTORY + '../temp/database/'
 
+    if not os.path.isdir(REL_DIR):
+        os.mkdir(REL_DIR)
+
     if os.path.isfile(REL_DIR + 'ECTyperDB.nin'):
         return 0
     else:
@@ -166,15 +172,18 @@ def runBlastQuery(genomesList, db_name):
     :return resultList: List of all the new .xml files containing the results of the search.
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/'
+    REL_DIR = SCRIPT_DIRECTORY + '../temp/xml/'
     resultsList = []
 
     for file in genomesList:
         filename = os.path.basename(file)
         filename = os.path.splitext(filename)
-        newFilename = os.path.abspath(REL_DIR + 'xml/' + filename[0] + '.xml')
+        if not os.path.isdir(REL_DIR):
+            os.mkdir(REL_DIR)
 
-        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + 'database/' +  db_name, outfmt=5, out= newFilename)
+        newFilename = os.path.abspath(REL_DIR  + filename[0] + '.xml')
+
+        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + '../database/' +  db_name, outfmt=5, out= newFilename)
 
         stdout, stderr = blastn_cline()
         resultsList.append(newFilename)
@@ -210,6 +219,9 @@ def parseResults(resultsList):
              alignmentsDict = dict(GENOMES[genome_name])
 
             for alignment in blast_record.alignments:
+                # hsp_length = abs(1-(1-float(alignment.hsps[0].positives)/alignment.length))
+                # hsp_identity = float(alignment.hsps[0].identities)/alignment.hsps[0].align_length
+                # print str(alignment.title) + ": " + str(hsp_length) + ", " + str(hsp_identity) + ", " + str(alignment.length) + "\n"
                 alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
                 GENOMES[genome_name] = alignmentsDict
 
