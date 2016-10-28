@@ -3,8 +3,11 @@ python:
   - "2.7"
 before_install:
   - pip install pytest
-  - export PYTHONPATH='.'
   - pip install biopython
+  - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.29/ncbi-blast-2.2.29+-1.x86_64.rpm -O /tmp/blast.rpm
+  - sudo apt-get install /tmp/blast.rpm
+before_scripts:
+  - export PYTHONPATH='.'
 # command to run tests
 script:
   - py.test tests/test_ecvalidatingfiles.py
