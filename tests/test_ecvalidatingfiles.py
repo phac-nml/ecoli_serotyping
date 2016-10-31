@@ -46,7 +46,7 @@ def test_getFilesList():
 
     assert getFilesList(SCRIPT_DIRECTORY +'../Data/Testing_Data/') == sorted(expectedList2)
 
-    assert getFilesList(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty Folder/') == []
+    assert getFilesList(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/') == []
 
 
 def test_getGenomeName():
