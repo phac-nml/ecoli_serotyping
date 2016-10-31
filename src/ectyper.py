@@ -4,12 +4,13 @@ from formatresults import *
 from compareresults import *
 
 TEST= False
-GENOMES = {}
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def runProgram():
 
   logging.basicConfig(filename='ectyper.log',level=logging.INFO)
-
+  if not os.path.isdir(SCRIPT_DIRECTORY + '../temp'):
+    os.mkdir(SCRIPT_DIRECTORY + '../temp')
   args = parseCommandLine()
 
   roughGenomesList = getFilesList(args.input)
@@ -21,16 +22,16 @@ def runProgram():
       genomesDict = parseResults(resultsList)
       predictionDict = filterPredictions(genomesDict, args.pi, args.pl)
       matchDict = sortMatches(predictionDict)
-      GENOMES = findTopMatches(matchDict)
-      logging.info('Top matches are ' + str(GENOMES))
+      topMatches = findTopMatches(matchDict)
+      logging.info('Top matches are ' + str(topMatches))
 
       if TEST == True:
-        compareResults(roughGenomesList, GENOMES)
+        compareResults(roughGenomesList, topMatches)
 
       if args.csv == 'true':
-        toCSV(GENOMES, args.v)
+        toCSV(topMatches, args.v)
 
-      print formatResults(GENOMES, args.v)
+      print formatResults(topMatches, args.v)
 
     else:
       logging.error('There was an error while generating the database.')

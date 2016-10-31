@@ -1,0 +1,15 @@
+language: python
+python:
+  - "2.7"
+before_install:
+  - pip install pytest
+  - pip install biopython
+  - sudo apt-get install alien
+  - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.29/ncbi-blast-2.2.29+-1.x86_64.rpm -O /tmp/blast.rpm
+  - sudo alien -i /tmp/blast.rpm
+before_scripts:
+  - export PYTHONPATH='.'
+# command to run tests
+script:
+  - py.test tests/test_ecvalidatingfiles.py -vv
+  - py.test tests/test_ecprediction.py -vv
