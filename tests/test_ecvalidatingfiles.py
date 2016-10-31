@@ -38,7 +38,8 @@ expectedList3 = sorted([os.path.abspath(REL_DIR2 + 'AAJT02.1.xml'),
 
 def test_getFilesList():
 
-    os.mkdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/')
+    if not os.path.isdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/'):
+        os.mkdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/')
 
     assert getFilesList(REL_DIR) == expectedList1
 
@@ -101,8 +102,8 @@ def test_initializeDB():
 
 def test_runBlastQuery():
    #subprocess.call(["mkdir", SCRIPT_DIRECTORY+ "../temp/xml/"])
-
-   os.mkdir(SCRIPT_DIRECTORY+ "../temp/")
+   if not os.path.isdir(SCRIPT_DIRECTORY+ "../temp/"):
+        os.mkdir(SCRIPT_DIRECTORY+ "../temp/")
    initializeDB()
    assert runBlastQuery(expectedList1, 'ECTyperDB') == expectedList3
 
