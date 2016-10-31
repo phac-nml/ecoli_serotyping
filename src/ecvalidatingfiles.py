@@ -182,7 +182,7 @@ def runBlastQuery(genomesList, db_name):
         os.mkdir(REL_DIR)
 
         if os.path.isdir(REL_DIR):
-            print str(REL_DIR) + " is now a directory"
+            print str(REL_DIR) + " is now a directory."
 
 
     for file in genomesList:
