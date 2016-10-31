@@ -147,3 +147,8 @@
 [2016/10/19 - Camille La Rose]
 - changed the urls for Flask
 - added curl_uploadFiles method in runectyper.py for curl commands
+
+[2016/10/31 - Camille La Rose]
+- fixed a few tests
+    *create directories temp and xml when needed
+    * initalize the database when needed

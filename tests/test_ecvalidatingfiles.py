@@ -89,7 +89,7 @@ def test_initializeDB():
 
     assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY , "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
 
-    ### Tests that won't work outside workspace (to be fixed) ###
+
     # os.chdir('/home/calarose/Documents/')
     # assert initializeDB() == 0
     #
@@ -101,7 +101,7 @@ def test_initializeDB():
 
 
 def test_runBlastQuery():
-   #subprocess.call(["mkdir", SCRIPT_DIRECTORY+ "../temp/xml/"])
+
    if not os.path.isdir(SCRIPT_DIRECTORY+ "../temp/"):
         os.mkdir(SCRIPT_DIRECTORY+ "../temp/")
    initializeDB()
