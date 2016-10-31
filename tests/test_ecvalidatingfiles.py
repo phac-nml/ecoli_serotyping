@@ -36,7 +36,7 @@ expectedList3 = sorted([os.path.abspath(REL_DIR2 + 'AAJT02.1.xml'),
                         os.path.abspath(REL_DIR2 + 'NC_011750.1.xml'),
                         os.path.abspath(REL_DIR2 + 'NC_011751.1.xml')])
 
-def test_getListGenomes():
+def test_getFilesList():
 
     assert getFilesList(REL_DIR) == expectedList1
 
