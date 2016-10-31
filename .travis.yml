@@ -11,5 +11,5 @@ before_scripts:
   - export PYTHONPATH='.'
 # command to run tests
 script:
-  - py.test tests/test_ecvalidatingfiles.py
-  - py.test tests/test_ecprediction.py
+  - py.test tests/test_ecvalidatingfiles.py -vv
+  - py.test tests/test_ecprediction.py -vv
