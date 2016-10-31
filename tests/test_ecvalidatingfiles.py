@@ -101,7 +101,9 @@ def test_initializeDB():
 
 def test_runBlastQuery():
    #subprocess.call(["mkdir", SCRIPT_DIRECTORY+ "../temp/xml/"])
+
    os.mkdir(SCRIPT_DIRECTORY+ "../temp/")
+   initializeDB()
    assert runBlastQuery(expectedList1, 'ECTyperDB') == expectedList3
 
 

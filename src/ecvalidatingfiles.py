@@ -178,11 +178,8 @@ def runBlastQuery(genomesList, db_name):
     REL_DIR = SCRIPT_DIRECTORY + '../temp/xml/'
     resultsList = []
 
-    if not os.path.exists(REL_DIR):
+    if not os.path.isdir(REL_DIR):
         os.mkdir(REL_DIR)
-
-        if os.path.isdir(REL_DIR):
-            print str(REL_DIR) + " is now a directory."
 
 
     for file in genomesList:
