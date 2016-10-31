@@ -4,7 +4,7 @@ import os.path
 import pytest
 import json
 
-from ectyper.src.ecvalidatingfiles import *
+from ecoli_serotyping.src.ecvalidatingfiles import *
 
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
