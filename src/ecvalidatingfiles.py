@@ -48,10 +48,12 @@ def getFilesList(data):
     :param data: Data (file or directory) taken from the input command.
     :return filesList: List of all the files found in the data.
     """
+    print data
 
     filesList = []
 
     if os.path.isdir(data):
+        print "It's a directory"
         logging.info("Using files from " + data)
 
         for root, dirs, files in os.walk(data):
@@ -59,6 +61,7 @@ def getFilesList(data):
                 filesList.append(os.path.join(root,filename))
 
     else:
+        print "It's a file"
         logging.info("Using file " + data)
         filesList.append(os.path.abspath(data))
 
@@ -178,7 +181,8 @@ def runBlastQuery(genomesList, db_name):
     for file in genomesList:
         filename = os.path.basename(file)
         filename = os.path.splitext(filename)
-        if not os.path.isdir(REL_DIR):
+        if not os.path.exists(REL_DIR):
+            print str(REL_DIR) + " is now a directory"
             os.mkdir(REL_DIR)
 
         newFilename = os.path.abspath(REL_DIR  + filename[0] + '.xml')
