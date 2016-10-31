@@ -38,7 +38,8 @@ expectedList3 = sorted([os.path.abspath(REL_DIR2 + 'AAJT02.1.xml'),
 
 def test_getFilesList():
 
-    subprocess.call(["mkdir", SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/'])
+    os.mkdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/')
+    #subprocess.call(["mkdir", SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/'])
 
     assert getFilesList(REL_DIR) == expectedList1
 
