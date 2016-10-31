@@ -4,7 +4,7 @@ import os.path
 import pytest
 import json
 
-from src.ecvalidatingfiles import *
+from ectyper.src.ecvalidatingfiles import *
 
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
