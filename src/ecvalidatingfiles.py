@@ -53,7 +53,6 @@ def getFilesList(data):
     filesList = []
 
     if os.path.isdir(data):
-        print "It's a directory"
         logging.info("Using files from " + data)
 
         for root, dirs, files in os.walk(data):
@@ -61,7 +60,6 @@ def getFilesList(data):
                 filesList.append(os.path.join(root,filename))
 
     else:
-        print "It's a file"
         logging.info("Using file " + data)
         filesList.append(os.path.abspath(data))
 

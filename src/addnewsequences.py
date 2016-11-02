@@ -18,68 +18,80 @@ def parseCommandLine():
     """
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("names", help="Location of the file(s) of the names to format. Can be a single file or a directory.")
     parser.add_argument("sequences", help="Location of the file(s) of the sequences to add to the database. Can be a single file or a directory.")
 
     return parser.parse_args()
 
 
-def formatNames(filesList):
+def formatName(title, count):
     """
-    Formatting the sequence names so that they are separated by type. If a sequence shares multiple types, a title will
-    be assigned to each.
+    Formatting the sequence name. If a sequence shares multiple types, a title will be assigned to each.
 
-    :param filesList:
+    :param title: String to be searched
+    :param count: Integer that will be modified if the sequence is a gnd sequence.
+    :return count:
     """
+    old_title = title
 
-    filesDict = {}
+    if title not in TITLES:
+        TITLES[old_title] = []
 
-    for file in filesList:
-        filesDict[file] = [line.rstrip('\n') for line in open(file)]
+    #Already normally formatted
+    match = re.search(r'(-O\d+|-H\d+)', title)
+    if match != None:
+        TITLES[old_title].append(title)
+        return count
 
-    count = 1
-    for file, lines in filesDict.iteritems():
-        for line in lines:
-            matches = re.search('serogroup=O\w+', line)
-            if matches != None:
-                oldLine = line
-                TITLES[oldLine] = []
-                matches = str(matches.group())
-                # for gnd files
-                match = matches.split('=')[1]
-                if match != 'OUT':
-                    line = 'gnd|' + str(count) +  "_"  + str(match)
-                else:
-                    line = 'gnd|' + str(count) +  "_OR"
-                TITLES[oldLine].append(line)
-                count +=1
-                #for the Danish database type files
-                # for match in matches:
-                #     line  = re.sub(r'(O\d+\w*|H\d+\w*|[/]*)', '', line)
-                #     match = str(match)
-                #     TITLES[oldLine].append(line+match)
+    #gnd format
+    match = re.search('serogroup=O\w+', title)
+    if match != None:
+        match = str(match.group())
+        match = match.split('=')[1]
+        if match != 'OUT':
+            new_title = 'gnd|' + str(count) +  "_"  + str(match)
+        else:
+            new_title = 'gnd|' + str(count) +  "_OR"
+        TITLES[old_title].append(new_title)
+        count +=1
+    else:
+        #Danish database format
+        matches = re.findall(r'(O\d+\w*|H\d+\w*)', title)
+        if matches != None:
+            for match in matches:
+                new_title  = re.sub(r'(O\d+\w*|H\d+\w*|[/]*)', '', title)
+                match = str(match)
+                TITLES[old_title].append(new_title+match)
+
+    return count
 
 
 
 def addSeqToDB(filesList):
     """
-    Filtering through the sequences to find the ones with titles that match those of the names list.
-    If matching, the sequence is added to the database.
+    Filtering through the sequences to format their names and then add them to the database.
 
     :param filesList:
     """
 
+    count =1
+    for record in SeqIO.parse(SCRIPT_DIRECTORY + "../Data/gnd_sequences.fasta", "fasta"):
+        count +=1
 
     with open(SCRIPT_DIRECTORY + "../Data/EcOH.fasta", 'a+') as handle:
         for file in filesList:
             for record in SeqIO.parse(file, "fasta"):
+                temp_count = formatName(record.description, count)
+
                 if record.description in TITLES:
                     for title in TITLES[record.description]:
                         record.id = title
                         record.description = title
                         record.name = title
-                        print record
                         SeqIO.write(record, handle, "fasta")
+
+                        if temp_count > count:
+                            SeqIO.write(record, open(SCRIPT_DIRECTORY + "../Data/gnd_sequences.fasta", 'a+'), "fasta")
+                            count = temp_count
 
     subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY+ "../temp/ECTyperDB"])
 
@@ -87,9 +99,7 @@ def addSeqToDB(filesList):
 if __name__=='__main__':
 
     args = parseCommandLine()
-    namesList = getFilesList(args.names)
     seqsList = getFilesList(args.sequences)
-    formatNames(namesList)
     addSeqToDB(seqsList)
 
 
