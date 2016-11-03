@@ -5,7 +5,7 @@ import os
 import subprocess
 import logging
 import re
-from ecprediction import getProductPercentage
+import sys
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
@@ -30,11 +30,11 @@ def parseCommandLine():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-input", help="Location of new file(s). Can be a single file or a directory")
-    parser.add_argument("-out", "-output", help="Output of the program. Default is STDOUT.", default='STDOUT')
-    parser.add_argument("-pi", "-percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-pl", "-percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-v", "-verbose", help="Information desired, true being full information, false being the serotype only.", default="false")
+    parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory")
+    parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
+    parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
+    parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
+    parser.add_argument("-v", "--verbose", help="Information desired, true being full information, false being the serotype only.", default="false")
     parser.add_argument("-csv", help="If set to true, the results will be sent to a .csv file in the temp/Results folder.", default='true')
 
     return parser.parse_args()
@@ -48,7 +48,6 @@ def getFilesList(data):
     :param data: Data (file or directory) taken from the input command.
     :return filesList: List of all the files found in the data.
     """
-    print data
 
     filesList = []
 
