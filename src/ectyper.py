@@ -20,7 +20,7 @@ def runProgram():
     if initializeDB() == 0:
       resultsList = runBlastQuery(genomesList, 'ECTyperDB')
       genomesDict = parseResults(resultsList)
-      predictionDict = filterPredictions(genomesDict, args.pi, args.pl)
+      predictionDict = filterPredictions(genomesDict, args.percentIdentity, args.percentLength)
       matchDict = sortMatches(predictionDict)
       topMatches = findTopMatches(matchDict)
       logging.info('Top matches are ' + str(topMatches))
@@ -29,9 +29,8 @@ def runProgram():
         compareResults(roughGenomesList, topMatches)
 
       if args.csv == 'true':
-        toCSV(topMatches, args.v)
-
-      print formatResults(topMatches, args.v)
+        toCSV(topMatches, args.verbose)
+      print formatResults(topMatches, args.verbose)
 
     else:
       logging.error('There was an error while generating the database.')

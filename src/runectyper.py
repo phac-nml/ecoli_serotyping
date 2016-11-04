@@ -22,7 +22,7 @@ I = 0
 
 app = Flask(__name__)
 app.config['UPLOADED_FASTAFILES_DEST'] = SCRIPT_DIRECTORY + '../temp/Uploads'
-app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt'])
+app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt', 'fsa'])
 files = UploadSet('fastafiles')
 configure_uploads(app, (files,))
 logging.basicConfig(filename='ectyperdebug.log',level=logging.INFO)
@@ -65,7 +65,7 @@ def uploadFiles():
            else:
             files.save(resultFiles[0])
             logging.info('Single file')
-            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
                                                 "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        else:
            if os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I)):
@@ -75,7 +75,7 @@ def uploadFiles():
            logging.info('Directory')
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
-           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
+           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
                                                 "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        I +=1
        return redirect(url_for('getResults'))
