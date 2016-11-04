@@ -24,13 +24,16 @@ def runProgram():
       matchDict = sortMatches(predictionDict)
       topMatches = findTopMatches(matchDict)
       logging.info('Top matches are ' + str(topMatches))
+      json_results = formatResults(topMatches, args.verbose)
+
 
       if TEST == True:
         compareResults(roughGenomesList, topMatches)
 
       if args.csv == 'true':
-        toCSV(topMatches, args.verbose)
-      print formatResults(topMatches, args.verbose)
+        toCSV(json_results, args.verbose)
+
+      print json_results
 
     else:
       logging.error('There was an error while generating the database.')
