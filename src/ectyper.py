@@ -9,8 +9,10 @@ SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 def runProgram():
 
   logging.basicConfig(filename='ectyper.log',level=logging.INFO)
+
   if not os.path.isdir(SCRIPT_DIRECTORY + '../temp'):
     os.mkdir(SCRIPT_DIRECTORY + '../temp')
+
   args = parseCommandLine()
 
   if args.input == None:
