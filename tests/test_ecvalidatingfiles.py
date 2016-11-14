@@ -104,6 +104,9 @@ def test_runBlastQuery():
 
    if not os.path.isdir(SCRIPT_DIRECTORY+ "../temp/"):
         os.mkdir(SCRIPT_DIRECTORY+ "../temp/")
+   if not os.path.isdir(SCRIPT_DIRECTORY + "../temp/xml/"):
+       os.mkdir(SCRIPT_DIRECTORY + "../temp/xml/")
+
    initializeDB()
    assert runBlastQuery(expectedList1, 'ECTyperDB') == expectedList3
 
