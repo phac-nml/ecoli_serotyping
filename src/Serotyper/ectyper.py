@@ -2,16 +2,16 @@
 
 from formatresults import *
 from compareresults import *
+from src.createdirs import createDirs
 
 TEST= False
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def runProgram():
 
-  logging.basicConfig(filename='ectyper.log',level=logging.INFO)
+  logging.basicConfig(filename=SCRIPT_DIRECTORY + 'ectyper.log',level=logging.INFO)
 
-  if not os.path.isdir(SCRIPT_DIRECTORY + '../temp'):
-    os.mkdir(SCRIPT_DIRECTORY + '../temp')
+  createDirs()
 
   args = parseCommandLine()
 
@@ -40,6 +40,7 @@ def runProgram():
           toCSV(json_results, args.verbose)
 
         print json_results
+
 
       else:
         logging.error('There was an error while generating the database.')

@@ -152,15 +152,12 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/database/'
-
-    if not os.path.isdir(REL_DIR):
-        os.mkdir(REL_DIR)
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/Serotyping_Database/'
 
     if os.path.isfile(REL_DIR + 'ECTyperDB.nin'):
         return 0
     else:
-        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
+        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
 def runBlastQuery(genomesList, db_name):
@@ -172,11 +169,8 @@ def runBlastQuery(genomesList, db_name):
     :return resultList: List of all the new .xml files containing the results of the search.
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/xml/'
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'
     resultsList = []
-
-    if not os.path.isdir(REL_DIR):
-        os.mkdir(REL_DIR)
 
 
     for file in genomesList:
@@ -186,7 +180,7 @@ def runBlastQuery(genomesList, db_name):
 
         newFilename = os.path.abspath(REL_DIR  + filename[0] + '.xml')
 
-        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + '../database/' +  db_name, outfmt=5, out= newFilename)
+        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + '../databases/Serotyping_Database/' +  db_name, outfmt=5, out= newFilename)
 
         stdout, stderr = blastn_cline()
         resultsList.append(newFilename)
@@ -222,9 +216,6 @@ def parseResults(resultsList):
              alignmentsDict = dict(GENOMES[genome_name])
 
             for alignment in blast_record.alignments:
-                # hsp_length = abs(1-(1-float(alignment.hsps[0].positives)/alignment.length))
-                # hsp_identity = float(alignment.hsps[0].identities)/alignment.hsps[0].align_length
-                # print str(alignment.title) + ": " + str(hsp_length) + ", " + str(hsp_identity) + ", " + str(alignment.length) + "\n"
                 alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
                 GENOMES[genome_name] = alignmentsDict
 

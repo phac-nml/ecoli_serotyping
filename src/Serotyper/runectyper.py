@@ -21,11 +21,12 @@ I = 0
 
 
 app = Flask(__name__)
-app.config['UPLOADED_FASTAFILES_DEST'] = SCRIPT_DIRECTORY + '../temp/Uploads'
+app.config['UPLOADED_FASTAFILES_DEST'] = SCRIPT_DIRECTORY + '../../temp/Uploads'
 app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt', 'fsa'])
 files = UploadSet('fastafiles')
 configure_uploads(app, (files,))
-logging.basicConfig(filename='ectyperdebug.log',level=logging.INFO)
+
+logging.basicConfig(filename=SCRIPT_DIRECTORY + 'ectyperdebug.log',level=logging.INFO)
 
 @app.route('/upload', methods =['POST', 'GET'])
 def uploadFiles():
@@ -68,14 +69,14 @@ def uploadFiles():
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
                                                 "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        else:
-           if os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I)):
-               shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+           if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
+               shutil.rmtree(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
 
-           os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+           os.makedirs(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
            logging.info('Directory')
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
-           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
+           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
                                                 "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
        I +=1
        return redirect(url_for('getResults'))
@@ -104,14 +105,14 @@ def curl_uploadFiles():
                 OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
                                                   "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         else:
-            if os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I)):
+            if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
                 shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
 
-            os.makedirs(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+            os.makedirs(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
             for file in resultFiles:
                 files.save(file,'temp_dir'+ str(I))
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input",
-                                              SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I),
+                                              SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         I +=1
         return jsonify(ast.literal_eval(OUTPUT))

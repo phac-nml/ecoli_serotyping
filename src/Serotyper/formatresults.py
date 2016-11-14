@@ -184,10 +184,7 @@ def toCSV(data, verbose):
     resultDict = toSimpleDict(data, verbose)
     header = ['Genome', 'O Type', 'H Type']
 
-    if not os.path.isdir(SCRIPT_DIRECTORY + '../temp/Results/'):
-        os.mkdir(SCRIPT_DIRECTORY + '../temp/Results/')
-
-    with open(SCRIPT_DIRECTORY + '../temp/Results/Serotype_Results.csv', 'wb') as csvfile:
+    with open(SCRIPT_DIRECTORY + '../../temp/Results/Serotype_Results.csv', 'wb') as csvfile:
         csvwriter = csv.DictWriter(csvfile, header)
         csvwriter.writeheader()
 
