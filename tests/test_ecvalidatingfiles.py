@@ -7,17 +7,17 @@ import json
 from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes"
+REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes/"
 
 expectedList1 = sorted([
-    REL_DIR + '/NC_011749.1.fasta'
-    , REL_DIR + '/NC_011739.1.fasta'
-    , REL_DIR + '/NC_011751.1.fasta'
-    , REL_DIR + '/AAJT02.1.fsa_nt'
-    , REL_DIR + '/NC_002695.1.fasta'
-    , REL_DIR + '/NC_002128.1.fasta'
-    , REL_DIR + '/NC_011750.1.fasta'
-    , REL_DIR + '/NC_002127.1.fasta'])
+    REL_DIR + 'NC_011749.1.fasta'
+    , REL_DIR + 'NC_011739.1.fasta'
+    , REL_DIR + 'NC_011751.1.fasta'
+    , REL_DIR + 'AAJT02.1.fsa_nt'
+    , REL_DIR + 'NC_002695.1.fasta'
+    , REL_DIR + 'NC_002128.1.fasta'
+    , REL_DIR + 'NC_011750.1.fasta'
+    , REL_DIR + 'NC_002127.1.fasta'])
 
 expectedList2 = sorted([
     SCRIPT_DIRECTORY + '../Data/Testing_Data/Invalid Files/Invalid-File-1.txt',
@@ -42,7 +42,7 @@ def test_getFilesList():
 
     assert getFilesList(REL_DIR) == expectedList1
 
-    assert getFilesList(REL_DIR + '/NC_011750.1.fasta') == [os.path.abspath(REL_DIR + '/NC_011750.1.fasta')]
+    assert getFilesList(REL_DIR + 'NC_011750.1.fasta') == [os.path.abspath(REL_DIR + '/NC_011750.1.fasta')]
 
     expectedList2.extend(expectedList1)
 
