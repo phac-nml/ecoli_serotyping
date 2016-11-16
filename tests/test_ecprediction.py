@@ -3,8 +3,8 @@ import pytest
 import random
 import json
 
-from ecoli_serotyping.src.Serotyper.ecprediction import *
-from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
+from src.Serotyper.ecprediction import *
+from src.Serotyper.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + '../temp/'
@@ -12,19 +12,15 @@ REL_DIR = SCRIPT_DIRECTORY + '../temp/'
 with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/ecprediction_dict.json') as f:
     expected_dict = json.load(f)
 
-checkFiles(sorted([
-    SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/NC_011749.1.fasta'
-    , SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02.1.fsa_nt']))
+checkFiles(sorted([SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02.1.fsa_nt']))
 
 initializeDB()
 
-runBlastQuery(sorted([
-    SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/NC_011749.1.fasta'
-    , SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02.1.fsa_nt']), 'ECTyperDB')
+runBlastQuery(sorted([SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02.1.fsa_nt']), 'ECTyperDB')
 
 def test_filterPredictions():
 
-     test_prediction = parseResults(REL_DIR + 'xml/combined_genomes.xml')
+     test_prediction = parseResults(REL_DIR + 'xml/AAJT02.1.xml')
      i = 0
 
      while i<4:
@@ -79,13 +75,13 @@ def test_filterPredictions():
                     length_test_pred +=1
 
         if length_exp_dict != length_test_pred:
-            pytest.fail("The resulting dictionary is not the same length as the expected dictionary.")
+            pytest.fail("The resulting dictionary (" + str(test_pred) + ") is not the same length as the expected dictionary(" + str(exp_dict) + ").")
         i+=1
 
 
 def test_getProductPercentage():
 
-    test_prediction = parseResults(REL_DIR + 'xml/combined_genomes.xml')
+    test_prediction = parseResults(REL_DIR + 'xml/AAJT02.1.xml')
     exp_dict = {}
 
     for expected_genome, expected_value in expected_dict.iteritems():
@@ -113,7 +109,7 @@ def test_getProductPercentage():
 
 def test_sortMatches():
 
-    test_sortmatches = sortMatches(filterPredictions(parseResults(REL_DIR + 'xml/combined_genomes.xml'), 0, 0))
+    test_sortmatches = sortMatches(filterPredictions(parseResults(REL_DIR + 'xml/AAJT02.1.xml'), 0, 0))
 
     for test_genome, test_typedict in test_sortmatches.iteritems():
         for test_type, test_infolist in test_typedict.iteritems():
@@ -146,7 +142,7 @@ def test_findTopMatches():
     exp_top_match_2 = {'GENOME_1': 'NA', 'GENOME_2':  {'wzy': [{'title': 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': '1166', 'perc': 0.964}]},
                        'GENOME_3': {'wzx':[{'title': 'gnl|BL_ORD_ID|377 9__wzx__wzx-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': 'NA', 'perc': 0}]}}
 
-    test_prediction = (filterPredictions(parseResults(REL_DIR + 'xml/combined_genomes.xml'), 0, 0))
+    test_prediction = (filterPredictions(parseResults(REL_DIR + 'xml/AAJT02.1.xml'), 0, 0))
     test_top_matches = findTopMatches(sortMatches(test_prediction))
 
     for test_genome, test_value in test_top_matches.iteritems():
