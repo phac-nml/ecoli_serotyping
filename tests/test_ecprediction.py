@@ -3,8 +3,8 @@ import pytest
 import random
 import json
 
-from src.Serotyper.ecprediction import *
-from src.Serotyper.ecvalidatingfiles import *
+from ecoli_serotyping.src.Serotyper.ecprediction import *
+from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + '../temp/'
