@@ -119,7 +119,7 @@ def test_parseResults():
     with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/ecvalidatingfiles_dict.json') as f:
         expectedDict = json.load(f)
 
-    testDict = parseResults(runBlastQuery([REL_DIR + 'NC_011749.1.fasta',REL_DIR + 'AAJT02.1.fsa_nt']))
+    testDict = parseResults(runBlastQuery([REL_DIR + 'NC_011749.1.fasta',REL_DIR + 'AAJT02.1.fsa_nt'], 'ECTyperDB'))
 
     for test_genome, test_alignment in testDict.iteritems():
         if test_genome in expectedDict:
