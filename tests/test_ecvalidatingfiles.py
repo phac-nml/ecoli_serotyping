@@ -110,8 +110,8 @@ def test_runBlastQuery():
        os.mkdir(SCRIPT_DIRECTORY + '../temp/Uploads/')
 
    initializeDB()
-   assert runBlastQuery(expectedList1, 'ECTyperDB') == SCRIPT_DIRECTORY + '../temp/xml/combined_genomes.xml'
-   assert runBlastQuery([REL_DIR + '/AAJT02.1.fsa_nt'], 'ECTyperDB') == SCRIPT_DIRECTORY + '../temp/xml/AAJT02.1.xml'
+   assert runBlastQuery(expectedList1, 'ECTyperDB') == os.path.abspath(SCRIPT_DIRECTORY + '../temp/xml/combined_genomes.xml')
+   assert runBlastQuery([REL_DIR + '/AAJT02.1.fsa_nt'], 'ECTyperDB') == os.path.abspath(SCRIPT_DIRECTORY + '../temp/xml/AAJT02.1.xml')
 
 
 def test_parseResults():
