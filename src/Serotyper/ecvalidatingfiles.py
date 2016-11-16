@@ -181,6 +181,7 @@ def runBlastQuery(genomesList, db_name):
 
     if len(genomesList) >1:
         combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomes.fasta'
+
         with open(combined_genomes, 'wb') as outfile:
             for file in genomesList:
                 with open(file, 'rb') as fastafile:

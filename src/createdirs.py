@@ -22,3 +22,6 @@ def createDirs():
 
     if not os.path.isdir(SCRIPT_DIRECTORY + '../temp/xml/'):
         os.mkdir(SCRIPT_DIRECTORY + '../temp/xml/')
+
+    if not os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/'):
+        os.mkdir(SCRIPT_DIRECTORY + '../temp/Uploads/')
