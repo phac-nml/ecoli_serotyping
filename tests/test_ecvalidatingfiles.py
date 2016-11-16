@@ -6,7 +6,6 @@ import json
 
 from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
 
-
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes"
 
