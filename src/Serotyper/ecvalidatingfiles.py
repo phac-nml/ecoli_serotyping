@@ -103,11 +103,14 @@ def getGenomeName(recordID, filename):
     FILENAMES[recordID] = filename
     return genome_name
 
-def clearGENOMES():
-
-    newDict = GENOMES
+def clearGlobalDicts():
+    global GENOMES
+    global FILENAMES
+    newDict1 = GENOMES
+    newDict2 = FILENAMES
     GENOMES.clear()
-    return newDict
+    FILENAMES.clear()
+    return newDict1, newDict2
 
 def checkFiles(genomesList):
     """

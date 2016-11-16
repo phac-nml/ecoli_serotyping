@@ -5,6 +5,7 @@ from src.Serotyper.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
+FILENAMES = {}
 
 def parseCommandLine():
     """
@@ -47,7 +48,31 @@ def initializeDB():
     else:
         return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/repaired_ecoli_vfs.ffn ", "-dbtype", "nucl", "-title", "VirulenceFactorsDB", "-out", REL_DIR + "VirulenceFactorsDB"])
 
+def searchDB(genomesList):
 
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'
+
+    if len(genomesList) >1:
+        combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomesVF.fasta'
+
+        with open(combined_genomes, 'wb') as outfile:
+            for file in genomesList:
+                with open(file, 'rb') as fastafile:
+                    shutil.copyfileobj(fastafile, outfile,1024*1024*10)
+
+        new_filename = os.path.abspath(REL_DIR  + 'combined_genomesVF.xml')
+
+    else:
+        filename = os.path.basename(genomesList[0])
+        filename = os.path.splitext(filename)
+        combined_genomes = genomesList[0]
+        new_filename = os.path.abspath(REL_DIR + str(filename[0]) + '.xml')
+
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/VF_Database/VirulenceFactorsDB', outfmt=5, out= new_filename)
+    stdout, stderr = blastn_cline()
+
+    logging.info("Searched the database.")
+    return new_filename
 
 
 if __name__=='__main__':
@@ -59,8 +84,8 @@ if __name__=='__main__':
 
     roughGenomesList = getFilesList(args.input)
     genomesList = checkFiles(roughGenomesList)
-    GENOMES = clearGENOMES()
+    GENOMES, FILENAMES = clearGlobalDicts()
 
     if isinstance(genomesList, list):
         if initializeDB() == 0:
-            # kjhlkj
+            results_file = searchDB(genomesList)
