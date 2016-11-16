@@ -4,7 +4,7 @@ import random
 import json
 
 from ecoli_serotyping.src.Serotyper.ecprediction import *
-from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
+from ecoli_serotyping.src.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + '../temp/'
@@ -21,7 +21,7 @@ runBlastQuery(sorted([
 
 def test_filterPredictions():
 
-     test_prediction = parseResults([REL_DIR + 'xml/NC_011749.1.xml',REL_DIR + 'xml/AAJT02.1.xml'])
+     test_prediction = parseResults(REL_DIR + 'xml/combined_genomes.xml')
      i = 0
 
      while i<4:
@@ -82,7 +82,7 @@ def test_filterPredictions():
 
 def test_getProductPercentage():
 
-    test_prediction = parseResults([REL_DIR + 'xml/NC_011749.1.xml',REL_DIR + 'xml/AAJT02.1.xml'])
+    test_prediction = parseResults(REL_DIR + 'xml/combined_genomes.xml')
     exp_dict = {}
 
     for expected_genome, expected_value in expected_dict.iteritems():
@@ -110,7 +110,7 @@ def test_getProductPercentage():
 
 def test_sortMatches():
 
-    test_sortmatches = sortMatches(filterPredictions(parseResults([REL_DIR + 'xml/AAJT02.1.xml']), 0, 0))
+    test_sortmatches = sortMatches(filterPredictions(parseResults(REL_DIR + 'xml/combined_genomes.xml'), 0, 0))
 
     for test_genome, test_typedict in test_sortmatches.iteritems():
         for test_type, test_infolist in test_typedict.iteritems():
@@ -143,7 +143,7 @@ def test_findTopMatches():
     exp_top_match_2 = {'GENOME_1': 'NA', 'GENOME_2':  {'wzy': [{'title': 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': '1166', 'perc': 0.964}]},
                        'GENOME_3': {'wzx':[{'title': 'gnl|BL_ORD_ID|377 9__wzx__wzx-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': 'NA', 'perc': 0}]}}
 
-    test_prediction = (filterPredictions(parseResults([REL_DIR + 'xml/AAJT02.1.xml']), 0, 0))
+    test_prediction = (filterPredictions(parseResults(REL_DIR + 'xml/combined_genomes.xml'), 0, 0))
     test_top_matches = findTopMatches(sortMatches(test_prediction))
 
     for test_genome, test_value in test_top_matches.iteritems():

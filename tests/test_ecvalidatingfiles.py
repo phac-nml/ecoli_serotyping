@@ -108,7 +108,8 @@ def test_runBlastQuery():
        os.mkdir(SCRIPT_DIRECTORY + "../temp/xml/")
 
    initializeDB()
-   assert runBlastQuery(expectedList1, 'ECTyperDB') == expectedList3
+   assert runBlastQuery(expectedList1, 'ECTyperDB') == SCRIPT_DIRECTORY + '../temp/xml/combined_genomes.xml'
+   assert runBlastQuery([REL_DIR + '/AAJT02.1.fsa_nt'], 'ECTyperDB') == SCRIPT_DIRECTORY + '../temp/xml/AAJT02.1.xml'
 
 
 def test_parseResults():
@@ -116,7 +117,7 @@ def test_parseResults():
     with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/ecvalidatingfiles_dict.json') as f:
         expectedDict = json.load(f)
 
-    testDict = parseResults([REL_DIR2 + 'NC_011749.1.xml',REL_DIR2 + 'AAJT02.1.xml'])
+    testDict = parseResults(runBlastQuery([REL_DIR + 'NC_011749.1.fasta',REL_DIR + 'AAJT02.1.fsa_nt']))
 
     for test_genome, test_alignment in testDict.iteritems():
         if test_genome in expectedDict:

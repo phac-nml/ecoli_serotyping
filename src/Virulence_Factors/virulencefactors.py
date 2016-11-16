@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 
-import logging
-import argparse
-import os
-import subprocess
-
 from src.createdirs import createDirs
+from src.Serotyper.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+GENOMES = {}
 
 def parseCommandLine():
     """
@@ -55,6 +52,15 @@ def initializeDB():
 
 if __name__=='__main__':
 
-    logging.basicConfig(filename='ectyper.log',level=logging.INFO)
+    logging.basicConfig(filename='virulencefactors.log',level=logging.INFO)
+
     args = parseCommandLine()
     createDirs()
+
+    roughGenomesList = getFilesList(args.input)
+    genomesList = checkFiles(roughGenomesList)
+    GENOMES = clearGENOMES()
+
+    if isinstance(genomesList, list):
+        if initializeDB() == 0:
+            # kjhlkj

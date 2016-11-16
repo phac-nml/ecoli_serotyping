@@ -24,22 +24,23 @@ def runProgram():
 
     if isinstance(genomesList, list):
       if initializeDB() == 0:
-        resultsList = runBlastQuery(genomesList, 'ECTyperDB')
-        genomesDict = parseResults(resultsList)
-        predictionDict = filterPredictions(genomesDict, args.percentIdentity, args.percentLength)
-        matchDict = sortMatches(predictionDict)
-        topMatches = findTopMatches(matchDict)
-        logging.info('Top matches are ' + str(topMatches))
-        json_results = formatResults(topMatches, args.verbose)
-
-
-        if TEST == True:
-          compareResults(roughGenomesList, topMatches)
-
-        if args.csv == 'true':
-          toCSV(json_results, args.verbose)
-
-        print json_results
+        print "Start"
+        results_file = runBlastQuery(genomesList, 'ECTyperDB')
+        genomesDict = parseResults(results_file)
+        # predictionDict = filterPredictions(genomesDict, args.percentIdentity, args.percentLength)
+        # matchDict = sortMatches(predictionDict)
+        # topMatches = findTopMatches(matchDict)
+        #
+        # logging.info('Top matches are ' + str(topMatches))
+        # json_results = formatResults(topMatches, args.verbose)
+        #
+        # if TEST == True:
+        #   compareResults(roughGenomesList, topMatches)
+        #
+        # if args.csv == 'true':
+        #   toCSV(json_results, args.verbose)
+        #
+        # print json_results
 
 
       else:
