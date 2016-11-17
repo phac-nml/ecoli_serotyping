@@ -6,6 +6,7 @@ import subprocess
 import logging
 import re
 import sys
+import shutil
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
@@ -14,6 +15,7 @@ from Bio import SeqIO
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
+FILENAMES = {}
 
 def parseCommandLine():
     """
@@ -73,7 +75,7 @@ def getGenomeName(recordID, filename):
     :param filename: Name of the file containing the record.
     :return genomeName: Name of the genome contained in the file (or sequence).
     """
-
+    global FILENAMES
     recordID = str(recordID)
 
     if re.search('lcl\|([\w-]*)', recordID):
@@ -98,8 +100,17 @@ def getGenomeName(recordID, filename):
     else:
         genome_name = filename
 
+    FILENAMES[recordID] = filename
     return genome_name
 
+def clearGlobalDicts():
+    global GENOMES
+    global FILENAMES
+    newDict1 = GENOMES
+    newDict2 = FILENAMES
+    GENOMES = {}
+    FILENAMES = {}
+    return newDict1, newDict2
 
 def checkFiles(genomesList):
     """
@@ -130,7 +141,7 @@ def checkFiles(genomesList):
             filename = os.path.splitext(filename)
 
             for record in SeqIO.parse(file,"fasta"):
-                genome_name = getGenomeName(record, filename)
+                genome_name = getGenomeName(record.description, filename[0])
                 if not genome_name in GENOMES:
                     GENOMES[genome_name] = ''
 
@@ -152,15 +163,12 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/database/'
-
-    if not os.path.isdir(REL_DIR):
-        os.mkdir(REL_DIR)
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/Serotyping_Database/'
 
     if os.path.isfile(REL_DIR + 'ECTyperDB.nin'):
         return 0
     else:
-        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
+        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
 def runBlastQuery(genomesList, db_name):
@@ -172,30 +180,32 @@ def runBlastQuery(genomesList, db_name):
     :return resultList: List of all the new .xml files containing the results of the search.
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/xml/'
-    resultsList = []
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'
 
-    if not os.path.isdir(REL_DIR):
-        os.mkdir(REL_DIR)
+    if len(genomesList) >1:
+        combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomes.fasta'
 
+        with open(combined_genomes, 'wb') as outfile:
+            for file in genomesList:
+                with open(file, 'rb') as fastafile:
+                    shutil.copyfileobj(fastafile, outfile,1024*1024*10)
 
-    for file in genomesList:
-        filename = os.path.basename(file)
+        new_filename = os.path.abspath(REL_DIR  + 'combined_genomes.xml')
+
+    else:
+        filename = os.path.basename(genomesList[0])
         filename = os.path.splitext(filename)
+        combined_genomes = genomesList[0]
+        new_filename = os.path.abspath(REL_DIR + str(filename[0]) + '.xml')
+
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/Serotyping_Database/' +  db_name, outfmt=5, out= new_filename)
+    stdout, stderr = blastn_cline()
+
+    logging.info("Searched the database.")
+    return new_filename
 
 
-        newFilename = os.path.abspath(REL_DIR  + filename[0] + '.xml')
-
-        blastn_cline = NcbiblastnCommandline(cmd="blastn", query=file, db= REL_DIR + '../database/' +  db_name, outfmt=5, out= newFilename)
-
-        stdout, stderr = blastn_cline()
-        resultsList.append(newFilename)
-
-    logging.info("Generated " + str(len(resultsList)) + " .xml file(s)")
-    return sorted(resultsList)
-
-
-def parseResults(resultsList):
+def parseResults(result_file):
     """
     Searching the result list to find the hsps necessary to identify the sequences.
     The method stores them in a dictionary that will be stored in GENOMES dictionary.
@@ -206,27 +216,23 @@ def parseResults(resultsList):
     """
 
     global GENOMES
-    logging.info("Parsing results from " + str(resultsList))
+    global FILENAMES
+    logging.info("Parsing results from " + str(result_file))
 
-    for result in resultsList:
-        result_handle = open(result)
-        blast_records = NCBIXML.parse(result_handle)
-        filename = os.path.basename(result)
-        filename = os.path.splitext(filename)
+    result_handle = open(result_file)
+    blast_records = NCBIXML.parse(result_handle)
 
-        for blast_record in blast_records:
+    for blast_record in blast_records:
+        filename = FILENAMES[blast_record.query]
+        genome_name = getGenomeName(blast_record.query, filename)
 
-            genome_name = getGenomeName(blast_record.query, filename)
-            alignmentsDict = {}
-            if genome_name in GENOMES:
-             alignmentsDict = dict(GENOMES[genome_name])
+        alignmentsDict = {}
+        if genome_name in GENOMES:
+         alignmentsDict = dict(GENOMES[genome_name])
 
-            for alignment in blast_record.alignments:
-                # hsp_length = abs(1-(1-float(alignment.hsps[0].positives)/alignment.length))
-                # hsp_identity = float(alignment.hsps[0].identities)/alignment.hsps[0].align_length
-                # print str(alignment.title) + ": " + str(hsp_length) + ", " + str(hsp_identity) + ", " + str(alignment.length) + "\n"
-                alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
-                GENOMES[genome_name] = alignmentsDict
+        for alignment in blast_record.alignments:
+            alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
+            GENOMES[genome_name] = alignmentsDict
 
 
     return GENOMES

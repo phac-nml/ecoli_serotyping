@@ -4,21 +4,20 @@ import os.path
 import pytest
 import json
 
-from ecoli_serotyping.src.ecvalidatingfiles import *
-
+from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes"
+REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes/"
 
 expectedList1 = sorted([
-    REL_DIR + '/NC_011749.1.fasta'
-    , REL_DIR + '/NC_011739.1.fasta'
-    , REL_DIR + '/NC_011751.1.fasta'
-    , REL_DIR + '/AAJT02.1.fsa_nt'
-    , REL_DIR + '/NC_002695.1.fasta'
-    , REL_DIR + '/NC_002128.1.fasta'
-    , REL_DIR + '/NC_011750.1.fasta'
-    , REL_DIR + '/NC_002127.1.fasta'])
+    REL_DIR + 'NC_011749.1.fasta'
+    , REL_DIR + 'NC_011739.1.fasta'
+    , REL_DIR + 'NC_011751.1.fasta'
+    , REL_DIR + 'AAJT02.1.fsa_nt'
+    , REL_DIR + 'NC_002695.1.fasta'
+    , REL_DIR + 'NC_002128.1.fasta'
+    , REL_DIR + 'NC_011750.1.fasta'
+    , REL_DIR + 'NC_002127.1.fasta'])
 
 expectedList2 = sorted([
     SCRIPT_DIRECTORY + '../Data/Testing_Data/Invalid Files/Invalid-File-1.txt',
@@ -43,7 +42,7 @@ def test_getFilesList():
 
     assert getFilesList(REL_DIR) == expectedList1
 
-    assert getFilesList(REL_DIR + '/NC_011750.1.fasta') == [os.path.abspath(REL_DIR + '/NC_011750.1.fasta')]
+    assert getFilesList(REL_DIR + 'NC_011750.1.fasta') == [os.path.abspath(REL_DIR + '/NC_011750.1.fasta')]
 
     expectedList2.extend(expectedList1)
 
@@ -104,8 +103,14 @@ def test_runBlastQuery():
 
    if not os.path.isdir(SCRIPT_DIRECTORY+ "../temp/"):
         os.mkdir(SCRIPT_DIRECTORY+ "../temp/")
+   if not os.path.isdir(SCRIPT_DIRECTORY + "../temp/xml/"):
+       os.mkdir(SCRIPT_DIRECTORY + "../temp/xml/")
+   if not os.path.isdir(SCRIPT_DIRECTORY + '../temp/Uploads/'):
+       os.mkdir(SCRIPT_DIRECTORY + '../temp/Uploads/')
+
    initializeDB()
-   assert runBlastQuery(expectedList1, 'ECTyperDB') == expectedList3
+   assert runBlastQuery(expectedList1, 'ECTyperDB') == os.path.abspath(SCRIPT_DIRECTORY + '../temp/xml/combined_genomes.xml')
+   assert runBlastQuery([REL_DIR + '/AAJT02.1.fsa_nt'], 'ECTyperDB') == os.path.abspath(SCRIPT_DIRECTORY + '../temp/xml/AAJT02.1.xml')
 
 
 def test_parseResults():
@@ -113,7 +118,7 @@ def test_parseResults():
     with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/ecvalidatingfiles_dict.json') as f:
         expectedDict = json.load(f)
 
-    testDict = parseResults([REL_DIR2 + 'NC_011749.1.xml',REL_DIR2 + 'AAJT02.1.xml'])
+    testDict = parseResults(runBlastQuery([REL_DIR + 'NC_011749.1.fasta',REL_DIR + 'AAJT02.1.fsa_nt'], 'ECTyperDB'))
 
     for test_genome, test_alignment in testDict.iteritems():
         if test_genome in expectedDict:
