@@ -108,8 +108,8 @@ def clearGlobalDicts():
     global FILENAMES
     newDict1 = GENOMES
     newDict2 = FILENAMES
-    GENOMES.clear()
-    FILENAMES.clear()
+    GENOMES = {}
+    FILENAMES = {}
     return newDict1, newDict2
 
 def checkFiles(genomesList):

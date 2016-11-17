@@ -2,6 +2,7 @@
 
 from src.createdirs import createDirs
 from src.Serotyper.ecvalidatingfiles import *
+from src.Serotyper.formatresults import VFtoCSV
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
@@ -27,6 +28,7 @@ def parseCommandLine():
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-csv", help="If set to true, the results will be sent to a .csv file in the temp/Results folder.", default='true')
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=0)
 
     return parser.parse_args()
 
@@ -38,15 +40,13 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/databases/VF_Database/'
-
-    if not os.path.isdir(REL_DIR):
-        os.mkdir(REL_DIR)
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/VF_Database/'
 
     if os.path.isfile(REL_DIR + 'VirulenceFactorsDB.nin'):
         return 0
     else:
-        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/repaired_ecoli_vfs.ffn ", "-dbtype", "nucl", "-title", "VirulenceFactorsDB", "-out", REL_DIR + "VirulenceFactorsDB"])
+        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/repaired_ecoli_vfs.ffn ", "-dbtype", "nucl", "-title", "VirulenceFactorsDB", "-out", REL_DIR + "VirulenceFactorsDB"])
+
 
 def searchDB(genomesList):
 
@@ -75,9 +75,75 @@ def searchDB(genomesList):
     return new_filename
 
 
+def parseFile(result_file, perc_len, perc_id):
+    global GENOMES
+    global FILENAMES
+    logging.info("Parsing results from " + str(result_file))
+
+    result_handle = open(result_file)
+    blast_records = NCBIXML.parse(result_handle)
+    perc_len = float(perc_len)/100
+    perc_id = float(perc_id)/100
+
+    for blast_record in blast_records:
+        filename = FILENAMES[blast_record.query]
+        genome_name = getGenomeName(blast_record.query, filename)
+        alignmentsDict = {}
+        if genome_name in GENOMES:
+            alignmentsDict = dict(GENOMES[genome_name])
+
+        for alignment in blast_record.alignments:
+            match = re.search('(\s\(.*\)\s)', alignment.title)
+            match = match.group()
+            match = match.split('(')[1]
+            match = match.split(')')[0]
+            align_title = str(match)
+
+            tmp_perc_len = abs(1-(1-float(alignment.hsps[0].positives))/alignment.length)
+            tmp_perc_id = float(alignment.hsps[0].positives)/alignment.hsps[0].align_length
+
+            if tmp_perc_len > perc_len and tmp_perc_id > perc_id:
+                alignmentsDict[align_title] = 1
+                logging.info("")
+            else:
+                if align_title not in alignmentsDict or alignmentsDict[align_title]!=1:
+                    alignmentsDict[align_title] = 0
+
+            GENOMES[genome_name] = alignmentsDict
+
+
+    return GENOMES
+
+
+def filterVFs(genomesDict, threshold):
+    resultDict = {}
+
+    threshDict = {}
+
+    for genome_name, gene_info in genomesDict.iteritems():
+        if isinstance(gene_info, dict):
+           for gene_name in gene_info.keys():
+               if gene_name in threshDict and gene_info[gene_name] == 1:
+                   threshDict[gene_name] += 1
+               elif gene_info[gene_name] == 1:
+                   threshDict[gene_name] = 1
+
+    for genome_name, gene_info in genomesDict.iteritems():
+        resultDict[genome_name] = {}
+        if isinstance(gene_info, dict):
+            tempDict = {}
+            for gene_name in threshDict.keys():
+                if gene_name in gene_info and threshDict[gene_name]>=threshold:
+                    tempDict[gene_name] = gene_info[gene_name]
+            resultDict[genome_name] = tempDict
+
+    return resultDict
+
+
+
 if __name__=='__main__':
 
-    logging.basicConfig(filename='virulencefactors.log',level=logging.INFO)
+    logging.basicConfig(filename=SCRIPT_DIRECTORY + 'virulencefactors.log',level=logging.INFO)
 
     args = parseCommandLine()
     createDirs()
@@ -89,3 +155,10 @@ if __name__=='__main__':
     if isinstance(genomesList, list):
         if initializeDB() == 0:
             results_file = searchDB(genomesList)
+            genomesDict = parseFile(results_file, args.percentLength, args.percentIdentity)
+            resultsDict = filterVFs(genomesDict, args.minGenomes)
+
+            if args.csv == 'true':
+                VFtoCSV(resultsDict)
+
+            print resultsDict

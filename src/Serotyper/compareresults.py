@@ -14,9 +14,9 @@ def initializeDanishDB():
     :return: 0 if the database was generated without any issues, 1 otherwise.
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../temp/'
+    REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/Serotyping_Database/'
 
-    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"])
+    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"])
 
 
 
@@ -29,7 +29,7 @@ def writeFile(topMatches, results):
     :param results: Top matches dictionary containing the results from the EcOH database.
     """
 
-    with open(SCRIPT_DIRECTORY + "../temp/Results/compare_results.csv", 'wb') as csvfile:
+    with open(SCRIPT_DIRECTORY + "../../temp/Results/compare_results.csv", 'wb') as csvfile:
         header = ['Genomes','Type', 'Serotype Finder', 'E.C. Typer', 'Notes']
         w = csv.DictWriter(csvfile, header)
         w.writeheader()
