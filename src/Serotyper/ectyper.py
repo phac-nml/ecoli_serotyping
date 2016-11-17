@@ -2,19 +2,21 @@
 
 from formatresults import *
 from compareresults import *
+from src.createdirs import createDirs
 
 TEST= False
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def runProgram():
 
-  logging.basicConfig(filename='ectyper.log',level=logging.INFO)
-  if not os.path.isdir(SCRIPT_DIRECTORY + '../temp'):
-    os.mkdir(SCRIPT_DIRECTORY + '../temp')
+  logging.basicConfig(filename=SCRIPT_DIRECTORY + 'ectyper.log',level=logging.INFO)
+
+  createDirs()
+
   args = parseCommandLine()
 
   if args.input == None:
-    print "Error"
+    print 'Error'
 
   else:
     roughGenomesList = getFilesList(args.input)
@@ -22,14 +24,14 @@ def runProgram():
 
     if isinstance(genomesList, list):
       if initializeDB() == 0:
-        resultsList = runBlastQuery(genomesList, 'ECTyperDB')
-        genomesDict = parseResults(resultsList)
+        results_file = runBlastQuery(genomesList, 'ECTyperDB')
+        genomesDict = parseResults(results_file)
         predictionDict = filterPredictions(genomesDict, args.percentIdentity, args.percentLength)
         matchDict = sortMatches(predictionDict)
         topMatches = findTopMatches(matchDict)
+
         logging.info('Top matches are ' + str(topMatches))
         json_results = formatResults(topMatches, args.verbose)
-
 
         if TEST == True:
           compareResults(roughGenomesList, topMatches)
@@ -38,6 +40,7 @@ def runProgram():
           toCSV(json_results, args.verbose)
 
         print json_results
+
 
       else:
         logging.error('There was an error while generating the database.')

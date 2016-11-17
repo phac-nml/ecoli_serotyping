@@ -152,3 +152,9 @@
 - fixed a few tests
     *create directories temp and xml when needed
     * initalize the database when needed
+
+[2016/11/17 - Camille La Rose]
+- fixed parseResults and runBlastQuery from ectyper to run only one .fasta file instead of multiple (efficiency)
+- fixed the tests to accomodate the changes from parseResults and runBlastQuery
+- changed the directories to add the VFs program
+- added the VFs program (very similar to the ectyper, only shorter and faster)
