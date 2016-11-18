@@ -101,8 +101,11 @@ def getGenomeName(recordID, filename):
     else:
         genome_name = filename
 
-    FILENAMES[recordID] = [filename]
-    GENOMENAMES[filename] = recordID
+    if recordID not in FILENAMES:
+        FILENAMES[recordID] = filename
+    if filename not in GENOMENAMES:
+        GENOMENAMES[filename] = recordID
+
     return genome_name
 
 def clearGlobalDicts():
