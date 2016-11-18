@@ -5,11 +5,12 @@ import pytest
 import json
 import sys
 
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../Serotyper/'))
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Serotyper/'))
 
 from ecvalidatingfiles import *
 
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes/"
 
 expectedList1 = sorted([
@@ -39,6 +40,8 @@ expectedList3 = sorted([os.path.abspath(REL_DIR2 + 'AAJT02.1.xml'),
                         os.path.abspath(REL_DIR2 + 'NC_011751.1.xml')])
 
 def test_getFilesList():
+
+    assert SCRIPT_DIRECTORY == '/home/calarose/ecoli_serotyping/tests/'
 
     if not os.path.isdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/'):
         os.mkdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/')

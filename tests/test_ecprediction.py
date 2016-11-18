@@ -5,8 +5,8 @@ import json
 import os
 import sys
 
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../Serotyper/'))
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Serotyper/'))
 
 from ecprediction import *
 from ecvalidatingfiles import *
