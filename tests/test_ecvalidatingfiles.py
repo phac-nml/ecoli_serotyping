@@ -41,8 +41,6 @@ expectedList3 = sorted([os.path.abspath(REL_DIR2 + 'AAJT02.1.xml'),
 
 def test_getFilesList():
 
-    assert SCRIPT_DIRECTORY == '/home/calarose/ecoli_serotyping/tests/'
-
     if not os.path.isdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/'):
         os.mkdir(SCRIPT_DIRECTORY +'../Data/Testing_Data/Empty_Folder/')
 
