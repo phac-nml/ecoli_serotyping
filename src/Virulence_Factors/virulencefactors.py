@@ -118,10 +118,6 @@ def parseFile(result_file, perc_len, perc_id):
 
             GENOMES[genome_name] = alignmentsDict
 
-
-    return GENOMES
-
-
 def filterVFs(genomesDict, threshold):
     resultDict = {}
 
@@ -157,13 +153,13 @@ if __name__=='__main__':
 
     roughGenomesList = getFilesList(args.input)
     genomesList = checkFiles(roughGenomesList)
-    GENOMES, FILENAMES = clearGlobalDicts()
+    GENOMES, FILENAMES, useless_dict = clearGlobalDicts()
 
     if isinstance(genomesList, list):
         if initializeDB() == 0:
             results_file = searchDB(genomesList)
-            genomesDict = parseFile(results_file, args.percentLength, args.percentIdentity)
-            resultsDict = filterVFs(genomesDict, args.minGenomes)
+            parseFile(results_file, args.percentLength, args.percentIdentity)
+            resultsDict = filterVFs(GENOMES, args.minGenomes)
 
             if args.csv == 1:
                 VFtoCSV(resultsDict)

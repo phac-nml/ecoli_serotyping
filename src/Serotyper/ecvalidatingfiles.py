@@ -16,6 +16,7 @@ from Bio import SeqIO
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
 FILENAMES = {}
+GENOMENAMES={}
 
 def parseCommandLine():
     """
@@ -100,17 +101,21 @@ def getGenomeName(recordID, filename):
     else:
         genome_name = filename
 
-    FILENAMES[recordID] = filename
+    FILENAMES[recordID] = [filename]
+    GENOMENAMES[filename] = recordID
     return genome_name
 
 def clearGlobalDicts():
     global GENOMES
     global FILENAMES
+    global GENOMENAMES
     newDict1 = GENOMES
     newDict2 = FILENAMES
+    newDict3 = GENOMENAMES
     GENOMES = {}
     FILENAMES = {}
-    return newDict1, newDict2
+    GENOMENAMES= {}
+    return newDict1, newDict2, newDict3
 
 def checkFiles(genomesList):
     """

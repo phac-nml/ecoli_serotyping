@@ -4,13 +4,17 @@ import json
 import sys
 import os
 
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../Serotyper/'))
-sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../'))
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
 from ecvalidatingfiles import *
 from createdirs import *
 
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+
+GENOMES = {}
+GENOMENAMES = {}
 
 def parseCommandLine():
     """
@@ -36,23 +40,32 @@ def parseCommandLine():
     return parser.parse_args()
 
 def getResults(genomesList, RGIpath):
-    resultDict = {}
+    global GENOMES
+    global GENOMENAMES
 
-    for genome_name in genomesList:
-        filename = os.path.basename(genome_name)
+    rel_dir = 'temp/Results/RGI/'
+
+    for genome_file in genomesList:
+        filename = os.path.basename(genome_file)
         filename = os.path.splitext(filename)
+        genome_name = GENOMENAMES[filename[0]]
+        genome_name = getGenomeName(genome_name, filename[0])
 
-        out = 'temp/Results/' + filename[0]
-        print out
-        temp_result = subprocess.call(['python', RGIpath + 'rgi.py', "-i", genome_name, "-o", out])
+        out = rel_dir + genome_name
+        temp_result = subprocess.call(['python', RGIpath + 'rgi.py', "-i", genome_file, "-o", out])
 
-        formatted_out ='temp/Results/' + filename[0] + 'FORMATTED'
+        formatted_out = rel_dir + genome_name + '_FORMATTED'
         temp_result = subprocess.call(['python',  RGIpath + 'formatJson.py', "-i", SCRIPT_DIRECTORY + '../../' + out + '.json', "-o", formatted_out])
 
-        with open(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', 'r') as genome_file:
-            resultDict[genome_name] = json.load(genome_file)
+        with open(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', 'r') as temp_file:
+            GENOMES[genome_name] = json.load(temp_file)
 
-    return resultDict
+        csv_out = rel_dir + genome_name
+        temp_result = subprocess.call(['python',  RGIpath + 'convertJsonToTSV.py', "-i", SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', "-o", csv_out])
+        os.rename(SCRIPT_DIRECTORY + '../../' + csv_out + '.txt', SCRIPT_DIRECTORY + '../../' + csv_out + '.tsv')
+
+        os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
+        os.remove(SCRIPT_DIRECTORY + '../../' + out + '.json')
 
 
 
@@ -72,8 +85,8 @@ if __name__ == '__main__':
 
     roughGenomesList = getFilesList(args.input)
     genomesList = checkFiles(roughGenomesList)
-    GENOMES, FILENAMES = clearGlobalDicts()
+    GENOMES, useless_dict, GENOMENAMES = clearGlobalDicts()
 
-    resultsDict = getResults(genomesList, RGIpath)
-    #print resultsDict
+    getResults(genomesList, RGIpath)
+    #print GENOMES
 
