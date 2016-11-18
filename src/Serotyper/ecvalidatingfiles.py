@@ -36,8 +36,8 @@ def parseCommandLine():
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-v", "--verbose", help="Information desired, true being full information, false being the serotype only.", default="false")
-    parser.add_argument("-csv", help="If set to true, the results will be sent to a .csv file in the temp/Results folder.", default='true')
+    parser.add_argument("-v", "--verbose", help="Information desired, 1 being full information, 0 being the serotype only. Options are 0 and 1, default = 0", default=0)
+    parser.add_argument("-csv", help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
 
     return parser.parse_args()
 

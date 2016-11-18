@@ -50,7 +50,7 @@ def toSimpleDict(data, verbose):
 
     for genome_name, type in data.iteritems():
         resultDict[genome_name] = {}
-        if verbose == 'false':
+        if verbose == 0:
             if isinstance(type, dict):
                 keys = sorted(type.keys())
                 resultDict[genome_name]['htype'] = data[genome_name][keys[0]]
@@ -151,7 +151,7 @@ def toResultDict(topMatches, verbose):
     """
 
     resultDict = {}
-    if verbose == 'true':
+    if verbose == 1:
         for genome_name, serotype in topMatches.iteritems():
             if serotype == 'NA':
                 resultDict[genome_name] = 'No matches were found for this genome, thus no prediction could be made.'

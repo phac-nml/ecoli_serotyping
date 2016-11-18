@@ -1,12 +1,15 @@
 
 import hashlib
-import os.path
+import os
 import pytest
 import json
-
-from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
+import sys
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../Serotyper/'))
+
+from ecvalidatingfiles import *
+
 REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes/"
 
 expectedList1 = sorted([

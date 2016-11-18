@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 
-from src.createdirs import createDirs
-from src.Serotyper.ecvalidatingfiles import *
-from src.Serotyper.formatresults import VFtoCSV
+import os
+import sys
+
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../Serotyper/'))
+sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../'))
+
+from createdirs import createDirs
+from ecvalidatingfiles import *
+from formatresults import VFtoCSV
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
@@ -27,7 +34,7 @@ def parseCommandLine():
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-csv", help="If set to true, the results will be sent to a .csv file in the temp/Results folder.", default='true')
+    parser.add_argument("-csv", help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
     parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=0)
 
     return parser.parse_args()
@@ -158,7 +165,7 @@ if __name__=='__main__':
             genomesDict = parseFile(results_file, args.percentLength, args.percentIdentity)
             resultsDict = filterVFs(genomesDict, args.minGenomes)
 
-            if args.csv == 'true':
+            if args.csv == 1:
                 VFtoCSV(resultsDict)
 
             print resultsDict

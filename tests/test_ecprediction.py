@@ -2,9 +2,14 @@ import hashlib
 import pytest
 import random
 import json
+import os
+import sys
 
-from ecoli_serotyping.src.Serotyper.ecprediction import *
-from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../Serotyper/'))
+
+from ecprediction import *
+from ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + '../temp/'

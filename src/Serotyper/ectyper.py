@@ -2,10 +2,13 @@
 
 from formatresults import *
 from compareresults import *
-from src.createdirs import createDirs
+
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(SCRIPT_DIRECTORY + '../'))
+
+from createdirs import createDirs
 
 TEST= False
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def runProgram():
 
@@ -36,7 +39,7 @@ def runProgram():
         if TEST == True:
           compareResults(roughGenomesList, topMatches)
 
-        if args.csv == 'true':
+        if args.csv == 1:
           toCSV(json_results, args.verbose)
 
         print json_results
