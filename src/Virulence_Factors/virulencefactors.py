@@ -34,7 +34,7 @@ def parseCommandLine():
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-csv", help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
+    parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
     parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=0)
 
     return parser.parse_args()
@@ -161,7 +161,7 @@ if __name__=='__main__':
             parseFile(results_file, args.percentLength, args.percentIdentity)
             resultsDict = filterVFs(GENOMES, args.minGenomes)
 
-            if args.csv == 1:
-                VFtoCSV(resultsDict)
+            if args.tsv == 1:
+                toTSV(resultsDict, 'VF_Results')
 
             print resultsDict

@@ -7,9 +7,9 @@ from ecprediction import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
-### --- THIS SECTION IS FOR THE VIRULENCE FACTORS --- ###
+### --- THIS SECTION IS FOR THE VIRULENCE FACTORS AND RGI--- ###
 
-def VFtoCSV(data):
+def toTSV(data, results_filename):
 
     headers = ['Genome\Gene']
 
@@ -21,9 +21,9 @@ def VFtoCSV(data):
         else:
             data[genome_name] = {}
 
-    with open(SCRIPT_DIRECTORY + '../../temp/Results/VF_Results.csv', 'wb') as csvfile:
-        csvwriter = csv.DictWriter(csvfile, headers)
-        csvwriter.writeheader()
+    with open(SCRIPT_DIRECTORY + '../../temp/Results/' + results_filename +  '.tsv', 'wb') as tsvfile:
+        tsvwriter = csv.DictWriter(tsvfile, headers)
+        tsvwriter.writeheader()
 
         for genome_name, gene_info in data.iteritems():
             row = {'Genome\Gene': genome_name}
@@ -32,7 +32,7 @@ def VFtoCSV(data):
                     row.update({gene_name : gene_info[gene_name]})
                 else:
                     row.update({gene_name : '0'})
-            csvwriter.writerow(row)
+            tsvwriter.writerow(row)
 
 
 ### --- THIS SECTION IS FOR THE E. COLI SEROTYPER --- ###

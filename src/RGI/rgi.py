@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
 from ecvalidatingfiles import *
+from formatresults import *
 from createdirs import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
@@ -35,7 +36,7 @@ def parseCommandLine():
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of idencdtity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-csv", help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
+    parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
 
     return parser.parse_args()
 
@@ -64,8 +65,20 @@ def getResults(genomesList, RGIpath):
         temp_result = subprocess.call(['python',  RGIpath + 'convertJsonToTSV.py', "-i", SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', "-o", csv_out])
         os.rename(SCRIPT_DIRECTORY + '../../' + csv_out + '.txt', SCRIPT_DIRECTORY + '../../' + csv_out + '.tsv')
 
-        os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
+        #os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
         os.remove(SCRIPT_DIRECTORY + '../../' + out + '.json')
+
+def filterResults(genomesDict):
+    global GENOMES
+    GENOMES = {}
+
+    for genome_name, genome_info in genomesDict.iteritems():
+        GENOMES[genome_name] = {}
+        for contig_name, contig_info in genome_info.iteritems():
+            for id, id_info in contig_info.iteritems():
+                if isinstance(id_info, dict) and 'ARO_name' in id_info.keys():
+                    gene_name = id_info['ARO_name']
+                    GENOMES[genome_name][gene_name] = 1
 
 
 
@@ -88,5 +101,9 @@ if __name__ == '__main__':
     GENOMES, useless_dict, GENOMENAMES = clearGlobalDicts()
 
     getResults(genomesList, RGIpath)
-    #print GENOMES
+    filterResults(GENOMES)
+
+    if args.tsv == 1:
+        toTSV(GENOMES, 'RGI_Results')
+    print GENOMES
 
