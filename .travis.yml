@@ -10,7 +10,7 @@ before_install:
   - sudo ln -s tmp/prodigal.linux /usr/bin/prodigal
   - sudo apt-get install alien
   - wget https://card.mcmaster.ca/download/1/software-v3.1.1.tar.gz -O /tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
-  - tar xvzf /tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
+  - tar -xvf /tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
   - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.29/ncbi-blast-2.2.29+-1.x86_64.rpm -O /tmp/blast.rpm
   - sudo alien -i /tmp/blast.rpm
 before_scripts:
