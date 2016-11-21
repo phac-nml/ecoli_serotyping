@@ -12,3 +12,4 @@ before_scripts:
 script:
   - py.test tests/test_ecvalidatingfiles.py -vv
   - py.test tests/test_ecprediction.py -vv
+  - py.test tests/test_virulencefactors.py -vv

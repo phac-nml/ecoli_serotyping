@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
 from createdirs import createDirs
 from ecvalidatingfiles import *
-from formatresults import VFtoCSV
+from formatresults import toTSV
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
@@ -109,11 +109,11 @@ def parseFile(result_file, perc_len, perc_id):
             tmp_perc_len = abs(1-(1-float(alignment.hsps[0].positives))/alignment.length)
             tmp_perc_id = float(alignment.hsps[0].positives)/alignment.hsps[0].align_length
 
-            if tmp_perc_len > perc_len and tmp_perc_id > perc_id:
+            if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
                 alignmentsDict[align_title] = 1
                 logging.info("")
             else:
-                if align_title not in alignmentsDict or alignmentsDict[align_title]!=1:
+                if align_title not in alignmentsDict.keys() or alignmentsDict[align_title]!=1:
                     alignmentsDict[align_title] = 0
 
             GENOMES[genome_name] = alignmentsDict
@@ -122,6 +122,10 @@ def filterVFs(genomesDict, threshold):
     resultDict = {}
 
     threshDict = {}
+    print threshold
+
+    if threshold == 0 or threshold == 1:
+        return genomesDict
 
     for genome_name, gene_info in genomesDict.iteritems():
         if isinstance(gene_info, dict):
@@ -135,9 +139,12 @@ def filterVFs(genomesDict, threshold):
         resultDict[genome_name] = {}
         if isinstance(gene_info, dict):
             tempDict = {}
+            print str(genome_name)  + '\n---------'
             for gene_name in threshDict.keys():
                 if gene_name in gene_info and threshDict[gene_name]>=threshold:
                     tempDict[gene_name] = gene_info[gene_name]
+                    print gene_name
+            print '_______________'
             resultDict[genome_name] = tempDict
 
     return resultDict
@@ -160,8 +167,7 @@ if __name__=='__main__':
             results_file = searchDB(genomesList)
             parseFile(results_file, args.percentLength, args.percentIdentity)
             resultsDict = filterVFs(GENOMES, args.minGenomes)
-
             if args.tsv == 1:
                 toTSV(resultsDict, 'VF_Results')
 
-            print resultsDict
+            #print resultsDict
