@@ -10,6 +10,4 @@ before_install:
 before_scripts:
   - export PYTHONPATH='.'
 script:
-  - py.test tests/test_ecvalidatingfiles.py -vv
-  - py.test tests/test_ecprediction.py -vv
-  - py.test tests/test_virulencefactors.py -vv
+  - py.test -vv
