@@ -5,9 +5,13 @@ import pytest
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/RGI/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/'))
 
+from createdirs import createDirs
 from rgitool import *
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+
+createDirs()
 
 with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_filter_results_start_dict.json', 'r') as temp_file:
     start_dict = json.load(temp_file)
@@ -17,6 +21,7 @@ with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_getresults_dict.json
 
 with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_filter_results_end_dict.json', 'r') as temp_file:
     result_dict2 = json.load(temp_file)
+
 
 
 RGIpath = ''
