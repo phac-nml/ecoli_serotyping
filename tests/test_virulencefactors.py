@@ -18,6 +18,7 @@ with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/virulencefactors_dict_mi
 with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/virulencefactors_dict_min6.json') as f:
     resultDict2 = json.load(f)
 
+
 def test_filterVFs():
 
     assert filterVFs(expectedDict, 0) == expectedDict
