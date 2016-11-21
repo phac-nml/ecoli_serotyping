@@ -6,6 +6,7 @@ before_install:
   - pip install biopython
   - pip install flask
   - sudo apt-get install tar
+  - sudo apt-get update
   - sudo apt-get install prodigal
   - sudo apt-get install alien
   - wget https://card.mcmaster.ca/download/1/software-v3.1.1.tar.gz -O /tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
