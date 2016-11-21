@@ -68,8 +68,6 @@ def getResults(genomesList, RGIpath):
         os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
         os.remove(SCRIPT_DIRECTORY + '../../' + out + '.json')
 
-    with open (SCRIPT_DIRECTORY + '../../Data/Test_dictionaries/rgi_dict.json', 'wb') as temp_file:
-        json.dump(GENOMES, temp_file)
 
 
 def filterResults(genomesDict):
@@ -87,6 +85,11 @@ def filterResults(genomesDict):
 def getGENOMES():
     return GENOMES
 
+def setGENOMES(genomes_dict, genome_filenames):
+    global GENOMES
+    global GENOMENAMES
+    GENOMES = genomes_dict
+    GENOMENAMES = genome_filenames
 
 
 if __name__ == '__main__':
