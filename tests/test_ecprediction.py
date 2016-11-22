@@ -21,11 +21,8 @@ with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/ecvalidatingfiles_FILENA
     filenames_dict = json.load(f)
 
 setFILENAMESDict(filenames_dict)
-
 checkFiles(sorted([SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02.1.fsa_nt']))
-
 initializeDB()
-
 runBlastQuery(sorted([SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02.1.fsa_nt']), 'ECTyperDB')
 
 def test_filterPredictions():
