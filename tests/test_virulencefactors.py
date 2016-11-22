@@ -21,13 +21,13 @@ with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/virulencefactors_dict_mi
 
 def test_filterVFs():
 
-    assert filterVFs(expectedDict, 0) == expectedDict
+    assert filterGenes(expectedDict, 1) == expectedDict
 
-    assert filterVFs(expectedDict, 2) == resultDict1
+    assert filterGenes(expectedDict, 2) == resultDict1
 
-    assert filterVFs(expectedDict, 6) == resultDict2
+    assert filterGenes(expectedDict, 6) == resultDict2
 
-    assert filterVFs(expectedDict, 8) == {'AAJT0200': {},
+    assert filterGenes(expectedDict, 8) == {'AAJT0200': {},
                                           'NC_002127': {},
                                           'NC_002128': {},
                                           'NC_002695': {},

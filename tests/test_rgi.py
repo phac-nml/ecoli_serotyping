@@ -37,7 +37,7 @@ def test_getResults():
     genomes, useless_dict, genomeNames = clearGlobalDicts()
     checkFiles(genomesList)
     genomes, useless_dict, genomeNames = clearGlobalDicts()
-    setGENOMES(genomes, genomeNames)
+    setGLOBALDICTS(genomes, genomeNames)
 
     getResults(genomesList, RGIpath)
 
@@ -46,6 +46,6 @@ def test_getResults():
 
 def test_filterResults():
 
-    filterResults(start_dict)
+    getGeneDict(start_dict)
 
     assert getGENOMES() == result_dict2

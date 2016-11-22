@@ -35,7 +35,7 @@ def parseCommandLine():
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=0)
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=1)
 
     return parser.parse_args()
 
@@ -118,13 +118,11 @@ def parseFile(result_file, perc_len, perc_id):
 
             GENOMES[genome_name] = alignmentsDict
 
-def filterVFs(genomesDict, threshold):
+def filterGenes(genomesDict, threshold):
     resultDict = {}
-
     threshDict = {}
-    print threshold
 
-    if threshold == 0 or threshold == 1:
+    if threshold == 1:
         return genomesDict
 
     for genome_name, gene_info in genomesDict.iteritems():
@@ -166,7 +164,7 @@ if __name__=='__main__':
         if initializeDB() == 0:
             results_file = searchDB(genomesList)
             parseFile(results_file, args.percentLength, args.percentIdentity)
-            resultsDict = filterVFs(GENOMES, args.minGenomes)
+            resultsDict = filterGenes(GENOMES, args.minGenomes)
             if args.tsv == 1:
                 toTSV(resultsDict, 'VF_Results')
 

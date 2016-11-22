@@ -6,16 +6,27 @@ import os
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Virulence_Factors/'))
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
 from ecvalidatingfiles import *
 from formatresults import *
 from createdirs import *
+from virulencefactors import filterGenes
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 GENOMES = {}
 GENOMENAMES = {}
+
+def getGENOMES():
+    return GENOMES
+
+def setGLOBALDICTS(genomes_dict, genome_filenames):
+    global GENOMES
+    global GENOMENAMES
+    GENOMES = genomes_dict
+    GENOMENAMES = genome_filenames
 
 def parseCommandLine():
     """
@@ -37,8 +48,10 @@ def parseCommandLine():
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of idencdtity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=1)
 
     return parser.parse_args()
+
 
 def getResults(genomesList, RGIpath):
     global GENOMES
@@ -70,7 +83,7 @@ def getResults(genomesList, RGIpath):
 
 
 
-def filterResults(genomesDict):
+def getGeneDict(genomesDict):
     global GENOMES
     GENOMES = {}
 
@@ -82,14 +95,6 @@ def filterResults(genomesDict):
                     gene_name = id_info['ARO_name']
                     GENOMES[genome_name][gene_name] = 1
 
-def getGENOMES():
-    return GENOMES
-
-def setGENOMES(genomes_dict, genome_filenames):
-    global GENOMES
-    global GENOMENAMES
-    GENOMES = genomes_dict
-    GENOMENAMES = genome_filenames
 
 
 if __name__ == '__main__':
@@ -104,16 +109,25 @@ if __name__ == '__main__':
             break
 
     args = parseCommandLine()
-    createDirs()
 
-    roughGenomesList = getFilesList(args.input)
-    genomesList = checkFiles(roughGenomesList)
-    GENOMES, useless_dict, GENOMENAMES = clearGlobalDicts()
+    if args.input == None:
+        print 'Error'
 
-    getResults(genomesList, RGIpath)
-    filterResults(GENOMES)
+    else:
+        createDirs()
 
-    if args.tsv == 1:
-        toTSV(GENOMES, 'RGI_Results')
-    print GENOMES
+        roughGenomesList = getFilesList(args.input)
+        genomesList = checkFiles(roughGenomesList)
 
+        if isinstance(genomesList, list):
+            GENOMES, useless_dict, GENOMENAMES = clearGlobalDicts()
+
+            getResults(genomesList, RGIpath)
+            getGeneDict(GENOMES)
+            resultDict = filterGenes(GENOMES, args.minGenomes)
+
+            if args.tsv == 1:
+                toTSV(resultDict, 'RGI_Results')
+            print resultDict
+        else:
+            print genomesList
