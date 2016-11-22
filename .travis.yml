@@ -16,6 +16,7 @@ before_install:
 
 script:
   - tar -xvf release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
+  - tar -xvf release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
   - export PYTHONPATH='.'
   - export PYTHONPATH="${PYTHONPATH}:release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
   - py.test tests/test_ecvalidatingfiles.py -vv
