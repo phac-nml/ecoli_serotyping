@@ -7,9 +7,8 @@ TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
-from createdirs import createDirs
+from sharedmethods import *
 from ecvalidatingfiles import *
-from formatresults import toTSV
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
@@ -118,36 +117,6 @@ def parseFile(result_file, perc_len, perc_id):
 
             GENOMES[genome_name] = alignmentsDict
 
-def filterGenes(genomesDict, threshold):
-    resultDict = {}
-    threshDict = {}
-
-    if threshold == 1:
-        return genomesDict
-
-    for genome_name, gene_info in genomesDict.iteritems():
-        if isinstance(gene_info, dict):
-           for gene_name in gene_info.keys():
-               if gene_name in threshDict and gene_info[gene_name] == 1:
-                   threshDict[gene_name] += 1
-               elif gene_info[gene_name] == 1:
-                   threshDict[gene_name] = 1
-
-    for genome_name, gene_info in genomesDict.iteritems():
-        resultDict[genome_name] = {}
-        if isinstance(gene_info, dict):
-            tempDict = {}
-            print str(genome_name)  + '\n---------'
-            for gene_name in threshDict.keys():
-                if gene_name in gene_info and threshDict[gene_name]>=threshold:
-                    tempDict[gene_name] = gene_info[gene_name]
-                    print gene_name
-            print '_______________'
-            resultDict[genome_name] = tempDict
-
-    return resultDict
-
-
 
 if __name__=='__main__':
 
@@ -158,7 +127,10 @@ if __name__=='__main__':
 
     roughGenomesList = getFilesList(args.input)
     genomesList = checkFiles(roughGenomesList)
-    GENOMES, FILENAMES, useless_dict = clearGlobalDicts()
+
+    GENOMES = getGENOMES()
+    FILENAMES = getFILENAMES()
+    clearGlobalDicts()
 
     if isinstance(genomesList, list):
         if initializeDB() == 0:
@@ -167,5 +139,4 @@ if __name__=='__main__':
             resultsDict = filterGenes(GENOMES, args.minGenomes)
             if args.tsv == 1:
                 toTSV(resultsDict, 'VF_Results')
-
-            #print resultsDict
+            print resultsDict

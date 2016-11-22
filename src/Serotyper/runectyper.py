@@ -9,7 +9,7 @@ import Tkinter
 import tkMessageBox
 import subprocess
 import ast
-import formatresults
+import ectyper_formatting
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 OUTPUT = ''
@@ -137,7 +137,7 @@ def getResults():
 
     elif RESULTS:
         logging.info('To HTML table')
-        return formatresults.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
+        return ectyper_formatting.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
     else:
         logging.info('To JSON format')
         return jsonify(ast.literal_eval(OUTPUT))

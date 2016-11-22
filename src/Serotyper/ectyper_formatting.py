@@ -7,35 +7,6 @@ from ecprediction import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
-### --- THIS SECTION IS FOR THE VIRULENCE FACTORS AND RGI--- ###
-
-def toTSV(data, results_filename):
-
-    headers = ['Genome\Gene']
-
-    for genome_name, gene_info in data.iteritems():
-        if isinstance(gene_info, dict):
-            for gene_name in gene_info.keys():
-                if gene_name not in headers:
-                    headers.append(gene_name)
-        else:
-            data[genome_name] = {}
-
-    with open(SCRIPT_DIRECTORY + '../../temp/Results/' + results_filename +  '.tsv', 'wb') as tsvfile:
-        tsvwriter = csv.DictWriter(tsvfile, headers)
-        tsvwriter.writeheader()
-
-        for genome_name, gene_info in data.iteritems():
-            row = {'Genome\Gene': genome_name}
-            for gene_name in headers[1:]:
-                if gene_name in gene_info:
-                    row.update({gene_name : gene_info[gene_name]})
-                else:
-                    row.update({gene_name : '0'})
-            tsvwriter.writerow(row)
-
-
-### --- THIS SECTION IS FOR THE E. COLI SEROTYPER --- ###
 
 def toSimpleDict(data, verbose):
     """

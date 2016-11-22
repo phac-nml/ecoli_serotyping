@@ -7,8 +7,10 @@ import sys
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Serotyper/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/'))
 
 from ecvalidatingfiles import *
+from sharedmethods import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes/"
@@ -115,6 +117,12 @@ def test_runBlastQuery():
    initializeDB()
    assert runBlastQuery(expectedList1, 'ECTyperDB') == os.path.abspath(SCRIPT_DIRECTORY + '../temp/xml/combined_genomes.xml')
    assert runBlastQuery([REL_DIR + '/AAJT02.1.fsa_nt'], 'ECTyperDB') == os.path.abspath(SCRIPT_DIRECTORY + '../temp/xml/AAJT02.1.xml')
+
+
+with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/ecvalidatingfiles_FILENAMES_dict.json') as f:
+    filenames_dict = json.load(f)
+
+setFILENAMESDict(filenames_dict)
 
 
 def test_parseResults():

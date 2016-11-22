@@ -4,19 +4,19 @@ import argparse
 import os
 import subprocess
 import logging
-import re
 import sys
 import shutil
 
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
+
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
-from Bio import SeqIO
-
+from sharedmethods import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
 FILENAMES = {}
-GENOMENAMES={}
 
 def parseCommandLine():
     """
@@ -43,126 +43,17 @@ def parseCommandLine():
     return parser.parse_args()
 
 
-def getFilesList(data):
-    """
-    Creating a list out of the files entered (where each file name is its absolute path). This creates a uniform
-    format that works for both single files and directories.
-
-    :param data: Data (file or directory) taken from the input command.
-    :return filesList: List of all the files found in the data.
-    """
-
-    filesList = []
-
-    if os.path.isdir(data):
-        logging.info("Using files from " + data)
-
-        for root, dirs, files in os.walk(data):
-            for filename in files:
-                filesList.append(os.path.join(root,filename))
-
-    else:
-        logging.info("Using file " + data)
-        filesList.append(os.path.abspath(data))
-
-    return sorted(filesList)
-
-
-def getGenomeName(recordID, filename):
-    """
-    Getting the name of the genome by hierarchy to store or search in the GENOMES dictionary in the later called methods.
-
-    :param recordID: ID of a record of a sequence.
-    :param filename: Name of the file containing the record.
-    :return genomeName: Name of the genome contained in the file (or sequence).
-    """
-    global FILENAMES
-    recordID = str(recordID)
-
-    if re.search('lcl\|([\w-]*)', recordID):
-        match = re.search('lcl\|([\w-]*)', recordID)
-        match = str(match.group())
-        genome_name = match.split('|')[1]
-
-    elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)',recordID):
-        match = re.search('(\w{8}\.\d)',recordID)
-        genome_name = str(match.group())
-
-    elif re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID):
-        match = re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID)
-        match = str(match.group())
-        genome_name = match.split('|')[1]
-
-    elif re.search('gi\|\d{8}', recordID):
-        match = re.search('gi\|\d{8}', recordID)
-        match = str(match.group())
-        genome_name = match.split('|')[1]
-
-    else:
-        genome_name = filename
-
-    if recordID not in FILENAMES:
-        FILENAMES[recordID] = filename
-    if filename not in GENOMENAMES:
-        GENOMENAMES[filename] = recordID
-
-    return genome_name
-
-def clearGlobalDicts():
+def setGlobalDicts():
     global GENOMES
-    global FILENAMES
     global GENOMENAMES
-    newDict1 = GENOMES
-    newDict2 = FILENAMES
-    newDict3 = GENOMENAMES
-    GENOMES = {}
-    FILENAMES = {}
-    GENOMENAMES= {}
-    return newDict1, newDict2, newDict3
+    global FILENAMES
+    GENOMES = getGENOMES()
+    FILENAMES = getFILENAMES()
 
-def checkFiles(genomesList):
-    """
-    Creating a list containing only valid .fasta files out of the previously formed list (from the getListGenomes method).
-    If the newly created list is empty, the program exits with a warning.
-    This filters out the invalid files.
-
-    :param genomesList: Unfiletered files list.
-    :return newGenomesList: List containing only valid fasta files.
-    """
-    global GENOMES
-    newGenomesList = []
-
-    for file in genomesList:
-        flag = 0
-        for record in SeqIO.parse(file, "fasta"):
-            match = re.search('(^[a-zA-Z]+)', str(record.seq))
-            if not match:
-                flag = 0
-                break
-            else:
-                flag = 1
-
-        if flag>0:
-            newGenomesList.append(file)
-
-            filename = os.path.basename(file)
-            filename = os.path.splitext(filename)
-
-            for record in SeqIO.parse(file,"fasta"):
-                genome_name = getGenomeName(record.description, filename[0])
-                if not genome_name in GENOMES:
-                    GENOMES[genome_name] = ''
-
-        else:
-            logging.warning("File " + file + " is in invalid format")
-
-    if not newGenomesList:
-        logging.error("No valid fasta files \n Exiting")
-        return 'Error'
-
-    else:
-        return sorted(newGenomesList)
-
+def setFILENAMESDict(filenames_dict):
+    global FILENAMES
+    FILENAMES = filenames_dict
+    print FILENAMES
 
 def initializeDB():
     """
@@ -236,11 +127,10 @@ def parseResults(result_file):
 
         alignmentsDict = {}
         if genome_name in GENOMES:
-         alignmentsDict = dict(GENOMES[genome_name])
+            alignmentsDict = dict(GENOMES[genome_name])
 
         for alignment in blast_record.alignments:
             alignmentsDict[alignment.title] = {alignment.length : alignment.hsps[0]}
             GENOMES[genome_name] = alignmentsDict
-
 
     return GENOMES
