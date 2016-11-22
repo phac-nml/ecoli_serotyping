@@ -16,6 +16,7 @@ before_install:
 before_scripts:
   - export PYTHONPATH='.'
   - export PYTHONPATH="${PYTHONPATH}:/tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
+  - python -c "import sys; print '\n'.join(sys.path)"
 
 script:
   - py.test tests/test_ecvalidatingfiles.py -vv
