@@ -5,8 +5,11 @@ import pytest
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Virulence_Factors/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/'))
 
 from virulencefactors import *
+from sharedmethods import *
+
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/virulencefactors_dict_expected.json') as f:

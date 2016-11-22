@@ -1,14 +1,14 @@
 import os
 import sys
 import json
-import pytest
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/RGI/'))
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/'))
 
-from createdirs import createDirs
+from sharedmethods import createDirs
 from rgitool import *
+
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 createDirs()
@@ -34,18 +34,22 @@ genomesList = [SCRIPT_DIRECTORY + '../Data/Testing_Data/Reference_Genomes/AAJT02
 
 
 def test_getResults():
-    genomes, useless_dict, genomeNames = clearGlobalDicts()
+    clearGlobalDicts()
     checkFiles(genomesList)
-    genomes, useless_dict, genomeNames = clearGlobalDicts()
-    setGLOBALDICTS(genomes, genomeNames)
+
+    genomes = getGENOMES()
+    genomeNames = getGENOMENAMES()
+    clearGlobalDicts()
+
+    setGlobalDicts(genomes, genomeNames)
 
     getResults(genomesList, RGIpath)
 
-    assert getGENOMES() == result_dict1
+    assert getGENOMESDict() == result_dict1
 
 
 def test_filterResults():
 
     getGeneDict(start_dict)
 
-    assert getGENOMES() == result_dict2
+    assert getGENOMESDict() == result_dict2

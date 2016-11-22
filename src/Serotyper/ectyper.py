@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
-from formatresults import *
+from ectyper_formatting import *
 from compareresults import *
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
-from createdirs import createDirs
+from sharedmethods import *
+
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 TEST= False
 
@@ -26,6 +28,8 @@ def runProgram():
     genomesList = checkFiles(roughGenomesList)
 
     if isinstance(genomesList, list):
+      setGlobalDicts()
+      clearGlobalDicts()
       if initializeDB() == 0:
         results_file = runBlastQuery(genomesList, 'ECTyperDB')
         genomesDict = parseResults(results_file)

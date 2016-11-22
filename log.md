@@ -158,3 +158,8 @@
 - fixed the tests to accomodate the changes from parseResults and runBlastQuery
 - changed the directories to add the VFs program
 - added the VFs program (very similar to the ectyper, only shorter and faster)
+
+[2016/11/22 - Camille La Rose]
+- added the RGI tool
+- added tests for VFs and RGI
+- merged all shared methods into one single file (sharedmethods.py)

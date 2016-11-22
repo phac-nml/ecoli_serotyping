@@ -6,27 +6,24 @@ import os
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
-sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Virulence_Factors/'))
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 
 from ecvalidatingfiles import *
-from formatresults import *
-from createdirs import *
-from virulencefactors import filterGenes
+from sharedmethods import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 GENOMES = {}
 GENOMENAMES = {}
 
-def getGENOMES():
+def getGENOMESDict():
     return GENOMES
 
-def setGLOBALDICTS(genomes_dict, genome_filenames):
-    global GENOMES
+def setGlobalDicts(genomes_dict, genomenames_dict):
     global GENOMENAMES
+    global GENOMES
+    GENOMENAMES = genomenames_dict
     GENOMES = genomes_dict
-    GENOMENAMES = genome_filenames
 
 def parseCommandLine():
     """
@@ -120,7 +117,10 @@ if __name__ == '__main__':
         genomesList = checkFiles(roughGenomesList)
 
         if isinstance(genomesList, list):
-            GENOMES, useless_dict, GENOMENAMES = clearGlobalDicts()
+            GENOMES = getGENOMES()
+            GENOMENAMES = getGENOMENAMES()
+
+            clearGlobalDicts()
 
             getResults(genomesList, RGIpath)
             getGeneDict(GENOMES)
