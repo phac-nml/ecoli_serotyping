@@ -1,10 +1,14 @@
 
 import hashlib
-import os.path
+import os
 import pytest
 import json
+import sys
 
-from ecoli_serotyping.src.Serotyper.ecvalidatingfiles import *
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Serotyper/'))
+
+from ecvalidatingfiles import *
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 REL_DIR = SCRIPT_DIRECTORY + "../Data/Testing_Data/Reference_Genomes/"

@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 
-from src.createdirs import createDirs
-from src.Serotyper.ecvalidatingfiles import *
-from src.Serotyper.formatresults import VFtoCSV
+import os
+import sys
+
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
+
+from createdirs import createDirs
+from ecvalidatingfiles import *
+from formatresults import toTSV
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
@@ -27,8 +34,8 @@ def parseCommandLine():
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-csv", help="If set to true, the results will be sent to a .csv file in the temp/Results folder.", default='true')
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=0)
+    parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=1)
 
     return parser.parse_args()
 
@@ -102,23 +109,21 @@ def parseFile(result_file, perc_len, perc_id):
             tmp_perc_len = abs(1-(1-float(alignment.hsps[0].positives))/alignment.length)
             tmp_perc_id = float(alignment.hsps[0].positives)/alignment.hsps[0].align_length
 
-            if tmp_perc_len > perc_len and tmp_perc_id > perc_id:
+            if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
                 alignmentsDict[align_title] = 1
                 logging.info("")
             else:
-                if align_title not in alignmentsDict or alignmentsDict[align_title]!=1:
+                if align_title not in alignmentsDict.keys() or alignmentsDict[align_title]!=1:
                     alignmentsDict[align_title] = 0
 
             GENOMES[genome_name] = alignmentsDict
 
-
-    return GENOMES
-
-
-def filterVFs(genomesDict, threshold):
+def filterGenes(genomesDict, threshold):
     resultDict = {}
-
     threshDict = {}
+
+    if threshold == 1:
+        return genomesDict
 
     for genome_name, gene_info in genomesDict.iteritems():
         if isinstance(gene_info, dict):
@@ -132,9 +137,12 @@ def filterVFs(genomesDict, threshold):
         resultDict[genome_name] = {}
         if isinstance(gene_info, dict):
             tempDict = {}
+            print str(genome_name)  + '\n---------'
             for gene_name in threshDict.keys():
                 if gene_name in gene_info and threshDict[gene_name]>=threshold:
                     tempDict[gene_name] = gene_info[gene_name]
+                    print gene_name
+            print '_______________'
             resultDict[genome_name] = tempDict
 
     return resultDict
@@ -150,15 +158,14 @@ if __name__=='__main__':
 
     roughGenomesList = getFilesList(args.input)
     genomesList = checkFiles(roughGenomesList)
-    GENOMES, FILENAMES = clearGlobalDicts()
+    GENOMES, FILENAMES, useless_dict = clearGlobalDicts()
 
     if isinstance(genomesList, list):
         if initializeDB() == 0:
             results_file = searchDB(genomesList)
-            genomesDict = parseFile(results_file, args.percentLength, args.percentIdentity)
-            resultsDict = filterVFs(genomesDict, args.minGenomes)
+            parseFile(results_file, args.percentLength, args.percentIdentity)
+            resultsDict = filterGenes(GENOMES, args.minGenomes)
+            if args.tsv == 1:
+                toTSV(resultsDict, 'VF_Results')
 
-            if args.csv == 'true':
-                VFtoCSV(resultsDict)
-
-            print resultsDict
+            #print resultsDict
