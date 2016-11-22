@@ -10,15 +10,15 @@ before_install:
   - sudo ln -s tmp/prodigal.linux /usr/bin/prodigal
   - sudo apt-get install alien
   - wget https://card.mcmaster.ca/download/1/software-v3.1.1.tar.gz -O /tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
-  - cd /tmp/
-  - tar -xvf /tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
-  - cd
   - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.29/ncbi-blast-2.2.29+-1.x86_64.rpm -O /tmp/blast.rpm
   - sudo alien -i /tmp/blast.rpm
-  - export PYTHONPATH='.'
-  - export PYTHONPATH="${PYTHONPATH}:/tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
 
 script:
+  - cd /tmp/
+  - tar -xvf release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
+  - cd
+  - export PYTHONPATH='.'
+  - export PYTHONPATH="${PYTHONPATH}:/tmp/release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
   - ls
   - py.test tests/test_ecvalidatingfiles.py -vv
   - py.test tests/test_ecprediction.py -vv
