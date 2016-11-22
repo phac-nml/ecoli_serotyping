@@ -62,9 +62,10 @@ def getResults(genomesList, RGIpath):
             GENOMES[genome_name] = json.load(temp_file)
 
         csv_out = rel_dir + genome_name
+        print str(SCRIPT_DIRECTORY) + '../../' + formatted_out + '.json'
         temp_result = subprocess.call(['python',  RGIpath + 'convertJsonToTSV.py', "-i", SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', "-o", csv_out])
-        os.rename(SCRIPT_DIRECTORY + '../../' + csv_out + '.txt', SCRIPT_DIRECTORY + '../../' + csv_out + '.tsv')
 
+        os.rename(SCRIPT_DIRECTORY + '../../' + csv_out + '.txt', SCRIPT_DIRECTORY + '../../' + csv_out + '.tsv')
         os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
         os.remove(SCRIPT_DIRECTORY + '../../' + out + '.json')
 
