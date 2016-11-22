@@ -26,7 +26,7 @@ with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_filter_results_end_d
 
 RGIpath = ''
 for relpath in sys.path:
-    if 'release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39' in str(relpath):
+    if 'RGI' in str(relpath):
         RGIpath = relpath + '/'
         break
 
