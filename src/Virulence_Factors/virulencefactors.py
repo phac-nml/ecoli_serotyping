@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import os
-import sys
+import os, sys, logging, argparse, subprocess, shutil
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
@@ -21,8 +20,8 @@ def parseCommandLine():
     - out: refers to the output of the program. Default is STDOUT
     - pi: refers to the percentage of identity wanted. Default is 90%
     - pl: refers to the percentage of length wanted. Default is 90%.
-    - v: refers to the verbosity.
-    - csv: if the user wants a csv copy of the results.
+    - tsv: if the user wants a csv copy of the results
+    - min: the minimum number of genomes containing a certain gene
 
     :return parser.parse_args(): Data from the commands.
     """
@@ -34,7 +33,7 @@ def parseCommandLine():
     parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=1)
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor.", default=1)
 
     return parser.parse_args()
 
@@ -49,12 +48,20 @@ def initializeDB():
     REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/VF_Database/'
 
     if os.path.isfile(REL_DIR + 'VirulenceFactorsDB.nin'):
+        logging.info('Database already exists.')
         return 0
     else:
+        logging.info('Generating the database.')
         return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/repaired_ecoli_vfs.ffn ", "-dbtype", "nucl", "-title", "VirulenceFactorsDB", "-out", REL_DIR + "VirulenceFactorsDB"])
 
 
 def searchDB(genomesList):
+    """
+    Querying the database with a single file combining all the genomes.
+
+    :param genomesList: files that will be used against the database
+    :return new_filename: .xml file containing the results from querying the database.
+    """
 
     REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'
 
@@ -82,6 +89,15 @@ def searchDB(genomesList):
 
 
 def parseFile(result_file, perc_len, perc_id):
+    """
+    Going through each record in the result file and filter them by the percentages provided.
+
+    :param result_file: file containing all the results from querying the database.
+    :param perc_len: percentage length cutoff
+    :param perc_id: percentage identity cutoff
+    """
+
+
     global GENOMES
     global FILENAMES
     logging.info("Parsing results from " + str(result_file))
@@ -125,6 +141,8 @@ if __name__=='__main__':
     args = parseCommandLine()
     createDirs()
 
+    logging.info('Starting Virulence Factors tool')
+
     roughGenomesList = getFilesList(args.input)
     genomesList = checkFiles(roughGenomesList)
 
@@ -133,10 +151,18 @@ if __name__=='__main__':
     clearGlobalDicts()
 
     if isinstance(genomesList, list):
+
         if initializeDB() == 0:
+
             results_file = searchDB(genomesList)
             parseFile(results_file, args.percentLength, args.percentIdentity)
             resultsDict = filterGenes(GENOMES, args.minGenomes)
+
             if args.tsv == 1:
                 toTSV(resultsDict, 'VF_Results')
+
             print resultsDict
+            logging.info('Program ended successfully.')
+
+    else:
+        print genomesList

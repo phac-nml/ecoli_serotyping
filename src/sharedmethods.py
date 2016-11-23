@@ -181,12 +181,21 @@ def checkFiles(genomesList):
 
 
 def filterGenes(genomesDict, threshold):
+    """
+    Filtering through the final result dictionary to only keep the genes that meet the threshold requirement.
+
+    :param genomesDict: dictionary containing the final results for each genome
+    :param threshold: minimum of presence necessary for a gene to keep it in the dictionary
+    :return resultDict: the filtered dictionary
+    """
+
     resultDict = {}
     threshDict = {}
 
     if threshold == 1:
         return genomesDict
 
+    logging.info('Filtering the result dictionaries with following threshold: ' + str(threshold) + '.')
     for genome_name, gene_info in genomesDict.iteritems():
         if isinstance(gene_info, dict):
             for gene_name in gene_info.keys():
@@ -208,8 +217,15 @@ def filterGenes(genomesDict, threshold):
 
 
 def toTSV(data, results_filename):
+    """
+    Writing a TSV file containing the result dictionary.
 
-    headers = ['Genome\Gene']
+    :param data: result dictionary
+    :param results_filename: name of the result file (Virulence_Factors or RGI)
+    """
+    logging.info('Writing TSV file ' + results_filename + '.tsv. You can find it in the temp/Results/ folder.')
+
+    headers = ['Genome']
 
     for genome_name, gene_info in data.iteritems():
         if isinstance(gene_info, dict):
@@ -224,7 +240,7 @@ def toTSV(data, results_filename):
         tsvwriter.writeheader()
 
         for genome_name, gene_info in data.iteritems():
-            row = {'Genome\Gene': genome_name}
+            row = {'Genome': genome_name}
             for gene_name in headers[1:]:
                 if gene_name in gene_info:
                     row.update({gene_name : gene_info[gene_name]})

@@ -28,13 +28,13 @@
             <input type="number" name="perc-len" value="90" id="len" class="perc-input" min="0" max="100">
         </p>
         <p class="verbosity">
-            <input type="radio" name="verbosity" value="false" checked> Serotype only
-            <input type="radio" name="verbosity" value="true"> Full information
+            <input type="radio" name="verbosity" value="0" checked> Serotype only
+            <input type="radio" name="verbosity" value="1"> Full information
         </p>
 
         <p>
             <label for="table-checkbox" class="table-checkbox-label">I want the results in a table (default is JSON format)</label>
-            <input type="checkbox" name="table-checkbox" value="True">
+            <input type="checkbox" name="table-checkbox" id="table-checkbox" value="True">
         </p>
 
         <input type="submit" value="UPLOAD" class="button">

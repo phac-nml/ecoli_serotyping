@@ -16,7 +16,7 @@ def toSimpleDict(data, verbose):
     :param verbose: Boolean defining the type of information desired by the user.
     :return resultDict: Non-nested dictionary.
     """
-
+    logging.info('Simplifying the result dictionary.')
     resultDict= {}
 
     for genome_name, type in data.iteritems():
@@ -120,6 +120,7 @@ def toResultDict(topMatches, verbose):
     :param verbose: Boolean stating whether the user wants full information or not.
     :return resultDict: Top matches dictionary containing the filtered results.
     """
+    logging.info('Creating the final results dictionary.')
 
     resultDict = {}
     if verbose == 1:
@@ -182,10 +183,12 @@ def toCSV(data, verbose):
     :param data: Top matches dictionary with the final results.
     :param verbose: Boolean stating whether the user wants full information or not.
     """
+
+    logging.info('Writing CSV file Serotyper_Results.csv. You can find it in the temp/Results/ folder.')
     resultDict = toSimpleDict(data, verbose)
     header = ['Genome', 'O Type', 'H Type']
 
-    with open(SCRIPT_DIRECTORY + '../../temp/Results/Serotype_Results.csv', 'wb') as csvfile:
+    with open(SCRIPT_DIRECTORY + '../../temp/Results/Serotyper_Results.csv', 'wb') as csvfile:
         csvwriter = csv.DictWriter(csvfile, header)
         csvwriter.writeheader()
 
