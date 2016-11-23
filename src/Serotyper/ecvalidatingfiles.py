@@ -18,6 +18,20 @@ SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 GENOMES = {}
 FILENAMES = {}
 
+
+
+def setGlobalDicts():
+    global GENOMES
+    global GENOMENAMES
+    global FILENAMES
+    GENOMES = getGENOMES()
+    FILENAMES = getFILENAMES()
+
+def setFILENAMESDict(filenames_dict):
+    global FILENAMES
+    FILENAMES = filenames_dict
+
+
 def parseCommandLine():
     """
     Initalizing the two main commands of the command line for the project.
@@ -43,18 +57,6 @@ def parseCommandLine():
     return parser.parse_args()
 
 
-def setGlobalDicts():
-    global GENOMES
-    global GENOMENAMES
-    global FILENAMES
-    GENOMES = getGENOMES()
-    FILENAMES = getFILENAMES()
-
-def setFILENAMESDict(filenames_dict):
-    global FILENAMES
-    FILENAMES = filenames_dict
-    print FILENAMES
-
 def initializeDB():
     """
     Generating the database if it was not already generated. The database can be found in the tmp folder.
@@ -65,8 +67,10 @@ def initializeDB():
     REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/Serotyping_Database/'
 
     if os.path.isfile(REL_DIR + 'ECTyperDB.nin'):
+        logging.info('Database exists.')
         return 0
     else:
+        logging.info('Generating the database.')
         return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
 
 
@@ -76,7 +80,7 @@ def runBlastQuery(genomesList, db_name):
 
     :param genomesList: List containing all the files to be compared to the database.
     :param db_name: Name of the database to search.
-    :return resultList: List of all the new .xml files containing the results of the search.
+    :return new_filename: .xml file containing the results of the search.
     """
 
     REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'

@@ -12,7 +12,7 @@ def getProductPercentage(length, hsp):
         :param hsp: HSP
         :return product: Returns 0 if the product is greater than 1.
         """
-
+        logging.info('Getting product percentage of \n' + str(hsp))
         if 0>= length:
             return 0
 
@@ -22,8 +22,8 @@ def getProductPercentage(length, hsp):
         product = hsp_identity*hsp_length
 
         if product>1:
-            return 0
             logging.warning("Product was higher than 1. Now set to 0.")
+            return 0
         else:
             return product
 

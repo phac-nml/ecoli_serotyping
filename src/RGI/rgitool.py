@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import json
-import sys
-import os
+import json, sys, os, argparse, logging
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
@@ -25,15 +23,14 @@ def setGlobalDicts(genomes_dict, genomenames_dict):
     GENOMENAMES = genomenames_dict
     GENOMES = genomes_dict
 
+
 def parseCommandLine():
     """
     Initalizing the two main commands of the command line for the project.
     - input: refers to the location of the file(s) that will be processed
     - out: refers to the output of the program. Default is STDOUT
-    - pi: refers to the percentage of identity wanted. Default is 90%
-    - pl: refers to the percentage of length wanted. Default is 90%.
-    - v: refers to the verbosity.
-    - csv: if the user wants a csv copy of the results.
+    - tsv: if the user wants a csv copy of the results
+    - min: the minimum number of genomes containing a certain gene
 
     :return parser.parse_args(): Data from the commands.
     """
@@ -42,15 +39,22 @@ def parseCommandLine():
 
     parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory")
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
-    parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of idencdtity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
     parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor", default=1)
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a gene.", default=1)
 
     return parser.parse_args()
 
 
 def getResults(genomesList, RGIpath):
+    """
+    Going through each file/genome entered and running the McMaster RGI tool to get the results and transfer them in a TSV file.
+
+    :param genomesList: list of files containing genomes
+    :param RGIpath: path to the McMaster RGI tool
+    """
+
+    logging.info('Entering the McMaster RGI tool.')
+
     global GENOMES
     global GENOMENAMES
 
@@ -61,6 +65,8 @@ def getResults(genomesList, RGIpath):
         filename = os.path.splitext(filename)
         genome_name = GENOMENAMES[filename[0]]
         genome_name = getGenomeName(genome_name, filename[0])
+
+        logging.info('Getting results for ' + str(filename[0]))
 
         out = rel_dir + genome_name
         temp_result = subprocess.call(['python', RGIpath + 'rgi.py', "-i", genome_file, "-o", out])
@@ -78,9 +84,17 @@ def getResults(genomesList, RGIpath):
         os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
         os.remove(SCRIPT_DIRECTORY + '../../' + out + '.json')
 
+    logging.info('Exiting the McMaster RGI tool.')
+
 
 
 def getGeneDict(genomesDict):
+    """
+    Collecting only gene names and their presence by going through the results dictionary.
+
+    :param genomesDict: results dictionary
+    """
+    logging.info('Creating the filtered result dictionary.')
     global GENOMES
     GENOMES = {}
 
@@ -105,9 +119,11 @@ if __name__ == '__main__':
             RGIpath = relpath + '/'
             break
 
+
     args = parseCommandLine()
 
     if args.input == None:
+        logging.info('No inputs were given.')
         print 'Error'
 
     else:

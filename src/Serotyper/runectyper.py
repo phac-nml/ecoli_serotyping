@@ -14,7 +14,7 @@ import ectyper_formatting
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 OUTPUT = ''
 RESULTS = False
-VERBOSITY = 'false'
+VERBOSITY = 0
 PERC_ID = 90
 PERC_LEN = 90
 I = 0
@@ -47,7 +47,8 @@ def uploadFiles():
        resultFiles = request.files.getlist('file')
        VERBOSITY = request.form['verbosity']
 
-       logging.info('In uploadFiles, method == POST')
+       logging.info('In uploadFiles, method == POST \nPercentage Identity: ' + str(PERC_ID) + '\nPercentage Length: ' + str(PERC_LEN) +
+                    '\nFile(s): ' + str(resultFiles) + '\nVerbosity: ' + str(VERBOSITY) )
 
        if 'table-checkbox' in request.form:
             RESULTS = True
@@ -93,7 +94,7 @@ def curl_uploadFiles():
     :return: Results in JSON format.
     """
     if request.method == 'POST':
-        global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN, IS_CURL
+        global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN
 
         resultFiles = request.files.getlist('files[]')
         if len(resultFiles) == 1:
@@ -109,6 +110,7 @@ def curl_uploadFiles():
                 shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
 
             os.makedirs(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
+
             for file in resultFiles:
                 files.save(file,'temp_dir'+ str(I))
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input",

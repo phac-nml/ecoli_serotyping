@@ -15,12 +15,14 @@ TEST= False
 def runProgram():
 
   logging.basicConfig(filename=SCRIPT_DIRECTORY + 'ectyper.log',level=logging.INFO)
+  logging.info('Starting E. Coli Serotyper')
 
   createDirs()
 
   args = parseCommandLine()
 
   if args.input == None:
+    logging.info('No inputs were given.')
     print 'Error'
 
   else:
@@ -30,6 +32,7 @@ def runProgram():
     if isinstance(genomesList, list):
       setGlobalDicts()
       clearGlobalDicts()
+
       if initializeDB() == 0:
         results_file = runBlastQuery(genomesList, 'ECTyperDB')
         genomesDict = parseResults(results_file)
@@ -47,10 +50,12 @@ def runProgram():
           toCSV(json_results, args.verbose)
 
         print json_results
+        logging.info('Successfully ended the program.')
 
 
       else:
         logging.error('There was an error while generating the database.')
+        print 'Error'
     else:
       print genomesList
 
