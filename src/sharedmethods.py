@@ -235,7 +235,7 @@ def toTSV(data, results_filename):
         else:
             data[genome_name] = {}
 
-    with open(SCRIPT_DIRECTORY + '../temp/Results/' + results_filename +  '.tsv', 'wb') as tsvfile:
+    with open(SCRIPT_DIRECTORY + '../temp/Results/' + results_filename +  '.csv', 'wb') as tsvfile:
         tsvwriter = csv.DictWriter(tsvfile, headers)
         tsvwriter.writeheader()
 
