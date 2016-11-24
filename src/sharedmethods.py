@@ -192,7 +192,7 @@ def filterGenes(genomesDict, threshold):
     resultDict = {}
     threshDict = {}
 
-    if threshold == 1:
+    if threshold == 0:
         return genomesDict
 
     logging.info('Filtering the result dictionaries with following threshold: ' + str(threshold) + '.')
