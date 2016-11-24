@@ -68,7 +68,7 @@ def uploadFiles():
             files.save(resultFiles[0])
             logging.info('Single file')
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
-                                                "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
+                                                "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 0])
        else:
            if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
                shutil.rmtree(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
@@ -78,7 +78,7 @@ def uploadFiles():
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
-                                                "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 'false'])
+                                                "-pl", PERC_LEN, "-pi", PERC_ID, '-v', VERBOSITY, '-csv', 0])
        I +=1
        return redirect(url_for('getResults'))
     return render_template('uploadfile.html')

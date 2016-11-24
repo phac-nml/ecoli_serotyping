@@ -15,7 +15,7 @@ FILENAMES = {}
 
 def parseCommandLine():
     """
-    Initalizing the two main commands of the command line for the project.
+    Initalizing the main commands of the command line for the project.
     - input: refers to the location of the file(s) that will be processed
     - out: refers to the output of the program. Default is STDOUT
     - pi: refers to the percentage of identity wanted. Default is 90%
@@ -28,12 +28,12 @@ def parseCommandLine():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory")
+    parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory", required=True)
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
-    parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90)
-    parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor.", default=1)
+    parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0,100))
+    parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0,100))
+    parser.add_argument("-tsv", type=int, help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default is 1.", default=1, choices=[0,1])
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor. Default is 1.", default=0)
 
     return parser.parse_args()
 

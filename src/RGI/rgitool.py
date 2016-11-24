@@ -26,7 +26,7 @@ def setGlobalDicts(genomes_dict, genomenames_dict):
 
 def parseCommandLine():
     """
-    Initalizing the two main commands of the command line for the project.
+    Initalizing the main commands of the command line for the project.
     - input: refers to the location of the file(s) that will be processed
     - out: refers to the output of the program. Default is STDOUT
     - tsv: if the user wants a csv copy of the results
@@ -37,10 +37,10 @@ def parseCommandLine():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory")
+    parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory", required=True)
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
-    parser.add_argument("-tsv", help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1)
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a gene.", default=1)
+    parser.add_argument("-tsv", type=int, help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1, choices=[0,1])
+    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a gene. Default is 1.", default=1)
 
     return parser.parse_args()
 
