@@ -13,11 +13,13 @@ def parseCommandLine():
     """
     Initalizing the main commands of the command line for the project.
     - input: refers to the location of the file(s) that will be processed
-    - out: refers to the output of the program. Default is STDOUT
+    - s: trigger for the Serotyper
+    - vf: trigger for the Virulence Factors tool
+    - amr: trigger for the AMR(RGI) tool
     - pi: refers to the percentage of identity wanted. Default is 90%
-    - pl: refers to the percentage of length wanted. Default is 90%.
-    - v: refers to the verbosity.
-
+    - pl: refers to the percentage of length wanted. Default is 90%
+    - sv: refers to the verbosity for the Serotyper
+    - min: the minimum number of genomes containing a certain gene
     :return parser.parse_args(): Data from the commands.
     """
 
@@ -36,7 +38,13 @@ def parseCommandLine():
 
 
 def createReport(tsv_files):
+    """
+    Generating a TSV file containing all the results from all the tools.
 
+    :param tsv_files: List of applicable TSV files.
+    """
+
+    logging.info('Transfering all the result to file Summary.tsv. This file can be found in temp/Results/ folder.')
     if len(tsv_files) == 1:
         filename = os.path.basename(tsv_files[0])
         os.rename(SCRIPT_DIRECTORY + '../temp/Results/' + filename, SCRIPT_DIRECTORY + '../temp/Results/Summary.tsv')
@@ -75,16 +83,19 @@ if __name__=='__main__':
 
     else:
         if args.serotyper == 1:
+            logging.info('Triggering the use of the Serotyper tool.')
             tsv_files.append(serotyper)
             temp = subprocess.call([SCRIPT_DIRECTORY + "Serotyper/ectyper.py", "--input", args.input, "-pl", str(args.percentLength),
                                     "-pi", str(args.percentIdentity), '-v', str(args.serotypeverbose), '-csv', '1'])
 
         if args.virulencefactors == 1:
+            logging.info('Triggering the use of the Virulence Factors tool.')
             tsv_files.append(virulence_factors)
             temp = subprocess.call([SCRIPT_DIRECTORY + "Virulence_Factors/virulencefactors.py", "--input", args.input, "-pl", str(args.percentLength),
                                     "-pi", str(args.percentIdentity), '-tsv', '1', '-min', str(args.mingenomes)])
 
         if args.amr == 1:
+            logging.info('Triggering the use of the RGI tool.')
             tsv_files.append(amr)
             temp = subprocess.call([SCRIPT_DIRECTORY + "RGI/rgitool.py", "--input", args.input,
                                     '-tsv', '1', '-min', str(args.mingenomes)])
