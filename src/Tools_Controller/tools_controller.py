@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import subprocess, sys, os, argparse, logging, csv, pandas as pd
+import subprocess, sys, os, argparse, logging, csv, pandas as pd, ast
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
@@ -70,6 +70,22 @@ def createReport(csv_files):
         os.remove(SCRIPT_DIRECTORY + '../../temp/Results/temp.csv')
 
 
+def mergeResults(serotyper_dict, vf_dict, amr_dict):
+
+    resultsDict = {}
+
+    for genome_name, serotype_info in serotyper_dict.iteritems():
+        resultsDict[genome_name] = {'Serotype': serotype_info}
+
+    for genome_name, vf_info in vf_dict.iteritems():
+        resultsDict[genome_name]['VF'] = vf_info
+
+    for genome_name, amr_info in amr_dict.iteritems():
+        resultsDict[genome_name]['AMR'] = amr_info
+
+    return resultsDict
+
+
 if __name__=='__main__':
 
     logging.basicConfig(filename=SCRIPT_DIRECTORY + 'controller.log',level=logging.INFO)
@@ -104,13 +120,13 @@ if __name__=='__main__':
             csv_files.append(amr)
             amr_out = subprocess.check_output([SCRIPT_DIRECTORY + "../RGI/rgitool.py", "--input", args.input,
                                     '-csv', str(args.csv), '-min', str(args.mingenomes), "-p", str(args.perfectMatches)])
+            amr_out = amr_out.split('\n')[-2]
 
         if args.csv == 1:
             createReport(csv_files)
 
+        resultDict = mergeResults(ast.literal_eval(serotyper_out), ast.literal_eval(vf_out), ast.literal_eval(amr_out))
 
-        print serotyper_out
-        print vf_out
-        print amr_out
+        print resultDict
 
 

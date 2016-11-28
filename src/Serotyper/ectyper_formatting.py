@@ -32,26 +32,25 @@ def toSimpleDict(data, verbose):
         elif isinstance(type, dict):
             oTempStr =''
             hTempStr = ''
-
-            if isinstance(data[genome_name]['htype'], dict):
-                for title, info in data[genome_name]['htype'].iteritems():
+            if isinstance(data[genome_name]['H type'], dict):
+                for title, info in data[genome_name]['H type'].iteritems():
                     if title == 'RESULT':
                         hTempStr= str(title) + ": " + str(info) + "; " + hTempStr
                     else:
                         hTempStr+= str(title) + ": " + str(info) + "; "
                 resultDict[genome_name]['htype'] =  hTempStr
             else:
-                resultDict[genome_name]['htype'] = data[genome_name]['htype']
+                resultDict[genome_name]['htype'] = data[genome_name]['H type']
 
-            if isinstance(data[genome_name]['otype'], dict):
-                for title, info in data[genome_name]['otype'].iteritems():
+            if isinstance(data[genome_name]['O type'], dict):
+                for title, info in data[genome_name]['O type'].iteritems():
                     if title == 'RESULT':
                         oTempStr = str(title) + ": " + str(info) + "; " + oTempStr
                     else:
                         oTempStr += str(title) + ": " + str(info) + "; "
                 resultDict[genome_name]['otype'] = oTempStr
             else:
-                resultDict[genome_name]['otype'] = data[genome_name]['otype']
+                resultDict[genome_name]['otype'] = data[genome_name]['O type']
 
         else:
             resultDict[genome_name]['htype'] = data[genome_name]
@@ -69,8 +68,6 @@ def toHTML(data, verbose):
     :return: String containing the HTML page containing the table.
     """
 
-
-    resultDict = toSimpleDict(data, verbose)
     stylesheet_url = url_for('static',filename='css/style.css')
     js_url = url_for('static', filename='js/results.js')
     html_info = "<!DOCTYPE html> \
@@ -90,10 +87,10 @@ def toHTML(data, verbose):
                         "<th>H Type</th>" \
                    "</tr></thead><tbody>"
 
-    for genome_name in resultDict.keys():
+    for genome_name in data.keys():
         result_genome = str(genome_name)
-        result_otype = str(resultDict[genome_name]['otype']).replace(";", '<br>')
-        result_htype = str(resultDict[genome_name]['htype']).replace(";", '<br>')
+        result_otype = str(data[genome_name]['O type']).replace(";", '<br>')
+        result_htype = str(data[genome_name]['H type']).replace(";", '<br>')
 
         result_table+= "<tr><td id='result-genome'>" + result_genome + "</td><td>" + result_otype + "</td><td>" + \
                        result_htype + "</td></tr>"
@@ -185,15 +182,14 @@ def toCSV(data, verbose):
     """
 
     logging.info('Writing CSV file Serotyper_Results.csv. You can find it in the temp/Results/ folder.')
-    resultDict = toSimpleDict(data, verbose)
     header = ['Genome', 'O Type', 'H Type']
 
     with open(SCRIPT_DIRECTORY + '../../temp/Results/Serotyper_Results.csv', 'wb') as csvfile:
         csvwriter = csv.DictWriter(csvfile, header)
         csvwriter.writeheader()
 
-        for genome_name in resultDict.keys():
-            row = {'Genome': genome_name, 'H Type': resultDict[genome_name]['htype'], 'O Type': resultDict[genome_name]['otype']}
+        for genome_name in data.keys():
+            row = {'Genome': genome_name, 'H Type': data[genome_name]['H type'], 'O Type': data[genome_name]['O type']}
             csvwriter.writerow(row)
 
 

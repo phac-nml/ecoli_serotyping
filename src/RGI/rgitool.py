@@ -152,6 +152,7 @@ if __name__ == '__main__':
             clearGlobalDicts()
 
             getResults(genomesList, RGIpath)
+
             if args.perfectMatches == 1:
                 getPerfectMatches(GENOMES)
 
