@@ -6,7 +6,7 @@ import os
 import sys
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Serotyper/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/SerO typer/'))
 
 from ecprediction import *
 from ecvalidatingfiles import *
@@ -153,8 +153,8 @@ def test_findTopMatches():
     test_top_matches = findTopMatches(sortMatches(test_prediction))
 
     for test_genome, test_value in test_top_matches.iteritems():
-        test_otype = test_value.get('otype')
-        test_htype = test_value.get('htype')
+        test_otype = test_value.get('O type')
+        test_htype = test_value.get('H type')
         otype_title = test_otype['title']
         htype_title = test_htype['title']
 
@@ -162,7 +162,7 @@ def test_findTopMatches():
         assert exp_top_match1[test_genome][htype_title][5] == 'H28'
 
     assert findTopMatches(exp_top_match_2) == {
-        'GENOME_1': {'otype': 'NA', 'htype': 'NM', 'prediction_strength': 'NA'},
-        'GENOME_2': {'otype': {'title': 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': '1166', 'perc': 0.964}, 'htype': 'NM', 'prediction_strength': 'Top match'},
-        'GENOME_3': {'otype': 'NA', 'htype': 'NM', 'prediction_strength': 'Top match'}
+        'GENOME_1': {'O type': 'NA', 'H type': 'NM', 'prediction_strength': 'NA'},
+        'GENOME_2': {'O type': {'title': 'gnl|BL_ORD_ID|377 9__wzy__wzy-O148__378 DQ167407.1;O antigen polyermase;O148', 'hsp': 'example_hsp', 'length': '1166', 'perc': 0.964}, 'H type': 'NM', 'prediction_strength': 'Top match'},
+        'GENOME_3': {'O type': 'NA', 'H type': 'NM', 'prediction_strength': 'Top match'}
     }
