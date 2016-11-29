@@ -6,7 +6,7 @@ import os
 import sys
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/SerO typer/'))
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Serotyper/'))
 
 from ecprediction import *
 from ecvalidatingfiles import *
