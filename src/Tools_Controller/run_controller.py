@@ -36,7 +36,7 @@ def uploadFiles():
 
         PERC_ID = request.form['perc-id']
         PERC_LEN = request.form['perc-len']
-        resultFiles = request.files.getlist('file')
+        resultFiles = request.files.getlist('files[]')
         VERBOSITY = request.form['verbosity']
         RESULTS = request.form['table-radiobutton']
         threshold = request.form['threshold']
@@ -84,7 +84,15 @@ def uploadFiles():
         OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "tools_controller.py", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
                                           "-s", str(serotyper_out), "-vf", str(vf_out), "-amr", str(amr_out), "-min", str(threshold), "-p", str(all_amr), "-avf", str(all_vfs),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-sv', str(VERBOSITY), '-csv', '0'])
+        OUTPUT = OUTPUT.split('\n')[0]
+
         I +=1
+
+        if all_vfs == 1 or all_amr == 1:
+            return redirect(url_for('straightDownload'))
+
+
+
         return redirect(url_for('getResults'))
     return render_template('controller.html')
 
@@ -96,6 +104,7 @@ def uploadFiles():
 #
 #
 #
+
 @app.route('/superphy/controller/results', methods=['GET'])
 def getResults():
     logging.info('In getResults')
@@ -107,12 +116,26 @@ def getResults():
         tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
         return render_template('uploadfile.html')
 
-    # elif RESULTS:
-    #     logging.info('To HTML table')
-    #     return ectyper_formatting.toHTML(ast.literal_eval(OUTPUT), VERBOSITY)
+    elif RESULTS == 1:
+        logging.info('To HTML table')
+        return toTable(ast.literal_eval(OUTPUT))
     else:
         logging.info('To JSON format')
         return toJSON(ast.literal_eval(OUTPUT))
+
+
+@app.route('/superphy/controller/download', methods=['GET'])
+def straightDownload():
+    if RESULTS != 0:
+
+        json_result = json.dumps(ast.literal_eval(OUTPUT))
+        return Response(
+            json_result,
+            mimetype='application/json',
+            headers={"Content-disposition": "attachment; filename=Results_Summary.json"}
+        )
+    else:
+        return 'nbooooooobobobobobob'
 
 
 

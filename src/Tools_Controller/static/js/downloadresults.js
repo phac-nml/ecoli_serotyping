@@ -39,7 +39,6 @@ window.onload = function() {
     downloadJSON = function (filename) {
 
         json = document.getElementsByTagName('p')[0].innerHTML;
-        alert(json)
         var jsonFile = new Blob([json], {
            type: 'application/json'
         });
@@ -55,10 +54,10 @@ window.onload = function() {
 
 
     document.querySelector('#download-button-json').addEventListener('click', function(e) {
-       return downloadJSON('ResultsSummary.json')
+       return downloadJSON('Results_Summary.json')
     });
     document.querySelector('#download-button-csv').addEventListener('click', function(e) {
-        return toCSV('ResultsSummary.csv');
+        return toCSV('Results_Summary.csv');
     });
 
 };

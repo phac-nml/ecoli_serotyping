@@ -1,4 +1,4 @@
-/** uploadfile.html CSS**/
+/** controller.html CSS**/
 
 
 div {
@@ -12,6 +12,29 @@ div {
 .label-radio-btn {
     font-weight: bold;
 
+}
+
+div#loading {
+    padding-top: 0px;
+    height: 35px;
+    display:none;
+    background: url(/static/img/upload-loading.gif) no-repeat center;
+    cursor: wait;
+}
+
+div#loading-text {
+    display: none;
+    cursor: wait;
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+}
+
+div#downloading {
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+    display: none;
 }
 
 /**Slide checkboxes**/

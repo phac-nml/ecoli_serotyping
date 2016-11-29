@@ -71,17 +71,35 @@ def createReport(csv_files):
 
 
 def mergeResults(serotyper_dict, vf_dict, amr_dict):
+    """
+    Going through all the dictionaries to merge them into a single one.
 
+
+    :param serotyper_dict: Dictionary containing the Serotyper results.
+    :param vf_dict: Dictionary containing the Virulence Factors results.
+    :param amr_dict: Dictionary containing the AMR results.
+    :return resultDict: Dictionary containing merged results.
+    """
     resultsDict = {}
 
-    for genome_name, serotype_info in serotyper_dict.iteritems():
-        resultsDict[genome_name] = {'Serotype': serotype_info}
+    if bool(serotyper_dict):
+        for genome_name, serotype_info in serotyper_dict.iteritems():
+            if genome_name not in resultsDict.keys():
+                resultsDict[genome_name] = {}
 
-    for genome_name, vf_info in vf_dict.iteritems():
-        resultsDict[genome_name]['VF'] = vf_info
+            resultsDict[genome_name]['Serotype']= serotype_info
 
-    for genome_name, amr_info in amr_dict.iteritems():
-        resultsDict[genome_name]['AMR'] = amr_info
+    if bool(vf_dict):
+        for genome_name, vf_info in vf_dict.iteritems():
+            if genome_name not in resultsDict.keys():
+                resultsDict[genome_name] = {}
+            resultsDict[genome_name]['VF'] = vf_info
+
+    if bool(amr_dict):
+        for genome_name, amr_info in amr_dict.iteritems():
+            if genome_name not in resultsDict.keys():
+                resultsDict[genome_name] = {}
+            resultsDict[genome_name]['AMR'] = amr_info
 
     return resultsDict
 
@@ -94,9 +112,9 @@ if __name__=='__main__':
     logging.info('Starting the controller.')
 
     csv_files = []
-    serotyper_out = ''
-    vf_out = ''
-    amr_out = ''
+    serotyper_out = '{}'
+    vf_out = '{}'
+    amr_out = '{}'
 
     if args.serotyper != 1 and args.virulencefactors !=1 and args.amr !=1:
         logging.error('No tools (Serotyper, Virulence Factors tool or AMR (RGI) tool) has been selected. Exiting the program.')

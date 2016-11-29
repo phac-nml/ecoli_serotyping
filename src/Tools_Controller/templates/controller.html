@@ -39,87 +39,116 @@
             else
                 element.style.display = 'block';
         }
+
+        function loading(){
+
+            if (document.getElementById('all-amr-checkbox').checked || document.getElementById('all-vfs-checkbox').checked) {
+                document.getElementById('downloading').style.display = 'block';
+            }
+            else {
+                document.getElementById('downloading').style.display = 'none';
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('upload-form').style.display = 'none';
+                document.getElementById('loading-text').style.display = 'block';
+
+                var e = document.getElementById('fileElement');
+                document.getElementById('loading-text').innerHTML = '<p>Getting results from ' + e.files.length + ' file(s).</p>';
+            }
+        }
+
+        function refreshPage(){
+            window.location.reload(false);
+        }
+
     </script>
 
 
 </head>
 <body>
-<!--Upload file form-->
-<h1 class="header1">
-    <em>E. coli</em> Tools
-</h1>
-<form action="controller" method="POST" enctype="multipart/form-data"
-      class="uploadform">
-    <div>
-        <label for="file">Upload a single or multiple files</label><br>
-        <span style="font-size: small">
-                Only complete (and draft) assembled genomes in valid .fasta files are accepted.
-            </span><br>
-        <input type="file" name="file" id="file" multiple="">
+    <!--Upload file form-->
+    <h1 class="header1">
+        <em>E. coli</em> Tools
+    </h1>
+    <form action="{{ url_for('uploadFiles') }}" method="POST" enctype="multipart/form-data"
+          class="uploadform" id="upload-form">
+        <div>
+            <label for="fileElement">Upload a single or multiple files</label><br>
+            <span style="font-size: small">
+                    Only complete (and draft) assembled genomes in valid .fasta files are accepted.
+                </span><br>
+            <input type="file" name="files[]" id="fileElement" multiple="">
+        </div>
+
+        <div class="checkboxes">
+            <label for="serotyper-checkbox" class="checkbox-1">Serotype</label>
+            <label class="switch">
+                <input type="checkbox" name="serotyper-checkbox" value="1" id="serotyper-checkbox"
+                   onclick="toggle_list(['perc-cutoffs', 'serotyper-verbosity'], 'serotyper-checkbox')">
+                <div class="slider"></div>
+            </label><br>
+
+            <label for="vf-checkbox" class="checkbox-1">Virulence Factors</label>
+            <label class="switch">
+                <input type="checkbox" name="vf-checkbox" value="1" id="vf-checkbox"
+                   onclick="toggle_list(['perc-cutoffs', 'threshold-cutoff', 'all-vfs'], 'vf-checkbox')">
+                <div class="slider"></div>
+            </label><br>
+
+            <label for="amr-checkbox">Antimicrobial Resistance (AMR)</label>
+            <label class="switch">
+                <input type="checkbox" name="amr-checkbox" value="1" id="amr-checkbox"
+                   onclick="toggle_list(['threshold-cutoff', 'all-amr'], 'amr-checkbox')">
+                <div class="slider"></div>
+            </label>
+        </div><br>
+
+        <div class="tool-options">
+            <div id="perc-cutoffs" style="display:none">
+                <label for="p-id">Identity percentage cutoff: </label>
+                <input type="number" name="perc-id" value="90" id="p-id" class="perc-input" min="0" max="100"><br>
+
+                <label for="p-len">Length percentage cutoff: </label>
+                <input type="number" name="perc-len" value="90" id="p-len" class="perc-input" min="0" max="100">
+            </div>
+
+            <div id="serotyper-verbosity" style="display:none">
+                <label class="label-radio-btn">For the serotype</label><br>
+                <input type="radio" name="verbosity"  value="0" checked> Serotype only
+                <input type="radio" name="verbosity"  value="1"> Full information
+            </div>
+
+            <div id="threshold-cutoff" style="display:none" >
+                <label class="label-radio-btn">For virulence factors and AMR</label><br>
+                <label for="min-threshold">Minimum number of genomes containing a gene</label>
+                <input type="number" name="threshold" value="1" id="min-threshold" class="perc-input" min="0">
+            </div>
+
+            <div id="all-vfs" class="opt-checkbox" style="display:none">
+                <label for="all-vfs-checkbox">All virulence factors (default is top ten) </label>
+                <input type="checkbox" name="all-vfs-checkbox" id="all-vfs-checkbox" value="1"><br>
+                <label for="all-vfs-checkbox" style="font-size: smaller">This will trigger an automatic download instead of displaying the results.</label>
+            </div>
+            <div id="all-amr" class="opt-checkbox" style="display:none">
+                <label for="all-amr-checkbox">Include strict AMR</label>
+                <input type="checkbox" name="all-amr-checkbox" id="all-amr-checkbox" value="1"><br>
+                <label for="all-amr-checkbox" style="font-size: smaller">This will trigger an automatic download instead of displaying the results.</label>
+            </div>
+        </div>
+        <div>
+             <label class="label-radio-btn">Results format</label><br>
+             <input type="radio" name="table-radiobutton" value="0" checked>JSON
+             <input type="radio" name="table-radiobutton" value="1">Table
+        </div>
+        <div>
+            <input type="submit" value="UPLOAD" class="button" onclick="loading()">
+        </div>
+    </form>
+    <div id="loading-text"></div>
+    <div id="loading"></div>
+    <div id="downloading">
+        <p>The file is being downloaded.</p>
+        <button type='button' id='refresh-button' class='button result-button' onclick="refreshPage()">Refresh page</button>
     </div>
-
-    <div class="checkboxes">
-        <label for="serotyper-checkbox" class="checkbox-1">Serotype</label>
-        <label class="switch">
-            <input type="checkbox" name="serotyper-checkbox" value="1" id="serotyper-checkbox"
-               onclick="toggle_list(['perc-cutoffs', 'serotyper-verbosity'], 'serotyper-checkbox')">
-            <div class="slider"></div>
-        </label><br>
-
-        <label for="vf-checkbox" class="checkbox-1">Virulence Factors</label>
-        <label class="switch">
-            <input type="checkbox" name="vf-checkbox" value="1" id="vf-checkbox"
-               onclick="toggle_list(['perc-cutoffs', 'threshold-cutoff', 'all-vfs'], 'vf-checkbox')">
-            <div class="slider"></div>
-        </label><br>
-
-        <label for="amr-checkbox">Antimicrobial Resistance (AMR)</label>
-        <label class="switch">
-            <input type="checkbox" name="amr-checkbox" value="1" id="amr-checkbox"
-               onclick="toggle_list(['threshold-cutoff', 'all-amr'], 'amr-checkbox')">
-            <div class="slider"></div>
-        </label>
-    </div><br>
-
-    <div class="tool-options">
-        <div id="perc-cutoffs" style="display:none">
-            <label for="p-id">Identity percentage cutoff: </label>
-            <input type="number" name="perc-id" value="90" id="p-id" class="perc-input" min="0" max="100"><br>
-
-            <label for="p-len">Length percentage cutoff: </label>
-            <input type="number" name="perc-len" value="90" id="p-len" class="perc-input" min="0" max="100">
-        </div>
-
-        <div id="serotyper-verbosity" style="display:none">
-            <label class="label-radio-btn">For the serotype</label><br>
-            <input type="radio" name="verbosity"  value="0" checked> Serotype only
-            <input type="radio" name="verbosity"  value="1"> Full information
-        </div>
-
-        <div id="threshold-cutoff" style="display:none" >
-            <label class="label-radio-btn">For virulence factors and AMR</label><br>
-            <label for="min-threshold">Minimum number of genomes containing a gene</label>
-            <input type="number" name="threshold" value="1" id="min-threshold" class="perc-input" min="0">
-        </div>
-
-        <div id="all-vfs" class="opt-checkbox" style="display:none">
-            <label for="all-vfs-checkbox">All virulence factors (default is top ten) </label>
-            <input type="checkbox" name="all-vfs-checkbox" id="all-vfs-checkbox" value="1">
-        </div>
-        <div id="all-amr" class="opt-checkbox" style="display:none">
-            <label for="all-amr-checkbox">Include strict AMR</label>
-            <input type="checkbox" name="all-amr-checkbox" id="all-amr-checkbox" value="1">
-        </div>
-    </div>
-    <div>
-         <label class="label-radio-btn">Results format</label><br>
-         <input type="radio" name="table-radiobutton" value="0" checked>JSON
-         <input type="radio" name="table-radiobutton" value="1">Table
-    </div>
-    <div></div>
-    <input type="submit" value="UPLOAD" class="button">
-</form>
-
 
 </body>
 </html>
