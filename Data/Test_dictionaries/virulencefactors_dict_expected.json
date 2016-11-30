@@ -4,8 +4,10 @@
   "NC_002128":
   { "agn43": 1, "katp": 1, "hlyB": 1, "hlyA": 1, "ibeC": 1, "hlyD": 1, "etpG": 1, "etpF": 1, "etpE": 1, "etpD": 1,
     "etpC": 1, "etpO": 1, "etpN": 1, "etpM": 1, "etpL": 1, "etpK": 1, "etpJ": 1, "etpI": 1, "etpH": 1, "ccdb": 1,
-    "espP": 1, "epeA": 1, "hlyC": 1, "yijP": 0, "toxB": 1, "stcE": 1, "fimD": 1}, "NC_011749": {"senB": 1, "papA": 1,
-  "traJ": 1, "trat": 1, "fimD": 1, "ccdb": 1},
+    "espP": 1, "epeA": 1, "hlyC": 1, "yijP": 0, "toxB": 1, "stcE": 1, "fimD": 1},
+
+  "NC_011749":
+  {"senB": 1, "papA": 1,  "traJ": 1, "trat": 1, "fimD": 1, "ccdb": 1},
 
   "AAJT0200":
   { "upaC": 1, "APECO1_3716": 1, "icmF": 1, "ccdb": 1, "APECO1_3717": 1, "AAA23990": 1, "EcE24377A_3125": 1,
@@ -25,7 +27,7 @@
     "aec30": 1, "O3M_20335": 1, "aec32": 1, "fliI": 1, "ehaA": 1, "ehaB": 1, "b2972": 1, "sfpC": 1, "cfaA": 1, "cfaB": 1,
     "EcE24377A_3130": 1, "cfaD": 1, "ygdb": 1, "ECNA114_28561": 1, "LF82_430": 1, "LF82_432": 1, "ycbF": 1, "gspD": 1,
     "gspE": 1, "espL4": 1, "ECS88_3547": 1, "ECABU_c30960": 1, "EcE24377A_3135": 1, "fliH": 1, "NRG857_13800": 1,
-    "ycbS": 1, "ycbT": 1, "ycb": 1, "ygeG": 1, "EcE24377A_3126": 1, "espX5": 1, "astA": 1, "tar/cheM": 1, "gspI": 1,
+    "ycbS": 1, "ycbT": 1, "ycbU": 1, "ygeG": 1, "EcE24377A_3126": 1, "espX5": 1, "astA": 1, "tar/cheM": 1, "gspI": 1,
     "espX4": 1, "aec26": 1, "aec24": 1, "ECO103_3357": 1, "aec22": 1, "aec23": 1, "etrA": 1, "ECO103_3358": 1,
     "ECO103_3359": 1, "aec27/clpV": 1, "aec29": 1, "LF82_429": 1, "LF82_428": 1, "Z0260": 1, "fepA": 1, "espX1": 1,
     "ecpR": 1, "LF82_427": 1, "LF82_426": 1, "hlyE/clyA": 1, "cadA": 1, "fliJ": 1, "EC958_5043": 1, "fes": 1, "pixJ": 1,
@@ -44,7 +46,7 @@
     "yagV/ecpE": 1, "entE": 1, "fliR": 1, "hofq": 1, "fliT": 1, "ECs0229": 1, "eaeH": 1, "EC958_1421": 1, "fliL": 1,
     "ECABU_c30920": 1, "cheW": 1, "ECABU_c30880": 1, "papA": 1, "Z2201": 1, "st": 1, "flgC": 1, "flgB": 1, "flgA": 1,
     "UMNK88_238": 1, "fimD": 1, "fimE": 1, "flgE": 1, "flgD": 1, "flgK": 1, "fimI": 1, "flgI": 1, "flgH": 1,
-    "ppdD/hcpA": 1, "flgN": 1, "aec15": 1, "flgL": 1},
+    "ppdD/hcpA": 1, "flgN": 1, "aec15": 1, "flgL": 1, "fimB": 1},
 
   "NC_002695":
   { "upaC": 1, "aec15": 1, "icmF": 1, "eae_iota": 1,"nleA/espI": 1, "aec18": 1, "ECO111_0230": 1, "wzy": 1,

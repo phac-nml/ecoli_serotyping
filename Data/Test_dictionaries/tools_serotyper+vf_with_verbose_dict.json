@@ -1,0 +1,155 @@
+{
+  "NC_002127":
+  {
+    "Serotype":
+    { "O type": "No prediction could be made for O types for this genome.",
+      "prediction strength": "NA",
+      "H type": "No prediction could be made for H types for this genome (non-motile)."},
+  "VF": {}
+  },
+
+  "NC_002128":
+  {
+    "Serotype":
+    {"O type": "No prediction could be made for O types for this genome.",
+      "prediction strength": "NA",
+      "H type": "No prediction could be made for H types for this genome (non-motile)."},
+    "VF":
+    {"agn43": 1, "espC": 0, "katp": 1, "hlyB": 1, "hlyA": 1, "ECED1_1676": 0, "ibeC": 1, "etpJ": 1,
+      "EC958_4614": 0, "etpG": 1, "etpF": 1, "etpE": 1, "etpD": 1, "etpC": 1, "etpO": 1, "etpN": 1, "etpM": 1, "etpL": 1,
+      "etpK": 1, "epeA": 1, "etpI": 1, "etpH": 1, "hlyC": 1, "espP": 1, "vat": 0, "pic": 0, "espI": 0, "yijP": 0,
+      "ccdb": 1, "hlyD": 1, "CAC39286": 0, "toxB": 1, "eaaC": 0, "stcE": 1, "fimD": 1}
+  },
+
+  "NC_011749":
+  {
+    "Serotype":
+    {"O type": "No prediction could be made for O types for this genome.",
+      "prediction strength": "NA",
+      "H type": "No prediction could be made for H types for this genome (non-motile)."},
+    "VF":
+    {"senB": 1, "papA": 1, "traJ": 1, "trat": 1, "fimD": 1, "ccdb": 1}
+  },
+
+  "AAJT0200":
+  {
+    "Serotype":
+    {"O type": {"e value": "0.0", "length": "1143", "score": "1143.0", "RESULT": "O148", "percentage": "1.0", "bits": "2111.84"},
+      "prediction strength": "Top match",
+      "H type": {"e value": "0.0", "length": "1740", "score": "1740.0", "RESULT": "H28", "percentage": "1.0", "bits": "3214.29"}},
+    "VF": {"upaC": 1, "aec15": 1, "ccdb": 1, "ECNA114_2856": 1, "aec19": 1, "aec18": 1, "ECO111_0230": 1, "fliA": 1,
+      "matC/ecpB": 1, "clpV": 1, "vgrG": 1, "fliC": 1, "east1": 1, "UMNK88_238": 1, "b2854": 1, "agn43": 1, "flhB": 1,
+      "flhC": 1, "flhA": 1, "flhD": 1, "flhE": 1, "Z0260": 1, "epaP": 1, "epaQ": 1, "entC": 1, "epaS": 1, "entE": 1,
+      "entD": 0, "entF": 1, "espC": 0, "cheZ": 1, "cheY": 1, "entS": 1, "cheB": 1, "cheA": 1, "upaG/ehaG": 1, "epaO": 1,
+      "lpfao113": 1, "ECABU_c31070": 1, "entA": 1, "yagX/ecpC": 1, "yijP": 1, "tar/cheM": 1, "b2972": 1, "sfpC": 1,
+      "cfaA": 1, "cfaB": 1, "cfaC": 1, "cfaD": 1, "ygdb": 1, "sfpD": 0, "LF82_430": 1, "LF82_432": 1, "sfpH": 0, "ycbF": 1,
+      "ECS88_3547": 1, "ECO103_0224": 1, "NRG857_13800": 1, "ycbS": 1, "ycbQ": 0, "ycbT": 1, "ycbU": 1, "espX5": 1,
+      "astA": 1, "aec26": 1, "aec24": 1, "aec25": 1, "aec22": 1, "aec23": 1, "ECO103_3358": 1, "ECO103_3359": 1, "aec27/clpV": 1
+    , "aec29": 1, "EC958_3095": 0, "EC958_3091": 0, "espX4": 1, "ecpR": 1, "etrA": 1, "yagZ/ecpA": 1, "EC958_5043": 1,
+      "fes": 1, "ECOK1_3194": 1, "ecpA": 1, "ecpB": 1, "ecpC": 1, "ecpD": 1, "ecpE": 1, "pixC": 1, "pic": 0, "pixJ": 1,
+      "eivJ": 1, "ECABU_c30890": 1, "flu": 0, "Z0252": 0, "flk": 1, "cah": 1, "hofB/hcpB": 1, "csgG": 1, "csgF": 1, "csgE": 1,
+      "csgD": 1, "csgC": 1, "csgB": 1, "csgA": 1, "EC958_5031": 1, "EC958_5032": 1, "ECO103_3375": 1, "espR2": 1, "espR1": 1,
+      "c3388": 1, "c3389": 1, "c3385": 1, "c3386": 1, "c3387": 1, "motA": 1, "motB": 1, "fdeC": 1, "orgA": 1, "iss2": 1,
+      "EcE24377A_3130": 1, "ycfz": 1, "yagY/ecpB": 1, "ycbR": 1, "espL1": 1, "espL3": 1, "yagV/ecpE": 1, "ECs0229": 1,
+      "Z2201": 1, "st": 1, "flgC": 1, "fimA": 1, "fimB": 1, "fimC": 1, "fimD": 1, "flgF": 1, "fimF": 1, "fimG": 1, "fimH": 1,
+      "flgJ": 1, "flgI": 1, "flgH": 1, "ppdD/hcpA": 1, "iagB": 1, "flgL": 1, "Z2205": 1, "Z2204": 1, "AAA23990": 1,
+      "EcE24377A_3135": 1, "eltB": 1, "yagW/ecpD": 1, "cssC": 1, "cssB": 1, "cssA": 1, "matF/ecpE": 1, "flgB": 1,
+      "cssD": 1, "ECNA114_2867": 1, "ECNA114_2860": 1, "ECNA114_2861": 1, "epaR": 1, "nadb": 1, "nada": 1, "traJ": 1,
+      "Z2203": 1, "APECO1_3711": 1, "APECO1_3712": 1, "Z2200": 1, "APECO1_3714": 1, "Z2206": 1, "APECO1_3716": 1,
+      "APECO1_3717": 1, "APECO1_3718": 1, "ECs3712": 1, "stgD": 1, "gspC": 1, "gspF": 1, "stgA": 1, "stgB": 1,
+      "stgC": 1, "gspJ": 1, "ppda": 1, "ppdb": 1, "ppdc": 1, "gspL": 1, "gspM": 1, "trat": 1, "APECO1_3713": 1,
+      "ECO103_3357": 1, "gspK": 1, "ECP_2801": 1, "ECP_2800": 1, "ECP_2803": 1, "ECP_2802": 1, "ECP_2805": 1,
+      "gspH": 1, "ECP_2806": 1, "ygeG": 1, "UTI89_C3192": 1, "aatP": 0, "gspI": 1, "UTI89_C3194": 1, "ygeH": 1,
+      "aatB": 0, "aatC": 0, "aatA": 0, "fepC": 1, "fepB": 1, "EcE24377A_0237": 1, "fepG": 1, "fepE": 1, "fepD": 1,
+      "ECABU_c30910": 1, "hcp": 1, "G2583_0236": 1, "hlye": 1, "aec28": 1, "aslA": 1, "APECO1_3715": 1, "ECOK1_3214": 1,
+      "gspG": 1, "LF82_428": 1, "aec31": 1, "aec30": 1, "O3M_20335": 1, "aec32": 1, "ehaA": 1, "ehaB": 1, "ECNA114_28561": 1,
+      "gspD": 1, "ECP_2804": 1, "espL4": 1, "ECABU_c30960": 1, "EC958_3099": 1, "gspE": 1, "UTI89_C3191": 1, "EC958_4121": 1,
+      "UTI89_C3190": 1, "LF82_429": 1, "EC55989_3339": 0, "espX1": 1, "LF82_427": 1, "LF82_426": 1, "hlyE/clyA": 1,
+      "cadA": 1, "EcE24377A_3129": 1, "EcE24377A_3124": 1, "EcE24377A_3125": 1, "EcE24377A_3126": 1, "EcE24377A_3127": 1,
+      "vat": 0, "yggr": 1, "fimB'": 1, "fliY": 1, "fliZ": 1, "ECO103_3361": 1, "fliT": 1, "ECO103_3363": 1,
+      "ECO103_3362": 1, "fliQ": 1, "fliP": 1, "fliS": 1, "fliR": 1, "fliM": 1, "hofC/hcpC": 1, "fliO": 1, "fliN": 1,
+      "aec17": 1, "fliH": 1, "fliK": 1, "fliJ": 1, "fliE": 1, "fliD": 1, "fliG": 1, "fliF": 1, "c3393": 1, "c3392": 1,
+      "c3391": 1, "estIa": 1, "artj": 1, "icmF": 1, "EcE24377A_3123": 1, "ykgK/ecpR": 1, "ECNA114_2857": 1, "pixH": 1,
+      "ECNA114_2855": 1, "ECNA114_2854": 1, "int": 1, "ECNA114_2858": 1, "ibeB": 1, "ibeC": 1, "fepA": 1, "ECABU_c30880": 1,
+      "flgA": 1, "orgB": 1, "eltA": 1, "EC958_1421": 1, "ECO103_3360": 1, "flgG": 1, "Z0265": 1, "Z0263": 1, "fimE": 1,
+      "eprI": 1, "eprH": 1, "eprK": 1, "eprJ": 1, "flgE": 1, "ECP_2810": 1, "yghg": 1, "flgD": 1, "matA/ecpR": 1,
+      "ECO103_3364": 1, "flgK": 1, "gadX": 1, "entB": 1, "fimI": 1, "cheR": 1, "hofq": 1, "eaeH": 1, "fliL": 1,
+      "ECABU_c30920": 1, "cheW": 1, "papA": 1, "flgN": 1, "EC958_5138": 1, "fliI": 1, "pixD": 1, "aec16": 1}
+  },
+
+  "NC_002695":
+  {
+    "Serotype":
+    {"O type": {"e value": "0.0", "length": "1185", "score": "1185.0", "RESULT": "O157", "percentage": "1.0", "bits": "2189.4"},
+      "prediction strength": "Top match",
+      "H type": {"e value": "0.0", "length": "1758", "score": "1758.0", "RESULT": "H7", "percentage": "1.0", "bits": "3247.53"}
+    },
+    "VF": {"upaC": 1, "fliK": 1, "eivE": 1, "espG": 1, "nleA/espI": 1, "aec18": 1, "ECO111_0230": 1, "wzy": 1, "yagW/ecpD": 1,
+      "clpV": 1, "vgrG": 1, "ompA": 1, "eae_alpha2": 1, "cheB": 1, "nleA": 1, "nleC": 1, "nleB": 1, "Z1307": 1, "nadb": 1,
+      "nada": 1, "rfbe": 1, "Z2203": 1, "UMNK88_238": 1, "eae_beta2": 1, "G2583_0236": 1, "eivA": 1, "epaO": 1, "icmF": 1,
+      "flhB": 1, "flhA": 1, "fepA": 1, "espY5": 1, "eae_eta": 1, "entC": 1, "espK": 1, "entE": 1, "espN": 1, "entF": 1,
+      "espX7/nleL": 1, "espD": 1, "espF": 1, "eae_iota": 1, "entS": 1, "chuU": 1, "eae_beta": 1, "cheA": 1, "upaG/ehaG": 1,
+      "c3610": 1, "espW": 1, "sepL": 1, "yijP": 1, "aec31": 1, "aec30": 1, "O3M_20335": 1, "tar/cheM": 1, "ehaA": 1,
+      "ehaB": 1, "eae_nu": 1, "EcE24377A_0237": 1, "aslA": 1, "eae_delta": 1, "eae_zeta": 1, "ECO103_0224": 1, "ycbS": 1,
+      "eae_gamma": 1, "ycbT": 1, "nleA11": 1, "eae_mu": 1, "EC958_4121": 1, "aec25": 1, "aec22": 1, "aec23": 1, "iha": 1,
+      "aec27/clpV": 1, "aec29": 1, "lifA/efa1": 1, "espX1": 1, "espX3": 1, "espX2": 1, "espX5": 1, "espX4": 1, "espX7": 1,
+      "espX6": 1, "cadA": 1, "fes": 1, "eae_epsilon2": 1, "hofC/hcpC": 1, "espG1": 1, "ecpC": 1, "ecpD": 1, "yggr": 1,
+      "eaeH": 1, "espR3": 1, "eae": 1, "espR2": 1, "fliM": 1, "fliI": 1, "espR1": 1, "aec15": 1, "fliD": 1, "fliG": 1,
+      "fliF": 1, "hma": 1, "fliC": 1, "chuA": 1, "espY3": 1, "eivC": 1, "eae_lambda": 1, "espY4": 1, "eivG": 1, "chuW": 1
+    , "flk": 1, "cah": 1, "chuS": 1, "hofB/hcpB": 1, "espR4": 1, "ibeB": 1, "ibeC": 1, "eae_iota2": 0, "efa1": 1,
+      "eae_pi": 1, "escC": 1, "escD": 1, "tir": 1, "escN": 1, "fdeC": 1, "escU": 1, "EC958_5138": 1, "escV": 1,
+      "yagX/ecpC": 1, "Z0260": 1, "espFu/tccP": 1, "nleB1": 1, "nleB2": 1, "espL4": 1, "epaS": 1, "espL1": 1, "espL3": 1,
+      "espL2": 1, "hofq": 1, "hlyE/clyA": 1, "ECs0229": 1, "eae_epsilon": 1, "fimD": 1, "flgE": 1, "flgK": 1, "flgI": 1,
+      "ygeH": 1}
+  },
+
+  "NC_011739":
+  {
+    "Serotype":
+    {"O type": "No prediction could be made for O types for this genome.",
+      "prediction strength": "NA",
+      "H type": "No prediction could be made for H types for this genome (non-motile)."},
+    "VF": {}
+  },
+
+  "NC_011751":
+  { "Serotype":
+    {"O type": {"e value": "0.0", "length": "1332", "score": "1332.0", "RESULT": "O17", "percentage": "1.0", "bits": "2460.86"},
+      "prediction strength": "Top match",
+      "H type": {"e value": "0.0", "length": "1665", "score": "1665.0", "RESULT": "H18", "percentage": "1.0", "bits": "3075.79"}
+    },
+    "VF": {"upaC": 1, "fliK": 1, "EC958_2290": 1, "air/eaeX": 1, "iucD": 1, "yagW/ecpD": 1, "clpV": 0, "ompA": 1, "kpsD": 1,
+      "nadb": 1, "ybtE": 1, "Z2203": 1, "ybtX": 1, "ybtQ": 1, "ybtP": 1, "ybtS": 1, "ybtU": 1, "aaiW": 1, "gspF": 1,
+      "gspD": 1, "gspE": 1, "stgC": 1, "espY3": 1, "agn43": 1, "ygeH": 1, "flhB": 1, "flhA": 1, "EC958_2289": 1,
+      "fepA": 1, "entC": 1, "entE": 1, "entF": 1, "entS": 1, "cheA": 1, "upaG/ehaG": 1, "c3610": 1, "yijP": 1, "aec31": 1,
+      "aec30": 1, "tar/cheM": 1, "ehaB": 1, "iutA": 1, "espL4": 1, "irp1": 1, "irp2": 1, "EC042_0221": 1, "ECS88_0243": 1,
+      "LF82_024": 1, "aec25": 1, "aec22": 1, "aec23": 1, "iha": 1, "aec27/clpV": 1, "aec29": 1, "espX1": 1, "espX3": 1,
+      "espX5": 1, "espX4": 1, "hlyE/clyA": 1, "cadA": 1, "fes": 1, "hofC/hcpC": 1, "ecpC": 1, "ecpD": 1, "espR2": 1,
+      "fliI": 1, "aec15": 1, "fliD": 1, "aec18": 1, "iucC": 1, "iucA": 1, "ipad": 1, "chuA": 1, "eivA": 1, "APECO1_1761": 1,
+      "eivC": 1, "flu": 1, "eivE": 1, "espY4": 1, "eivG": 1, "chuW": 1, "cah": 1, "chuS": 1, "hofB/hcpB": 1, "int": 1,
+      "ibeB": 1, "ibeC": 1, "espR1": 1, "UTI89_C0248": 1, "sat": 1, "fliF": 1, "fdeC": 1, "ECUMN_0225": 1, "fyuA": 1,
+      "yagX/ecpC": 1, "aslA": 1, "espL1": 1, "ECP_0235": 1, "espL3": 1, "hofq": 1, "eaeH": 1, "papG": 1, "papC": 1, "fimD": 1,
+      "flgE": 1, "flgK": 1}
+  },
+
+  "NC_011750":
+  {
+    "Serotype":
+    {"O type": {"e value": "0.0", "length": "1176", "score": "1176.0", "RESULT": "O7", "percentage": "1.0", "bits": "2172.78"},
+      "prediction strength": "Top match",
+      "H type": {"e value": "0.0", "length": "1707", "score": "1590.0", "RESULT": "H45", "percentage": "0.954827789635", "bits": "2937.29"}
+    },
+    "VF": {"ompt": 1, "upaC": 0, "EC958_2290": 1, "wzy_o7": 1, "air/eaeX": 1, "fliF": 1, "yagW/ecpD": 1, "iucB": 1,
+      "papgiv": 1, "kpsD": 1, "ybtA": 1, "nadb": 1, "nada": 1, "ybtE": 1, "neua": 1, "ybtX": 1, "ybtQ": 1, "ybtP": 1,
+      "ybtS": 1, "ybtU": 1, "gspF": 1, "gspD": 1, "gspE": 1, "stgC": 1, "gspL": 1, "neuC": 1, "ygeH": 1,
+      "flhB": 1, "flhA": 1, "EC958_2289": 1, "fepA": 1, "fepE": 1, "fepD": 1, "entC": 1, "entE": 1, "entF": 1, "flk": 1,
+      "hlye": 1, "entS": 1, "cheB": 1, "cheA": 1, "upaG/ehaG": 1, "yijP": 1, "tar/cheM": 1, "ehaB": 1, "iutA": 1, "cfaC": 1,
+      "cfaD": 1, "irp1": 1, "irp2": 1, "ycbS": 1, "espX1": 1, "espX3": 1, "espX2": 1, "espX4": 1, "hlyE/clyA": 1, "cadA": 1,
+      "fes": 1, "hofC/hcpC": 1, "ecpC": 1, "ecpD": 1, "ibeC": 1, "fliM": 1, "fliI": 1, "fliK": 1, "fliD": 1, "iucD": 1,
+      "iucC": 1, "hma": 1, "iucA": 1, "ipad": 1, "chuA": 1, "espY4": 0, "chuW": 1, "chuT": 1, "chuU": 1, "chuS": 1,
+      "hofB/hcpB": 1, "fimH": 1, "ibeB": 1, "espR2": 1, "espR1": 1, "sat": 1, "sitA": 1, "fdeC": 1, "fyuA": 1, "yagX/ecpC": 1,
+      "aslA": 1, "espL1": 1, "espL3": 1, "hofq": 1, "eaeH": 1, "papG": 1, "papC": 1, "fimD": 1, "flgE": 1, "flgK": 1, "flgI": 1}
+  }
+}
+
+
