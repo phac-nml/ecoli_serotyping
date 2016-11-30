@@ -89,6 +89,12 @@ def getResults(genomesList, RGIpath):
 
 
 def getPerfectMatches(genomesDict):
+    """
+    Going through the results dictionary to filter out the entries that aren't perfect.
+
+    :param genomesDict: dictionary containing raw results (unfiltered).
+    """
+
     global GENOMES
     for genome_name, genome_info in genomesDict.iteritems():
         GENOMES[genome_name] = {}

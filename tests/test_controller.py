@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import pytest
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../src/Tools_Controller/'))
