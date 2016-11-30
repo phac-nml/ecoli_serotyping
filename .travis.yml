@@ -22,4 +22,4 @@ script:
   - py.test tests/test_ecprediction.py -vv
   - py.test tests/test_virulencefactors.py -vv
   - py.test tests/test_rgi.py -vv
-  - py.test tests/test_controller -vv
+  - py.test tests/test_controller.py -vv
