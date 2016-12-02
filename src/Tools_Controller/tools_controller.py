@@ -2,6 +2,12 @@
 
 import subprocess, sys, os, argparse, logging, csv, pandas as pd, ast
 
+TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
+
+from ectyper_formatting import *
+
+
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 serotyper = SCRIPT_DIRECTORY + '../../temp/Results/Serotyper_Results.csv'
@@ -93,13 +99,13 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
         for genome_name, vf_info in vf_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
-            resultsDict[genome_name]['VF'] = vf_info
+            resultsDict[genome_name]['Virulence Factors'] = vf_info
 
     if bool(amr_dict):
         for genome_name, amr_info in amr_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
-            resultsDict[genome_name]['AMR'] = amr_info
+            resultsDict[genome_name]['Antimicrobial resistance'] = amr_info
 
     return resultsDict
 
@@ -126,6 +132,7 @@ if __name__=='__main__':
             csv_files.append(serotyper)
             serotyper_out = subprocess.check_output([SCRIPT_DIRECTORY + "../Serotyper/ectyper.py", "--input", args.input, "-pl", str(args.percentLength),
                                     "-pi", str(args.percentIdentity), '-v', str(args.serotypeverbose), '-csv', str(args.csv)])
+            serotyper_out = str(toSimpleDict(ast.literal_eval(serotyper_out), args.serotypeverbose))
 
         if args.virulencefactors == 1:
             logging.info('Triggering the use of the Virulence Factors tool.')

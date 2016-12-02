@@ -155,7 +155,12 @@ div#result-button {
 }
 
 
-/** Results CSS
+/** Results CSS **/
+
+#results-div {
+    overflow: auto;
+    text-align: center;
+}
 .results {
     border: 2px solid teal;
     border-collapse: collapse;
@@ -167,11 +172,11 @@ div#result-button {
 
 th, td {
     border: 1.5px solid teal;
-    padding: 0.5%;
+    padding: 2px;
 }
 
 th {
-    background-color: teal;
+    background-color: cadetblue;
     color: floralwhite;
 }
 
@@ -183,13 +188,16 @@ tr:nth-child(even){
     background-color: #e5e5e5;
 }
 
+th.subheader {
+    background-color: teal;
+    border-color: cadetblue;
+}
+
 td#result-genome {
     font-weight: bold;
 }
 
 .results-caption {
-    display: table-caption;
     font-weight: bolder;
+    color: dimgray;
 }
-
-**/

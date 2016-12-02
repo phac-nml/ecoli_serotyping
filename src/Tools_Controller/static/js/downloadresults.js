@@ -17,6 +17,7 @@ window.onload = function() {
         link.click();
     };
 
+
     toCSV = function(filename) {
         var c, col, cols, file, i, j, len, len1, r, row, rows;
         rows = document.querySelectorAll('table tr');
@@ -25,16 +26,31 @@ window.onload = function() {
             r = rows[i];
             row = [];
             cols = r.querySelectorAll('th, td');
-            for (j = 0; j < cols.length; j++) {
-                c = cols[j];
-                col = c.innerText;
-                col = col.split('\n').join('; ');
+            if (cols[0].innerText == ''){
+                col = cols[0].innerText.split('\n').join(';');
                 row.push(col);
+                for(j = 1; j< cols.length; j++){
+                    col = cols[j].innerText;
+                    var colgroup = document.getElementById(col).getAttribute('colspan');
+                    row.push(col);
+                    for(var k = 1; k < colgroup; k++){
+                        row.push('');
+                    }
+                }
+            }
+            else {
+                for (j = 0; j < cols.length; j++) {
+                    c = cols[j];
+                    col = c.innerText;
+                    col = col.split('\n').join('; ');
+                    row.push(col);
+                }
             }
             file.push(row.join(','));
         }
-        download(file.join('\r\n'), filename);
+        downloadCSV(file.join('\r\n'), filename);
     };
+
 
     downloadJSON = function (filename) {
 
@@ -53,11 +69,15 @@ window.onload = function() {
     };
 
 
-    document.querySelector('#download-button-json').addEventListener('click', function(e) {
-       return downloadJSON('Results_Summary.json')
-    });
-    document.querySelector('#download-button-csv').addEventListener('click', function(e) {
-        return toCSV('Results_Summary.csv');
-    });
+    if (document.getElementById('download-button-json') != null){
+        document.querySelector('#download-button-json').addEventListener('click', function(e) {
+            return downloadJSON('Results_Summary.json')
+        });
+    }
+    if (document.getElementById('download-button-csv') != null){
+        document.querySelector('#download-button-csv').addEventListener('click', function(e) {
+            return toCSV('Results_Summary.csv');
+        });
+    }
 
 };

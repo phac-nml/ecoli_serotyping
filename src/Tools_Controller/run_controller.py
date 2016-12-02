@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 from flask_uploads import *
-from tool_formatresults import *
+from flask import *
+from tools_formatresults import *
 
 import shutil
 import Tkinter
@@ -12,7 +13,7 @@ import logging
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 OUTPUT = ''
-RESULTS = False
+FORMAT = 0
 VERBOSITY = 0
 PERC_ID = 90
 PERC_LEN = 90
@@ -31,14 +32,14 @@ configure_uploads(app, (files,))
 def uploadFiles():
 
     if request.method == 'POST':
-        global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN
+        global OUTPUT, I, FORMAT, VERBOSITY, PERC_ID, PERC_LEN
 
 
         PERC_ID = request.form['perc-id']
         PERC_LEN = request.form['perc-len']
         resultFiles = request.files.getlist('files[]')
         VERBOSITY = request.form['verbosity']
-        RESULTS = request.form['table-radiobutton']
+        FORMAT = request.form['table-radiobutton']
         threshold = request.form['threshold']
 
         serotyper_out = 0
@@ -55,6 +56,17 @@ def uploadFiles():
 
             return render_template('controller.html')
 
+        if 'serotyper-checkbox' not in request.form and\
+            'vf-checkbox' not in request.form and \
+            'amr-checkbox' not in request.form:
+
+            root = Tkinter.Tk()
+            root.withdraw()
+            tkMessageBox.showwarning('Oops!','No tools from Serotyper, Virulence Factors or AMR were selected. Please try again.')
+
+            return render_template('controller.html')
+
+
 
         if 'serotyper-checkbox' in request.form:
             serotyper_out = 1
@@ -70,6 +82,7 @@ def uploadFiles():
 
         if 'all-amr-checkbox' in request.form:
             all_amr = 1
+
 
         logging.info('In uploadFiles, method == POST')
 
@@ -107,6 +120,7 @@ def uploadFiles():
 
 @app.route('/superphy/controller/results', methods=['GET'])
 def getResults():
+    global FORMAT
     logging.info('In getResults')
 
     if 'Error' in OUTPUT:
@@ -114,20 +128,22 @@ def getResults():
         root = Tkinter.Tk()
         root.withdraw()
         tkMessageBox.showwarning('Oops!','No valid files were uploaded. Valid files are: .fasta, .fsa_nt.')
-        return render_template('uploadfile.html')
+        return render_template('controller.html')
 
-    elif RESULTS == 1:
+    elif FORMAT == '1':
         logging.info('To HTML table')
-        return toTable(ast.literal_eval(OUTPUT))
+        print OUTPUT
+        totable_list = toTableList(ast.literal_eval(OUTPUT))
+        return render_template('table_results.html', result=totable_list)
     else:
         logging.info('To JSON format')
-        return toJSON(ast.literal_eval(OUTPUT))
+        return render_template('JSON_results.html', result=json.dumps(ast.literal_eval(OUTPUT)))
 
 
 @app.route('/superphy/controller/download', methods=['GET'])
 def straightDownload():
-    if RESULTS != 0:
-
+    global OUTPUT
+    if FORMAT == '0':
         json_result = json.dumps(ast.literal_eval(OUTPUT))
         return Response(
             json_result,
@@ -135,7 +151,12 @@ def straightDownload():
             headers={"Content-disposition": "attachment; filename=Results_Summary.json"}
         )
     else:
-        return 'nbooooooobobobobobob'
+        csv_result = getCSV(ast.literal_eval(OUTPUT))
+        return Response(
+            csv_result,
+            mimetype='text/csv',
+            headers={"Content-disposition": "attachment; filename=Results_Summary.csv"}
+        )
 
 
 

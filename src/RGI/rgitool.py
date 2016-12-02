@@ -168,8 +168,6 @@ if __name__ == '__main__':
             if args.csv == 1:
                 toTSV(resultDict, 'RGI_Results')
 
-
-
             print resultDict
         else:
             print genomesList

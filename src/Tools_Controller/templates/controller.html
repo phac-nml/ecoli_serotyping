@@ -44,6 +44,7 @@
 
             if (document.getElementById('all-amr-checkbox').checked || document.getElementById('all-vfs-checkbox').checked) {
                 document.getElementById('downloading').style.display = 'block';
+                document.getElementById('upload-form').style.display = 'none';
             }
             else {
                 document.getElementById('downloading').style.display = 'none';
@@ -147,7 +148,7 @@
     <div id="loading"></div>
     <div id="downloading">
         <p>The file is being downloaded.</p>
-        <button type='button' id='refresh-button' class='button result-button' onclick="refreshPage()">Refresh page</button>
+        <button type='button' id='refresh-button' class='button result-button' onclick="refreshPage()">Return to main page</button>
     </div>
 
 </body>

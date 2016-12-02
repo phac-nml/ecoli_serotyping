@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/controller.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/downloadresults.js') }}"></script>
+</head>
+<body>
+    <div id="result-button">
+        <input type="button" class="button result-button" onclick="location.href='/superphy/controller'" value="Return to main page">
+        <button type="button" id="download-button-csv" class="button result-button">Download the results</button>
+    </div>
+    <div id="results-div">
+        <h2 class="results-caption">RESULTS</h2>
+        <table class=results>
+            <colgroup span="1"></colgroup>
+            {% for key, value in result[0].iteritems() %}
+                <colgroup span="{{ value }}" ></colgroup>
+            {% endfor %}
+            <thead class="results-head">
+            <tr>
+                <th></th>
+                {% for key, value in result[0].iteritems() %}
+                    <th colspan="{{ value }}" id="{{ key }}" scope="colgroup">{{ key }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th class="subheader">Genomes</th>
+                {% for key, value in result[2].iteritems() %}
+                    {% for k in value %}
+                        <th scope="col" class="subheader"> {{ k }}</th>
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+                {% for key, value in result[1].iteritems() %}
+                    <tr>
+                        <td scope="row" id="result-genome"> {{ key }}</td>
+                        {% for k, v in value.iteritems() %}
+                            {% for presence in v %}
+                                <td scope="col" style="white-space: pre-line"> {{ presence }}</td>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
