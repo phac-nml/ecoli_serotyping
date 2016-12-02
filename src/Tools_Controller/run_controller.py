@@ -133,7 +133,7 @@ def getResults():
     elif FORMAT == '1':
         logging.info('To HTML table')
         print OUTPUT
-        totable_list = toTableList(ast.literal_eval(OUTPUT))
+        totable_list = toTableList(ast.literal_eval(OUTPUT), VERBOSITY)
         return render_template('table_results.html', result=totable_list)
     else:
         logging.info('To JSON format')
@@ -151,7 +151,7 @@ def straightDownload():
             headers={"Content-disposition": "attachment; filename=Results_Summary.json"}
         )
     else:
-        csv_result = getCSV(ast.literal_eval(OUTPUT))
+        csv_result = getCSV(ast.literal_eval(OUTPUT), VERBOSITY)
         return Response(
             csv_result,
             mimetype='text/csv',

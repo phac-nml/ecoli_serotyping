@@ -1,6 +1,6 @@
 {
   "AAJT0200": {
-    "VF":
+    "Virulence Factors":
     {"upaC": 1, "aec15": 1, "ccdb": 1, "ECNA114_2856": 1, "aec19": 1, "aec18": 1, "ECO111_0230": 1, "fliA": 1,
       "matC/ecpB": 1, "clpV": 1, "vgrG": 1, "fliC": 1, "east1": 1, "UMNK88_238": 1, "b2854": 1, "agn43": 1, "flhB": 1,
       "flhC": 1, "flhA": 1, "flhD": 1, "flhE": 1, "Z0260": 1, "epaP": 1, "epaQ": 1, "entC": 1, "epaS": 1, "entE": 1,
@@ -39,7 +39,7 @@
       "eprI": 1, "eprH": 1, "eprK": 1, "eprJ": 1, "flgE": 1, "ECP_2810": 1, "yghg": 1, "flgD": 1, "matA/ecpR": 1,
       "ECO103_3364": 1, "flgK": 1, "gadX": 1, "entB": 1, "fimI": 1, "cheR": 1, "hofq": 1, "eaeH": 1, "fliL": 1,
       "ECABU_c30920": 1, "cheW": 1, "papA": 1, "flgN": 1, "EC958_5138": 1, "fliI": 1, "pixD": 1, "aec16": 1},
-    "AMR":
+    "Antimicrobial Resistance":
     { "emrY": 1, "mdtE": 1, "evgA": 1, "mdsB": 1, "LRA-18": 1, "emrR": 1, "rosA": 1, "rosB": 1, "MIR-11": 1, "CMY-113": 1,
       "CMY-99": 1, "evgS": 1, "CMY-93": 1, "emrA": 1, "emrB": 1, "CMY-90": 1, "emrD": 1, "emrE": 1, "robA": 1, "CMY-94": 1,
       "CMY-13": 1, "DHA-22": 1, "mdtH": 1, "CMY-17": 1, "CMY-16": 1, "CMY-15": 1, "CMY-14": 1, "DHA-3": 1, "MIR-6": 1,
@@ -78,24 +78,24 @@
   },
 
   "NC_002127": {
-    "VF": {},
-    "AMR": {}
+    "Virulence Factors": {},
+    "Antimicrobial Resistance": {}
   },
 
   "NC_002128": {
-    "VF":
+    "Virulence Factors":
     {"agn43": 1, "espC": 0, "katp": 1, "hlyB": 1, "hlyA": 1, "ECED1_1676": 0, "ibeC": 1, "etpJ": 1,
       "EC958_4614": 0, "etpG": 1, "etpF": 1, "etpE": 1, "etpD": 1, "etpC": 1, "etpO": 1, "etpN": 1, "etpM": 1, "etpL": 1,
       "etpK": 1, "epeA": 1, "etpI": 1, "etpH": 1, "hlyC": 1, "espP": 1, "vat": 0, "pic": 0, "espI": 0, "yijP": 0,
       "ccdb": 1, "hlyD": 1, "CAC39286": 0, "toxB": 1, "eaaC": 0, "stcE": 1, "fimD": 1},
-    "AMR" :
+    "Antimicrobial Resistance" :
     {"Mycobacterium tuberculosis katG mutations conferring resistance to isoniazid": 1}
 
 
   },
 
   "NC_002695": {
-    "VF":
+    "Virulence Factors":
     {"upaC": 1, "fliK": 1, "eivE": 1, "espG": 1, "nleA/espI": 1, "aec18": 1, "ECO111_0230": 1, "wzy": 1, "yagW/ecpD": 1,
       "clpV": 1, "vgrG": 1, "ompA": 1, "eae_alpha2": 1, "cheB": 1, "nleA": 1, "nleC": 1, "nleB": 1, "Z1307": 1, "nadb": 1,
       "nada": 1, "rfbe": 1, "Z2203": 1, "UMNK88_238": 1, "eae_beta2": 1, "G2583_0236": 1, "eivA": 1, "epaO": 1, "icmF": 1,
@@ -113,7 +113,7 @@
       "yagX/ecpC": 1, "Z0260": 1, "espFu/tccP": 1, "nleB1": 1, "nleB2": 1, "espL4": 1, "epaS": 1, "espL1": 1, "espL3": 1,
       "espL2": 1, "hofq": 1, "hlyE/clyA": 1, "ECs0229": 1, "eae_epsilon": 1, "fimD": 1, "flgE": 1, "flgK": 1, "flgI": 1,
       "ygeH": 1},
-    "AMR":
+    "Antimicrobial Resistance":
     { "evgA": 1, "Escherichia coli marR mutant resulting in antibiotic resistance": 1, "emrY": 1, "mdsB": 1, "LRA-18": 1,
       "emrR": 1, "rosA": 1, "rosB": 1, "MIR-11": 1, "MIR-2": 1, "CMY-99": 1, "CMY-98": 1, "CMY-93": 1, "emrA": 1,
       "emrB": 1, "CMY-90": 1, "emrD": 1, "emrE": 1, "robA": 1, "CMY-94": 1, "CMY-13": 1, "DHA-22": 1, "mdtH": 1,
@@ -150,20 +150,20 @@
   },
 
   "NC_011739": {
-    "VF": {},
-    "AMR": {}
+    "Virulence Factors": {},
+    "Antimicrobial Resistance": {}
 
   },
 
   "NC_011749": {
-    "VF":
+    "Virulence Factors":
     {"senB": 1, "papA": 1, "traJ": 1, "trat": 1, "fimD": 1, "ccdb": 1},
-    "AMR":
+    "Antimicrobial Resistance":
     {"tetA": 1, "tetB": 1, "tetE": 1, "tetD": 1, "tet31": 1}
   },
 
   "NC_011751": {
-    "VF":
+    "Virulence Factors":
     {"upaC": 1, "fliK": 1, "EC958_2290": 1, "air/eaeX": 1, "iucD": 1, "yagW/ecpD": 1, "clpV": 0, "ompA": 1, "kpsD": 1,
       "nadb": 1, "ybtE": 1, "Z2203": 1, "ybtX": 1, "ybtQ": 1, "ybtP": 1, "ybtS": 1, "ybtU": 1, "aaiW": 1, "gspF": 1,
       "gspD": 1, "gspE": 1, "stgC": 1, "espY3": 1, "agn43": 1, "ygeH": 1, "flhB": 1, "flhA": 1, "EC958_2289": 1,
@@ -176,7 +176,7 @@
       "ibeB": 1, "ibeC": 1, "espR1": 1, "UTI89_C0248": 1, "sat": 1, "fliF": 1, "fdeC": 1, "ECUMN_0225": 1, "fyuA": 1,
       "yagX/ecpC": 1, "aslA": 1, "espL1": 1, "ECP_0235": 1, "espL3": 1, "hofq": 1, "eaeH": 1, "papG": 1, "papC": 1, "fimD": 1,
       "flgE": 1, "flgK": 1},
-    "AMR":
+    "Antimicrobial Resistance":
     {"emrY": 1, "Escherichia coli marR mutant resulting in antibiotic resistance": 1, "evgA": 1, "mexF": 1, "LRA-18": 1,
       "emrR": 1, "rosA": 1, "rosB": 1, "MIR-11": 1, "mdtK": 1, "CMY-99": 1, "emrK": 1, "CMY-93": 1, "emrA": 1, "emrB": 1,
       "CMY-90": 1, "emrD": 1, "robA": 1, "CMY-94": 1, "CMY-13": 1, "DHA-22": 1, "mdtH": 1, "CMY-17": 1, "CMY-16": 1,
@@ -215,7 +215,7 @@
   },
 
   "NC_011750": {
-    "VF":
+    "Virulence Factors":
     {"ompt": 1, "upaC": 0, "EC958_2290": 1, "wzy_o7": 1, "air/eaeX": 1, "fliF": 1, "yagW/ecpD": 1, "iucB": 1,
       "papgiv": 1, "kpsD": 1, "ybtA": 1, "nadb": 1, "nada": 1, "ybtE": 1, "neua": 1, "ybtX": 1, "ybtQ": 1, "ybtP": 1,
       "ybtS": 1, "ybtU": 1, "gspF": 1, "gspD": 1, "gspE": 1, "stgC": 1, "gspL": 1, "neuC": 1, "ygeH": 1,
@@ -226,7 +226,7 @@
       "iucC": 1, "hma": 1, "iucA": 1, "ipad": 1, "chuA": 1, "espY4": 0, "chuW": 1, "chuT": 1, "chuU": 1, "chuS": 1,
       "hofB/hcpB": 1, "fimH": 1, "ibeB": 1, "espR2": 1, "espR1": 1, "sat": 1, "sitA": 1, "fdeC": 1, "fyuA": 1, "yagX/ecpC": 1,
       "aslA": 1, "espL1": 1, "espL3": 1, "hofq": 1, "eaeH": 1, "papG": 1, "papC": 1, "fimD": 1, "flgE": 1, "flgK": 1, "flgI": 1},
-    "AMR":
+    "Antimicrobial Resistance":
     {"evgA": 1, "CMY-117": 1, "mdtE": 1, "emrY": 1, "mdsB": 1, "LRA-18": 1, "emrR": 1, "MIR-11": 1, "CMY-113": 1,
       "CMY-99": 1, "CMY-98": 1, "CMY-93": 1, "emrA": 1, "emrB": 1, "CMY-90": 1, "emrD": 1, "CMY-44": 1, "robA": 1,
       "CMY-94": 1, "evgS": 1, "DHA-22": 1, "CMY-110": 1, "CMY-17": 1, "CMY-16": 1, "CMY-15": 1, "CMY-14": 1, "DHA-3": 1,

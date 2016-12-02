@@ -105,7 +105,9 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
         for genome_name, amr_info in amr_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
-            resultsDict[genome_name]['Antimicrobial resistance'] = amr_info
+            resultsDict[genome_name]['Antimicrobial Resistance'] = amr_info
+
+    #print resultsDict
 
     return resultsDict
 
@@ -132,7 +134,6 @@ if __name__=='__main__':
             csv_files.append(serotyper)
             serotyper_out = subprocess.check_output([SCRIPT_DIRECTORY + "../Serotyper/ectyper.py", "--input", args.input, "-pl", str(args.percentLength),
                                     "-pi", str(args.percentIdentity), '-v', str(args.serotypeverbose), '-csv', str(args.csv)])
-            serotyper_out = str(toSimpleDict(ast.literal_eval(serotyper_out), args.serotypeverbose))
 
         if args.virulencefactors == 1:
             logging.info('Triggering the use of the Virulence Factors tool.')

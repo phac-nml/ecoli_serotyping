@@ -1,8 +1,8 @@
 {
-  "NC_002127": {"VF": {}},
+  "NC_002127": {"Virulence Factors": {}},
 
   "NC_002128":
-  { "VF":
+  { "Virulence Factors":
     {"agn43": 1, "espC": 0, "katp": 1, "hlyB": 1, "hlyA": 1, "ECED1_1676": 0, "ibeC": 1, "etpJ": 1,
       "EC958_4614": 0, "etpG": 1, "etpF": 1, "etpE": 1, "etpD": 1, "etpC": 1, "etpO": 1, "etpN": 1, "etpM": 1, "etpL": 1,
       "etpK": 1, "epeA": 1, "etpI": 1, "etpH": 1, "hlyC": 1, "espP": 1, "vat": 0, "pic": 0, "espI": 0, "yijP": 0,
@@ -10,10 +10,10 @@
   },
 
   "NC_011749":
-  { "VF": {"senB": 1, "papA": 1, "traJ": 1, "trat": 1, "fimD": 1, "ccdb": 1}},
+  { "Virulence Factors": {"senB": 1, "papA": 1, "traJ": 1, "trat": 1, "fimD": 1, "ccdb": 1}},
 
   "AAJT0200":
-  {"VF":
+  {"Virulence Factors":
     {"upaC": 1, "aec15": 1, "ccdb": 1, "ECNA114_2856": 1, "aec19": 1, "aec18": 1, "ECO111_0230": 1, "fliA": 1,
       "matC/ecpB": 1, "clpV": 1, "vgrG": 1, "fliC": 1, "east1": 1, "UMNK88_238": 1, "b2854": 1, "agn43": 1, "flhB": 1,
       "flhC": 1, "flhA": 1, "flhD": 1, "flhE": 1, "Z0260": 1, "epaP": 1, "epaQ": 1, "entC": 1, "epaS": 1, "entE": 1,
@@ -56,7 +56,7 @@
 
 
   "NC_002695":
-  { "VF":
+  { "Virulence Factors":
     {"upaC": 1, "fliK": 1, "eivE": 1, "espG": 1, "nleA/espI": 1, "aec18": 1, "ECO111_0230": 1, "wzy": 1, "yagW/ecpD": 1,
       "clpV": 1, "vgrG": 1, "ompA": 1, "eae_alpha2": 1, "cheB": 1, "nleA": 1, "nleC": 1, "nleB": 1, "Z1307": 1, "nadb": 1,
       "nada": 1, "rfbe": 1, "Z2203": 1, "UMNK88_238": 1, "eae_beta2": 1, "G2583_0236": 1, "eivA": 1, "epaO": 1, "icmF": 1,
@@ -76,10 +76,10 @@
       "ygeH": 1}
   },
 
-  "NC_011739": {"VF":{}},
+  "NC_011739": {"Virulence Factors":{}},
 
   "NC_011751":
-  { "VF":
+  { "Virulence Factors":
     {"upaC": 1, "fliK": 1, "EC958_2290": 1, "air/eaeX": 1, "iucD": 1, "yagW/ecpD": 1, "clpV": 0, "ompA": 1, "kpsD": 1,
       "nadb": 1, "ybtE": 1, "Z2203": 1, "ybtX": 1, "ybtQ": 1, "ybtP": 1, "ybtS": 1, "ybtU": 1, "aaiW": 1, "gspF": 1,
       "gspD": 1, "gspE": 1, "stgC": 1, "espY3": 1, "agn43": 1, "ygeH": 1, "flhB": 1, "flhA": 1, "EC958_2289": 1,
@@ -95,7 +95,7 @@
   },
 
   "NC_011750":
-  {"VF":
+  {"Virulence Factors":
     {"ompt": 1, "upaC": 0, "EC958_2290": 1, "wzy_o7": 1, "air/eaeX": 1, "fliF": 1, "yagW/ecpD": 1, "iucB": 1,
       "papgiv": 1, "kpsD": 1, "ybtA": 1, "nadb": 1, "nada": 1, "ybtE": 1, "neua": 1, "ybtX": 1, "ybtQ": 1, "ybtP": 1,
       "ybtS": 1, "ybtU": 1, "gspF": 1, "gspD": 1, "gspE": 1, "stgC": 1, "gspL": 1, "neuC": 1, "ygeH": 1,

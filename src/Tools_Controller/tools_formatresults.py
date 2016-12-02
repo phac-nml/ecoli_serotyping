@@ -1,6 +1,22 @@
 #!/usr/bin/env python
 from collections import OrderedDict
-def toTableList(data):
+
+
+def tosimpleString(serotype_dict):
+
+    end_string = ''
+
+    for key, value in serotype_dict.iteritems():
+        if key == 'RESULT':
+            end_string = str(key) + ": " + str(value) + "; " + end_string
+        else:
+            end_string+= str(key) + ": " + str(value) + "; "
+
+    return end_string
+
+
+
+def toTableList(data, verbose):
     """
     Obtaining the necessary information to build the HTML table containing the results.
     First, going through the result dictionary to gather all the genes/antigen for each tool and storing them in
@@ -27,8 +43,17 @@ def toTableList(data):
                 if gene_name not in temp_dict[result_name]:
                     main_headers[result_name] += 1
                     temp_dict[result_name].append(gene_name)
-                if result_name == 'Serotype':
-                    temp_dict[result_name] = sorted(temp_dict[result_name])
+                if result_name == 'Serotype' and verbose==1:
+                    temp_str = tosimpleString(data[genome_name][result_name][gene_name])
+                    data[genome_name][result_name][gene_name] = ''
+                    data[genome_name][result_name][gene_name] = temp_str
+
+            if result_name == 'Serotype':
+
+
+
+                temp_dict[result_name] = sorted(temp_dict[result_name])
+
 
     for genome_name, results_info in data.iteritems():
 
@@ -42,7 +67,7 @@ def toTableList(data):
     return [main_headers, result_Dict, temp_dict]
 
 
-def getCSV(data):
+def getCSV(data, verbose):
     """
     Generating a CSV string from the results dictionary to be downloaded afterwards.
 
@@ -50,7 +75,7 @@ def getCSV(data):
     :return: string containing the headers, the subheaders and the data from the results dictionary.
     """
 
-    table_list = toTableList(data)
+    table_list = toTableList(data, verbose)
 
     content = table_list[1]
     main_headers = table_list[0]
