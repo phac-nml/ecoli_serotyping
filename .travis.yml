@@ -5,6 +5,7 @@ before_install:
   - pip install pytest
   - pip install biopython
   - pip install flask
+  - pip install pandas
   - sudo apt-get install tar
   - wget https://github.com/hyattpd/Prodigal/releases/download/v2.6.3/prodigal.linux -O /tmp/prodigal.linux
   - sudo ln -s /tmp/prodigal.linux /usr/bin/prodigal
@@ -22,3 +23,4 @@ script:
   - py.test tests/test_ecprediction.py -vv
   - py.test tests/test_virulencefactors.py -vv
   - py.test tests/test_rgi.py -vv
+  - py.test tests/test_controller.py -vv

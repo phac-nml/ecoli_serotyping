@@ -268,7 +268,7 @@ def findTopMatches(matchDict):
         tempDict = {}
 
         if typeDict == 'NA':
-            topMatchDict[genome_name] = {'otype': 'NA', 'htype': 'NM', 'prediction_strength': 'NA'}
+            topMatchDict[genome_name] = {'O type': 'NA', 'H type': 'NM', 'prediction_strength': 'NA'}
 
         else:
 
@@ -278,31 +278,31 @@ def findTopMatches(matchDict):
             }
 
             if not oTypeDict:
-                tempDict['otype'] = 'NA'
+                tempDict['O type'] = 'NA'
             else:
                 oKey = oTypeDict.keys()[0]
                 oTypeList = oTypeDict[oKey]
                 oTypeMatch = findTopMatch(oTypeList[0], oTypeDict, oTypeList, 'O')
 
                 if oTypeMatch['length'] == 'NA':
-                    tempDict['otype'] = 'NA'
+                    tempDict['O type'] = 'NA'
                 else:
-                    tempDict['otype'] = oTypeMatch
+                    tempDict['O type'] = oTypeMatch
 
             hTypeDict = {
                 k: typeDict[k] for k in typeDict.keys() if
                 searchType(str(typeDict[k][0].get('title')), 'H').startswith('H')
             }
             if not hTypeDict:
-                tempDict['htype'] = 'NM'
+                tempDict['H type'] = 'NM'
             else:
                 hKey = hTypeDict.keys()[0]
                 hTypeList = hTypeDict[hKey]
                 hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList, 'H')
                 if hTypeMatch['length'] == 'NA':
-                    tempDict['htype'] = 'NM'
+                    tempDict['H type'] = 'NM'
                 else:
-                    tempDict['htype'] = hTypeMatch
+                    tempDict['H type'] = hTypeMatch
 
             tempDict['prediction_strength'] = 'Top match'
             topMatchDict[genome_name] = tempDict

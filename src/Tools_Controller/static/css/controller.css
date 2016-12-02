@@ -1,0 +1,203 @@
+/** controller.html CSS**/
+
+
+div {
+    padding-top: 7px;
+}
+
+.opt-checkbox{
+    font-size: small;
+}
+
+.label-radio-btn {
+    font-weight: bold;
+
+}
+
+div#loading {
+    padding-top: 0px;
+    height: 35px;
+    display:none;
+    background: url(/static/img/upload-loading.gif) no-repeat center;
+    cursor: wait;
+}
+
+div#loading-text {
+    display: none;
+    cursor: wait;
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+}
+
+div#downloading {
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+}
+
+/**Slide checkboxes**/
+
+.checkbox-1 {
+    display: inline-block;
+    width: 86%;
+}
+
+.checkboxes {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    display: inline-block;
+    text-align: left;
+}
+
+.switch input {display: none;}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 15px;
+}
+
+.slider  {
+    position: absolute;
+    cursor:pointer;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color: #ccc;
+    border-radius: 15px;
+
+    -webkit-transition: .4s;
+    transition:.4s;
+}
+
+.slider:before {
+    border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 9px;
+    width: 9px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.checkboxes input[type=checkbox]:checked + .slider {
+    background-color: teal;
+}
+
+.checkboxes input[type=checkbox]:checked + .slider:before {
+    -webkit-transform: translateX(25px);
+    -ms-transform: translateX(25px);
+    transform: translateX(25px);
+}
+
+/**Style for headers and buttons**/
+.header1 {
+    text-align: center;
+    color: teal;
+}
+
+.button {
+    width: 10%;
+    height: 40px;
+    background-color: teal;
+    color: seashell;
+    font-weight: bolder;
+    font-size: larger;
+    font-family: "Bookman", Georgia, "Times New Roman", serif;
+}
+
+.button:hover {
+    background-color: lightseagreen;
+}
+
+.uploadform {
+    text-align: center;
+    font-family: "Bookman", Georgia, "Times New Roman", serif;
+    font-size: large;
+    color: #1c3e5c;
+}
+
+input.perc-input {
+    border: none;
+    border-bottom: 2px solid teal;
+    width: 50px;
+    text-align: center;
+
+}
+
+.verbosity {
+
+    font-size: medium;
+}
+
+
+/** Results CSS**/
+.result-button {
+    font-size: small;
+    width: 150px;
+    height: 20px;
+    margin: 1px;
+}
+
+div#result-button {
+    margin: 15px;
+    text-align: center;
+    font-size: small;
+
+}
+
+
+/** Results CSS **/
+
+#results-div {
+    overflow: auto;
+    text-align: center;
+}
+.results {
+    border: 2px solid teal;
+    border-collapse: collapse;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    color: #1c3e5c;
+}
+
+th, td {
+    border: 1.5px solid teal;
+    padding: 2px;
+}
+
+th {
+    background-color: cadetblue;
+    color: floralwhite;
+}
+
+tr:nth-child(odd) {
+    background-color: whitesmoke;
+}
+
+tr:nth-child(even){
+    background-color: #e5e5e5;
+}
+
+th.subheader {
+    background-color: teal;
+    border-color: cadetblue;
+}
+
+td#result-genome {
+    font-weight: bold;
+}
+
+.results-caption {
+    font-weight: bolder;
+    color: dimgray;
+}

@@ -39,8 +39,9 @@ def parseCommandLine():
 
     parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory", required=True)
     parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
-    parser.add_argument("-tsv", type=int, help="If set to 1, the results will be sent to a .tsv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1, choices=[0,1])
+    parser.add_argument("-csv", type=int, help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default=1.", default=1, choices=[0,1])
     parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a gene. Default is 1.", default=1)
+    parser.add_argument("-p", "--perfectMatches", type=int, help="If set to 1, the result of the AMR tool will contain only perfect matches (no strict). Options are 0 and 1, default is 0.", default=0, choices=[0,1])
 
     return parser.parse_args()
 
@@ -87,6 +88,25 @@ def getResults(genomesList, RGIpath):
     logging.info('Exiting the McMaster RGI tool.')
 
 
+def getPerfectMatches(genomesDict):
+    """
+    Going through the results dictionary to filter out the entries that aren't perfect.
+
+    :param genomesDict: dictionary containing raw results (unfiltered).
+    """
+
+    global GENOMES
+    for genome_name, genome_info in genomesDict.iteritems():
+        GENOMES[genome_name] = {}
+        for contig_name, contig_info in genome_info.iteritems():
+            GENOMES[genome_name][contig_name] = {}
+            for id, id_info in contig_info.iteritems():
+                if isinstance(id_info, dict)\
+                and 'type_match' in id_info.keys()\
+                and id_info['type_match'] == 'Perfect':
+                    GENOMES[genome_name][contig_name][id] = id_info
+
+
 
 def getGeneDict(genomesDict):
     """
@@ -105,7 +125,6 @@ def getGeneDict(genomesDict):
                 if isinstance(id_info, dict) and 'ARO_name' in id_info.keys():
                     gene_name = id_info['ARO_name']
                     GENOMES[genome_name][gene_name] = 1
-
 
 
 if __name__ == '__main__':
@@ -139,11 +158,16 @@ if __name__ == '__main__':
             clearGlobalDicts()
 
             getResults(genomesList, RGIpath)
+
+            if args.perfectMatches == 1:
+                getPerfectMatches(GENOMES)
+
             getGeneDict(GENOMES)
             resultDict = filterGenes(GENOMES, args.minGenomes)
 
-            if args.tsv == 1:
+            if args.csv == 1:
                 toTSV(resultDict, 'RGI_Results')
+
             print resultDict
         else:
             print genomesList

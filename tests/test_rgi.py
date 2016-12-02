@@ -22,6 +22,12 @@ with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_getresults_dict.json
 with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_filter_results_end_dict.json', 'r') as temp_file:
     result_dict2 = json.load(temp_file)
 
+with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_get_perf_matches_dict.json', 'r') as temp_file:
+    result_dict3 = json.load(temp_file)
+
+with open(SCRIPT_DIRECTORY + '../Data/Test_dictionaries/rgi_filter_perf_matches_dict.json', 'r') as temp_file:
+    result_dict4 = json.load(temp_file)
+
 
 
 RGIpath = ''
@@ -44,12 +50,19 @@ def test_getResults():
     setGlobalDicts(genomes, genomeNames)
 
     getResults(genomesList, RGIpath)
-
     assert getGENOMESDict() == result_dict1
 
 
-def test_filterResults():
+def test_getGeneDict():
 
     getGeneDict(start_dict)
-
     assert getGENOMESDict() == result_dict2
+
+
+def test_getPerfectMatches():
+
+    getPerfectMatches(start_dict)
+    assert getGENOMESDict() == result_dict3
+
+    getGeneDict(result_dict3)
+    assert getGENOMESDict() == result_dict4

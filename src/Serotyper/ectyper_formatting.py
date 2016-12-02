@@ -19,43 +19,45 @@ def toSimpleDict(data, verbose):
     logging.info('Simplifying the result dictionary.')
     resultDict= {}
 
+    if verbose == 0:
+        return data
+
     for genome_name, type in data.iteritems():
         resultDict[genome_name] = {}
-        if verbose == 0:
-            if isinstance(type, dict):
-                keys = sorted(type.keys())
-                resultDict[genome_name]['htype'] = data[genome_name][keys[0]]
-                resultDict[genome_name]['otype'] = data[genome_name][keys[1]]
-            else:
-                resultDict[genome_name]['htype'] = data[genome_name]
-                resultDict[genome_name]['otype'] = data[genome_name]
-        elif isinstance(type, dict):
+        #if verbose == 0:
+            # if isinstance(type, dict):
+            #     keys = sorted(type.keys())
+            #     resultDict[genome_name]['htype'] = data[genome_name][keys[0]]
+            #     resultDict[genome_name]['otype'] = data[genome_name][keys[1]]
+            # else:
+            #     resultDict[genome_name]['htype'] = data[genome_name]
+            #     resultDict[genome_name]['otype'] = data[genome_name]
+        if isinstance(type, dict):
             oTempStr =''
             hTempStr = ''
-
-            if isinstance(data[genome_name]['htype'], dict):
-                for title, info in data[genome_name]['htype'].iteritems():
+            if isinstance(data[genome_name]['H type'], dict):
+                for title, info in data[genome_name]['H type'].iteritems():
                     if title == 'RESULT':
                         hTempStr= str(title) + ": " + str(info) + "; " + hTempStr
                     else:
                         hTempStr+= str(title) + ": " + str(info) + "; "
-                resultDict[genome_name]['htype'] =  hTempStr
+                resultDict[genome_name]['H type'] =  hTempStr
             else:
-                resultDict[genome_name]['htype'] = data[genome_name]['htype']
+                resultDict[genome_name]['H type'] = data[genome_name]['H type']
 
-            if isinstance(data[genome_name]['otype'], dict):
-                for title, info in data[genome_name]['otype'].iteritems():
+            if isinstance(data[genome_name]['O type'], dict):
+                for title, info in data[genome_name]['O type'].iteritems():
                     if title == 'RESULT':
                         oTempStr = str(title) + ": " + str(info) + "; " + oTempStr
                     else:
                         oTempStr += str(title) + ": " + str(info) + "; "
-                resultDict[genome_name]['otype'] = oTempStr
+                resultDict[genome_name]['O type'] = oTempStr
             else:
-                resultDict[genome_name]['otype'] = data[genome_name]['otype']
+                resultDict[genome_name]['O type'] = data[genome_name]['O type']
 
         else:
-            resultDict[genome_name]['htype'] = data[genome_name]
-            resultDict[genome_name]['otype'] = data[genome_name]
+            resultDict[genome_name]['H type'] = data[genome_name]
+            resultDict[genome_name]['O type'] = data[genome_name]
     return resultDict
 
 
@@ -68,7 +70,6 @@ def toHTML(data, verbose):
     :param verbose: Boolean defining the type of information the user desires.
     :return: String containing the HTML page containing the table.
     """
-
 
     resultDict = toSimpleDict(data, verbose)
     stylesheet_url = url_for('static',filename='css/style.css')
@@ -92,8 +93,8 @@ def toHTML(data, verbose):
 
     for genome_name in resultDict.keys():
         result_genome = str(genome_name)
-        result_otype = str(resultDict[genome_name]['otype']).replace(";", '<br>')
-        result_htype = str(resultDict[genome_name]['htype']).replace(";", '<br>')
+        result_otype = str(resultDict[genome_name]['O type']).replace(";", '<br>')
+        result_htype = str(resultDict[genome_name]['H type']).replace(";", '<br>')
 
         result_table+= "<tr><td id='result-genome'>" + result_genome + "</td><td>" + result_otype + "</td><td>" + \
                        result_htype + "</td></tr>"
@@ -161,13 +162,13 @@ def toResultDict(topMatches, verbose):
                 resultDict[genome_name] = 'No matches were found for this genome, thus no prediction could be made.'
             else:
                 tempDict = {}
-                if topMatches[genome_name]['otype'] != 'NA':
-                    tempDict['O type'] = searchType(topMatches[genome_name]['otype']['title'], 'O')
+                if topMatches[genome_name]['O type'] != 'NA':
+                    tempDict['O type'] = searchType(topMatches[genome_name]['O type']['title'], 'O')
                 else:
                     tempDict['O type'] = 'No prediction could be made for O types for this genome.'
 
-                if topMatches[genome_name]['htype'] != 'NM':
-                    tempDict['H type'] = searchType(topMatches[genome_name]['htype']['title'], 'H')
+                if topMatches[genome_name]['H type'] != 'NM':
+                    tempDict['H type'] = searchType(topMatches[genome_name]['H type']['title'], 'H')
                 else:
                     tempDict['H type'] = 'No prediction could be made for H types for this genome (non-motile).'
 
@@ -193,11 +194,10 @@ def toCSV(data, verbose):
         csvwriter.writeheader()
 
         for genome_name in resultDict.keys():
-            row = {'Genome': genome_name, 'H Type': resultDict[genome_name]['htype'], 'O Type': resultDict[genome_name]['otype']}
+            row = {'Genome': genome_name, 'H Type': resultDict[genome_name]['H type'], 'O Type': resultDict[genome_name]['O type']}
             csvwriter.writerow(row)
 
 
 def formatResults(topMatches, verbose):
-
     data =  toResultDict(topMatches, verbose)
     return data
