@@ -154,7 +154,7 @@ def toResultDict(topMatches, verbose):
                                 tempDict2['e value'] = str(value.expect)
                         tempDict1[type] = tempDict2
                     else:
-                        tempDict1['prediction strength'] = str(info)
+                        tempDict1['Prediction Strength'] = str(info)
                     resultDict[genome_name] = tempDict1
     else:
         for genome_name, serotype in topMatches.iteritems():

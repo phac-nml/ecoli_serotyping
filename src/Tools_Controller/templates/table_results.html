@@ -22,7 +22,7 @@
             <tr>
                 <th></th>
                 {% if 'Serotype' in result[0] %}
-                    <th colspan="2" id="Serotype" scope="colgroup"> Serotype </th>
+                    <th colspan="{{ result[0]['Serotype'] }}" id="Serotype" scope="colgroup"> Serotype </th>
                 {% endif %}
                 {% for key, value in result[0].iteritems() %}
                     {% if key != 'Serotype' %}

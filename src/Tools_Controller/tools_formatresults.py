@@ -23,6 +23,7 @@ def toTableList(data, verbose):
     have corresponding HTML table data.
 
     :param data: Results dictionary.
+    :param verbose: amount of information about the serotype desired (1= full, 0= serotype only)
     :return: list of the main headers, the sorted result dictionary and the subheaders dictionary.
     """
 
@@ -43,7 +44,7 @@ def toTableList(data, verbose):
                 if gene_name not in temp_dict[result_name]:
                     main_headers[result_name] += 1
                     temp_dict[result_name].append(str(gene_name))
-                if result_name == 'Serotype' and verbose==1:
+                if result_name == 'Serotype' and isinstance(genes_info[gene_name], dict) and verbose=='1':
                     temp_str = tosimpleString(data[genome_name][result_name][gene_name])
                     data[genome_name][result_name][gene_name] = ''
                     data[genome_name][result_name][gene_name] = temp_str
