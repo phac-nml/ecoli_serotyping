@@ -15,7 +15,6 @@ def tosimpleString(serotype_dict):
     return end_string
 
 
-
 def toTableList(data, verbose):
     """
     Obtaining the necessary information to build the HTML table containing the results.
@@ -32,6 +31,7 @@ def toTableList(data, verbose):
     result_Dict = {}
     for genome_name, results_info in data.iteritems():
         result_Dict[genome_name] = {}
+
         for result_name, genes_info in results_info.iteritems():
             result_Dict[genome_name][result_name] = []
 
@@ -48,15 +48,9 @@ def toTableList(data, verbose):
                     data[genome_name][result_name][gene_name] = ''
                     data[genome_name][result_name][gene_name] = temp_str
 
-            if result_name == 'Serotype':
-
-
-
-                temp_dict[result_name] = sorted(temp_dict[result_name])
-
+            temp_dict[result_name] = sorted(temp_dict[result_name], key=str.lower)
 
     for genome_name, results_info in data.iteritems():
-
         for result_name, genes_info in results_info.iteritems():
             for gene_name in temp_dict[result_name]:
                 if gene_name not in genes_info:
