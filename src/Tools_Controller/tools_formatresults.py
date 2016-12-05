@@ -42,7 +42,7 @@ def toTableList(data, verbose):
             for gene_name in genes_info.keys():
                 if gene_name not in temp_dict[result_name]:
                     main_headers[result_name] += 1
-                    temp_dict[result_name].append(gene_name)
+                    temp_dict[result_name].append(str(gene_name))
                 if result_name == 'Serotype' and verbose==1:
                     temp_str = tosimpleString(data[genome_name][result_name][gene_name])
                     data[genome_name][result_name][gene_name] = ''
