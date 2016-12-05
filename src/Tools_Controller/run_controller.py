@@ -104,8 +104,6 @@ def uploadFiles():
         if all_vfs == 1 or all_amr == 1:
             return redirect(url_for('straightDownload'))
 
-
-
         return redirect(url_for('getResults'))
     return render_template('controller.html')
 
@@ -132,7 +130,6 @@ def getResults():
 
     elif FORMAT == '1':
         logging.info('To HTML table')
-        print OUTPUT
         totable_list = toTableList(ast.literal_eval(OUTPUT), VERBOSITY)
         return render_template('table_results.html', result=totable_list)
     else:

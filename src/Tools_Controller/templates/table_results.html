@@ -11,8 +11,8 @@
         <input type="button" class="button result-button" onclick="location.href='/superphy/controller'" value="Return to main page">
         <button type="button" id="download-button-csv" class="button result-button">Download the results</button>
     </div>
+    <div style="text-align: center"><h2 class="results-caption">RESULTS</h2></div>
     <div id="results-div">
-        <h2 class="results-caption">RESULTS</h2>
         <table class=results>
             <colgroup span="1"></colgroup>
             {% for key, value in result[0].iteritems() %}
@@ -21,16 +21,29 @@
             <thead class="results-head">
             <tr>
                 <th></th>
+                {% if 'Serotype' in result[0] %}
+                    <th colspan="2" id="Serotype" scope="colgroup"> Serotype </th>
+                {% endif %}
                 {% for key, value in result[0].iteritems() %}
-                    <th colspan="{{ value }}" id="{{ key }}" scope="colgroup">{{ key }}</th>
+                    {% if key != 'Serotype' %}
+                        <th colspan="{{ value }}" id="{{ key }}" scope="colgroup">{{ key }}</th>
+                    {% endif %}
                 {% endfor %}
             </tr>
             <tr>
                 <th class="subheader">Genomes</th>
-                {% for key, value in result[2].iteritems() %}
-                    {% for k in value %}
-                        <th scope="col" class="subheader"> {{ k }}</th>
+                {% if 'Serotype' in result[2] %}
+                    {% for k in result[2]['Serotype'] %}
+                        <th scope="col" class="subheader"> {{ k }} </th>
                     {% endfor %}
+                {% endif %}
+
+                {% for key, value in result[2].iteritems() %}
+                    {% if key != 'Serotype' %}
+                        {% for k in value %}
+                            <th scope="col" class="subheader"> {{ k }}</th>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
             </tr>
             </thead>
@@ -38,10 +51,18 @@
                 {% for key, value in result[1].iteritems() %}
                     <tr>
                         <td scope="row" id="result-genome"> {{ key }}</td>
-                        {% for k, v in value.iteritems() %}
-                            {% for presence in v %}
-                                <td scope="col" style="white-space: pre-line"> {{ presence }}</td>
+                        {% if 'Serotype' in value %}
+                            {% for k in value['Serotype'] %}
+                                <td scope="col" class="subheader" style="white-space: pre-line"> {{ k }} </td>
                             {% endfor %}
+                        {% endif %}
+
+                        {% for k, v in value.iteritems() %}
+                            {% if k != 'Serotype' %}
+                                {% for presence in v %}
+                                    <td scope="col" > {{ presence }}</td>
+                                {% endfor %}
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}

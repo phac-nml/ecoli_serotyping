@@ -88,13 +88,6 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
     """
     resultsDict = {}
 
-    if bool(serotyper_dict):
-        for genome_name, serotype_info in serotyper_dict.iteritems():
-            if genome_name not in resultsDict.keys():
-                resultsDict[genome_name] = {}
-
-            resultsDict[genome_name]['Serotype']= serotype_info
-
     if bool(vf_dict):
         for genome_name, vf_info in vf_dict.iteritems():
             if genome_name not in resultsDict.keys():
@@ -107,7 +100,12 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
                 resultsDict[genome_name] = {}
             resultsDict[genome_name]['Antimicrobial Resistance'] = amr_info
 
-    #print resultsDict
+    if bool(serotyper_dict):
+        for genome_name, serotype_info in serotyper_dict.iteritems():
+            if genome_name not in resultsDict.keys():
+                resultsDict[genome_name] = {}
+
+            resultsDict[genome_name]['Serotype']= serotype_info
 
     return resultsDict
 
