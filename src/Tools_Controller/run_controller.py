@@ -22,11 +22,11 @@ I = 0
 
 app = Flask(__name__)
 app.config['UPLOADED_FASTAFILES_DEST'] = SCRIPT_DIRECTORY + '../../temp/Uploads'
-app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt', 'fsa'])
+app.config['UPLOADED_FASTAFILES_ALLOW'] = set(['fasta', 'fsa_nt', 'fsa', 'fna'])
 files = UploadSet('fastafiles')
 configure_uploads(app, (files,))
 
-
+logging.basicConfig(filename=SCRIPT_DIRECTORY + 'controllerdebug.log',level=logging.INFO)
 
 @app.route('/superphy/controller', methods =['POST', 'GET'])
 def uploadFiles():
@@ -46,7 +46,7 @@ def uploadFiles():
         vf_out = 0
         amr_out = 0
         all_vfs = 0
-        all_amr = 0
+        perf_amr = 1
 
         filename = resultFiles[0].filename
         if len(resultFiles) == 1 and not filename:
@@ -81,7 +81,7 @@ def uploadFiles():
             all_vfs = 1
 
         if 'all-amr-checkbox' in request.form:
-            all_amr = 1
+            perf_amr = 0
 
 
         logging.info('In uploadFiles, method == POST')
@@ -90,18 +90,18 @@ def uploadFiles():
             shutil.rmtree(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
 
         os.makedirs(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
-        logging.info('Directory')
+        logging.info('Starting controller')
         for file in resultFiles:
             files.save(file,'temp_dir'+ str(I))
 
         OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "tools_controller.py", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
-                                          "-s", str(serotyper_out), "-vf", str(vf_out), "-amr", str(amr_out), "-min", str(threshold), "-p", str(all_amr), "-avf", str(all_vfs),
+                                          "-s", str(serotyper_out), "-vf", str(vf_out), "-amr", str(amr_out), "-min", str(threshold), "-p", str(perf_amr), "-avf", str(all_vfs),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-sv', str(VERBOSITY), '-csv', '0'])
         OUTPUT = OUTPUT.split('\n')[0]
 
         I +=1
 
-        if all_vfs == 1 or all_amr == 1:
+        if all_vfs == 1 or perf_amr == 0:
             return redirect(url_for('straightDownload'))
 
         return redirect(url_for('getResults'))

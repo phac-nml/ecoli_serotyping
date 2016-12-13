@@ -53,10 +53,10 @@ def createReport(csv_files):
     :param csv_files: List of applicable TSV files.
     """
 
-    logging.info('Transfering all the result to file Summary.tsv. This file can be found in temp/Results/ folder.')
+    logging.info('Transfering all the result to file Summary.csv. This file can be found in temp/Results/ folder.')
     if len(csv_files) == 1:
         filename = os.path.basename(csv_files[0])
-        os.rename(SCRIPT_DIRECTORY + '../../temp/Results/' + filename, SCRIPT_DIRECTORY + '../temp/Results/Summary.csv')
+        os.rename(SCRIPT_DIRECTORY + '../../temp/Results/' + filename, SCRIPT_DIRECTORY + '../../temp/Results/Summary.csv')
 
     elif len(csv_files) == 2:
          file1 = pd.read_csv(csv_files[0])
