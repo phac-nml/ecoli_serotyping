@@ -2,6 +2,7 @@
 
 from ectyper_formatting import *
 from compareresults import *
+import json
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
@@ -32,6 +33,7 @@ def runProgram():
     if isinstance(genomesList, list):
       setGlobalDicts()
       clearGlobalDicts()
+
 
       if initializeDB() == 0:
         results_file = runBlastQuery(genomesList, 'ECTyperDB')

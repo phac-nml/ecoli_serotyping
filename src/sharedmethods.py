@@ -148,9 +148,9 @@ def checkFiles(genomesList):
     global GENOMES
     newGenomesList = []
 
-    for file in genomesList:
+    for genome_file in genomesList:
         flag = 0
-        for record in SeqIO.parse(file, "fasta"):
+        for record in SeqIO.parse(genome_file, "fasta"):
             match = re.search('(^[a-zA-Z]+)', str(record.seq))
             if not match:
                 flag = 0
@@ -159,18 +159,18 @@ def checkFiles(genomesList):
                 flag = 1
 
         if flag>0:
-            newGenomesList.append(file)
+            newGenomesList.append(genome_file)
 
-            filename = os.path.basename(file)
+            filename = os.path.basename(genome_file)
             filename = os.path.splitext(filename)
 
-            for record in SeqIO.parse(file,"fasta"):
+            for record in SeqIO.parse(genome_file,"fasta"):
                 genome_name = getGenomeName(record.description, filename[0])
                 if not genome_name in GENOMES:
                     GENOMES[genome_name] = ''
 
         else:
-            logging.warning("File " + file + " is in invalid format")
+            logging.warning("File " + genome_file + " is in invalid format")
 
     if not newGenomesList:
         logging.error("No valid fasta files \n Exiting")
