@@ -28,7 +28,7 @@ configure_uploads(app, (files,))
 
 logging.basicConfig(filename=SCRIPT_DIRECTORY + 'controllerdebug.log',level=logging.INFO)
 
-@app.route('/superphy/controller', methods =['POST', 'GET'])
+@app.route('/superphy/ectyper', methods =['POST', 'GET'])
 def uploadFiles():
 
     if request.method == 'POST':
@@ -116,7 +116,7 @@ def uploadFiles():
 #
 #
 
-@app.route('/superphy/controller/results', methods=['GET'])
+@app.route('/superphy/ectyper/results', methods=['GET'])
 def getResults():
     global FORMAT
     logging.info('In getResults')
@@ -137,7 +137,7 @@ def getResults():
         return render_template('JSON_results.html', result=json.dumps(ast.literal_eval(OUTPUT)))
 
 
-@app.route('/superphy/controller/download', methods=['GET'])
+@app.route('/superphy/ectyper/download', methods=['GET'])
 def straightDownload():
     global OUTPUT
     if FORMAT == '0':
