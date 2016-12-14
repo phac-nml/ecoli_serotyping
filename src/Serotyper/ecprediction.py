@@ -156,12 +156,14 @@ def searchType(title, type):
     :param type: Usually O or H, to simplify the search.
     :return match: Result found when searching the string. If it is None, then the method returns the string 'none'.
     """
-
-    match = re.search('(%s\d+)$' % type, title)
+    match = re.search('(%s\d+$|-%s\d+|_%s\d+)' % (type, type, type), title)
 
     if match != None:
-     match = str(match.group())
-     #match = match.split('-')[1]
+        match = str(match.group())
+        if match.startswith('-'):
+            match = match.split('-')[1]
+        if match.startswith('_'):
+            match = match.split('_')[1]
     else:
         match = re.search('OR$', title)
 
