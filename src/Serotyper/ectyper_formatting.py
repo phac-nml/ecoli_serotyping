@@ -198,6 +198,27 @@ def toCSV(data, verbose):
             csvwriter.writerow(row)
 
 
+def toGalaxyCSV(data, verbose, output_file):
+    """
+    Writing final results in a CSV file.
+
+    :param data: Top matches dictionary with the final results.
+    :param verbose: Boolean stating whether the user wants full information or not.
+    :param output_file: Location of the file containing the results.
+    """
+
+    resultDict = toSimpleDict(data, verbose)
+    header = ['Genome', 'O Type', 'H Type']
+
+    with open(output_file.name, 'wb') as csvfile:
+        csvwriter = csv.DictWriter(csvfile, header, delimiter='\t')
+        csvwriter.writeheader()
+
+        for genome_name in resultDict.keys():
+            row = {'Genome': genome_name, 'H Type': resultDict[genome_name]['H type'], 'O Type': resultDict[genome_name]['O type']}
+            csvwriter.writerow(row)
+
+
 def formatResults(topMatches, verbose):
     data =  toResultDict(topMatches, verbose)
     return data

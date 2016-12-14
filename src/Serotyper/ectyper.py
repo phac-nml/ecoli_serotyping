@@ -48,11 +48,17 @@ def runProgram():
         if TEST == True:
           compareResults(roughGenomesList, topMatches)
 
-        if args.csv == 1:
-          toCSV(json_results, args.verbose)
+        if args.galaxy == 1:
+          if args.outputFormat == 'json':
+            json.dump(json_results, args.output)
+          else:
+            toGalaxyCSV(json_results, args.verbose, args.output)
+        else:
+          if args.csv == 1:
+            toCSV(json_results, args.verbose)
 
-        print json_results
-        logging.info('Successfully ended the program.')
+          print json_results
+          logging.info('Successfully ended the program.')
 
 
       else:
