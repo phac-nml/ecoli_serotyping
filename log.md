@@ -174,3 +174,4 @@ This is accumulative since Nov 22 2016. I didn't do this in 1 day.
     * added downloadresults.js
 - added a few tests for controller methods -> test_controller
 - merged the Galaxy tool with the master branch
+- updated documentation

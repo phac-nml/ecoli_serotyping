@@ -90,6 +90,7 @@ def runBlastQuery(genomesList, db_name):
     if len(genomesList) >1:
         combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomes.fasta'
 
+        #Put all the files into one to facilitate the query
         with open(combined_genomes, 'wb') as outfile:
             for file in genomesList:
                 with open(file, 'rb') as fastafile:
@@ -103,6 +104,7 @@ def runBlastQuery(genomesList, db_name):
         combined_genomes = genomesList[0]
         new_filename = os.path.abspath(REL_DIR + str(filename[0]) + '.xml')
 
+    #Run the BLAST query
     blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/Serotyping_Database/' +  db_name, outfmt=5, out= new_filename)
     stdout, stderr = blastn_cline()
 

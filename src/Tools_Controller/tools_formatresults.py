@@ -92,7 +92,6 @@ def getCSV(data, verbose):
     headers_str += '\r\n'
 
     subheaders_str = ''
-
     for  result_name, genes in headers.iteritems():
         if result_name == 'Serotype':
             temp_str = ''
@@ -107,7 +106,6 @@ def getCSV(data, verbose):
     subheaders_str = "Genomes" + subheaders_str + '\r\n'
 
     content_str = ''
-
     for genome_name, result_info in content.iteritems():
         for result_name, gene_info in result_info.iteritems():
             if result_name == 'Serotype':

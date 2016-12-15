@@ -31,6 +31,7 @@ def parseCommandLine():
     - out: refers to the output of the program. Default is STDOUT
     - tsv: if the user wants a csv copy of the results
     - min: the minimum number of genomes containing a certain gene
+    - p: trigger for for filtering strict matches
 
     :return parser.parse_args(): Data from the commands.
     """
@@ -54,7 +55,7 @@ def getResults(genomesList, RGIpath):
     :param RGIpath: path to the McMaster RGI tool
     """
 
-    logging.info('Entering the McMaster RGI tool.')
+    logging.info('Entering the CARD RGI tool.')
 
     global GENOMES
     global GENOMENAMES
@@ -69,15 +70,18 @@ def getResults(genomesList, RGIpath):
 
         logging.info('Getting results for ' + str(filename[0]))
 
+        #Generating the results from the RGI tool
         out = rel_dir + genome_name
         temp_result = subprocess.call(['python', RGIpath + 'rgi.py', "-i", genome_file, "-o", out])
 
+        #Obtaining a readable JSON file of the results
         formatted_out = rel_dir + genome_name + '_FORMATTED'
         temp_result = subprocess.call(['python',  RGIpath + 'formatJson.py', "-i", SCRIPT_DIRECTORY + '../../' + out + '.json', "-o", formatted_out])
 
         with open(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', 'r') as temp_file:
             GENOMES[genome_name] = json.load(temp_file)
 
+        #Generating a CSV file of the results
         csv_out = rel_dir + genome_name
         temp_result = subprocess.call(['python',  RGIpath + 'convertJsonToTSV.py', "-i", SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', "-o", csv_out])
 
@@ -132,6 +136,8 @@ if __name__ == '__main__':
     logging.basicConfig(filename=SCRIPT_DIRECTORY + 'rgi.log',level=logging.INFO)
     logging.info("This log file doesn't contain the logs from the actual RGI tool. To see these logs, go to your downloaded RGI folder and open the app.log file.")
 
+
+    #Retrieving the RGI python path.
     RGIpath = ''
     for relpath in sys.path:
         if 'release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39' in str(relpath):
