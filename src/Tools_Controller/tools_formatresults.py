@@ -79,29 +79,48 @@ def getCSV(data, verbose):
     headers_str = ""
 
     for result_name, appearances in main_headers.iteritems():
-        headers_str += ',' + result_name
-        for x in range(1, appearances):
-            headers_str += ","
+        if result_name == 'Serotype':
+            temp_str = ',' + result_name
+            for x in range(1, appearances):
+                temp_str += ","
+            headers_str = temp_str + headers_str
+        else:
+            headers_str += ',' + result_name
+            for x in range(1, appearances):
+                headers_str += ","
 
     headers_str += '\r\n'
 
-    subheaders_str = "Genomes"
+    subheaders_str = ''
 
     for  result_name, genes in headers.iteritems():
-        for gene_name in genes:
-            subheaders_str += ',' + gene_name
+        if result_name == 'Serotype':
+            temp_str = ''
+            for gene_name in genes:
+                temp_str += ',' + gene_name
+            subheaders_str = temp_str + subheaders_str
+        else:
+            for gene_name in genes:
+                subheaders_str += ',' + gene_name
 
-    subheaders_str += '\r\n'
+
+    subheaders_str = "Genomes" + subheaders_str + '\r\n'
 
     content_str = ''
 
     for genome_name, result_info in content.iteritems():
-        content_str += genome_name
         for result_name, gene_info in result_info.iteritems():
-            for gene_name in gene_info:
-                gene_str = gene_name.replace('\n', ';')
-                content_str +=',' + gene_str
-        content_str += '\r\n'
+            if result_name == 'Serotype':
+                temp_str = ''
+                for gene_name in gene_info:
+                    gene_str = gene_name.replace('\n', ';')
+                    temp_str +=',' + gene_str
+                content_str = temp_str + content_str
+            else:
+                for gene_name in gene_info:
+                    gene_str = gene_name.replace('\n', ';')
+                    content_str +=',' + gene_str
+        content_str = genome_name + content_str + '\r\n'
 
     return headers_str + subheaders_str + content_str
 

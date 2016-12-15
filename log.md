@@ -163,3 +163,14 @@
 - added the RGI tool
 - added tests for VFs and RGI
 - merged all shared methods into one single file (sharedmethods.py)
+
+[2016/12/15 - Camille La Rose]
+This is accumulative since Nov 22 2016. I didn't do this in 1 day.
+- added interactive web-server app for Tools controller -> run_controller.py
+    * added controller.html
+    * added tools_formatresults.py
+    * added JSON_results.html and table_results.html
+    * added controller.css
+    * added downloadresults.js
+- added a few tests for controller methods -> test_controller
+- merged the Galaxy tool with the master branch

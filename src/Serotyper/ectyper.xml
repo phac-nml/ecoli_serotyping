@@ -1,0 +1,63 @@
+<tool id="e_coli_typer" name="E. coli Serotyper" version="0.1.0">
+	<description></description>
+	<requirements>
+        	<requirement type="package" version="1.66">biopython</requirement>
+		    <requirement type="python-module">Bio</requirement>
+	</requirements>	
+	<command interpreter="python">
+	        ectyper.py -in $input -pi $pi -pl $pl -out $output -v $verbosity -outfmt $output_format -g 1
+	</command>
+	<inputs>
+		<param format="fasta" 
+			name="input" 
+			type="data" 
+			label="Sequence file"
+            argument="--input"/>
+		<param name="pi" 
+			type="integer" 
+			argument="--percentIdentity"
+			value="90"
+			label="Percentage of identity cutoff"/>
+		<param name="pl" 
+			type="integer" 
+			argument="--percentLength"
+			value="90"
+			label="Percentage of length cutoff"/>
+		<param name="verbosity"
+			argument="--verbose"
+			type="select"
+			display="radiobutton"
+			label="Information">
+			<option value="0">Serotype only</option>
+			<option value="1">Full information</option>
+		</param>
+		<param name="output_format"
+			argument="--outputFormat"
+			type="select"
+			display="radiobutton"
+			label="Output format">
+			<option value="json">JSON</option>
+			<option value="tsv">Table</option>
+		</param>
+	</inputs>
+	<outputs>
+		<data format="json" name="output">
+			<change_format>
+				<when input="output_format" value="tsv" format="tsv"/>
+			</change_format>
+		</data>
+	</outputs>
+	<help>
+		This tool returns a serotype based on an exact allele match or a prediction.
+
+		The user inputs one or more valid .fasta files containing assembled whole genome sequences,
+		then specifies the following options:
+
+		- the Percentage of identity cutoff represents the number of exact matches out of the match's length (default is 90%);
+		- the Percentage of length cutoff represents length of the match out of the length of the given sequence (default is 90%);
+		- the Information represents the amount of information desired by the user (either Serotype only or Full information);
+		- the Output format represents the format of the results (either JSON or table).
+
+		If more than one file is chosen, the tool will return multiple individual results.
+	</help>
+</tool>	

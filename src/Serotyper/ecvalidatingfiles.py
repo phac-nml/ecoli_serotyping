@@ -53,6 +53,8 @@ def parseCommandLine():
     parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0,100))
     parser.add_argument("-v", "--verbose", type=int, help="Information desired, 1 being full information, 0 being the serotype only. Options are 0 and 1, default is 0", default=0, choices=[0,1])
     parser.add_argument("-csv", type=int, help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default is 1.", default=1, choices=[0,1])
+    parser.add_argument("-g", "--galaxy", type=int, help="Galaxy is in use", default=0, choices=[0,1])
+    parser.add_argument("-outfmt", "--outputFormat", help="Format of the results (Table or JSON).", default="json")
 
     return parser.parse_args()
 
