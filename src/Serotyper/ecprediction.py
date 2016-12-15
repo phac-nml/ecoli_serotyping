@@ -58,6 +58,8 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
                 hsp = info[al_length]
                 hsp_length = float(hsp.positives)/int(al_length)
                 hsp_identity = float(hsp.identities)/hsp.align_length
+
+                #Comparing with the cutoffs
                 if hsp_length >= percent_length:
                    if hsp_identity >= percent_identity:
                       tempDict[title] = [hsp, al_length]
@@ -135,7 +137,7 @@ def sortMatches(predictionDict):
                     tempDict['gnd'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
 
 
-
+            #Sorting the lists in the resulting dictionary
              for type in tempDict.keys():
                  if not tempDict[type]:
                      emptyList = tempDict.pop(type, None)
@@ -201,6 +203,7 @@ def findTopMatch(topMatch, matchDict, topMatchList, ohType):
         topPerc = topMatch.get('percentage')
 
         if topPerc == 0:
+            #Switch to next top match
             topMatch = alignmentList[0]
             topMatchList = alignmentList
 
@@ -208,10 +211,12 @@ def findTopMatch(topMatch, matchDict, topMatchList, ohType):
             continue
 
         elif perc == 0:
+            #Stay with current match
             logging.info("The percentage of " + str(alignmentList[0].get('title')) + " is 0. Continuing with current top match (" + str(topMatch.get('title')) +".")
             continue
 
         elif perc > topPerc:
+            #Switch to next top match with a higher percentage
             topMatch = alignmentList[0]
             topMatchList = alignmentList
 
@@ -219,6 +224,9 @@ def findTopMatch(topMatch, matchDict, topMatchList, ohType):
             continue
 
         elif perc == topPerc and str(alignmentList[0].get('title')) != str(topMatch.get('title')):
+            #Search through the top match dictionary lists and the alignment list to obtain the best recurrences
+            # for either the top match or the compared match
+
             item1 = 0
             item2 = 0
             match1 = searchType(alignmentList[0].get('title'), ohType)
@@ -237,6 +245,7 @@ def findTopMatch(topMatch, matchDict, topMatchList, ohType):
                     break
 
             if item1>item2:
+                #Switch to next top match with higher percentage from the best recurrence
                 topMatch = alignmentList[0]
                 topMatchList = alignmentList
                 logging.info("Setting " + str(alignmentList[0].get('title')) + " as new top match.")
@@ -282,6 +291,7 @@ def findTopMatches(matchDict):
             if not oTypeDict:
                 tempDict['O type'] = 'NA'
             else:
+                #Find O type top match
                 oKey = oTypeDict.keys()[0]
                 oTypeList = oTypeDict[oKey]
                 oTypeMatch = findTopMatch(oTypeList[0], oTypeDict, oTypeList, 'O')
@@ -298,6 +308,7 @@ def findTopMatches(matchDict):
             if not hTypeDict:
                 tempDict['H type'] = 'NM'
             else:
+                #Find H type top match
                 hKey = hTypeDict.keys()[0]
                 hTypeList = hTypeDict[hKey]
                 hTypeMatch = findTopMatch(hTypeList[0], hTypeDict, hTypeList, 'H')

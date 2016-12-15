@@ -164,6 +164,7 @@ def checkFiles(genomesList):
             filename = os.path.basename(genome_file)
             filename = os.path.splitext(filename)
 
+            #Go through the file to obtain the genome name
             for record in SeqIO.parse(genome_file,"fasta"):
                 genome_name = getGenomeName(record.description, filename[0])
                 if not genome_name in GENOMES:
