@@ -109,12 +109,74 @@ def uploadFiles():
 
 
 
-# @app.route('/curl-upload', methods=['POST'])
-# def curl_uploadFiles():
-#
-#
-#
-#
+@app.route('/ectyper/curl-upload', methods=['POST'])
+def curl_uploadFiles():
+    """
+    Uploading files method for the command line. When the request is POST, the program runs the ectyper through
+    the command line with the information provided by the user in the curl command line.
+    When the request is GET, the program returns a string.
+
+    :return: Results in JSON format.
+    """
+    if request.method == 'POST':
+        global OUTPUT, I, VERBOSITY, PERC_ID, PERC_LEN
+        s = 0
+        vf = 0
+        amr = 0
+        avf = 0
+        perf_amr = 1
+        csv = 0
+        threshold = 0
+
+        resultFiles = request.files.getlist('files[]')
+        resultForm = ast.literal_eval(request.form['user_data'])
+
+        if 'serotype' in resultForm:
+            s = resultForm['serotype']
+        if 'virulence_factors' in resultForm:
+            vf = resultForm['virulence_factors']
+        if 'amr' in resultForm:
+            amr = resultForm['amr']
+        if 'percent_identity' in resultForm:
+            PERC_ID = resultForm['percent_identity']
+        if 'percent_length' in resultForm:
+            PERC_LEN = resultForm['percent_length']
+        if 'verbose' in resultForm:
+            VERBOSITY = resultForm['verbose']
+        if 'all_vfs' in resultForm:
+            avf = resultForm['all_vfs']
+        if 'minimum' in resultForm:
+            threshold = resultForm['minimum']
+        if 'perfect_amr' in resultForm:
+            perf_amr = resultForm['perfect_amr']
+        if 'csv' in resultForm:
+            csv = resultForm['csv']
+
+        if len(resultFiles) == 1:
+            filename = resultFiles[0].filename
+            if not filename:
+                return 'No files were uploaded.'
+            else:
+                files.save(resultFiles[0])
+                OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "tools_controller.py", "--input", files.path(filename),
+                                                  "-s", str(s), "-vf", str(vf), "-amr", str(amr), "-min", str(threshold), "-p", str(perf_amr), "-avf", str(avf),
+                                                  "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-sv', str(VERBOSITY), '-csv', str(csv)])
+        else:
+            if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
+                shutil.rmtree(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
+
+            os.makedirs(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
+
+            for file in resultFiles:
+                files.save(file,'temp_dir'+ str(I))
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "tools_controller.py", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
+                                              "-s", str(s), "-vf", str(vf), "-amr", str(amr), "-min", str(threshold), "-p", str(perf_amr), "-avf", str(avf),
+                                              "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-sv', str(VERBOSITY), '-csv', str(csv)])
+        I +=1
+        return jsonify(ast.literal_eval(OUTPUT))
+    return 'No HTTP requests were made.'
+
+
 
 @app.route('/ectyper/results', methods=['GET'])
 def getResults():

@@ -24,8 +24,9 @@ def parseCommandLine():
     - amr: trigger for the AMR(RGI) tool
     - pi: refers to the percentage of identity wanted. Default is 90%
     - pl: refers to the percentage of length wanted. Default is 90%
-    - sv: refers to the verbosity for the Serotyper
+    - sv: trigger the verbosity for the Serotyper
     - min: the minimum number of genomes containing a certain gene
+    - csv: trigger for putting the results in a CSV file
     :return parser.parse_args(): Data from the commands.
     """
 
