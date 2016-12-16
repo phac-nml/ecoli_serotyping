@@ -140,7 +140,7 @@ def curl_uploadFiles():
         if 'percent_identity' in resultForm:
             PERC_ID = resultForm['percent_identity']
         if 'percent_length' in resultForm:
-            PERC_LEN = resultForm['percent_lengths']
+            PERC_LEN = resultForm['percent_length']
         if 'verbose' in resultForm:
             VERBOSITY = resultForm['verbose']
         if 'all_vfs' in resultForm:
@@ -163,7 +163,7 @@ def curl_uploadFiles():
                                                   "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-sv', str(VERBOSITY), '-csv', str(csv)])
         else:
             if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
-                shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
+                shutil.rmtree(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
 
             os.makedirs(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I))
 
