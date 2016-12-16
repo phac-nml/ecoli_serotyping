@@ -94,9 +94,22 @@ def curl_uploadFiles():
     :return: Results in JSON format.
     """
     if request.method == 'POST':
-        global OUTPUT, I, RESULTS, VERBOSITY, PERC_ID, PERC_LEN
+        global OUTPUT, I, VERBOSITY, PERC_ID, PERC_LEN
 
         resultFiles = request.files.getlist('files[]')
+        resultForm = ast.literal_eval(request.form['user_data'])
+
+        csv = 0
+
+        if 'percent_identity' in resultForm:
+            PERC_ID = resultForm['percent_identity']
+        if 'percent_length' in resultForm:
+            PERC_LEN = resultForm['percent_lengths']
+        if 'verbose' in resultForm:
+            VERBOSITY = resultForm['verbose']
+        if 'csv' in resultForm:
+            csv = resultForm['csv']
+
         if len(resultFiles) == 1:
             filename = resultFiles[0].filename
             if not filename:
@@ -104,7 +117,7 @@ def curl_uploadFiles():
             else:
                 files.save(resultFiles[0])
                 OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
-                                                  "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
+                                                  "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', csv])
         else:
             if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
                 shutil.rmtree(SCRIPT_DIRECTORY + '../temp/Uploads/temp_dir' + str(I))
@@ -115,7 +128,7 @@ def curl_uploadFiles():
                 files.save(file,'temp_dir'+ str(I))
             OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input",
                                               SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
-                                              "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
+                                              "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', csv])
         I +=1
         return jsonify(ast.literal_eval(OUTPUT))
     return 'No HTTP requests were made.'
