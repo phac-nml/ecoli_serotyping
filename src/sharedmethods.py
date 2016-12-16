@@ -12,6 +12,8 @@ GENOMES = {}
 FILENAMES = {}
 GENOMENAMES = {}
 
+
+### The following are setters/getters for the other modules to obtain the global dictionaries. ###
 def getGENOMES():
     return GENOMES
 
@@ -43,6 +45,9 @@ def clearGlobalDicts():
 
 
 def createDirs():
+    """
+    Generating every needed directory
+    """
 
     if not os.path.isdir(SCRIPT_DIRECTORY + '../temp/'):
         os.mkdir(SCRIPT_DIRECTORY + '../temp/')
@@ -82,7 +87,7 @@ def getFilesList(data):
 
     if os.path.isdir(data):
         logging.info("Using files from " + data)
-
+        #Create a list containing the file names
         for root, dirs, files in os.walk(data):
             for filename in files:
                 filesList.append(os.path.join(root,filename))
@@ -106,25 +111,30 @@ def getGenomeName(recordID, filename):
     global GENOMENAMES
     recordID = str(recordID)
 
+
+    #Look for lcl followed by the possible genome name
     if re.search('lcl\|([\w-]*)', recordID):
         match = re.search('lcl\|([\w-]*)', recordID)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
+    #Look for a possible genome name at the beginning of the record ID
     elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)',recordID):
         match = re.search('(\w{8}\.\d)',recordID)
         genome_name = str(match.group())
 
+    #Look for ref, gb, emb or dbj followed by the possible genome name
     elif re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID):
         match = re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',recordID)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
+    #Look for gi followed by the possible genome name
     elif re.search('gi\|\d{8}', recordID):
         match = re.search('gi\|\d{8}', recordID)
         match = str(match.group())
         genome_name = match.split('|')[1]
-
+    #Assign the file name as genome name
     else:
         genome_name = filename
 
@@ -150,6 +160,8 @@ def checkFiles(genomesList):
 
     for genome_file in genomesList:
         flag = 0
+
+        #Going through the file to confirm it is a valid fasta file
         for record in SeqIO.parse(genome_file, "fasta"):
             match = re.search('(^[a-zA-Z]+)', str(record.seq))
             if not match:
@@ -196,6 +208,7 @@ def filterGenes(genomesDict, threshold):
     if threshold == 0:
         return genomesDict
 
+    #Obtaining the frequencies for each gene found
     logging.info('Filtering the result dictionaries with following threshold: ' + str(threshold) + '.')
     for genome_name, gene_info in genomesDict.iteritems():
         if isinstance(gene_info, dict):
@@ -205,6 +218,7 @@ def filterGenes(genomesDict, threshold):
                 elif gene_info[gene_name] == 1:
                     threshDict[gene_name] = 1
 
+    #Filtering the dictionary to remove the genes that don't have a frequency equal or higher than the threshold
     for genome_name, gene_info in genomesDict.iteritems():
         resultDict[genome_name] = {}
         if isinstance(gene_info, dict):

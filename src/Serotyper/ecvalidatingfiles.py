@@ -90,7 +90,7 @@ def runBlastQuery(genomesList, db_name):
     if len(genomesList) >1:
         combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomes.fasta'
 
-        #Put all the files into one to facilitate the query
+        #Copy each file content into one file to simplify the database search
         with open(combined_genomes, 'wb') as outfile:
             for file in genomesList:
                 with open(file, 'rb') as fastafile:
@@ -130,6 +130,7 @@ def parseResults(result_file):
     blast_records = NCBIXML.parse(result_handle)
 
     for blast_record in blast_records:
+        #Obtain record information
         filename = FILENAMES[blast_record.query]
         genome_name = getGenomeName(blast_record.query, filename)
 

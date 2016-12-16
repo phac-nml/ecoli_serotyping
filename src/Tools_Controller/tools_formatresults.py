@@ -3,7 +3,12 @@ from collections import OrderedDict
 
 
 def tosimpleString(serotype_dict):
+    """
+    Compiling the information about the serotype (when verbosity is 1) into one string.
 
+    :param serotype_dict:
+    :return end_string:
+    """
     end_string = ''
 
     for key, value in serotype_dict.iteritems():
@@ -28,7 +33,7 @@ def toTableList(data, verbose):
     """
 
     main_headers = {}
-    temp_dict = {}
+    subheaders_dict = {}
     result_Dict = {}
     for genome_name, results_info in data.iteritems():
         result_Dict[genome_name] = {}
@@ -37,29 +42,33 @@ def toTableList(data, verbose):
             result_Dict[genome_name][result_name] = []
 
             if result_name not in main_headers:
+                #Add the header to the main headers dictionary and create an empty list for its corresponding genes (subheaders)
                 main_headers[result_name] = 0
-                temp_dict[result_name] = []
+                subheaders_dict[result_name] = []
 
             for gene_name in genes_info.keys():
-                if gene_name not in temp_dict[result_name]:
+
+                if gene_name not in subheaders_dict[result_name]:
+                    #Add an empty space in the main headers and add the gene to the subheaders list
                     main_headers[result_name] += 1
-                    temp_dict[result_name].append(str(gene_name))
+                    subheaders_dict[result_name].append(str(gene_name))
                 if result_name == 'Serotype' and isinstance(genes_info[gene_name], dict) and verbose=='1':
+                    #Convert the full information dictionary into a string
                     temp_str = tosimpleString(data[genome_name][result_name][gene_name])
-                    data[genome_name][result_name][gene_name] = ''
                     data[genome_name][result_name][gene_name] = temp_str
+            #Sort the subheaders by alphabetical order
+            subheaders_dict[result_name] = sorted(subheaders_dict[result_name], key=str.lower)
 
-            temp_dict[result_name] = sorted(temp_dict[result_name], key=str.lower)
-
+    #Convert the genes dictionary for each header into a list
     for genome_name, results_info in data.iteritems():
         for result_name, genes_info in results_info.iteritems():
-            for gene_name in temp_dict[result_name]:
+            for gene_name in subheaders_dict[result_name]:
                 if gene_name not in genes_info:
                     result_Dict[genome_name][result_name].append('0')
                 else:
                     result_Dict[genome_name][result_name].append(str(genes_info[gene_name]).replace(';','\n'))
 
-    return [main_headers, result_Dict, temp_dict]
+    return [main_headers, result_Dict, subheaders_dict]
 
 
 def getCSV(data, verbose):
@@ -78,6 +87,7 @@ def getCSV(data, verbose):
 
     headers_str = ""
 
+    #Generate the headers string
     for result_name, appearances in main_headers.iteritems():
         if result_name == 'Serotype':
             temp_str = ',' + result_name
@@ -92,6 +102,7 @@ def getCSV(data, verbose):
     headers_str += '\r\n'
 
     subheaders_str = ''
+    #Generetae the subheaders string
     for  result_name, genes in headers.iteritems():
         if result_name == 'Serotype':
             temp_str = ''
@@ -106,6 +117,7 @@ def getCSV(data, verbose):
     subheaders_str = "Genomes" + subheaders_str + '\r\n'
 
     content_str = ''
+    #Generate the content string
     for genome_name, result_info in content.iteritems():
         for result_name, gene_info in result_info.iteritems():
             if result_name == 'Serotype':

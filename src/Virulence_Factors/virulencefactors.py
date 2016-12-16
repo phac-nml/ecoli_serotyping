@@ -68,6 +68,7 @@ def searchDB(genomesList):
     if len(genomesList) >1:
         combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomesVF.fasta'
 
+        #Copying the content of every fasta file into one file to simplify the database search
         with open(combined_genomes, 'wb') as outfile:
             for file in genomesList:
                 with open(file, 'rb') as fastafile:
@@ -81,6 +82,7 @@ def searchDB(genomesList):
         combined_genomes = genomesList[0]
         new_filename = os.path.abspath(REL_DIR + str(filename[0]) + '.xml')
 
+    #Querying the database
     blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/VF_Database/VirulenceFactorsDB', outfmt=5, out= new_filename)
     stdout, stderr = blastn_cline()
 
@@ -114,6 +116,7 @@ def parseFile(result_file, perc_len, perc_id):
         if genome_name in GENOMES:
             alignmentsDict = dict(GENOMES[genome_name])
 
+        #Find the gene name + compare with the identity and length cutoffs.
         for alignment in blast_record.alignments:
             match = re.search('(\s\(.*\)\s)', alignment.title)
             match = match.group()

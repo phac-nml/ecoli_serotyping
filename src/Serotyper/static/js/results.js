@@ -2,6 +2,8 @@
 (function() {
   window.onload = function() {
     var download, toCSV;
+
+    /** Generate download link and download CSV file **/
     download = function(csv, filename) {
       var csvFile, link;
       csvFile = new Blob([csv], {
@@ -14,6 +16,7 @@
       document.body.appendChild(link);
       return link.click();
     };
+    /** Generate CSV file **/
     toCSV = function(filename) {
       var c, col, cols, file, i, j, len, len1, r, row, rows;
       rows = document.querySelectorAll('table tr');

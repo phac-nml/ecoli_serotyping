@@ -24,14 +24,6 @@ def toSimpleDict(data, verbose):
 
     for genome_name, type in data.iteritems():
         resultDict[genome_name] = {}
-        #if verbose == 0:
-            # if isinstance(type, dict):
-            #     keys = sorted(type.keys())
-            #     resultDict[genome_name]['htype'] = data[genome_name][keys[0]]
-            #     resultDict[genome_name]['otype'] = data[genome_name][keys[1]]
-            # else:
-            #     resultDict[genome_name]['htype'] = data[genome_name]
-            #     resultDict[genome_name]['otype'] = data[genome_name]
         if isinstance(type, dict):
             oTempStr =''
             hTempStr = ''
@@ -112,7 +104,7 @@ def toHTML(data, verbose):
     return html_info + result_table + return_button + "</body></html>"
 
 
-def toResultDict(topMatches, verbose):
+def formatResults(topMatches, verbose):
     """
     Filtering through the top matches dictionary to only keep the necessary result information (may be changed later
     on).
@@ -125,6 +117,7 @@ def toResultDict(topMatches, verbose):
 
     resultDict = {}
     if verbose == 1:
+        #Generate the final full dictionary with full information about the serotype
         for genome_name, serotype in topMatches.iteritems():
             if serotype == 'NA':
                 resultDict[genome_name] = 'No matches were found for this genome, thus no prediction could be made.'
@@ -157,6 +150,7 @@ def toResultDict(topMatches, verbose):
                         tempDict1['Prediction Strength'] = str(info)
                     resultDict[genome_name] = tempDict1
     else:
+        #Generate the final full dictionary with serotype only
         for genome_name, serotype in topMatches.iteritems():
             if serotype == 'NA':
                 resultDict[genome_name] = 'No matches were found for this genome, thus no prediction could be made.'
@@ -200,7 +194,7 @@ def toCSV(data, verbose):
 
 def toGalaxyCSV(data, verbose, output_file):
     """
-    Writing final results in a CSV file.
+    Writing final results in a CSV file for Galaxy Project tool only.
 
     :param data: Top matches dictionary with the final results.
     :param verbose: Boolean stating whether the user wants full information or not.
@@ -219,6 +213,3 @@ def toGalaxyCSV(data, verbose, output_file):
             csvwriter.writerow(row)
 
 
-def formatResults(topMatches, verbose):
-    data =  toResultDict(topMatches, verbose)
-    return data
