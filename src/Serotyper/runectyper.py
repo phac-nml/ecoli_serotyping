@@ -103,7 +103,7 @@ def curl_uploadFiles():
                 return 'No files were uploaded.'
             else:
                 files.save(resultFiles[0])
-                OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input", files.path(filename),
+                OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
                                                   "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         else:
             if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
@@ -113,7 +113,7 @@ def curl_uploadFiles():
 
             for file in resultFiles:
                 files.save(file,'temp_dir'+ str(I))
-            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "-input",
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input",
                                               SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', 'false'])
         I +=1

@@ -175,3 +175,18 @@ This is accumulative since Nov 22 2016. I didn't do this in 1 day.
 - added a few tests for controller methods -> test_controller
 - merged the Galaxy tool with the master branch
 - updated documentation
+
+[2016/12/16 - Camille La Rose]
+- curl command for run_controller.py
+    * curl -i -X POST -F 'files[]=@path/to/file1.fasta' -F 'files[]=@path/to/file2.fasta' -F user_data='{command1: value1, command2: value2};type=application/json' URL
+        ~ COMMANDS:
+              serotype - choose from 0 or 1, 1 triggering the use of the serotype tool
+              virulence_factors - choose from 0 or 1, 1 triggering the use of the virulence factors tool
+              amr - choose from 0 or 1, 1 triggering the use of the amr tool
+              percent_identity - choose from 0 to 100
+              percent_length - choose from 0 to 100
+              verbose - choose from 0 or 1, 1 triggering full information about the serotype
+              all_vfs - choose from 0 or 1, 1 returning all found virulence factors
+              minimum - choose from 0 to n, genomes threshold for virulence factors and amr
+              perfect_amr - choose from 0 or 1, 1 filtering out strict amr results
+              csv - choose from 0 or 1, 1 triggering the creation of a CSV file containing the results
