@@ -154,9 +154,6 @@ div#result-button {
 
 }
 
-
-/** Results CSS **/
-
 #results-div {
     overflow: auto;
     text-align: center;

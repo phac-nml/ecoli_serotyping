@@ -4,6 +4,7 @@
 
 window.onload = function() {
 
+    /** Create the download link and download CSV file **/
     downloadCSV = function(csv, filename) {
         var csvFile = new Blob([csv], {
             type: 'text/csv'
@@ -17,7 +18,7 @@ window.onload = function() {
         link.click();
     };
 
-
+    /** Generate the CSV file **/
     toCSV = function(filename) {
         var c, col, cols, file, i, j, len, len1, r, row, rows;
         rows = document.querySelectorAll('table tr');
@@ -51,7 +52,7 @@ window.onload = function() {
         downloadCSV(file.join('\r\n'), filename);
     };
 
-
+    /** Generate the JSON file and download link, then download the file. **/
     downloadJSON = function (filename) {
 
         json = document.getElementsByTagName('p')[0].innerHTML;

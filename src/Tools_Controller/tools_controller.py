@@ -54,15 +54,19 @@ def createReport(csv_files):
     """
 
     logging.info('Transfering all the result to file Summary.csv. This file can be found in temp/Results/ folder.')
+    #For 1 tool triggered
     if len(csv_files) == 1:
         filename = os.path.basename(csv_files[0])
         os.rename(SCRIPT_DIRECTORY + '../../temp/Results/' + filename, SCRIPT_DIRECTORY + '../../temp/Results/Summary.csv')
 
+    #For 2 tools triggered
     elif len(csv_files) == 2:
          file1 = pd.read_csv(csv_files[0])
          file2 = pd.read_csv(csv_files[1])
          merged = file1.merge(file2, on='Genome')
          merged.to_csv(SCRIPT_DIRECTORY + '../../temp/Results/Summary.csv', index=False)
+
+    #For 3 tools triggered
     else:
         file1 = pd.read_csv(csv_files[0])
         file2 = pd.read_csv(csv_files[1])
@@ -89,18 +93,21 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
     resultsDict = {}
 
     if bool(vf_dict):
+        #Copy virulence factors dictionary content into merged dictionary
         for genome_name, vf_info in vf_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
             resultsDict[genome_name]['Virulence Factors'] = vf_info
 
     if bool(amr_dict):
+        #Copy AMR dictionary content into merged dictionary
         for genome_name, amr_info in amr_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
             resultsDict[genome_name]['Antimicrobial Resistance'] = amr_info
 
     if bool(serotyper_dict):
+        #Copy serotype dictionary content into merged dictionary
         for genome_name, serotype_info in serotyper_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}

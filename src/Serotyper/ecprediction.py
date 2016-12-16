@@ -255,7 +255,6 @@ def findTopMatch(topMatch, matchDict, topMatchList, ohType):
         else:
             continue
 
-
     return topMatch
 
 
