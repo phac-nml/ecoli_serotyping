@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, sys, logging, argparse, subprocess, shutil
+import os, sys, logging, argparse, subprocess, shutil, json
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
@@ -164,7 +164,7 @@ if __name__=='__main__':
             if args.csv == 1:
                 toTSV(resultsDict, 'VF_Results')
 
-            print resultsDict
+            json.dump(resultsDict, sys.stdout)
             logging.info('Program ended successfully.')
 
     else:
