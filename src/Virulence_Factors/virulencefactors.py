@@ -84,13 +84,13 @@ def searchDB(genomesList):
                 with open(file, 'rb') as fastafile:
                     shutil.copyfileobj(fastafile, outfile,1024*1024*10)
 
-        new_filename = os.path.abspath(REL_DIR  + 'combined_genomesVF.xml')
+        new_filename = os.path.abspath(os.path.join(REL_DIR, 'combined_genomesVF.xml'))
 
     else:
         filename = os.path.basename(genomesList[0])
-        filename = os.path.splitext(filename)
+        filename, ext = os.path.splitext(filename)
         combined_genomes = genomesList[0]
-        new_filename = os.path.abspath(REL_DIR + str(filename[0]) + '.xml')
+        new_filename = os.path.abspath(os.path.join(REL_DIR, filename + '.xml'))
 
     #Querying the database
     blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/VF_Database/VirulenceFactorsDB', outfmt=5, out= new_filename)
@@ -153,7 +153,8 @@ def parseFile(result_file, perc_len, perc_id):
 
 if __name__=='__main__':
 
-    logging.basicConfig(filename=SCRIPT_DIRECTORY + 'virulencefactors.log',level=logging.INFO)
+    log_path = os.path.join(SCRIPT_DIRECTORY, 'virulencefactors.log')
+    logging.basicConfig(filename=log_path,level=logging.INFO)
 
     args = parseCommandLine()
     createDirs()
