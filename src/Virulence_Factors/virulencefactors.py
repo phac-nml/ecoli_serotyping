@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function, division
 import os, sys, logging, argparse, subprocess, shutil, json
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
@@ -45,15 +45,24 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/VF_Database/'
+    REL_DIR = os.path.join(SCRIPT_DIRECTORY, '../../temp/databases/VF_Database/')
+
+    db_in = os.path.join(SCRIPT_DIRECTORY, '../../Data/repaired_ecoli_vfs.ffn')
+    db_out = os.path.join(REL_DIR, 'VirulenceFactorsDB')
+
+    makeblastdb = ("makeblastdb", "-in", db_in, "-dbtype", "nucl",
+                   "-title", "VirulenceFactorsDB", "-out", db_out)
 
     if os.path.isfile(REL_DIR + 'VirulenceFactorsDB.nin'):
         logging.info('Database already exists.')
-        return 0
+        retcode = 0
+
     else:
         logging.info('Generating the database.')
-        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/repaired_ecoli_vfs.ffn ", "-dbtype", "nucl", "-title", "VirulenceFactorsDB", "-out", REL_DIR + "VirulenceFactorsDB"])
 
+        retcode = subprocess.call(makeblastdb)
+
+    return retcode
 
 def searchDB(genomesList):
     """
@@ -63,10 +72,11 @@ def searchDB(genomesList):
     :return new_filename: .xml file containing the results from querying the database.
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'
+    REL_DIR = os.path.join(SCRIPT_DIRECTORY, '../../temp/xml/')
 
-    if len(genomesList) >1:
-        combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomesVF.fasta'
+    if len(genomesList) > 1:
+        combined_genomes = os.path.join(SCRIPT_DIRECTORY,
+                                        '../../temp/Uploads/combined_genomesVF.fasta')
 
         #Copying the content of every fasta file into one file to simplify the database search
         with open(combined_genomes, 'wb') as outfile:
@@ -106,8 +116,9 @@ def parseFile(result_file, perc_len, perc_id):
 
     result_handle = open(result_file)
     blast_records = NCBIXML.parse(result_handle)
-    perc_len = float(perc_len)/100
-    perc_id = float(perc_id)/100
+
+    perc_len = perc_len / 100
+    perc_id = perc_id / 100
 
     for blast_record in blast_records:
         filename = FILENAMES[blast_record.query]
@@ -124,8 +135,11 @@ def parseFile(result_file, perc_len, perc_id):
             match = match.split(')')[0]
             align_title = str(match)
 
-            tmp_perc_len = abs(1-(1-float(alignment.hsps[0].positives))/alignment.length)
-            tmp_perc_id = float(alignment.hsps[0].positives)/alignment.hsps[0].align_length
+            hsp = alignment.hsps[0]
+
+            tmp_perc_len = abs(1 - (1 - hsp.positives) / alignment.length)
+
+            tmp_perc_len = hsp.positives / hsp.align_length
 
             if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
                 alignmentsDict[align_title] = 1
@@ -168,4 +182,4 @@ if __name__=='__main__':
             logging.info('Program ended successfully.')
 
     else:
-        print genomesList
+        print(genomesList)
