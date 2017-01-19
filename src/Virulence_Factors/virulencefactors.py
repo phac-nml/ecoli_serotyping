@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
-import os, sys, logging, argparse, subprocess, shutil
+from __future__ import print_function, division
+import os, sys, logging, argparse, subprocess, shutil, json
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 from sharedmethods import *
 from ecvalidatingfiles import *
 
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 GENOMES = {}
 FILENAMES = {}
 
@@ -45,15 +45,24 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/VF_Database/'
+    REL_DIR = os.path.join(SCRIPT_DIRECTORY, '../../temp/databases/VF_Database/')
+
+    db_in = os.path.join(SCRIPT_DIRECTORY, '../../Data/repaired_ecoli_vfs.ffn')
+    db_out = os.path.join(REL_DIR, 'VirulenceFactorsDB')
+
+    makeblastdb = ("makeblastdb", "-in", db_in, "-dbtype", "nucl",
+                   "-title", "VirulenceFactorsDB", "-out", db_out)
 
     if os.path.isfile(REL_DIR + 'VirulenceFactorsDB.nin'):
         logging.info('Database already exists.')
-        return 0
+        retcode = 0
+
     else:
         logging.info('Generating the database.')
-        return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/repaired_ecoli_vfs.ffn ", "-dbtype", "nucl", "-title", "VirulenceFactorsDB", "-out", REL_DIR + "VirulenceFactorsDB"])
 
+        retcode = subprocess.call(makeblastdb)
+
+    return retcode
 
 def searchDB(genomesList):
     """
@@ -63,10 +72,11 @@ def searchDB(genomesList):
     :return new_filename: .xml file containing the results from querying the database.
     """
 
-    REL_DIR = SCRIPT_DIRECTORY + '../../temp/xml/'
+    REL_DIR = os.path.join(SCRIPT_DIRECTORY, '../../temp/xml/')
 
-    if len(genomesList) >1:
-        combined_genomes = SCRIPT_DIRECTORY + '../../temp/Uploads/combined_genomesVF.fasta'
+    if len(genomesList) > 1:
+        combined_genomes = os.path.join(SCRIPT_DIRECTORY,
+                                        '../../temp/Uploads/combined_genomesVF.fasta')
 
         #Copying the content of every fasta file into one file to simplify the database search
         with open(combined_genomes, 'wb') as outfile:
@@ -74,16 +84,20 @@ def searchDB(genomesList):
                 with open(file, 'rb') as fastafile:
                     shutil.copyfileobj(fastafile, outfile,1024*1024*10)
 
-        new_filename = os.path.abspath(REL_DIR  + 'combined_genomesVF.xml')
+        new_filename = os.path.abspath(os.path.join(REL_DIR, 'combined_genomesVF.xml'))
 
     else:
         filename = os.path.basename(genomesList[0])
-        filename = os.path.splitext(filename)
+        filename, ext = os.path.splitext(filename)
         combined_genomes = genomesList[0]
-        new_filename = os.path.abspath(REL_DIR + str(filename[0]) + '.xml')
+        new_filename = os.path.abspath(os.path.join(REL_DIR, filename + '.xml'))
 
     #Querying the database
-    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/VF_Database/VirulenceFactorsDB', outfmt=5, out= new_filename)
+
+    db_path = os.path.join(REL_DIR, '../databases/VF_Database/VirulenceFactorsDB')
+
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes,
+                                         db=db_path, outfmt=5, out=new_filename)
     stdout, stderr = blastn_cline()
 
     logging.info("Searched the database.")
@@ -106,8 +120,9 @@ def parseFile(result_file, perc_len, perc_id):
 
     result_handle = open(result_file)
     blast_records = NCBIXML.parse(result_handle)
-    perc_len = float(perc_len)/100
-    perc_id = float(perc_id)/100
+
+    perc_len = perc_len / 100
+    perc_id = perc_id / 100
 
     for blast_record in blast_records:
         filename = FILENAMES[blast_record.query]
@@ -124,8 +139,11 @@ def parseFile(result_file, perc_len, perc_id):
             match = match.split(')')[0]
             align_title = str(match)
 
-            tmp_perc_len = abs(1-(1-float(alignment.hsps[0].positives))/alignment.length)
-            tmp_perc_id = float(alignment.hsps[0].positives)/alignment.hsps[0].align_length
+            hsp = alignment.hsps[0]
+
+            tmp_perc_len = abs(1 - (1 - hsp.positives) / alignment.length)
+
+            tmp_perc_len = hsp.positives / hsp.align_length
 
             if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
                 alignmentsDict[align_title] = 1
@@ -139,7 +157,8 @@ def parseFile(result_file, perc_len, perc_id):
 
 if __name__=='__main__':
 
-    logging.basicConfig(filename=SCRIPT_DIRECTORY + 'virulencefactors.log',level=logging.INFO)
+    log_path = os.path.join(SCRIPT_DIRECTORY, 'virulencefactors.log')
+    logging.basicConfig(filename=log_path,level=logging.INFO)
 
     args = parseCommandLine()
     createDirs()
@@ -164,8 +183,8 @@ if __name__=='__main__':
             if args.csv == 1:
                 toTSV(resultsDict, 'VF_Results')
 
-            print resultsDict
+            json.dump(resultsDict, sys.stdout)
             logging.info('Program ended successfully.')
 
     else:
-        print genomesList
+        print(genomesList)
