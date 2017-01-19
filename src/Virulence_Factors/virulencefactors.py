@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
 from sharedmethods import *
 from ecvalidatingfiles import *
 
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 GENOMES = {}
 FILENAMES = {}
 
@@ -93,7 +93,11 @@ def searchDB(genomesList):
         new_filename = os.path.abspath(os.path.join(REL_DIR, filename + '.xml'))
 
     #Querying the database
-    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes, db= REL_DIR + '../databases/VF_Database/VirulenceFactorsDB', outfmt=5, out= new_filename)
+
+    db_path = os.path.join(REL_DIR, '../databases/VF_Database/VirulenceFactorsDB')
+
+    blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes,
+                                         db=db_path, outfmt=5, out=new_filename)
     stdout, stderr = blastn_cline()
 
     logging.info("Searched the database.")
