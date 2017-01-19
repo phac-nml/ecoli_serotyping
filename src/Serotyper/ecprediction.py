@@ -1,7 +1,8 @@
 #!/usr/bin/env python
+from __future__ import division
 import re
 import logging
-
+import collections
 
 def getProductPercentage(length, hsp):
         """
@@ -41,12 +42,16 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     :return newDict: Dictionary with matches that fill the percentage requirements.
     """
 
-    logging.info("Filtering predictions with " + str(percent_identity) + "% identity and "+ str(percent_length) + "% length.")
+    filtering_msg = 'Filtering predictions with {}% identity and {}% length'
+    fail_msg = 'Percentage of {} was not high enough.\nAlignment: {}'
+    nomatch_msg = 'There are no matches for genome {}'
+
+    logging.info(filtering_msg.format(percent_identity, percent_length))
 
     newDict = {}
 
-    percent_identity = float(percent_identity)/100
-    percent_length = float(percent_length)/100
+    percent_identity = percent_identity / 100
+    percent_length = percent_length / 100
 
     for genome_name, alignment in predictionDict.iteritems():
         logging.info(str(genome_name))
@@ -60,25 +65,25 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
                 hsp_identity = float(hsp.identities)/hsp.align_length
 
                 #Comparing with the cutoffs
-                if hsp_length >= percent_length:
-                   if hsp_identity >= percent_identity:
-                      tempDict[title] = [hsp, al_length]
-                      newDict[genome_name] = tempDict
-                   else:
-                      tempDict[title] = [hsp, 'NA']
-                      newDict[genome_name] = tempDict
-                      logging.info("Percentage of identity was not high enough. \nAlignment: " + str(title))
+                if hsp_length >= percent_length and hsp_identity >= percent_identity:
+
+                    tempDict[title] = [hsp, al_length]
+                    newDict[genome_name] = tempDict
+
                 else:
-                   tempDict[title] = [hsp, 'NA']
-                   newDict[genome_name] = tempDict
-                   logging.info("Percentage of length was not high enough. \nAlignment: " + str(title))
+
+                    failed = 'length' if hsp_length < percent_length else 'identity'
+
+                    tempDict[title] = [hsp, 'NA']
+                    newDict[genome_name] = tempDict
+
+                    logging.info(fail_msg.format(failed, title))
 
         else:
             newDict[genome_name] = 'NA'
-            logging.info("There are no matches for genome " + str(genome_name))
+            logging.info(nomatch_msg.format(genome_name))
 
     return newDict
-
 
 def sortMatches(predictionDict):
      """
@@ -89,66 +94,40 @@ def sortMatches(predictionDict):
      :return topMatchDict: Sorted dictionary with all the matches ordered by percentage.
      """
 
+    genes = ('fliC', 'flnaA', 'fllA', 'fmlA', 'flkA', 'gnd', 'wzx', 'wzy', 'wzm', 'wzt')
 
-     logging.info("Sorting matches from " + str(predictionDict))
-     sortedMatchDict = {}
+    logging.info("Sorting matches from {}".format(predictionDict))
+    sortedMatchDict = {}
 
-     for genome_name, value in predictionDict.iteritems():
-         tempDict = {'fliC':[],'flnaA':[], 'fllA':[], 'fmlA': [], 'flkA': [], 'gnd': [], 'wzx': [], 'wzy':[], 'wzm':[], 'wzt': []}
+    for genome_name, value in predictionDict.iteritems():
 
-         if value == 'NA':
-             sortedMatchDict[genome_name] = 'NA'
+        tempDict = collections.defaultdict(list)
+        if value == 'NA':
+            sortedMatchDict[genome_name] = 'NA'
+            continue
 
-         else:
-             for title, hsp in value.iteritems():
-                 productPercentage = 0
-                 if hsp[1] != 'NA':
-                     productPercentage = getProductPercentage(hsp[1], hsp[0])
+        for title, hsp in value.iteritems():
+            productPercentage = 0 if hsp[1] == 'NA' else getProductPercentage(hsp[1], hsp[0])
 
+            for gene in genes:
+                if re.search(gene, title):
 
-                 if re.search('fliC', title):
-                    tempDict['fliC'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
+                    d = {'title': title, 'hsp': hsp[0],
+                         'length': hsp[1], 'percentage': productPercentage}
 
-                 elif re.search('wzx', title):
-                    tempDict['wzx'].append({'title':title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
+                    tempDict[gene].append(d)
 
-                 elif re.search('wzy', title):
-                    tempDict['wzy'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
+                    break
 
-                 elif re.search('wzt', title):
-                    tempDict['wzt'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
+        #Sorting the lists in the resulting dictionary
+        for gene in tempDict:
 
-                 elif re.search('wzm', title):
-                    tempDict['wzm'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
+            tempDict[gene] = sorted(tempDict[gene], key=lambda k: k['percentage'], reverse = True)
 
-                 elif re.search('flnaA', title):
-                    tempDict['flnaA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
+            # convert to regular `dict` to avoid any downstream weirdness
+            sortedMatchDict[genome_name] = dict(tempDict)
 
-                 elif re.search('fllA', title):
-                    tempDict['fllA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
-
-                 elif re.search('fmlA', title):
-                    tempDict['fmlA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
-
-                 elif re.search('flkA', title):
-                    tempDict['flkA'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
-
-                 elif re.search('gnd', title):
-                    tempDict['gnd'].append({'title': title, 'hsp': hsp[0], 'length': hsp[1], 'percentage': productPercentage})
-
-
-            #Sorting the lists in the resulting dictionary
-             for type in tempDict.keys():
-                 if not tempDict[type]:
-                     emptyList = tempDict.pop(type, None)
-                 else:
-                     sortedList = sorted(tempDict[type], key=lambda k: k['percentage'], reverse = True)
-                     tempDict[type] = sortedList
-
-             sortedMatchDict[genome_name] = tempDict
-
-     return sortedMatchDict
-
+    return sortedMatchDict
 
 def searchType(title, type):
     """
