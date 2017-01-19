@@ -86,13 +86,13 @@ def filterPredictions(predictionDict, percent_identity, percent_length):
     return newDict
 
 def sortMatches(predictionDict):
-     """
-     Going through the prediction dictionary and finding the top possibles matches (can be perfect match or not).
-     The return dictionary stores multiple types: fliC, wzx, wzy, wzm, wzt, fllA, flnaA, flkA, fmlA, gnd.
+    """
+    Going through the prediction dictionary and finding the top possibles matches (can be perfect match or not).
+    The return dictionary stores multiple types: fliC, wzx, wzy, wzm, wzt, fllA, flnaA, flkA, fmlA, gnd.
 
-     :param predictionDict: Unsorted dictionary with all the possible matches.
-     :return topMatchDict: Sorted dictionary with all the matches ordered by percentage.
-     """
+    :param predictionDict: Unsorted dictionary with all the possible matches.
+    :return topMatchDict: Sorted dictionary with all the matches ordered by percentage.
+    """
 
     genes = ('fliC', 'flnaA', 'fllA', 'fmlA', 'flkA', 'gnd', 'wzx', 'wzy', 'wzm', 'wzt')
 
