@@ -72,18 +72,18 @@ def getResults(genomesList, RGIpath):
 
         #Generating the results from the RGI tool
         out = rel_dir + genome_name
-        temp_result = subprocess.call(['python', RGIpath + 'rgi.py', "-i", genome_file, "-o", out])
+        temp_result = subprocess.call(['rgi.py', "-i", genome_file, "-o", out])
 
         #Obtaining a readable JSON file of the results
         formatted_out = rel_dir + genome_name + '_FORMATTED'
-        temp_result = subprocess.call(['python',  RGIpath + 'formatJson.py', "-i", SCRIPT_DIRECTORY + '../../' + out + '.json', "-o", formatted_out])
+        temp_result = subprocess.call(['rgi_jsonformat', "-i", SCRIPT_DIRECTORY + '../../' + out + '.json', "-o", formatted_out])
 
         with open(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', 'r') as temp_file:
             GENOMES[genome_name] = json.load(temp_file)
 
         #Generating a CSV file of the results
         csv_out = rel_dir + genome_name
-        temp_result = subprocess.call(['python',  RGIpath + 'convertJsonToTSV.py', "-i", SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', "-o", csv_out])
+        temp_result = subprocess.call(['rgi_jsontab', "-i", SCRIPT_DIRECTORY + '../../' + formatted_out + '.json', "-o", csv_out])
 
         os.rename(SCRIPT_DIRECTORY + '../../' + csv_out + '.txt', SCRIPT_DIRECTORY + '../../' + csv_out + '.tsv')
         os.remove(SCRIPT_DIRECTORY + '../../' + formatted_out + '.json')
