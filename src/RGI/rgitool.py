@@ -72,7 +72,7 @@ def getResults(genomesList, RGIpath):
 
         #Generating the results from the RGI tool
         out = rel_dir + genome_name
-        temp_result = subprocess.call(['rgi.py', "-i", genome_file, "-o", out])
+        temp_result = subprocess.call(['rgi', "-i", genome_file, "-o", out])
 
         #Obtaining a readable JSON file of the results
         formatted_out = rel_dir + genome_name + '_FORMATTED'
