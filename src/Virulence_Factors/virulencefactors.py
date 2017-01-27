@@ -143,7 +143,7 @@ def parseFile(result_file, perc_len, perc_id):
 
             tmp_perc_len = abs(1 - (1 - hsp.positives) / alignment.length)
 
-            tmp_perc_len = hsp.positives / hsp.align_length
+            tmp_perc_id = hsp.positives / hsp.align_length
 
             if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
                 alignmentsDict[align_title] = 1
