@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 from __future__ import print_function, division
-import os, sys, logging, argparse, subprocess, shutil, json
+import os
+import sys
+import logging
+import argparse
+import subprocess
+import shutil
+import json
 
 TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../Serotyper/'))
@@ -12,6 +18,7 @@ from ecvalidatingfiles import *
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 GENOMES = {}
 FILENAMES = {}
+
 
 def parseCommandLine():
     """
@@ -28,12 +35,18 @@ def parseCommandLine():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-in", "--input", help="Location of new file(s). Can be a single file or a directory", required=True)
-    parser.add_argument("-out", "--output", type=argparse.FileType('w'), help="Output of the program. Default is STDOUT.", default=sys.stdout)
-    parser.add_argument("-pi", "--percentIdentity", type=int, help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0,100))
-    parser.add_argument("-pl", "--percentLength", type=int, help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0,100))
-    parser.add_argument("-csv", type=int, help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default is 1.", default=1, choices=[0,1])
-    parser.add_argument("-min", "--minGenomes", type=int, help="Minimum number of genomes threshold for a virulence factor. Default is 1.", default=0)
+    parser.add_argument(
+        "-in", "--input", help="Location of new file(s). Can be a single file or a directory", required=True)
+    parser.add_argument("-out", "--output", type=argparse.FileType('w'),
+                        help="Output of the program. Default is STDOUT.", default=sys.stdout)
+    parser.add_argument("-pi", "--percentIdentity", type=int,
+                        help="Percentage of identity wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0, 100))
+    parser.add_argument("-pl", "--percentLength", type=int,
+                        help="Percentage of length wanted to use against the database. From 0 to 100, default is 90%.", default=90, choices=range(0, 100))
+    parser.add_argument(
+        "-csv", type=int, help="If set to 1, the results will be sent to a .csv file in the temp/Results folder. Options are 0 and 1, default is 1.", default=1, choices=[0, 1])
+    parser.add_argument("-min", "--minGenomes", type=int,
+                        help="Minimum number of genomes threshold for a virulence factor. Default is 1.", default=0)
 
     return parser.parse_args()
 
@@ -45,7 +58,8 @@ def initializeDB():
     :return int 0 or 1: 0 being that the database was created successfully (or already existed).
     """
 
-    REL_DIR = os.path.join(SCRIPT_DIRECTORY, '../../temp/databases/VF_Database/')
+    REL_DIR = os.path.join(
+        SCRIPT_DIRECTORY, '../../temp/databases/VF_Database/')
 
     db_in = os.path.join(SCRIPT_DIRECTORY, '../../Data/repaired_ecoli_vfs.ffn')
     db_out = os.path.join(REL_DIR, 'VirulenceFactorsDB')
@@ -64,6 +78,7 @@ def initializeDB():
 
     return retcode
 
+
 def searchDB(genomesList):
     """
     Querying the database with a single file combining all the genomes.
@@ -78,23 +93,27 @@ def searchDB(genomesList):
         combined_genomes = os.path.join(SCRIPT_DIRECTORY,
                                         '../../temp/Uploads/combined_genomesVF.fasta')
 
-        #Copying the content of every fasta file into one file to simplify the database search
+        # Copying the content of every fasta file into one file to simplify the
+        # database search
         with open(combined_genomes, 'wb') as outfile:
             for file in genomesList:
                 with open(file, 'rb') as fastafile:
-                    shutil.copyfileobj(fastafile, outfile,1024*1024*10)
+                    shutil.copyfileobj(fastafile, outfile, 1024 * 1024 * 10)
 
-        new_filename = os.path.abspath(os.path.join(REL_DIR, 'combined_genomesVF.xml'))
+        new_filename = os.path.abspath(
+            os.path.join(REL_DIR, 'combined_genomesVF.xml'))
 
     else:
         filename = os.path.basename(genomesList[0])
         filename, ext = os.path.splitext(filename)
         combined_genomes = genomesList[0]
-        new_filename = os.path.abspath(os.path.join(REL_DIR, filename + '.xml'))
+        new_filename = os.path.abspath(
+            os.path.join(REL_DIR, filename + '.xml'))
 
-    #Querying the database
+    # Querying the database
 
-    db_path = os.path.join(REL_DIR, '../databases/VF_Database/VirulenceFactorsDB')
+    db_path = os.path.join(
+        REL_DIR, '../databases/VF_Database/VirulenceFactorsDB')
 
     blastn_cline = NcbiblastnCommandline(cmd="blastn", query=combined_genomes,
                                          db=db_path, outfmt=5, out=new_filename)
@@ -113,7 +132,6 @@ def parseFile(result_file, perc_len, perc_id):
     :param perc_id: percentage identity cutoff
     """
 
-
     global GENOMES
     global FILENAMES
     logging.info("Parsing results from " + str(result_file))
@@ -131,9 +149,7 @@ def parseFile(result_file, perc_len, perc_id):
         if genome_name in GENOMES:
             alignmentsDict = dict(GENOMES[genome_name])
 
-
-
-        #Find the gene name + compare with the identity and length cutoffs.
+        # Find the gene name + compare with the identity and length cutoffs.
         for alignment in blast_record.alignments:
             match = re.search('(\s\(.*\)\s)', alignment.title)
             match = match.group()
@@ -149,26 +165,33 @@ def parseFile(result_file, perc_len, perc_id):
 
             if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
                 contig_accession = blast_record.query.split(' ')[0]
-                # intend to make it: {filename{contig_accession{'START','STOP','ORIENTATION','GENE_NAME'}}}
-                alignmentsDict[contig_accession] = {}
-                alignmentsDict[contig_accession]['GENE_NAME'] = align_title
+
+                # check if this contig already has a gene assoc with it
+                if contig_accession not in alignmentsDict.keys():
+                    alignmentsDict[contig_accession] = []
+
+                # intend to make it: {filename{contig_accession[{'START','STOP','ORIENTATION','GENE_NAME'}]}}
+                # we use a list after contig accession just in case that contig
+                # has more than 1 genes assoc with it
+                geneDict = {}
+                alignmentsDict[contig_accession].append(geneDict['GENE_NAME']=align_title)
                 # check if the subject (what we're looking for) was found in forward or reverse
                 # this means found in forward
                 if hsp.sbjct_start < hsp.sbjct_end:
-                    alignmentsDict[contig_accession]['ORIENTATION'] = '+'
+                    alignmentsDict[contig_accession].append(geneDict['ORIENTATION']='+')
                 else:
-                    alignmentsDict[contig_accession]['ORIENTATION'] = '-'
+                    alignmentsDict[contig_accession].append(geneDict['ORIENTATION']='-')
 
-                alignmentsDict[contig_accession]['START']=hsp.query_start
-                alignmentsDict[contig_accession]['STOP']=hsp.query_end
+                alignmentsDict[contig_accession].append(geneDict['START']=hsp.query_start)
+                alignmentsDict[contig_accession].append(geneDict['STOP']=hsp.query_end)
 
             GENOMES[genome_name] = alignmentsDict
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
 
     log_path = os.path.join(SCRIPT_DIRECTORY, 'virulencefactors.log')
-    logging.basicConfig(filename=log_path,level=logging.INFO)
+    logging.basicConfig(filename=log_path, level=logging.INFO)
 
     args = parseCommandLine()
     createDirs()
@@ -189,7 +212,7 @@ if __name__=='__main__':
             results_file = searchDB(genomesList)
             parseFile(results_file, args.percentLength, args.percentIdentity)
             #resultsDict = filterGenes(GENOMES, args.minGenomes)
-            resultsDict =  GENOMES
+            resultsDict = GENOMES
 
             if args.csv == 1:
                 toTSV(resultsDict, 'VF_Results')
