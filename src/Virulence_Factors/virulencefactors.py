@@ -134,7 +134,6 @@ def parseFile(result_file, perc_len, perc_id):
         contig_accession = blast_record.query.split(' ')[0]
         # intend to make it: {filename{contig_accession{'START','STOP','ORIENTATION','GENE_NAME'}}}
         alignmentsDict[contig_accession] = {}
-        hitDict = alignmentsDict[contig_accession]
 
         #Find the gene name + compare with the identity and length cutoffs.
         for alignment in blast_record.alignments:
@@ -144,7 +143,7 @@ def parseFile(result_file, perc_len, perc_id):
             match = match.split(')')[0]
             align_title = str(match)
 
-            hitDict['GENE_NAME'] = align_title
+            alignmentsDict[contig_accession]['GENE_NAME'] = align_title
 
             hsp = alignment.hsps[0]
 
@@ -158,12 +157,12 @@ def parseFile(result_file, perc_len, perc_id):
                 # check if the subject (what we're looking for) was found in forward or reverse
                 # this means found in forward
                 if hsp.sbjct_start < hsp.sbjct_end:
-                    hitDict['ORIENTATION'] = '+'
+                    alignmentsDict[contig_accession]['ORIENTATION'] = '+'
                 else:
-                    hitDict['ORIENTATION'] = '-'
+                    alignmentsDict[contig_accession]['ORIENTATION'] = '-'
 
-                hitDict['START']=hsp.query_start
-                hitDict['STOP']=hsp.query_end
+                alignmentsDict[contig_accession]['START']=hsp.query_start
+                alignmentsDict[contig_accession]['STOP']=hsp.query_end
 
             else:
                 if align_title not in alignmentsDict.keys() or alignmentsDict[align_title]!=1:
