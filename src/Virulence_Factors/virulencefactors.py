@@ -131,9 +131,7 @@ def parseFile(result_file, perc_len, perc_id):
         if genome_name in GENOMES:
             alignmentsDict = dict(GENOMES[genome_name])
 
-        contig_accession = blast_record.query.split(' ')[0]
-        # intend to make it: {filename{contig_accession{'START','STOP','ORIENTATION','GENE_NAME'}}}
-        alignmentsDict[contig_accession] = {}
+
 
         #Find the gene name + compare with the identity and length cutoffs.
         for alignment in blast_record.alignments:
@@ -143,8 +141,6 @@ def parseFile(result_file, perc_len, perc_id):
             match = match.split(')')[0]
             align_title = str(match)
 
-            alignmentsDict[contig_accession]['GENE_NAME'] = align_title
-
             hsp = alignment.hsps[0]
 
             tmp_perc_len = abs(1 - (1 - hsp.positives) / alignment.length)
@@ -152,8 +148,10 @@ def parseFile(result_file, perc_len, perc_id):
             tmp_perc_id = hsp.positives / hsp.align_length
 
             if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
-                alignmentsDict[align_title] = 1
-
+                contig_accession = blast_record.query.split(' ')[0]
+                # intend to make it: {filename{contig_accession{'START','STOP','ORIENTATION','GENE_NAME'}}}
+                alignmentsDict[contig_accession] = {}
+                alignmentsDict[contig_accession]['GENE_NAME'] = align_title
                 # check if the subject (what we're looking for) was found in forward or reverse
                 # this means found in forward
                 if hsp.sbjct_start < hsp.sbjct_end:
@@ -163,10 +161,6 @@ def parseFile(result_file, perc_len, perc_id):
 
                 alignmentsDict[contig_accession]['START']=hsp.query_start
                 alignmentsDict[contig_accession]['STOP']=hsp.query_end
-
-            else:
-                if align_title not in alignmentsDict.keys() or alignmentsDict[align_title]!=1:
-                    alignmentsDict[align_title] = 0
 
             GENOMES[genome_name] = alignmentsDict
 
@@ -194,7 +188,8 @@ if __name__=='__main__':
 
             results_file = searchDB(genomesList)
             parseFile(results_file, args.percentLength, args.percentIdentity)
-            resultsDict = filterGenes(GENOMES, args.minGenomes)
+            #resultsDict = filterGenes(GENOMES, args.minGenomes)
+            resultsDict =  GENOMES
 
             if args.csv == 1:
                 toTSV(resultsDict, 'VF_Results')
