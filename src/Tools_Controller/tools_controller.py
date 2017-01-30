@@ -93,27 +93,29 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
     """
     resultsDict = {}
 
-    if vf_dict:
+    print vf_dict
+
+     if bool(vf_dict):
         #Copy virulence factors dictionary content into merged dictionary
-        for genome_name  in vf_dict.keys():
+        for genome_name, vf_info in vf_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
-            resultsDict[genome_name]['Virulence Factors'] = vf_dict[genome_name]['Virulence Factors']
+            resultsDict[genome_name]['Virulence Factors'] = vf_info
 
-    if amr_dict:
+    if bool(amr_dict):
         #Copy AMR dictionary content into merged dictionary
-        for genome_name in amr_dict.keys():
+        for genome_name, amr_info in amr_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
-            resultsDict[genome_name]['Antimicrobial Resistance'] = amr_dict[genome_name]['Antimicrobial Resistance']
+            resultsDict[genome_name]['Antimicrobial Resistance'] = amr_info
 
-    if serotyper_dict:
+    if bool(serotyper_dict):
         #Copy serotype dictionary content into merged dictionary
-        for genome_name in serotyper_dict.keys():
+        for genome_name, serotype_info in serotyper_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
-            resultsDict[genome_name]['Serotype']= serotyper_dict[genome_name]['Serotype']
 
+            resultsDict[genome_name]['Serotype']= serotype_info
     return resultsDict
 
 
