@@ -174,16 +174,18 @@ def parseFile(result_file, perc_len, perc_id):
                 # we use a list after contig accession just in case that contig
                 # has more than 1 genes assoc with it
                 geneDict = {}
-                alignmentsDict[contig_accession].append(geneDict['GENE_NAME']=align_title)
+                geneDict['GENE_NAME']=align_title
                 # check if the subject (what we're looking for) was found in forward or reverse
                 # this means found in forward
                 if hsp.sbjct_start < hsp.sbjct_end:
-                    alignmentsDict[contig_accession].append(geneDict['ORIENTATION']='+')
+                    geneDict['ORIENTATION']='+'
                 else:
-                    alignmentsDict[contig_accession].append(geneDict['ORIENTATION']='-')
+                    geneDict['ORIENTATION']='-'
 
-                alignmentsDict[contig_accession].append(geneDict['START']=hsp.query_start)
-                alignmentsDict[contig_accession].append(geneDict['STOP']=hsp.query_end)
+                geneDict['START']=hsp.query_start
+                geneDict['STOP']=hsp.query_end
+
+                alignmentsDict[contig_accession].append(geneDict)
 
             GENOMES[genome_name] = alignmentsDict
 
