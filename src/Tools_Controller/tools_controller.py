@@ -93,8 +93,6 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
     """
     resultsDict = {}
 
-    print vf_dict
-
     if bool(vf_dict):
         #Copy virulence factors dictionary content into merged dictionary
         for genome_name, vf_info in vf_dict.iteritems():
