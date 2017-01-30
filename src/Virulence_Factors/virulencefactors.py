@@ -163,9 +163,12 @@ def parseFile(result_file, perc_len, perc_id):
 
             tmp_perc_id = hsp.positives / hsp.align_length
 
-            if tmp_perc_len > perc_len and tmp_perc_id > perc_id and align_title not in alignmentsDict.keys():
-                contig_accession = blast_record.query.split(' ')[0]
+            # standard check for perc_len and perc_id
+            if tmp_perc_len > perc_len and tmp_perc_id > perc_id:
 
+                # we do this after the perc_len/id checks so as to not incl
+                # blank dicts if they arent valid
+                contig_accession = blast_record.query.split(' ')[0]
                 # check if this contig already has a gene assoc with it
                 if contig_accession not in alignmentsDict.keys():
                     alignmentsDict[contig_accession] = []
@@ -174,18 +177,20 @@ def parseFile(result_file, perc_len, perc_id):
                 # we use a list after contig accession just in case that contig
                 # has more than 1 genes assoc with it
                 geneDict = {}
-                geneDict['GENE_NAME']=align_title
+                geneDict['GENE_NAME'] = align_title
                 # check if the subject (what we're looking for) was found in forward or reverse
                 # this means found in forward
                 if hsp.sbjct_start < hsp.sbjct_end:
-                    geneDict['ORIENTATION']='+'
+                    geneDict['ORIENTATION'] = '+'
                 else:
-                    geneDict['ORIENTATION']='-'
+                    geneDict['ORIENTATION'] = '-'
 
-                geneDict['START']=hsp.query_start
-                geneDict['STOP']=hsp.query_end
+                geneDict['START'] = hsp.query_start
+                geneDict['STOP'] = hsp.query_end
 
-                alignmentsDict[contig_accession].append(geneDict)
+                # dupl check before adding it in, we do a full comparison in case the same gene is found in two different locations within a contig
+                if not any(h == geneDict for h in alignmentsDict[contig_accession]):
+                    alignmentsDict[contig_accession].append(geneDict)
 
             GENOMES[genome_name] = alignmentsDict
 
