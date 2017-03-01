@@ -114,6 +114,7 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
                 resultsDict[genome_name] = {}
 
             resultsDict[genome_name]['Serotype']= serotype_info
+
     return resultsDict
 
 
@@ -159,3 +160,5 @@ if __name__=='__main__':
         resultDict = mergeResults(ast.literal_eval(serotyper_out), ast.literal_eval(vf_out), ast.literal_eval(amr_out))
 
         print resultDict
+
+
