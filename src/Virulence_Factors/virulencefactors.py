@@ -61,7 +61,7 @@ def initializeDB():
     REL_DIR = os.path.join(
         SCRIPT_DIRECTORY, '../../temp/databases/VF_Database/')
 
-    db_in = os.path.join(SCRIPT_DIRECTORY, '../../Data/repaired_ecoli_vfs.ffn')
+    db_in = os.path.join(SCRIPT_DIRECTORY, '../../Data/repaired_ecoli_vfs_shortnames.ffn')
     db_out = os.path.join(REL_DIR, 'VirulenceFactorsDB')
 
     makeblastdb = ("makeblastdb", "-in", db_in, "-dbtype", "nucl",
