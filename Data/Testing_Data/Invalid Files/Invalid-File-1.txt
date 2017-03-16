@@ -1,2 +1,0 @@
-Hello this is a test for an invalid file.
-File #1
