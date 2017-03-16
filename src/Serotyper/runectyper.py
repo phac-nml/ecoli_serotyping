@@ -67,7 +67,7 @@ def uploadFiles():
            else:
             files.save(resultFiles[0])
             logging.info('Single file')
-            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper", "--input", files.path(filename),
                                                 "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', str(VERBOSITY), '-csv', '0'])
        else:
            if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
@@ -77,7 +77,7 @@ def uploadFiles():
            logging.info('Directory')
            for file in resultFiles:
                files.save(file,'temp_dir'+ str(I))
-           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
+           OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper", "--input", SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
                                                 "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', str(VERBOSITY), '-csv', '0'])
        I +=1
        return redirect(url_for('getResults'))
@@ -116,7 +116,7 @@ def curl_uploadFiles():
                 return 'No files were uploaded.'
             else:
                 files.save(resultFiles[0])
-                OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input", files.path(filename),
+                OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper", "--input", files.path(filename),
                                                   "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', csv])
         else:
             if os.path.isdir(SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I)):
@@ -126,7 +126,7 @@ def curl_uploadFiles():
 
             for file in resultFiles:
                 files.save(file,'temp_dir'+ str(I))
-            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper.py", "--input",
+            OUTPUT = subprocess.check_output([SCRIPT_DIRECTORY + "ectyper", "--input",
                                               SCRIPT_DIRECTORY + '../../temp/Uploads/temp_dir' + str(I),
                                               "-pl", str(PERC_LEN), "-pi", str(PERC_ID), '-v', VERBOSITY, '-csv', csv])
         I +=1

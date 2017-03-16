@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import ectyper.src.ectyper
+
+if __name__=='__main__':
+    ectyper.src.sctyper.runProgram()

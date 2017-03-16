@@ -137,7 +137,7 @@ if __name__=='__main__':
         if args.serotyper == 1:
             logging.info('Triggering the use of the Serotyper tool.')
             csv_files.append(serotyper)
-            serotyper_out = subprocess.check_output([SCRIPT_DIRECTORY + "../Serotyper/ectyper.py", "--input", args.input, "-pl", str(args.percentLength),
+            serotyper_out = subprocess.check_output([SCRIPT_DIRECTORY + "../Serotyper/ectyper", "--input", args.input, "-pl", str(args.percentLength),
                                     "-pi", str(args.percentIdentity), '-v', str(args.serotypeverbose), '-csv', str(args.csv)])
 
         if args.virulencefactors == 1:

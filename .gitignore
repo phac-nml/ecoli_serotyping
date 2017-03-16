@@ -92,3 +92,4 @@ ENV/
 !/ectyper.iml
 /ectyper.iml
 /temp/
+/.idea/
