@@ -7,21 +7,9 @@
 
 import logging.config
 import definitions
-import os
 
 logging.config.fileConfig(definitions.LOGGER_CONFIG)
 log = logging.getLogger(__name__)
-
-# TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-# sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
-#
-# from sharedmethods import *
-#
-# SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
-# TEST= False
-#  logging.basicConfig(filename=SCRIPT_DIRECTORY + 'ectyper.log',level=logging.INFO)
-#  logging.info('Starting E. Coli Serotyper')
-
 
 def runProgram():
     """
@@ -29,8 +17,9 @@ def runProgram():
     :return: success or failure
     """
 
-    # createDirs()
-    #args = parseCommandLine()
+    log.info("Starting ectyper")
+    args = parseCommandLine()
+
 
     # if args.input == None:
     #     logging.info('No inputs were given.')
