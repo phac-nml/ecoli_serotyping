@@ -1,10 +1,4 @@
-TO BE WRITTEN PROPERLY EVENTUALLY
-
-# ECTyper
- In silico prediction of E. coli serotype and identification of virulence factors and antimicrobial resistance
+# ECTyper (an easy typer)
+The `ectyper` wraps a standalone serotyping module, and a standalone virulence factor identification module. Both modules can be run independently, but `ectyper` provides a convenient interface to both.
  
-## Dependencies ##
- ------------
-For the use of the RGI tool, please download the package named RGI Software version 3.1.1 from this link: https://card.mcmaster.ca/download
-Follow the instructions to install all the requirements.
-Add the path to RGI to your user's PYTHONPATH. You can use the following command to do so: `export PYTHONPATH="${PYTHONPATH}:/path/to/RGI"`
+ 

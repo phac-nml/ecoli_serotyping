@@ -87,3 +87,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+!/.idea/
+/docs/
+!/ectyper.iml
+/ectyper.iml
+/temp/
