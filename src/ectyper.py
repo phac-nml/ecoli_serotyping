@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 
-import logging
+"""
+    Predictive genomics for _E. coli_ from the command line.
+    Currently includes serotyping and VF finding.
+"""
 
+import logging.config
+import definitions
+
+logging.config.fileConfig(definitions.LOGGER_CONFIG)
+log = logging.getLogger(__name__)
 
 # TEMP_SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__)) + "/"
 # sys.path.append(os.path.abspath(TEMP_SCRIPT_DIRECTORY + '../'))
@@ -20,9 +28,8 @@ def runProgram():
     :return: success or failure
     """
 
-
     # createDirs()
-    args = parseCommandLine()
+    #args = parseCommandLine()
 
     # if args.input == None:
     #     logging.info('No inputs were given.')
@@ -70,4 +77,4 @@ def runProgram():
     #             print 'Error'
     #     else:
     #         print genomesList
-    logging.print("Done")
+    log.info("Done")
