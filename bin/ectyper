@@ -8,4 +8,4 @@
 import src.ectyper
 
 if __name__=='__main__':
-    src.ectyper.runProgram()
+    src.ectyper.run_program()

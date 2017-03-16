@@ -26,20 +26,20 @@ def parse_command_line():
                         choices=[0, 1])
 
     parser.add_argument("-f",
-                        "--viruelenceFactors",
+                        "--virulenceFactors",
                         type=int,
                         help="Trigger the use of the Virulence Factors tool. \
                               Options are 0 and 1. Default is 0 (false).",
                         default=0,
                         choices=[0, 1])
 
-    parser.add_argument("-i",
+    parser.add_argument("-d",
                         "--percentIdentity",
                         type=int,
                         help="Percentage of identity wanted to use against the\
                               database. From 0 to 100, default is 90%.",
                         default=90,
-                        choices=range(0, 100))
+                        choices=range(1, 101))
 
     parser.add_argument("-l",
                         "--percentLength",
@@ -47,7 +47,7 @@ def parse_command_line():
                         help="Percentage of length wanted to use against the \
                               database. From 0 to 100, default is 90%.",
                         default=90,
-                        choices=range(0, 100))
+                        choices=range(1, 101))
 
     parser.add_argument("-m",
                         "--minimumGenomes",
@@ -63,6 +63,6 @@ def parse_command_line():
                               file in the temp/Results folder. Options are 0 \
                               and 1, default=1.",
                         default=1,
-                        choices={0, 1})
+                        choices=[0, 1])
 
     return parser.parse_args()
