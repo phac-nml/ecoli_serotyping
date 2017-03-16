@@ -7,6 +7,7 @@
 
 import logging.config
 import definitions
+import os
 
 logging.config.fileConfig(definitions.LOGGER_CONFIG)
 log = logging.getLogger(__name__)
