@@ -164,8 +164,29 @@ if __name__=='__main__':
 
         if args.csv == 1:
             createReport(csv_files)
+            logging.info('createRport worked')
 
-        logging.info('createRport worked')
+        logging.info('try catch testing start')
+        try{
+            ast.literal_eval(serotyper_out)
+        } except e {
+            logging.info('serotype eval failed')
+            logging.info(e)
+        }
+        try{
+            ast.literal_eval(vf_out)
+        } except e {
+            logging.info('vf eval failed')
+            logging.info(e)
+        }
+        try{
+            ast.literal_eval(amr_out)
+        } except e {
+            logging.info('amr eval failed')
+            logging.info(e)
+        }
+        logging.info('try catch passed')
+
         resultDict = mergeResults(ast.literal_eval(serotyper_out), ast.literal_eval(vf_out), ast.literal_eval(amr_out))
         logging.info('mergeREsults worked')
 
