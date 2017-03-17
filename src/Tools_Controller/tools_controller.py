@@ -167,24 +167,22 @@ if __name__=='__main__':
             logging.info('createRport worked')
 
         logging.info('try catch testing start')
-        try{
+        try:
             ast.literal_eval(serotyper_out)
-        } except e {
+        except:
             logging.info('serotype eval failed')
-            logging.info(e)
-        }
-        try{
+            logging.info(sys.exc_info()[0])
+        try:
             ast.literal_eval(vf_out)
-        } except e {
+        except:
             logging.info('vf eval failed')
-            logging.info(e)
-        }
-        try{
+            logging.info(sys.exc_info()[0])
+        try:
             ast.literal_eval(amr_out)
-        } except e {
+        except:
             logging.info('amr eval failed')
-            logging.info(e)
-        }
+            logging.info(sys.exc_info()[0])
+
         logging.info('try catch passed')
 
         resultDict = mergeResults(ast.literal_eval(serotyper_out), ast.literal_eval(vf_out), ast.literal_eval(amr_out))
