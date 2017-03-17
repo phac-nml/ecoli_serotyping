@@ -4,6 +4,7 @@ import os
 import logging.config
 import re
 import Bio.SeqIO
+import Bio.Blast
 import tempfile
 import subprocess
 
@@ -166,3 +167,17 @@ def run_blast(query_file, blast_db):
         log.fatal("blastn did not run successfully.\n%s",
                   completed_process.stderr)
         exit(1)
+
+
+
+def parse_blast_results(args, blast_results_file):
+    """
+    Given the user-defined cutoffs, return only the results that pass.
+    VFs use the cutoffs directly.
+    Serotype may use additional logic.
+
+    :param args: parsed commandline options from the user
+    :param blast_results_file: XML results of vf and/or serotype vs. genomes
+    :return: a dictionary of genomes and results for each
+    """
+

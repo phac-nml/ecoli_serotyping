@@ -64,4 +64,8 @@ def run_program():
              query_file)
     blast_output_file = src.genomeFunctions.run_blast(query_file, blast_db)
 
+    log.info("Parsing blast results in %s", blast_output_file)
+    parsed_results = src.genomeFunctions.parse_blast_results(args,
+                                                             blast_output_file)
+    log.info(parsed_results)
     log.info("Done")
