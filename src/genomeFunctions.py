@@ -122,19 +122,15 @@ def create_blast_db(filelist):
     The database is created in the temporary folder of the system.
 
     :param filelist: genome list that was given by the user on the commandline.
-    :return full path of DB, or FALSE if makeblastdb failed
+    :return full path of DB
     """
 
     tempdir = tempfile.mkdtemp()
     blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
 
-    # combine all file names into a single string for use with makeblastdb
-    files_string = ' '.join(filelist)
-    log.debug("Combined list of files for makeblastdb: %s", files_string)
-
     log.debug("Generating the blast db at %s", blast_db_path)
     completed_process = subprocess.run(["makeblastdb",
-                                        "-in", files_string,
+                                        "-in", ' '.join(filelist),
                                         "-dbtype", "nucl",
                                         "-title", "ectyper_blastdb",
                                         "-out", blast_db_path],
@@ -143,4 +139,30 @@ def create_blast_db(filelist):
     if completed_process.returncode == 0:
         return blast_db_path
     else:
-        return False
+        log.fatal("makeblastdb was unable to successfully run.\n%s",
+                  completed_process.stderr)
+
+
+def run_blast(query_file, blast_db):
+    """
+    Execute a blastn run given the query files and blastdb
+
+    :param query_files: one or both of the VF / Serotype input files
+    :param blast_db: validated fasta files from the user, in DB form
+    :return: the blast output file
+    """
+
+    blast_output_file = blast_db + '.output'
+
+    completed_process = subprocess.run(["blastn",
+                                        "-query", query_file,
+                                        "-db", blast_db,
+                                        "-out", blast_output_file,
+                                        "-outfmt", "5",
+                                        "-word_size", "11"])
+    if completed_process.returncode == 0:
+        return blast_output_file
+    else:
+        log.fatal("blastn did not run successfully.\n%s",
+                  completed_process.stderr)
+        exit(1)
