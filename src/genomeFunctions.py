@@ -4,7 +4,7 @@ import os
 import logging.config
 import re
 import Bio.SeqIO
-import Bio.Blast
+import Bio.Blast.NCBIXML
 import tempfile
 import subprocess
 
@@ -169,7 +169,6 @@ def run_blast(query_file, blast_db):
         exit(1)
 
 
-
 def parse_blast_results(args, blast_results_file):
     """
     Given the user-defined cutoffs, return only the results that pass.
@@ -181,3 +180,9 @@ def parse_blast_results(args, blast_results_file):
     :return: a dictionary of genomes and results for each
     """
 
+    result_handle = open(blast_results_file)
+    # blast_records = Bio.Blast.NCBIXML.parse(result_handle)
+
+    results_dict = {}
+    # TODO: Finish the parsing refactor
+    # for record in blast_records:

@@ -57,12 +57,15 @@ def run_program():
                         genome_files]
     log.debug(all_genomes_list)
 
+    # TODO: Need to link filename <-> genome name in dictionary
+
     log.info("Creating blast database")
-    blast_db = src.genomeFunctions.create_blast_db(genome_files)
+    #blast_db = src.genomeFunctions.create_blast_db(genome_files)
 
     log.info("Blast queries %s against the database of input files",
              query_file)
-    blast_output_file = src.genomeFunctions.run_blast(query_file, blast_db)
+    #blast_output_file = src.genomeFunctions.run_blast(query_file, blast_db)
+    blast_output_file = '/tmp/tmpfz53tjl0/ectyper_blastdb.output'
 
     log.info("Parsing blast results in %s", blast_output_file)
     parsed_results = src.genomeFunctions.parse_blast_results(args,
