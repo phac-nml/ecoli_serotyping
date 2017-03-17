@@ -147,7 +147,7 @@ def run_blast(query_file, blast_db):
     """
     Execute a blastn run given the query files and blastdb
 
-    :param query_files: one or both of the VF / Serotype input files
+    :param query_file: one or both of the VF / Serotype input files
     :param blast_db: validated fasta files from the user, in DB form
     :return: the blast output file
     """
