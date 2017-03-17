@@ -168,7 +168,7 @@ if __name__=='__main__':
 
         logging.info('try catch testing start')
         try:
-            ast.literal_eval(serotyper_out)
+            ast.literal_eval(serotyper_out[-1])
         except:
             logging.info('serotype eval failed')
             logging.info(sys.exc_info()[0])
