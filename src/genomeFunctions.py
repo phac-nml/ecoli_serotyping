@@ -34,7 +34,30 @@ def get_files_as_list(file_or_directory):
         log.info("Using genomes in file " + file_or_directory)
         files_list.append(os.path.abspath(file_or_directory))
 
-    return sorted(files_list)
+    # check that all are valid fasta files
+    # if not, exclude with warning
+    validated_files_list = validate_fasta_files(files_list)
+
+    return sorted(validated_files_list)
+
+
+def validate_fasta_files(files):
+    """
+    Check using Bio.SeqIO if files are valid fasta format.
+
+    :param files: full path of all files
+    :return: a list of all files that pass
+    """
+
+    validated_files = []
+    for file in files:
+        for _ in Bio.SeqIO.parse(file, "fasta"):
+            log.debug("%s is a valid fasta file", file)
+            validated_files.append(file)
+
+            break
+
+    return validated_files
 
 
 def get_genome_name(filename):
@@ -83,21 +106,14 @@ def get_genome_name(filename):
 def get_fasta_header_from_file(filename):
     """
     Gets the first fasta sequence from the file, and returns the fasta header.
-    Returns FALSE if the file is not a valid fasta sequence.
+    The files should have already been validated as fasta format.
 
     :param filename: the absolute path of the fasta file
-    :return: header || FALSE
+    :return: header
     """
 
     for record in Bio.SeqIO.parse(filename, "fasta"):
-        match = re.search('(^[a-zA-Z]+)', str(record.seq))
-
-        if match:
-            log.debug("%s is a fasta file", filename)
-            return record.description
-        else:
-            log.debug("%s is not a fasta file", filename)
-            return False
+        return record.description
 
 
 def create_blast_db(filelist):
@@ -118,10 +134,13 @@ def create_blast_db(filelist):
 
     log.debug("Generating the blast db at %s", blast_db_path)
     completed_process = subprocess.run(["makeblastdb",
-                            "-in", files_string,
-                           "-dbtype", "nucl",
-                           "-title", "ectyper_blastdb",
-                           "-out", blast_db_path],
-                           check=True)
+                                        "-in", files_string,
+                                        "-dbtype", "nucl",
+                                        "-title", "ectyper_blastdb",
+                                        "-out", blast_db_path],
+                                       check=True)
 
-    return completed_process.returncode
+    if completed_process.returncode == 0:
+        return blast_db_path
+    else:
+        return False
