@@ -19,19 +19,13 @@ def parse_command_line():
 
     parser.add_argument("-s",
                         "--serotyper",
-                        type=int,
-                        help="Trigger the use of the E. coli serotyper. \
-                              Options are 0 and 1. Default is 0 (false).",
-                        default=0,
-                        choices=[0, 1])
+                        action="store_true",
+                        help="Trigger the use of the E. coli serotyper.")
 
     parser.add_argument("-f",
                         "--virulenceFactors",
-                        type=int,
-                        help="Trigger the use of the Virulence Factors tool. \
-                              Options are 0 and 1. Default is 0 (false).",
-                        default=0,
-                        choices=[0, 1])
+                        action="store_true",
+                        help="Trigger the use of the Virulence Factors tool.")
 
     parser.add_argument("-d",
                         "--percentIdentity",
@@ -58,11 +52,7 @@ def parse_command_line():
 
     parser.add_argument("-c",
                         "--csv",
-                        type=int,
-                        help="If set to 1, the results will be sent to a .csv \
-                              file in the temp/Results folder. Options are 0 \
-                              and 1, default=1.",
-                        default=1,
-                        choices=[0, 1])
+                        action="store_true",
+                        help="Sets the output format to `csv`. JSON otherwise.")
 
     return parser.parse_args()

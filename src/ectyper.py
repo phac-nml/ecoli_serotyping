@@ -34,6 +34,19 @@ def run_program():
     args = src.commandLineOptions.parse_command_line()
     log.debug(args)
 
+    # run none / one / both of serotyper and vffinder
+    query_files = []
+    if args.serotyper:
+        query_files.append(definitions.SEROTYPE_FILE)
+
+    if args.virulenceFactors:
+        query_files.append(definitions.VF_FILE)
+
+    if not query_files:
+        log.warning('No analyses selected to run. Exiting. Please select one'
+                    ' or both of `--serotyper` and `--virulenceFactors`')
+        exit(1)
+
     log.info("Gathering genome file names")
     genome_files = src.genomeFunctions.get_files_as_list(args.input)
     log.debug(genome_files)
@@ -45,5 +58,8 @@ def run_program():
 
     log.info("Creating blast database")
     blast_db_creation = src.genomeFunctions.create_blast_db(genome_files)
+
+    log.info("Blast queries %s against the database of input files",
+             ' '.join(query_files))
 
     log.info("Done")
