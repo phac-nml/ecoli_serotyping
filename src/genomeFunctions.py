@@ -4,7 +4,8 @@ import os
 import logging.config
 import re
 import Bio.SeqIO
-
+import tempfile
+import subprocess
 
 log = logging.getLogger(__name__)
 
@@ -97,3 +98,30 @@ def get_fasta_header_from_file(filename):
         else:
             log.debug("%s is not a fasta file", filename)
             return False
+
+
+def create_blast_db(filelist):
+    """
+    Creating a blast DB using the makeblastdb command.
+    The database is created in the temporary folder of the system.
+
+    :param filelist: genome list that was given by the user on the commandline.
+    :return full path of DB, or FALSE if makeblastdb failed
+    """
+
+    tempdir = tempfile.mkdtemp()
+    blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
+
+    # combine all file names into a single string for use with makeblastdb
+    files_string = ' '.join(filelist)
+    log.debug("Combined list of files for makeblastdb: %s", files_string)
+
+    log.debug("Generating the blast db at %s", blast_db_path)
+    completed_process = subprocess.run(["makeblastdb",
+                            "-in", files_string,
+                           "-dbtype", "nucl",
+                           "-title", "ectyper_blastdb",
+                           "-out", blast_db_path],
+                           check=True)
+
+    return completed_process.returncode

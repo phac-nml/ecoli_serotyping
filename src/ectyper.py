@@ -43,4 +43,7 @@ def run_program():
                         genome_files]
     log.debug(all_genomes_list)
 
+    log.info("Creating blast database")
+    blast_db_creation = src.genomeFunctions.create_blast_db(genome_files)
+
     log.info("Done")
