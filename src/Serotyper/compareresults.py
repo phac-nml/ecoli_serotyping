@@ -16,7 +16,7 @@ def initializeDanishDB():
 
     REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/Serotyping_Database/'
 
-    return subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"])
+    return subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"])
 
 
 

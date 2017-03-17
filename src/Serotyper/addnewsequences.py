@@ -93,7 +93,7 @@ def addSeqToDB(filesList):
                             SeqIO.write(record, open(SCRIPT_DIRECTORY + "../Data/gnd_sequences.fasta", 'a+'), "fasta")
                             count = temp_count
 
-    subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY+ "../temp/ECTyperDB"])
+    subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", SCRIPT_DIRECTORY+ "../temp/ECTyperDB"])
 
 
 if __name__=='__main__':

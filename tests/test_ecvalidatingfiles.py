@@ -88,11 +88,11 @@ def test_checkFiles():
 
 def test_initializeDB():
 
-    assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB"]) == 1
+    assert subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB"]) == 1
 
-    assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
+    assert subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../Data/EcOH.fasta ", "-dbtype", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
 
-    assert subprocess.call(["/usr/bin/makeblastdb", "-in", SCRIPT_DIRECTORY , "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
+    assert subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY , "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"]) == 1
 
 
     # os.chdir('/home/calarose/Documents/')
