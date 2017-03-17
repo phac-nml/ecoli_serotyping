@@ -172,11 +172,13 @@ if __name__=='__main__':
         except:
             logging.info('serotype eval failed')
             logging.info(sys.exc_info()[0])
+            logging.info(serotyper_out)
         try:
             ast.literal_eval(vf_out)
         except:
             logging.info('vf eval failed')
             logging.info(sys.exc_info()[0])
+            logging.info(vf_out)
         try:
             ast.literal_eval(amr_out)
         except:
