@@ -10,7 +10,10 @@ import definitions
 import src.commandLineOptions
 import src.genomeFunctions
 
-logging.config.fileConfig(definitions.LOGGER_CONFIG)
+# need to set disable existing loggers to False, otherwise the module
+# logging will not work as intended
+logging.config.fileConfig(definitions.LOGGER_CONFIG,
+                          disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
 
@@ -31,10 +34,10 @@ def run_program():
     args = src.commandLineOptions.parse_command_line()
     log.debug(args)
 
-    log.info("Gathering genome names")
+    log.info("Gathering genome file names")
     genome_files = src.genomeFunctions.get_files_as_list(args.input)
     log.debug(genome_files)
 
-
+    log.info("Gathering genome names from files")
 
     log.info("Done")
