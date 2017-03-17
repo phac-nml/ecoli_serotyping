@@ -39,5 +39,8 @@ def run_program():
     log.debug(genome_files)
 
     log.info("Gathering genome names from files")
+    all_genomes_list = [src.genomeFunctions.get_genome_name(file) for file in
+                        genome_files]
+    log.debug(all_genomes_list)
 
     log.info("Done")

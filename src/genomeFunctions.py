@@ -3,6 +3,7 @@
 import os
 import logging.config
 import re
+import Bio.SeqIO
 
 
 log = logging.getLogger(__name__)
@@ -37,42 +38,62 @@ def get_files_as_list(file_or_directory):
 
 def get_genome_name(filename):
     """
-    Getting the name of the genome by hierarchy
+    Getting the name of the genome by hierarchy. This requires reading the first
+    fasta header from the file. It also assumes a single genome per file.
+
     :param filename: Name of the file containing the record.
     :return genomeName: Name of the genome contained in the file (or sequence).
     """
 
+    record_id = get_fasta_header_from_file(filename)
+
     # Look for lcl followed by the possible genome name
-    if re.search('lcl\|([\w-]*)', recordID):
-        match = re.search('lcl\|([\w-]*)', recordID)
+    if re.search('lcl\|([\w-]*)', record_id):
+        match = re.search('lcl\|([\w-]*)', record_id)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
     # Look for a possible genome name at the beginning of the record ID
-    elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)', recordID):
-        match = re.search('(\w{8}\.\d)', recordID)
+    elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)', record_id):
+        match = re.search('(\w{8}\.\d)', record_id)
         genome_name = str(match.group())
 
     # Look for ref, gb, emb or dbj followed by the possible genome name
     elif re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',
-                   recordID):
+                   record_id):
         match = re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',
-                          recordID)
+                          record_id)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
     # Look for gi followed by the possible genome name
-    elif re.search('gi\|\d{8}', recordID):
-        match = re.search('gi\|\d{8}', recordID)
+    elif re.search('gi\|\d{8}', record_id):
+        match = re.search('gi\|\d{8}', record_id)
         match = str(match.group())
         genome_name = match.split('|')[1]
+
     # Assign the file name as genome name
     else:
         genome_name = filename
 
-    if recordID not in FILENAMES:
-        FILENAMES[recordID] = filename
-    if filename not in GENOMENAMES:
-        GENOMENAMES[filename] = recordID
-
     return genome_name
+
+
+def get_fasta_header_from_file(filename):
+    """
+    Gets the first fasta sequence from the file, and returns the fasta header.
+    Returns FALSE if the file is not a valid fasta sequence.
+
+    :param filename: the absolute path of the fasta file
+    :return: header || FALSE
+    """
+
+    for record in Bio.SeqIO.parse(filename, "fasta"):
+        match = re.search('(^[a-zA-Z]+)', str(record.seq))
+
+        if match:
+            log.debug("%s is a fasta file", filename)
+            return record.description
+        else:
+            log.debug("%s is not a fasta file", filename)
+            return False
