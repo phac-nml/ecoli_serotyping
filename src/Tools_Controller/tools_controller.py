@@ -156,6 +156,8 @@ if __name__=='__main__':
         if args.csv == 1:
             createReport(csv_files)
 
+        logging.info('createRport worked')
         resultDict = mergeResults(ast.literal_eval(serotyper_out), ast.literal_eval(vf_out), ast.literal_eval(amr_out))
+        logging.info('mergeREsults worked')
 
         print resultDict
