@@ -93,12 +93,16 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
     """
     resultsDict = {}
 
+    logging.info('in mergeResults')
+
     if bool(vf_dict):
         #Copy virulence factors dictionary content into merged dictionary
         for genome_name, vf_info in vf_dict.iteritems():
             if genome_name not in resultsDict.keys():
                 resultsDict[genome_name] = {}
             resultsDict[genome_name]['Virulence Factors'] = vf_info
+
+    logging.info('vf_dict merge ok')
 
     if bool(amr_dict):
         #Copy AMR dictionary content into merged dictionary
@@ -107,6 +111,8 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
                 resultsDict[genome_name] = {}
             resultsDict[genome_name]['Antimicrobial Resistance'] = amr_info
 
+    logging.info('amr_dict merge ok')
+
     if bool(serotyper_dict):
         #Copy serotype dictionary content into merged dictionary
         for genome_name, serotype_info in serotyper_dict.iteritems():
@@ -114,6 +120,9 @@ def mergeResults(serotyper_dict, vf_dict, amr_dict):
                 resultsDict[genome_name] = {}
 
             resultsDict[genome_name]['Serotype']= serotype_info
+
+    logging.info('serotype_dict merge ok')
+
     return resultsDict
 
 
