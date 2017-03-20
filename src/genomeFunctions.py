@@ -61,45 +61,90 @@ def validate_fasta_files(files):
     return validated_files
 
 
-def get_genome_name(filename):
+def get_genome_names_from_files(files):
+    """
+    For each file:
+    Takes the first header from a fasta file and sends it to the get_genome_name
+    function. Returns the name of the genome. If the name of the file is to be
+    used as the genome name, creates a temporary file using >lcl|filename as the
+    first part of the header.
+
+    :param files: The list of files to get the genome names for
+    :return: ([genome names], [file names])
+    """
+
+    list_of_genomes = []
+    list_of_files = []
+    for file in files:
+        header = get_fasta_header_from_file(file)
+        genome_name = get_genome_name(header)
+
+        # if the header and genome_name are the same, we need to use the filename
+        # as the genome name. This means we also need to create a new file adding
+        # the filename to each of the headers, so that downstream applications
+        # (eg. BLAST) can be used with the filename as genome name.
+
+        if header == genome_name:
+            # get only the name of the file for use in the fasta header
+            file_path_name = os.path.splitext(os.path.basename(file))
+            n_name = file_path_name[1]
+
+            # create a new file for the updated fasta headers
+            new_file = tempfile.mkstemp()
+
+            #add the new name to the list of files and genomes
+            list_of_files.append(new_file)
+            list_of_genomes.append(n_name)
+
+            with open(new_file, "w") as output_fh:
+                for record in Bio.SeqIO.parse(file, "fasta"):
+                    record.description = ">" + n_name + record.description
+                    log.debug(record.description)
+                    Bio.SeqIO.write(record, output_fh, "fasta")
+        else:
+            list_of_files.append(file)
+            list_of_genomes.append(genome_name)
+
+    return list_of_genomes, list_of_files
+
+
+def get_genome_name(header):
     """
     Getting the name of the genome by hierarchy. This requires reading the first
     fasta header from the file. It also assumes a single genome per file.
 
-    :param filename: Name of the file containing the record.
-    :return genomeName: Name of the genome contained in the file (or sequence).
+    :param header: The header containing the record.
+    :return genomeName: Name of the genome contained in the header.
     """
 
-    record_id = get_fasta_header_from_file(filename)
-
     # Look for lcl followed by the possible genome name
-    if re.search('lcl\|([\w-]*)', record_id):
-        match = re.search('lcl\|([\w-]*)', record_id)
+    if re.search('lcl\|([\w-]*)', header):
+        match = re.search('lcl\|([\w-]*)', header)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
     # Look for a possible genome name at the beginning of the record ID
-    elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)', record_id):
-        match = re.search('(\w{8}\.\d)', record_id)
+    elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)', header):
+        match = re.search('(\w{8}\.\d)', header)
         genome_name = str(match.group())
 
     # Look for ref, gb, emb or dbj followed by the possible genome name
     elif re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',
-                   record_id):
+                   header):
         match = re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',
-                          record_id)
+                          header)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
     # Look for gi followed by the possible genome name
-    elif re.search('gi\|\d{8}', record_id):
-        match = re.search('gi\|\d{8}', record_id)
+    elif re.search('gi\|\d{8}', header):
+        match = re.search('gi\|\d{8}', header)
         match = str(match.group())
         genome_name = match.split('|')[1]
 
     # Assign the file name as genome name
     else:
-        genome_name = filename
+        genome_name = header
 
     return genome_name
 
