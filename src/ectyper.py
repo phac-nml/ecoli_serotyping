@@ -56,18 +56,22 @@ def run_program():
     (all_genomes_list, all_genomes_files) = src.genomeFunctions.get_genome_names_from_files(genome_files)
     log.debug(all_genomes_list)
     log.debug(all_genomes_files)
-    exit(1)
+
 
     log.info("Creating blast database")
-    # blast_db = src.genomeFunctions.create_blast_db(genome_files)
+    blast_db = src.genomeFunctions.create_blast_db(genome_files)
 
     log.info("Blast queries %s against the database of input files",
              query_file)
-    # blast_output_file = src.genomeFunctions.run_blast(query_file, blast_db)
-    blast_output_file = '/tmp/tmpfz53tjl0/ectyper_blastdb.output'
+    #blast_output_file = src.genomeFunctions.run_blast(query_file, blast_db)
+    blast_output_file = '/tmp/tmpvgj5d69x/ectyper_blastdb.output'
 
     log.info("Parsing blast results in %s", blast_output_file)
-    parsed_results = src.genomeFunctions.parse_blast_results(args,
-                                                             blast_output_file)
+    # We want to make the parsing function generalizable, not dependent
+    # on testing for serotype, vfs etc. specifically
+    # The parser will apply any functions given to it to a blast record
+    list_of_parsing_functions = src.genomeFunctions.get_list_of_parsing_functions(args)
+
+    parsed_results = src.genomeFunctions.parse_blast_results(args, blast_output_file, list_of_parsing_functions)
     log.info(parsed_results)
     log.info("Done")

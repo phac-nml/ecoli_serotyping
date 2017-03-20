@@ -7,6 +7,8 @@ import Bio.SeqIO
 import Bio.Blast.NCBIXML
 import tempfile
 import subprocess
+import src.serotypePrediction
+import src.virulencePrediction
 
 log = logging.getLogger(__name__)
 
@@ -90,7 +92,8 @@ def get_genome_names_from_files(files):
             n_name = file_path_name[1]
 
             # create a new file for the updated fasta headers
-            new_file = tempfile.mkstemp()
+            new_file_tuple = tempfile.mkstemp()
+            new_file = new_file_tuple[1]
 
             #add the new name to the list of files and genomes
             list_of_files.append(new_file)
@@ -214,7 +217,23 @@ def run_blast(query_file, blast_db):
         exit(1)
 
 
-def parse_blast_results(args, blast_results_file):
+def get_list_of_parsing_functions(args):
+    """
+    Given the parsed arguments from argparser, return a list of functions.
+    :param args:
+    :return: [function]
+    """
+
+    list_of_functions = []
+    if args.serotyper:
+        list_of_functions.append(src.serotypePrediction.predict_serotype)
+
+    if args.virulenceFactors:
+        list_of_functions.append(src.virulencePrediction.predict_virulence_factors)
+    return list_of_functions
+
+
+def parse_blast_results(args, blast_results_file, parsing_functions):
     """
     Given the user-defined cutoffs, return only the results that pass.
     VFs use the cutoffs directly.
@@ -222,12 +241,16 @@ def parse_blast_results(args, blast_results_file):
 
     :param args: parsed commandline options from the user
     :param blast_results_file: XML results of vf and/or serotype vs. genomes
+    :param parsing_functions: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
     """
 
     result_handle = open(blast_results_file)
-    # blast_records = Bio.Blast.NCBIXML.parse(result_handle)
+    blast_records = Bio.Blast.NCBIXML.parse(result_handle)
 
     results_dict = {}
-    # TODO: Finish the parsing refactor
-    # for record in blast_records:
+
+    for record in blast_records:
+        for parser in parsing_functions:
+            r = parser(record)
+            log.debug(r)
