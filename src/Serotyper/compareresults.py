@@ -16,7 +16,8 @@ def initializeDanishDB():
 
     REL_DIR = SCRIPT_DIRECTORY + '../../temp/databases/Serotyping_Database/'
 
-    return subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"])
+    FNULL = open(os.devnull, 'w')
+    return subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/serotypefinder/O_H_type.fsa ", "-dbtype", "nucl", "-title", "SerotypeFinderDB", "-out", REL_DIR + "SerotypeFinderDB"],stdout=FNULL, stderr=subprocess.STDOUT,close_fds=True)
 
 
 
@@ -109,9 +110,3 @@ def compareResults(filesList, results):
         matchDict = sortMatches(predictionDict)
         topMatches = findTopMatches(matchDict)
         writeFile(topMatches, results)
-
-
-
-
-
-

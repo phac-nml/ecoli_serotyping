@@ -73,7 +73,8 @@ def initializeDB():
         return 0
     else:
         logging.info('Generating the database.')
-        return subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"])
+        FNULL = open(os.devnull, 'w')
+        return subprocess.call(["makeblastdb", "-in", SCRIPT_DIRECTORY + "../../Data/EcOH.fasta ", "-dbtype", "nucl", "-title", "ECTyperDB", "-out", REL_DIR + "ECTyperDB"],stdout=FNULL, stderr=subprocess.STDOUT,close_fds=True)
 
 
 def runBlastQuery(genomesList, db_name):

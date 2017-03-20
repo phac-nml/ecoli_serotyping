@@ -64,9 +64,6 @@ def initializeDB():
     db_in = os.path.join(SCRIPT_DIRECTORY, '../../Data/repaired_ecoli_vfs_shortnames.ffn')
     db_out = os.path.join(REL_DIR, 'VirulenceFactorsDB')
 
-    makeblastdb = ("makeblastdb", "-in", db_in, "-dbtype", "nucl",
-                   "-title", "VirulenceFactorsDB", "-out", db_out)
-
     if os.path.isfile(REL_DIR + 'VirulenceFactorsDB.nin'):
         logging.info('Database already exists.')
         retcode = 0
@@ -74,7 +71,9 @@ def initializeDB():
     else:
         logging.info('Generating the database.')
 
-        retcode = subprocess.call(makeblastdb)
+        FNULL = open(os.devnull, 'w')
+        retcode = subprocess.call(["makeblastdb", "-in", db_in, "-dbtype", "nucl",
+                       "-title", "VirulenceFactorsDB", "-out", db_out],stdout=FNULL, stderr=subprocess.STDOUT,close_fds=True)
 
     return retcode
 
