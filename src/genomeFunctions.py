@@ -130,7 +130,7 @@ def get_genome_name(header):
         re.compile('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})'),
 
         # Look for gi followed by the possible genome name
-        re.compile('gi\|\d{8}')
+        re.compile('(gi\|\d{8})')
     )
 
     genome_name = header
