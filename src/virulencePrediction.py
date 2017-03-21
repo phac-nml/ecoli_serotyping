@@ -5,7 +5,7 @@
 """
 
 
-def predict_virulence_factors(blast_record):
+def predict_virulence_factors(blast_record, args):
     """
     Entry point for virulence factor prediction
     :return: dict(
@@ -13,5 +13,4 @@ def predict_virulence_factors(blast_record):
         htype = H
     )
     """
-    for alignment in blast_record.alignments:
-        return alignment.title.strip()
+

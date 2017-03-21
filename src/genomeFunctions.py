@@ -4,7 +4,6 @@ import os
 import logging.config
 import re
 import Bio.SeqIO
-import Bio.Blast.NCBIXML
 import tempfile
 import subprocess
 import src.serotypePrediction
@@ -89,7 +88,7 @@ def get_genome_names_from_files(files):
         if header == genome_name:
             # get only the name of the file for use in the fasta header
             file_path_name = os.path.splitext(os.path.basename(file))
-            n_name = file_path_name[1]
+            n_name = file_path_name[0]
 
             # create a new file for the updated fasta headers
             new_file_tuple = tempfile.mkstemp()
@@ -101,7 +100,7 @@ def get_genome_names_from_files(files):
 
             with open(new_file, "w") as output_fh:
                 for record in Bio.SeqIO.parse(file, "fasta"):
-                    record.description = ">" + n_name + record.description
+                    record.description = ">lcl|" + n_name  + "|" + record.description
                     log.debug(record.description)
                     Bio.SeqIO.write(record, output_fh, "fasta")
         else:
@@ -120,34 +119,27 @@ def get_genome_name(header):
     :return genomeName: Name of the genome contained in the header.
     """
 
-    # Look for lcl followed by the possible genome name
-    if re.search('lcl\|([\w-]*)', header):
-        match = re.search('lcl\|([\w-]*)', header)
-        match = str(match.group())
-        genome_name = match.split('|')[1]
+    re_patterns = (
+        # Look for lcl followed by the possible genome name
+        re.compile('lcl\|([\w-]*)'),
 
-    # Look for a possible genome name at the beginning of the record ID
-    elif re.search('(^[a-zA-Z][a-zA-Z]\w{6}\.\d)', header):
-        match = re.search('(\w{8}\.\d)', header)
-        genome_name = str(match.group())
+        # Look for a possible genome name at the beginning of the record ID
+        re.compile('(\w{8}\.\d)'),
 
-    # Look for ref, gb, emb or dbj followed by the possible genome name
-    elif re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',
-                   header):
-        match = re.search('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})',
-                          header)
-        match = str(match.group())
-        genome_name = match.split('|')[1]
+        # Look for ref, gb, emb or dbj followed by the possible genome name
+        re.compile('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})'),
 
-    # Look for gi followed by the possible genome name
-    elif re.search('gi\|\d{8}', header):
-        match = re.search('gi\|\d{8}', header)
-        match = str(match.group())
-        genome_name = match.split('|')[1]
+        # Look for gi followed by the possible genome name
+        re.compile('gi\|\d{8}')
+    )
 
-    # Assign the file name as genome name
-    else:
-        genome_name = header
+    genome_name = header
+    for rep in re_patterns:
+        m = rep.search(header)
+
+        if m:
+            genome_name = m.group(1)
+            break
 
     return genome_name
 
@@ -207,7 +199,7 @@ def run_blast(query_file, blast_db):
                                         "-query", query_file,
                                         "-db", blast_db,
                                         "-out", blast_output_file,
-                                        "-outfmt", "5",
+                                        "-outfmt", '6 " qseqid qlen sseqid length pident "',
                                         "-word_size", "11"])
     if completed_process.returncode == 0:
         return blast_output_file
@@ -240,17 +232,34 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
     Serotype may use additional logic.
 
     :param args: parsed commandline options from the user
-    :param blast_results_file: XML results of vf and/or serotype vs. genomes
+    :param blast_results_file: -outfmt 6 results of vf and/or serotype vs. genomes
     :param parsing_functions: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
     """
 
-    result_handle = open(blast_results_file)
-    blast_records = Bio.Blast.NCBIXML.parse(result_handle)
+    result_handle = open(blast_results_file, 'r')
 
     results_dict = {}
 
-    for record in blast_records:
-        for parser in parsing_functions:
-            r = parser(record)
-            log.debug(r)
+    for line in result_handle:
+        clean_line = line.strip()
+        la = clean_line.split()
+
+        log.debug(la)
+        # We will make a dict of the results, to allow the parsing functions
+        # to use the blast "name" rather than array location, which will
+        # facilitate changes / additional parsers that require other info
+        # later on.
+
+        blast_record = {'qseqid':la[0],
+                        'qlen':la[1],
+                        'sseqid':la[2],
+                        'length':la[3],
+                        'pident':la[4]
+                        }
+
+        for blast_parser in parsing_functions:
+            blast_parser(blast_record, args)
+
+
+
