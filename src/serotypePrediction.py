@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 import re
+import src.genomeFunctions
 
 """
     Serotype prediction for E. coli
 """
 
 
-def predict_serotype(blast_record, args):
+def predict_serotype(blast_record, args, results_dict):
     """
     Entry point for serotype prediction
 
@@ -42,6 +43,42 @@ def predict_serotype(blast_record, args):
     # >gnd|1_O26
     #
 
+    genome_name = src.genomeFunctions.get_genome_name(blast_record['sseqid'])
 
-    #if re.search('', blast_record['qseqid']):
 
+    serotype_results = {
+        'otype':None,
+        'htype':None,
+        'flic':None,
+        'flka':None,
+        'flla':None,
+        'flma':None,
+        'wzx':None,
+        'wzy':None,
+        'wzm':None,
+        'wzt':None
+    }
+
+    h_re_patterns = (
+        # Look for any flagella match
+        # We will sub-match for the gene if this hits
+        re.compile('fl\w\w-(H\d+)__'),
+        re.compile('fl\w\w_.+_(H\d+)$')
+    )
+
+    o_re_patterns = (
+        # look for any somatic match
+        # We will sub-match if it hits
+        re.compile('wz\w-(O\d+)'),
+        re.compile('>wz\w_.+_(O\d+)\w*$'),
+        re.compile('gnd\|\d+_(O\d+)')
+    )
+
+    for rep in h_re_patterns:
+        m = rep.search(blast_record['qseqid'])
+
+        if m:
+            serotype_results['otype']=m.group(1)
+
+
+    return serotype_results

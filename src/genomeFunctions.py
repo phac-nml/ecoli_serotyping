@@ -133,6 +133,7 @@ def get_genome_name(header):
         re.compile('(gi\|\d{8})')
     )
 
+    # if nothing matches, use the full header as genome_name
     genome_name = header
     for rep in re_patterns:
         m = rep.search(header)
@@ -245,7 +246,6 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
         clean_line = line.strip()
         la = clean_line.split()
 
-        log.debug(la)
         # We will make a dict of the results, to allow the parsing functions
         # to use the blast "name" rather than array location, which will
         # facilitate changes / additional parsers that require other info
@@ -259,7 +259,8 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
                         }
 
         for blast_parser in parsing_functions:
-            blast_parser(blast_record, args)
-
+            results_dict = blast_parser(blast_record, args, results_dict)
+            log.debug(results_dict)
+            exit(1)
 
 

@@ -5,7 +5,7 @@
 """
 
 
-def predict_virulence_factors(blast_record, args):
+def predict_virulence_factors(blast_record, args, results_dict):
     """
     Entry point for virulence factor prediction
     :return: dict(
