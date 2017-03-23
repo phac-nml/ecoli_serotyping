@@ -130,8 +130,7 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
             # and we could be overwriting a "better" result if we do not check
             # https://www.python.org/dev/peps/pep-0448/
 
-            parser_result = blast_parser(blast_record, args)
-            results_dict[genome_name] = {**parser_result,
+            results_dict[genome_name] = {**blast_parser(blast_record, args),
                                          **results_dict[genome_name]}
 
             # exit()
