@@ -8,7 +8,7 @@ import src.genomeFunctions
 """
 
 
-def predict_serotype(blast_record, args, results_dict):
+def predict_serotype(blast_record, args):
     """
     Entry point for serotype prediction
 
@@ -24,6 +24,11 @@ def predict_serotype(blast_record, args, results_dict):
         htype = H
     }
     """
+
+    # Initially check that the result passes the length / identity filters
+    if not record_passes_cutoffs(blast_record, args):
+        return {}
+
 
     # serotype header formats
     # >1__fliC__fliC-H1__1 AB028471.1;flagellin;H1
@@ -43,42 +48,64 @@ def predict_serotype(blast_record, args, results_dict):
     # >gnd|1_O26
     #
 
-    genome_name = src.genomeFunctions.get_genome_name(blast_record['sseqid'])
-
-
     serotype_results = {
-        'otype':None,
-        'htype':None,
-        'flic':None,
-        'flka':None,
-        'flla':None,
-        'flma':None,
-        'wzx':None,
-        'wzy':None,
-        'wzm':None,
-        'wzt':None
+        # 'otype':None,
+        # 'htype':None,
+        # 'flic':None,
+        # 'flka':None,
+        # 'flla':None,
+        # 'flma':None,
+        # 'wzx':None,
+        # 'wzy':None,
+        # 'wzm':None,
+        # 'wzt':None,
+        # 'gnd':None
     }
 
     h_re_patterns = (
         # Look for any flagella match
-        # We will sub-match for the gene if this hits
-        re.compile('fl\w\w-(H\d+)__'),
-        re.compile('fl\w\w_.+_(H\d+)$')
+        re.compile('(fl\w\w)-(H\d+)__'),
+        re.compile('(fl\w\w)_.+_(H\d+)$')
     )
 
     o_re_patterns = (
         # look for any somatic match
-        # We will sub-match if it hits
-        re.compile('wz\w-(O\d+)'),
-        re.compile('>wz\w_.+_(O\d+)\w*$'),
-        re.compile('gnd\|\d+_(O\d+)')
+        re.compile('(wz\w)-(O\d+)'),
+        re.compile('^(wz\w)_.+_(O\d+)\w*$'),
+        re.compile('(gnd)\|\d+_(O\d+)')
     )
 
-    for rep in h_re_patterns:
-        m = rep.search(blast_record['qseqid'])
+    all_re_patters = (h_re_patterns, o_re_patterns)
 
-        if m:
-            serotype_results['otype']=m.group(1)
+    # Once a match has been found, we don't need to check any others
+    # Checks for H-antigens first
+    for pattern in all_re_patters:
+        for rep in pattern:
+            m = rep.search(blast_record['qseqid'])
+
+            if m:
+                serotype_results[m.group(1).lower()] = m.group(2)
+                return serotype_results
 
 
-    return serotype_results
+def record_passes_cutoffs(blast_record, args):
+    """
+    For serotype prediction, need to ensure the blast hit is equal to or 
+    greater than the cutoffs supplied
+    
+    :param blast_record: = {'qseqid':la[0],
+                        'qlen':la[1],
+                        'sseqid':la[2],
+                        'length':la[3],
+                        'pident':la[4]
+                        }
+    :param args: argparse commandline options
+    :return: {True|False}
+    """
+
+    if (float(blast_record['qlen']) / float(blast_record[
+        'length']) * 100) >= float(args.percentLength) and (
+        float(blast_record['pident']) >= float(args.percentIdentity)):
+        return True
+    else:
+        return False

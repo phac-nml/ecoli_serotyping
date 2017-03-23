@@ -8,6 +8,7 @@ import tempfile
 import subprocess
 import src.serotypePrediction
 import src.virulencePrediction
+import collections
 
 log = logging.getLogger(__name__)
 
@@ -94,13 +95,13 @@ def get_genome_names_from_files(files):
             new_file_tuple = tempfile.mkstemp()
             new_file = new_file_tuple[1]
 
-            #add the new name to the list of files and genomes
+            # add the new name to the list of files and genomes
             list_of_files.append(new_file)
             list_of_genomes.append(n_name)
 
             with open(new_file, "w") as output_fh:
                 for record in Bio.SeqIO.parse(file, "fasta"):
-                    record.description = ">lcl|" + n_name  + "|" + record.description
+                    record.description = ">lcl|" + n_name + "|" + record.description
                     log.debug(record.description)
                     Bio.SeqIO.write(record, output_fh, "fasta")
         else:
@@ -124,7 +125,7 @@ def get_genome_name(header):
         re.compile('lcl\|([\w-]*)'),
 
         # Look for a possible genome name at the beginning of the record ID
-        re.compile('(\w{8}\.\d)'),
+        re.compile('^(\w{8}\.\d)'),
 
         # Look for ref, gb, emb or dbj followed by the possible genome name
         re.compile('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})'),
@@ -200,7 +201,8 @@ def run_blast(query_file, blast_db):
                                         "-query", query_file,
                                         "-db", blast_db,
                                         "-out", blast_output_file,
-                                        "-outfmt", '6 " qseqid qlen sseqid length pident "',
+                                        "-outfmt",
+                                        '6 " qseqid qlen sseqid length pident "',
                                         "-word_size", "11"])
     if completed_process.returncode == 0:
         return blast_output_file
@@ -222,7 +224,8 @@ def get_list_of_parsing_functions(args):
         list_of_functions.append(src.serotypePrediction.predict_serotype)
 
     if args.virulenceFactors:
-        list_of_functions.append(src.virulencePrediction.predict_virulence_factors)
+        list_of_functions.append(
+            src.virulencePrediction.predict_virulence_factors)
     return list_of_functions
 
 
@@ -237,10 +240,8 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
     :param parsing_functions: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
     """
-
     result_handle = open(blast_results_file, 'r')
-
-    results_dict = {}
+    results_dict = collections.defaultdict(dict)
 
     for line in result_handle:
         clean_line = line.strip()
@@ -251,16 +252,26 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
         # facilitate changes / additional parsers that require other info
         # later on.
 
-        blast_record = {'qseqid':la[0],
-                        'qlen':la[1],
-                        'sseqid':la[2],
-                        'length':la[3],
-                        'pident':la[4]
+        blast_record = {'qseqid': la[0],
+                        'qlen': la[1],
+                        'sseqid': la[2],
+                        'length': la[3],
+                        'pident': la[4]
                         }
 
+        # genome name to store the parsed blast_result in
+
+        genome_name = get_genome_name(blast_record['sseqid'])
+
         for blast_parser in parsing_functions:
-            results_dict = blast_parser(blast_record, args, results_dict)
-            log.debug(results_dict)
-            exit(1)
+            # we only want to store a value for a key if it doesn't exist
+            # this is because blast list results from "best" to "worst" order
+            # and we could be overwriting a "better" result if we do not check
+            # https://www.python.org/dev/peps/pep-0448/
 
+            results_dict[genome_name] = {
+            **blast_parser(blast_record, args),
+            **results_dict[genome_name]}
 
+            #log.debug(genome_name)
+            # exit()
