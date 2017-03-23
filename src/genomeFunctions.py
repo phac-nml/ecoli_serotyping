@@ -101,7 +101,7 @@ def get_genome_names_from_files(files):
 
             with open(new_file, "w") as output_fh:
                 for record in Bio.SeqIO.parse(file, "fasta"):
-                    record.description = ">lcl|" + n_name + "|" + record.description
+                    record.description = ">lcl|" + n_name + " " + record.description
                     log.debug(record.description)
                     Bio.SeqIO.write(record, output_fh, "fasta")
         else:
@@ -122,7 +122,7 @@ def get_genome_name(header):
 
     re_patterns = (
         # Look for lcl followed by the possible genome name
-        re.compile('lcl\|([\w-]*)'),
+        re.compile('(lcl\|[\w\-\.]*)'),
 
         # Look for a possible genome name at the beginning of the record ID
         re.compile('^(\w{8}\.\d)'),

@@ -55,9 +55,15 @@ def create_blast_db(filelist):
                                         "-dbtype", "nucl",
                                         "-title", "ectyper_blastdb",
                                         "-out", blast_db_path],
-                                       check=True)
+                                       check=True,
+                                       universal_newlines=True,
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
 
     if completed_process.returncode == 0:
+        log.debug("Output from makeblastdb:")
+        log.debug(completed_process.stdout)
+        log.debug(completed_process.stderr)
         return blast_db_path
     else:
         log.fatal("makeblastdb was unable to successfully run.\n%s",
@@ -81,8 +87,16 @@ def run_blast(query_file, blast_db):
                                         "-out", blast_output_file,
                                         "-outfmt",
                                         '6 " qseqid qlen sseqid length pident "',
-                                        "-word_size", "11"])
+                                        "-word_size", "11"],
+                                       check=True,
+                                       universal_newlines=True,
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE
+                                       )
     if completed_process.returncode == 0:
+        log.debug("Output from blastn:")
+        log.debug(completed_process.stdout)
+        log.debug(completed_process.stderr)
         return blast_output_file
     else:
         log.fatal("blastn did not run successfully.\n%s",
@@ -123,6 +137,7 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
         # genome name to store the parsed blast_result in
         genome_name = src.genomeFunctions.get_genome_name(
             blast_record['sseqid'])
+        log.debug(genome_name)
 
         for blast_parser in parsing_functions:
             # we only want to store a value for a key if it doesn't exist
@@ -134,3 +149,5 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
                                          **results_dict[genome_name]}
 
             # exit()
+
+    log.debug(results_dict)

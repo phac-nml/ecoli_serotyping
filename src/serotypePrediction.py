@@ -47,14 +47,12 @@ def predict_serotype(blast_record, args):
     # >gnd|1_O26
     #
 
-    log.debug("Predicting serotype")
     serotype_results = {}
 
     # Initially check that the result passes the length / identity filters
     if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
         return serotype_results
 
-    log.debug("Looking for H and O type")
     h_re_patterns = (
         # Look for any flagella match
         re.compile('(fl\w\w)-(H\d+)__'),
@@ -77,7 +75,7 @@ def predict_serotype(blast_record, args):
             m = rep.search(blast_record['qseqid'])
 
             if m:
-                serotype_results[m.group(1).lower()] = m.group(2)
+                serotype_results[m.group(1).lower()] = {'antigen':m.group(2), 'blast_record':blast_record}
                 log.debug(serotype_results)
                 return serotype_results
 
