@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import re
-import src.genomeFunctions
+import src.blastFunctions
 
 """
     Serotype prediction for E. coli
@@ -26,7 +26,7 @@ def predict_serotype(blast_record, args):
     """
 
     # Initially check that the result passes the length / identity filters
-    if not record_passes_cutoffs(blast_record, args):
+    if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
         return {}
 
 
@@ -88,24 +88,3 @@ def predict_serotype(blast_record, args):
                 return serotype_results
 
 
-def record_passes_cutoffs(blast_record, args):
-    """
-    For serotype prediction, need to ensure the blast hit is equal to or 
-    greater than the cutoffs supplied
-    
-    :param blast_record: = {'qseqid':la[0],
-                        'qlen':la[1],
-                        'sseqid':la[2],
-                        'length':la[3],
-                        'pident':la[4]
-                        }
-    :param args: argparse commandline options
-    :return: {True|False}
-    """
-
-    if (float(blast_record['qlen']) / float(blast_record[
-        'length']) * 100) >= float(args.percentLength) and (
-        float(blast_record['pident']) >= float(args.percentIdentity)):
-        return True
-    else:
-        return False

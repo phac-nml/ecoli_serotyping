@@ -7,6 +7,7 @@
 
 import logging.config
 import definitions
+import src.blastFunctions
 import src.commandLineOptions
 import src.genomeFunctions
 
@@ -59,7 +60,7 @@ def run_program():
 
 
     log.info("Creating blast database")
-    blast_db = src.genomeFunctions.create_blast_db(genome_files)
+    blast_db = src.blastFunctions.create_blast_db(genome_files)
 
     log.info("Blast queries %s against the database of input files",
              query_file)
@@ -72,6 +73,6 @@ def run_program():
     # The parser will apply any functions given to it to a blast record
     list_of_parsing_functions = src.genomeFunctions.get_list_of_parsing_functions(args)
 
-    parsed_results = src.genomeFunctions.parse_blast_results(args, blast_output_file, list_of_parsing_functions)
+    parsed_results = src.blastFunctions.parse_blast_results(args, blast_output_file, list_of_parsing_functions)
     log.info(parsed_results)
     log.info("Done")
