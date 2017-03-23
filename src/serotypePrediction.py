@@ -2,6 +2,9 @@
 
 import re
 import src.blastFunctions
+import logging
+
+log = logging.getLogger(__name__)
 
 """
     Serotype prediction for E. coli
@@ -25,10 +28,6 @@ def predict_serotype(blast_record, args):
     }
     """
 
-    # Initially check that the result passes the length / identity filters
-    if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
-        return {}
-
 
     # serotype header formats
     # >1__fliC__fliC-H1__1 AB028471.1;flagellin;H1
@@ -48,20 +47,14 @@ def predict_serotype(blast_record, args):
     # >gnd|1_O26
     #
 
-    serotype_results = {
-        # 'otype':None,
-        # 'htype':None,
-        # 'flic':None,
-        # 'flka':None,
-        # 'flla':None,
-        # 'flma':None,
-        # 'wzx':None,
-        # 'wzy':None,
-        # 'wzm':None,
-        # 'wzt':None,
-        # 'gnd':None
-    }
+    log.debug("Predicting serotype")
+    serotype_results = {}
 
+    # Initially check that the result passes the length / identity filters
+    if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
+        return serotype_results
+
+    log.debug("Looking for H and O type")
     h_re_patterns = (
         # Look for any flagella match
         re.compile('(fl\w\w)-(H\d+)__'),
@@ -85,6 +78,8 @@ def predict_serotype(blast_record, args):
 
             if m:
                 serotype_results[m.group(1).lower()] = m.group(2)
+                log.debug(serotype_results)
                 return serotype_results
 
-
+    # If no matches, return blank dictionary
+    return serotype_results

@@ -5,11 +5,12 @@ Functions for setting up, running, and parsing blast
 """
 import collections
 import subprocess
-
+import src.genomeFunctions
 import os
 import tempfile
+import logging
 
-from src.genomeFunctions import log, get_genome_name
+log = logging.getLogger(__name__)
 
 
 def record_passes_cutoffs(blast_record, args):
@@ -29,7 +30,7 @@ def record_passes_cutoffs(blast_record, args):
 
     if (float(blast_record['qlen']) / float(blast_record[
                                                 'length']) * 100) >= float \
-        (args.percentLength) and (
+                (args.percentLength) and (
                 float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
@@ -120,8 +121,8 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
                         }
 
         # genome name to store the parsed blast_result in
-
-        genome_name = get_genome_name(blast_record['sseqid'])
+        genome_name = src.genomeFunctions.get_genome_name(
+            blast_record['sseqid'])
 
         for blast_parser in parsing_functions:
             # we only want to store a value for a key if it doesn't exist
@@ -129,9 +130,8 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
             # and we could be overwriting a "better" result if we do not check
             # https://www.python.org/dev/peps/pep-0448/
 
-            results_dict[genome_name] = {
-            **blast_parser(blast_record, args),
-            **results_dict[genome_name]}
+            parser_result = blast_parser(blast_record, args)
+            results_dict[genome_name] = {**parser_result,
+                                         **results_dict[genome_name]}
 
-            #log.debug(genome_name)
             # exit()

@@ -143,7 +143,7 @@ def get_genome_name(header):
             genome_name = m.group(1)
             break
 
-    return genome_name
+    return str(genome_name)
 
 
 def get_fasta_header_from_file(filename):

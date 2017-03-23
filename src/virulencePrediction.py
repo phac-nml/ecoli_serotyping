@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import src.blastFunctions
+
 """
     Virulence prediction for E. coli
 """
@@ -13,5 +15,9 @@ def predict_virulence_factors(blast_record, args):
         htype = H
     )
     """
+
+    # Initially check that the result passes the length / identity filters
+    if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
+        return {}
 
     return {}
