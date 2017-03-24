@@ -63,8 +63,8 @@ def run_program():
 
     log.info("Blast queries %s against the database of input files",
              query_file)
-    #blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
-    blast_output_file = '/tmp/tmp8imf57xr/ectyper_blastdb.output'
+    blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
+    #blast_output_file = '/tmp/tmp8imf57xr/ectyper_blastdb.output'
 
     log.info("Parsing blast results in %s", blast_output_file)
     # We want to make the parsing function generalizable, not dependent
