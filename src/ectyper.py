@@ -15,6 +15,7 @@ import src.loggingFunctions
 log_file = src.loggingFunctions.initialize_logging()
 log = logging.getLogger(__name__)
 
+
 def run_program():
     """
     Wrapper for both the serotyping and virulence finder
@@ -47,29 +48,33 @@ def run_program():
         exit(1)
 
     log.info("Gathering genome file names")
-    genome_files = src.genomeFunctions.get_files_as_list(args.input)
-    log.debug(genome_files)
+    raw_genome_files = src.genomeFunctions.get_files_as_list(args.input)
+    log.debug(raw_genome_files)
 
     log.info("Gathering genome names from files")
-    (all_genomes_list, all_genomes_files) = src.genomeFunctions.get_genome_names_from_files(genome_files)
+    (all_genomes_list,
+     all_genomes_files) = src.genomeFunctions.get_genome_names_from_files(
+        raw_genome_files)
     log.debug(all_genomes_list)
     log.debug(all_genomes_files)
 
-
     log.info("Creating blast database")
-    blast_db = src.blastFunctions.create_blast_db(genome_files)
+    blast_db = src.blastFunctions.create_blast_db(all_genomes_files)
 
     log.info("Blast queries %s against the database of input files",
              query_file)
     #blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
-    blast_output_file = '/tmp/tmpt5f4dy7w/ectyper_blastdb.output'
+    blast_output_file = '/tmp/tmp8imf57xr/ectyper_blastdb.output'
 
     log.info("Parsing blast results in %s", blast_output_file)
     # We want to make the parsing function generalizable, not dependent
     # on testing for serotype, vfs etc. specifically
     # The parser will apply any functions given to it to a blast record
-    list_of_parsing_functions = src.genomeFunctions.get_list_of_parsing_functions(args)
+    list_of_parsing_functions = src.genomeFunctions.get_list_of_parsing_functions(
+        args)
 
-    parsed_results = src.blastFunctions.parse_blast_results(args, blast_output_file, list_of_parsing_functions)
+    parsed_results = src.blastFunctions.parse_blast_results(args,
+                                                            blast_output_file,
+                                                            list_of_parsing_functions)
     log.info(parsed_results)
     log.info("Done")

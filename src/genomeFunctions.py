@@ -101,9 +101,8 @@ def get_genome_names_from_files(files):
 
             with open(new_file, "w") as output_fh:
                 for record in Bio.SeqIO.parse(file, "fasta"):
-                    record.description = ">lcl|" + n_name + " " + record.description
-                    log.debug(record.description)
-                    Bio.SeqIO.write(record, output_fh, "fasta")
+                    output_fh.write(">lcl|" + n_name + "|" + record.description + "\n")
+                    output_fh.write(str(record.seq) + "\n")
         else:
             list_of_files.append(file)
             list_of_genomes.append(genome_name)
@@ -122,7 +121,7 @@ def get_genome_name(header):
 
     re_patterns = (
         # Look for lcl followed by the possible genome name
-        re.compile('(lcl\|[\w\-\.]*)'),
+        re.compile('(lcl\|[\w\-\.]+)'),
 
         # Look for a possible genome name at the beginning of the record ID
         re.compile('^(\w{8}\.\d)'),
@@ -131,7 +130,10 @@ def get_genome_name(header):
         re.compile('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})'),
 
         # Look for gi followed by the possible genome name
-        re.compile('(gi\|\d{8})')
+        re.compile('(gi\|\d{8})'),
+
+        # Look for name followed by space, then description
+        re.compile('^([\w\-\.]+)\s+[\w\-\.]+')
     )
 
     # if nothing matches, use the full header as genome_name

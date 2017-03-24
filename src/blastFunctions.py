@@ -28,10 +28,9 @@ def record_passes_cutoffs(blast_record, args):
     :return: {True|False}
     """
 
-    if (float(blast_record['qlen']) / float(blast_record[
-                                                'length']) * 100) >= float \
-                (args.percentLength) and (
-                float(blast_record['pident']) >= float(args.percentIdentity)):
+    if (float(blast_record['qlen']) / float(blast_record['length']) * 100) >= \
+            float(args.percentLength) and \
+       (float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
         return False
@@ -81,18 +80,19 @@ def run_blast(query_file, blast_db):
 
     blast_output_file = blast_db + '.output'
 
-    completed_process = subprocess.run(["blastn",
-                                        "-query", query_file,
-                                        "-db", blast_db,
-                                        "-out", blast_output_file,
-                                        "-outfmt",
-                                        '6 " qseqid qlen sseqid length pident qacc "',
-                                        "-word_size", "11"],
-                                       check=True,
-                                       universal_newlines=True,
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE
-                                       )
+    completed_process = \
+        subprocess.run(["blastn",
+                        "-query", query_file,
+                        "-db", blast_db,
+                        "-out", blast_output_file,
+                        "-outfmt",
+                        '6 " qseqid qlen sseqid length pident sstart send sframe "',
+                        "-word_size", "11"],
+                       check=True,
+                       universal_newlines=True,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE
+                       )
     if completed_process.returncode == 0:
         log.debug("Output from blastn:")
         log.debug(completed_process.stdout)
@@ -111,7 +111,8 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
     Serotype may use additional logic.
 
     :param args: parsed commandline options from the user
-    :param blast_results_file: -outfmt 6 results of vf and/or serotype vs. genomes
+    :param blast_results_file: -outfmt 6 results of vf and/or 
+            serotype vs. genomes
     :param parsing_functions: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
     """
@@ -127,12 +128,15 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
         # facilitate changes / additional parsers that require other info
         # later on.
 
+        #  '6 " qseqid qlen sseqid length pident sstart send sframe "',
         blast_record = {'qseqid': la[0],
                         'qlen': la[1],
                         'sseqid': la[2],
                         'length': la[3],
                         'pident': la[4],
-                        'qacc': la[5]
+                        'sstart': la[5],
+                        'send': la[6],
+                        'sframe': la[7]
                         }
 
         # genome name to store the parsed blast_result in
@@ -146,9 +150,23 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
             # and we could be overwriting a "better" result if we do not check
             # https://www.python.org/dev/peps/pep-0448/
 
-            results_dict[genome_name] = {**blast_parser(blast_record, args),
-                                         **results_dict[genome_name]}
+            # the returned dict has a key specifying its type, eg. 'vf',
+            # 'serotype' etc.
 
-            # exit()
+            blast_result_dict = blast_parser(blast_record, args)
 
-    log.debug(results_dict)
+            # Python scope means parser_type lives! It's alive!
+            # There will always be only a single key denoting the type
+            for parser_type in blast_result_dict.keys():
+                parser_results = blast_result_dict[parser_type]
+
+            if parser_type is None:
+                continue
+            elif parser_type in results_dict[genome_name]:
+                results_dict[genome_name][parser_type] = \
+                    {**parser_results,
+                     **results_dict[genome_name][parser_type]}
+            else:
+                results_dict[genome_name][parser_type] = parser_results
+
+    return results_dict

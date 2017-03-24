@@ -75,7 +75,10 @@ def predict_serotype(blast_record, args):
             m = rep.search(blast_record['qseqid'])
 
             if m:
-                serotype_results[m.group(1).lower()] = {'antigen':m.group(2), 'blast_record':blast_record}
+                serotype_results['serotype'] = \
+                    {m.group(1): {'antigen':m.group(2),
+                                  'blast_record':blast_record}}
+
                 log.debug(serotype_results)
                 return serotype_results
 
