@@ -41,9 +41,11 @@ def predict_virulence_factors(blast_record, args):
         m = rep.search(blast_record['qseqid'])
 
         if m:
-            vf_results['vf']={m.group(1): {
-                              'description':m.group(2).replace('_', ' ').strip(),
-                              'blast_record':blast_record}}
+            vf_results['vf']= \
+                {m.group(1): {
+                    'description':m.group(2).replace('_', ' ').strip(),
+                    'blast_record':blast_record}
+                }
             log.debug(vf_results)
             break
 
