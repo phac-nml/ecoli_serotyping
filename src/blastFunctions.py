@@ -86,7 +86,7 @@ def run_blast(query_file, blast_db):
                                         "-db", blast_db,
                                         "-out", blast_output_file,
                                         "-outfmt",
-                                        '6 " qseqid qlen sseqid length pident "',
+                                        '6 " qseqid qlen sseqid length pident qacc "',
                                         "-word_size", "11"],
                                        check=True,
                                        universal_newlines=True,
@@ -131,7 +131,8 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
                         'qlen': la[1],
                         'sseqid': la[2],
                         'length': la[3],
-                        'pident': la[4]
+                        'pident': la[4],
+                        'qacc': la[5]
                         }
 
         # genome name to store the parsed blast_result in

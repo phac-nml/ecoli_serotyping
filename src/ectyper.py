@@ -10,29 +10,10 @@ import definitions
 import src.blastFunctions
 import src.commandLineOptions
 import src.genomeFunctions
-import tempfile
+import src.loggingFunctions
 
-
-#set up DEBUG logging to file, INFO logging to STDERR
-log_temp_tuple = tempfile.mkstemp()
-log_file = log_temp_tuple[1]
-
-formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-# set up logging to file - see previous section for more details
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename=log_file,
-                    filemode='w')
-# define a Handler which writes INFO messages or higher to the sys.stderr
-console = logging.StreamHandler()
-console.setFormatter(formatter)
-console.setLevel(logging.INFO)
-# add the handler to the root logger
-logging.getLogger('').addHandler(console)
-
+log_file = src.loggingFunctions.initialize_logging()
 log = logging.getLogger(__name__)
-
 
 def run_program():
     """
@@ -80,8 +61,8 @@ def run_program():
 
     log.info("Blast queries %s against the database of input files",
              query_file)
-    blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
-    #blast_output_file = '/tmp/tmp7ojkee7v/ectyper_blastdb.output'
+    #blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
+    blast_output_file = '/tmp/tmpt5f4dy7w/ectyper_blastdb.output'
 
     log.info("Parsing blast results in %s", blast_output_file)
     # We want to make the parsing function generalizable, not dependent
