@@ -32,8 +32,8 @@ def predict_virulence_factors(blast_record, args):
 
     vf_results = {}
 
-    vf_re_patterns = (re.compile('^[^_]+_[^_]+_\((\w+)\)_([^[])+'),
-                      re.compile('^[^_]+_\((\w+)\)_([^[])+')
+    vf_re_patterns = (re.compile('^[^_]+_[^_]+_\((\w+)\)_([^[]+)'),
+                      re.compile('^[^_]+_\((\w+)\)_([^[]+)')
                      )
 
     log.debug("Searching for VF in " + str(blast_record['qseqid']))
@@ -42,7 +42,7 @@ def predict_virulence_factors(blast_record, args):
 
         if m:
             vf_results['vf']={m.group(1): {
-                              'description':m.group(2),
+                              'description':m.group(2).replace('_', ' ').strip(),
                               'blast_record':blast_record}}
             log.debug(vf_results)
             break
