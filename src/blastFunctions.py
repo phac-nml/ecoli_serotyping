@@ -152,8 +152,8 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
 
             # the returned dict has a key specifying its type, eg. 'vf',
             # 'serotype' etc.
-            blast_parser = blast_parser_dict['parser']
-            blast_result_dict = blast_parser(blast_record, args)
+
+            blast_result_dict = blast_parser_dict['parser'](blast_record, args)
 
             # Python scope means parser_type lives! It's alive!
             # There will always be only a single key denoting the type
