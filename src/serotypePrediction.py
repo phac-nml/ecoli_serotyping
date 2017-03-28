@@ -87,8 +87,69 @@ def parse_serotype(blast_record, args):
 
 
 
-def predict_serotype():
+def predict_serotype(results_dict):
     """
-    
-    :return: 
+    Additional logic to get the O and H type from the parsed dictionary of
+     blast results. If there are no conflicts between the results, we can use
+     them directly.
+    :param: results_dict: parsed blast results for serotype prediction 
+    :return:  
     """
+    log.info("Predicting serotype from parsed results")
+
+    antigen_dict = {'O':re.compile('^(O\d+)'),
+                    'H':re.compile('^(H\d+)')}
+
+    for genome_name in results_dict.keys():
+        log.debug("Prediction serotype for " + genome_name)
+
+        current_sero_dict = {'O':None,
+                             'H':None,
+                             'additional_prediction':None,
+                             'match':None}
+
+        for gene_name in results_dict[genome_name]['serotype'].keys():
+            # We only want to consider 'gnd' if there is conflict or
+            # no other O antigen information
+            if gene_name == 'gnd':
+                continue
+
+            current_match = results_dict[genome_name]['serotype'][gene_name]['blast_record']['pident']
+
+            for antigen in antigen_dict.keys():
+                # get antigen from results
+                m = antigen_dict[antigen].search(results_dict[genome_name]['serotype'][gene_name]['antigen'])
+                if m:
+                    match_sero = m.group(1)
+                    if not current_sero_dict[antigen]:
+                        current_sero_dict[antigen] = m.group(1)
+                        current_sero_dict['match']= current_match
+                    elif match_sero == current_sero_dict[antigen]:
+                        # good, they agree
+                        # update the match if better
+                        if current_match > current_sero_dict['match']:
+                            current_sero_dict['match'] = current_match
+                    else:
+                        #bad, they do not agree
+                        current_sero_dict['additional_prediction']=True
+                        current_sero_dict[antigen] = current_sero_dict[antigen] + "," + match_sero
+                        log.debug("Additional prediction required:")
+                        log.debug(match_sero)
+                        log.debug(current_sero_dict)
+                break
+
+        if current_sero_dict['additional_prediction']:
+            log.debug("Additional serotype prediction")
+            log.debug(current_sero_dict)
+        else:
+            if current_sero_dict['O']:
+                results_dict[genome_name]['otype']=current_sero_dict['O']
+            else:
+                results_dict[genome_name]['otype']='NA'
+
+            if current_sero_dict['H']:
+                results_dict[genome_name]['htype']=current_sero_dict['H']
+            else:
+                results_dict[genome_name]['htype']='NA'
+
+    return results_dict

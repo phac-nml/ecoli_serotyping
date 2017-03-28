@@ -52,8 +52,9 @@ def parse_virulence_factors(blast_record, args):
     return vf_results
 
 
-def predict_virulence_factors():
+def predict_virulence_factors(results_dict):
     """
     
     :return: 
     """
+    return results_dict

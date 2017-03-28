@@ -28,8 +28,8 @@ def record_passes_cutoffs(blast_record, args):
     :return: {True|False}
     """
 
-    if (float(blast_record['qlen']) / float(blast_record['length']) * 100) >= \
-            float(args.percentLength) and \
+    if ((float(blast_record['length']) / float(blast_record['qlen']) * 100) >= \
+            float(args.percentLength)) and \
        (float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
@@ -155,8 +155,7 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
 
             blast_result_dict = blast_parser_dict['parser'](blast_record, args)
 
-            # Python scope means parser_type lives! It's alive!
-            # There will always be only a single key denoting the type
+            parser_type = None
             for parser_type in blast_result_dict.keys():
                 parser_results = blast_result_dict[parser_type]
 
@@ -168,5 +167,9 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                      **results_dict[genome_name][parser_type]}
             else:
                 results_dict[genome_name][parser_type] = parser_results
+
+    #final prediction now that we have a dictionary of parsed results
+    for blast_parser_dict in parsing_dict:
+        results_dict = blast_parser_dict['predictor'](results_dict)
 
     return results_dict
