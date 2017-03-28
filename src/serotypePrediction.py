@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 """
 
 
-def predict_serotype(blast_record, args):
+def parse_serotype(blast_record, args):
     """
     Entry point for serotype prediction
 
@@ -84,3 +84,11 @@ def predict_serotype(blast_record, args):
 
     # If no matches, return blank dictionary
     return serotype_results
+
+
+
+def predict_serotype():
+    """
+    
+    :return: 
+    """

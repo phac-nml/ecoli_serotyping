@@ -161,19 +161,22 @@ def get_fasta_header_from_file(filename):
         return record.description
 
 
-def get_list_of_parsing_functions(args):
+def get_list_of_parsing_dict(args):
     """
-    Given the parsed arguments from argparser, return a list of functions.
-    :param args:
-    :return: [function]
+    Given the parsed arguments from argparser, return a dictionary of functions.
+    :param args: Parsed commandline args
+    :return: {name: {parser: function, predictor: function}}
     """
 
-    list_of_functions = []
+    list_of_dict = []
     if args.serotyper:
-        list_of_functions.append(src.serotypePrediction.predict_serotype)
+        list_of_dict.append({'parser':src.serotypePrediction.parse_serotype,
+                            'predictor':src.serotypePrediction.predict_serotype
+                             })
 
     if args.virulenceFactors:
-        list_of_functions.append(
-            src.virulencePrediction.predict_virulence_factors)
-    return list_of_functions
+        list_of_dict.append({
+            'parser':src.virulencePrediction.parse_virulence_factors,
+            'predictor':src.virulencePrediction.predict_virulence_factors})
+    return list_of_dict
 

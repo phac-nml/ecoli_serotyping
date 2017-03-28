@@ -45,7 +45,7 @@ def create_blast_db(filelist):
     :return full path of DB
     """
 
-    tempdir = tempfile.mkdtemp()
+    tempdir = tempfile.gettempdir()
     blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
 
     log.debug("Generating the blast db at %s", blast_db_path)
@@ -104,7 +104,7 @@ def run_blast(query_file, blast_db):
         exit(1)
 
 
-def parse_blast_results(args, blast_results_file, parsing_functions):
+def parse_blast_results(args, blast_results_file, parsing_dict):
     """
     Given the user-defined cutoffs, return only the results that pass.
     VFs use the cutoffs directly.
@@ -113,7 +113,7 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
     :param args: parsed commandline options from the user
     :param blast_results_file: -outfmt 6 results of vf and/or 
             serotype vs. genomes
-    :param parsing_functions: functions for parsing to be applied
+    :param parsing_dict: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
     """
     result_handle = open(blast_results_file, 'r')
@@ -144,7 +144,7 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
             blast_record['sseqid'])
         log.debug(genome_name)
 
-        for blast_parser in parsing_functions:
+        for blast_parser_dict in parsing_dict:
             # we only want to store a value for a key if it doesn't exist
             # this is because blast list results from "best" to "worst" order
             # and we could be overwriting a "better" result if we do not check
@@ -152,7 +152,7 @@ def parse_blast_results(args, blast_results_file, parsing_functions):
 
             # the returned dict has a key specifying its type, eg. 'vf',
             # 'serotype' etc.
-
+            blast_parser = blast_parser_dict['parser']
             blast_result_dict = blast_parser(blast_record, args)
 
             # Python scope means parser_type lives! It's alive!
