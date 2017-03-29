@@ -103,53 +103,76 @@ def predict_serotype(results_dict):
     for genome_name in results_dict.keys():
         log.debug("Prediction serotype for " + genome_name)
 
-        current_sero_dict = {'O':None,
-                             'H':None,
-                             'additional_prediction':None,
-                             'match':None}
+        current_sero_dict = {'O':{'ant_number':None,
+                                  'strength':None,
+                                  'conflict':{'ant_number':None,
+                                              'strength':None},
+                                  'gnd':None},
+                             'H':{'ant_number':None,
+                                  'strength':None,
+                                  'conflict':{'ant_number':None,
+                                              'strength':None}}}
 
         for gene_name in results_dict[genome_name]['serotype'].keys():
-            # We only want to consider 'gnd' if there is conflict or
-            # no other O antigen information
-            if gene_name == 'gnd':
-                continue
-
-            current_match = results_dict[genome_name]['serotype'][gene_name]['blast_record']['pident']
+            current_pident = results_dict[genome_name]['serotype'][gene_name]['blast_record']['pident']
 
             for antigen in antigen_dict.keys():
                 # get antigen from results
                 m = antigen_dict[antigen].search(results_dict[genome_name]['serotype'][gene_name]['antigen'])
                 if m:
                     match_sero = m.group(1)
-                    if not current_sero_dict[antigen]:
-                        current_sero_dict[antigen] = m.group(1)
-                        current_sero_dict['match']= current_match
-                    elif match_sero == current_sero_dict[antigen]:
+
+                    # We only want to consider 'gnd' if there is conflict or
+                    # no other O antigen information
+                    if gene_name == 'gnd':
+                        current_sero_dict[antigen]['gnd']=match_sero
+                        continue
+
+                    if not current_sero_dict[antigen]['ant_number']:
+                        current_sero_dict[antigen]['ant_number'] = match_sero
+                        current_sero_dict[antigen]['strength']= current_pident
+                    elif match_sero == current_sero_dict[antigen]['ant_number']:
                         # good, they agree
-                        # update the match if better
-                        if current_match > current_sero_dict['match']:
-                            current_sero_dict['match'] = current_match
+                        if current_pident > current_sero_dict[antigen]['ant_number']:
+                            current_sero_dict[antigen]['ant_number'] = current_pident
                     else:
                         #bad, they do not agree
-                        current_sero_dict['additional_prediction']=True
-                        current_sero_dict[antigen] = current_sero_dict[antigen] + "," + match_sero
+                        current_sero_dict[antigen]['conflict']['ant_number'] = match_sero
+                        current_sero_dict[antigen]['conflict']['strength'] = current_pident
                         log.debug("Additional prediction required:")
-                        log.debug(match_sero)
                         log.debug(current_sero_dict)
                 break
 
-        if current_sero_dict['additional_prediction']:
-            log.debug("Additional serotype prediction")
+        for antigen in current_sero_dict.keys():
             log.debug(current_sero_dict)
-        else:
-            if current_sero_dict['O']:
-                results_dict[genome_name]['otype']=current_sero_dict['O']
-            else:
-                results_dict[genome_name]['otype']='NA'
+            log.debug(antigen)
 
-            if current_sero_dict['H']:
-                results_dict[genome_name]['htype']=current_sero_dict['H']
+            if current_sero_dict[antigen]['conflict']['ant_number']:
+                log.debug("Additional serotype prediction required")
+                current_sero_dict = resolve_antigenic_conflict(current_sero_dict)
+                log.debug(current_sero_dict)
+
+            antigen_type = antigen.lower() + "type"
+
+            if current_sero_dict[antigen]['ant_number']:
+                results_dict[genome_name][antigen_type]={'ant_number':current_sero_dict[antigen]['ant_number'],
+                                                         'strength':current_sero_dict[antigen]['strength']}
             else:
-                results_dict[genome_name]['htype']='NA'
+                results_dict[genome_name][antigen_type]={'ant_number':'-',
+                                                         'strength':0}
 
     return results_dict
+
+
+
+def resolve_antigenic_conflict(sero_dict):
+    """
+    IF there is conflict, resolve it usint additional information if possible,
+    :param sero_dict: 
+    :return: modified sero_dict, with conflict resolved
+    """
+
+    log.debug("Resolving antigenic conflict")
+
+
+    return sero_dict
