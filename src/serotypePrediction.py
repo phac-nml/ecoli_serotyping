@@ -93,7 +93,7 @@ def predict_serotype(results_dict):
      blast results. If there are no conflicts between the results, we can use
      them directly.
     :param: results_dict: parsed blast results for serotype prediction 
-    :return:  
+    :return: results_dict with otype and htype predicted
     """
     log.info("Predicting serotype from parsed results")
 
