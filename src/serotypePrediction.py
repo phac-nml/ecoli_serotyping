@@ -164,10 +164,9 @@ def predict_serotype(results_dict):
     return results_dict
 
 
-
 def resolve_antigenic_conflict(sero_dict):
     """
-    IF there is conflict, resolve it usint additional information if possible,
+    IF there is conflict, resolve it using additional information if possible,
     :param sero_dict: 
     :return: modified sero_dict, with conflict resolved
     """
