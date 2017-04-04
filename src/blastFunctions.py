@@ -28,8 +28,13 @@ def record_passes_cutoffs(blast_record, args):
     :return: {True|False}
     """
 
-    if ((float(blast_record['length']) / float(blast_record['qlen']) * 100) >= \
-            float(args.percentLength)) and \
+    # We want to ensure that a match greater than 100 (due to gaps) is treated
+    # as not being greater than a perfect match
+    # Either direction from 100% id should be treated the same
+    init_value = float(blast_record['length']) / float(blast_record['qlen']) * 100
+    lid_value = float((abs(100 - init_value) * -1) % 100)
+
+    if (lid_value >= float(args.percentLength)) and \
        (float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
