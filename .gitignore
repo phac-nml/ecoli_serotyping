@@ -93,3 +93,6 @@ ENV/
 /ectyper.iml
 /temp/
 /.idea/
+/ecoli_serotyping.iml
+/Data/Genomes/AAJU.fasta
+/Data/Genomes/AAJT.fasta
