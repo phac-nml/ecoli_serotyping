@@ -132,6 +132,7 @@ def get_genome_name(header):
         # Look for gi followed by the possible genome name
         re.compile('(gi\|\d{8})'),
 
+
         # Look for name followed by space, then description
         re.compile('^([\w\-\.]+)\s+[\w\-\.]+')
     )
