@@ -123,6 +123,9 @@ def get_genome_name(header):
         # Look for lcl followed by the possible genome name
         re.compile('(lcl\|[\w\-\.]+)'),
 
+        # Look for contigs in the wwwwdddddd format
+        re.compile('([A-Za-z]{4}\d{2})\d{6}'),
+
         # Look for a possible genome name at the beginning of the record ID
         re.compile('^(\w{8}\.\d)'),
 
