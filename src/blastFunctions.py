@@ -9,6 +9,7 @@ import src.genomeFunctions
 import os
 import tempfile
 import logging
+import pickle
 
 log = logging.getLogger(__name__)
 
@@ -143,7 +144,6 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                         'send': la[6],
                         'sframe': la[7]
                         }
-
         # genome name to store the parsed blast_result in
         genome_name = src.genomeFunctions.get_genome_name(
             blast_record['sseqid'])
