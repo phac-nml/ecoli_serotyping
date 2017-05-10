@@ -66,4 +66,3 @@ def test_sero_pred() :
 
 test_sero_pred()
 
-{'JASO01': {'serotype': {'fliC': {'antigen': 'H25', 'blast_record': {'qseqid': 'fliC_311_AGSG01000116_H25', 'length': '1320', 'send': '541217', 'sframe': '1', 'sseqid': 'JASO01000012.1', 'qlen': '1332', 'pident': '96.97', 'sstart': '539898'}}, 'gnd': {'antigen': 'O26', 'blast_record': {'qseqid': 'gnd|1_O26', 'length': '641', 'send': '423158', 'sframe': '1', 'sseqid': 'JASO01000012.1', 'qlen': '643', 'pident': '95.32', 'sstart': '422518'}}, 'wzy': {'antigen': 'O145', 'blast_record': {'qseqid': '9__wzy__wzy-O145__374', 'length': '1189', 'send': '413346', 'sframe': '1', 'sseqid': 'JASO01000012.1', 'qlen': '1188', 'pident': '99.75', 'sstart': '412158'}}}}, 'default_factory': {}}
