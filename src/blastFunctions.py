@@ -43,7 +43,7 @@ def record_passes_cutoffs(blast_record, args):
 
 
 def create_blast_db(filelist):
-    """
+    """http://stackoverflow.com/questions/23944657/typeerror-method-takes-1-positional-argument-but-2-were-given
     Creating a blast DB using the makeblastdb command.
     The database is created in the temporary folder of the system.
 

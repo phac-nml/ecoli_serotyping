@@ -101,9 +101,11 @@ def test_sero_pred() :
 
     args = Namespace(csv = CONST_CSV, input = CONST_INPUT, minimumGenomes = CONST_MINGENOMES, percentIdentity =CONST_PERIDENT, percentLength = CONST_PERLEN, serotyper = CONST_SER,  virulenceFactors = CONST_VIR)
     for entry in test_data:
-        #f = open('delete_these', 'a')
+       # f = open('delete_these', 'a')
         print("ENTRY")
         print(entry)
+        print(entry['name'])
+        print({entry['name'] :entry['output']})
         output = entry['output']['serotype']
         print('-------------------------------------------------------------------------------------')
         if entry['output']['otype']['strength'] == 0:
@@ -113,28 +115,45 @@ def test_sero_pred() :
                 comparison = entry['O']
                 print (result)
                 print (comparison)
-                #if result != comparison :
-                    #f.write(entry['file']+ '\n')
+               # if result != comparison :
+                   # f.write(entry['file']+ '\n')
            elif 'wzx' in output :
              print(src.serotypePrediction.parse_serotype(output['wzx']['blast_record'], args))
              result = src.serotypePrediction.parse_serotype(output['wzx']['blast_record'], args)['serotype']['wzx']['antigen']
              comparison = entry['O']
              print (result)
              print (comparison)
-             #if result != comparison:
-                 #f.write(entry['file'] + '\n')
-       
+            # if result != comparison:
+                # f.write(entry['file'] + '\n')
+        else :
+            print('printing')
+            result = src.serotypePrediction.predict_serotype({entry['name'] : entry['output']})[entry['name']]['otype']['ant_number']
+            comparison = entry['O']
+            print('results =')
+            print(result)
+            print(comparison)
+           # if result != comparison:
+              #  f.write(entry['file'] + '\n')
 
         if entry['output']['htype']['strength'] == 0:
             if 'fliC' in output:
                 print(src.serotypePrediction.parse_serotype(output['fliC']['blast_record'], args))
-
                 result = src.serotypePrediction.parse_serotype(output['fliC']['blast_record'], args)['serotype']['fliC']['antigen']
                 comparison = entry['H']
                 print (result)
                 print (comparison)
-                #if result != comparison :
+               # if result != comparison :
                     #f.write(entry['file']+ '\n')
+        else :
+            print('printing')
+            result = src.serotypePrediction.predict_serotype({entry['name'] : entry['output']})[entry['name']]['htype']['ant_number']
+            comparison = entry['H']
+            print(result)
+            print(comparison)
+            #if result != comparison:
+               # f.write(entry['file'] + '\n')
         #f.close()
 
 test_sero_pred()
+
+{'JASO01': {'serotype': {'fliC': {'antigen': 'H25', 'blast_record': {'qseqid': 'fliC_311_AGSG01000116_H25', 'length': '1320', 'send': '541217', 'sframe': '1', 'sseqid': 'JASO01000012.1', 'qlen': '1332', 'pident': '96.97', 'sstart': '539898'}}, 'gnd': {'antigen': 'O26', 'blast_record': {'qseqid': 'gnd|1_O26', 'length': '641', 'send': '423158', 'sframe': '1', 'sseqid': 'JASO01000012.1', 'qlen': '643', 'pident': '95.32', 'sstart': '422518'}}, 'wzy': {'antigen': 'O145', 'blast_record': {'qseqid': '9__wzy__wzy-O145__374', 'length': '1189', 'send': '413346', 'sframe': '1', 'sseqid': 'JASO01000012.1', 'qlen': '1188', 'pident': '99.75', 'sstart': '412158'}}}}, 'default_factory': {}}
