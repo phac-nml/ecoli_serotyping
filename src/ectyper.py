@@ -11,6 +11,7 @@ import src.blastFunctions
 import src.commandLineOptions
 import src.genomeFunctions
 import src.loggingFunctions
+import src.resultsToTable
 import json
 
 log_file = src.loggingFunctions.initialize_logging()
@@ -76,5 +77,12 @@ def run_program():
     parsed_results = src.blastFunctions.parse_blast_results(args,
                                                             blast_output_file,
                                                             list_of_parsing_dict)
-    print(json.dumps(parsed_results))
+    #print the requested format
+    if args.tabular:
+        log.info("Printing results in tabular format")
+        print(src.resultsToTable.results_dict_to_table(parsed_results))
+    else:
+        log.info("Printing results in JSON format")
+        print(json.dumps(parsed_results))
+
     log.info("Done")
