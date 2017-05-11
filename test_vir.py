@@ -1,17 +1,7 @@
 
-import src.virulencePrediction
 import src.serotypePrediction
-import src.genomeFunctions
-import src.blastFunctions
 from argparse import Namespace
-import argparse
-import pandas as pd
-import re
-import shutil
-import os.path
-from pathlib import Path
-import definitions
-import pickle
+
 
 CONST_CSV = False
 CONST_INPUT = 'filename'
