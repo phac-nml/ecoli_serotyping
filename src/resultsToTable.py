@@ -28,10 +28,10 @@ def results_dict_to_table(list_of_files, list_of_genomes, results_dict):
                   ,"cutoff"]]
 
     all_vfs_in_analysis = []
-    for vf in results_dict["vf"]:
-        all_vfs_in_analysis.append(vf)
-
-    #set(all_vfs_in_analysis)
+    for g in results_dict:
+        for vf in results_dict[g]["vf"]:
+            all_vfs_in_analysis.append(vf)
+            set(all_vfs_in_analysis)
 
     for f, g in zip(list_of_files, list_of_genomes):
         serotype = results_dict[g]["otype"]["ant_number"] + ":" +  results_dict[g]["htype"]["ant_number"]
@@ -39,7 +39,6 @@ def results_dict_to_table(list_of_files, list_of_genomes, results_dict):
         output_aoa.append(serotype_line)
 
         for vf in all_vfs_in_analysis:
-            br = results_dict[g]["vf"][vf]["blast_record"]
             contig_id = "NA"
             analysis = "Virulence Factor"
             hit = "NA"
@@ -48,7 +47,8 @@ def results_dict_to_table(list_of_files, list_of_genomes, results_dict):
             startbp = "NA"
             stopbp = "NA"
 
-            if results_dict[g]["vf"][vf]:
+            if vf in results_dict[g]["vf"]:
+                br = results_dict[g]["vf"][vf]["blast_record"]
                 contig_id = br["sseqid"]
                 hit = vf
                 description = results_dict[g]["vf"][vf]["description"]
