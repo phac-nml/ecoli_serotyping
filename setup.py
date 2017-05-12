@@ -11,7 +11,7 @@ config = {
     'author_email': 'claro100@uottawa.ca, chad.laing@canada.ca',
     'version': '0.1',
     'install_requires': ['nose'],
-    'packages': ['main'],
+    'packages': ['main','src'],
     'scripts': [],
     'name': 'ecoli_serotyping'
 }
