@@ -11,7 +11,7 @@ TEST_LIST = [ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fn
 TEST_LIST2 = [ROOT_DIR + '/Data/test_genomes/bad_file.fna']
 
 TEST_LIST_NAMES = ['AP010958.1', 'CP000800.1', 'CP001846.1', 'FM180568.1', 'AP010953.1']
-"""
+
 def test_files_as_list() :
     assert(src.genomeFunctions.get_files_as_list('') == [])
     assert(src.genomeFunctions.get_files_as_list(ROOT_DIR + '/Data/test_genomes/empty') == [])
@@ -30,6 +30,6 @@ def test_validate_fasta_files():
 #def test_get_genome_names_from_files():
 
    #assert src.genomeFunctions.get_genome_names_from_files(TEST_LIST) == TEST_LIST_NAMES, TEST_LIST
-"""
+
 
 #est_get_genome_names_from_files()
