@@ -5,6 +5,8 @@ before_install:
   - pip install pytest
   - pip install biopython
   - pip install pandas
+  - export PYTHONPATH="${PYTHONPATH}:release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
+
 script:
   - py.test tests/serotype_test.py -vv
   - py.test tests/virulence_test.py -vv
