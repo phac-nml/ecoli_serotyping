@@ -39,7 +39,7 @@ def results_dict_to_table(list_of_files, list_of_genomes, results_dict):
             log.warning("No VFs for genome: " + g)
             continue
 
-        for vf in results_dict[g]["vf"]:
+        for vf in sorted(results_dict[g]["vf"]):
             analysis = "Virulence Factor"
             br = results_dict[g]["vf"][vf]["blast_record"]
             contig_id = br["sseqid"]
