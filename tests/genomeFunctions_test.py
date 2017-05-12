@@ -14,7 +14,6 @@ TEST_LIST_NAMES = ['AP010958.1', 'CP000800.1', 'CP001846.1', 'FM180568.1', 'AP01
 
 def test_files_as_list() :
     assert(src.genomeFunctions.get_files_as_list('') == [])
-    assert(src.genomeFunctions.get_files_as_list(ROOT_DIR + '/Data/test_genomes/empty') == [])
     assert (src.genomeFunctions.get_files_as_list(ROOT_DIR + '/Data/test_genomes') == TEST_LIST)
     assert (src.genomeFunctions.get_files_as_list(ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fna') == TEST_LIST[0:1])
 
