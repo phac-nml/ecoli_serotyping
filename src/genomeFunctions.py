@@ -24,6 +24,8 @@ def get_files_as_list(file_or_directory):
     """
 
     files_list = []
+    if file_or_directory == '' :
+        return files_list
 
     if os.path.isdir(file_or_directory):
         log.info("Gathering genomes from directory " + file_or_directory)
