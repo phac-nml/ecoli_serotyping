@@ -4,6 +4,7 @@ import os
 import sys
 import json
 from argparse import Namespace
+from definitions import ROOT_DIR
 
 
 CONST_CSV = False
@@ -33,10 +34,10 @@ for entry in test_data:
 
 args = Namespace(csv = CONST_CSV, input = CONST_INPUT, minimumGenomes = CONST_MINGENOMES, percentIdentity =CONST_PERIDENT, percentLength = CONST_PERLEN, serotyper = CONST_SER,  virulenceFactors = CONST_VIR)
 
-with open('../Data/test_dictionaries/virulence_factor_test_data.json') as f:
+with open(ROOT_DIR + '/Data/test_dictionaries/virulence_factor_test_data.json') as f:
     test_data = json.load(f)
 
-with open('../Data/test_dictionaries/expected_virulence_test_data.json') as f:
+with open(ROOT_DIR + '/Data/test_dictionaries/expected_virulence_test_data.json') as f:
     data = json.load(f)
 
 def test_parse__virulence_factors() :
@@ -48,4 +49,3 @@ def test_parse__virulence_factors() :
                 assert(res == prediction)
 
 
-test_parse__virulence_factors()
