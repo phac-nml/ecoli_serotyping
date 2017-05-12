@@ -13,6 +13,9 @@ import src.genomeFunctions
 import src.loggingFunctions
 import src.resultsToTable
 import json
+import csv
+import os.path
+import sys
 
 log_file = src.loggingFunctions.initialize_logging()
 log = logging.getLogger(__name__)
@@ -65,7 +68,8 @@ def run_program():
 
     log.info("Blast queries %s against the database of input files",
              query_file)
-    blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
+    #blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
+    blast_output_file = os.path.abspath('C:\\Users\gnial\AppData\Local\Temp\ectyper_blastdb.output')
 
     log.info("Parsing blast results in %s", blast_output_file)
     # We want to make the parsing function generalizable, not dependent
@@ -80,7 +84,11 @@ def run_program():
     #print the requested format
     if args.tabular:
         log.info("Printing results in tabular format")
-        print(src.resultsToTable.results_dict_to_table(parsed_results))
+
+        writer = csv.writer(sys.stdout, delimiter="\t")
+        writer.writerows(src.resultsToTable.results_dict_to_table(all_genomes_files
+                                                                  ,all_genomes_list
+                                                                  ,parsed_results))
     else:
         log.info("Printing results in JSON format")
         print(json.dumps(parsed_results))
