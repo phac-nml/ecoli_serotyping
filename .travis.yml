@@ -12,3 +12,4 @@ script:
   - py.test tests/serotype_test.py -vv
   - py.test tests/virulence_test.py -vv
   - py.test tests/genomeFunctions_test.py -vv
+  - py.test tests/blastFunctions_test.py -vv
