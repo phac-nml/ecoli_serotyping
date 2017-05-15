@@ -5,6 +5,7 @@ before_install:
   - pip install pytest
   - pip install biopython
   - pip install pandas
+  - pip install checksumdir
   - export PYTHONPATH="${PYTHONPATH}:release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
 
 script:

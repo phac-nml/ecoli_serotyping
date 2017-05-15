@@ -2,6 +2,10 @@ import src.blastFunctions
 from argparse import Namespace
 from definitions import ROOT_DIR
 import tempfile
+import definitions
+import sys
+import hashlib
+from checksumdir import dirhash
 
 tempfile = tempfile.gettempdir()
 
@@ -36,6 +40,10 @@ TEST_LIST = [ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fn
              ROOT_DIR + '/Data/test_genomes/GCA_000026545.1_ASM2654v1_genomic.fna',
              ROOT_DIR + '/Data/test_genomes/GCA_000091005.1_ASM9100v1_genomic.fna']
 
+TEST_QUERIES = [definitions.SEROTYPE_AND_VF_FILE, definitions.SEROTYPE_FILE, definitions.VF_FILE]
+
+TEST_DB = ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb'
+
 def test_record_passes_cutoffs():
     assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD, args) == True
     assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD, args_fi) == False
@@ -45,5 +53,19 @@ def test_record_passes_cutoffs():
 
 
 def test_create_blast_db():
-    assert src.blastFunctions.create_blast_db(TEST_LIST) == tempfile + '/' + 'ectyper_blastdb'
+    assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == tempfile + '/' + 'ectyper_blastdb'
 
+
+def test_run_blast():
+    test_sha = '72d6ca4e788897188d268c07d2946b92'
+    assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEST_DB) == TEST_DB + '.output'
+    with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output') as file_to_check:
+        data = file_to_check.read()
+        #string_data = str(data)
+        s1 = hashlib.md5(data.encode('utf-8')).hexdigest()
+
+    assert s1 == test_sha
+
+
+
+test_run_blast()
