@@ -9,7 +9,6 @@ import src.genomeFunctions
 import os
 import tempfile
 import logging
-import pickle
 
 log = logging.getLogger(__name__)
 

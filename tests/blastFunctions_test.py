@@ -53,19 +53,35 @@ def test_record_passes_cutoffs():
 
 
 def test_create_blast_db():
-    assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == tempfile + '/' + 'ectyper_blastdb'
+    db_file = tempfile + '/' + 'ectyper_blastdb'
+    assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == db_file
+    with open('/tmp/ectyper_blastdb.nhr', 'rb') as file_to_check:
+        data = file_to_check.read()
+        s1 = hashlib.sha1(data).hexdigest()
+        assert s1 == 'ee3f0babf9385a4305d11e98e2b199fd87703834'
 
+    """
+    #this hash value will always change so no test can be run for it
+    with open('/tmp/ectyper_blastdb.nin', 'rb') as file_to_check:
+        data = file_to_check.read()
+        s1 = hashlib.sha1(data).hexdigest()
+        print(s1)
+    """
+
+    with open('/tmp/ectyper_blastdb.nsq', 'rb') as file_to_check:
+        data = file_to_check.read()
+        s1 = hashlib.sha1(data).hexdigest()
+        assert s1 == 'f26f99e51f8f4f0dbb53cb47c3bdb2ed79ed8a30'
 
 def test_run_blast():
-    test_sha = '72d6ca4e788897188d268c07d2946b92'
     assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEST_DB) == TEST_DB + '.output'
-    with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output') as file_to_check:
+    with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', 'rb') as file_to_check:
         data = file_to_check.read()
-        #string_data = str(data)
-        s1 = hashlib.md5(data.encode('utf-8')).hexdigest()
-
-    assert s1 == test_sha
+        s1 = hashlib.sha1(data).hexdigest()
+        assert s1 == 'd141bec3875faa479b57a66fe643c90189ff22dd'
 
 
-
-test_run_blast()
+"""
+def test_parse_blast_results(args, blast_results_file, parsing_dict):
+        
+"""
