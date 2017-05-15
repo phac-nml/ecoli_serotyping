@@ -1,5 +1,6 @@
 import src.genomeFunctions
 from definitions import ROOT_DIR
+from argparse import Namespace
 
 TEST_LIST = [ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fna',
              ROOT_DIR + '/Data/test_genomes/GCA_000017745.1_ASM1774v1_genomic.fna',
@@ -18,11 +19,26 @@ TEST_HEADERS = ['AP010958.1 Escherichia coli O103:H2 str. 12009 DNA, complete ge
                 'FM180568.1 Escherichia coli 0127:H6 E2348/69 complete genome, strain E2348/69',
                 'AP010953.1 Escherichia coli O26:H11 str. 11368 DNA, complete genome']
 
+TEST_DICT_LIST= [{'parser':src.serotypePrediction.parse_serotype,
+                            'predictor':src.serotypePrediction.predict_serotype},
+                 {'parser':src.virulencePrediction.parse_virulence_factors,
+            'predictor':src.virulencePrediction.predict_virulence_factors}]
+
+CONST_CSV = False
+CONST_INPUT = 'filename'
+CONST_MINGENOMES = 1
+CONST_PERIDENT = 90
+CONST_PERLEN = 90
+CONST_SER = True
+CONST_VIR = True
+CONST_SER_F = False
+CONST_VIR_F = False
+
+
 def test_files_as_list() :
     assert(src.genomeFunctions.get_files_as_list('') == [])
     assert (src.genomeFunctions.get_files_as_list(ROOT_DIR + '/Data/test_genomes') == TEST_LIST)
     assert (src.genomeFunctions.get_files_as_list(ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fna') == TEST_LIST[0:1])
-
 
 
 def test_validate_fasta_files():
@@ -37,9 +53,20 @@ def test_get_genome_names_from_files():
    assert src.genomeFunctions.get_genome_names_from_files(TEST_LIST[0:1]) == (TEST_LIST_NAMES[0:1], TEST_LIST[0:1])
    assert src.genomeFunctions.get_genome_names_from_files([]) == ([], [])
 
+def test_get_genome_name():
+    assert src.genomeFunctions.get_genome_name(TEST_HEADERS[0]) == TEST_LIST_NAMES[0]
+    assert src.genomeFunctions.get_genome_name('gibberishheaderfortesting here') == 'gibberishheaderfortesting'
+    assert src.genomeFunctions.get_genome_name('') == ''
 
 def test_get_fasta_header_from_file():
     assert src.genomeFunctions.get_fasta_header_from_file(ROOT_DIR + '/Data/test_genomes/bad_file.fna') == None
     assert src.genomeFunctions.get_fasta_header_from_file(TEST_LIST[0])  == TEST_HEADERS[0]
 
-test_get_fasta_header_from_file()
+
+def test_get_list_of_parsing_dict():
+    assert src.genomeFunctions.get_list_of_parsing_dict(Namespace(csv = CONST_CSV, input = CONST_INPUT, minimumGenomes = CONST_MINGENOMES, percentIdentity =CONST_PERIDENT, percentLength = CONST_PERLEN, serotyper = CONST_SER,  virulenceFactors = CONST_VIR)) == TEST_DICT_LIST
+    assert src.genomeFunctions.get_list_of_parsing_dict(Namespace(csv = CONST_CSV, input = CONST_INPUT, minimumGenomes = CONST_MINGENOMES, percentIdentity =CONST_PERIDENT, percentLength = CONST_PERLEN, serotyper = CONST_SER_F,  virulenceFactors = CONST_VIR)) == TEST_DICT_LIST[1:2]
+    assert src.genomeFunctions.get_list_of_parsing_dict(Namespace(csv = CONST_CSV, input = CONST_INPUT, minimumGenomes = CONST_MINGENOMES, percentIdentity =CONST_PERIDENT, percentLength = CONST_PERLEN, serotyper = CONST_SER,  virulenceFactors = CONST_VIR_F)) == TEST_DICT_LIST[0:1]
+    assert src.genomeFunctions.get_list_of_parsing_dict(Namespace(csv = CONST_CSV, input = CONST_INPUT, minimumGenomes = CONST_MINGENOMES, percentIdentity =CONST_PERIDENT, percentLength = CONST_PERLEN, serotyper = CONST_SER_F,  virulenceFactors = CONST_VIR_F)) == []
+
+
