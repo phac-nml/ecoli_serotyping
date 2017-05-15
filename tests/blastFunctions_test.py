@@ -5,7 +5,7 @@ import tempfile
 import definitions
 import sys
 import hashlib
-from checksumdir import dirhash
+import json
 
 tempfile = tempfile.gettempdir()
 
@@ -55,8 +55,8 @@ def test_record_passes_cutoffs():
 def test_create_blast_db():
     db_file = tempfile + '/' + 'ectyper_blastdb'
     assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == db_file
-    with open('/tmp/ectyper_blastdb.nhr', 'rb') as file_to_check:
-        data = file_to_check.read()
+    with open('/tmp/ectyper_blastdb.nhr', 'rb') as file:
+        data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'ee3f0babf9385a4305d11e98e2b199fd87703834'
 
@@ -68,20 +68,52 @@ def test_create_blast_db():
         print(s1)
     """
 
-    with open('/tmp/ectyper_blastdb.nsq', 'rb') as file_to_check:
-        data = file_to_check.read()
+    with open('/tmp/ectyper_blastdb.nsq', 'rb') as file:
+        data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'f26f99e51f8f4f0dbb53cb47c3bdb2ed79ed8a30'
 
 def test_run_blast():
     assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEST_DB) == TEST_DB + '.output'
-    with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', 'rb') as file_to_check:
-        data = file_to_check.read()
+    with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', 'rb') as file:
+        data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'd141bec3875faa479b57a66fe643c90189ff22dd'
 
 
-"""
-def test_parse_blast_results(args, blast_results_file, parsing_dict):
-        
-"""
+
+def test_parse_blast_results():
+    list_of_dict = [{'parser': src.serotypePrediction.parse_serotype,
+                     'predictor': src.serotypePrediction.predict_serotype
+                     }, {
+                        'parser': src.virulencePrediction.parse_virulence_factors,
+                        'predictor': src.virulencePrediction.predict_virulence_factors}]
+
+
+    data_both = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', list_of_dict)
+
+    with open(ROOT_DIR + '/Data/test_dictionaries/blast_parse_test_data.json') as f:
+        json_output = json.load(f)
+
+    assert data_both == json_output
+
+    with open(ROOT_DIR + '/Data/test_dictionaries/blast_parse_ser_test_data.json') as f:
+        json_output = json.load(f)
+
+    data_ser = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', list_of_dict[0:1])
+
+    assert data_ser == json_output
+
+    with open(ROOT_DIR + '/Data/test_dictionaries/blast_parse_vir_test_data.json') as f:
+        json_output = json.load(f)
+
+    data_vir = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output',
+                                                      list_of_dict[1:2])
+    assert data_vir == json_output
+
+    data_none = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', [])
+
+    assert data_none == {}
+
+
+test_parse_blast_results()
