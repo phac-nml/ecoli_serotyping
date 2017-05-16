@@ -10,6 +10,8 @@ Output format in JSON:
     "H":{'1__fliC__fliC-H1__1 AB028471.1;flagellin;H1' : 'H1'}
     ...
 ]
+
+Output file is always to Data/allele_types.json
 """
 
 import os
@@ -20,7 +22,6 @@ import definitions
 
 # The input file of O and H antigens stored in the DATA directory
 input_file = os.path.join(definitions.ROOT_DIR,  'Data/EcOH.fasta')
-
 file_handle = open(input_file, 'r')
 
 # We will iterate through every line, looking only at the headers
@@ -33,6 +34,8 @@ for line in file_handle:
 
     # look for fasta headers only
     # match gene name, O or H, and allele type
+    # note that this does not match those designated as "Onovel" or "Hnovel"
+    # those will have to be manually curated / update
     regex = re.compile('^((>\d+__|>)([a-zA-Z]+).+(_|;)((O|H)\d+)$)')
     m = regex.search(clean_line)
 
