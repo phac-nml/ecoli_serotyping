@@ -54,9 +54,8 @@ def test_record_passes_cutoffs():
 
 
 def test_create_blast_db():
-    db_file = '/tmp/ectyper_blastdb'
     assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == TEMP_DB
-    with open('/tmp/ectyper_blastdb.nhr', 'rb') as file:
+    with open(TEMP_DB + '.nhr', 'rb') as file:
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'ee3f0babf9385a4305d11e98e2b199fd87703834'
@@ -69,10 +68,11 @@ def test_create_blast_db():
         print(s1)
     """
 
-    with open('/tmp/ectyper_blastdb.nsq', 'rb') as file:
+    with open(TEMP_DB + '.nsq', 'rb') as file:
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'f26f99e51f8f4f0dbb53cb47c3bdb2ed79ed8a30'
+
 
 def test_run_blast():
     assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEMP_DB) == TEMP_DB + '.output'
