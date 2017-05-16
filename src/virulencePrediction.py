@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 """
 
 
-def parse_virulence_factors(blast_record, args):
+def parse_virulence_factors(blast_record):
     """
     Entry point for virulence factor prediction
     :return: dict(
@@ -19,12 +19,6 @@ def parse_virulence_factors(blast_record, args):
         htype = H
     )
     """
-
-    # Initially check that the result passes the length / identity filters
-    if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
-        log.debug("The following did not pass the cutoffs:")
-        log.debug(blast_record)
-        return {}
 
     # >VFG043647(gi_290434)_(clpH)_fimbrial_protein_[CS31A_capsule-like_antigen_(AI036)]_[Escherichia_coli]
     # >SPG000138_(ccdb)_Plasmid_KIL19_(from_E.coli)_cytotoxic_protein_(ccdB)_gene,_complete_cds._[L27082_1-381]
