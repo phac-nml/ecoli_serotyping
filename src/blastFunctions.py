@@ -164,8 +164,9 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                 parser_results = blast_result_dict[parser_type]
 
             if parser_type is None:
+                #log.error("Parser type is none")
                 continue
-            elif parser_type in results_dict[genome_name]:
+            if parser_type in results_dict[genome_name]:
                 results_dict[genome_name][parser_type] = \
                     {**parser_results,
                      **results_dict[genome_name][parser_type]}

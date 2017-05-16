@@ -19,14 +19,17 @@ def parse_serotype(blast_record, args):
                         'qlen':la[1],
                         'sseqid':la[2],
                         'length':la[3],
-                        'pident':la[4]
+                        'pident':la[4],
+                        'sstart':la[5],
+                        'send':la[6],
+                        'sframe':la[7]
                         }
     :param args: argparse commandline options
-    :return: dict = {
-        sertotype : {blast_record : {}}
+    :return:  sr['serotype'] = 
+        {m.gorup(1):{'antigen':m.group(2), 
+                     'blast_record':blast_record}}
     }
     """
-
 
     # serotype header formats
     # >1__fliC__fliC-H1__1 AB028471.1;flagellin;H1
@@ -54,13 +57,13 @@ def parse_serotype(blast_record, args):
 
     h_re_patterns = (
         # Look for any flagella match
-        re.compile('(fl\w\w)-(H\d+)__'),
+        re.compile('(fl\w\w)\-(H\d+)__'),
         re.compile('(fl\w\w)_.+_(H\d+)$')
     )
 
     o_re_patterns = (
         # look for any somatic match
-        re.compile('(wz\w)-(O\d+)'),
+        re.compile('(wz\w)\-(O\d+)'),
         re.compile('^(wz\w)_.+_(O\d+)\w*$'),
         re.compile('(gnd)\|\d+_(O\d+)')
     )
@@ -83,6 +86,7 @@ def parse_serotype(blast_record, args):
 
     # If no matches, return blank dictionary
     return serotype_results
+
 
 
 
