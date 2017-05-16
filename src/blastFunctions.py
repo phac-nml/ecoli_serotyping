@@ -143,6 +143,13 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                         'send': la[6],
                         'sframe': la[7]
                         }
+
+        # Initially check that the result passes the length / identity filters
+        if not src.blastFunctions.record_passes_cutoffs(blast_record, args):
+            log.debug("The following did not pass the cutoffs:")
+            log.debug(blast_record)
+            continue
+
         # genome name to store the parsed blast_result in
         genome_name = src.genomeFunctions.get_genome_name(
             blast_record['sseqid'])
