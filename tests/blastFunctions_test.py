@@ -43,6 +43,7 @@ TEST_LIST = [ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fn
 TEST_QUERIES = [definitions.SEROTYPE_AND_VF_FILE, definitions.SEROTYPE_FILE, definitions.VF_FILE]
 
 TEST_DB = ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb'
+TEMP_DB = '/tmp/ectyper_blastdb'
 
 def test_record_passes_cutoffs():
     assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD, args) == True
@@ -53,8 +54,8 @@ def test_record_passes_cutoffs():
 
 
 def test_create_blast_db():
-    db_file = ROOT_DIR + '/tmp/ectyper_blastdb'
-    src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == db_file
+    db_file = '/tmp/ectyper_blastdb'
+    assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == TEMP_DB
     with open('/tmp/ectyper_blastdb.nhr', 'rb') as file:
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
@@ -74,7 +75,7 @@ def test_create_blast_db():
         assert s1 == 'f26f99e51f8f4f0dbb53cb47c3bdb2ed79ed8a30'
 
 def test_run_blast():
-    assert src.blastFunctions.run_blast(TEST_QUERIES[0], '/tmp/ecypter_blastdb') == '/tmp/ectyper_blastdb'
+    assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEMP_DB) == TEMP_DB + '.output'
     with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', 'rb') as file:
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
@@ -124,5 +125,6 @@ def test_parse_blast_results():
 
     assert data_none == {}
 
-
+test_create_blast_db()
+test_run_blast()
 test_parse_blast_results()
