@@ -32,23 +32,33 @@ for line in file_handle:
     clean_line = line.strip()
 
     # look for fasta headers only
-    regex = re.compile('^>(.+(_|;)((O|H)\d+)$)')
+    # match gene name, O or H, and allele type
+    regex = re.compile('^((>\d+__|>)([a-zA-Z]+).+(_|;)((O|H)\d+)$)')
     m = regex.search(clean_line)
 
     if m:
-        #now check whether O/H and store alleles
-        if m.group(4) == 'O':
-            o_dictionary[m.group(1)]=m.group(3)
-        elif m.group(4) == 'H':
-            h_dictionary[m.group(1)]=m.group(3)
+        # in the match, the groups are as follows
+        # m.group(1) = entire header
+        # m.group(2) = beginning matches, >\d+__|>
+        # m.group(3) = gene name
+        # m.group(4) = _|;
+        # m.group(5) = allele name
+        # m.group(6) = O|H
+
+        # the regex includes the '>' carat, so we need to use a slice that excludes it
+        # now check whether O/H and store alleles and gene names
+        if m.group(6) == 'O':
+            o_dictionary[m.group(1)[1:]]={'gene':m.group(3), 'allele':m.group(5)}
+        elif m.group(6) == 'H':
+            h_dictionary[m.group(1)[1:]]={'gene':m.group(3), 'allele':m.group(5)}
         else:
             print("ERROR, no O/H for " + clean_line)
 
-#create a single dictionary for JSON output
+# create a single dictionary for JSON output
 allele_dictionary = {'O':o_dictionary,
                      'H':h_dictionary}
 
-#output the JSON to the Data/allele_types.json file
+# output the JSON to the Data/allele_types.json file
 out_file = os.path.join(definitions.ROOT_DIR, 'Data/allele_types.json')
 out_handle = open(out_file, 'w')
 out_handle.write(json.dumps(allele_dictionary))
