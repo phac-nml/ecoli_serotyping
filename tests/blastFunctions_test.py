@@ -53,8 +53,8 @@ def test_record_passes_cutoffs():
 
 
 def test_create_blast_db():
-    db_file = tempfile + '/' + 'ectyper_blastdb'
-    assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == db_file
+    db_file = ROOT_DIR + '/tmp/ectyper_blastdb'
+    src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == db_file
     with open('/tmp/ectyper_blastdb.nhr', 'rb') as file:
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
@@ -74,7 +74,7 @@ def test_create_blast_db():
         assert s1 == 'f26f99e51f8f4f0dbb53cb47c3bdb2ed79ed8a30'
 
 def test_run_blast():
-    assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEST_DB) == TEST_DB + '.output'
+    assert src.blastFunctions.run_blast(TEST_QUERIES[0], '/tmp/ecypter_blastdb') == '/tmp/ectyper_blastdb'
     with open(ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', 'rb') as file:
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
@@ -95,23 +95,32 @@ def test_parse_blast_results():
     with open(ROOT_DIR + '/Data/test_dictionaries/blast_parse_test_data.json') as f:
         json_output = json.load(f)
 
+    data_both = dict(data_both)
+
+    #returns an inconsistent dictionary
+    print(data_both)
+    print(json_output)
     assert data_both == json_output
 
     with open(ROOT_DIR + '/Data/test_dictionaries/blast_parse_ser_test_data.json') as f:
         json_output = json.load(f)
 
-    data_ser = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', list_of_dict[0:1])
-
+    data_ser = src.blastFunctions.parse_blast_results(args,ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', list_of_dict[0:1])
+    data_ser = dict(data_ser)
+    print (data_ser)
+    print(json_output)
     assert data_ser == json_output
 
     with open(ROOT_DIR + '/Data/test_dictionaries/blast_parse_vir_test_data.json') as f:
         json_output = json.load(f)
 
-    data_vir = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output',
+    data_vir = src.blastFunctions.parse_blast_results(args,ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output',
                                                       list_of_dict[1:2])
+    data_vir = dict(data_vir)
+
     assert data_vir == json_output
 
-    data_none = src.blastFunctions.parse_blast_results(args, ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', [])
+    data_none = src.blastFunctions.parse_blast_results(args,ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb.output', [])
 
     assert data_none == {}
 

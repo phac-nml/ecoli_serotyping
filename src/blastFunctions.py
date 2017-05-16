@@ -177,3 +177,4 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
         results_dict = blast_parser_dict['predictor'](results_dict)
 
     return results_dict
+
