@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import logging.config
+import logging
 import re
 import tempfile
 
@@ -9,6 +9,8 @@ import os
 
 import src.serotypePrediction
 import src.virulencePrediction
+import json
+import definitions
 
 log = logging.getLogger(__name__)
 
@@ -167,22 +169,31 @@ def get_fasta_header_from_file(filename):
         return record.description
 
 
-def get_list_of_parsing_dict(args):
+def get_parsing_dict(ptype):
     """
     Given the parsed arguments from argparser, return a dictionary of functions.
-    :param args: Parsed commandline args
-    :return: {name: {parser: function, predictor: function}}
+    :param ptype: Type of parsing dict to return
+    :return: {parser: function, predictor: function, data: data, type: type}
     """
 
-    list_of_dict = []
-    if args.serotyper:
-        list_of_dict.append({'parser':src.serotypePrediction.parse_serotype,
-                            'predictor':src.serotypePrediction.predict_serotype
-                             })
-
-    if args.virulenceFactors:
-        list_of_dict.append({
+    if ptype == 'serotype':
+        # We will attach the JSON of known fasta headers and alleles to
+        # a 'data' key in the parsing dictionary.
+        json_handle = open(definitions.SEROTYPE_ALLELE_JSON, 'r')
+        return{'parser':src.serotypePrediction.parse_serotype,
+                            'predictor':src.serotypePrediction.predict_serotype,
+                             'data':json.load(json_handle),
+                             'type':'serotype'
+                             }
+    elif ptype == 'vf':
+        return {
             'parser':src.virulencePrediction.parse_virulence_factors,
-            'predictor':src.virulencePrediction.predict_virulence_factors})
-    return list_of_dict
+            'predictor':src.virulencePrediction.predict_virulence_factors,
+            'data':"",
+            'type':'vf'}
+    else:
+        log.error("No parsing dictionary assigned for {0}".format(ptype))
+        exit(1)
+
+
 

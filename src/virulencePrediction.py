@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import src.blastFunctions
 import re
 import logging
 
@@ -11,7 +10,7 @@ log = logging.getLogger(__name__)
 """
 
 
-def parse_virulence_factors(blast_record):
+def parse_virulence_factors(blast_record, *data):
     """
     Entry point for virulence factor prediction
     :return: dict(
@@ -35,7 +34,7 @@ def parse_virulence_factors(blast_record):
         m = rep.search(blast_record['qseqid'])
 
         if m:
-            vf_results['vf']= \
+            vf_results= \
                 {m.group(1): {
                     'description':m.group(2).replace('_', ' ').strip(),
                     'blast_record':blast_record}

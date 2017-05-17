@@ -37,17 +37,6 @@ def run_program():
     # run none / one / both of serotyper and vffinder
     query_file = None
 
-    if args.serotyper and args.virulenceFactors:
-        query_file = definitions.SEROTYPE_AND_VF_FILE
-    elif args.virulenceFactors:
-        query_file = definitions.VF_FILE
-    elif args.serotyper:
-        query_file = definitions.SEROTYPE_FILE
-    else:
-        log.warning('No analyses selected to run. Exiting. Please select one'
-                    ' or both of `--serotyper` and `--virulenceFactors`')
-        exit(1)
-
     log.info("Gathering genome file names")
     raw_genome_files = src.genomeFunctions.get_files_as_list(args.input)
     log.debug(raw_genome_files)
@@ -62,19 +51,40 @@ def run_program():
     log.info("Creating blast database")
     blast_db = src.blastFunctions.create_blast_db(all_genomes_files)
 
-    log.info("Blast queries %s against the database of input files",
-             query_file)
-    blast_output_file = src.blastFunctions.run_blast(query_file, blast_db)
+    serotype_parsed_results = None
+    if args.serotyper:
+        serotype_output_file = \
+            src.blastFunctions.run_blast(definitions.SEROTYPE_FILE, blast_db)
+        serotype_parsed_results = \
+            src.blastFunctions.parse_blast_results(
+                args,
+                serotype_output_file,
+                src.genomeFunctions.get_parsing_dict('serotype'))
 
-    log.info("Parsing blast results in %s", blast_output_file)
-    # We want to make the parsing function generalizable, not dependent
-    # on testing for serotype, vfs etc. specifically
-    # The parser will apply any functions given to it to a blast record
-    list_of_parsing_dict = src.genomeFunctions.get_list_of_parsing_dict(
-        args)
+    virulence_parsed_results = None
+    if args.virulenceFactors:
+        virulence_output_file = \
+            src.blastFunctions.run_blast(definitions.VF_FILE, blast_db)
+        virulence_parsed_results = \
+            src.blastFunctions.parse_blast_results(
+                args,
+                virulence_output_file,
+                src.genomeFunctions.get_parsing_dict('vf'))
 
-    parsed_results = src.blastFunctions.parse_blast_results(args,
-                                                            blast_output_file,
-                                                            list_of_parsing_dict)
+    #parsed_results = None
+    if serotype_parsed_results and virulence_parsed_results:
+        parsed_results = serotype_parsed_results
+
+        for genome in virulence_parsed_results:
+            log.debug("genome: {}".format(genome))
+            log.debug("original: {}".format(virulence_parsed_results[
+                                                genome]['vf']))
+            parsed_results[genome]['vf'] = virulence_parsed_results[genome][
+                'vf']
+    elif serotype_parsed_results:
+        parsed_results = serotype_parsed_results
+    else:
+        parsed_results = virulence_parsed_results
+
     print(json.dumps(parsed_results))
     log.info("Done")
