@@ -9,7 +9,7 @@ before_install:
   - export PYTHONPATH="${PYTHONPATH}:release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
 
 script:
-  - py.test tests/serotype_test.py -vv
+  - py.test tests/serotypePrediction_test.py -vv
   - py.test tests/virulence_test.py -vv
   - py.test tests/genomeFunctions_test.py -vv
   - py.test tests/blastFunctions_test.py -vv
