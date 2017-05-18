@@ -3,9 +3,7 @@ from argparse import Namespace
 from definitions import ROOT_DIR
 import tempfile
 import definitions
-import sys
 import hashlib
-import json
 
 tempfile = tempfile.gettempdir()
 
@@ -40,7 +38,7 @@ TEST_LIST = [ROOT_DIR + '/Data/test_genomes/GCA_000010745.1_ASM1074v1_genomic.fn
              ROOT_DIR + '/Data/test_genomes/GCA_000026545.1_ASM2654v1_genomic.fna',
              ROOT_DIR + '/Data/test_genomes/GCA_000091005.1_ASM9100v1_genomic.fna']
 
-TEST_QUERIES = [definitions.SEROTYPE_AND_VF_FILE, definitions.SEROTYPE_FILE, definitions.VF_FILE]
+TEST_QUERIES = [definitions.SEROTYPE_FILE, definitions.VF_FILE]
 
 TEST_DB = ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb'
 TEMP_DB = '/tmp/ectyper_blastdb'
@@ -60,13 +58,13 @@ def test_create_blast_db():
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'ee3f0babf9385a4305d11e98e2b199fd87703834'
 
-    """
-    #this hash value will always change so no test can be run for it
-    with open('/tmp/ectyper_blastdb.nin', 'rb') as file_to_check:
-        data = file_to_check.read()
-        s1 = hashlib.sha1(data).hexdigest()
-        print(s1)
-    """
+    # """
+    # #this hash value will always change so no test can be run for it
+    # with open('/tmp/ectyper_blastdb.nin', 'rb') as file_to_check:
+    #     data = file_to_check.read()
+    #     s1 = hashlib.sha1(data).hexdigest()
+    #     print(s1)
+    # """
 
     with open(TEMP_DB + '.nsq', 'rb') as file:
         data = file.read()
