@@ -31,18 +31,19 @@ def record_passes_cutoffs(blast_record, args):
     # We want to ensure that a match greater than 100 (due to gaps) is treated
     # as not being greater than a perfect match
     # Either direction from 100% id should be treated the same
-    init_value = float(blast_record['length']) / float(blast_record['qlen']) * 100
+    init_value = float(blast_record['length']) / float(
+        blast_record['qlen']) * 100
     lid_value = float((abs(100 - init_value) * -1) % 100)
 
     if (lid_value >= float(args.percentLength)) and \
-       (float(blast_record['pident']) >= float(args.percentIdentity)):
+            (float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
         return False
 
 
 def create_blast_db(filelist):
-    """
+    """http://stackoverflow.com/questions/23944657/typeerror-method-takes-1-positional-argument-but-2-were-given
     Creating a blast DB using the makeblastdb command.
     The database is created in the temporary folder of the system.
 
@@ -83,6 +84,9 @@ def run_blast(query_file, blast_db):
     :return: the blast output file
     """
 
+    log.info('Running blast query {0} against database {1} '.format(
+        query_file, blast_db))
+
     blast_output_file = blast_db + '.output'
 
     completed_process = \
@@ -121,6 +125,9 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
     :param parsing_dict: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
     """
+
+    log.info("Parsing blast results in {0}".format(blast_results_file))
+
     result_handle = open(blast_results_file, 'r')
     results_dict = collections.defaultdict(dict)
 
@@ -144,37 +151,39 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                         'sframe': la[7]
                         }
 
+        # Initially check that the result passes the length / identity filters
+        if not record_passes_cutoffs(blast_record, args):
+            log.debug("The following did not pass the cutoffs:")
+            log.debug(blast_record)
+            continue
+
         # genome name to store the parsed blast_result in
         genome_name = src.genomeFunctions.get_genome_name(
             blast_record['sseqid'])
         log.debug(genome_name)
 
-        for blast_parser_dict in parsing_dict:
-            # we only want to store a value for a key if it doesn't exist
-            # this is because blast list results from "best" to "worst" order
-            # and we could be overwriting a "better" result if we do not check
-            # https://www.python.org/dev/peps/pep-0448/
+        # we only want to store a value for a key if it doesn't exist
+        # this is because blast list results from "best" to "worst" order
+        # and we could be overwriting a "better" result if we do not check
+        # https://www.python.org/dev/peps/pep-0448/
+        blast_result_dict = parsing_dict['parser'](blast_record,
+                                                   parsing_dict['data'])
 
-            # the returned dict has a key specifying its type, eg. 'vf',
-            # 'serotype' etc.
+        # parser_type = None
+        # for parser_type in blast_result_dict.keys():
+        #     parser_results = blast_result_dict[parser_type]
 
-            blast_result_dict = blast_parser_dict['parser'](blast_record, args)
+        # if parser_type is None:
+        #     # log.error("Parser type is none")
+        #     continue
+        if parsing_dict['type'] in results_dict[genome_name]:
+            results_dict[genome_name][parsing_dict['type']] = \
+                {**blast_result_dict,
+                 **results_dict[genome_name][parsing_dict['type']]}
+        else:
+            results_dict[genome_name][parsing_dict['type']] = blast_result_dict
 
-            parser_type = None
-            for parser_type in blast_result_dict.keys():
-                parser_results = blast_result_dict[parser_type]
-
-            if parser_type is None:
-                continue
-            elif parser_type in results_dict[genome_name]:
-                results_dict[genome_name][parser_type] = \
-                    {**parser_results,
-                     **results_dict[genome_name][parser_type]}
-            else:
-                results_dict[genome_name][parser_type] = parser_results
-
-    #final prediction now that we have a dictionary of parsed results
-    for blast_parser_dict in parsing_dict:
-        results_dict = blast_parser_dict['predictor'](results_dict)
+    # final prediction now that we have a dictionary of parsed results
+    results_dict = parsing_dict['predictor'](results_dict)
 
     return results_dict
