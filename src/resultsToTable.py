@@ -5,7 +5,6 @@ Convert the output from ectyper to table format
 """
 
 import logging
-import collections
 
 log = logging.getLogger(__name__)
 
