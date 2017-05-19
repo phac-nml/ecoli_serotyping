@@ -172,9 +172,13 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
 
         for gene in blast_result_dict.keys():
             if gene in results_dict[genome_name][parsing_dict['type']]:
-                log.debug("Gene {0} already stored for genome {1}".format(
-                    gene, genome_name))
-                # continue
+                # test to see whether the gene is a better match
+                if new_result_is_better(blast_result_dict[gene], results_dict[
+                    genome_name][
+                    parsing_dict['type']][gene]):
+                    results_dict[genome_name][parsing_dict['type']] = \
+                        blast_result_dict
+                    # continue
             else:
                 results_dict[genome_name][
                     parsing_dict['type']] = blast_result_dict
@@ -190,3 +194,27 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
     results_dict = parsing_dict['predictor'](results_dict)
 
     return results_dict
+
+
+def new_result_is_better(new_result, old_result):
+    """
+    Compare two results. If the new result is a "better" match, return TRUE.
+    Otherwise return FALSE
+    {'antigen': 'H11', 'blast_record': {'qseqid': '1__fliC__fliC-H11__5',
+    'qlen': '1467', 'sseqid': 'JHGM01000068.1', 'length': '1459',
+    'pident': '99.931', 'sstart': '29221', 'send': '27763', 'sframe': '-1'}}
+
+    :param new_result: new blast dictionary
+    :param old_result: old blast dictionary
+    :return: TRUE | FALSE
+    """
+
+    new_value = float(new_result['blast_record']['length']) * float(new_result[
+        'blast_record']['pident'])
+    old_value = float(old_result['blast_record']['length']) * float(old_result[
+        'blast_record']['pident'])
+
+    if new_value > old_value:
+        return 1
+    else:
+        return 0
