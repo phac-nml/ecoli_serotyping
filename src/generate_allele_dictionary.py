@@ -34,8 +34,6 @@ h_dictionary = collections.defaultdict(str)
 for line in file_handle:
     clean_line = line.strip()
 
-    # single_line = re.sub('[\s]', '_', clean_line)
-
     # look for fasta headers only
     # match gene name, O or H, and allele type
     # note that this does not match those designated as "Onovel" or "Hnovel"
