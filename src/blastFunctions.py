@@ -175,20 +175,12 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                 # test to see whether the gene is a better match
                 if new_result_is_better(blast_result_dict[gene], results_dict[
                     genome_name][
-                    parsing_dict['type']][gene]):
-                    results_dict[genome_name][parsing_dict['type']] = \
-                        blast_result_dict
-                    # continue
+                        parsing_dict['type']][gene]):
+                            results_dict[genome_name][parsing_dict['type']] = \
+                                blast_result_dict
             else:
                 results_dict[genome_name][
                     parsing_dict['type']] = blast_result_dict
-
-                # if parsing_dict['type'] in results_dict[genome_name]:
-                #     results_dict[genome_name][parsing_dict['type']] = \
-                #         {**blast_result_dict,
-                #          **results_dict[genome_name][parsing_dict['type']]}
-                # else:
-                #     results_dict[genome_name][parsing_dict['type']] = blast_result_dict
 
     # final prediction now that we have a dictionary of parsed results
     results_dict = parsing_dict['predictor'](results_dict)
