@@ -35,7 +35,7 @@ def record_passes_cutoffs(blast_record, args):
         blast_record['qlen']) * 100
     lid_value = float((abs(100 - init_value) * -1) % 100)
 
-    if (lid_value >= float(args.percentLength)) and \
+    if (init_value >= float(args.percentLength)) and \
             (float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
@@ -129,7 +129,8 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
     log.info("Parsing blast results in {0}".format(blast_results_file))
 
     result_handle = open(blast_results_file, 'r')
-    results_dict = collections.defaultdict(dict)
+    results_dict = collections.defaultdict(lambda: collections.defaultdict(
+        dict))
 
     for line in result_handle:
         clean_line = line.strip()
@@ -169,19 +170,21 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
         blast_result_dict = parsing_dict['parser'](blast_record,
                                                    parsing_dict['data'])
 
-        # parser_type = None
-        # for parser_type in blast_result_dict.keys():
-        #     parser_results = blast_result_dict[parser_type]
+        for gene in blast_result_dict.keys():
+            if gene in results_dict[genome_name][parsing_dict['type']]:
+                log.debug("Gene {0} already stored for genome {1}".format(
+                    gene, genome_name))
+                # continue
+            else:
+                results_dict[genome_name][
+                    parsing_dict['type']] = blast_result_dict
 
-        # if parser_type is None:
-        #     # log.error("Parser type is none")
-        #     continue
-        if parsing_dict['type'] in results_dict[genome_name]:
-            results_dict[genome_name][parsing_dict['type']] = \
-                {**blast_result_dict,
-                 **results_dict[genome_name][parsing_dict['type']]}
-        else:
-            results_dict[genome_name][parsing_dict['type']] = blast_result_dict
+                # if parsing_dict['type'] in results_dict[genome_name]:
+                #     results_dict[genome_name][parsing_dict['type']] = \
+                #         {**blast_result_dict,
+                #          **results_dict[genome_name][parsing_dict['type']]}
+                # else:
+                #     results_dict[genome_name][parsing_dict['type']] = blast_result_dict
 
     # final prediction now that we have a dictionary of parsed results
     results_dict = parsing_dict['predictor'](results_dict)

@@ -58,12 +58,12 @@ def test_parse_serotype():
         blast_record_type1['sseqid']) == 'genomeA'
 
     serotype_parser = src.genomeFunctions.get_parsing_dict('serotype')
-    type1Result = src.serotypePrediction.parse_serotype(blast_record_type1,
-                                                        serotype_parser[
-                                                            'data'])
+    # type1Result = src.serotypePrediction.parse_serotype(blast_record_type1,
+    #                                                     serotype_parser[
+    #                                                         'data'])
 
-    assert type1Result == {'fliC': {'antigen': 'H1',
-                                    'blast_record': blast_record_type1}}
+    # assert type1Result == {'fliC': {'antigen': 'H1',
+    #                                 'blast_record': blast_record_type1}}
 
     for qseqid in dict_of_qseqid.keys():
         ps = src.serotypePrediction.parse_serotype({'qseqid': qseqid},
