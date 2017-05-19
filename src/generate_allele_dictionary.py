@@ -55,8 +55,6 @@ for line in file_handle:
         # m.group(5) = allele name
         # m.group(6) = O|H
 
-        # the regex includes the '>' carat, so we need to use a slice that
-        # excludes it
         # now check whether O/H and store alleles and gene names
         if m.group(6) == 'O':
             o_dictionary[bm.group(1)] = {'gene': m.group(3),
