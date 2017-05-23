@@ -174,16 +174,16 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
             if gene in results_dict[genome_name][parsing_dict['type']]:
                 # test to see whether the gene is a better match
                 if new_result_is_better(blast_result_dict[gene], results_dict[
-                    genome_name][
-                        parsing_dict['type']][gene]):
-                            results_dict[genome_name][parsing_dict['type']] = \
-                                blast_result_dict
+                     genome_name][parsing_dict['type']][gene]):
+                        results_dict[genome_name][parsing_dict['type']][gene]\
+                            = \
+                            blast_result_dict[gene]
             else:
-                results_dict[genome_name][
-                    parsing_dict['type']] = blast_result_dict
+                results_dict[genome_name][parsing_dict['type']][gene] = \
+                    blast_result_dict[gene]
 
     # final prediction now that we have a dictionary of parsed results
-    results_dict = parsing_dict['predictor'](results_dict)
+    # results_dict = parsing_dict['predictor'](results_dict)
 
     return results_dict
 
@@ -202,9 +202,11 @@ def new_result_is_better(new_result, old_result):
     """
 
     new_value = float(new_result['blast_record']['length']) * float(new_result[
-        'blast_record']['pident'])
+                                                                        'blast_record'][
+                                                                        'pident'])
     old_value = float(old_result['blast_record']['length']) * float(old_result[
-        'blast_record']['pident'])
+                                                                        'blast_record'][
+                                                                        'pident'])
 
     if new_value > old_value:
         return 1
