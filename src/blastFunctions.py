@@ -35,7 +35,7 @@ def record_passes_cutoffs(blast_record, args):
         blast_record['qlen']) * 100
     lid_value = float((abs(100 - init_value) * -1) % 100)
 
-    if (init_value >= float(args.percentLength)) and \
+    if (lid_value >= float(args.percentLength)) and \
             (float(blast_record['pident']) >= float(args.percentIdentity)):
         return True
     else:
