@@ -50,9 +50,9 @@ def parse_command_line():
                               virulence factor. Default is 1.",
                         default=1)
 
-    parser.add_argument("-c",
-                        "--csv",
+    parser.add_argument("-t",
+                        "--tabular",
                         action="store_true",
-                        help="Sets the output format to `csv`. JSON otherwise.")
+                        help="Sets the output format to `tabular`. JSON otherwise.")
 
     return parser.parse_args()

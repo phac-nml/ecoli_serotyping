@@ -6,15 +6,8 @@ before_install:
   - pip install biopython
   - pip install pandas
   - sudo apt-get install tar
-  - wget https://github.com/hyattpd/Prodigal/releases/download/v2.6.3/prodigal.linux -O /tmp/prodigal.linux
-  - sudo ln -s /tmp/prodigal.linux /usr/bin/prodigal
-  - sudo chmod +x /usr/bin/prodigal
   - sudo apt-get install alien
-  - wget https://card.mcmaster.ca/download/1/software-v3.1.1.tar.gz -O release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
-  - tar -xvf release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
-  - tar -xvf release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39.tar.gz
   - export PYTHONPATH='.'
-  - export PYTHONPATH="${PYTHONPATH}:release-rgi-v3.1.1-58cad6a3b443abb290cf3df438fe558bc5bfec39/"
   - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.31/ncbi-blast-2.2.31+-2.x86_64.rpm -O /tmp/blast.rpm
   - sudo alien -i /tmp/blast.rpm
 

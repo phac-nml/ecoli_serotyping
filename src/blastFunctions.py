@@ -129,7 +129,8 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
     log.info("Parsing blast results in {0}".format(blast_results_file))
 
     result_handle = open(blast_results_file, 'r')
-    results_dict = collections.defaultdict(dict)
+    results_dict = collections.defaultdict(lambda: collections.defaultdict(
+        dict))
 
     for line in result_handle:
         clean_line = line.strip()
@@ -169,21 +170,45 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
         blast_result_dict = parsing_dict['parser'](blast_record,
                                                    parsing_dict['data'])
 
-        # parser_type = None
-        # for parser_type in blast_result_dict.keys():
-        #     parser_results = blast_result_dict[parser_type]
-
-        # if parser_type is None:
-        #     # log.error("Parser type is none")
-        #     continue
-        if parsing_dict['type'] in results_dict[genome_name]:
-            results_dict[genome_name][parsing_dict['type']] = \
-                {**blast_result_dict,
-                 **results_dict[genome_name][parsing_dict['type']]}
-        else:
-            results_dict[genome_name][parsing_dict['type']] = blast_result_dict
+        for gene in blast_result_dict.keys():
+            if gene in results_dict[genome_name][parsing_dict['type']]:
+                # test to see whether the gene is a better match
+                if new_result_is_better(blast_result_dict[gene], results_dict[
+                     genome_name][parsing_dict['type']][gene]):
+                        results_dict[genome_name][parsing_dict['type']][gene]\
+                            = \
+                            blast_result_dict[gene]
+            else:
+                results_dict[genome_name][parsing_dict['type']][gene] = \
+                    blast_result_dict[gene]
 
     # final prediction now that we have a dictionary of parsed results
-    results_dict = parsing_dict['predictor'](results_dict)
+    # results_dict = parsing_dict['predictor'](results_dict)
 
     return results_dict
+
+
+def new_result_is_better(new_result, old_result):
+    """
+    Compare two results. If the new result is a "better" match, return TRUE.
+    Otherwise return FALSE
+    {'antigen': 'H11', 'blast_record': {'qseqid': '1__fliC__fliC-H11__5',
+    'qlen': '1467', 'sseqid': 'JHGM01000068.1', 'length': '1459',
+    'pident': '99.931', 'sstart': '29221', 'send': '27763', 'sframe': '-1'}}
+
+    :param new_result: new blast dictionary
+    :param old_result: old blast dictionary
+    :return: TRUE | FALSE
+    """
+
+    new_value = float(new_result['blast_record']['length']) * float(new_result[
+                                                                        'blast_record'][
+                                                                        'pident'])
+    old_value = float(old_result['blast_record']['length']) * float(old_result[
+                                                                        'blast_record'][
+                                                                        'pident'])
+
+    if new_value > old_value:
+        return 1
+    else:
+        return 0
