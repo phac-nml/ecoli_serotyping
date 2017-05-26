@@ -59,8 +59,8 @@ def predict_serotype(results_dict):
         if 'serotype' in results_dict[genome_name]:
             for gene_name in results_dict[genome_name]['serotype'].keys():
                 current_pident = \
-                results_dict[genome_name]['serotype'][gene_name][
-                    'blast_record']['pident']
+                    results_dict[genome_name]['serotype'][gene_name][
+                        'blast_record']['pident']
 
                 for antigen in antigen_dict.keys():
                     # get antigen from results
@@ -70,8 +70,8 @@ def predict_serotype(results_dict):
                     if m:
                         match_sero = m.group(1)
 
-                        # We only want to consider 'gnd' if there is conflict or
-                        # no other O antigen information
+                        # We only want to consider 'gnd' if there is
+                        # conflict or no other O antigen information
                         if gene_name == 'gnd':
                             current_sero_dict[antigen]['gnd'] = match_sero
                             continue
