@@ -31,9 +31,8 @@ def record_passes_cutoffs(blast_record, args):
     # We want to ensure that a match greater than 100 (due to gaps) is treated
     # as not being greater than a perfect match
     # Either direction from 100% id should be treated the same
-    init_value = float(blast_record['length']) / float(
-        blast_record['qlen']) * 100
-    lid_value = float((abs(100 - init_value) * -1) % 100)
+    diff = abs(float(blast_record['qlen'] - blast_record['length']))
+    lid_value = float(blast_record['qlen'] - diff)
 
     if (lid_value >= float(args.percentLength)) and \
             (float(blast_record['pident']) >= float(args.percentIdentity)):
@@ -156,36 +155,33 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
         if not record_passes_cutoffs(blast_record, args):
             log.debug("The following did not pass the cutoffs:")
             log.debug(blast_record)
-            continue
+        else:
+            # genome name to store the parsed blast_result in
+            genome_name = src.genomeFunctions.get_genome_name(
+                blast_record['sseqid'])
+            log.debug(genome_name)
 
-        # genome name to store the parsed blast_result in
-        genome_name = src.genomeFunctions.get_genome_name(
-            blast_record['sseqid'])
-        log.debug(genome_name)
+            # we only want to store a value for a key if it doesn't exist
+            # this is because blast list results from "best" to "worst" order
+            # and we could be overwriting a "better" result if we do not check
+            # https://www.python.org/dev/peps/pep-0448/
+            blast_result_dict = parsing_dict['parser'](blast_record,
+                                                       parsing_dict['data'])
 
-        # we only want to store a value for a key if it doesn't exist
-        # this is because blast list results from "best" to "worst" order
-        # and we could be overwriting a "better" result if we do not check
-        # https://www.python.org/dev/peps/pep-0448/
-        blast_result_dict = parsing_dict['parser'](blast_record,
-                                                   parsing_dict['data'])
+            for gene in blast_result_dict.keys():
+                if gene in results_dict[genome_name][parsing_dict['type']]:
+                    # test to see whether the gene is a better match
+                    if new_result_is_better(blast_result_dict[gene], results_dict[
+                         genome_name][parsing_dict['type']][gene]):
+                            results_dict[genome_name][parsing_dict['type']][gene]\
+                                = \
+                                blast_result_dict[gene]
+                else:
+                    results_dict[genome_name][parsing_dict['type']][gene] = \
+                        blast_result_dict[gene]
 
-        for gene in blast_result_dict.keys():
-            if gene in results_dict[genome_name][parsing_dict['type']]:
-                # test to see whether the gene is a better match
-                if new_result_is_better(blast_result_dict[gene], results_dict[
-                     genome_name][parsing_dict['type']][gene]):
-                        results_dict[genome_name][parsing_dict['type']][gene]\
-                            = \
-                            blast_result_dict[gene]
-            else:
-                results_dict[genome_name][parsing_dict['type']][gene] = \
-                    blast_result_dict[gene]
-
-    # final prediction now that we have a dictionary of parsed results
-    # results_dict = parsing_dict['predictor'](results_dict)
-
-    return results_dict
+        # final prediction now that we have a dictionary of parsed results
+    return parsing_dict['predictor'](results_dict)
 
 
 def new_result_is_better(new_result, old_result):
