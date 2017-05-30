@@ -11,7 +11,11 @@ import src.blastFunctions
 import src.commandLineOptions
 import src.genomeFunctions
 import src.loggingFunctions
+import src.resultsToTable
 import json
+import csv
+import sys
+
 
 log_file = src.loggingFunctions.initialize_logging()
 log = logging.getLogger(__name__)
@@ -86,5 +90,16 @@ def run_program():
     else:
         parsed_results = virulence_parsed_results
 
-    print(json.dumps(parsed_results))
+    #print the requested format
+    if args.tabular:
+        log.info("Printing results in tabular format")
+
+        writer = csv.writer(sys.stdout, delimiter="\t")
+        writer.writerows(src.resultsToTable.results_dict_to_table(all_genomes_files
+                                                                  ,all_genomes_list
+                                                                  ,parsed_results))
+    else:
+        log.info("Printing results in JSON format")
+        print(json.dumps(parsed_results))
+
     log.info("Done")

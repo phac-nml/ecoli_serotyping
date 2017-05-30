@@ -29,36 +29,37 @@ def results_dict_to_table(list_of_files, list_of_genomes, results_dict):
 
     for f, g in zip(list_of_files, list_of_genomes):
 
-        if "otype" in results_dict[g]:
-            serotype = results_dict[g]["otype"]["ant_number"] + ":" +  results_dict[g]["htype"]["ant_number"]
-            serotype_line = [f, g, "NA","Serotype", serotype, "NA", "NA", "NA", "NA"]
+        if "serotype" in results_dict[g]:
+            serotype = results_dict[g]['serotype']['otype'] + ":" +  \
+                       results_dict[g]['serotype']['htype']
+            serotype_line = [f, g, "NA","Serotype", serotype, "NA", "NA",
+                             "NA", "NA"]
             output_aoa.append(serotype_line)
 
         if "vf" not in results_dict[g]:
-            log.warning("No VFs for genome: " + g)
-            continue
+            log.debug("No VFs for genome: " + g)
+        else:
+            for vf in sorted(results_dict[g]["vf"]):
+                analysis = "Virulence Factor"
+                br = results_dict[g]["vf"][vf]["blast_record"]
+                contig_id = br["sseqid"]
+                hit = vf
+                description = results_dict[g]["vf"][vf]["description"]
+                orientation = br["sframe"]
+                startbp = br["sstart"]
+                stopbp = br["send"]
 
-        for vf in sorted(results_dict[g]["vf"]):
-            analysis = "Virulence Factor"
-            br = results_dict[g]["vf"][vf]["blast_record"]
-            contig_id = br["sseqid"]
-            hit = vf
-            description = results_dict[g]["vf"][vf]["description"]
-            orientation = br["sframe"]
-            startbp = br["sstart"]
-            stopbp = br["send"]
+                next_line = [f
+                             ,g
+                             ,contig_id
+                             ,analysis
+                             ,hit
+                             ,description
+                             ,orientation
+                             ,startbp
+                             ,stopbp]
 
-            next_line = [f
-                         ,g
-                         ,contig_id
-                         ,analysis
-                         ,hit
-                         ,description
-                         ,orientation
-                         ,startbp
-                         ,stopbp]
-
-            output_aoa.append(next_line)
+                output_aoa.append(next_line)
 
     return(output_aoa)
 
