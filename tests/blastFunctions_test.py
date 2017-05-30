@@ -63,18 +63,6 @@ TEST_DB = ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb'
 TEMP_DB = '/tmp/ectyper_blastdb'
 
 
-def test_record_passes_cutoffs():
-    assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD, args) == True
-    assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD,
-                                                    args_fi) == False
-    assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD,
-                                                    args_fl) == False
-    assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD_FI,
-                                                    args) == False
-    assert src.blastFunctions.record_passes_cutoffs(TEST_RECORD_FL,
-                                                    args) == False
-
-
 def test_create_blast_db():
     assert src.blastFunctions.create_blast_db(TEST_LIST[0:1]) == TEMP_DB
     with open(TEMP_DB + '.nhr', 'rb') as file:
@@ -94,6 +82,77 @@ def test_create_blast_db():
         data = file.read()
         s1 = hashlib.sha1(data).hexdigest()
         assert s1 == 'f26f99e51f8f4f0dbb53cb47c3bdb2ed79ed8a30'
+
+
+def test_record_passes_cutoffs():
+    """
+    For serotype prediction, need to ensure the blast hit is equal to or
+    greater than the cutoffs supplied
+    """
+    bad_blast_length = {
+        'length': 89,
+        'qlen': 100,
+        'pident': 90
+    }
+
+    good_blast_length = {
+        'length': 91,
+        'qlen': 100,
+        'pident': 90
+    }
+
+    perfect_match = {
+        'length':100,
+        'qlen':100,
+        'pident':90
+    }
+
+    zero_match = {
+        'length':0,
+        'qlen':100,
+        'pident':0
+    }
+
+    over_match_fail ={
+        'length':120,
+        'qlen':100,
+        'pident':90
+    }
+
+    over_match_pass = {
+        'length':110,
+        'qlen':100,
+        'pident':90
+    }
+
+    bad_blast_pident = {
+        'length':100,
+        'qlen':100,
+        'pident':89
+    }
+
+
+    args = Namespace(percentIdentity=90, percentLength=90)
+
+    assert src.blastFunctions.record_passes_cutoffs(bad_blast_length,
+                                                    args) == False
+
+    assert src.blastFunctions.record_passes_cutoffs(good_blast_length,
+                                                     args) == True
+
+    assert src.blastFunctions.record_passes_cutoffs(perfect_match, args) == \
+           True
+
+    assert src.blastFunctions.record_passes_cutoffs(zero_match, args) == False
+
+    assert src.blastFunctions.record_passes_cutoffs(over_match_fail,
+                                                    args) == False
+
+    assert src.blastFunctions.record_passes_cutoffs(over_match_pass,
+                                                    args) == True
+
+    assert src.blastFunctions.record_passes_cutoffs(bad_blast_pident,
+                                                    args) == False
 
 # def test_run_blast():
 #     assert src.blastFunctions.run_blast(TEST_QUERIES[0], TEMP_DB) == TEMP_DB + '.output'
