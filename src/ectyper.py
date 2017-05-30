@@ -11,7 +11,11 @@ import src.blastFunctions
 import src.commandLineOptions
 import src.genomeFunctions
 import src.loggingFunctions
+import src.resultsToTable
 import json
+import csv
+import sys
+
 
 log_file = src.loggingFunctions.initialize_logging()
 log = logging.getLogger(__name__)
@@ -98,5 +102,4 @@ def run_program():
         log.info("Printing results in JSON format")
         print(json.dumps(parsed_results))
 
-    print(json.dumps(parsed_results))
     log.info("Done")

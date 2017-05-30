@@ -31,8 +31,8 @@ def record_passes_cutoffs(blast_record, args):
     # We want to ensure that a match greater than 100 (due to gaps) is treated
     # as not being greater than a perfect match
     # Either direction from 100% id should be treated the same
-    diff = abs(float(blast_record['qlen'] - blast_record['length']))
-    lid_value = float(blast_record['qlen'] - diff)
+    diff = abs(float(blast_record['qlen']) - float(blast_record['length']))
+    lid_value = float(blast_record['qlen']) - diff
 
     if (lid_value >= float(args.percentLength)) and \
             (float(blast_record['pident']) >= float(args.percentIdentity)):
