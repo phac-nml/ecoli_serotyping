@@ -100,6 +100,6 @@ def run_program():
                                                                   ,parsed_results))
     else:
         log.info("Printing results in JSON format")
-        print(json.dumps(parsed_results))
+        print(json.dumps(parsed_results, indent=4, separators=(',', ': ')))
 
     log.info("Done")
