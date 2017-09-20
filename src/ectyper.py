@@ -65,30 +65,9 @@ def run_program():
                 serotype_output_file,
                 src.genomeFunctions.get_parsing_dict('serotype'))
 
-    virulence_parsed_results = None
-    if args.virulenceFactors:
-        virulence_output_file = \
-            src.blastFunctions.run_blast(definitions.VF_FILE, blast_db)
-        virulence_parsed_results = \
-            src.blastFunctions.parse_blast_results(
-                args,
-                virulence_output_file,
-                src.genomeFunctions.get_parsing_dict('vf'))
-
     #parsed_results = None
-    if serotype_parsed_results and virulence_parsed_results:
+    if serotype_parsed_results:
         parsed_results = serotype_parsed_results
-
-        for genome in virulence_parsed_results:
-            log.debug("genome: {}".format(genome))
-            log.debug("original: {}".format(virulence_parsed_results[
-                                                genome]['vf']))
-            parsed_results[genome]['vf'] = virulence_parsed_results[genome][
-                'vf']
-    elif serotype_parsed_results:
-        parsed_results = serotype_parsed_results
-    else:
-        parsed_results = virulence_parsed_results
 
     #print the requested format
     if args.tabular:

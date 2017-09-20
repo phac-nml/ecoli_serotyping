@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 
+import json
 import logging
+import os
 import re
 import tempfile
 
 import Bio.SeqIO
-import os
 
-import src.serotypePrediction
-import src.virulencePrediction
-import json
 import definitions
+import src.serotypePrediction
 
 log = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ def get_files_as_list(file_or_directory):
     """
 
     files_list = []
-    if file_or_directory == '' :
+    if file_or_directory == '':
         return files_list
 
     if os.path.isdir(file_or_directory):
@@ -181,19 +180,9 @@ def get_parsing_dict(ptype):
         # a 'data' key in the parsing dictionary.
         json_handle = open(definitions.SEROTYPE_ALLELE_JSON, 'r')
         return{'parser':src.serotypePrediction.parse_serotype,
-                            'predictor':src.serotypePrediction.predict_serotype,
-                             'data':json.load(json_handle),
-                             'type':'serotype'
-                             }
-    elif ptype == 'vf':
-        return {
-            'parser':src.virulencePrediction.parse_virulence_factors,
-            'predictor':src.virulencePrediction.predict_virulence_factors,
-            'data':"",
-            'type':'vf'}
+               'predictor':src.serotypePrediction.predict_serotype,
+               'data':json.load(json_handle),
+               'type':'serotype'}
     else:
         log.error("No parsing dictionary assigned for {0}".format(ptype))
         exit(1)
-
-
-

@@ -22,11 +22,6 @@ def parse_command_line():
                         action="store_true",
                         help="Trigger the use of the E. coli serotyper.")
 
-    parser.add_argument("-f",
-                        "--virulenceFactors",
-                        action="store_true",
-                        help="Trigger the use of the Virulence Factors tool.")
-
     parser.add_argument("-d",
                         "--percentIdentity",
                         type=int,

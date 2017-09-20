@@ -4,18 +4,19 @@
 Functions for setting up, running, and parsing blast
 """
 import collections
-import subprocess
-import src.genomeFunctions
-import os
-import tempfile
 import logging
+import os
+import subprocess
+import tempfile
+
+import src.genomeFunctions
 
 log = logging.getLogger(__name__)
 
 
 def record_passes_cutoffs(blast_record, args):
     """
-    For serotype prediction, need to ensure the blast hit is equal to or 
+    For serotype prediction, need to ensure the blast hit is equal to or
     greater than the cutoffs supplied
 
     :param blast_record: = {'qseqid':la[0],
@@ -100,7 +101,7 @@ def run_blast(query_file, blast_db):
                        universal_newlines=True,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE
-                       )
+                      )
     if completed_process.returncode == 0:
         log.debug("Output from blastn:")
         log.debug(completed_process.stdout)
@@ -119,7 +120,7 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
     Serotype may use additional logic.
 
     :param args: parsed commandline options from the user
-    :param blast_results_file: -outfmt 6 results of vf and/or 
+    :param blast_results_file: -outfmt 6 results of vf and/or
             serotype vs. genomes
     :param parsing_dict: functions for parsing to be applied
     :return: a dictionary of genomes and results for each
@@ -172,10 +173,10 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                 if gene in results_dict[genome_name][parsing_dict['type']]:
                     # test to see whether the gene is a better match
                     if new_result_is_better(blast_result_dict[gene], results_dict[
-                         genome_name][parsing_dict['type']][gene]):
-                            results_dict[genome_name][parsing_dict['type']][gene]\
-                                = \
-                                blast_result_dict[gene]
+                        genome_name][parsing_dict['type']][gene]):
+                        results_dict[genome_name][parsing_dict['type']][gene]\
+                        = \
+                        blast_result_dict[gene]
                 else:
                     results_dict[genome_name][parsing_dict['type']][gene] = \
                         blast_result_dict[gene]
