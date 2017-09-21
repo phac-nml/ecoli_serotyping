@@ -12,6 +12,7 @@ import src.commandLineOptions
 import src.genomeFunctions
 import src.loggingFunctions
 import src.resultsToTable
+import src.shortReads
 import json
 import csv
 import sys
@@ -41,9 +42,25 @@ def run_program():
     # run none / one / both of serotyper and vffinder
     query_file = None
 
-    log.info("Gathering genome file names")
-    raw_genome_files = src.genomeFunctions.get_files_as_list(args.input)
-    log.debug(raw_genome_files)
+    raw_genome_files = None
+
+    if args.reads:
+        log.info("Gathering genome file names")
+        raw_reads_files = src.genomeFunctions.get_files_as_list(args.input)
+        log.debug(raw_reads_files)
+        _raw_genome_files = []
+        # the line below only need to be run once to generate index file for serotyped allele
+        # src.shortReads.build_bowtie_index(definitions.SEROTYPE_FILE)
+        for raw_reads_file in raw_reads_files:
+            # create a fasta file for each of them
+            sam_file = src.shortReads.align_reads(raw_reads_file)
+            fasta_file = src.shortReads.samToFasta(sam_file)
+            _raw_genome_files.append(fasta_file)
+        raw_genome_files = _raw_genome_files
+    else:
+        log.info("Gathering genome file names")
+        raw_genome_files = src.genomeFunctions.get_files_as_list(args.input)
+        log.debug(raw_genome_files)
 
     log.info("Gathering genome names from files")
     (all_genomes_list,
@@ -63,9 +80,10 @@ def run_program():
             src.blastFunctions.parse_blast_results(
                 args,
                 serotype_output_file,
-                src.genomeFunctions.get_parsing_dict('serotype'))
+                src.genomeFunctions.get_parsing_dict('serotype')
+            )
 
-    #parsed_results = None
+    parsed_results = None
     if serotype_parsed_results:
         parsed_results = serotype_parsed_results
 

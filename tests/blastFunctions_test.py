@@ -57,8 +57,6 @@ TEST_LIST = [
     ROOT_DIR + '/Data/test_genomes/GCA_000026545.1_ASM2654v1_genomic.fna',
     ROOT_DIR + '/Data/test_genomes/GCA_000091005.1_ASM9100v1_genomic.fna']
 
-TEST_QUERIES = [definitions.SEROTYPE_FILE, definitions.VF_FILE]
-
 TEST_DB = ROOT_DIR + '/Data/test_blastdb/ectyper_blastdb'
 TEMP_DB = '/tmp/ectyper_blastdb'
 

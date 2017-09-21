@@ -182,6 +182,7 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                         blast_result_dict[gene]
 
         # final prediction now that we have a dictionary of parsed results
+    result_handle.close()
     return parsing_dict['predictor'](results_dict)
 
 

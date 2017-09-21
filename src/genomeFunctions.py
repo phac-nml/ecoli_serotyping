@@ -179,10 +179,13 @@ def get_parsing_dict(ptype):
         # We will attach the JSON of known fasta headers and alleles to
         # a 'data' key in the parsing dictionary.
         json_handle = open(definitions.SEROTYPE_ALLELE_JSON, 'r')
-        return{'parser':src.serotypePrediction.parse_serotype,
-               'predictor':src.serotypePrediction.predict_serotype,
-               'data':json.load(json_handle),
-               'type':'serotype'}
+        parsing_dict = {
+            'parser':src.serotypePrediction.parse_serotype,
+            'predictor':src.serotypePrediction.predict_serotype,
+            'data':json.load(json_handle),
+            'type':'serotype'}
+        json_handle.close()
+        return parsing_dict
     else:
         log.error("No parsing dictionary assigned for {0}".format(ptype))
         exit(1)

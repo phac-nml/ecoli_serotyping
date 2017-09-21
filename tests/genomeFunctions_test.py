@@ -1,6 +1,5 @@
 import src.genomeFunctions
 import src.serotypePrediction
-import src.virulencePrediction
 import definitions
 import os
 
@@ -26,9 +25,7 @@ TEST_HEADERS = [
     'AP010953.1 Escherichia coli O26:H11 str. 11368 DNA, complete genome']
 
 TEST_DICT_LIST = [{'parser': src.serotypePrediction.parse_serotype,
-                   'predictor': src.serotypePrediction.predict_serotype},
-                  {'parser': src.virulencePrediction.parse_virulence_factors,
-                   'predictor': src.virulencePrediction.predict_virulence_factors}]
+                   'predictor': src.serotypePrediction.predict_serotype}]
 
 CONST_CSV = False
 CONST_INPUT = 'filename'
