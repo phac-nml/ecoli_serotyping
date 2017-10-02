@@ -8,30 +8,35 @@ import logging
 import tempfile
 import os
 
+LOG = logging.getLogger(__name__)
 
-def initialize_logging():
-    """
-    Set up the screen and file logging.
-    
-    :return: The log filename 
-    """
-
-    # set up DEBUG logging to file, INFO logging to STDERR
-    log_file = os.path.join(tempfile.gettempdir(), 'ectyper.log')
-
-    formatter = logging.Formatter(
-        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-    # set up logging to file - see previous section for more details
+def initialize_logging(log_file='default.log'):
+    '''
+    setup logging to stream INFO log to console
+    and ALL log to log_file
+    :param
+        log_file (str): log filename [optional]
+    :return
+        Log filename
+    '''
     logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                        datefmt='%m-%d %H:%M',
+                        format='%(asctime)s.%(msecs)02d %(name)-20s %(levelname)-8s %(message)s',
+                        datefmt='%y-%m-%d %H:%M:%S',
                         filename=log_file,
                         filemode='w')
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
-    console.setFormatter(formatter)
     console.setLevel(logging.INFO)
+    # set a format which is simpler for console use
+    formatter = logging.Formatter(
+        fmt='%(name)-20s: %(levelname)-8s %(message)s',
+        datefmt='%H:%M:%S'
+    )
+    # tell the handler to use this format
+    console.setFormatter(formatter)
     # add the handler to the root logger
     logging.getLogger('').addHandler(console)
 
+    # Now, we can log to the root logger, or any other logger. First the root...
+    LOG.info('Logger initialized.')
     return log_file

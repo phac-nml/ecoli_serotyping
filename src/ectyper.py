@@ -39,8 +39,8 @@ def run_program():
     args = src.commandLineOptions.parse_command_line()
     log.debug(args)
 
-    # run none / one / both of serotyper and vffinder
-    query_file = None
+    # use serotype sequence from `More Serotype`
+    query_file = definitions.SEROTYPE_FILE
 
     raw_genome_files = None
 
@@ -75,7 +75,7 @@ def run_program():
     serotype_parsed_results = None
     if args.serotyper:
         serotype_output_file = \
-            src.blastFunctions.run_blast(definitions.SEROTYPE_FILE, blast_db)
+            src.blastFunctions.run_blast(query_file, blast_db)
         serotype_parsed_results = \
             src.blastFunctions.parse_blast_results(
                 args,
