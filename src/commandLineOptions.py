@@ -20,12 +20,6 @@ def parse_command_line():
         required=True)
 
     parser.add_argument(
-        "-s",
-        "--serotyper",
-        action="store_true",
-        help="Trigger the use of the E. coli serotyper.")
-
-    parser.add_argument(
         "-d",
         "--percentIdentity",
         type=int,
@@ -42,14 +36,6 @@ def parse_command_line():
                   database. From 0 to 100, default is 90%.",
         default=90,
         choices=range(1, 101))
-
-    parser.add_argument(
-        "-m",
-        "--minimumGenomes",
-        type=int,
-        help="Minimum number of genomes threshold for a \
-                  virulence factor. Default is 1.",
-        default=1)
 
     parser.add_argument(
         "-t",

@@ -73,15 +73,15 @@ def run_program():
     blast_db = src.blastFunctions.create_blast_db(all_genomes_files)
 
     serotype_parsed_results = None
-    if args.serotyper:
-        serotype_output_file = \
-            src.blastFunctions.run_blast(query_file, blast_db)
-        serotype_parsed_results = \
-            src.blastFunctions.parse_blast_results(
-                args,
-                serotype_output_file,
-                src.genomeFunctions.get_parsing_dict('serotype')
-            )
+    
+    serotype_output_file = \
+        src.blastFunctions.run_blast(query_file, blast_db)
+    serotype_parsed_results = \
+        src.blastFunctions.parse_blast_results(
+            args,
+            serotype_output_file,
+            src.genomeFunctions.get_parsing_dict('serotype')
+        )
 
     parsed_results = None
     if serotype_parsed_results:
