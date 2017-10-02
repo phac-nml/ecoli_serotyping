@@ -10,6 +10,7 @@ import Bio.SeqIO
 
 import definitions
 import src.serotypePrediction
+import src.subprocess_util
 
 log = logging.getLogger(__name__)
 
@@ -189,3 +190,75 @@ def get_parsing_dict(ptype):
     else:
         log.error("No parsing dictionary assigned for {0}".format(ptype))
         exit(1)
+
+def assemble_reads(reads, reference, output=None, temp=True):
+    '''
+    Assemble short reads by mapping to a reference genome
+    Default output is the same as reads file
+        basename+'.fasta'
+    :param
+        reads (str): FASTQ/FQ format reads file
+        reference (str): FASTA format reference file
+        output (str): [optional] prefix of FASTA output
+        temp (bool): [optional] use temporary file for
+            intermediate steps
+    :return
+        str: FASTA output file
+    '''
+
+    if output is None:
+        output = os.path.join(
+            os.path.split(reads)[0],
+            os.path.splitext(os.path.basename(reads))[0]+'.fasta'
+        )
+
+    temp_dir = "temp"
+    if not os.path.exists(temp_dir):
+        os.mkdir(temp_dir)
+    if temp is True:
+        temp_dir = tempfile.gettempdir()
+
+    cmd1 = [
+        'bowtie2-build',
+        reference,
+        os.path.join(temp_dir, 'index')
+    ]
+    src.subprocess_util.run_subprocess(cmd1)
+
+    cmd2 = [
+        'bowtie2',
+        '-x', os.path.join(temp_dir, 'index'),
+        '-U', reads,
+        '-S', os.path.join(temp_dir, 'reads.sam')
+    ]
+    src.subprocess_util.run_subprocess(cmd2)
+
+    cmd3 = [
+        'samtools', 'view',
+        '-bS', os.path.join(temp_dir, 'reads.sam'),
+        '>',
+        os.path.join(temp_dir, 'reads.bam')
+    ]
+    src.subprocess_util.run_subprocess(' '.join(cmd3), shell=True)
+    cmd4 = [
+        'samtools', 'sort',
+        os.path.join(temp_dir, 'reads.bam'),
+        '-o', os.path.join(temp_dir, 'reads.sorted.bam'),
+    ]
+    src.subprocess_util.run_subprocess(cmd4)
+
+    shell_cmd = [
+        'samtools mpileup -uf', # mpileup
+        reference,
+        os.path.join(temp_dir, 'reads.sorted.bam'),
+        '|',
+        'bcftools call -c', # variant calling
+        '|',
+        'vcfutils.pl vcf2fq', # vcf to fq
+        '|',
+        'seqtk seq -A -', # fq to fasta
+        '>',
+        output
+    ]
+    src.subprocess_util.run_subprocess(' '.join(shell_cmd), shell=True)
+    return output

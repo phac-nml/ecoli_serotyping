@@ -6,10 +6,10 @@ Functions for setting up, running, and parsing blast
 import collections
 import logging
 import os
-import subprocess
 import tempfile
 
 import src.genomeFunctions
+import src.subprocess_util
 
 log = logging.getLogger(__name__)
 
@@ -55,24 +55,15 @@ def create_blast_db(filelist):
     blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
 
     log.debug("Generating the blast db at %s", blast_db_path)
-    completed_process = subprocess.run(["makeblastdb",
-                                        "-in", ' '.join(filelist),
-                                        "-dbtype", "nucl",
-                                        "-title", "ectyper_blastdb",
-                                        "-out", blast_db_path],
-                                       check=True,
-                                       universal_newlines=True,
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE)
+    cmd = [
+        "makeblastdb",
+        "-in", ' '.join(filelist),
+        "-dbtype", "nucl",
+        "-title", "ectyper_blastdb",
+        "-out", blast_db_path]
+    src.subprocess_util.run_subprocess(cmd)
 
-    if completed_process.returncode == 0:
-        log.debug("Output from makeblastdb:")
-        log.debug(completed_process.stdout)
-        log.debug(completed_process.stderr)
-        return blast_db_path
-    else:
-        log.fatal("makeblastdb was unable to successfully run.\n%s",
-                  completed_process.stderr)
+    return blast_db_path
 
 
 def run_blast(query_file, blast_db):
@@ -89,28 +80,18 @@ def run_blast(query_file, blast_db):
 
     blast_output_file = blast_db + '.output'
 
-    completed_process = \
-        subprocess.run(["blastn",
-                        "-query", query_file,
-                        "-db", blast_db,
-                        "-out", blast_output_file,
-                        "-outfmt",
-                        '6 " qseqid qlen sseqid length pident sstart send sframe "',
-                        "-word_size", "11"],
-                       check=True,
-                       universal_newlines=True,
-                       stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE
-                      )
-    if completed_process.returncode == 0:
-        log.debug("Output from blastn:")
-        log.debug(completed_process.stdout)
-        log.debug(completed_process.stderr)
-        return blast_output_file
-    else:
-        log.fatal("blastn did not run successfully.\n%s",
-                  completed_process.stderr)
-        exit(1)
+    cmd = [
+        "blastn",
+        "-query", query_file,
+        "-db", blast_db,
+        "-out", blast_output_file,
+        "-outfmt",
+        '6 " qseqid qlen sseqid length pident sstart send sframe "',
+        "-word_size", "11"
+    ]
+    src.subprocess_util.run_subprocess(cmd)
+
+    return blast_output_file
 
 
 def parse_blast_results(args, blast_results_file, parsing_dict):
