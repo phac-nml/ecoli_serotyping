@@ -1,5 +1,5 @@
 # ECTyper (an easy typer)
-The `ectyper` wraps a standalone serotyping module. 
+The `ectyper` wraps a standalone serotyping module. Support FASTA and FASTQ format
 
 # Contents
 [Dependencies](#Dependencies)
@@ -11,5 +11,7 @@ The `ectyper` wraps a standalone serotyping module.
 * SAMtools (v0.1.19 or later)
 
 
-# Basic usage - Illumina Reads
-* hello
+# Basic usage
+1. Put all you fasta/fastq file in one folder
+1. sudo python3 bin/ectyper -i dir_path
+1. View result on console

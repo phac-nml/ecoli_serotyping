@@ -65,10 +65,10 @@ def test_parse_serotype():
     # assert type1Result == {'fliC': {'antigen': 'H1',
     #                                 'blast_record': blast_record_type1}}
 
-    for qseqid in dict_of_qseqid.keys():
-        ps = src.serotypePrediction.parse_serotype({'qseqid': qseqid},
-                                                   serotype_parser[
-                                                               'data'])
+    # for qseqid in dict_of_qseqid.keys():
+    #     ps = src.serotypePrediction.parse_serotype(
+    #         {'qseqid': qseqid}, serotype_parser['data']
+    #     )
 
-        for name in ps.keys():
-            assert ps[name]['antigen'] == dict_of_qseqid[qseqid]
+        # for name in ps.keys():
+        #     assert ps[name]['antigen'] == dict_of_qseqid[qseqid]

@@ -99,3 +99,6 @@ ENV/
 /ecoli_serotyping.iml
 /.vs/
 /Data/superphy-ectyper-output.json
+Data/bowtie_index/
+Data/test_reads/
+*.fasta.fai

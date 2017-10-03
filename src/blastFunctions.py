@@ -66,7 +66,7 @@ def create_blast_db(filelist):
     return blast_db_path
 
 
-def run_blast(query_file, blast_db):
+def run_blast(query_file, blast_db, percent_identity=97):
     """
     Execute a blastn run given the query files and blastdb
 
@@ -85,6 +85,7 @@ def run_blast(query_file, blast_db):
         "-query", query_file,
         "-db", blast_db,
         "-out", blast_output_file,
+        '-perc_identity', str(percent_identity),
         "-outfmt",
         '6 " qseqid qlen sseqid length pident sstart send sframe "',
         "-word_size", "11"
@@ -153,8 +154,10 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
             for gene in blast_result_dict.keys():
                 if gene in results_dict[genome_name][parsing_dict['type']]:
                     # test to see whether the gene is a better match
-                    if new_result_is_better(blast_result_dict[gene], results_dict[
-                        genome_name][parsing_dict['type']][gene]):
+                    if new_result_is_better(
+                        blast_result_dict[gene], results_dict[
+                        genome_name][parsing_dict['type']][gene]
+                    ):
                         results_dict[genome_name][parsing_dict['type']][gene]\
                         = \
                         blast_result_dict[gene]

@@ -5,21 +5,19 @@
     Currently includes serotyping and VF finding.
 """
 
+import csv
+import json
 import logging
+import sys
+
 import definitions
 import src.blastFunctions
 import src.commandLineOptions
 import src.genomeFunctions
 import src.loggingFunctions
 import src.resultsToTable
-import src.shortReads
-import json
-import csv
-import sys
 
-
-log_file = src.loggingFunctions.initialize_logging()
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def run_program():
@@ -34,69 +32,84 @@ def run_program():
     :return: success or failure
 
     """
-
-    log.info("Starting ectyper. Logfile is: " + str(log_file))
+    src.loggingFunctions.initialize_logging()
     args = src.commandLineOptions.parse_command_line()
-    log.debug(args)
+    LOG.debug(args)
 
     # use serotype sequence from `More Serotype`
     query_file = definitions.SEROTYPE_FILE
 
-    raw_genome_files = None
+    LOG.info("Gathering genome files")
+    raw_genome_files = src.genomeFunctions.get_files_as_list(args.input)
+    LOG.debug(raw_genome_files)
 
-    if args.reads:
-        log.info("Gathering genome file names")
-        raw_reads_files = src.genomeFunctions.get_files_as_list(args.input)
-        log.debug(raw_reads_files)
-        _raw_genome_files = []
-        # the line below only need to be run once to generate index file for serotyped allele
-        # src.shortReads.build_bowtie_index(definitions.SEROTYPE_FILE)
-        for raw_reads_file in raw_reads_files:
-            # create a fasta file for each of them
-            sam_file = src.shortReads.align_reads(raw_reads_file)
-            fasta_file = src.shortReads.samToFasta(sam_file)
-            _raw_genome_files.append(fasta_file)
-        raw_genome_files = _raw_genome_files
-    else:
-        log.info("Gathering genome file names")
-        raw_genome_files = src.genomeFunctions.get_files_as_list(args.input)
-        log.debug(raw_genome_files)
+    LOG.info("Filter genome files based on format")
+    raw_fasta_files = []
+    raw_fastq_files = []
+    for file in raw_genome_files:
+        file_format = src.genomeFunctions.get_valid_format(file)
+        if file_format == 'fasta':
+            raw_fasta_files.append(file)
+        elif file_format == 'fastq':
+            raw_fastq_files.append(file)
+    LOG.debug('raw fasta files: %s', str(raw_fasta_files))
+    LOG.debug('raw fastq files: %s', str(raw_fastq_files))
 
-    log.info("Gathering genome names from files")
-    (all_genomes_list,
-     all_genomes_files) = src.genomeFunctions.get_genome_names_from_files(
-        raw_genome_files)
-    log.debug(all_genomes_list)
-    log.debug(all_genomes_files)
+    LOG.info("Filter non-ecoli genome files")
+    final_fasta_files = []
+    for file in raw_fasta_files:
+        if src.genomeFunctions.is_ecoli_genome(file, args):
+            final_fasta_files.append(file)
+    final_fastq_files = []
+    for file in raw_fastq_files:
+        if src.genomeFunctions.is_ecoli_genome(file, args, True):
+            final_fastq_files.append(file)
 
-    log.info("Creating blast database")
+    LOG.debug('Final fasta files: %s', str(final_fasta_files))
+    LOG.debug('Final fastq files: %s', str(final_fastq_files))
+
+    if final_fastq_files != []:
+        LOG.info("Assemble reads files by mapping to query file")
+        for file in final_fastq_files:
+            assemble = \
+                src.genomeFunctions.assemble_reads(file, query_file)
+            final_fasta_files.append(assemble)
+    
+    LOG.info('Final fasta files: %s', str(final_fasta_files))
+
+    if final_fasta_files == []:
+        LOG.info("No valid genome file. Terminating the program.")
+        exit(1)
+
+    LOG.info("Gathering genome names from files")
+    (all_genomes_list, all_genomes_files) = \
+        src.genomeFunctions.get_genome_names_from_files(final_fasta_files)
+    LOG.debug(all_genomes_list)
+    LOG.debug(all_genomes_files)
+
+    LOG.info("Creating blast database")
     blast_db = src.blastFunctions.create_blast_db(all_genomes_files)
 
-    serotype_parsed_results = None
-    
     serotype_output_file = \
-        src.blastFunctions.run_blast(query_file, blast_db)
-    serotype_parsed_results = \
+        src.blastFunctions.run_blast(query_file, blast_db, args.percentIdentity)
+    parsed_results = \
         src.blastFunctions.parse_blast_results(
             args,
             serotype_output_file,
             src.genomeFunctions.get_parsing_dict('serotype')
         )
 
-    parsed_results = None
-    if serotype_parsed_results:
-        parsed_results = serotype_parsed_results
-
-    #print the requested format
     if args.tabular:
-        log.info("Printing results in tabular format")
+        LOG.info("Printing results in tabular format")
 
         writer = csv.writer(sys.stdout, delimiter="\t")
-        writer.writerows(src.resultsToTable.results_dict_to_table(all_genomes_files
-                                                                  ,all_genomes_list
-                                                                  ,parsed_results))
+        writer.writerows(
+            src.resultsToTable.results_dict_to_table(
+                all_genomes_files,
+                all_genomes_list,
+                parsed_results))
     else:
-        log.info("Printing results in JSON format")
+        LOG.info("Printing results in JSON format")
         print(json.dumps(parsed_results, indent=4, separators=(',', ': ')))
 
-    log.info("Done")
+    LOG.info("Done")

@@ -1,3 +1,6 @@
+'''
+Genome Utilities
+'''
 #!/usr/bin/env python
 
 import json
@@ -6,6 +9,7 @@ import os
 import re
 import tempfile
 
+import Bio
 import Bio.SeqIO
 
 import definitions
@@ -41,30 +45,34 @@ def get_files_as_list(file_or_directory):
         log.info("Using genomes in file " + file_or_directory)
         files_list.append(os.path.abspath(file_or_directory))
 
-    # check that all are valid fasta files
-    # if not, exclude with warning
-    validated_files_list = validate_fasta_files(files_list)
-
-    return sorted(validated_files_list)
+    return sorted(files_list)
 
 
-def validate_fasta_files(files):
+def get_valid_format(file):
     """
-    Check using Bio.SeqIO if files are valid fasta format.
+    Check using Bio.SeqIO if files are valid fasta/fastq format.
+    Then return the format.
 
-    :param files: full path of all files
-    :return: a list of all files that pass
+    Args:
+        file (str): path of file
+    
+    Returns:
+        fmt (str): 'fasta', 'fastq', or ''
     """
-
-    validated_files = []
-    for file in files:
-        for _ in Bio.SeqIO.parse(file, "fasta"):
-            log.debug("%s is a valid fasta file", file)
-            validated_files.append(file)
-
-            break
-
-    return validated_files
+    file_format = os.path.splitext(file)[1][1:]
+    valid_fasta_formats = ['fna', 'fa', 'fasta']
+    valid_fastq_formats = ['fq', 'fastq']
+    if file_format in valid_fasta_formats:
+        file_format = 'fasta'
+    elif file_format in valid_fastq_formats:
+        file_format = 'fastq'
+    else:
+        return ''
+    for _ in Bio.SeqIO.parse(file, file_format):
+        log.info("%s is a valid %s format file", file, file_format)
+        return file_format
+    log.info("%s is not a valid %s format file", file, file_format)
+    return ''
 
 
 def get_genome_names_from_files(files):
@@ -89,7 +97,9 @@ def get_genome_names_from_files(files):
         # as the genome name. This means we also need to create a new file adding
         # the filename to each of the headers, so that downstream applications
         # (eg. BLAST) can be used with the filename as genome name.
-
+        if header == '':
+            log.fatal('No header for %s', file)
+            exit(1)
         if header == genome_name:
             # get only the name of the file for use in the fasta header
             file_path_name = os.path.splitext(os.path.basename(file))
@@ -191,26 +201,22 @@ def get_parsing_dict(ptype):
         log.error("No parsing dictionary assigned for {0}".format(ptype))
         exit(1)
 
-def assemble_reads(reads, reference, output=None, temp=True):
+def assemble_reads(reads, reference, output=None, temp=False):
     '''
-    Assemble short reads by mapping to a reference genome
-    Default output is the same as reads file
-        basename+'.fasta'
-    :param
+    Return path to assembled reads.
+    Assemble short reads by mapping to a reference genome.
+    Default output is the same as reads file (basename+'.fasta').
+
+    Args:
         reads (str): FASTQ/FQ format reads file
         reference (str): FASTA format reference file
         output (str): [optional] prefix of FASTA output
         temp (bool): [optional] use temporary file for
             intermediate steps
-    :return
+
+    Returns:
         str: FASTA output file
     '''
-
-    if output is None:
-        output = os.path.join(
-            os.path.split(reads)[0],
-            os.path.splitext(os.path.basename(reads))[0]+'.fasta'
-        )
 
     temp_dir = "temp"
     if not os.path.exists(temp_dir):
@@ -218,37 +224,57 @@ def assemble_reads(reads, reference, output=None, temp=True):
     if temp is True:
         temp_dir = tempfile.gettempdir()
 
-    cmd1 = [
-        'bowtie2-build',
-        reference,
-        os.path.join(temp_dir, 'index')
-    ]
-    src.subprocess_util.run_subprocess(cmd1)
+    if output is None:
+        output = os.path.join(
+            temp_dir,
+            os.path.splitext(os.path.basename(reads))[0]+'.fasta'
+        )
+
+    # run once if directory does not exist
+    index_path = \
+        os.path.join(
+            definitions.DATA_DIR,
+            'bowtie_index',
+            os.path.splitext(os.path.basename(reference))[0],
+            'index'
+        )
+    index_dir = os.path.split(index_path)[0]
+    if not os.path.exists(index_dir):
+        os.makedirs(index_dir)
+        cmd1 = [
+            'bowtie2-build',
+            reference,
+            index_path
+        ]
+        src.subprocess_util.run_subprocess(cmd1)
 
     cmd2 = [
         'bowtie2',
-        '-x', os.path.join(temp_dir, 'index'),
+        '--score-min L,1,-0.5',
+        '--np 5',
+        '-x', index_path,
         '-U', reads,
         '-S', os.path.join(temp_dir, 'reads.sam')
     ]
     src.subprocess_util.run_subprocess(cmd2)
 
     cmd3 = [
-        'samtools', 'view',
+        definitions.SAMTOOLS, 'view',
+        '-F 4',
+        '-q 1',
         '-bS', os.path.join(temp_dir, 'reads.sam'),
-        '>',
-        os.path.join(temp_dir, 'reads.bam')
+        '-o', os.path.join(temp_dir, 'reads.bam')
     ]
-    src.subprocess_util.run_subprocess(' '.join(cmd3), shell=True)
+    src.subprocess_util.run_subprocess(cmd3)
     cmd4 = [
-        'samtools', 'sort',
+        definitions.SAMTOOLS, 'sort',
         os.path.join(temp_dir, 'reads.bam'),
         '-o', os.path.join(temp_dir, 'reads.sorted.bam'),
     ]
     src.subprocess_util.run_subprocess(cmd4)
 
     shell_cmd = [
-        'samtools mpileup -uf', # mpileup
+        definitions.SAMTOOLS+' mpileup -uf', # mpileup
         reference,
         os.path.join(temp_dir, 'reads.sorted.bam'),
         '|',
@@ -260,5 +286,61 @@ def assemble_reads(reads, reference, output=None, temp=True):
         '>',
         output
     ]
-    src.subprocess_util.run_subprocess(' '.join(shell_cmd), shell=True)
+    src.subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
     return output
+
+def is_ecoli_genome(file, args, is_reads=False):
+    '''
+    Return True if file is classified as ecoli by ecoli markers, otherwise False
+
+    Args:
+        file (str): path to valid fasta/fastq genome file
+        is_reads (bool): whether file is a fastq reads file [optional]
+        args (Arguments): console arguments
+
+    Returns:
+        bool: output
+    '''
+    if is_reads:
+        mapped_file = src.genomeFunctions.assemble_reads(file, definitions.ECOLI_MARKERS)
+        num_hit = get_num_of_fasta_entry(mapped_file)
+        log.debug("%s mapped to %d marker sequences", file, num_hit)
+        if num_hit < 3:
+            log.info("%s is not a valid e.coli genome file", file)
+            return False
+    else:
+        blast_db = src.blastFunctions.create_blast_db([file])
+        result = src.blastFunctions.run_blast(
+            definitions.ECOLI_MARKERS,
+            blast_db,
+            args.percentIdentity
+        )
+        temp_dict = {}
+        with open(result) as handler:
+            for line in handler:
+                clean_line = line.strip()
+                la = clean_line.split()
+                temp_dict[la[0]] = True
+        num_hit = len(temp_dict)
+        log.debug("%s aligned to %d marker sequences", file, num_hit)
+        if num_hit < 3:
+            log.info("%s is not a valid e.coli genome file", file)
+            return False
+
+    log.info("%s is a valid e.coli genome file", file)
+    return True
+
+def get_num_of_fasta_entry(file):
+    '''
+    Return number of entries in a fasta file
+
+    Args:
+        file(str): path to fasta file
+
+    Returns:
+        int: number of entries
+    '''
+    count = 0
+    for _ in Bio.SeqIO.parse(file, 'fasta'):
+        count+=1
+    return count
