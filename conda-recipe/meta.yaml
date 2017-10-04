@@ -1,0 +1,20 @@
+packagpackage:
+    name: ectyper
+    version: 0.0.1
+
+requirements:
+    build:
+        - samtools {{CONDA_HTSLIB}}*
+        - bcftools {{CONDA_HTSLIB}}*
+        - python
+        - setuptools
+
+    run:
+        - samtools {{CONDA_HTSLIB}}*
+        - bcftools {{CONDA_HTSLIB}}*
+        - python
+        - setuptools
+
+about:
+    license: MIT
+    summary: "Ectyper is a python script for serotyping e.coli genome."

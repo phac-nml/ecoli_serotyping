@@ -1,0 +1,7510 @@
+{
+    "H": {
+        "H5-12": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H29-6": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H12-5": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H27-14": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H6-1": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H1-10": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H49-7": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H6-11": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H30-7": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H42-2": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H32-1": {
+            "gene": "fliC",
+            "allele": "H32"
+        },
+        "H16-23": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H16-37": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H19-8": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H30-5": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H16-27": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-20": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H56-4": {
+            "gene": "fliC",
+            "allele": "H56"
+        },
+        "H44-4": {
+            "gene": "fllA",
+            "allele": "H44"
+        },
+        "H10-13": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H10-3": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H7-6": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H35-1": {
+            "gene": "flkA",
+            "allele": "H35"
+        },
+        "H12-7": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H6-22": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H4-30": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H44-2": {
+            "gene": "fllA",
+            "allele": "H44"
+        },
+        "H11-18": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H9-11": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H27-2": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H12-35": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H16-8": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H11-10": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H34-1": {
+            "gene": "fliC",
+            "allele": "H34"
+        },
+        "H42-1": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H10-2": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H20-1": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H43-1": {
+            "gene": "fliC",
+            "allele": "H43"
+        },
+        "H44-3": {
+            "gene": "fllA",
+            "allele": "H44"
+        },
+        "H28-5": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H26-9": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H40-7": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H16-29": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H43-2": {
+            "gene": "fliC",
+            "allele": "H43"
+        },
+        "H10-31": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H10-19": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H7-17": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H42-12": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H17-5": {
+            "gene": "fliC",
+            "allele": "H17"
+        },
+        "H11-21": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H16-40": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H16-25": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H11-16": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H4-12": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H9-8": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H1-1": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H51-4": {
+            "gene": "fliC",
+            "allele": "H51"
+        },
+        "H4-34": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H4-18": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H12-31": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H11-20": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H16-15": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H16-14": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H52-3": {
+            "gene": "fliC",
+            "allele": "H52"
+        },
+        "H8-2": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H30-2": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H46-5": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H28-7": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H12-28": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H7-28": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H18-4": {
+            "gene": "fliC",
+            "allele": "H18"
+        },
+        "H25-2": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H38-4": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H4-24": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H16-3": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-29": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H6-5": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H12-3": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H6-10": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H12-10": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H16-39": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H19-5": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H51-5": {
+            "gene": "fliC",
+            "allele": "H51"
+        },
+        "H16-24": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H1-11": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H21-20": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H25-6": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H7-12": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H27-8": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H44-1": {
+            "gene": "fllA",
+            "allele": "H44"
+        },
+        "H21-4": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H4-9": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H16-33": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H2-14": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H48-1": {
+            "gene": "fliC",
+            "allele": "H48"
+        },
+        "H27-15": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H27-1": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H38-12": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H11-3": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H56-5": {
+            "gene": "fliC",
+            "allele": "H56"
+        },
+        "H36-3": {
+            "gene": "flkA",
+            "allele": "H36"
+        },
+        "H4-29": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H11-19": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H40-4": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H38-15": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H31-2": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H15-1": {
+            "gene": "fliC",
+            "allele": "H15"
+        },
+        "H42-15": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H45-12": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H1-3": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H14-2": {
+            "gene": "fliC",
+            "allele": "H14"
+        },
+        "H16-17": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H16-13": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H16-16": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H11-5": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H6-21": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H4-16": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H2-3": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H30-4": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H1-6": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H42-5": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H2-10": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H3-3": {
+            "gene": "flkA",
+            "allele": "H3"
+        },
+        "H31-8": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H4-22": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H19-7": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H38-7": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H16-11": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-2": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H1-12": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H19-27": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H4-19": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H6-7": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H11-15": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H45-1": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H14-4": {
+            "gene": "fliC",
+            "allele": "H14"
+        },
+        "H19-12": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H45-13": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H40-2": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H12-4": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H10-18": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H25-10": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H9-17": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H7-23": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H46-1": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H16-30": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-34": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H42-7": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H25-4": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H10-8": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H1-7": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H37-3": {
+            "gene": "fliC",
+            "allele": "H37"
+        },
+        "H28-2": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H31-10": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H6-9": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H28-6": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H1-4": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H20-7": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H16-7": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H20-10": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H55-2": {
+            "gene": "fllA",
+            "allele": "H55"
+        },
+        "H10-9": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H38-8": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H5-6": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H11-14": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H19-11": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H45-9": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H38-9": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H9-7": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H3-2": {
+            "gene": "flkA",
+            "allele": "H3"
+        },
+        "H7-5": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H28-3": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H9-12": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H14-3": {
+            "gene": "fliC",
+            "allele": "H14"
+        },
+        "H10-22": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H32-4": {
+            "gene": "fliC",
+            "allele": "H32"
+        },
+        "H34-2": {
+            "gene": "fliC",
+            "allele": "H34"
+        },
+        "H25-13": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H10-30": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H12-30": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H45-6": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H39-1": {
+            "gene": "fliC",
+            "allele": "H39"
+        },
+        "H4-4": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H25-9": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H12-32": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H4-2": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H10-17": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H1-9": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H12-22": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H21-3": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H4-26": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H20-2": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H16-21": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H4-33": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H11-13": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H17-6": {
+            "gene": "fliC",
+            "allele": "H17"
+        },
+        "H11-17": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H25-8": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H20-9": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H2-5": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H42-11": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H24-2": {
+            "gene": "fliC",
+            "allele": "H24"
+        },
+        "H8-4": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H7-14": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H21-13": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H21-5": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H16-20": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H31-6": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H54-1": {
+            "gene": "flmA",
+            "allele": "H54"
+        },
+        "H37-1": {
+            "gene": "fliC",
+            "allele": "H37"
+        },
+        "H28-10": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H4-13": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H54-2": {
+            "gene": "flmA",
+            "allele": "H54"
+        },
+        "H7-8": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H11-6": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H27-12": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H21-18": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H11-4": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H4-6": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H10-25": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H12-18": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H4-5": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H9-6": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H21-15": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H19-9": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H21-16": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H42-10": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H7-16": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H7-30": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H25-17": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H10-14": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H11-7": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H10-11": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H41-1": {
+            "gene": "fliC",
+            "allele": "H41"
+        },
+        "H52-2": {
+            "gene": "fliC",
+            "allele": "H52"
+        },
+        "H9-10": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H29-5": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H4-1": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H34-4": {
+            "gene": "fliC",
+            "allele": "H34"
+        },
+        "H4-21": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H40-5": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H25-15": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H4-27": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H7-29": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H7-27": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H4-36": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H12-25": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H5-9": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H4-7": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H7-13": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H20-6": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H27-13": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H36-2": {
+            "gene": "flkA",
+            "allele": "H36"
+        },
+        "H19-29": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H2-4": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H30-1": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H19-1": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H6-2": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H19-6": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H1-5": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H42-14": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H53-2": {
+            "gene": "flkA",
+            "allele": "H53"
+        },
+        "H12-21": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H16-12": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H4-14": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H26-5": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H12-1": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H7-22": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H11-25": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H11-1": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H19-20": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H24-1": {
+            "gene": "fliC",
+            "allele": "H24"
+        },
+        "H56-2": {
+            "gene": "fliC",
+            "allele": "H56"
+        },
+        "H18-3": {
+            "gene": "fliC",
+            "allele": "H18"
+        },
+        "H38-2": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H9-15": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H16-36": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-19": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H12-15": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H19-19": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H21-6": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H17-3": {
+            "gene": "fliC",
+            "allele": "H17"
+        },
+        "H31-1": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H4-11": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H2-18": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H7-20": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H45-15": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H42-6": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H8-5": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H40-3": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H12-9": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H1-13": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H26-11": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H14-5": {
+            "gene": "fliC",
+            "allele": "H14"
+        },
+        "H42-4": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H10-15": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H15-3": {
+            "gene": "fliC",
+            "allele": "H15"
+        },
+        "H4-15": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H51-1": {
+            "gene": "fliC",
+            "allele": "H51"
+        },
+        "H1-8": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H5-14": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H19-23": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H4-23": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H19-3": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H2-13": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H10-29": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H27-10": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H38-3": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H2-24": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H26-2": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H9-4": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H45-7": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H11-24": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H10-20": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H9-1": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H6-15": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H10-10": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H49-2": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H41-2": {
+            "gene": "fliC",
+            "allele": "H41"
+        },
+        "H25-7": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H30-6": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H8-7": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H18-1": {
+            "gene": "fliC",
+            "allele": "H18"
+        },
+        "H48-4": {
+            "gene": "fliC",
+            "allele": "H48"
+        },
+        "H10-16": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H6-3": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H21-2": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H19-24": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H23-2": {
+            "gene": "fliC",
+            "allele": "H23"
+        },
+        "H21-14": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H3-1": {
+            "gene": "flkA",
+            "allele": "H3"
+        },
+        "H17-4": {
+            "gene": "fliC",
+            "allele": "H17"
+        },
+        "H51-2": {
+            "gene": "fliC",
+            "allele": "H51"
+        },
+        "H2-21": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H42-9": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H16-32": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H7-11": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H27-9": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H21-7": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H45-14": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H2-2": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H4-10": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H46-4": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H36-1": {
+            "gene": "flkA",
+            "allele": "H36"
+        },
+        "H2-22": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H6-4": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H45-3": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H19-16": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H16-19": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H39-3": {
+            "gene": "fliC",
+            "allele": "H39"
+        },
+        "H10-4": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H16-41": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H11-26": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H49-6": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H2-27": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H25-3": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H2-25": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H40-1": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H4-37": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H14-1": {
+            "gene": "fliC",
+            "allele": "H14"
+        },
+        "H7-7": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H19-22": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H31-7": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H28-8": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H48-3": {
+            "gene": "fliC",
+            "allele": "H48"
+        },
+        "H39-2": {
+            "gene": "fliC",
+            "allele": "H39"
+        },
+        "H34-3": {
+            "gene": "fliC",
+            "allele": "H34"
+        },
+        "H7-10": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H10-21": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H4-8": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H25-1": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H5-13": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H9-2": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H2-20": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H9-3": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H56-1": {
+            "gene": "fliC",
+            "allele": "H56"
+        },
+        "H10-23": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H16-6": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H10-6": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H46-3": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H5-2": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H5-15": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H38-10": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H8-3": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H38-13": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H19-18": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H9-13": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H12-17": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H6-18": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H28-9": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H25-5": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H6-20": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H21-12": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H10-5": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H19-26": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H11-2": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H6-17": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H11-23": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H16-5": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H38-1": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H17-1": {
+            "gene": "flnA",
+            "allele": "H17"
+        },
+        "H12-16": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H1-2": {
+            "gene": "fliC",
+            "allele": "H1"
+        },
+        "H38-5": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H6-8": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H16-34": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H29-1": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H21-9": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H25-11": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H2-19": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H4-39": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H21-11": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H45-10": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H27-16": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H2-26": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H29-7": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H19-2": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H7-3": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H7-2": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H20-8": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H16-4": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-27": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H45-4": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H20-5": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H12-6": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H19-4": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H45-11": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H51-6": {
+            "gene": "fliC",
+            "allele": "H51"
+        },
+        "H45-8": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H10-1": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H27-7": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H11-22": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H52-1": {
+            "gene": "fliC",
+            "allele": "H52"
+        },
+        "H19-28": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H38-16": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H42-8": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H12-11": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H5-5": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H28-4": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H31-3": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H17-2": {
+            "gene": "fliC",
+            "allele": "H17"
+        },
+        "H2-9": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H4-3": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H12-24": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H10-7": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H12-13": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H23-3": {
+            "gene": "fliC",
+            "allele": "H23"
+        },
+        "H33-1": {
+            "gene": "fliC",
+            "allele": "H33"
+        },
+        "H16-28": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H27-6": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H53-1": {
+            "gene": "flkA",
+            "allele": "H53"
+        },
+        "H5-1": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H2-15": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H37-2": {
+            "gene": "fliC",
+            "allele": "H37"
+        },
+        "H46-2": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H54-4": {
+            "gene": "flmA",
+            "allele": "H54"
+        },
+        "H34-5": {
+            "gene": "fliC",
+            "allele": "H34"
+        },
+        "H2-17": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H8-6": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H5-11": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H6-6": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H49-4": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H25-18": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H7-15": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H4-20": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H38-14": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H16-18": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H29-3": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H5-10": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H4-17": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H27-11": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H12-8": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H4-31": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H7-4": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H9-5": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H38-17": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H11-11": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H21-19": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H46-7": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H16-26": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H7-21": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H19-25": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H49-3": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H27-4": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H21-17": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H32-2": {
+            "gene": "fliC",
+            "allele": "H32"
+        },
+        "H40-8": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H6-16": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H16-1": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H55-1": {
+            "gene": "fllA",
+            "allele": "H55"
+        },
+        "H12-12": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H7-18": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H20-3": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H47-1": {
+            "gene": "flkA",
+            "allele": "H47"
+        },
+        "H4-28": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H25-16": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H55-3": {
+            "gene": "fllA",
+            "allele": "H55"
+        },
+        "H16-22": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H46-6": {
+            "gene": "fliC",
+            "allele": "H46"
+        },
+        "H2-11": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H31-9": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H2-12": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H6-14": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H26-6": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H26-8": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H10-24": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H34-6": {
+            "gene": "fliC",
+            "allele": "H34"
+        },
+        "H19-21": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H27-5": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H2-7": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H26-10": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H10-27": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H25-14": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H10-12": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H10-32": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H43-3": {
+            "gene": "fliC",
+            "allele": "H43"
+        },
+        "H16-9": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H19-13": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H15-2": {
+            "gene": "fliC",
+            "allele": "H15"
+        },
+        "H49-5": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H2-6": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H5-3": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H18-2": {
+            "gene": "fliC",
+            "allele": "H18"
+        },
+        "H11-12": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H5-8": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H4-35": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H52-4": {
+            "gene": "fliC",
+            "allele": "H52"
+        },
+        "H11-8": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H7-9": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H38-6": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H28-1": {
+            "gene": "fliC",
+            "allele": "H28"
+        },
+        "H9-16": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H7-1": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H54-3": {
+            "gene": "flmA",
+            "allele": "H54"
+        },
+        "H6-19": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H12-33": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H38-11": {
+            "gene": "fliC",
+            "allele": "H38"
+        },
+        "H32-3": {
+            "gene": "fliC",
+            "allele": "H32"
+        },
+        "H19-10": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H45-2": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H4-40": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H10-28": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H12-23": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H51-3": {
+            "gene": "fliC",
+            "allele": "H51"
+        },
+        "H7-19": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H31-4": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H25-12": {
+            "gene": "fliC",
+            "allele": "H25"
+        },
+        "H42-13": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H47-2": {
+            "gene": "flkA",
+            "allele": "H47"
+        },
+        "H40-6": {
+            "gene": "fliC",
+            "allele": "H40"
+        },
+        "H48-2": {
+            "gene": "fliC",
+            "allele": "H48"
+        },
+        "H42-3": {
+            "gene": "fliC",
+            "allele": "H42"
+        },
+        "H31-5": {
+            "gene": "fliC",
+            "allele": "H31"
+        },
+        "H4-38": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H55-4": {
+            "gene": "fllA",
+            "allele": "H55"
+        },
+        "H12-26": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H16-35": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H21-1": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H45-5": {
+            "gene": "fliC",
+            "allele": "H45"
+        },
+        "H16-2": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H16-10": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H2-1": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H35-2": {
+            "gene": "flkA",
+            "allele": "H35"
+        },
+        "H9-14": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H7-26": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H2-8": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H11-9": {
+            "gene": "fliC",
+            "allele": "H11"
+        },
+        "H2-23": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H26-3": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H21-8": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H27-3": {
+            "gene": "fliC",
+            "allele": "H27"
+        },
+        "H23-1": {
+            "gene": "fliC",
+            "allele": "H23"
+        },
+        "H4-32": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H29-4": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H8-1": {
+            "gene": "fliC",
+            "allele": "H8"
+        },
+        "H9-9": {
+            "gene": "fliC",
+            "allele": "H9"
+        },
+        "H49-8": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H6-13": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H29-2": {
+            "gene": "fliC",
+            "allele": "H29"
+        },
+        "H6-12": {
+            "gene": "fliC",
+            "allele": "H6"
+        },
+        "H10-26": {
+            "gene": "fliC",
+            "allele": "H10"
+        },
+        "H19-15": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H5-4": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H20-4": {
+            "gene": "fliC",
+            "allele": "H20"
+        },
+        "H26-7": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H19-17": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H4-25": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H26-1": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H16-38": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H47-3": {
+            "gene": "flkA",
+            "allele": "H47"
+        },
+        "H23-4": {
+            "gene": "fliC",
+            "allele": "H23"
+        },
+        "H49-1": {
+            "gene": "fliC",
+            "allele": "H49"
+        },
+        "H4-41": {
+            "gene": "fliC",
+            "allele": "H4"
+        },
+        "H19-14": {
+            "gene": "fliC",
+            "allele": "H19"
+        },
+        "H7-25": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H7-24": {
+            "gene": "fliC",
+            "allele": "H7"
+        },
+        "H5-7": {
+            "gene": "fliC",
+            "allele": "H5"
+        },
+        "H16-42": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H21-10": {
+            "gene": "fliC",
+            "allele": "H21"
+        },
+        "H26-4": {
+            "gene": "fliC",
+            "allele": "H26"
+        },
+        "H30-3": {
+            "gene": "fliC",
+            "allele": "H30"
+        },
+        "H56-3": {
+            "gene": "fliC",
+            "allele": "H56"
+        },
+        "H2-16": {
+            "gene": "fliC",
+            "allele": "H2"
+        },
+        "H16-31": {
+            "gene": "fliC",
+            "allele": "H16"
+        },
+        "H12-14": {
+            "gene": "fliC",
+            "allele": "H12"
+        },
+        "H10-33": {
+            "gene": "fliC",
+            "allele": "H10"
+        }
+    },
+    "O": {
+        "O7-3": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O2-1": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O9-20": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O7-13": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O124-4": {
+            "gene": "wzy",
+            "allele": "O124"
+        },
+        "O157-20": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O8-52": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O168-2": {
+            "gene": "wzy",
+            "allele": "O168"
+        },
+        "O167-4": {
+            "gene": "wzy",
+            "allele": "O167"
+        },
+        "O126-12": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O21-5": {
+            "gene": "wzx",
+            "allele": "O21"
+        },
+        "O145-15": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O65-5": {
+            "gene": "wzy",
+            "allele": "O65"
+        },
+        "O86-15": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O156-7": {
+            "gene": "wzy",
+            "allele": "O156"
+        },
+        "O18-15": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O108-5": {
+            "gene": "wzx",
+            "allele": "O108"
+        },
+        "O21-6": {
+            "gene": "wzy",
+            "allele": "O21"
+        },
+        "O178-1": {
+            "gene": "wzx",
+            "allele": "O178"
+        },
+        "O45-17": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O183-2": {
+            "gene": "wzy",
+            "allele": "O183"
+        },
+        "O17-1": {
+            "gene": "wzx",
+            "allele": "O17"
+        },
+        "O16-6": {
+            "gene": "wzy",
+            "allele": "O16"
+        },
+        "O89-4": {
+            "gene": "wzt",
+            "allele": "O89"
+        },
+        "O54-1": {
+            "gene": "wzx",
+            "allele": "O54"
+        },
+        "O40-4": {
+            "gene": "wzy",
+            "allele": "O40"
+        },
+        "O110-4": {
+            "gene": "wzy",
+            "allele": "O110"
+        },
+        "O131-4": {
+            "gene": "wzx",
+            "allele": "O131"
+        },
+        "O11-7": {
+            "gene": "wzy",
+            "allele": "O11"
+        },
+        "O8-42": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O49-3": {
+            "gene": "wzx",
+            "allele": "O49"
+        },
+        "O121-6": {
+            "gene": "wzx",
+            "allele": "O121"
+        },
+        "O70-1": {
+            "gene": "wzx",
+            "allele": "O70"
+        },
+        "O104-20": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O101-2": {
+            "gene": "wzt",
+            "allele": "O101"
+        },
+        "O28-4": {
+            "gene": "wzy",
+            "allele": "O28"
+        },
+        "O22-9": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O35-6": {
+            "gene": "wzy",
+            "allele": "O35"
+        },
+        "O109-3": {
+            "gene": "wzx",
+            "allele": "O109"
+        },
+        "O111-5": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O112-5": {
+            "gene": "wzx",
+            "allele": "O112"
+        },
+        "O7-35": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O150-8": {
+            "gene": "wzy",
+            "allele": "O150"
+        },
+        "O83-9": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O184-3": {
+            "gene": "wzy",
+            "allele": "O184"
+        },
+        "O73-3": {
+            "gene": "wzx",
+            "allele": "O73"
+        },
+        "O8-1": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O7-11": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O28-8": {
+            "gene": "wzy",
+            "allele": "O28"
+        },
+        "O104-10": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O55-5": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O145-10": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O9-10": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O83-3": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O86-6": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O153-7": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O129-8": {
+            "gene": "wzy",
+            "allele": "O129"
+        },
+        "O175-5": {
+            "gene": "wzx",
+            "allele": "O175"
+        },
+        "O2-11": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O36-3": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O109-1": {
+            "gene": "wzx",
+            "allele": "O109"
+        },
+        "O123-4": {
+            "gene": "wzy",
+            "allele": "O123"
+        },
+        "O174-5": {
+            "gene": "wzy",
+            "allele": "O174"
+        },
+        "O153-10": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O88-6": {
+            "gene": "wzy",
+            "allele": "O88"
+        },
+        "O8-19": {
+            "gene": "wzy",
+            "allele": "O8"
+        },
+        "O8-8": {
+            "gene": "wzy",
+            "allele": "O8"
+        },
+        "O7-29": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O8-50": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O104-3": {
+            "gene": "wzy",
+            "allele": "O104"
+        },
+        "O177-6": {
+            "gene": "wzx",
+            "allele": "O177"
+        },
+        "O40-5": {
+            "gene": "wzx",
+            "allele": "O40"
+        },
+        "O96-1": {
+            "gene": "wzx",
+            "allele": "O96"
+        },
+        "O111-8": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O121-1": {
+            "gene": "wzx",
+            "allele": "O121"
+        },
+        "O37-4": {
+            "gene": "wzy",
+            "allele": "O37"
+        },
+        "O11-3": {
+            "gene": "wzx",
+            "allele": "O11"
+        },
+        "O3-2": {
+            "gene": "wzy",
+            "allele": "O3"
+        },
+        "O112-2": {
+            "gene": "wzx",
+            "allele": "O112"
+        },
+        "O18-9": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O22-1": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O177-10": {
+            "gene": "wzy",
+            "allele": "O177"
+        },
+        "O23-2": {
+            "gene": "wzy",
+            "allele": "O23"
+        },
+        "O164-10": {
+            "gene": "wzy",
+            "allele": "O164"
+        },
+        "O151-1": {
+            "gene": "wzy",
+            "allele": "O151"
+        },
+        "O155-1": {
+            "gene": "wzx",
+            "allele": "O155"
+        },
+        "O6-23": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O7-24": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O157-24": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O142-1": {
+            "gene": "wzx",
+            "allele": "O142"
+        },
+        "O109-2": {
+            "gene": "wzy",
+            "allele": "O109"
+        },
+        "O125-8": {
+            "gene": "wzx",
+            "allele": "O125"
+        },
+        "O166-5": {
+            "gene": "wzx",
+            "allele": "O166"
+        },
+        "O145-18": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O128-11": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O6-33": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O125-3": {
+            "gene": "wzx",
+            "allele": "O125"
+        },
+        "O2-17": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O156-4": {
+            "gene": "wzx",
+            "allele": "O156"
+        },
+        "O56-1": {
+            "gene": "wzx",
+            "allele": "O56"
+        },
+        "O128-4": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O62-1": {
+            "gene": "wzx",
+            "allele": "O62"
+        },
+        "O32-4": {
+            "gene": "wzy",
+            "allele": "O32"
+        },
+        "O146-2": {
+            "gene": "wzy",
+            "allele": "O146"
+        },
+        "O175-6": {
+            "gene": "wzy",
+            "allele": "O175"
+        },
+        "O108-8": {
+            "gene": "wzy",
+            "allele": "O108"
+        },
+        "O86-14": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O20-2": {
+            "gene": "wzy",
+            "allele": "O20"
+        },
+        "O174-1": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O118-1": {
+            "gene": "wzx",
+            "allele": "O118"
+        },
+        "O150-6": {
+            "gene": "wzy",
+            "allele": "O150"
+        },
+        "O128-9": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O150-2": {
+            "gene": "wzy",
+            "allele": "O150"
+        },
+        "O48-2": {
+            "gene": "wzy",
+            "allele": "O48"
+        },
+        "O75-5": {
+            "gene": "wzx",
+            "allele": "O75"
+        },
+        "O49-1": {
+            "gene": "wzx",
+            "allele": "O49"
+        },
+        "O132-1": {
+            "gene": "wzx",
+            "allele": "O132"
+        },
+        "O121-9": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O16-1": {
+            "gene": "wzx",
+            "allele": "O16"
+        },
+        "O29-2": {
+            "gene": "wzy",
+            "allele": "O29"
+        },
+        "O1-6": {
+            "gene": "wzx",
+            "allele": "O1"
+        },
+        "O124-8": {
+            "gene": "wzx",
+            "allele": "O124"
+        },
+        "O104-21": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O76-1": {
+            "gene": "wzx",
+            "allele": "O76"
+        },
+        "O6-26": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O187-1": {
+            "gene": "wzx",
+            "allele": "O187"
+        },
+        "O128-8": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O112-9": {
+            "gene": "wzx",
+            "allele": "O112"
+        },
+        "O8-23": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O86-17": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O167-2": {
+            "gene": "wzy",
+            "allele": "O167"
+        },
+        "O6-1": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O91-3": {
+            "gene": "wzx",
+            "allele": "O91"
+        },
+        "O156-3": {
+            "gene": "wzy",
+            "allele": "O156"
+        },
+        "O149-5": {
+            "gene": "wzx",
+            "allele": "O149"
+        },
+        "O75-6": {
+            "gene": "wzy",
+            "allele": "O75"
+        },
+        "O113-6": {
+            "gene": "wzy",
+            "allele": "O113"
+        },
+        "O21-3": {
+            "gene": "wzx",
+            "allele": "O21"
+        },
+        "O164-1": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O15-2": {
+            "gene": "wzy",
+            "allele": "O15"
+        },
+        "O99-5": {
+            "gene": "wzm",
+            "allele": "O99"
+        },
+        "O140-4": {
+            "gene": "wzy",
+            "allele": "O140"
+        },
+        "O113-2": {
+            "gene": "wzy",
+            "allele": "O113"
+        },
+        "O80-3": {
+            "gene": "wzx",
+            "allele": "O80"
+        },
+        "O103-19": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O86-1": {
+            "gene": "wzx",
+            "allele": "O86"
+        },
+        "O111-6": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O121-2": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O86-9": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O5-16": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O123-11": {
+            "gene": "wzy",
+            "allele": "O123"
+        },
+        "O60-1": {
+            "gene": "wzm",
+            "allele": "O60"
+        },
+        "O49-6": {
+            "gene": "wzx",
+            "allele": "O49"
+        },
+        "O8-16": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O26-2": {
+            "gene": "wzy",
+            "allele": "O26"
+        },
+        "O125-7": {
+            "gene": "wzy",
+            "allele": "O125"
+        },
+        "O48-3": {
+            "gene": "wzx",
+            "allele": "O48"
+        },
+        "O126-6": {
+            "gene": "wzy",
+            "allele": "O126"
+        },
+        "O69-2": {
+            "gene": "wzy",
+            "allele": "O69"
+        },
+        "O40-8": {
+            "gene": "wzx",
+            "allele": "O40"
+        },
+        "O83-7": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O84-2": {
+            "gene": "wzy",
+            "allele": "O84"
+        },
+        "O128-3": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O6-4": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O148-1": {
+            "gene": "wzx",
+            "allele": "O148"
+        },
+        "O8-35": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O86-5": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O146-1": {
+            "gene": "wzx",
+            "allele": "O146"
+        },
+        "O134-7": {
+            "gene": "wzx",
+            "allele": "O134"
+        },
+        "O131-3": {
+            "gene": "wzy",
+            "allele": "O131"
+        },
+        "O90-2": {
+            "gene": "wzy",
+            "allele": "O90"
+        },
+        "O123-7": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O7-31": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O9-6": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O157-10": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O160-6": {
+            "gene": "wzy",
+            "allele": "O160"
+        },
+        "O97-2": {
+            "gene": "wzt",
+            "allele": "O97"
+        },
+        "O145-17": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O76-4": {
+            "gene": "wzy",
+            "allele": "O76"
+        },
+        "O63-6": {
+            "gene": "wzx",
+            "allele": "O63"
+        },
+        "O6-32": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O157-2": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O112-6": {
+            "gene": "wzy",
+            "allele": "O112"
+        },
+        "O108-9": {
+            "gene": "wzx",
+            "allele": "O108"
+        },
+        "O182-1": {
+            "gene": "wzx",
+            "allele": "O182"
+        },
+        "O86-4": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O123-6": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O40-1": {
+            "gene": "wzx",
+            "allele": "O40"
+        },
+        "O16-3": {
+            "gene": "wzx",
+            "allele": "O16"
+        },
+        "O55-1": {
+            "gene": "wzx",
+            "allele": "O55"
+        },
+        "O5-6": {
+            "gene": "wzx",
+            "allele": "O5"
+        },
+        "O9-18": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O103-20": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O4-6": {
+            "gene": "wzy",
+            "allele": "O4"
+        },
+        "O108-11": {
+            "gene": "wzx",
+            "allele": "O108"
+        },
+        "O107-4": {
+            "gene": "wzx",
+            "allele": "O107"
+        },
+        "O8-20": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O164-3": {
+            "gene": "wzy",
+            "allele": "O164"
+        },
+        "O153-8": {
+            "gene": "wzx",
+            "allele": "O153"
+        },
+        "O171-4": {
+            "gene": "wzy",
+            "allele": "O171"
+        },
+        "O103-26": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O157-19": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O5-1": {
+            "gene": "wzx",
+            "allele": "O5"
+        },
+        "O157-12": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O80-4": {
+            "gene": "wzy",
+            "allele": "O80"
+        },
+        "O134-2": {
+            "gene": "wzy",
+            "allele": "O134"
+        },
+        "O18-2": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O22-11": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O187-2": {
+            "gene": "wzy",
+            "allele": "O187"
+        },
+        "O27-2": {
+            "gene": "wzy",
+            "allele": "O27"
+        },
+        "O128-13": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O174-2": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O158-3": {
+            "gene": "wzx",
+            "allele": "O158"
+        },
+        "O103-3": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O8-56": {
+            "gene": "wzx",
+            "allele": "O8"
+        },
+        "O142-9": {
+            "gene": "wzy",
+            "allele": "O142"
+        },
+        "O115-2": {
+            "gene": "wzy",
+            "allele": "O115"
+        },
+        "O111-26": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O7-43": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O7-28": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O17-5": {
+            "gene": "wzx",
+            "allele": "O17"
+        },
+        "O103-21": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O108-6": {
+            "gene": "wzy",
+            "allele": "O108"
+        },
+        "O111-17": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O1-5": {
+            "gene": "wzx",
+            "allele": "O1"
+        },
+        "O73-2": {
+            "gene": "wzy",
+            "allele": "O73"
+        },
+        "O163-2": {
+            "gene": "wzy",
+            "allele": "O163"
+        },
+        "O8-31": {
+            "gene": "wzy",
+            "allele": "O8"
+        },
+        "O52-2": {
+            "gene": "wzt",
+            "allele": "O52"
+        },
+        "O114-1": {
+            "gene": "wzx",
+            "allele": "O114"
+        },
+        "O137-4": {
+            "gene": "wzy",
+            "allele": "O137"
+        },
+        "O139-3": {
+            "gene": "wzy",
+            "allele": "O139"
+        },
+        "O27-1": {
+            "gene": "wzx",
+            "allele": "O27"
+        },
+        "O22-5": {
+            "gene": "wzy",
+            "allele": "O22"
+        },
+        "O35-1": {
+            "gene": "wzx",
+            "allele": "O35"
+        },
+        "O45-16": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O55-10": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O43-1": {
+            "gene": "wzx",
+            "allele": "O43"
+        },
+        "O78-2": {
+            "gene": "wzy",
+            "allele": "O78"
+        },
+        "O157-1": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O131-1": {
+            "gene": "wzx",
+            "allele": "O131"
+        },
+        "O7-5": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O5-8": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O139-6": {
+            "gene": "wzx",
+            "allele": "O139"
+        },
+        "O139-2": {
+            "gene": "wzy",
+            "allele": "O139"
+        },
+        "O128-5": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O100-1": {
+            "gene": "wzx",
+            "allele": "O100"
+        },
+        "O109-10": {
+            "gene": "wzy",
+            "allele": "O109"
+        },
+        "O137-5": {
+            "gene": "wzx",
+            "allele": "O137"
+        },
+        "O7-16": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O85-2": {
+            "gene": "wzy",
+            "allele": "O85"
+        },
+        "O6-20": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O45-6": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O55-8": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O4-5": {
+            "gene": "wzx",
+            "allele": "O4"
+        },
+        "O139-1": {
+            "gene": "wzx",
+            "allele": "O139"
+        },
+        "O127-7": {
+            "gene": "wzy",
+            "allele": "O127"
+        },
+        "O145-13": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O8-54": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O92-3": {
+            "gene": "wzm",
+            "allele": "O92"
+        },
+        "O82-2": {
+            "gene": "wzy",
+            "allele": "O82"
+        },
+        "O111-3": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O142-5": {
+            "gene": "wzx",
+            "allele": "O142"
+        },
+        "O45-10": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O118-3": {
+            "gene": "wzx",
+            "allele": "O118"
+        },
+        "O45-3": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O92-4": {
+            "gene": "wzt",
+            "allele": "O92"
+        },
+        "O166-4": {
+            "gene": "wzy",
+            "allele": "O166"
+        },
+        "O16-4": {
+            "gene": "wzy",
+            "allele": "O16"
+        },
+        "O124-1": {
+            "gene": "wzx",
+            "allele": "O124"
+        },
+        "O32-3": {
+            "gene": "wzx",
+            "allele": "O32"
+        },
+        "O88-8": {
+            "gene": "wzy",
+            "allele": "O88"
+        },
+        "O111-24": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O5-4": {
+            "gene": "wzx",
+            "allele": "O5"
+        },
+        "O68-3": {
+            "gene": "wzx",
+            "allele": "O68"
+        },
+        "O180-4": {
+            "gene": "wzy",
+            "allele": "O180"
+        },
+        "O53-1": {
+            "gene": "wzx",
+            "allele": "O53"
+        },
+        "O111-7": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O37-2": {
+            "gene": "wzy",
+            "allele": "O37"
+        },
+        "O20-3": {
+            "gene": "wzx",
+            "allele": "O20"
+        },
+        "O8-15": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O51-3": {
+            "gene": "wzx",
+            "allele": "O51"
+        },
+        "O169-2": {
+            "gene": "wzy",
+            "allele": "O169"
+        },
+        "O174-10": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O65-3": {
+            "gene": "wzy",
+            "allele": "O65"
+        },
+        "O148-7": {
+            "gene": "wzy",
+            "allele": "O148"
+        },
+        "O7-25": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O49-2": {
+            "gene": "wzy",
+            "allele": "O49"
+        },
+        "O154-3": {
+            "gene": "wzx",
+            "allele": "O154"
+        },
+        "O111-16": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O111-2": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O144-1": {
+            "gene": "wzx",
+            "allele": "O144"
+        },
+        "O83-2": {
+            "gene": "wzy",
+            "allele": "O83"
+        },
+        "O53-4": {
+            "gene": "wzx",
+            "allele": "O53"
+        },
+        "O105-1": {
+            "gene": "wzx",
+            "allele": "O105"
+        },
+        "O9-15": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O5-3": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O8-33": {
+            "gene": "wzx",
+            "allele": "O8"
+        },
+        "O83-10": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O7-40": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O92-2": {
+            "gene": "wzt",
+            "allele": "O92"
+        },
+        "O60-2": {
+            "gene": "wzt",
+            "allele": "O60"
+        },
+        "O180-2": {
+            "gene": "wzy",
+            "allele": "O180"
+        },
+        "O18-18": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O185-4": {
+            "gene": "wzy",
+            "allele": "O185"
+        },
+        "O157-7": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O7-17": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O69-1": {
+            "gene": "wzx",
+            "allele": "O69"
+        },
+        "O18-22": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O150-3": {
+            "gene": "wzx",
+            "allele": "O150"
+        },
+        "O8-9": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O8-29": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O154-4": {
+            "gene": "wzy",
+            "allele": "O154"
+        },
+        "O64-2": {
+            "gene": "wzy",
+            "allele": "O64"
+        },
+        "O45-11": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O9-19": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O128-6": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O89-3": {
+            "gene": "wzm",
+            "allele": "O89"
+        },
+        "O153-1": {
+            "gene": "wzx",
+            "allele": "O153"
+        },
+        "O103-2": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O128-2": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O91-2": {
+            "gene": "wzy",
+            "allele": "O91"
+        },
+        "O145-1": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O8-38": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O36-1": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O6-3": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O162-7": {
+            "gene": "wzt",
+            "allele": "O162"
+        },
+        "O164-8": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O108-1": {
+            "gene": "wzx",
+            "allele": "O108"
+        },
+        "O181-1": {
+            "gene": "wzx",
+            "allele": "O181"
+        },
+        "O146-4": {
+            "gene": "wzy",
+            "allele": "O146"
+        },
+        "O20-4": {
+            "gene": "wzy",
+            "allele": "O20"
+        },
+        "O4-1": {
+            "gene": "wzx",
+            "allele": "O4"
+        },
+        "O22-2": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O75-3": {
+            "gene": "wzx",
+            "allele": "O75"
+        },
+        "O8-45": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O128-17": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O102-6": {
+            "gene": "wzx",
+            "allele": "O102"
+        },
+        "O102-3": {
+            "gene": "wzy",
+            "allele": "O102"
+        },
+        "O91-4": {
+            "gene": "wzy",
+            "allele": "O91"
+        },
+        "O40-7": {
+            "gene": "wzy",
+            "allele": "O40"
+        },
+        "O6-19": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O104-12": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O84-1": {
+            "gene": "wzx",
+            "allele": "O84"
+        },
+        "O158-2": {
+            "gene": "wzy",
+            "allele": "O158"
+        },
+        "O2-14": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O9-2": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O84-3": {
+            "gene": "wzx",
+            "allele": "O84"
+        },
+        "O83-4": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O16-5": {
+            "gene": "wzx",
+            "allele": "O16"
+        },
+        "O36-8": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O26-7": {
+            "gene": "wzy",
+            "allele": "O26"
+        },
+        "O148-4": {
+            "gene": "wzx",
+            "allele": "O148"
+        },
+        "O143-4": {
+            "gene": "wzy",
+            "allele": "O143"
+        },
+        "O75-7": {
+            "gene": "wzx",
+            "allele": "O75"
+        },
+        "O134-1": {
+            "gene": "wzx",
+            "allele": "O134"
+        },
+        "O111-20": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O16-2": {
+            "gene": "wzy",
+            "allele": "O16"
+        },
+        "O157-28": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O36-9": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O154-2": {
+            "gene": "wzy",
+            "allele": "O154"
+        },
+        "O35-4": {
+            "gene": "wzy",
+            "allele": "O35"
+        },
+        "O117-5": {
+            "gene": "wzy",
+            "allele": "O117"
+        },
+        "O153-2": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O125-12": {
+            "gene": "wzx",
+            "allele": "O125"
+        },
+        "O51-1": {
+            "gene": "wzx",
+            "allele": "O51"
+        },
+        "O45-1": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O8-6": {
+            "gene": "wzx",
+            "allele": "O8"
+        },
+        "O8-5": {
+            "gene": "wzx",
+            "allele": "O8"
+        },
+        "O9-24": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O65-6": {
+            "gene": "wzx",
+            "allele": "O65"
+        },
+        "O8-24": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O79-5": {
+            "gene": "wzx",
+            "allele": "O79"
+        },
+        "O51-8": {
+            "gene": "wzx",
+            "allele": "O51"
+        },
+        "O2-4": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O109-5": {
+            "gene": "wzx",
+            "allele": "O109"
+        },
+        "O105-4": {
+            "gene": "wzy",
+            "allele": "O105"
+        },
+        "O174-3": {
+            "gene": "wzy",
+            "allele": "O174"
+        },
+        "O71-1": {
+            "gene": "wzx",
+            "allele": "O71"
+        },
+        "O88-4": {
+            "gene": "wzy",
+            "allele": "O88"
+        },
+        "O149-3": {
+            "gene": "wzx",
+            "allele": "O149"
+        },
+        "O89-2": {
+            "gene": "wzt",
+            "allele": "O89"
+        },
+        "O6-27": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O120-2": {
+            "gene": "wzy",
+            "allele": "O120"
+        },
+        "O106-3": {
+            "gene": "wzy",
+            "allele": "O106"
+        },
+        "O1-1": {
+            "gene": "wzx",
+            "allele": "O1"
+        },
+        "O48-4": {
+            "gene": "wzy",
+            "allele": "O48"
+        },
+        "O158-1": {
+            "gene": "wzx",
+            "allele": "O158"
+        },
+        "O4-8": {
+            "gene": "wzy",
+            "allele": "O4"
+        },
+        "O103-1": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O116-1": {
+            "gene": "wzx",
+            "allele": "O116"
+        },
+        "O5-11": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O162-4": {
+            "gene": "wzm",
+            "allele": "O162"
+        },
+        "O18-6": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O159-2": {
+            "gene": "wzy",
+            "allele": "O159"
+        },
+        "O141-3": {
+            "gene": "wzy",
+            "allele": "O141"
+        },
+        "O8-53": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O10-3": {
+            "gene": "wzx",
+            "allele": "O10"
+        },
+        "O68-2": {
+            "gene": "wzy",
+            "allele": "O68"
+        },
+        "O103-12": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O164-5": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O87-1": {
+            "gene": "wzx",
+            "allele": "O87"
+        },
+        "O22-6": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O128-12": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O130-1": {
+            "gene": "wzx",
+            "allele": "O130"
+        },
+        "O175-4": {
+            "gene": "wzy",
+            "allele": "O175"
+        },
+        "O6-30": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O128-15": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O40-2": {
+            "gene": "wzy",
+            "allele": "O40"
+        },
+        "O132-5": {
+            "gene": "wzx",
+            "allele": "O132"
+        },
+        "O134-5": {
+            "gene": "wzx",
+            "allele": "O134"
+        },
+        "O161-2": {
+            "gene": "wzy",
+            "allele": "O161"
+        },
+        "O70-2": {
+            "gene": "wzy",
+            "allele": "O70"
+        },
+        "O29-4": {
+            "gene": "wzy",
+            "allele": "O29"
+        },
+        "O125-5": {
+            "gene": "wzy",
+            "allele": "O125"
+        },
+        "O160-2": {
+            "gene": "wzy",
+            "allele": "O160"
+        },
+        "O18-4": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O45-13": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O63-5": {
+            "gene": "wzy",
+            "allele": "O63"
+        },
+        "O84-4": {
+            "gene": "wzy",
+            "allele": "O84"
+        },
+        "O6-2": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O103-8": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O177-9": {
+            "gene": "wzx",
+            "allele": "O177"
+        },
+        "O166-1": {
+            "gene": "wzx",
+            "allele": "O166"
+        },
+        "O39-1": {
+            "gene": "wzx",
+            "allele": "O39"
+        },
+        "O7-8": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O183-1": {
+            "gene": "wzx",
+            "allele": "O183"
+        },
+        "O121-10": {
+            "gene": "wzx",
+            "allele": "O121"
+        },
+        "O9-13": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O29-3": {
+            "gene": "wzx",
+            "allele": "O29"
+        },
+        "O126-10": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O7-26": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O9-5": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O77-1": {
+            "gene": "wzx",
+            "allele": "O77"
+        },
+        "O104-11": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O5-2": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O111-21": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O149-4": {
+            "gene": "wzy",
+            "allele": "O149"
+        },
+        "O134-4": {
+            "gene": "wzy",
+            "allele": "O134"
+        },
+        "O17-2": {
+            "gene": "wzy",
+            "allele": "O17"
+        },
+        "O103-13": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O33-4": {
+            "gene": "wzy",
+            "allele": "O33"
+        },
+        "O166-2": {
+            "gene": "wzy",
+            "allele": "O166"
+        },
+        "O103-32": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O18-10": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O124-10": {
+            "gene": "wzx",
+            "allele": "O124"
+        },
+        "O55-9": {
+            "gene": "wzx",
+            "allele": "O55"
+        },
+        "O9-27": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O162-1": {
+            "gene": "wzm",
+            "allele": "O162"
+        },
+        "O9-22": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O78-5": {
+            "gene": "wzx",
+            "allele": "O78"
+        },
+        "O32-2": {
+            "gene": "wzy",
+            "allele": "O32"
+        },
+        "O18-19": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O8-48": {
+            "gene": "wzy",
+            "allele": "O8"
+        },
+        "O124-3": {
+            "gene": "wzy",
+            "allele": "O124"
+        },
+        "O85-3": {
+            "gene": "wzx",
+            "allele": "O85"
+        },
+        "O186-2": {
+            "gene": "wzx",
+            "allele": "O186"
+        },
+        "O65-1": {
+            "gene": "wzx",
+            "allele": "O65"
+        },
+        "O124-5": {
+            "gene": "wzy",
+            "allele": "O124"
+        },
+        "O150-7": {
+            "gene": "wzx",
+            "allele": "O150"
+        },
+        "O129-7": {
+            "gene": "wzx",
+            "allele": "O129"
+        },
+        "O54-2": {
+            "gene": "wzy",
+            "allele": "O54"
+        },
+        "O162-3": {
+            "gene": "wzm",
+            "allele": "O162"
+        },
+        "O123-3": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O51-7": {
+            "gene": "wzy",
+            "allele": "O51"
+        },
+        "O45-9": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O8-17": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O119-2": {
+            "gene": "wzy",
+            "allele": "O119"
+        },
+        "O172-1": {
+            "gene": "wzx",
+            "allele": "O172"
+        },
+        "O38-3": {
+            "gene": "wzx",
+            "allele": "O38"
+        },
+        "O150-1": {
+            "gene": "wzx",
+            "allele": "O150"
+        },
+        "O56-2": {
+            "gene": "wzy",
+            "allele": "O56"
+        },
+        "O145-12": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O99-8": {
+            "gene": "wzt",
+            "allele": "O99"
+        },
+        "O103-24": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O93-2": {
+            "gene": "wzy",
+            "allele": "O93"
+        },
+        "O98-1": {
+            "gene": "wzx",
+            "allele": "O98"
+        },
+        "O165-2": {
+            "gene": "wzy",
+            "allele": "O165"
+        },
+        "O30-1": {
+            "gene": "wzx",
+            "allele": "O30"
+        },
+        "O9-9": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O7-23": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O6-7": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O51-6": {
+            "gene": "wzy",
+            "allele": "O51"
+        },
+        "O73-4": {
+            "gene": "wzx",
+            "allele": "O73"
+        },
+        "O96-3": {
+            "gene": "wzx",
+            "allele": "O96"
+        },
+        "O78-6": {
+            "gene": "wzy",
+            "allele": "O78"
+        },
+        "O9-4": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O93-4": {
+            "gene": "wzx",
+            "allele": "O93"
+        },
+        "O35-2": {
+            "gene": "wzy",
+            "allele": "O35"
+        },
+        "O160-3": {
+            "gene": "wzx",
+            "allele": "O160"
+        },
+        "O138-2": {
+            "gene": "wzy",
+            "allele": "O138"
+        },
+        "O8-3": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O54-4": {
+            "gene": "wzy",
+            "allele": "O54"
+        },
+        "O19-1": {
+            "gene": "wzx",
+            "allele": "O19"
+        },
+        "O129-9": {
+            "gene": "wzx",
+            "allele": "O129"
+        },
+        "O117-2": {
+            "gene": "wzy",
+            "allele": "O117"
+        },
+        "O6-13": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O86-2": {
+            "gene": "wzx",
+            "allele": "O86"
+        },
+        "O169-1": {
+            "gene": "wzx",
+            "allele": "O169"
+        },
+        "O112-1": {
+            "gene": "wzx",
+            "allele": "O112"
+        },
+        "O46-3": {
+            "gene": "wzx",
+            "allele": "O46"
+        },
+        "O8-27": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O116-4": {
+            "gene": "wzx",
+            "allele": "O116"
+        },
+        "O76-3": {
+            "gene": "wzx",
+            "allele": "O76"
+        },
+        "O157-3": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O26-6": {
+            "gene": "wzx",
+            "allele": "O26"
+        },
+        "O111-14": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O177-1": {
+            "gene": "wzx",
+            "allele": "O177"
+        },
+        "O9-14": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O128-10": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O98-2": {
+            "gene": "wzy",
+            "allele": "O98"
+        },
+        "O28-3": {
+            "gene": "wzx",
+            "allele": "O28"
+        },
+        "O147-3": {
+            "gene": "wzx",
+            "allele": "O147"
+        },
+        "O120-5": {
+            "gene": "wzx",
+            "allele": "O120"
+        },
+        "O95-2": {
+            "gene": "wzt",
+            "allele": "O95"
+        },
+        "O8-39": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O145-6": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O22-3": {
+            "gene": "wzy",
+            "allele": "O22"
+        },
+        "O126-1": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O36-16": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O110-2": {
+            "gene": "wzy",
+            "allele": "O110"
+        },
+        "O9-17": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O140-3": {
+            "gene": "wzx",
+            "allele": "O140"
+        },
+        "O148-10": {
+            "gene": "wzy",
+            "allele": "O148"
+        },
+        "O101-3": {
+            "gene": "wzm",
+            "allele": "O101"
+        },
+        "O44-1": {
+            "gene": "wzx",
+            "allele": "O44"
+        },
+        "O45-8": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O8-46": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O86-3": {
+            "gene": "wzx",
+            "allele": "O86"
+        },
+        "O103-7": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O74-2": {
+            "gene": "wzy",
+            "allele": "O74"
+        },
+        "O26-1": {
+            "gene": "wzx",
+            "allele": "O26"
+        },
+        "O77-2": {
+            "gene": "wzy",
+            "allele": "O77"
+        },
+        "O180-7": {
+            "gene": "wzx",
+            "allele": "O180"
+        },
+        "O6-21": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O99-1": {
+            "gene": "wzm",
+            "allele": "O99"
+        },
+        "O125-10": {
+            "gene": "wzx",
+            "allele": "O125"
+        },
+        "O111-10": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O1-3": {
+            "gene": "wzx",
+            "allele": "O1"
+        },
+        "O6-12": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O25-1": {
+            "gene": "wzx",
+            "allele": "O25"
+        },
+        "O5-13": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O39-4": {
+            "gene": "wzy",
+            "allele": "O39"
+        },
+        "O73-6": {
+            "gene": "wzx",
+            "allele": "O73"
+        },
+        "O18-17": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O175-7": {
+            "gene": "wzx",
+            "allele": "O175"
+        },
+        "O75-1": {
+            "gene": "wzx",
+            "allele": "O75"
+        },
+        "O83-6": {
+            "gene": "wzy",
+            "allele": "O83"
+        },
+        "O126-2": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O7-7": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O36-10": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O170-1": {
+            "gene": "wzx",
+            "allele": "O170"
+        },
+        "O145-4": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O142-6": {
+            "gene": "wzy",
+            "allele": "O142"
+        },
+        "O36-7": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O143-7": {
+            "gene": "wzy",
+            "allele": "O143"
+        },
+        "O103-31": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O45-7": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O40-6": {
+            "gene": "wzx",
+            "allele": "O40"
+        },
+        "O145-23": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O12-1": {
+            "gene": "wzx",
+            "allele": "O12"
+        },
+        "O130-2": {
+            "gene": "wzy",
+            "allele": "O130"
+        },
+        "O8-30": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O139-4": {
+            "gene": "wzx",
+            "allele": "O139"
+        },
+        "O123-12": {
+            "gene": "wzy",
+            "allele": "O123"
+        },
+        "O28-5": {
+            "gene": "wzy",
+            "allele": "O28"
+        },
+        "O93-1": {
+            "gene": "wzx",
+            "allele": "O93"
+        },
+        "O71-2": {
+            "gene": "wzy",
+            "allele": "O71"
+        },
+        "O45-4": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O123-2": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O152-1": {
+            "gene": "wzx",
+            "allele": "O152"
+        },
+        "O36-11": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O104-8": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O97-1": {
+            "gene": "wzm",
+            "allele": "O97"
+        },
+        "O21-9": {
+            "gene": "wzy",
+            "allele": "O21"
+        },
+        "O60-3": {
+            "gene": "wzm",
+            "allele": "O60"
+        },
+        "O26-5": {
+            "gene": "wzy",
+            "allele": "O26"
+        },
+        "O40-10": {
+            "gene": "wzy",
+            "allele": "O40"
+        },
+        "O173-1": {
+            "gene": "wzx",
+            "allele": "O173"
+        },
+        "O164-11": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O109-8": {
+            "gene": "wzy",
+            "allele": "O109"
+        },
+        "O15-3": {
+            "gene": "wzx",
+            "allele": "O15"
+        },
+        "O46-2": {
+            "gene": "wzy",
+            "allele": "O46"
+        },
+        "O7-38": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O6-10": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O153-12": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O36-6": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O127-4": {
+            "gene": "wzy",
+            "allele": "O127"
+        },
+        "O133-1": {
+            "gene": "wzx",
+            "allele": "O133"
+        },
+        "O103-23": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O125-1": {
+            "gene": "wzx",
+            "allele": "O125"
+        },
+        "O32-7": {
+            "gene": "wzx",
+            "allele": "O32"
+        },
+        "O51-2": {
+            "gene": "wzy",
+            "allele": "O51"
+        },
+        "O147-2": {
+            "gene": "wzy",
+            "allele": "O147"
+        },
+        "O127-6": {
+            "gene": "wzx",
+            "allele": "O127"
+        },
+        "O142-8": {
+            "gene": "wzx",
+            "allele": "O142"
+        },
+        "O113-5": {
+            "gene": "wzx",
+            "allele": "O113"
+        },
+        "O6-22": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O127-1": {
+            "gene": "wzx",
+            "allele": "O127"
+        },
+        "O82-4": {
+            "gene": "wzy",
+            "allele": "O82"
+        },
+        "O137-1": {
+            "gene": "wzx",
+            "allele": "O137"
+        },
+        "O52-1": {
+            "gene": "wzm",
+            "allele": "O52"
+        },
+        "O3-6": {
+            "gene": "wzy",
+            "allele": "O3"
+        },
+        "O55-2": {
+            "gene": "wzx",
+            "allele": "O55"
+        },
+        "O88-7": {
+            "gene": "wzx",
+            "allele": "O88"
+        },
+        "O11-5": {
+            "gene": "wzx",
+            "allele": "O11"
+        },
+        "O155-2": {
+            "gene": "wzy",
+            "allele": "O155"
+        },
+        "O153-11": {
+            "gene": "wzx",
+            "allele": "O153"
+        },
+        "O102-7": {
+            "gene": "wzy",
+            "allele": "O102"
+        },
+        "O103-33": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O157-5": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O132-6": {
+            "gene": "wzy",
+            "allele": "O132"
+        },
+        "O178-2": {
+            "gene": "wzy",
+            "allele": "O178"
+        },
+        "O5-5": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O7-14": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O104-1": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O86-16": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O6-25": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O145-3": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O157-27": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O29-7": {
+            "gene": "wzy",
+            "allele": "O29"
+        },
+        "O68-4": {
+            "gene": "wzy",
+            "allele": "O68"
+        },
+        "O156-6": {
+            "gene": "wzx",
+            "allele": "O156"
+        },
+        "O108-10": {
+            "gene": "wzy",
+            "allele": "O108"
+        },
+        "O3-4": {
+            "gene": "wzy",
+            "allele": "O3"
+        },
+        "O18-16": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O42-2": {
+            "gene": "wzx",
+            "allele": "O42"
+        },
+        "O184-1": {
+            "gene": "wzx",
+            "allele": "O184"
+        },
+        "O149-2": {
+            "gene": "wzy",
+            "allele": "O149"
+        },
+        "O117-3": {
+            "gene": "wzy",
+            "allele": "O117"
+        },
+        "O111-27": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O176-1": {
+            "gene": "wzx",
+            "allele": "O176"
+        },
+        "O8-14": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O49-5": {
+            "gene": "wzy",
+            "allele": "O49"
+        },
+        "O147-1": {
+            "gene": "wzx",
+            "allele": "O147"
+        },
+        "O54-3": {
+            "gene": "wzx",
+            "allele": "O54"
+        },
+        "O111-23": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O11-1": {
+            "gene": "wzx",
+            "allele": "O11"
+        },
+        "O23-1": {
+            "gene": "wzx",
+            "allele": "O23"
+        },
+        "O7-32": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O107-2": {
+            "gene": "wzy",
+            "allele": "O107"
+        },
+        "O40-3": {
+            "gene": "wzx",
+            "allele": "O40"
+        },
+        "O8-25": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O163-1": {
+            "gene": "wzx",
+            "allele": "O163"
+        },
+        "O78-4": {
+            "gene": "wzy",
+            "allele": "O78"
+        },
+        "O41-2": {
+            "gene": "wzy",
+            "allele": "O41"
+        },
+        "O125-4": {
+            "gene": "wzy",
+            "allele": "O125"
+        },
+        "O157-26": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O82-5": {
+            "gene": "wzx",
+            "allele": "O82"
+        },
+        "O36-14": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O123-13": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O111-9": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O59-3": {
+            "gene": "wzx",
+            "allele": "O59"
+        },
+        "O32-5": {
+            "gene": "wzx",
+            "allele": "O32"
+        },
+        "O124-6": {
+            "gene": "wzx",
+            "allele": "O124"
+        },
+        "O8-13": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O157-25": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O9-12": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O7-36": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O106-6": {
+            "gene": "wzy",
+            "allele": "O106"
+        },
+        "O5-17": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O123-14": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O37-1": {
+            "gene": "wzx",
+            "allele": "O37"
+        },
+        "O185-1": {
+            "gene": "wzx",
+            "allele": "O185"
+        },
+        "O6-28": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O174-6": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O109-7": {
+            "gene": "wzx",
+            "allele": "O109"
+        },
+        "O4-7": {
+            "gene": "wzx",
+            "allele": "O4"
+        },
+        "O1-7": {
+            "gene": "wzy",
+            "allele": "O1"
+        },
+        "O7-19": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O145-24": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O103-15": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O104-22": {
+            "gene": "wzy",
+            "allele": "O104"
+        },
+        "O181-2": {
+            "gene": "wzy",
+            "allele": "O181"
+        },
+        "O128-7": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O7-22": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O157-14": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O134-3": {
+            "gene": "wzx",
+            "allele": "O134"
+        },
+        "O111-25": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O10-1": {
+            "gene": "wzx",
+            "allele": "O10"
+        },
+        "O36-12": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O114-4": {
+            "gene": "wzx",
+            "allele": "O114"
+        },
+        "O137-6": {
+            "gene": "wzy",
+            "allele": "O137"
+        },
+        "O46-1": {
+            "gene": "wzx",
+            "allele": "O46"
+        },
+        "O157-6": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O133-2": {
+            "gene": "wzy",
+            "allele": "O133"
+        },
+        "O114-2": {
+            "gene": "wzy",
+            "allele": "O114"
+        },
+        "O125-9": {
+            "gene": "wzy",
+            "allele": "O125"
+        },
+        "O157-16": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O107-1": {
+            "gene": "wzx",
+            "allele": "O107"
+        },
+        "O127-5": {
+            "gene": "wzy",
+            "allele": "O127"
+        },
+        "O96-5": {
+            "gene": "wzy",
+            "allele": "O96"
+        },
+        "O150-9": {
+            "gene": "wzx",
+            "allele": "O150"
+        },
+        "O30-3": {
+            "gene": "wzy",
+            "allele": "O30"
+        },
+        "O48-1": {
+            "gene": "wzx",
+            "allele": "O48"
+        },
+        "O41-3": {
+            "gene": "wzx",
+            "allele": "O41"
+        },
+        "O117-8": {
+            "gene": "wzy",
+            "allele": "O117"
+        },
+        "O111-19": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O157-4": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O157-17": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O109-4": {
+            "gene": "wzy",
+            "allele": "O109"
+        },
+        "O10-4": {
+            "gene": "wzy",
+            "allele": "O10"
+        },
+        "O87-3": {
+            "gene": "wzx",
+            "allele": "O87"
+        },
+        "O63-3": {
+            "gene": "wzy",
+            "allele": "O63"
+        },
+        "O108-7": {
+            "gene": "wzx",
+            "allele": "O108"
+        },
+        "O103-6": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O174-9": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O3-3": {
+            "gene": "wzx",
+            "allele": "O3"
+        },
+        "O166-3": {
+            "gene": "wzx",
+            "allele": "O166"
+        },
+        "O103-9": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O3-1": {
+            "gene": "wzx",
+            "allele": "O3"
+        },
+        "O28-2": {
+            "gene": "wzx",
+            "allele": "O28"
+        },
+        "O112-12": {
+            "gene": "wzy",
+            "allele": "O112"
+        },
+        "O123-5": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O117-7": {
+            "gene": "wzx",
+            "allele": "O117"
+        },
+        "O75-4": {
+            "gene": "wzy",
+            "allele": "O75"
+        },
+        "O15-10": {
+            "gene": "wzx",
+            "allele": "O15"
+        },
+        "O36-19": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O132-2": {
+            "gene": "wzy",
+            "allele": "O132"
+        },
+        "O174-7": {
+            "gene": "wzy",
+            "allele": "O174"
+        },
+        "O180-5": {
+            "gene": "wzx",
+            "allele": "O180"
+        },
+        "O75-8": {
+            "gene": "wzx",
+            "allele": "O75"
+        },
+        "O8-2": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O15-6": {
+            "gene": "wzx",
+            "allele": "O15"
+        },
+        "O141-2": {
+            "gene": "wzy",
+            "allele": "O141"
+        },
+        "O171-2": {
+            "gene": "wzy",
+            "allele": "O171"
+        },
+        "O129-2": {
+            "gene": "wzx",
+            "allele": "O129"
+        },
+        "O167-6": {
+            "gene": "wzy",
+            "allele": "O167"
+        },
+        "O18-1": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O113-7": {
+            "gene": "wzx",
+            "allele": "O113"
+        },
+        "O111-13": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O106-5": {
+            "gene": "wzy",
+            "allele": "O106"
+        },
+        "O59-1": {
+            "gene": "wzx",
+            "allele": "O59"
+        },
+        "O145-9": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O18-7": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O156-1": {
+            "gene": "wzx",
+            "allele": "O156"
+        },
+        "O92-1": {
+            "gene": "wzm",
+            "allele": "O92"
+        },
+        "O129-6": {
+            "gene": "wzy",
+            "allele": "O129"
+        },
+        "O111-15": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O104-17": {
+            "gene": "wzy",
+            "allele": "O104"
+        },
+        "O89-1": {
+            "gene": "wzm",
+            "allele": "O89"
+        },
+        "O102-5": {
+            "gene": "wzx",
+            "allele": "O102"
+        },
+        "O170-2": {
+            "gene": "wzy",
+            "allele": "O170"
+        },
+        "O112-8": {
+            "gene": "wzy",
+            "allele": "O112"
+        },
+        "O164-7": {
+            "gene": "wzy",
+            "allele": "O164"
+        },
+        "O109-9": {
+            "gene": "wzy",
+            "allele": "O109"
+        },
+        "O39-2": {
+            "gene": "wzy",
+            "allele": "O39"
+        },
+        "O18-5": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O110-1": {
+            "gene": "wzx",
+            "allele": "O110"
+        },
+        "O179-1": {
+            "gene": "wzx",
+            "allele": "O179"
+        },
+        "O88-2": {
+            "gene": "wzy",
+            "allele": "O88"
+        },
+        "O7-12": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O175-3": {
+            "gene": "wzx",
+            "allele": "O175"
+        },
+        "O11-2": {
+            "gene": "wzy",
+            "allele": "O11"
+        },
+        "O39-3": {
+            "gene": "wzx",
+            "allele": "O39"
+        },
+        "O38-1": {
+            "gene": "wzx",
+            "allele": "O38"
+        },
+        "O153-14": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O125-6": {
+            "gene": "wzx",
+            "allele": "O125"
+        },
+        "O36-18": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O18-11": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O62-3": {
+            "gene": "wzy",
+            "allele": "O62"
+        },
+        "O179-2": {
+            "gene": "wzy",
+            "allele": "O179"
+        },
+        "O61-2": {
+            "gene": "wzy",
+            "allele": "O61"
+        },
+        "O116-3": {
+            "gene": "wzy",
+            "allele": "O116"
+        },
+        "O10-5": {
+            "gene": "wzx",
+            "allele": "O10"
+        },
+        "O86-13": {
+            "gene": "wzx",
+            "allele": "O86"
+        },
+        "O7-33": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O8-43": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O80-2": {
+            "gene": "wzy",
+            "allele": "O80"
+        },
+        "O86-7": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O88-3": {
+            "gene": "wzx",
+            "allele": "O88"
+        },
+        "O18-14": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O108-3": {
+            "gene": "wzx",
+            "allele": "O108"
+        },
+        "O42-3": {
+            "gene": "wzx",
+            "allele": "O42"
+        },
+        "O8-57": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O24-1": {
+            "gene": "wzx",
+            "allele": "O24"
+        },
+        "O45-2": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O1-2": {
+            "gene": "wzy",
+            "allele": "O1"
+        },
+        "O153-4": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O79-1": {
+            "gene": "wzx",
+            "allele": "O79"
+        },
+        "O157-15": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O145-8": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O5-9": {
+            "gene": "wzx",
+            "allele": "O5"
+        },
+        "O66-1": {
+            "gene": "wzx",
+            "allele": "O66"
+        },
+        "O7-9": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O26-4": {
+            "gene": "wzy",
+            "allele": "O26"
+        },
+        "O89-5": {
+            "gene": "wzm",
+            "allele": "O89"
+        },
+        "O153-13": {
+            "gene": "wzx",
+            "allele": "O153"
+        },
+        "O128-16": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O185-3": {
+            "gene": "wzx",
+            "allele": "O185"
+        },
+        "O21-8": {
+            "gene": "wzx",
+            "allele": "O21"
+        },
+        "O8-18": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O109-6": {
+            "gene": "wzy",
+            "allele": "O109"
+        },
+        "O145-7": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O112-7": {
+            "gene": "wzx",
+            "allele": "O112"
+        },
+        "O112-11": {
+            "gene": "wzx",
+            "allele": "O112"
+        },
+        "O55-3": {
+            "gene": "wzx",
+            "allele": "O55"
+        },
+        "O9-26": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O39-6": {
+            "gene": "wzy",
+            "allele": "O39"
+        },
+        "O74-1": {
+            "gene": "wzx",
+            "allele": "O74"
+        },
+        "O180-1": {
+            "gene": "wzx",
+            "allele": "O180"
+        },
+        "O85-1": {
+            "gene": "wzx",
+            "allele": "O85"
+        },
+        "O36-17": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O164-2": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O132-4": {
+            "gene": "wzy",
+            "allele": "O132"
+        },
+        "O103-34": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O167-5": {
+            "gene": "wzx",
+            "allele": "O167"
+        },
+        "O103-17": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O173-2": {
+            "gene": "wzy",
+            "allele": "O173"
+        },
+        "O22-12": {
+            "gene": "wzy",
+            "allele": "O22"
+        },
+        "O162-6": {
+            "gene": "wzm",
+            "allele": "O162"
+        },
+        "O131-2": {
+            "gene": "wzy",
+            "allele": "O131"
+        },
+        "O177-5": {
+            "gene": "wzy",
+            "allele": "O177"
+        },
+        "O171-5": {
+            "gene": "wzx",
+            "allele": "O171"
+        },
+        "O169-4": {
+            "gene": "wzy",
+            "allele": "O169"
+        },
+        "O24-2": {
+            "gene": "wzy",
+            "allele": "O24"
+        },
+        "O63-4": {
+            "gene": "wzy",
+            "allele": "O63"
+        },
+        "O79-6": {
+            "gene": "wzy",
+            "allele": "O79"
+        },
+        "O148-2": {
+            "gene": "wzy",
+            "allele": "O148"
+        },
+        "O39-5": {
+            "gene": "wzx",
+            "allele": "O39"
+        },
+        "O120-4": {
+            "gene": "wzy",
+            "allele": "O120"
+        },
+        "O18-3": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O104-23": {
+            "gene": "wzy",
+            "allele": "O104"
+        },
+        "O45-19": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O4-2": {
+            "gene": "wzy",
+            "allele": "O4"
+        },
+        "O55-4": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O4-3": {
+            "gene": "wzx",
+            "allele": "O4"
+        },
+        "O7-41": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O39-7": {
+            "gene": "wzx",
+            "allele": "O39"
+        },
+        "O18-13": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O128-14": {
+            "gene": "wzy",
+            "allele": "O128"
+        },
+        "O15-9": {
+            "gene": "wzy",
+            "allele": "O15"
+        },
+        "O11-6": {
+            "gene": "wzy",
+            "allele": "O11"
+        },
+        "O170-3": {
+            "gene": "wzx",
+            "allele": "O170"
+        },
+        "O125-11": {
+            "gene": "wzy",
+            "allele": "O125"
+        },
+        "O116-2": {
+            "gene": "wzy",
+            "allele": "O116"
+        },
+        "O121-4": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O28-7": {
+            "gene": "wzx",
+            "allele": "O28"
+        },
+        "O8-4": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O2-3": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O86-10": {
+            "gene": "wzx",
+            "allele": "O86"
+        },
+        "O8-37": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O142-7": {
+            "gene": "wzx",
+            "allele": "O142"
+        },
+        "O75-2": {
+            "gene": "wzy",
+            "allele": "O75"
+        },
+        "O78-1": {
+            "gene": "wzx",
+            "allele": "O78"
+        },
+        "O104-24": {
+            "gene": "wzy",
+            "allele": "O104"
+        },
+        "O186-1": {
+            "gene": "wzx",
+            "allele": "O186"
+        },
+        "O120-6": {
+            "gene": "wzy",
+            "allele": "O120"
+        },
+        "O99-6": {
+            "gene": "wzt",
+            "allele": "O99"
+        },
+        "O117-4": {
+            "gene": "wzy",
+            "allele": "O117"
+        },
+        "O9-23": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O18-23": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O6-24": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O59-4": {
+            "gene": "wzy",
+            "allele": "O59"
+        },
+        "O7-6": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O136-2": {
+            "gene": "wzy",
+            "allele": "O136"
+        },
+        "O150-5": {
+            "gene": "wzx",
+            "allele": "O150"
+        },
+        "O101-1": {
+            "gene": "wzm",
+            "allele": "O101"
+        },
+        "O145-11": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O148-6": {
+            "gene": "wzy",
+            "allele": "O148"
+        },
+        "O177-2": {
+            "gene": "wzy",
+            "allele": "O177"
+        },
+        "O8-34": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O15-5": {
+            "gene": "wzy",
+            "allele": "O15"
+        },
+        "O8-11": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O29-5": {
+            "gene": "wzy",
+            "allele": "O29"
+        },
+        "O84-6": {
+            "gene": "wzy",
+            "allele": "O84"
+        },
+        "O142-4": {
+            "gene": "wzy",
+            "allele": "O142"
+        },
+        "O33-2": {
+            "gene": "wzy",
+            "allele": "O33"
+        },
+        "O2-7": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O6-17": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O8-40": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O6-11": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O123-1": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O174-8": {
+            "gene": "wzy",
+            "allele": "O174"
+        },
+        "O9-21": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O86-8": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O6-6": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O7-30": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O106-2": {
+            "gene": "wzy",
+            "allele": "O106"
+        },
+        "O112-4": {
+            "gene": "wzy",
+            "allele": "O112"
+        },
+        "O19-2": {
+            "gene": "wzy",
+            "allele": "O19"
+        },
+        "O101-4": {
+            "gene": "wzt",
+            "allele": "O101"
+        },
+        "O159-1": {
+            "gene": "wzx",
+            "allele": "O159"
+        },
+        "O82-1": {
+            "gene": "wzx",
+            "allele": "O82"
+        },
+        "O53-3": {
+            "gene": "wzy",
+            "allele": "O53"
+        },
+        "O108-4": {
+            "gene": "wzy",
+            "allele": "O108"
+        },
+        "O113-4": {
+            "gene": "wzy",
+            "allele": "O113"
+        },
+        "O9-7": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O86-11": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O8-22": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O63-1": {
+            "gene": "wzx",
+            "allele": "O63"
+        },
+        "O104-6": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O99-2": {
+            "gene": "wzt",
+            "allele": "O99"
+        },
+        "O7-4": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O60-4": {
+            "gene": "wzt",
+            "allele": "O60"
+        },
+        "O11-4": {
+            "gene": "wzy",
+            "allele": "O11"
+        },
+        "O9-3": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O2-12": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O17-3": {
+            "gene": "wzx",
+            "allele": "O17"
+        },
+        "O1-4": {
+            "gene": "wzy",
+            "allele": "O1"
+        },
+        "O145-2": {
+            "gene": "wzx",
+            "allele": "O145"
+        },
+        "O157-23": {
+            "gene": "wzx",
+            "allele": "O157"
+        },
+        "O65-4": {
+            "gene": "wzx",
+            "allele": "O65"
+        },
+        "O106-1": {
+            "gene": "wzx",
+            "allele": "O106"
+        },
+        "O157-13": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O73-1": {
+            "gene": "wzx",
+            "allele": "O73"
+        },
+        "O172-3": {
+            "gene": "wzx",
+            "allele": "O172"
+        },
+        "O7-10": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O157-8": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O95-1": {
+            "gene": "wzm",
+            "allele": "O95"
+        },
+        "O164-4": {
+            "gene": "wzy",
+            "allele": "O164"
+        },
+        "O8-44": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O87-4": {
+            "gene": "wzy",
+            "allele": "O87"
+        },
+        "O143-2": {
+            "gene": "wzy",
+            "allele": "O143"
+        },
+        "O2-13": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O2-6": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O28-6": {
+            "gene": "wzy",
+            "allele": "O28"
+        },
+        "O91-1": {
+            "gene": "wzx",
+            "allele": "O91"
+        },
+        "O154-5": {
+            "gene": "wzx",
+            "allele": "O154"
+        },
+        "O65-2": {
+            "gene": "wzy",
+            "allele": "O65"
+        },
+        "O129-1": {
+            "gene": "wzx",
+            "allele": "O129"
+        },
+        "O104-5": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O103-30": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O83-8": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O108-2": {
+            "gene": "wzy",
+            "allele": "O108"
+        },
+        "O134-8": {
+            "gene": "wzy",
+            "allele": "O134"
+        },
+        "O120-1": {
+            "gene": "wzx",
+            "allele": "O120"
+        },
+        "O156-2": {
+            "gene": "wzy",
+            "allele": "O156"
+        },
+        "O42-1": {
+            "gene": "wzx",
+            "allele": "O42"
+        },
+        "O22-7": {
+            "gene": "wzy",
+            "allele": "O22"
+        },
+        "O34-2": {
+            "gene": "wzy",
+            "allele": "O34"
+        },
+        "O121-11": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O129-3": {
+            "gene": "wzy",
+            "allele": "O129"
+        },
+        "O18-8": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O165-3": {
+            "gene": "wzy",
+            "allele": "O165"
+        },
+        "O104-14": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O46-4": {
+            "gene": "wzy",
+            "allele": "O46"
+        },
+        "O126-7": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O104-2": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O148-3": {
+            "gene": "wzx",
+            "allele": "O148"
+        },
+        "O2-15": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O30-4": {
+            "gene": "wzx",
+            "allele": "O30"
+        },
+        "O6-9": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O169-3": {
+            "gene": "wzx",
+            "allele": "O169"
+        },
+        "O8-7": {
+            "gene": "wzy",
+            "allele": "O8"
+        },
+        "O34-1": {
+            "gene": "wzx",
+            "allele": "O34"
+        },
+        "O6-18": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O126-5": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O46-6": {
+            "gene": "wzx",
+            "allele": "O46"
+        },
+        "O37-3": {
+            "gene": "wzx",
+            "allele": "O37"
+        },
+        "O64-1": {
+            "gene": "wzx",
+            "allele": "O64"
+        },
+        "O9-1": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O164-9": {
+            "gene": "wzy",
+            "allele": "O164"
+        },
+        "O68-1": {
+            "gene": "wzx",
+            "allele": "O68"
+        },
+        "O15-12": {
+            "gene": "wzx",
+            "allele": "O15"
+        },
+        "O99-3": {
+            "gene": "wzm",
+            "allele": "O99"
+        },
+        "O29-6": {
+            "gene": "wzx",
+            "allele": "O29"
+        },
+        "O61-1": {
+            "gene": "wzx",
+            "allele": "O61"
+        },
+        "O162-5": {
+            "gene": "wzt",
+            "allele": "O162"
+        },
+        "O51-5": {
+            "gene": "wzx",
+            "allele": "O51"
+        },
+        "O12-2": {
+            "gene": "wzy",
+            "allele": "O12"
+        },
+        "O7-42": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O145-5": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O126-13": {
+            "gene": "wzy",
+            "allele": "O126"
+        },
+        "O2-2": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O8-41": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O177-3": {
+            "gene": "wzy",
+            "allele": "O177"
+        },
+        "O88-5": {
+            "gene": "wzx",
+            "allele": "O88"
+        },
+        "O104-9": {
+            "gene": "wzy",
+            "allele": "O104"
+        },
+        "O178-3": {
+            "gene": "wzy",
+            "allele": "O178"
+        },
+        "O7-18": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O36-15": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O137-2": {
+            "gene": "wzy",
+            "allele": "O137"
+        },
+        "O141-4": {
+            "gene": "wzy",
+            "allele": "O141"
+        },
+        "O22-10": {
+            "gene": "wzy",
+            "allele": "O22"
+        },
+        "O167-1": {
+            "gene": "wzx",
+            "allele": "O167"
+        },
+        "O8-47": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O2-5": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O8-28": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O51-4": {
+            "gene": "wzy",
+            "allele": "O51"
+        },
+        "O83-5": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O55-7": {
+            "gene": "wzx",
+            "allele": "O55"
+        },
+        "O21-1": {
+            "gene": "wzx",
+            "allele": "O21"
+        },
+        "O21-2": {
+            "gene": "wzy",
+            "allele": "O21"
+        },
+        "O121-8": {
+            "gene": "wzx",
+            "allele": "O121"
+        },
+        "O26-3": {
+            "gene": "wzx",
+            "allele": "O26"
+        },
+        "O125-2": {
+            "gene": "wzy",
+            "allele": "O125"
+        },
+        "O28-1": {
+            "gene": "wzx",
+            "allele": "O28"
+        },
+        "O112-10": {
+            "gene": "wzy",
+            "allele": "O112"
+        },
+        "O100-2": {
+            "gene": "wzy",
+            "allele": "O100"
+        },
+        "O41-4": {
+            "gene": "wzy",
+            "allele": "O41"
+        },
+        "O148-8": {
+            "gene": "wzy",
+            "allele": "O148"
+        },
+        "O45-14": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O33-3": {
+            "gene": "wzx",
+            "allele": "O33"
+        },
+        "O172-2": {
+            "gene": "wzy",
+            "allele": "O172"
+        },
+        "O102-4": {
+            "gene": "wzy",
+            "allele": "O102"
+        },
+        "O21-7": {
+            "gene": "wzx",
+            "allele": "O21"
+        },
+        "O103-22": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O156-5": {
+            "gene": "wzy",
+            "allele": "O156"
+        },
+        "O113-3": {
+            "gene": "wzx",
+            "allele": "O113"
+        },
+        "O124-7": {
+            "gene": "wzx",
+            "allele": "O124"
+        },
+        "O157-18": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O140-1": {
+            "gene": "wzx",
+            "allele": "O140"
+        },
+        "O76-2": {
+            "gene": "wzy",
+            "allele": "O76"
+        },
+        "O154-1": {
+            "gene": "wzx",
+            "allele": "O154"
+        },
+        "O18-21": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O104-15": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O153-5": {
+            "gene": "wzx",
+            "allele": "O153"
+        },
+        "O142-3": {
+            "gene": "wzx",
+            "allele": "O142"
+        },
+        "O135-1": {
+            "gene": "wzx",
+            "allele": "O135"
+        },
+        "O36-13": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O127-3": {
+            "gene": "wzx",
+            "allele": "O127"
+        },
+        "O78-3": {
+            "gene": "wzx",
+            "allele": "O78"
+        },
+        "O103-29": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O9-28": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O15-4": {
+            "gene": "wzy",
+            "allele": "O15"
+        },
+        "O150-4": {
+            "gene": "wzy",
+            "allele": "O150"
+        },
+        "O102-1": {
+            "gene": "wzx",
+            "allele": "O102"
+        },
+        "O2-16": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O55-12": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O111-12": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O175-1": {
+            "gene": "wzx",
+            "allele": "O175"
+        },
+        "O7-27": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O132-3": {
+            "gene": "wzx",
+            "allele": "O132"
+        },
+        "O103-25": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O104-7": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O99-7": {
+            "gene": "wzm",
+            "allele": "O99"
+        },
+        "O82-3": {
+            "gene": "wzx",
+            "allele": "O82"
+        },
+        "O8-49": {
+            "gene": "wzm",
+            "allele": "O8"
+        },
+        "O45-12": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O63-7": {
+            "gene": "wzy",
+            "allele": "O63"
+        },
+        "O177-8": {
+            "gene": "wzy",
+            "allele": "O177"
+        },
+        "O10-6": {
+            "gene": "wzy",
+            "allele": "O10"
+        },
+        "O102-2": {
+            "gene": "wzx",
+            "allele": "O102"
+        },
+        "O147-4": {
+            "gene": "wzy",
+            "allele": "O147"
+        },
+        "O143-3": {
+            "gene": "wzx",
+            "allele": "O143"
+        },
+        "O43-2": {
+            "gene": "wzy",
+            "allele": "O43"
+        },
+        "O6-14": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O102-10": {
+            "gene": "wzy",
+            "allele": "O102"
+        },
+        "O103-27": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O86-12": {
+            "gene": "wzy",
+            "allele": "O86"
+        },
+        "O126-4": {
+            "gene": "wzy",
+            "allele": "O126"
+        },
+        "O6-29": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O8-21": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O103-10": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O28-9": {
+            "gene": "wzx",
+            "allele": "O28"
+        },
+        "O180-6": {
+            "gene": "wzy",
+            "allele": "O180"
+        },
+        "O22-8": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O185-2": {
+            "gene": "wzy",
+            "allele": "O185"
+        },
+        "O21-10": {
+            "gene": "wzx",
+            "allele": "O21"
+        },
+        "O53-2": {
+            "gene": "wzy",
+            "allele": "O53"
+        },
+        "O174-12": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O84-5": {
+            "gene": "wzx",
+            "allele": "O84"
+        },
+        "O119-1": {
+            "gene": "wzx",
+            "allele": "O119"
+        },
+        "O90-1": {
+            "gene": "wzx",
+            "allele": "O90"
+        },
+        "O140-2": {
+            "gene": "wzy",
+            "allele": "O140"
+        },
+        "O152-2": {
+            "gene": "wzy",
+            "allele": "O152"
+        },
+        "O55-6": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O98-4": {
+            "gene": "wzy",
+            "allele": "O98"
+        },
+        "O124-2": {
+            "gene": "wzy",
+            "allele": "O124"
+        },
+        "O135-2": {
+            "gene": "wzx",
+            "allele": "O135"
+        },
+        "O148-9": {
+            "gene": "wzx",
+            "allele": "O148"
+        },
+        "O5-10": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O87-5": {
+            "gene": "wzx",
+            "allele": "O87"
+        },
+        "O164-12": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O184-4": {
+            "gene": "wzx",
+            "allele": "O184"
+        },
+        "O145-21": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O49-4": {
+            "gene": "wzy",
+            "allele": "O49"
+        },
+        "O15-11": {
+            "gene": "wzy",
+            "allele": "O15"
+        },
+        "O7-21": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O85-4": {
+            "gene": "wzy",
+            "allele": "O85"
+        },
+        "O98-3": {
+            "gene": "wzx",
+            "allele": "O98"
+        },
+        "O139-5": {
+            "gene": "wzy",
+            "allele": "O139"
+        },
+        "O123-10": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O55-11": {
+            "gene": "wzy",
+            "allele": "O55"
+        },
+        "O176-2": {
+            "gene": "wzy",
+            "allele": "O176"
+        },
+        "O59-2": {
+            "gene": "wzy",
+            "allele": "O59"
+        },
+        "O46-5": {
+            "gene": "wzx",
+            "allele": "O46"
+        },
+        "O148-5": {
+            "gene": "wzy",
+            "allele": "O148"
+        },
+        "O104-4": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O29-1": {
+            "gene": "wzx",
+            "allele": "O29"
+        },
+        "O38-4": {
+            "gene": "wzy",
+            "allele": "O38"
+        },
+        "O174-13": {
+            "gene": "wzy",
+            "allele": "O174"
+        },
+        "O5-12": {
+            "gene": "wzx",
+            "allele": "O5"
+        },
+        "O126-11": {
+            "gene": "wzy",
+            "allele": "O126"
+        },
+        "O58-1": {
+            "gene": "wzx",
+            "allele": "O58"
+        },
+        "O32-6": {
+            "gene": "wzy",
+            "allele": "O32"
+        },
+        "O164-13": {
+            "gene": "wzy",
+            "allele": "O164"
+        },
+        "O73-5": {
+            "gene": "wzy",
+            "allele": "O73"
+        },
+        "O79-3": {
+            "gene": "wzx",
+            "allele": "O79"
+        },
+        "O9-11": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O81-2": {
+            "gene": "wzy",
+            "allele": "O81"
+        },
+        "O96-6": {
+            "gene": "wzx",
+            "allele": "O96"
+        },
+        "O138-1": {
+            "gene": "wzx",
+            "allele": "O138"
+        },
+        "O121-5": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O126-9": {
+            "gene": "wzy",
+            "allele": "O126"
+        },
+        "O93-3": {
+            "gene": "wzy",
+            "allele": "O93"
+        },
+        "O168-1": {
+            "gene": "wzx",
+            "allele": "O168"
+        },
+        "O129-4": {
+            "gene": "wzy",
+            "allele": "O129"
+        },
+        "O103-5": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O6-5": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O10-2": {
+            "gene": "wzy",
+            "allele": "O10"
+        },
+        "O7-39": {
+            "gene": "wzy",
+            "allele": "O7"
+        },
+        "O149-6": {
+            "gene": "wzy",
+            "allele": "O149"
+        },
+        "O171-1": {
+            "gene": "wzx",
+            "allele": "O171"
+        },
+        "O4-4": {
+            "gene": "wzy",
+            "allele": "O4"
+        },
+        "O8-12": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O2-10": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O33-1": {
+            "gene": "wzx",
+            "allele": "O33"
+        },
+        "O2-8": {
+            "gene": "wzx",
+            "allele": "O2"
+        },
+        "O174-11": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O120-3": {
+            "gene": "wzx",
+            "allele": "O120"
+        },
+        "O45-18": {
+            "gene": "wzx",
+            "allele": "O45"
+        },
+        "O105-3": {
+            "gene": "wzx",
+            "allele": "O105"
+        },
+        "O35-5": {
+            "gene": "wzx",
+            "allele": "O35"
+        },
+        "O111-22": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O143-5": {
+            "gene": "wzy",
+            "allele": "O143"
+        },
+        "O5-14": {
+            "gene": "wzx",
+            "allele": "O5"
+        },
+        "O157-9": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O167-3": {
+            "gene": "wzx",
+            "allele": "O167"
+        },
+        "O96-4": {
+            "gene": "wzy",
+            "allele": "O96"
+        },
+        "O180-3": {
+            "gene": "wzy",
+            "allele": "O180"
+        },
+        "O142-2": {
+            "gene": "wzy",
+            "allele": "O142"
+        },
+        "O35-3": {
+            "gene": "wzx",
+            "allele": "O35"
+        },
+        "O146-3": {
+            "gene": "wzx",
+            "allele": "O146"
+        },
+        "O7-1": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O157-11": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O165-4": {
+            "gene": "wzx",
+            "allele": "O165"
+        },
+        "O103-16": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O40-9": {
+            "gene": "wzy",
+            "allele": "O40"
+        },
+        "O110-3": {
+            "gene": "wzx",
+            "allele": "O110"
+        },
+        "O160-1": {
+            "gene": "wzx",
+            "allele": "O160"
+        },
+        "O66-2": {
+            "gene": "wzy",
+            "allele": "O66"
+        },
+        "O170-5": {
+            "gene": "wzy",
+            "allele": "O170"
+        },
+        "O105-2": {
+            "gene": "wzy",
+            "allele": "O105"
+        },
+        "O171-3": {
+            "gene": "wzx",
+            "allele": "O171"
+        },
+        "O145-14": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O6-8": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O155-3": {
+            "gene": "wzy",
+            "allele": "O155"
+        },
+        "O129-10": {
+            "gene": "wzy",
+            "allele": "O129"
+        },
+        "O175-2": {
+            "gene": "wzy",
+            "allele": "O175"
+        },
+        "O161-1": {
+            "gene": "wzx",
+            "allele": "O161"
+        },
+        "O160-5": {
+            "gene": "wzx",
+            "allele": "O160"
+        },
+        "O63-2": {
+            "gene": "wzx",
+            "allele": "O63"
+        },
+        "O113-8": {
+            "gene": "wzy",
+            "allele": "O113"
+        },
+        "O80-1": {
+            "gene": "wzx",
+            "allele": "O80"
+        },
+        "O112-3": {
+            "gene": "wzy",
+            "allele": "O112"
+        },
+        "O162-2": {
+            "gene": "wzt",
+            "allele": "O162"
+        },
+        "O7-34": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O165-1": {
+            "gene": "wzx",
+            "allele": "O165"
+        },
+        "O8-32": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O113-1": {
+            "gene": "wzx",
+            "allele": "O113"
+        },
+        "O83-11": {
+            "gene": "wzy",
+            "allele": "O83"
+        },
+        "O50-1": {
+            "gene": "wzy",
+            "allele": "O50"
+        },
+        "O8-10": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O20-1": {
+            "gene": "wzx",
+            "allele": "O20"
+        },
+        "O157-22": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O38-2": {
+            "gene": "wzy",
+            "allele": "O38"
+        },
+        "O118-4": {
+            "gene": "wzy",
+            "allele": "O118"
+        },
+        "O104-13": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O111-11": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O7-37": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O96-2": {
+            "gene": "wzy",
+            "allele": "O96"
+        },
+        "O15-1": {
+            "gene": "wzx",
+            "allele": "O15"
+        },
+        "O3-5": {
+            "gene": "wzx",
+            "allele": "O3"
+        },
+        "O81-1": {
+            "gene": "wzx",
+            "allele": "O81"
+        },
+        "O9-8": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O123-8": {
+            "gene": "wzy",
+            "allele": "O123"
+        },
+        "O87-2": {
+            "gene": "wzy",
+            "allele": "O87"
+        },
+        "O177-4": {
+            "gene": "wzx",
+            "allele": "O177"
+        },
+        "O9-16": {
+            "gene": "wzt",
+            "allele": "O9"
+        },
+        "O123-15": {
+            "gene": "wzy",
+            "allele": "O123"
+        },
+        "O106-4": {
+            "gene": "wzy",
+            "allele": "O106"
+        },
+        "O177-7": {
+            "gene": "wzy",
+            "allele": "O177"
+        },
+        "O58-2": {
+            "gene": "wzy",
+            "allele": "O58"
+        },
+        "O6-16": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O143-6": {
+            "gene": "wzx",
+            "allele": "O143"
+        },
+        "O111-1": {
+            "gene": "wzx",
+            "allele": "O111"
+        },
+        "O21-4": {
+            "gene": "wzy",
+            "allele": "O21"
+        },
+        "O143-1": {
+            "gene": "wzx",
+            "allele": "O143"
+        },
+        "O111-4": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O104-16": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O174-4": {
+            "gene": "wzx",
+            "allele": "O174"
+        },
+        "O121-3": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O8-26": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O15-8": {
+            "gene": "wzx",
+            "allele": "O15"
+        },
+        "O18-12": {
+            "gene": "wzy",
+            "allele": "O18"
+        },
+        "O128-1": {
+            "gene": "wzx",
+            "allele": "O128"
+        },
+        "O102-8": {
+            "gene": "wzx",
+            "allele": "O102"
+        },
+        "O103-14": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O30-2": {
+            "gene": "wzy",
+            "allele": "O30"
+        },
+        "O88-1": {
+            "gene": "wzx",
+            "allele": "O88"
+        },
+        "O7-2": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O103-4": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O114-3": {
+            "gene": "wzy",
+            "allele": "O114"
+        },
+        "O87-6": {
+            "gene": "wzy",
+            "allele": "O87"
+        },
+        "O103-18": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O153-6": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O102-9": {
+            "gene": "wzx",
+            "allele": "O102"
+        },
+        "O8-36": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O15-7": {
+            "gene": "wzy",
+            "allele": "O15"
+        },
+        "O6-15": {
+            "gene": "wzx",
+            "allele": "O6"
+        },
+        "O118-2": {
+            "gene": "wzy",
+            "allele": "O118"
+        },
+        "O111-18": {
+            "gene": "wzy",
+            "allele": "O111"
+        },
+        "O145-22": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O8-55": {
+            "gene": "wzy",
+            "allele": "O8"
+        },
+        "O39-8": {
+            "gene": "wzy",
+            "allele": "O39"
+        },
+        "O144-2": {
+            "gene": "wzy",
+            "allele": "O144"
+        },
+        "O182-2": {
+            "gene": "wzy",
+            "allele": "O182"
+        },
+        "O79-2": {
+            "gene": "wzy",
+            "allele": "O79"
+        },
+        "O159-3": {
+            "gene": "wzx",
+            "allele": "O159"
+        },
+        "O45-5": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O18-20": {
+            "gene": "wzx",
+            "allele": "O18"
+        },
+        "O5-7": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O149-1": {
+            "gene": "wzx",
+            "allele": "O149"
+        },
+        "O155-4": {
+            "gene": "wzx",
+            "allele": "O155"
+        },
+        "O160-4": {
+            "gene": "wzy",
+            "allele": "O160"
+        },
+        "O153-3": {
+            "gene": "wzx",
+            "allele": "O153"
+        },
+        "O124-9": {
+            "gene": "wzy",
+            "allele": "O124"
+        },
+        "O41-1": {
+            "gene": "wzx",
+            "allele": "O41"
+        },
+        "O184-2": {
+            "gene": "wzy",
+            "allele": "O184"
+        },
+        "O8-51": {
+            "gene": "wzt",
+            "allele": "O8"
+        },
+        "O115-1": {
+            "gene": "wzx",
+            "allele": "O115"
+        },
+        "O103-11": {
+            "gene": "wzx",
+            "allele": "O103"
+        },
+        "O100-3": {
+            "gene": "wzy",
+            "allele": "O100"
+        },
+        "O157-21": {
+            "gene": "wzy",
+            "allele": "O157"
+        },
+        "O6-31": {
+            "gene": "wzy",
+            "allele": "O6"
+        },
+        "O117-6": {
+            "gene": "wzy",
+            "allele": "O117"
+        },
+        "O117-1": {
+            "gene": "wzx",
+            "allele": "O117"
+        },
+        "O107-3": {
+            "gene": "wzx",
+            "allele": "O107"
+        },
+        "O145-16": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O129-5": {
+            "gene": "wzx",
+            "allele": "O129"
+        },
+        "O45-15": {
+            "gene": "wzy",
+            "allele": "O45"
+        },
+        "O36-4": {
+            "gene": "wzx",
+            "allele": "O36"
+        },
+        "O127-2": {
+            "gene": "wzx",
+            "allele": "O127"
+        },
+        "O121-7": {
+            "gene": "wzy",
+            "allele": "O121"
+        },
+        "O103-28": {
+            "gene": "wzy",
+            "allele": "O103"
+        },
+        "O9-25": {
+            "gene": "wzm",
+            "allele": "O9"
+        },
+        "O126-3": {
+            "gene": "wzy",
+            "allele": "O126"
+        },
+        "O5-15": {
+            "gene": "wzy",
+            "allele": "O5"
+        },
+        "O145-19": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O153-15": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O22-4": {
+            "gene": "wzx",
+            "allele": "O22"
+        },
+        "O159-4": {
+            "gene": "wzy",
+            "allele": "O159"
+        },
+        "O134-6": {
+            "gene": "wzy",
+            "allele": "O134"
+        },
+        "O99-4": {
+            "gene": "wzt",
+            "allele": "O99"
+        },
+        "O7-15": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O104-18": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O62-2": {
+            "gene": "wzy",
+            "allele": "O62"
+        },
+        "O170-4": {
+            "gene": "wzy",
+            "allele": "O170"
+        },
+        "O123-9": {
+            "gene": "wzx",
+            "allele": "O123"
+        },
+        "O137-3": {
+            "gene": "wzx",
+            "allele": "O137"
+        },
+        "O104-19": {
+            "gene": "wzx",
+            "allele": "O104"
+        },
+        "O153-9": {
+            "gene": "wzy",
+            "allele": "O153"
+        },
+        "O164-6": {
+            "gene": "wzx",
+            "allele": "O164"
+        },
+        "O83-1": {
+            "gene": "wzx",
+            "allele": "O83"
+        },
+        "O126-8": {
+            "gene": "wzx",
+            "allele": "O126"
+        },
+        "O172-4": {
+            "gene": "wzy",
+            "allele": "O172"
+        },
+        "O136-1": {
+            "gene": "wzx",
+            "allele": "O136"
+        },
+        "O17-4": {
+            "gene": "wzx",
+            "allele": "O17"
+        },
+        "O145-20": {
+            "gene": "wzy",
+            "allele": "O145"
+        },
+        "O141-1": {
+            "gene": "wzx",
+            "allele": "O141"
+        },
+        "O158-4": {
+            "gene": "wzy",
+            "allele": "O158"
+        },
+        "O36-5": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O25-2": {
+            "gene": "wzy",
+            "allele": "O25"
+        },
+        "O79-4": {
+            "gene": "wzy",
+            "allele": "O79"
+        },
+        "O7-20": {
+            "gene": "wzx",
+            "allele": "O7"
+        },
+        "O36-2": {
+            "gene": "wzy",
+            "allele": "O36"
+        },
+        "O2-9": {
+            "gene": "wzy",
+            "allele": "O2"
+        },
+        "O32-1": {
+            "gene": "wzx",
+            "allele": "O32"
+        }
+    }
+}

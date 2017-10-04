@@ -1,6 +1,6 @@
 # ECTyper (an easy typer)
 The `ectyper` wraps a standalone serotyping module.  
-Support FASTA and FASTQ format.
+Support FASTA and FASTQ format.gi
 
 # Contents
 [Dependencies](#Dependencies)  
