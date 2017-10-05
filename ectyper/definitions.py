@@ -14,3 +14,4 @@ SEROTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_dict.json')
 REFERENCE_INDEX = os.path.join(DATA_DIR, 'bowtie_index/serotype_dict')
 ECOLI_MARKERS = os.path.join(DATA_DIR, 'ecoli_specific_markers.fasta')
 SAMTOOLS = '/samtools/bin/samtools'
+COMBINED = os.path.join(DATA_DIR, 'combined.fasta')

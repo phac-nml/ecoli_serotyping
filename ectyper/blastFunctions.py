@@ -50,8 +50,7 @@ def create_blast_db(filelist):
     :param filelist: genome list that was given by the user on the commandline.
     :return full path of DB
     """
-
-    tempdir = tempfile.TemporaryDirectory().name
+    tempdir = tempfile.gettempdir()
     blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
 
     log.debug("Generating the blast db at %s", blast_db_path)
@@ -66,14 +65,18 @@ def create_blast_db(filelist):
     return blast_db_path
 
 
-def run_blast(query_file, blast_db, percent_identity=97):
+def run_blast(query_file, blast_db, args):
     """
     Execute a blastn run given the query files and blastdb
 
     :param query_file: one or both of the VF / Serotype input files
     :param blast_db: validated fasta files from the user, in DB form
+    :param args: parsed commandline options from the user
     :return: the blast output file
     """
+    percent_identity = args.percentIdentity
+    percent_length = args.percentLength
+    
 
     log.info('Running blast query {0} against database {1} '.format(
         query_file, blast_db))
@@ -86,8 +89,9 @@ def run_blast(query_file, blast_db, percent_identity=97):
         "-db", blast_db,
         "-out", blast_output_file,
         '-perc_identity', str(percent_identity),
+        '-qcov_hsp_perc', str(percent_length),
         "-outfmt",
-        '6 " qseqid qlen sseqid length pident sstart send sframe "',
+        '6 qseqid qlen sseqid length pident sstart send sframe',
         "-word_size", "11"
     ]
     subprocess_util.run_subprocess(cmd)

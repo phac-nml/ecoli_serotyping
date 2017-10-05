@@ -10,6 +10,7 @@ import json
 import logging
 import tempfile
 import sys
+import timeit
 
 from ectyper import definitions
 from ectyper import blastFunctions
@@ -33,10 +34,14 @@ def run_program():
     :return: success or failure
 
     """
+    start_time = timeit.default_timer()
     loggingFunctions.initialize_logging()
     args = commandLineOptions.parse_command_line()
     LOG.debug(args)
-
+    # tempfile.tempdir is a singleton variable
+    tempfile.tempdir = None
+    tempdir_obj = tempfile.TemporaryDirectory()
+    tempfile.tempdir = tempdir_obj.name
     # use serotype sequence from `More Serotype`
     query_file = definitions.SEROTYPE_FILE
 
@@ -61,22 +66,11 @@ def run_program():
     for file in raw_fasta_files:
         if genomeFunctions.is_ecoli_genome(file, args):
             final_fasta_files.append(file)
-    final_fastq_files = []
     for file in raw_fastq_files:
-        if genomeFunctions.is_ecoli_genome(file, args, True):
-            final_fastq_files.append(file)
-
-    LOG.debug('Final fasta files: %s', str(final_fasta_files))
-    LOG.debug('Final fastq files: %s', str(final_fastq_files))
-
-    if final_fastq_files != []:
-        LOG.info("Assemble reads files by mapping to query file")
-        # use temp directory to avoid repeatedly creating reference index
-        temp_dir = tempfile.TemporaryDirectory().name
-        for file in final_fastq_files:
-            assemble = \
-                genomeFunctions.assemble_reads(file, query_file, temp_dir)
-            final_fasta_files.append(assemble)
+        iden_file, pred_file = \
+            genomeFunctions.assemble_reads(file, definitions.COMBINED)
+        if genomeFunctions.is_ecoli_genome(iden_file, args):
+            final_fasta_files.append(pred_file)
     
     LOG.info('Final fasta files: %s', str(final_fasta_files))
 
@@ -94,7 +88,7 @@ def run_program():
     blast_db = blastFunctions.create_blast_db(all_genomes_files)
 
     serotype_output_file = \
-        blastFunctions.run_blast(query_file, blast_db, args.percentIdentity)
+        blastFunctions.run_blast(query_file, blast_db, args)
     parsed_results = \
         blastFunctions.parse_blast_results(
             args,
@@ -113,6 +107,9 @@ def run_program():
                 parsed_results))
     else:
         LOG.info("Printing results in JSON format")
-        print(json.dumps(parsed_results, indent=4, separators=(',', ': ')))
+        LOG.info(json.dumps(parsed_results, indent=4, separators=(',', ': ')))
 
-    LOG.info("Done")
+    elapsed_time = timeit.default_timer() - start_time
+    LOG.info("Program completed successfully in %0.3f sec.", elapsed_time)
+    final_output = {}
+    tempdir_obj.cleanup()

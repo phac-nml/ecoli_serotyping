@@ -23,17 +23,21 @@ def initialize_logging(log_file=None):
     if log_file is None:
         log_file = os.path.join(definitions.ROOT_DIR, 'default.log')
 
+
     logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s.%(msecs)02d %(name)-20s %(levelname)-8s %(message)s',
+                        format='%(asctime)s.%(msecs)02d %(name)-25s %(levelname)-8s %(message)s',
                         datefmt='%y-%m-%d %H:%M:%S',
                         filename=log_file,
                         filemode='w')
+    # If logger already exist, return the existing logger
+    if len(logging.getLogger('').handlers)>1:
+        return log_file
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     # set a format which is simpler for console use
     formatter = logging.Formatter(
-        fmt='%(name)-20s: %(levelname)-8s %(message)s',
+        fmt='%(name)-25s: %(levelname)-8s %(message)s',
         datefmt='%H:%M:%S'
     )
     # tell the handler to use this format

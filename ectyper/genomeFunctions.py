@@ -10,7 +10,7 @@ import re
 import tempfile
 
 import Bio
-import Bio.SeqIO
+from Bio import SeqIO
 
 from ectyper import definitions
 from ectyper import serotypePrediction
@@ -51,7 +51,7 @@ def get_files_as_list(file_or_directory):
 
 def get_valid_format(file):
     """
-    Check using Bio.SeqIO if files are valid fasta/fastq format.
+    Check using SeqIO if files are valid fasta/fastq format.
     Then return the format.
 
     Args:
@@ -69,7 +69,7 @@ def get_valid_format(file):
         file_format = 'fastq'
     else:
         return ''
-    for _ in Bio.SeqIO.parse(file, file_format):
+    for _ in SeqIO.parse(file, file_format):
         log.info("%s is a valid %s format file", file, file_format)
         return file_format
     log.info("%s is not a valid %s format file", file, file_format)
@@ -115,7 +115,7 @@ def get_genome_names_from_files(files):
             list_of_genomes.append(n_name)
 
             with open(new_file, "w") as output_fh:
-                for record in Bio.SeqIO.parse(file, "fasta"):
+                for record in SeqIO.parse(file, "fasta"):
                     output_fh.write(">lcl|" + n_name + "|" + record.description + "\n")
                     output_fh.write(str(record.seq) + "\n")
         else:
@@ -176,7 +176,7 @@ def get_fasta_header_from_file(filename):
     :return: header
     """
 
-    for record in Bio.SeqIO.parse(filename, "fasta"):
+    for record in SeqIO.parse(filename, "fasta"):
         return record.description
 
 
@@ -202,33 +202,25 @@ def get_parsing_dict(ptype):
         log.error("No parsing dictionary assigned for {0}".format(ptype))
         exit(1)
 
-def assemble_reads(reads, reference, output=None, temp_dir=None):
+def assemble_reads(reads, reference):
     '''
     Return path to assembled reads.
     Assemble short reads by mapping to a reference genome.
-    Default output is the same as reads file (basename+'.fasta').
+    Default output is the same as reads file
+        (basename+'iden.fasta' and basename+'pred.fasta').
 
     Args:
         reads (str): FASTQ/FQ format reads file
         reference (str): FASTA format reference file
-        output (str): [optional] prefix of FASTA output
-        temp_dir (str): [optional] use specific directory to store
-                        intermediate output
 
     Returns:
-        str: FASTA output file
+        tuple(str, str): identifcation and prediction fasta file
     '''
-    if temp_dir is None:
-        temp_dir = tempfile.TemporaryDirectory().name
-    else:
-        if not os.path.exists(temp_dir):
-            os.mkdir(temp_dir)
-
-    if output is None:
-        output = os.path.join(
-            temp_dir,
-            os.path.splitext(os.path.basename(reads))[0]+'.fasta'
-        )
+    temp_dir = tempfile.gettempdir()
+    output = os.path.join(
+        temp_dir,
+        os.path.splitext(os.path.basename(reads))[0]+'.fasta'
+    )
 
     # run once if index reference does not exist
     index_path = \
@@ -289,47 +281,55 @@ def assemble_reads(reads, reference, output=None, temp_dir=None):
         output
     ]
     subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
-    return output
+    return split_mapped_output(output)
 
-def is_ecoli_genome(file, args, is_reads=False, temp_dir=None):
+def get_num_hits(target, reference, args):
+    '''
+    Return number of matching hits when query the reference genome
+        on the target genome
+    
+    Args:
+        target(str): target genome
+        reference(str): reference genome
+        args (arguments): console arguments
+
+    Returns:
+        int: number of hits found
+    '''
+    num_hit = 0
+    blast_db = blastFunctions.create_blast_db([target])
+    result = blastFunctions.run_blast(
+        definitions.ECOLI_MARKERS,
+        blast_db,
+        args
+    )
+    temp_dict = {}
+    with open(result) as handler:
+        log.debug("get_num_hits() output:")
+        for line in handler:
+            clean_line = line.strip()
+            log.debug(clean_line)
+            la = clean_line.split()
+            temp_dict[la[0]] = True
+    num_hit = len(temp_dict)
+    log.debug("%s aligned to %d marker sequences", target, num_hit)
+    return num_hit
+
+def is_ecoli_genome(file, args):
     '''
     Return True if file is classified as ecoli by ecoli markers, otherwise False
 
     Args:
         file (str): path to valid fasta/fastq genome file
-        args (Arguments): console arguments
-        is_reads (bool): whether file is a fastq reads file [default: False]
-        temp_dir (bool): use specific directory to store intermediate output [default: None]
+        args (arguments): console arguments
 
     Returns:
         bool: output
     '''
-    if is_reads:
-        mapped_file = assemble_reads(file, definitions.ECOLI_MARKERS, temp_dir)
-        num_hit = get_num_of_fasta_entry(mapped_file)
-        log.debug("%s mapped to %d marker sequences", file, num_hit)
-        if num_hit < 3:
-            log.info("%s is not a valid e.coli genome file", file)
-            return False
-    else:
-        blast_db = blastFunctions.create_blast_db([file])
-        result = blastFunctions.run_blast(
-            definitions.ECOLI_MARKERS,
-            blast_db,
-            args.percentIdentity
-        )
-        temp_dict = {}
-        with open(result) as handler:
-            for line in handler:
-                clean_line = line.strip()
-                la = clean_line.split()
-                temp_dict[la[0]] = True
-        num_hit = len(temp_dict)
-        log.debug("%s aligned to %d marker sequences", file, num_hit)
-        if num_hit < 3:
-            log.info("%s is not a valid e.coli genome file", file)
-            return False
-
+    num_hit = get_num_hits(file, definitions.ECOLI_MARKERS, args)
+    if num_hit < 3:
+        log.info("%s is not a valid e.coli genome file", file)
+        return False
     log.info("%s is a valid e.coli genome file", file)
     return True
 
@@ -343,7 +343,33 @@ def get_num_of_fasta_entry(file):
     Returns:
         int: number of entries
     '''
-    count = 0
-    for _ in Bio.SeqIO.parse(file, 'fasta'):
-        count+=1
+    count =0
+    for _ in SeqIO.parse(file, 'fasta'):
+        count += 1
     return count
+
+def split_mapped_output(file):
+    '''
+    Split given fasta file into two file based on 'lcl' tags
+        in the seq header
+    Args:
+        file(str): path to input fasta file
+
+    Returns: 
+        (str): path to ecoli identification fasta seq
+        (str): path to serotype prediction fasta seq
+    '''
+    identif_file = os.path.splitext(file)[0]+'.iden.fasta'
+    predict_file = os.path.splitext(file)[0]+'.pred.fasta'
+    identif_seqs = []
+    predict_seqs = []
+    for record in SeqIO.parse(file, 'fasta'):
+        if 'lcl' in record.description:
+            identif_seqs.append(record)
+        else:
+            predict_seqs.append(record)
+    with open(identif_file, "w") as output_handle:
+        SeqIO.write(identif_seqs, output_handle, "fasta")
+    with open(predict_file, "w") as output_handle:
+        SeqIO.write(predict_seqs, output_handle, "fasta")
+    return identif_file, predict_file

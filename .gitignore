@@ -94,11 +94,11 @@ ENV/
 /docs/
 !/ectyper.iml
 /ectyper.iml
-/temp/
 /.idea/
 /ecoli_serotyping.iml
 /.vs/
 
 # Additional setting
 *.fai
-test/Data/
+/temp/
+/test/Data/

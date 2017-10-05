@@ -1,28 +1,53 @@
-import unittest
 import argparse
-import sys
 import os
+import sys
+import unittest
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from ectyper import ectyper
 
+def set_input(input):
+    sys.argv[1:] = ['-i', input, '-r']
+
 class TestEctyper(unittest.TestCase):
+    '''
+    Integration tests (slow)
+    Passed tests are commented out
+    '''
 
-    def test_fastq_file(self):
-        salamonella_fastq = ['-i', 'test/Data/Salmonella.fastq','-r']
-        valid_fastq = ['-i', 'test/Data/Ecoli_O22H8.fastq','-r']
-        invalid_fastq = ['-i', 'test/Data/invalid.fastq','-r']
+    # def test__invalid_fastq_file(self):
+    #     invalid_fastq = 'test/Data/Invalid.fastq'
+    #     with self.assertRaises(SystemExit):
+    #         set_input(invalid_fastq)
+    #         ectyper.run_program()
 
-        with self.assertRaises(SystemExit):
-            sys.argv[1:] = invalid_fastq
-            ectyper.run_program()
+    # def test__salamonella_fastq_file(self):
+    #     salamonella_fastq = 'test/Data/Salmonella-spp-BL25_R1_001.fastq'
+    #     with self.assertRaises(SystemExit):
+    #         set_input(salamonella_fastq)
+    #         ectyper.run_program()
 
-        with self.assertRaises(SystemExit):
-            sys.argv[1:] = salamonella_fastq
-            ectyper.run_program()
-
-        sys.argv[1:] = valid_fastq
+    def test__valid_fastq_file(self):
+        valid_fastq = 'test/Data/ECI-4015_S6_L001_R1_001.merged.fastq'
+        set_input(valid_fastq)
         ectyper.run_program()
 
+    # def test__invalid_fasta_file(self):
+    #     invalid_fasta = 'test/Data/Invalid.fna'
+
+    #     with self.assertRaises(SystemExit):
+    #         set_input(invalid_fasta)
+    #         ectyper.run_program()
+
+    # def test__salamonella_fasta_file(self):
+    #     salamonella_fasta = 'test/Data/SA20093784.fasta'
+    #     with self.assertRaises(SystemExit):
+    #         set_input(salamonella_fasta)
+    #         ectyper.run_program()
+
+    # def test__valid_fasta_file(self):
+    #     valid_fasta = 'test/Data/GCA_000010745.1_ASM1074v1_genomic.fna'
+    #     set_input(valid_fasta)
+    #     ectyper.run_program()
 if __name__ == '__main__':
     unittest.main()
-    
