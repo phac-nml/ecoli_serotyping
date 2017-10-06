@@ -101,7 +101,7 @@ ENV/
 # Additional setting
 *.fai
 /temp/
-/test/Data/
 
 # Essential but too large
+/test/Data/
 ectyper/Data/refseq.genomes.k21s1000.msh
