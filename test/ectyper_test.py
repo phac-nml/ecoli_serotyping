@@ -6,8 +6,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from ectyper import ectyper
 
-def set_input(input, allow_species_id=True):
-    args = ['-i', input]
+def set_input(input, allow_species_id=True, percent_iden=97):
+    args = ['-i', input, '-d', str(percent_iden)]
     if allow_species_id:
         args.append('-s')
     sys.argv[1:] = args
@@ -24,13 +24,14 @@ class TestEctyper(unittest.TestCase):
     #         set_input(invalid_fastq)
     #         ectyper.run_program()
 
-    def test__salamonella_fastq_file(self):
-        salamonella_fastq = 'test/Data/Salmonella-spp-BL25_R1_001.fastq'
-        with self.assertRaises(SystemExit):
-            set_input(salamonella_fastq)
-            ectyper.run_program()
+    # def test__salamonella_fastq_file(self):
+    #     salamonella_fastq = 'test/Data/Salmonella-spp-BL25_R1_001.fastq'
+    #     with self.assertRaises(SystemExit):
+    #         set_input(salamonella_fastq)
+    #         ectyper.run_program()
 
     # def test__valid_fastq_file(self):
+    #     # 38 secs
     #     valid_fastq = 'test/Data/ECI-4015_S6_L001_R1_001.merged.fastq'
     #     set_input(valid_fastq)
     #     ectyper.run_program()
@@ -48,9 +49,9 @@ class TestEctyper(unittest.TestCase):
     #         set_input(salamonella_fasta)
     #         ectyper.run_program()
 
-    # def test__valid_fasta_file(self):
-    #     valid_fasta = 'test/Data/GCA_000010745.1_ASM1074v1_genomic.fna'
-    #     set_input(valid_fasta)
-    #     ectyper.run_program()
+    def test__valid_fasta_file(self):
+        valid_fasta = 'test/Data/GCA_000010745.1_ASM1074v1_genomic.fna'
+        set_input(valid_fasta)
+        ectyper.run_program()
 if __name__ == '__main__':
     unittest.main()

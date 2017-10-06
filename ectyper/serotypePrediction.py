@@ -76,7 +76,9 @@ def predict_serotype(results_dict):
 
         results_dict[genome_name]['serotype']['otype'] = sero_dict['O']
         results_dict[genome_name]['serotype']['htype'] = sero_dict['H']
-
+    
+        if sero_dict['O'] == sero_dict['H'] == '-':
+            log.warning("No serotype found for %s!!!", genome_name)
     return results_dict
 
 
