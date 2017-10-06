@@ -10,8 +10,11 @@ package:
 source:
     fn: moreserotype.zip
     url: https://github.com/phac-nml/ecoli_serotyping/archive/moreserotype.zip
+    md5: d0854f4f83e1664589e90fcef21c5fe5
 
 requirements:
+    build:
+        - python
     run:
         - bowtie2 2.2.6*
         - python 3.5*

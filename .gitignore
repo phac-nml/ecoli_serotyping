@@ -103,5 +103,5 @@ ENV/
 /temp/
 
 # Essential but too large
-/test/Data/
+/test/Data/*.fastq
 ectyper/Data/refseq.genomes.k21s1000.msh
