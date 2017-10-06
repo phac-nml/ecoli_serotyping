@@ -10,7 +10,7 @@ Support FASTA and FASTQ format.gi
 * mash (v2.0)
 
 # Basic usage
-1. Run `pip [path_to_ectyper/]`
+1. Run `pip install [path_to_ectyper/]`
 1. Put all you fasta/fastq file in one folder
 1. `ectyper -i [dir_path or file_path]`
 1. View result on console  

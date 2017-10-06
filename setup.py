@@ -4,7 +4,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(
-    name='ecoli_serotyping',
+    name='ectyper',
     version='0.1',
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
