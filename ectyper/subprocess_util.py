@@ -13,7 +13,7 @@ def run_subprocess(cmd, is_shell=False):
     :param
         cmd (str): cmd command
     :return
-        output(str)
+        stdout(str)
     '''
     start_time = timeit.default_timer()
     LOG.info("Running: %s", cmd)
@@ -24,12 +24,13 @@ def run_subprocess(cmd, is_shell=False):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
-    output = comp_proc.stderr
+    stderr = comp_proc.stderr
+    stdout = comp_proc.stdout
     elapsed_time = timeit.default_timer() - start_time
     if comp_proc.returncode == 0:
         LOG.info("Subprocess finish successfully in %0.3f sec.", elapsed_time)
-        LOG.debug(output)
-        return output
+        LOG.debug(stderr)
+        return stdout
     LOG.fatal("Subprocess terminated with error in %d0.3f sec", elapsed_time)
-    LOG.debug(output)
+    LOG.debug(stderr)
     exit(1)

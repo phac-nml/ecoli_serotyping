@@ -44,9 +44,9 @@ def parse_command_line():
         help="Sets the output format to `tabular`. JSON otherwise.")
 
     parser.add_argument(
-        "-r",
-        "--reads",
+        "-s",
+        "--species",
         action="store_true",
-        help="Sets the input type as sequence reads. Genome assembly otherwise")
+        help="Enable non-ecoli species identification")
 
     return parser.parse_args()

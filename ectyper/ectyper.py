@@ -8,16 +8,13 @@
 import csv
 import json
 import logging
-import tempfile
 import sys
+import tempfile
 import timeit
 
-from ectyper import definitions
-from ectyper import blastFunctions
-from ectyper import commandLineOptions
-from ectyper import genomeFunctions
-from ectyper import loggingFunctions
-from ectyper import resultsToTable
+from ectyper import (blastFunctions, commandLineOptions, definitions,
+                     genomeFunctions, loggingFunctions, resultsToTable,
+                     speciesIdentification)
 
 LOG = logging.getLogger(__name__)
 
@@ -26,6 +23,9 @@ def run_program():
     """
     Wrapper for both the serotyping and virulence finder
     The program needs to do the following
+    (1) Filter genome files based on format
+    (2) Filter genome files based on species
+    (3) Map FASTQ files to FASTA seq
     (1) Get names of all genomes being tested
     (2) Create a BLAST database of those genomes
     (3) Query for serotype and/or virulence factors
@@ -64,18 +64,19 @@ def run_program():
     LOG.info("Filter non-ecoli genome files")
     final_fasta_files = []
     for file in raw_fasta_files:
-        if genomeFunctions.is_ecoli_genome(file, args):
+        if speciesIdentification.is_ecoli_genome(file, args):
             final_fasta_files.append(file)
     for file in raw_fastq_files:
         iden_file, pred_file = \
             genomeFunctions.assemble_reads(file, definitions.COMBINED)
-        if genomeFunctions.is_ecoli_genome(iden_file, args):
+        if speciesIdentification.is_ecoli_genome(iden_file, args, file):
             final_fasta_files.append(pred_file)
     
     LOG.info('Final fasta files: %s', str(final_fasta_files))
 
     if final_fasta_files == []:
         LOG.info("No valid genome file. Terminating the program.")
+        tempdir_obj.cleanup()
         exit(1)
 
     LOG.info("Gathering genome names from files")

@@ -11,11 +11,8 @@ import tempfile
 
 import Bio
 from Bio import SeqIO
-
-from ectyper import definitions
-from ectyper import serotypePrediction
-from ectyper import subprocess_util
-from ectyper import blastFunctions
+from ectyper import (blastFunctions, definitions, serotypePrediction,
+                     subprocess_util)
 
 log = logging.getLogger(__name__)
 
@@ -283,55 +280,9 @@ def assemble_reads(reads, reference):
     subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
     return split_mapped_output(output)
 
-def get_num_hits(target, reference, args):
-    '''
-    Return number of matching hits when query the reference genome
-        on the target genome
-    
-    Args:
-        target(str): target genome
-        reference(str): reference genome
-        args (arguments): console arguments
 
-    Returns:
-        int: number of hits found
-    '''
-    num_hit = 0
-    blast_db = blastFunctions.create_blast_db([target])
-    result = blastFunctions.run_blast(
-        definitions.ECOLI_MARKERS,
-        blast_db,
-        args
-    )
-    temp_dict = {}
-    with open(result) as handler:
-        log.debug("get_num_hits() output:")
-        for line in handler:
-            clean_line = line.strip()
-            log.debug(clean_line)
-            la = clean_line.split()
-            temp_dict[la[0]] = True
-    num_hit = len(temp_dict)
-    log.debug("%s aligned to %d marker sequences", target, num_hit)
-    return num_hit
 
-def is_ecoli_genome(file, args):
-    '''
-    Return True if file is classified as ecoli by ecoli markers, otherwise False
 
-    Args:
-        file (str): path to valid fasta/fastq genome file
-        args (arguments): console arguments
-
-    Returns:
-        bool: output
-    '''
-    num_hit = get_num_hits(file, definitions.ECOLI_MARKERS, args)
-    if num_hit < 3:
-        log.info("%s is not a valid e.coli genome file", file)
-        return False
-    log.info("%s is a valid e.coli genome file", file)
-    return True
 
 def get_num_of_fasta_entry(file):
     '''
