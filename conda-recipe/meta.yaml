@@ -2,6 +2,7 @@ about:
     license: MIT
     summary: Ectyper is a python script for serotyping e.coli genome
     author: Camille La Rose, Chad Laing, Sam Sung
+    home: https://github.com/phac-nml/ecoli_serotyping/tree/moreserotype
 
 package:
     name: ectyper
@@ -10,13 +11,19 @@ package:
 source:
     fn: moreserotype.zip
     url: https://github.com/phac-nml/ecoli_serotyping/archive/moreserotype.zip
-    md5: d0854f4f83e1664589e90fcef21c5fe5
+    # md5: fb7b95f5c02e62e1fa3046f0c8e4b3a7
 
 requirements:
     build:
         - python
     run:
-        - bowtie2 2.2.6*
-        - python 3.5*
-        - samtools 1.5*
-        - bcftools 1.2*
+        - bowtie2
+        - python
+        - samtools
+        - bcftools
+
+test:
+    requires:
+        - nose
+    commands:
+        - nosetests
