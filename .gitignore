@@ -104,4 +104,5 @@ ENV/
 
 # Essential but too large
 /test/Data/*.fastq
+!/test/Data/Invalid.fastq
 ectyper/Data/refseq.genomes.k21s1000.msh

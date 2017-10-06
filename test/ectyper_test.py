@@ -24,17 +24,17 @@ class TestEctyper(unittest.TestCase):
             set_input(invalid_fastq)
             ectyper.run_program()
 
-    def test__salamonella_fastq_file(self):
-        salamonella_fastq = 'test/Data/Salmonella-spp-BL25_R1_001.fastq'
-        with self.assertRaises(SystemExit):
-            set_input(salamonella_fastq)
-            ectyper.run_program()
+    # def test__salamonella_fastq_file(self):
+    #     salamonella_fastq = 'test/Data/Salmonella-spp-BL25_R1_001.fastq'
+    #     with self.assertRaises(SystemExit):
+    #         set_input(salamonella_fastq)
+    #         ectyper.run_program()
 
-    def test__valid_fastq_file(self):
-        # 38 secs
-        valid_fastq = 'test/Data/ECI-4015_S6_L001_R1_001.merged.fastq'
-        set_input(valid_fastq)
-        ectyper.run_program()
+    # def test__valid_fastq_file(self):
+    #     # 38 secs
+    #     valid_fastq = 'test/Data/ECI-4015_S6_L001_R1_001.merged.fastq'
+    #     set_input(valid_fastq)
+    #     ectyper.run_program()
 
     def test__invalid_fasta_file(self):
         invalid_fasta = 'test/Data/Invalid.fna'
