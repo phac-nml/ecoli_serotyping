@@ -19,10 +19,10 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
   - conda config --add channels bioconda
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools conda-build
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools
   - source activate test-environment
-  - conda build conda-recipe
-  - conda install ectyper --use-local
+  - python setup.py install
+  - nosetests
 
 script:
   - nosetests
