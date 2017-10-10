@@ -79,7 +79,7 @@ def get_species(file):
         log.info("No refseq found." +
             "Download refseq from " +
             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh" +
-            "then put it in ectyper/Data/"
+            " then put it in ectyper/Data/"
         )
     species = 'unknown'
     cmd = [
