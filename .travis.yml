@@ -6,7 +6,11 @@ install:
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
   # version is the same.
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
@@ -17,11 +21,7 @@ install:
   - conda config --add channels bioconda
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast
   - source activate test-environment
-  - sudo python setup.py install nosetests
+  - python setup.py install
 
-group: 
-  - stable
-dist:
-  - trusty
-os:
-  - linux
+script:
+  - nosetests
