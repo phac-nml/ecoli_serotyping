@@ -19,9 +19,6 @@ install:
   - source activate test-environment
   - sudo python setup.py install nosetests
 
-script:
-  - nosetests
-
 group: 
   - stable
 dist:
