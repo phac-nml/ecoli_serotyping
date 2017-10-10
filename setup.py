@@ -15,6 +15,5 @@ setup(
     packages=['ectyper'],
     package_data={'ectyper': ['Data/*']},
     zip_safe=False,
-    test_suite='nose.collector',
-    tests_require=['nose']
+    test_suite='nose.collector'
 )

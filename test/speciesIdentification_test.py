@@ -2,15 +2,19 @@ import os
 import sys
 import unittest
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from ectyper import (speciesIdentification, loggingFunctions)
+from ectyper import (speciesIdentification, loggingFunctions, definitions)
 
 class TestEctyper(unittest.TestCase):
 
-    def test_invalid_fasta_file(self):
+    def test_invalid_fastq_file(self):
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            return
         valid_fasta = 'test/Data/Invalid.fastq'
         self.assertIn('unknown', speciesIdentification.get_species(valid_fasta))
 
     def test_valid_fasta_file(self):
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            return
         valid_fasta = 'test/Data/GCA_000010745.1_ASM1074v1_genomic.fna'
         self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fasta))
 
@@ -24,10 +28,14 @@ class TestEctyper(unittest.TestCase):
     #     self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fastq))
 
     def test_invalid_fasta_file(self):
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            return
         invalid_fasta = 'test/Data/Invalid.fna'
         self.assertIn('unknown', speciesIdentification.get_species(invalid_fasta))
 
     def test_salamonella_fasta_file(self):
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            return
         salamonella_fasta = 'test/Data/SA20093784.fasta'
         self.assertIn('Salmonella enterica', speciesIdentification.get_species(salamonella_fasta))
 
