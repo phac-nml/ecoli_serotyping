@@ -46,21 +46,16 @@ def get_num_hits(target, args):
     num_hit = 0
     try:
         blast_db = blastFunctions.create_blast_db([target])
-        result = blastFunctions.run_blast(
+        result = blastFunctions.run_blast_for_identification(
             definitions.ECOLI_MARKERS,
-            blast_db,
-            args
+            blast_db
         )
-        temp_dict = {}
         with open(result) as handler:
             log.debug("get_num_hits() output:")
             for line in handler:
-                clean_line = line.strip()
-                log.debug(clean_line)
-                la = clean_line.split()
-                temp_dict[la[0]] = True
-        num_hit = len(temp_dict)
-        log.debug("%s aligned to %d marker sequences", target, num_hit)
+                log.debug(line)
+                num_hit += 1
+        log.info("%s aligned to %d marker sequences", target, num_hit)
     except SystemExit:
         pass
     return num_hit

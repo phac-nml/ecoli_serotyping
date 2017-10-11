@@ -98,6 +98,37 @@ def run_blast(query_file, blast_db, args):
 
     return blast_output_file
 
+def run_blast_for_identification(query_file, blast_db):
+    """
+    Execute a blastn run given the query files and blastdb
+    with special configuration for high performance identification
+
+    :param query_file: one or both of the VF / Serotype input files
+    :param blast_db: validated fasta files from the user, in DB form
+    :return: the blast output file
+    """
+    
+    log.info('Running blast query {0} against database {1} '.format(
+        query_file, blast_db))
+
+    blast_output_file = blast_db + '.output'
+
+    cmd = [
+        "blastn",
+        "-query", query_file,
+        "-db", blast_db,
+        "-out", blast_output_file,
+        '-perc_identity', '97',
+        '-qcov_hsp_perc', '97',
+        '-max_target_seqs', '1',
+        "-outfmt",
+        '6 qseqid qlen sseqid length pident sstart send sframe',
+        "-word_size", "11"
+    ]
+    subprocess_util.run_subprocess(cmd)
+
+    return blast_output_file
+
 
 def parse_blast_results(args, blast_results_file, parsing_dict):
     """
