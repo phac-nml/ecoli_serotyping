@@ -120,7 +120,8 @@ def run_blast_for_identification(query_file, blast_db):
         "-out", blast_output_file,
         '-perc_identity', '97',
         '-qcov_hsp_perc', '97',
-        '-max_target_seqs', '1',
+        '-max_target_seqs', '1',  # we only want to know hit/no hit
+        # 10 query seq, we want at most 1 hit each
         "-outfmt",
         '6 qseqid qlen sseqid length pident sstart send sframe',
         "-word_size", "11"
