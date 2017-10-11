@@ -98,9 +98,10 @@ ENV/
 /ecoli_serotyping.iml
 /.vs/
 
-# Additional setting
+# Not important
 *.fai
 /temp/
+*.old
 
 # Essential but too large
 /test/Data/*.fastq
