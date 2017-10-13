@@ -85,11 +85,13 @@ def run_program():
     LOG.debug(all_genomes_list)
     LOG.debug(all_genomes_files)
 
+    num_of_genome = len(all_genomes_files)
+
     LOG.info("Creating blast database")
     blast_db = blastFunctions.create_blast_db(all_genomes_files)
 
     serotype_output_file = \
-        blastFunctions.run_blast(query_file, blast_db, args)
+        blastFunctions.run_blast(query_file, blast_db, args, num_of_genome)
     parsed_results = \
         blastFunctions.parse_blast_results(
             args,

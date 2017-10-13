@@ -13,8 +13,6 @@ def parse_serotype(blast_record, data):
     Look up the serotype prediction based on the BLAST record.
     The allele should exist in either the O or H database, or there is
     an error, such as "Onovel" being the top match.
-
-
     """
 
     if blast_record['qseqid'] in data['O']:
