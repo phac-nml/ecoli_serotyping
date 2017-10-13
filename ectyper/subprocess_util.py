@@ -16,7 +16,7 @@ def run_subprocess(cmd, is_shell=False):
         stdout(str)
     '''
     start_time = timeit.default_timer()
-    LOG.info("Running: %s", cmd)
+    LOG.debug("Running: %s", cmd)
     comp_proc = subprocess.run(
         cmd,
         shell=is_shell,
@@ -28,7 +28,7 @@ def run_subprocess(cmd, is_shell=False):
     stdout = comp_proc.stdout
     elapsed_time = timeit.default_timer() - start_time
     if comp_proc.returncode == 0:
-        LOG.info("Subprocess finish successfully in %0.3f sec.", elapsed_time)
+        LOG.debug("Subprocess finish successfully in %0.3f sec.", elapsed_time)
         LOG.debug(stderr)
         return stdout
     LOG.fatal("Subprocess terminated with error in %d0.3f sec", elapsed_time)

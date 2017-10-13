@@ -7,9 +7,22 @@
 import logging
 import tempfile
 import os
+from tqdm import tqdm
 from ectyper import definitions
 
 LOG = logging.getLogger(__name__)
+
+'''
+https://stackoverflow.com/questions/38543506/change-logging-print-function-to-tqdm-write-so-logging-doesnt-interfere-wit
+'''
+class TqdmLoggingHandler (logging.Handler):
+    def __init__(self):
+        logging.StreamHandler.__init__(self)
+        tqdm()
+
+    def emit(self, record):
+        msg = self.format(record)
+        tqdm.write(msg)
 
 def initialize_logging(log_file=None):
     '''
@@ -32,18 +45,10 @@ def initialize_logging(log_file=None):
     # If logger already exist, return the existing logger
     if len(logging.getLogger('').handlers)>1:
         return log_file
-    # define a Handler which writes INFO messages or higher to the sys.stderr
-    console = logging.StreamHandler()
-    console.setLevel(logging.INFO)
-    # set a format which is simpler for console use
-    formatter = logging.Formatter(
-        fmt='%(name)-25s: %(levelname)-8s %(message)s',
-        datefmt='%H:%M:%S'
-    )
-    # tell the handler to use this format
-    console.setFormatter(formatter)
     # add the handler to the root logger
-    logging.getLogger('').addHandler(console)
+    tqdm_logger = logging.getLogger('')
+    tqdm_logger.setLevel(logging.INFO)
+    tqdm_logger.addHandler(TqdmLoggingHandler())
 
     # Now, we can log to the root logger, or any other logger. First the root...
     LOG.info('Logger initialized. Debug log stored at %s', log_file)

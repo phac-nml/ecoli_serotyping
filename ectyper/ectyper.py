@@ -11,6 +11,7 @@ import logging
 import sys
 import tempfile
 import timeit
+from tqdm import tqdm
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, resultsToTable,
@@ -52,7 +53,7 @@ def run_program():
     LOG.info("Filter genome files based on format")
     raw_fasta_files = []
     raw_fastq_files = []
-    for file in raw_genome_files:
+    for file in tqdm(raw_genome_files):
         file_format = genomeFunctions.get_valid_format(file)
         if file_format == 'fasta':
             raw_fasta_files.append(file)
@@ -63,10 +64,10 @@ def run_program():
 
     LOG.info("Filter non-ecoli genome files")
     final_fasta_files = []
-    for file in raw_fasta_files:
+    for file in tqdm(raw_fasta_files):
         if speciesIdentification.is_ecoli_genome(file, args):
             final_fasta_files.append(file)
-    for file in raw_fastq_files:
+    for file in tqdm(raw_fastq_files):
         iden_file, pred_file = \
             genomeFunctions.assemble_reads(file, definitions.COMBINED)
         if speciesIdentification.is_ecoli_genome(iden_file, args, file):

@@ -79,7 +79,7 @@ def run_blast(query_file, blast_db, args, max_genome_count=1):
     percent_length = args.percentLength
     
 
-    log.info('Running blast query {0} against database {1} '.format(
+    log.debug('Running blast query {0} against database {1} '.format(
         query_file, blast_db))
 
     blast_output_file = blast_db + '.output'
@@ -110,7 +110,7 @@ def run_blast_for_identification(query_file, blast_db):
     :return: the blast output file
     """
     
-    log.info('Running blast query {0} against database {1} '.format(
+    log.debug('Running blast query {0} against database {1} '.format(
         query_file, blast_db))
 
     blast_output_file = blast_db + '.output'
