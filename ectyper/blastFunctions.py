@@ -91,7 +91,7 @@ def run_blast(query_file, blast_db, args, max_genome_count=1):
         "-out", blast_output_file,
         '-perc_identity', str(percent_identity),
         '-qcov_hsp_perc', str(percent_length),
-        '-max_hsp', max_genome_count, # at most 1 hit per genome per query
+        '-max_hsps', str(max_genome_count), # at most 1 hit per genome per query
         "-outfmt",
         '6 qseqid qlen sseqid length pident sstart send sframe',
         "-word_size", "11"

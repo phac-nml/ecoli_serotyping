@@ -116,3 +116,24 @@ def run_program():
     LOG.info("Program completed successfully in %0.3f sec.", elapsed_time)
     final_output = {}
     tempdir_obj.cleanup()
+
+    # simplify output
+    # [{'genome_name':xxx,'predicted O':xxx,'predicted H':xxx}]
+    output = []
+    for key, value in parsed_results.items():
+        output_entry = {
+            'genome name': key,
+            'predicted O': None,
+            'predicted H': None
+        }
+        try:
+            output_entry['predicted O'] = value['serotype']['otype']
+        except KeyError:
+            pass
+        try:
+            output_entry['predicted H'] = value['serotype']['htype']
+        except KeyError:
+            pass
+        output.append(output_entry)
+    LOG.info('\nSummary:\n%s',json.dumps(output, indent=4, separators=(',', ': ')))
+    return output
