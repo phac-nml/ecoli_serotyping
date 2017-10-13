@@ -137,4 +137,7 @@ def run_program():
             pass
         output.append(output_entry)
     LOG.info('\nSummary:\n%s',json.dumps(output, indent=4, separators=(',', ': ')))
+    with open('output.json', 'w') as handler:
+        json.dump(output, handler, indent=4, separators=(',', ': '))
+        handler.close()
     return output
