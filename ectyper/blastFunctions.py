@@ -77,7 +77,6 @@ def run_blast(query_file, blast_db, args, max_genome_count=1):
     """
     percent_identity = args.percentIdentity
     percent_length = args.percentLength
-    
 
     log.debug('Running blast query {0} against database {1} '.format(
         query_file, blast_db))

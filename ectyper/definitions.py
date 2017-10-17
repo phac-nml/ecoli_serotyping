@@ -17,3 +17,4 @@ SAMTOOLS = 'samtools'
 COMBINED = os.path.join(DATA_DIR, 'combined.fasta')
 REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
 REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')
+MAX_NUM_GENOME_PER_CHUNK = 1000

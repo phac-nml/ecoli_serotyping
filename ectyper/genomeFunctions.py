@@ -111,10 +111,11 @@ def get_genome_names_from_files(files):
             list_of_files.append(new_file)
             list_of_genomes.append(n_name)
 
-            with open(new_file, "w") as output_fh:
-                for record in SeqIO.parse(file, "fasta"):
-                    output_fh.write(">lcl|" + n_name + "|" + record.description + "\n")
-                    output_fh.write(str(record.seq) + "\n")
+            with open(new_file, "w") as outfile:
+                with open(file) as infile:
+                    for record in SeqIO.parse(infile, "fasta"):
+                        outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
+                        outfile.write(str(record.seq) + "\n")
         else:
             list_of_files.append(file)
             list_of_genomes.append(genome_name)

@@ -109,8 +109,8 @@ def get_species(file):
                 '| sort -gr - | head -1 -'
             ]
             screen_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
-            print(screen_output.split('\t'))
-            species = screen_output.split('\t')[5]
+            log.debug(screen_output.split('\t'))
+            species = screen_output.split('\t')[5].split('\n')[0]
         except IndexError:
             log.warning('No matching species found with distance screening either.')
     return species

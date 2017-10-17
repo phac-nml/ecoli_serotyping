@@ -107,3 +107,9 @@ ENV/
 /test/Data/*.fastq
 !/test/Data/Invalid.fastq
 ectyper/Data/refseq.genomes.k21s1000.msh
+
+# output
+all_genome_output.json
+ectyper/blast.output
+test/Data/marker/ESC_HA1294AA_AS.fasta
+test/Data/marker/ESC_LA5574AA_AS.fasta
