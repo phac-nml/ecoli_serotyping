@@ -43,12 +43,12 @@ def initialize_logging(log_file=None):
                         filename=log_file,
                         filemode='w')
     # If logger already exist, return the existing logger
-    if len(logging.getLogger('').handlers)>1:
+    if len(logging.getLogger().handlers)>1:
         return log_file
     # add the handler to the root logger
-    tqdm_logger = logging.getLogger('')
-    tqdm_logger.setLevel(logging.INFO)
-    tqdm_logger.addHandler(TqdmLoggingHandler())
+    tqdm_handler = TqdmLoggingHandler()
+    tqdm_handler.setLevel('INFO')
+    logging.getLogger('').addHandler(tqdm_handler)
 
     # Now, we can log to the root logger, or any other logger. First the root...
     LOG.info('Logger initialized. Debug log stored at %s', log_file)

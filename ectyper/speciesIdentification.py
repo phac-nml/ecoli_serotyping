@@ -1,10 +1,11 @@
 import logging
 import multiprocessing
 import os
+import subprocess
 
 from ectyper import blastFunctions, definitions, subprocess_util
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 def is_ecoli_genome(fasta_file, args, iden_file=None):
     '''
@@ -23,12 +24,12 @@ def is_ecoli_genome(fasta_file, args, iden_file=None):
         iden_file = fasta_file
     num_hit = get_num_hits(fasta_file, args)
     if num_hit < 3:
-        log.info("%s is not a valid e.coli genome file", fasta_file)
+        LOG.info("%s is not a valid e.coli genome file", fasta_file)
         if args.species:
             species = get_species(iden_file)
-            log.info("%s is identified as genome of %s", fasta_file, species)
+            LOG.info("%s is identified as genome of %s", fasta_file, species)
         return False
-    log.info("%s is a valid e.coli genome file", fasta_file)
+    LOG.info("%s is a valid e.coli genome file", fasta_file)
     return True
 
 def get_num_hits(target, args):
@@ -51,11 +52,11 @@ def get_num_hits(target, args):
             blast_db
         )
         with open(result) as handler:
-            log.debug("get_num_hits() output:")
+            LOG.debug("get_num_hits() output:")
             for line in handler:
-                log.debug(line)
+                LOG.debug(line)
                 num_hit += 1
-        log.info("%s aligned to %d marker sequences", target, num_hit)
+        LOG.info("%s aligned to %d marker sequences", target, num_hit)
     except SystemExit:
         pass
     return num_hit
@@ -71,7 +72,7 @@ def get_species(file):
         str: name of estimated species
     '''
     if not os.path.isfile(definitions.REFSEQ_SKETCH):
-        log.info("No refseq found." +
+        LOG.info("No refseq found." +
             "Download refseq from " +
             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh" +
             " then put it in ectyper/Data/"
@@ -97,8 +98,8 @@ def get_species(file):
         summary_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
         species = summary_output.split('\t')[7]
         return species
-    except IndexError:
-        log.warning('No matching species found with distance estimation.')
+    except Exception:
+        LOG.warning('No matching species found with distance estimation.')
         try:
             cmd = [
                 'mash screen',
@@ -109,8 +110,9 @@ def get_species(file):
                 '| sort -gr - | head -1 -'
             ]
             screen_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
-            log.debug(screen_output.split('\t'))
+            LOG.debug(screen_output.split('\t'))
             species = screen_output.split('\t')[5].split('\n')[0]
-        except IndexError:
-            log.warning('No matching species found with distance screening either.')
+        except Exception:
+            LOG.warning('No matching species found with distance screening either.')
+    LOG.info("%s is identified as %s", file, species)
     return species
