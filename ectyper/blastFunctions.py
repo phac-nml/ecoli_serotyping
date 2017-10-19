@@ -65,14 +65,13 @@ def create_blast_db(filelist):
     return blast_db_path
 
 
-def run_blast(query_file, blast_db, args, max_genome_count=1):
+def run_blast(query_file, blast_db, args):
     """
     Execute a blastn run given the query files and blastdb
 
     :param query_file: one or both of the VF / Serotype input files
     :param blast_db: validated fasta files from the user, in DB form
     :param args: parsed commandline options from the user
-    :param max_genome_count: number of genome in the database [250]
     :return: the blast output file
     """
     percent_identity = args.percentIdentity
@@ -90,7 +89,9 @@ def run_blast(query_file, blast_db, args, max_genome_count=1):
         "-out", blast_output_file,
         '-perc_identity', str(percent_identity),
         '-qcov_hsp_perc', str(percent_length),
-        '-max_hsps', str(max_genome_count), # at most 1 hit per genome per query
+        '-max_hsps', '1', # each allele only need to hit once
+        # use default max_target_seqs(250)
+        # '-max_target_seqs', str(max_genome_count), # at most one genome hit per query
         "-outfmt",
         '6 qseqid qlen sseqid length pident sstart send sframe',
         "-word_size", "11"

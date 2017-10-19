@@ -178,17 +178,19 @@ def get_fasta_header_from_file(filename):
         return record.description
 
 
-def get_parsing_dict(ptype):
+def get_parsing_dict(ptype, allele_json):
     """
     Given the parsed arguments from argparser, return a dictionary of functions.
-    :param ptype: Type of parsing dict to return
+    :param
+        ptype: Type of parsing dict to return
+        allele_json : allele json filed to be used
     :return: {parser: function, predictor: function, data: data, type: type}
     """
 
     if ptype == 'serotype':
         # We will attach the JSON of known fasta headers and alleles to
         # a 'data' key in the parsing dictionary.
-        json_handle = open(definitions.SEROTYPE_ALLELE_JSON, 'r')
+        json_handle = open(allele_json, 'r')
         parsing_dict = {
             'parser':serotypePrediction.parse_serotype,
             'predictor':serotypePrediction.predict_serotype,

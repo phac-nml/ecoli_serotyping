@@ -12,18 +12,6 @@ from ectyper import definitions
 
 LOG = logging.getLogger(__name__)
 
-'''
-https://stackoverflow.com/questions/38543506/change-logging-print-function-to-tqdm-write-so-logging-doesnt-interfere-wit
-'''
-class TqdmLoggingHandler (logging.Handler):
-    def __init__(self):
-        logging.StreamHandler.__init__(self)
-        tqdm()
-
-    def emit(self, record):
-        msg = self.format(record)
-        tqdm.write(msg)
-
 def initialize_logging(log_file=None):
     '''
     setup logging to stream INFO log to console
@@ -46,9 +34,10 @@ def initialize_logging(log_file=None):
     if len(logging.getLogger().handlers)>1:
         return log_file
     # add the handler to the root logger
-    tqdm_handler = TqdmLoggingHandler()
-    tqdm_handler.setLevel('INFO')
-    logging.getLogger('').addHandler(tqdm_handler)
+    ch_handler = logging.StreamHandler()
+    ch_handler.setLevel('INFO')
+    ch_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    logging.getLogger('').addHandler(ch_handler)
 
     # Now, we can log to the root logger, or any other logger. First the root...
     LOG.info('Logger initialized. Debug log stored at %s', log_file)

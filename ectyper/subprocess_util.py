@@ -3,7 +3,6 @@ Utilities
 '''
 import logging
 import subprocess
-import sys
 import timeit
 
 LOG = logging.getLogger(__name__)
