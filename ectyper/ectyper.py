@@ -143,10 +143,12 @@ def run_program():
         }
         try:
             output_entry['predicted O'] = value['serotype']['otype']
+            output_entry['O allele'] = value['serotype']['O allele']
         except KeyError:
             pass
         try:
             output_entry['predicted H'] = value['serotype']['htype']
+            output_entry['H allele'] = value['serotype']['H allele']
         except KeyError:
             pass
         output.append(output_entry)

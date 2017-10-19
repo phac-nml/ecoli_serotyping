@@ -53,12 +53,15 @@ def predict_serotype(results_dict):
                     'stype']
                 antigen = results_dict[genome_name]['serotype'][gene_name][
                     'antigen']
+                allele = results_dict[genome_name]['serotype'][gene_name][
+                    'blast_record']['qseqid']
 
                 if stype == 'O':
                     pass
 
                 if sero_dict[stype] == '-':
                     sero_dict[stype] = antigen
+                    sero_dict[stype+' allele'] = allele
                 else:
                     if sero_dict[stype] == antigen:
                         # good, as expected
@@ -73,7 +76,9 @@ def predict_serotype(results_dict):
                                                   sero_dict[stype], antigen))
 
         results_dict[genome_name]['serotype']['otype'] = sero_dict['O']
+        results_dict[genome_name]['serotype']['O allele'] = sero_dict['O allele']
         results_dict[genome_name]['serotype']['htype'] = sero_dict['H']
+        results_dict[genome_name]['serotype']['H allele'] = sero_dict['H allele']
     
         if sero_dict['O'] == sero_dict['H'] == '-':
             log.warning("No serotype found for %s!!!", genome_name)
