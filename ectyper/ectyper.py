@@ -155,10 +155,14 @@ def run_program():
     LOG.info('\nSummary:\n%s',json.dumps(output, indent=4, separators=(',', ': ')))
     output_dir = definitions.OUTPUT_DIR
     output_file = os.path.join(output_dir, args.out)
+    detail_output_file = os.path.join(os.path.splitext(output_file)[0]+'.detail.json')
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
         LOG.info('output directory is created')
     with open(output_file, 'w') as handler:
         json.dump(output, handler, indent=4, separators=(',', ': '))
+        handler.close()
+    with open(detail_output_file, 'w') as handler:
+        json.dump(parsed_results, handler, indent=4, separators=(',', ': '))
         handler.close()
     return output

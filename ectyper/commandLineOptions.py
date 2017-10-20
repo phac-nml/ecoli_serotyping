@@ -33,8 +33,8 @@ def parse_command_line():
         "--percentLength",
         type=int,
         help="Percentage of length wanted to use against the \
-                  database. From 0 to 100, default is 90%.",
-        default=90,
+                  database. From 0 to 100, default is 97%.",
+        default=97,
         choices=range(1, 101))
 
     parser.add_argument(
