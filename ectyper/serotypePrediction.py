@@ -43,7 +43,7 @@ def predict_serotype(results_dict):
     for genome_name in results_dict.keys():
         log.debug("Predicting serotype for " + genome_name)
 
-        sero_dict = {'O': '-', 'H': '-'}
+        sero_dict = {'O': '-', 'H': '-', 'O allele': '-', 'H allele': '-'}
         for gene_name in results_dict[genome_name]['serotype']:
             # skip if gnd, we only want it in cases of disagreement
             if gene_name == 'gnd':
