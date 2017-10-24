@@ -22,7 +22,7 @@ def initialize_logging(log_file=None):
         Log filename
     '''
     if log_file is None:
-        log_file = os.path.join(definitions.ROOT_DIR, 'default.log')
+        log_file = os.path.join(definitions.WORKPLACE_DIR, 'default.log')
 
 
     logging.basicConfig(level=logging.DEBUG,

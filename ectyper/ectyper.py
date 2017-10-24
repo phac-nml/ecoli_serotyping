@@ -80,7 +80,7 @@ def run_program():
         if speciesIdentification.is_ecoli_genome(iden_file, args, file):
             final_fasta_files.append(pred_file)
     
-    LOG.info('Final fasta files: %s', str(final_fasta_files))
+    LOG.info('%d final fasta files', len(final_fasta_files))
 
     if final_fasta_files == []:
         LOG.info("No valid genome file. Terminating the program.")
@@ -126,7 +126,7 @@ def run_program():
     else:
         LOG.info("Printing results in JSON format")
         LOG.info(json.dumps(parsed_results, indent=4, separators=(',', ': ')))
-
+    LOG.info("%d prediction results found.", len(parsed_results))
     elapsed_time = timeit.default_timer() - start_time
     LOG.info("Program completed successfully in %0.3f sec.", elapsed_time)
     final_output = {}

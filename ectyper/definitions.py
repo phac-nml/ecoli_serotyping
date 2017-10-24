@@ -7,8 +7,8 @@
 import os
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOGGER_CONFIG = os.path.join(ROOT_DIR, 'logging.conf')
 DATA_DIR = os.path.join(ROOT_DIR, 'Data')
+WORKPLACE_DIR = os.getcwd()
 
 SEROTYPE_FILE = os.path.join(DATA_DIR, 'ectyper_data.fasta')
 SEROTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_dict.json')
@@ -24,4 +24,4 @@ SAMTOOLS = 'samtools'
 REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
 REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')
 
-OUTPUT_DIR = os.path.join(ROOT_DIR, 'output')
+OUTPUT_DIR = os.path.join(WORKPLACE_DIR, 'output')
