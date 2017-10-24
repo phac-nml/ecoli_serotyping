@@ -67,7 +67,7 @@ def get_valid_format(file):
     else:
         return ''
     for _ in SeqIO.parse(file, file_format):
-        log.info("%s is a valid %s format file", file, file_format)
+        log.debug("%s is a valid %s format file", file, file_format)
         return file_format
     log.info("%s is not a valid %s format file", file, file_format)
     return ''
@@ -137,7 +137,7 @@ def get_genome_name(header):
         re.compile('(lcl\|[\w\-\.]+)'),
 
         # Look for contigs in the wwwwdddddd format
-        re.compile('([A-Za-z]{4}\d{2})\d{6}'),
+        re.compile('([A-Za-z]{4}\d{2})\d{6}(?:\d)'),
 
         # Look for a possible genome name at the beginning of the record ID
         re.compile('^(\w{8}\.\d)'),
