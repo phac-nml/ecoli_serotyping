@@ -116,3 +116,4 @@ test/Data/marker/ESC_LA5574AA_AS.fasta
 species_results.csv
 *.csv#
 ectyper/output/
+output/

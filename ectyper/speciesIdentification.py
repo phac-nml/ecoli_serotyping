@@ -2,8 +2,10 @@ import logging
 import multiprocessing
 import os
 import subprocess
+import tempfile
+from Bio import SeqIO
 
-from ectyper import blastFunctions, definitions, subprocess_util
+from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
 
@@ -71,12 +73,43 @@ def get_species(file):
     Returns:
         str: name of estimated species
     '''
+    LOG.info("Identifying species for %s" %file)
     if not os.path.isfile(definitions.REFSEQ_SKETCH):
         LOG.info("No refseq found." +
             "Download refseq from " +
             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh" +
             " then put it in ectyper/Data/"
         )
+    species = 'unknown'
+    if genomeFunctions.get_valid_format(file) is 'fasta':
+        with tempfile.TemporaryDirectory() as temp_dir:
+            basename = os.path.basename(file)
+            new_file = os.path.join(temp_dir, basename)
+            with open(new_file,'w') as new_fh:
+                header = '> %s\n' %basename
+                new_fh.write(header)
+                for record in SeqIO.parse(file, 'fasta'):
+                    new_fh.write(str(record.seq))
+                    new_fh.write('nnnnnnnnnnnnnnnnnnnn')
+            try:
+                species = get_species_helper(new_file)
+            except:
+                pass
+    if genomeFunctions.get_valid_format(file) is 'fastq':
+        species = get_species_helper(file)
+    LOG.info("%s is identified as %s", file, species)
+    return species
+
+def get_species_helper(file):
+    '''
+    Given a fasta/fastq file with one sequence, return the most likely species identification
+    
+    Args:
+        file(str): fasta/fastq file input
+
+    Returns:
+        str: name of estimated species
+    '''
     species = 'unknown'
     cmd = [
         'mash', 'dist',
@@ -98,8 +131,8 @@ def get_species(file):
         summary_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
         species = summary_output.split('\t')[7]
         return species
-    except Exception:
-        LOG.warning('No matching species found with distance estimation.')
+    except Exception as err:
+        LOG.warning('No matching species found with distance estimation:%s' %err)
         try:
             cmd = [
                 'mash screen',
@@ -112,7 +145,6 @@ def get_species(file):
             screen_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
             LOG.debug(screen_output.split('\t'))
             species = screen_output.split('\t')[5].split('\n')[0]
-        except Exception:
-            LOG.warning('No matching species found with distance screening either.')
-    LOG.info("%s is identified as %s", file, species)
+        except Exception as err2:
+            LOG.warning('No matching species found with distance screening either:%s' %err2)
     return species

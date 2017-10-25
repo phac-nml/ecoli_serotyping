@@ -39,10 +39,6 @@ def run_program():
     loggingFunctions.initialize_logging()
     args = commandLineOptions.parse_command_line()
     LOG.debug(args)
-    # tempfile.tempdir is a singleton variable
-    tempfile.tempdir = None
-    tempdir_obj = tempfile.TemporaryDirectory()
-    tempfile.tempdir = tempdir_obj.name
     # use serotype sequence from `More Serotype`
     query_file = definitions.SEROTYPE_FILE
     combined_file = definitions.COMBINED
@@ -84,7 +80,7 @@ def run_program():
 
     if final_fasta_files == []:
         LOG.info("No valid genome file. Terminating the program.")
-        tempdir_obj.cleanup()
+        tempfile.TemporaryDirectory().cleanup()
         exit(1)
 
     LOG.info("Gathering genome names from files")
@@ -130,7 +126,7 @@ def run_program():
     elapsed_time = timeit.default_timer() - start_time
     LOG.info("Program completed successfully in %0.3f sec.", elapsed_time)
     final_output = {}
-    tempdir_obj.cleanup()
+    tempfile.TemporaryDirectory().cleanup()
 
     # simplify output
     # [{'genome_name':xxx,'predicted O':xxx,'predicted H':xxx}]

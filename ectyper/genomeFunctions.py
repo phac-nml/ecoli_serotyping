@@ -88,37 +88,28 @@ def get_genome_names_from_files(files):
     list_of_genomes = []
     list_of_files = []
     for file in files:
-        header = get_fasta_header_from_file(file)
-        genome_name = get_genome_name(header)
-
-        # if the header and genome_name are the same, we need to use the filename
+        # Always to use the filename
         # as the genome name. This means we also need to create a new file adding
         # the filename to each of the headers, so that downstream applications
         # (eg. BLAST) can be used with the filename as genome name.
-        if header == '':
-            log.fatal('No header for %s', file)
-            exit(1)
-        if header == genome_name:
-            # get only the name of the file for use in the fasta header
-            file_path_name = os.path.splitext(os.path.basename(file))
-            n_name = file_path_name[0]
 
-            # create a new file for the updated fasta headers
-            new_file_tuple = tempfile.mkstemp()
-            new_file = new_file_tuple[1]
+        # get only the name of the file for use in the fasta header
+        file_path_name = os.path.splitext(os.path.basename(file))
+        n_name = file_path_name[0]
 
-            # add the new name to the list of files and genomes
-            list_of_files.append(new_file)
-            list_of_genomes.append(n_name)
+        # create a new file for the updated fasta headers
+        new_file_tuple = tempfile.mkstemp()
+        new_file = new_file_tuple[1]
 
-            with open(new_file, "w") as outfile:
-                with open(file) as infile:
-                    for record in SeqIO.parse(infile, "fasta"):
-                        outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
-                        outfile.write(str(record.seq) + "\n")
-        else:
-            list_of_files.append(file)
-            list_of_genomes.append(genome_name)
+        # add the new name to the list of files and genomes
+        list_of_files.append(new_file)
+        list_of_genomes.append(n_name)
+
+        with open(new_file, "w") as outfile:
+            with open(file) as infile:
+                for record in SeqIO.parse(infile, "fasta"):
+                    outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
+                    outfile.write(str(record.seq) + "\n")
 
     return list_of_genomes, list_of_files
 
@@ -137,7 +128,7 @@ def get_genome_name(header):
         re.compile('(lcl\|[\w\-\.]+)'),
 
         # Look for contigs in the wwwwdddddd format
-        re.compile('([A-Za-z]{4}\d{2})\d{6}(?:\d)'),
+        re.compile('([A-Za-z]{4}\d{2})\d{6}'),
 
         # Look for a possible genome name at the beginning of the record ID
         re.compile('^(\w{8}\.\d)'),
