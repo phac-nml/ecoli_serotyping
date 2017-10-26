@@ -29,3 +29,7 @@ Support FASTA and FASTQ format
     1. Download refseq from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh
     2. Put refseq into ectyper/Data/
     3. Specify `-s` as argument when executing ectyper
+
+# Benchmark
+1. 74.15% accuracy on Enterobase Database(5789 samples)
+2. 84.36% accuarcy on GenBank Database(487 samples)
