@@ -73,7 +73,15 @@ def run_program():
     for file in raw_fastq_files:
         iden_file, pred_file = \
             genomeFunctions.assemble_reads(file, combined_file)
+        # If no alignment resut, the file is definitely not E.Coli
+        if genomeFunctions.get_valid_format(iden_file)==None:
+            LOG.warning("No identification alignment found for %s.\nIt is filtered out." %file)
+            continue
         if speciesIdentification.is_ecoli_genome(iden_file, args, file):
+            # final check before adding the alignment for prediction
+            if genomeFunctions.get_valid_format(iden_file)!='fasta':
+                LOG.warning("No prediction alignment found for %s.\nIt is filtered out." %file)
+                continue
             final_fasta_files.append(pred_file)
     
     LOG.info('%d final fasta files', len(final_fasta_files))

@@ -44,42 +44,66 @@ def predict_serotype(results_dict):
         log.debug("Predicting serotype for " + genome_name)
 
         sero_dict = {'O': '-', 'H': '-', 'O allele': '-', 'H allele': '-'}
+
+        # vars for paired gene logic
+        gene_pairs = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
+        existing_gene_dict = {}
+
         for gene_name in results_dict[genome_name]['serotype']:
+
             # skip if gnd, we only want it in cases of disagreement
             if gene_name == 'gnd':
-                pass
-            else:
-                stype = results_dict[genome_name]['serotype'][gene_name][
-                    'stype']
-                antigen = results_dict[genome_name]['serotype'][gene_name][
-                    'antigen']
-                allele = results_dict[genome_name]['serotype'][gene_name][
-                    'blast_record']['qseqid']
+                continue
 
-                if stype == 'O':
+            # Obtain information of the best allele for this gene
+            stype = results_dict[genome_name]['serotype'][gene_name][
+                'stype']
+            antigen = results_dict[genome_name]['serotype'][gene_name][
+                'antigen']
+            allele = results_dict[genome_name]['serotype'][gene_name][
+                'blast_record']['qseqid']
+
+            # Special logic for paired gene
+            # get the name of the other gene
+            other_gene_name = gene_pairs.get(gene_name)
+            if other_gene_name:
+                # add this gene to existing_gene_dict if it is one of the gene pairs
+                if other_gene_name:
+                    entry = {
+                        'stype': stype,
+                        'antigen': antigen,
+                        'allele': allele
+                    }
+                    existing_gene_dict[gene_name]=entry
+                # check if the other gene is already in the dictionary
+                other_gene_allele = existing_gene_dict.get(other_gene_name)
+                if other_gene_allele is None:
+                    continue
+                # add the allele only if the stype and antigen matches
+                if (other_gene_allele.get('stype') == stype) & \
+                (other_gene_allele.get('antigen') == antigen):
                     pass
-
-                if sero_dict[stype] == '-':
-                    sero_dict[stype] = antigen
-                    sero_dict[stype+' allele'] = allele
                 else:
-                    if sero_dict[stype] == antigen:
-                        # good, as expected
-                        pass
-                    else:
-                        if gene_name == 'gnd':
-                            # last resort to use gnd, only if other conflicts
-                            pass
-                        else:
-                            log.warning("{0}type for {1} conflicts! {2} {3}"
-                                        "".format(stype, genome_name,
-                                                  sero_dict[stype], antigen))
+                    continue
+            
+            # use this allele if there is no allele yet
+            if sero_dict[stype] == '-':
+                sero_dict[stype] = antigen
+                sero_dict[stype+' allele'] = allele
+                continue
+            if sero_dict[stype] == antigen:
+                # good, as expected
+                continue
+            # conflict between alleles
+            log.warning("{0}type for {1} conflicts! {2} {3}"
+                        "".format(stype, genome_name,
+                                    sero_dict[stype], antigen))
 
         results_dict[genome_name]['serotype']['otype'] = sero_dict['O']
         results_dict[genome_name]['serotype']['O allele'] = sero_dict['O allele']
         results_dict[genome_name]['serotype']['htype'] = sero_dict['H']
         results_dict[genome_name]['serotype']['H allele'] = sero_dict['H allele']
-    
+
         if sero_dict['O'] == sero_dict['H'] == '-':
             log.warning("No serotype found for %s!!!", genome_name)
     return results_dict

@@ -36,7 +36,7 @@ def initialize_logging(log_file=None):
     # add the handler to the root logger
     ch_handler = logging.StreamHandler()
     ch_handler.setLevel('INFO')
-    ch_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    ch_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
     logging.getLogger('').addHandler(ch_handler)
 
     # Now, we can log to the root logger, or any other logger. First the root...

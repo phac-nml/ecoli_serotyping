@@ -14,7 +14,7 @@ from Bio import SeqIO
 from ectyper import (blastFunctions, definitions, serotypePrediction,
                      subprocess_util)
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def get_files_as_list(file_or_directory):
@@ -32,7 +32,7 @@ def get_files_as_list(file_or_directory):
         return files_list
 
     if os.path.isdir(file_or_directory):
-        log.info("Gathering genomes from directory " + file_or_directory)
+        LOG.info("Gathering genomes from directory " + file_or_directory)
 
         # Create a list containing the file names
         for root, dirs, files in os.walk(file_or_directory):
@@ -40,7 +40,7 @@ def get_files_as_list(file_or_directory):
                 files_list.append(os.path.join(root, filename))
 
     else:
-        log.info("Using genomes in file " + file_or_directory)
+        LOG.info("Using genomes in file " + file_or_directory)
         files_list.append(os.path.abspath(file_or_directory))
 
     return sorted(files_list)
@@ -55,8 +55,11 @@ def get_valid_format(file):
         file (str): path of file
     
     Returns:
-        fmt (str): 'fasta', 'fastq', or ''
+        fmt (str): 'fasta', 'fastq', or None
     """
+    # Too small to be a valid genome file
+    if os.path.getsize(file) < 10:
+        return None
     file_format = os.path.splitext(file)[1][1:]
     valid_fasta_formats = ['fna', 'fa', 'fasta']
     valid_fastq_formats = ['fq', 'fastq']
@@ -65,12 +68,12 @@ def get_valid_format(file):
     elif file_format in valid_fastq_formats:
         file_format = 'fastq'
     else:
-        return ''
+        return None
     for _ in SeqIO.parse(file, file_format):
-        log.debug("%s is a valid %s format file", file, file_format)
+        LOG.debug("%s is a valid %s format file", file, file_format)
         return file_format
-    log.info("%s is not a valid %s format file", file, file_format)
-    return ''
+    LOG.info("%s is not a valid %s format file", file, file_format)
+    return None
 
 
 def get_genome_names_from_files(files):
@@ -88,8 +91,8 @@ def get_genome_names_from_files(files):
     list_of_genomes = []
     list_of_files = []
     for file in files:
-        # Always to use the filename
-        # as the genome name. This means we also need to create a new file adding
+        # Always to use the filename as the genome name.
+        # This means we also need to create a new file adding
         # the filename to each of the headers, so that downstream applications
         # (eg. BLAST) can be used with the filename as genome name.
 
@@ -190,7 +193,7 @@ def get_parsing_dict(ptype, allele_json):
         json_handle.close()
         return parsing_dict
     else:
-        log.error("No parsing dictionary assigned for {0}".format(ptype))
+        LOG.error("No parsing dictionary assigned for {0}".format(ptype))
         exit(1)
 
 def assemble_reads(reads, reference):
@@ -223,7 +226,7 @@ def assemble_reads(reads, reference):
         )
     index_dir = os.path.split(index_path)[0]
     if not os.path.isfile(index_path+'1.bt2'):
-        log.info('Reference index does not exist. Creating new reference index at %s', index_dir)
+        LOG.info('Reference index does not exist. Creating new reference index at %s', index_dir)
         if not os.path.exists(index_dir):
             os.makedirs(index_dir)
         cmd1 = [
@@ -273,10 +276,6 @@ def assemble_reads(reads, reference):
     ]
     subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
     return split_mapped_output(output)
-
-
-
-
 
 def get_num_of_fasta_entry(file):
     '''
