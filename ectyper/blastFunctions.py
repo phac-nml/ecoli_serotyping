@@ -11,7 +11,7 @@ import tempfile
 from ectyper import genomeFunctions
 from ectyper import subprocess_util
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def record_passes_cutoffs(blast_record, args):
@@ -53,7 +53,7 @@ def create_blast_db(filelist):
     tempdir = tempfile.gettempdir()
     blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
 
-    log.debug("Generating the blast db at %s", blast_db_path)
+    LOG.debug("Generating the blast db at %s", blast_db_path)
     cmd = [
         "makeblastdb",
         "-in", ' '.join(filelist),
@@ -77,7 +77,7 @@ def run_blast(query_file, blast_db, args):
     percent_identity = args.percentIdentity
     percent_length = args.percentLength
 
-    log.debug('Running blast query {0} against database {1} '.format(
+    LOG.debug('Running blast query {0} against database {1} '.format(
         query_file, blast_db))
 
     blast_output_file = blast_db + '.output'
@@ -97,7 +97,9 @@ def run_blast(query_file, blast_db, args):
         "-word_size", "11"
     ]
     subprocess_util.run_subprocess(cmd)
-
+    with open(blast_output_file, mode='rb') as fh:
+        for line in fh:
+            LOG.debug(line.decode('ascii'))
     return blast_output_file
 
 def run_blast_for_identification(query_file, blast_db):
@@ -110,7 +112,7 @@ def run_blast_for_identification(query_file, blast_db):
     :return: the blast output file
     """
     
-    log.debug('Running blast query {0} against database {1} '.format(
+    LOG.debug('Running blast query {0} against database {1} '.format(
         query_file, blast_db))
 
     blast_output_file = blast_db + '.output'
@@ -146,7 +148,7 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
     :return: a dictionary of genomes and results for each
     """
 
-    log.info("Parsing blast results in {0}".format(blast_results_file))
+    LOG.info("Parsing blast results in {0}".format(blast_results_file))
 
     result_handle = open(blast_results_file, 'r')
     results_dict = collections.defaultdict(lambda: collections.defaultdict(
@@ -174,13 +176,12 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
 
         # Initially check that the result passes the length / identity filters
         if not record_passes_cutoffs(blast_record, args):
-            log.debug("The following did not pass the cutoffs:")
-            log.debug(blast_record)
+            LOG.debug("The following did not pass the cutoffs:")
+            LOG.debug(blast_record)
         else:
             # genome name to store the parsed blast_result in
             genome_name = genomeFunctions.get_genome_name(
                 blast_record['sseqid'])
-            log.debug(genome_name)
 
             # we only want to store a value for a key if it doesn't exist
             # this is because blast list results from "best" to "worst" order

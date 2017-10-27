@@ -29,5 +29,4 @@ def run_subprocess(cmd, is_shell=False):
     stdout = comp_proc.stdout
     elapsed_time = timeit.default_timer() - start_time
     LOG.debug("Subprocess finish successfully in %0.3f sec.", elapsed_time)
-    LOG.debug(stderr)
     return stdout

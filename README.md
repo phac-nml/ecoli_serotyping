@@ -31,5 +31,5 @@ Support FASTA and FASTQ format
     3. Specify `-s` as argument when executing ectyper
 
 # Benchmark
-1. 74.15% accuracy on Enterobase Database(5789 samples)
-2. 84.36% accuarcy on GenBank Database(487 samples)
+1. 80.48% accuracy on Enterobase Database(5789 samples)
+2. 94.02% accuarcy on GenBank Database(486 samples)
