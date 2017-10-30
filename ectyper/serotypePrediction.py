@@ -60,8 +60,11 @@ def predict_serotype(results_dict):
                 'stype']
             antigen = results_dict[genome_name]['serotype'][gene_name][
                 'antigen']
-            allele = results_dict[genome_name]['serotype'][gene_name][
-                'blast_record']['qseqid']
+            blast_record = results_dict[genome_name]['serotype'][gene_name][
+                'blast_record']
+            allele = blast_record['qseqid']
+
+            score = (float(blast_record['pident'])/100) * (float(blast_record['length'])/float(blast_record['qlen']))
 
             # Special logic for paired gene
             # get the name of the other gene
@@ -72,7 +75,8 @@ def predict_serotype(results_dict):
                     entry = {
                         'stype': stype,
                         'antigen': antigen,
-                        'allele': allele
+                        'allele': allele,
+                        'score': score
                     }
                     existing_gene_dict[gene_name]=entry
                 # check if the other gene is already in the dictionary
@@ -99,10 +103,21 @@ def predict_serotype(results_dict):
                         "".format(stype, genome_name,
                                     sero_dict[stype], antigen))
 
-        results_dict[genome_name]['serotype']['otype'] = sero_dict['O']
-        results_dict[genome_name]['serotype']['O allele'] = sero_dict['O allele']
-        results_dict[genome_name]['serotype']['htype'] = sero_dict['H']
-        results_dict[genome_name]['serotype']['H allele'] = sero_dict['H allele']
+        # Logic when only one of the paired allele is found
+        for stype in ['O', 'H']:
+            cur_type = sero_dict[stype]
+            if cur_type == '-':
+                # Use the best non-paired pair gene if nothing else can be used
+                unpaired_alleles = existing_gene_dict.values()
+                if len(unpaired_alleles) > 0:
+                    # Choose the one with highest (percent identitity * query coverage)
+                    sorted_alleles = sorted(unpaired_alleles, key=lambda k: k['score'], reverse=True)
+                    target_allele = sorted_alleles[0]
+                sero_dict[stype] = target_allele['antigen']
+                sero_dict[stype+' allele'] = target_allele['allele']
+
+            results_dict[genome_name]['serotype'][stype.lower()+'type'] = sero_dict[stype]
+            results_dict[genome_name]['serotype'][stype+' allele'] = sero_dict[stype+' allele']
 
         if sero_dict['O'] == sero_dict['H'] == '-':
             log.warning("No serotype found for %s!!!", genome_name)
