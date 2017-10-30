@@ -113,8 +113,8 @@ def predict_serotype(results_dict):
                     # Choose the one with highest (percent identitity * query coverage)
                     sorted_alleles = sorted(unpaired_alleles, key=lambda k: k['score'], reverse=True)
                     target_allele = sorted_alleles[0]
-                sero_dict[stype] = target_allele['antigen']
-                sero_dict[stype+' allele'] = target_allele['allele']
+                    sero_dict[stype] = target_allele['antigen']
+                    sero_dict[stype+' allele'] = target_allele['allele']
 
             results_dict[genome_name]['serotype'][stype.lower()+'type'] = sero_dict[stype]
             results_dict[genome_name]['serotype'][stype+' allele'] = sero_dict[stype+' allele']
