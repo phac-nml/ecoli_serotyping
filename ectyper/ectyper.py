@@ -101,7 +101,7 @@ def run_program():
     
     # Initialize parsed result
     parsed_results = {}
-    chunk_size = 100
+    chunk_size = 1000
     # Divide genome files into chunks of size 100
     genome_chunks = [all_genomes_files[i:i + chunk_size] for i in range(0, len(all_genomes_files), chunk_size)]
     for chunk in genome_chunks:
@@ -109,7 +109,7 @@ def run_program():
         blast_db = blastFunctions.create_blast_db(chunk)
 
         serotype_output_file = \
-            blastFunctions.run_blast(query_file, blast_db, args)
+            blastFunctions.run_blast(query_file, blast_db, args, len(chunk))
         parsed_result = \
             blastFunctions.parse_blast_results(
                 args,
