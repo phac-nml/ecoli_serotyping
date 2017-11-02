@@ -287,7 +287,7 @@ def get_num_of_fasta_entry(file):
     Returns:
         int: number of entries
     '''
-    count =0
+    count = 0
     for _ in SeqIO.parse(file, 'fasta'):
         count += 1
     return count

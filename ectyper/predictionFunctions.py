@@ -13,7 +13,7 @@ LOG = logging.getLogger(__name__)
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
     """
     Make serotype prediction based on blast output
-    :param blast_output_file: blastn output with 
+    :param blast_output_file: blastn output with
         outfmt "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
     :param ectyper_dict_file: mapping file used to associate allele id to allele informations
     :param predictions_file: csv file to store result
@@ -27,13 +27,13 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
 
     LOG.info("Predicting serotype from blast output")
     output_df = blast_output_to_df(blast_output_file)
-    store_df(output_df, parsed_output_file)
     ectyper_df = ectyper_dict_to_df(ectyper_dict_file)
     # Merge output_df and ectyper_df
     output_df = output_df.merge(ectyper_df, left_on='qseqid', right_on='name', how='left')
     predictions_dict = {}
     # Select individual genomes
-    for name, per_genome_df in output_df.groupby('sseqid'):
+    output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
+    for genome_name, per_genome_df in output_df.groupby('genome_name'):
         df = per_genome_df
         # Extract potential predictors
         df = df.sort_values(['gene', 'serotype', 'score'])
@@ -75,8 +75,9 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
                     continue
                 predictions[predicting_antigen]=prediction
                 break
-        predictions_dict[name] = predictions
+        predictions_dict[genome_name] = predictions
     predictions_df = pd.DataFrame(predictions_dict).transpose()
+    store_df(output_df, parsed_output_file)
     store_df(predictions_df, predictions_file)
     LOG.info("Serotype prediction completed")
     return predictions_file
