@@ -51,8 +51,8 @@ def parse_command_line():
 
     parser.add_argument(
         "-out",
-        default='output.json',
-        help="Location of output file. Default: output.json")
+        default='output.csv',
+        help="Location of output file. Default: output.csv")
     
     parser.add_argument(
         "--legacy",

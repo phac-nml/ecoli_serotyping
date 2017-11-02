@@ -94,7 +94,7 @@ def run_blast(query_file, blast_db, args, chunk_size):
         # default max_target_seqs=500
         '-max_target_seqs', str(chunk_size*5), # at most 5 genome hit per query
         "-outfmt",
-        '6 qseqid qlen sseqid length pident sstart send sframe',
+        '6 qseqid qlen sseqid length pident sstart send sframe qcovhsp',
         "-word_size", "11"
     ]
     subprocess_util.run_subprocess(cmd)
@@ -172,7 +172,8 @@ def parse_blast_results(args, blast_results_file, parsing_dict):
                         'pident': la[4],
                         'sstart': la[5],
                         'send': la[6],
-                        'sframe': la[7]
+                        'sframe': la[7],
+                        'qcovhsp': la[8]
                         }
 
         # Initially check that the result passes the length / identity filters
