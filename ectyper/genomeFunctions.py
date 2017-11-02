@@ -98,7 +98,7 @@ def get_genome_names_from_files(files):
 
         # get only the name of the file for use in the fasta header
         file_path_name = os.path.splitext(os.path.basename(file))
-        n_name = file_path_name[0]
+        n_name = file_path_name[0].replace(' ', '_')
 
         # create a new file for the updated fasta headers
         new_file_tuple = tempfile.mkstemp()
