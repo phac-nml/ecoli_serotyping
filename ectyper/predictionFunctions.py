@@ -36,7 +36,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         df = per_genome_df
         # Extract potential predictors
-        df = df.sort_values(['gene', 'serotype', 'score'])
+        df = df.sort_values(['gene', 'serotype', 'score'], ascending=False)
         df = df[~df.duplicated(['gene', 'serotype'])]
         predictors_df = df[useful_columns]
         predictors_df = predictors_df.sort_values('score', ascending=False)

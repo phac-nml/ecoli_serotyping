@@ -76,7 +76,7 @@ def get_valid_format(file):
     return None
 
 
-def get_genome_names_from_files(files):
+def get_genome_names_from_files(files, temp_dir):
     """
     For each file:
     Takes the first header from a fasta file and sends it to the get_genome_name
@@ -85,6 +85,7 @@ def get_genome_names_from_files(files):
     first part of the header.
 
     :param files: The list of files to get the genome names for
+    :param tempdir: The tempdir to store copied files
     :return: ([genome names], [file names])
     """
 
@@ -97,12 +98,12 @@ def get_genome_names_from_files(files):
         # (eg. BLAST) can be used with the filename as genome name.
 
         # get only the name of the file for use in the fasta header
-        file_path_name = os.path.splitext(os.path.basename(file))
-        n_name = file_path_name[0].replace(' ', '_')
+        file_base_name = os.path.basename(file)
+        file_path_name = os.path.splitext(file_base_name)[0]
+        n_name = file_path_name.replace(' ', '_')
 
         # create a new file for the updated fasta headers
-        new_file_tuple = tempfile.mkstemp()
-        new_file = new_file_tuple[1]
+        new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
 
         # add the new name to the list of files and genomes
         list_of_files.append(new_file)
@@ -196,7 +197,7 @@ def get_fasta_header_from_file(filename):
 #         LOG.error("No parsing dictionary assigned for {0}".format(ptype))
 #         exit(1)
 
-def assemble_reads(reads, reference):
+def assemble_reads(reads, reference, temp_dir):
     '''
     Return path to assembled reads.
     Assemble short reads by mapping to a reference genome.
@@ -206,11 +207,11 @@ def assemble_reads(reads, reference):
     Args:
         reads (str): FASTQ/FQ format reads file
         reference (str): FASTA format reference file
+        temp_dir (str): temp_dir for storing assembled files
 
     Returns:
         tuple(str, str): identifcation and prediction fasta file
     '''
-    temp_dir = tempfile.gettempdir()
     output = os.path.join(
         temp_dir,
         os.path.splitext(os.path.basename(reads))[0]+'.fasta'

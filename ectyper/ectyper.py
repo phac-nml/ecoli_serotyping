@@ -14,6 +14,9 @@ from ectyper import (blastFunctions, commandLineOptions, definitions,
                      speciesIdentification)
 
 LOG = logging.getLogger(__name__)
+query_file = definitions.SEROTYPE_FILE
+combined_file = definitions.COMBINED
+ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
 
 
 def run_program():
@@ -36,114 +39,128 @@ def run_program():
     start_time = timeit.default_timer()
     curr_time = timeit.default_timer()
     loggingFunctions.initialize_logging()
-    ## Parse arguments
-    args = commandLineOptions.parse_command_line()
-    LOG.debug(args)
-    ## Get constants from definitions
-    LOG.info('\nStarting ectyper')
-    workplace_dir = definitions.WORKPLACE_DIR
-    query_file = definitions.SEROTYPE_FILE
-    combined_file = definitions.COMBINED
-    ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
-    if args.legacy:
-        # Use old data instead
-        LOG.info("Using legacy allele data for prediction.")
-        query_file = definitions.LEGACY_SEROTYPE_FILE
-        combined_file = definitions.LEGACY_COMBINED
-        ectyper_dict_file = definitions.LEGACY_SEROTYPE_ALLELE_JSON
-    # Create output directory
-    output_file = os.path.join(workplace_dir, 'output', args.out)
-    output_dir = os.path.split(output_file)[0]
-    if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
-        LOG.info('output directory is created')
+    ## Initialize temporary directories for the scope of this program
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Create temporary folders
+        assemble_temp_dir = os.mkdir(os.path.join(temp_dir, 'assembles'))
+        fasta_temp_dir = os.mkdir(os.path.join(temp_dir, 'fastas'))
+        ## Parse arguments
+        args = commandLineOptions.parse_command_line()
+        LOG.info('\nStarting ectyper')
+        LOG.debug(args)
+        ## Get constants from definitions
+        workplace_dir = definitions.WORKPLACE_DIR
+        if args.legacy:
+            # Use old data instead
+            LOG.info("Using legacy allele data for prediction.")
+            query_file = definitions.LEGACY_SEROTYPE_FILE
+            combined_file = definitions.LEGACY_COMBINED
+            ectyper_dict_file = definitions.LEGACY_SEROTYPE_ALLELE_JSON
+        # Create output directory
+        output_file = os.path.join(workplace_dir, 'output', args.out)
+        output_dir = os.path.split(output_file)[0]
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
+            LOG.info('output directory is created')
 
-    # Collect genome files
-    LOG.info("Gathering genome files")
-    raw_genome_files = genomeFunctions.get_files_as_list(args.input)
-    LOG.debug(raw_genome_files)
+        # Collect genome files
+        LOG.info("Gathering genome files")
+        raw_genome_files = genomeFunctions.get_files_as_list(args.input)
+        LOG.debug(raw_genome_files)
 
-    curr_time = timeit.default_timer()
-    # Filter invalid file formats
-    LOG.info("Start filtering based on file format")
-    raw_fasta_files = []
-    raw_fastq_files = []
-    for file in raw_genome_files:
-        file_format = genomeFunctions.get_valid_format(file)
-        if file_format == 'fasta':
-            raw_fasta_files.append(file)
-        elif file_format == 'fastq':
-            raw_fastq_files.append(file)
-    LOG.debug('raw fasta files: %s', str(raw_fasta_files))
-    LOG.debug('raw fastq files: %s', str(raw_fastq_files))
-    LOG.info("Finished filtering based on file format in %.2f seconds",
-             timeit.default_timer()-curr_time)
-    curr_time = timeit.default_timer()
+        curr_time = timeit.default_timer()
+        # Filter invalid file formats
+        LOG.info("Start filtering based on file format")
+        raw_fasta_files = []
+        raw_fastq_files = []
+        for file in raw_genome_files:
+            file_format = genomeFunctions.get_valid_format(file)
+            if file_format == 'fasta':
+                raw_fasta_files.append(file)
+            elif file_format == 'fastq':
+                raw_fastq_files.append(file)
+        LOG.debug('raw fasta files: %s', str(raw_fasta_files))
+        LOG.debug('raw fastq files: %s', str(raw_fastq_files))
+        LOG.info("Finished filtering based on file format in %.2f seconds",
+                timeit.default_timer()-curr_time)
+        curr_time = timeit.default_timer()
 
-    # Filter invalid species
-    LOG.info("Start filtering non-ecoli genome files")
-    final_fasta_files = []
-    for file in raw_fasta_files:
-        if speciesIdentification.is_ecoli_genome(file, args):
-            final_fasta_files.append(file)
-    for file in raw_fastq_files:
-        iden_file, pred_file = \
-            genomeFunctions.assemble_reads(file, combined_file)
-        # If no alignment resut, the file is definitely not E.Coli
-        if genomeFunctions.get_valid_format(iden_file) is None:
-            LOG.warning("No identification alignment found for %s.\nIt is filtered out.", file)
-            continue
-        if speciesIdentification.is_ecoli_genome(iden_file, args, file):
-            # final check before adding the alignment for prediction
-            if genomeFunctions.get_valid_format(iden_file) != 'fasta':
-                LOG.warning("No prediction alignment found for %s.\nIt is filtered out.", file)
+        # Filter invalid species
+        LOG.info("Start filtering non-ecoli genome files")
+        final_fasta_files = []
+        for file in raw_fasta_files:
+            if speciesIdentification.is_ecoli_genome(file, args):
+                final_fasta_files.append(file)
+        for file in raw_fastq_files:
+            iden_file, pred_file = \
+                genomeFunctions.assemble_reads(file, combined_file, assemble_temp_dir)
+            # If no alignment resut, the file is definitely not E.Coli
+            if genomeFunctions.get_valid_format(iden_file) is None:
+                LOG.warning("No identification alignment found for %s.\nIt is filtered out.", file)
                 continue
-            final_fasta_files.append(pred_file)
-    LOG.info("Finished filtering non-ecoli genome files in %.2f seconds",
-             timeit.default_timer()-curr_time)
-    curr_time = timeit.default_timer()
-
-    LOG.info('%d final fasta files', len(final_fasta_files))
-    if final_fasta_files == []:
-        LOG.info("No valid genome file. Terminating the program.")
-        tempfile.TemporaryDirectory().cleanup()
-        exit(1)
-    # Convert genome headers
-    LOG.info("Start standardize genome headers")
-    (all_genomes_list, all_genomes_files) = \
-        genomeFunctions.get_genome_names_from_files(final_fasta_files)
-    LOG.debug(all_genomes_list)
-    LOG.debug(all_genomes_files)
-    LOG.info("Finished standardize genome headers in %.2f seconds",
-             timeit.default_timer()-curr_time)
-    curr_time = timeit.default_timer()
-
-    # Divide genome files into chunks of size 100
-    chunk_size = 1000
-    genome_chunks = [all_genomes_files[i:i + chunk_size]
-                     for i in range(0, len(all_genomes_files), chunk_size)]
-    predictions_file = output_file
-    for index, chunk in enumerate(genome_chunks):
-        LOG.info("Start creating blast database #%d", index+1)
-        blast_db = blastFunctions.create_blast_db(chunk)
-        LOG.info("Finished creating blast database #%d in %.2f seconds",
-                 index+1, timeit.default_timer()-curr_time)
+            if speciesIdentification.is_ecoli_genome(iden_file, args, file):
+                # final check before adding the alignment for prediction
+                if genomeFunctions.get_valid_format(iden_file) != 'fasta':
+                    LOG.warning("No prediction alignment found for %s.\nIt is filtered out.", file)
+                    continue
+                final_fasta_files.append(pred_file)
+        LOG.info("Finished filtering non-ecoli genome files in %.2f seconds",
+                timeit.default_timer()-curr_time)
         curr_time = timeit.default_timer()
 
-        LOG.info("Start blast alignment on database #%d", index+1)
-        blast_output_file = blastFunctions.run_blast(
-            query_file, blast_db, args, len(chunk))
-        LOG.info("Finished blast alignment on database #%d in %.2f seconds",
-                 index+1, timeit.default_timer()-curr_time)
-        curr_time = timeit.default_timer()
-        LOG.info("Start serotype prediction for database #%d", index+1)
-        predictions_file = predictionFunctions.predict_serotype(
-            blast_output_file, ectyper_dict_file, predictions_file)
-        LOG.info("Finished serotype prediction for database #%d in %.2f seconds",
-                 index+1, timeit.default_timer()-curr_time)
+        LOG.info('%d final fasta files', len(final_fasta_files))
+        if final_fasta_files == []:
+            LOG.info("No valid genome file. Terminating the program.")
+            exit(1)
+        # Convert genome headers
+        LOG.info("Start standardize genome headers")
+        (all_genomes_list, all_genomes_files) = \
+            genomeFunctions.get_genome_names_from_files(final_fasta_files, fasta_temp_dir)
+        LOG.debug(all_genomes_list)
+        LOG.debug(all_genomes_files)
+        LOG.info("Finished standardize genome headers in %.2f seconds",
+                timeit.default_timer()-curr_time)
         curr_time = timeit.default_timer()
 
-    LOG.info("Ectyper completed successfully in %0.3f sec.", timeit.default_timer() - start_time)
-    tempfile.TemporaryDirectory().cleanup()
-    LOG.info('\nReporting result...')
-    predictionFunctions.report_result(predictions_file)
+        # Main prediction function
+        predictions_file = run_prediction(all_genomes_files, args, output_file)
+
+        LOG.info("Ectyper completed successfully in %0.3f sec.", timeit.default_timer() - start_time)
+        LOG.info('\nReporting result...')
+        predictionFunctions.report_result(predictions_file)
+
+def run_prediction(genome_files, args, predictions_file):
+    '''
+    Core prediction functionality
+    :param genome_files:
+    :param args:
+    :param predictions_file:
+    :returns predictions_file
+    '''
+    # create a temp dir for blastdb
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Divide genome files into chunks of size 100
+        chunk_size = 1000
+        genome_chunks = [genome_files[i:i + chunk_size]
+                        for i in range(0, len(genome_files), chunk_size)]
+        for index, chunk in enumerate(genome_chunks):
+            curr_time = timeit.default_timer()
+            LOG.info("Start creating blast database #%d", index+1)
+            blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
+            LOG.info("Finished creating blast database #%d in %.2f seconds",
+                    index+1, timeit.default_timer()-curr_time)
+            curr_time = timeit.default_timer()
+
+            LOG.info("Start blast alignment on database #%d", index+1)
+            blast_output_file = blastFunctions.run_blast(
+                query_file, blast_db, args, len(chunk))
+            LOG.info("Finished blast alignment on database #%d in %.2f seconds",
+                    index+1, timeit.default_timer()-curr_time)
+            curr_time = timeit.default_timer()
+            LOG.info("Start serotype prediction for database #%d", index+1)
+            predictions_file = predictionFunctions.predict_serotype(
+                blast_output_file, ectyper_dict_file, predictions_file)
+            LOG.info("Finished serotype prediction for database #%d in %.2f seconds",
+                    index+1, timeit.default_timer()-curr_time)
+            curr_time = timeit.default_timer()
+        return predictions_file

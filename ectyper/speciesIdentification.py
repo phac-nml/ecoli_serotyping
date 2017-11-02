@@ -48,17 +48,18 @@ def get_num_hits(target, args):
     '''
     num_hit = 0
     try:
-        blast_db = blastFunctions.create_blast_db([target])
-        result = blastFunctions.run_blast_for_identification(
-            definitions.ECOLI_MARKERS,
-            blast_db
-        )
-        with open(result) as handler:
-            LOG.debug("get_num_hits() output:")
-            for line in handler:
-                LOG.debug(line)
-                num_hit += 1
-        LOG.info("%s aligned to %d marker sequences", target, num_hit)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            blast_db = blastFunctions.create_blast_db([target], temp_dir)
+            result = blastFunctions.run_blast_for_identification(
+                definitions.ECOLI_MARKERS,
+                blast_db
+            )
+            with open(result) as handler:
+                LOG.debug("get_num_hits() output:")
+                for line in handler:
+                    LOG.debug(line)
+                    num_hit += 1
+            LOG.info("%s aligned to %d marker sequences", target, num_hit)
     except SystemExit:
         pass
     return num_hit
@@ -82,19 +83,18 @@ def get_species(file):
         )
     species = 'unknown'
     if genomeFunctions.get_valid_format(file) is 'fasta':
-        with tempfile.TemporaryDirectory() as temp_dir:
-            basename = os.path.basename(file)
-            new_file = os.path.join(temp_dir, basename)
-            with open(new_file,'w') as new_fh:
-                header = '> %s\n' %basename
-                new_fh.write(header)
-                for record in SeqIO.parse(file, 'fasta'):
-                    new_fh.write(str(record.seq))
-                    new_fh.write('nnnnnnnnnnnnnnnnnnnn')
-            try:
-                species = get_species_helper(new_file)
-            except:
-                pass
+        tmp_file = tempfile.NamedTemporaryFile().name
+        basename = os.path.basename(file).replace(' ', '_')
+        with open(tmp_file, 'w') as new_fh:
+            header = '> %s\n' %basename
+            new_fh.write(header)
+            for record in SeqIO.parse(file, 'fasta'):
+                new_fh.write(str(record.seq))
+                new_fh.write('nnnnnnnnnnnnnnnnnnnn')
+        try:
+            species = get_species_helper(tmp_file)
+        except:
+            pass
     if genomeFunctions.get_valid_format(file) is 'fastq':
         species = get_species_helper(file)
     LOG.info("%s is identified as %s", file, species)

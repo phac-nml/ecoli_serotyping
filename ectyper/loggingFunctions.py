@@ -5,9 +5,7 @@
 """
 
 import logging
-import tempfile
 import os
-from tqdm import tqdm
 from ectyper import definitions
 
 LOG = logging.getLogger(__name__)

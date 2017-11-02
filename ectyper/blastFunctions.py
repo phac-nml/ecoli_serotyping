@@ -6,7 +6,6 @@ Functions for setting up, running, and parsing blast
 import collections
 import logging
 import os
-import tempfile
 
 from ectyper import genomeFunctions
 from ectyper import subprocess_util
@@ -42,16 +41,16 @@ def record_passes_cutoffs(blast_record, args):
         return False
 
 
-def create_blast_db(filelist):
+def create_blast_db(filelist, temp_dir):
     """http://stackoverflow.com/questions/23944657/typeerror-method-takes-1-positional-argument-but-2-were-given
     Creating a blast DB using the makeblastdb command.
     The database is created in the temporary folder of the system.
 
     :param filelist: genome list that was given by the user on the commandline.
+    :param temp_dir: temp directory to store blastdb
     :return full path of DB
     """
-    tempdir = tempfile.gettempdir()
-    blast_db_path = os.path.join(tempdir, 'ectyper_blastdb')
+    blast_db_path = os.path.join(temp_dir, 'ectyper_blastdb')
 
     LOG.debug("Generating the blast db at %s", blast_db_path)
     cmd = [
