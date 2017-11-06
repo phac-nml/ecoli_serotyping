@@ -67,7 +67,7 @@ def run_program():
             'output.csv')
         output_dir = os.path.split(output_file)[0]
         if not os.path.exists(output_dir):
-            os.mkdir(output_dir)
+            os.makedirs(output_dir)
             LOG.info('output directory is created')
 
         # Collect genome files
