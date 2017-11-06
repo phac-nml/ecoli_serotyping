@@ -76,6 +76,8 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
                 break
         predictions_dict[genome_name] = predictions
     predictions_df = pd.DataFrame(predictions_dict).transpose()
+    if predictions_df.empty:
+        predictions_df = pd.DataFrame(columns=['H','O'])
     store_df(output_df, parsed_output_file)
     store_df(predictions_df, predictions_file)
     LOG.info("Serotype prediction completed")
