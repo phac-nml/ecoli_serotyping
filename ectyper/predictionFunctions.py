@@ -40,7 +40,6 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
         df = df[~df.duplicated(['gene', 'serotype'])]
         predictors_df = df[useful_columns]
         predictors_df = predictors_df.sort_values('score', ascending=False)
-        predictors_df.to_csv('output.csv')
 
         # Make prediction based on predictors
         from collections import defaultdict
@@ -101,6 +100,14 @@ def blast_output_to_df(blast_output_file):
             }
             output_data.append(entry)
     df = pd.DataFrame(output_data)
+    if not output_data:
+        LOG.info("No hit found for this blast query")
+        # Return empty dataframe with correct columns
+        return pd.DataFrame(columns=[
+            'length', 'pident', 'qcovhsp',
+            'qlen', 'qseqid', 'send',
+            'sframe', 'sseqid', 'sstart']
+        )
     df['score'] = df['pident'].astype(float)*df['qcovhsp'].astype(float)/10000
     return df
 
@@ -136,4 +143,8 @@ def store_df(src_df, dst_file):
 
 def report_result(csv_file):
     # Report the content of dataframe in log
-    LOG.info('\n%s',pd.read_csv(csv_file).to_string())
+    df = pd.read_csv(csv_file)
+    if df.empty:
+        LOG.info('No prediction was made becuase no alignment was found')
+        return
+    LOG.info('\n%s', df.to_string())
