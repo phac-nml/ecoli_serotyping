@@ -53,12 +53,6 @@ def run_program():
         query_file = definitions.SEROTYPE_FILE
         combined_file = definitions.COMBINED
         ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
-        if args.legacy:
-            # Use old data instead
-            LOG.info("Using legacy allele data for prediction.")
-            query_file = definitions.LEGACY_SEROTYPE_FILE
-            combined_file = definitions.LEGACY_COMBINED
-            ectyper_dict_file = definitions.LEGACY_SEROTYPE_ALLELE_JSON
         # Create output directory
         output_file = os.path.join(
             workplace_dir,

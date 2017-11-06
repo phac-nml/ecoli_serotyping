@@ -48,10 +48,5 @@ def parse_command_line():
         "--species",
         action="store_true",
         help="Enable non-ecoli species identification")
-    
-    parser.add_argument(
-        "--legacy",
-        action="store_true",
-        help="Enable legacy allele data. Default: False.")
 
     return parser.parse_args()
