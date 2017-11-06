@@ -10,13 +10,14 @@ LOG = logging.getLogger(__name__)
     Serotype prediction for E. coli
 """
 
-def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
+def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, verbose=False):
     """
     Make serotype prediction based on blast output
     :param blast_output_file: blastn output with
         outfmt "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
     :param ectyper_dict_file: mapping file used to associate allele id to allele informations
     :param predictions_file: csv file to store result
+    :param verbose:
     :return: predictions_file
     """
     basename, extension = os.path.splitext(predictions_file)
@@ -46,8 +47,9 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
         GENE_PAIRS = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
         predictions_columns = ['O_prediction', 'O_info', 'H_prediction','H_info']
         gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
-        for gene in gene_list:
-            predictions_columns.append(gene)
+        if verbose:
+            for gene in gene_list:
+                predictions_columns.append(gene)
         predictions = {}
         for column in predictions_columns:
             predictions[column] = None
@@ -55,8 +57,9 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
             genes_pool = defaultdict(list)
             for index, row in predictors_df.iterrows():
                 gene = row['gene']
-                predictions[gene]=True
-                if predictions[predicting_antigen+'_prediction']:
+                if verbose:
+                    predictions[gene]=True
+                if not predictions[predicting_antigen+'_prediction']:
                     serotype = row['serotype']
                     genes_pool[gene].append(serotype)
                     prediction = None

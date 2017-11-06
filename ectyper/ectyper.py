@@ -155,7 +155,7 @@ def run_prediction(genome_files, args, predictions_file):
             curr_time = timeit.default_timer()
             LOG.info("Start serotype prediction for database #%d", index+1)
             predictions_file = predictionFunctions.predict_serotype(
-                blast_output_file, ectyper_dict_file, predictions_file)
+                blast_output_file, ectyper_dict_file, predictions_file, args.verbose)
             LOG.info("Finished serotype prediction for database #%d in %.2f seconds",
                     index+1, timeit.default_timer()-curr_time)
             curr_time = timeit.default_timer()

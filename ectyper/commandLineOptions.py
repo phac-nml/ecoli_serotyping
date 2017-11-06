@@ -48,5 +48,12 @@ def parse_command_line():
         "--species",
         action="store_true",
         help="Enable non-ecoli species identification")
+    
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        action='store_true',
+        help='Enable detailed output'
+    )
 
     return parser.parse_args()
