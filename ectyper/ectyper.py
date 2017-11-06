@@ -8,15 +8,13 @@ import logging
 import os
 import tempfile
 import timeit
+import datetime
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, predictionFunctions,
                      speciesIdentification)
 
 LOG = logging.getLogger(__name__)
-query_file = definitions.SEROTYPE_FILE
-combined_file = definitions.COMBINED
-ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
 
 
 def run_program():
@@ -42,14 +40,19 @@ def run_program():
     ## Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
         # Create temporary folders
-        assemble_temp_dir = os.mkdir(os.path.join(temp_dir, 'assembles'))
-        fasta_temp_dir = os.mkdir(os.path.join(temp_dir, 'fastas'))
+        assemble_temp_dir = os.path.join(temp_dir, 'assembles')
+        fasta_temp_dir = os.path.join(temp_dir, 'fastas')
+        os.mkdir(assemble_temp_dir)
+        os.mkdir(fasta_temp_dir)
         ## Parse arguments
         args = commandLineOptions.parse_command_line()
         LOG.info('\nStarting ectyper')
         LOG.debug(args)
         ## Get constants from definitions
         workplace_dir = definitions.WORKPLACE_DIR
+        query_file = definitions.SEROTYPE_FILE
+        combined_file = definitions.COMBINED
+        ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
         if args.legacy:
             # Use old data instead
             LOG.info("Using legacy allele data for prediction.")
@@ -57,7 +60,11 @@ def run_program():
             combined_file = definitions.LEGACY_COMBINED
             ectyper_dict_file = definitions.LEGACY_SEROTYPE_ALLELE_JSON
         # Create output directory
-        output_file = os.path.join(workplace_dir, 'output', args.out)
+        output_file = os.path.join(
+            workplace_dir,
+            'output',
+            str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.'),
+            'output.csv')
         output_dir = os.path.split(output_file)[0]
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
@@ -137,6 +144,8 @@ def run_prediction(genome_files, args, predictions_file):
     :param predictions_file:
     :returns predictions_file
     '''
+    query_file = definitions.SEROTYPE_FILE
+    ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into chunks of size 100

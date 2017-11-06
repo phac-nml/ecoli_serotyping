@@ -220,13 +220,12 @@ def assemble_reads(reads, reference, temp_dir):
     # run once if index reference does not exist
     index_path = \
         os.path.join(
-            temp_dir,
+            definitions.DATA_DIR,
             'bowtie_index',
-            os.path.splitext(os.path.basename(reference))[0],
-            'index'
+            os.path.splitext(os.path.basename(reference))[0]
         )
     index_dir = os.path.split(index_path)[0]
-    if not os.path.isfile(index_path+'1.bt2'):
+    if not os.path.isdir(index_dir):
         LOG.info('Reference index does not exist. Creating new reference index at %s', index_dir)
         if not os.path.exists(index_dir):
             os.makedirs(index_dir)

@@ -48,11 +48,6 @@ def parse_command_line():
         "--species",
         action="store_true",
         help="Enable non-ecoli species identification")
-
-    parser.add_argument(
-        "-out",
-        default='output.csv',
-        help="Location of output file. Default: output.csv")
     
     parser.add_argument(
         "--legacy",
