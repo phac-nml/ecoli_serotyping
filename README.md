@@ -8,6 +8,7 @@ Support FASTA and FASTQ format
 * SAMtools (v1.6)
 * bcftools (v1.2)
 * mash (v2.0)
+* pandas (v0.20.3)
 
 # Installation
 1. Get `miniconda` if you do not already have `miniconda` or `anaconda`:
@@ -17,7 +18,7 @@ Support FASTA and FASTQ format
 1. Add `bioconda` to conda channel
     1. `conda config --add channels bioconda`
 1. Install dependencies
-    1. `conda install samtools bowtie2 mash bcftools biopython nose blast tqdm python=3.6`
+    1. `conda install samtools bowtie2 mash bcftools biopython nose blast panda python=3.6`
 1. Install ectyper
     1. `python setup.py install`
 
