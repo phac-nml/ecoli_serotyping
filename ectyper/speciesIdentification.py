@@ -9,32 +9,31 @@ from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_uti
 
 LOG = logging.getLogger(__name__)
 
-def is_ecoli_genome(fasta_file, args, iden_file=None):
+def is_ecoli_genome(iden_file, genome_file=None, mash=False):
     '''
     Return True if file is classified as ecoli by ecoli markers, otherwise False
 
     Args:
-        fasta_file (str): path to valid fasta genome file
-        args (arguments): console arguments
-        iden_file (str): Optional path to valid fasta/fastq file
-            Used for species identification
-
+        iden_file (str): path to valid fasta genome file
+        genome_file (str): Optional path to valid fastq file for reads
+        mash (bool): Optional input to decide whether to use mash
+            if genome is identified as non-ecoli
     Returns:
         bool: output
     '''
-    if iden_file is None:
-        iden_file = fasta_file
-    num_hit = get_num_hits(fasta_file, args)
+    if genome_file is None:
+        genome_file = iden_file
+    num_hit = get_num_hits(iden_file)
     if num_hit < 3:
-        LOG.info("%s is not a valid e.coli genome file", fasta_file)
-        if args.species:
-            species = get_species(iden_file)
-            LOG.info("%s is identified as genome of %s", fasta_file, species)
+        LOG.info("%s is identified as an invalid e.coli genome file by marker approach", iden_file)
+        if mash:
+            species = get_species(genome_file)
+            LOG.info("%s is identified as genome of %s by mash approach", iden_file, species)
         return False
-    LOG.info("%s is a valid e.coli genome file", fasta_file)
+    LOG.debug("%s is a valid e.coli genome file", iden_file)
     return True
 
-def get_num_hits(target, args):
+def get_num_hits(target):
     '''
     Return number of matching hits when query the reference genome
         on the target genome
@@ -59,7 +58,7 @@ def get_num_hits(target, args):
                 for line in handler:
                     LOG.debug(line)
                     num_hit += 1
-            LOG.info("%s aligned to %d marker sequences", target, num_hit)
+            LOG.debug("%s aligned to %d marker sequences", target, num_hit)
     except SystemExit:
         pass
     return num_hit
@@ -97,7 +96,6 @@ def get_species(file):
             pass
     if genomeFunctions.get_valid_format(file) is 'fastq':
         species = get_species_helper(file)
-    LOG.info("%s is identified as %s", file, species)
     return species
 
 def get_species_helper(file):

@@ -1,64 +1,43 @@
 import os
 import sys
 import unittest
-import logging
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from ectyper import (speciesIdentification, loggingFunctions, definitions)
 
-LOG = logging.getLogger(__name__)
-
-class TestEctyper(unittest.TestCase):
-
-    def test_invalid_fastq_file(self):
-        if not os.path.isfile(definitions.REFSEQ_SKETCH):
-            LOG.info("No seqref file. Skip this test.")
-            return
-        LOG.info("Testing invalid fastq")
-        valid_fasta = 'test/Data/Invalid.fastq'
-        self.assertIn('unknown', speciesIdentification.get_species(valid_fasta))
+class TestSpeciesId(unittest.TestCase):
     
-    def test__salamonella_fastq_file(self):
+    def test_salamonella_fastq_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
-            LOG.info("No seqref file. Skip this test.")
+            print("No seqref file. Skip this test.")
             return
-        LOG.info("Testing non-ecoli fastq")
-        salamonella_fastq = 'test/Data/Salmonella-spp-BL25_R1_001.fastq'
+        print("Testing non-ecoli fastq")
+        salamonella_fastq = 'test/Data/Salmonella.fastq'
         self.assertIn('Salmonella enterica', speciesIdentification.get_species(salamonella_fastq))
 
-    def test__valid_fastq_file(self):
-        # slow(~100 sec); require mash screening
+    def test_ecoli_fastq_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
-            LOG.info("No seqref file. Skip this test.")
+            print("No seqref file. Skip this test.")
             return
-        LOG.info("Testing ecoli fastq")
-        valid_fastq = 'test/Data/ECI-4015_S6_L001_R1_001.merged.fastq'
+        print("Testing ecoli fastq")
+        valid_fastq = 'test/Data/Escherichia.fastq'
         self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fastq))
 
-    def test_valid_fasta_file(self):
+    def test_ecoli_fasta_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
-            LOG.info("No seqref file. Skip this test.")
+            print("No seqref file. Skip this test.")
             return
-        LOG.info("Testing ecoli fasta")
+        print("Testing ecoli fasta")
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             return
-        valid_fasta = 'test/Data/GCA_000010745.1_ASM1074v1_genomic.fna'
+        valid_fasta = 'test/Data/Escherichia.fna'
         self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fasta))
-
-
-    def test_invalid_fasta_file(self):
-        if not os.path.isfile(definitions.REFSEQ_SKETCH):
-            LOG.info("No seqref file. Skip this test.")
-            return
-        LOG.info("Testing invalid fasta")
-        invalid_fasta = 'test/Data/Invalid.fna'
-        self.assertIn('unknown', speciesIdentification.get_species(invalid_fasta))
 
     def test_different_species_fasta_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
-            LOG.info("No seqref file. Skip this test.")
+            print("No seqref file. Skip this test.")
             return
-        LOG.info("Testing non-ecoli fasta")
-        salamonella_fasta = 'test/Data/SA20093784.fasta'
+        print("Testing non-ecoli fasta")
+        salamonella_fasta = 'test/Data/Salmonella.fasta'
         streptococcus_fasta = 'test/Data/Streptococcus.fasta'
         straphylococcus_fasta = 'test/Data/Straphylococcus.fasta'
         yersinia_fasta = 'test/Data/Yersinia.fasta'
@@ -73,7 +52,4 @@ class TestEctyper(unittest.TestCase):
 
 if __name__ == '__main__':
     loggingFunctions.initialize_logging()
-    if not os.path.isfile(definitions.REFSEQ_SKETCH):
-        LOG.info("No seqref file. Skip this test suite.")
-        exit
     unittest.main()

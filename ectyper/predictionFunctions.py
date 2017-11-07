@@ -10,13 +10,14 @@ LOG = logging.getLogger(__name__)
     Serotype prediction for E. coli
 """
 
-def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
+def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, verbose=False):
     """
     Make serotype prediction based on blast output
     :param blast_output_file: blastn output with
         outfmt "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
     :param ectyper_dict_file: mapping file used to associate allele id to allele informations
     :param predictions_file: csv file to store result
+    :param verbose:
     :return: predictions_file
     """
     basename, extension = os.path.splitext(predictions_file)
@@ -44,40 +45,50 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file):
         # Make prediction based on predictors
         from collections import defaultdict
         GENE_PAIRS = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
-        predictions = {
-            'H': None,
-            'O': None
-        }
+        predictions_columns = ['O_prediction', 'O_info', 'H_prediction','H_info']
+        gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
+        if verbose:
+            for gene in gene_list:
+                predictions_columns.append(gene)
+        predictions = {}
+        for column in predictions_columns:
+            predictions[column] = None
         for predicting_antigen in ['O', 'H']:
             genes_pool = defaultdict(list)
             for index, row in predictors_df.iterrows():
                 gene = row['gene']
-                serotype = row['serotype']
-                genes_pool[gene].append(serotype)
-                prediction = None
-                if len(serotype) < 1:
-                    continue
-                antigen = serotype[0].upper()
-                if antigen != predicting_antigen:
-                    continue
-                if gene in GENE_PAIRS.keys():
-                    # Pair gene logic
-                    potential_pairs = genes_pool.get(GENE_PAIRS.get(gene))
-                    if potential_pairs is None:
+                if verbose:
+                    predictions[gene]=True
+                if not predictions[predicting_antigen+'_prediction']:
+                    serotype = row['serotype']
+                    genes_pool[gene].append(serotype)
+                    prediction = None
+                    if len(serotype) < 1:
                         continue
-                    if serotype in potential_pairs:
+                    antigen = serotype[0].upper()
+                    if antigen != predicting_antigen:
+                        continue
+                    if gene in GENE_PAIRS.keys():
+                        predictions[antigen+'_info'] = 'Only unpaired alignment found'
+                        # Pair gene logic
+                        potential_pairs = genes_pool.get(GENE_PAIRS.get(gene))
+                        if potential_pairs is None:
+                            continue
+                        if serotype in potential_pairs:
+                            prediction = serotype
+                    else:
+                        # Normal logic
                         prediction = serotype
-                else:
-                    # Normal logic
-                    prediction = serotype
-                if prediction==None:
-                    continue
-                predictions[predicting_antigen]=prediction
-                break
+                    if prediction is None:
+                        continue
+                    predictions[antigen+'_info'] = 'Alignment found'
+                    predictions[predicting_antigen+'_prediction']=prediction
+            # No alignment found
         predictions_dict[genome_name] = predictions
     predictions_df = pd.DataFrame(predictions_dict).transpose()
     if predictions_df.empty:
-        predictions_df = pd.DataFrame(columns=['H','O'])
+        predictions_df = pd.DataFrame(columns=predictions_columns)
+    predictions_df = predictions_df[predictions_columns]
     store_df(output_df, parsed_output_file)
     store_df(predictions_df, predictions_file)
     LOG.info("Serotype prediction completed")
@@ -150,3 +161,17 @@ def report_result(csv_file):
         LOG.info('No prediction was made becuase no alignment was found')
         return
     LOG.info('\n%s', df.to_string())
+
+def add_non_predicted(all_genomes_list, predictions_file):
+    # Add genomes that do not show up in blast result to prediction file
+    df = pd.read_csv(predictions_file)
+    df = df.merge(
+        pd.DataFrame(
+            all_genomes_list,
+            columns=['index']),
+            on='index',
+            how='outer')
+    df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
+    df.fillna('-', inplace=True)
+    df.to_csv(predictions_file, index=False)
+    return predictions_file

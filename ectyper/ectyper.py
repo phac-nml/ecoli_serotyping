@@ -43,8 +43,8 @@ def run_program():
     with tempfile.TemporaryDirectory() as temp_dir:
         # Create temporary folders
         assemble_temp_dir = os.path.join(temp_dir, 'assembles')
-        fasta_temp_dir = os.path.join(temp_dir, 'fastas')
         os.mkdir(assemble_temp_dir)
+        fasta_temp_dir = os.path.join(temp_dir, 'fastas')
         os.mkdir(fasta_temp_dir)
         ## Parse arguments
         
@@ -53,14 +53,7 @@ def run_program():
         ## Get constants from definitions
         workplace_dir = definitions.WORKPLACE_DIR
         query_file = definitions.SEROTYPE_FILE
-        combined_file = definitions.COMBINED
         ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
-        if args.legacy:
-            # Use old data instead
-            LOG.info("Using legacy allele data for prediction.")
-            query_file = definitions.LEGACY_SEROTYPE_FILE
-            combined_file = definitions.LEGACY_COMBINED
-            ectyper_dict_file = definitions.LEGACY_SEROTYPE_ALLELE_JSON
         # Create output directory
         output_file = os.path.join(
             workplace_dir,
@@ -98,21 +91,13 @@ def run_program():
         LOG.info("Start filtering non-ecoli genome files")
         final_fasta_files = []
         for file in raw_fasta_files:
-            if speciesIdentification.is_ecoli_genome(file, args):
-                final_fasta_files.append(file)
+            filtered_file = filter_file_by_species(file, 'fasta', assemble_temp_dir)
+            if filtered_file:
+                final_fasta_files.append(filtered_file)
         for file in raw_fastq_files:
-            iden_file, pred_file = \
-                genomeFunctions.assemble_reads(file, combined_file, assemble_temp_dir)
-            # If no alignment resut, the file is definitely not E.Coli
-            if genomeFunctions.get_valid_format(iden_file) is None:
-                LOG.warning("No identification alignment found for %s.\nIt is filtered out.", file)
-                continue
-            if speciesIdentification.is_ecoli_genome(iden_file, args, file):
-                # final check before adding the alignment for prediction
-                if genomeFunctions.get_valid_format(iden_file) != 'fasta':
-                    LOG.warning("No prediction alignment found for %s.\nIt is filtered out.", file)
-                    continue
-                final_fasta_files.append(pred_file)
+            filtered_file = filter_file_by_species(file, 'fastq', assemble_temp_dir)
+            if filtered_file:
+                final_fasta_files.append(filtered_file)
         LOG.info("Finished filtering non-ecoli genome files in %.2f seconds",
                 timeit.default_timer()-curr_time)
         curr_time = timeit.default_timer()
@@ -133,6 +118,8 @@ def run_program():
 
         # Main prediction function
         predictions_file = run_prediction(all_genomes_files, args, output_file)
+        # Add empty rows for genomes without blast result
+        predictions_file = predictionFunctions.add_non_predicted(all_genomes_list, predictions_file)
 
         LOG.info("Ectyper completed successfully in %0.3f sec.", timeit.default_timer() - start_time)
         LOG.info('\nReporting result...')
@@ -199,8 +186,40 @@ def run_prediction(genome_files, args, predictions_file):
             curr_time = timeit.default_timer()
             LOG.info("Start serotype prediction for database #%d", index+1)
             predictions_file = predictionFunctions.predict_serotype(
-                blast_output_file, ectyper_dict_file, predictions_file)
+                blast_output_file, ectyper_dict_file, predictions_file, args.verbose)
             LOG.info("Finished serotype prediction for database #%d in %.2f seconds",
                     index+1, timeit.default_timer()-curr_time)
             curr_time = timeit.default_timer()
         return predictions_file
+<<<<<<< HEAD
+=======
+
+def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
+    '''
+    Core species recognition functionality
+    :param genome_file:
+    :param genome_format:
+    :param temp_dir:
+    :param mash:
+    :returns filtered_file
+    '''
+    combined_file = definitions.COMBINED
+    filtered_file = None
+    if genome_format is 'fastq':
+        iden_file, pred_file = \
+            genomeFunctions.assemble_reads(genome_file, combined_file, temp_dir)
+        # If no alignment resut, the file is definitely not E.Coli
+        if genomeFunctions.get_valid_format(iden_file) is None:
+            LOG.warning("%s is filtered out because no identification alignment found", genome_file)
+            return filtered_file
+        if speciesIdentification.is_ecoli_genome(iden_file, genome_file, mash=mash):
+            # final check before adding the alignment for prediction
+            if genomeFunctions.get_valid_format(iden_file) != 'fasta':
+                LOG.warning("%s is filtered out because no prediction alignment found", genome_file)
+                return filtered_file
+            filtered_file = pred_file
+    if genome_format is 'fasta':
+        if speciesIdentification.is_ecoli_genome(genome_file, mash=mash):
+            filtered_file = genome_file
+    return filtered_file
+>>>>>>> moreserotype
