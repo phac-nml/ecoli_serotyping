@@ -33,10 +33,12 @@ def run_program():
 
     """
     # Initialize the program
+    args = commandLineOptions.parse_command_line()
+
     ## Initialize logging and timer
     start_time = timeit.default_timer()
     curr_time = timeit.default_timer()
-    loggingFunctions.initialize_logging()
+
     ## Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
         # Create temporary folders
@@ -45,7 +47,7 @@ def run_program():
         os.mkdir(assemble_temp_dir)
         os.mkdir(fasta_temp_dir)
         ## Parse arguments
-        args = commandLineOptions.parse_command_line()
+        
         LOG.info('\nStarting ectyper')
         LOG.debug(args)
         ## Get constants from definitions
@@ -135,6 +137,35 @@ def run_program():
         LOG.info("Ectyper completed successfully in %0.3f sec.", timeit.default_timer() - start_time)
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
+
+
+def create_tmp_files(temp_dir, legacy):
+    """
+    Return a dictionary of temporary files used by ectyper
+    Depending on whether legacy data is required or not
+    """
+
+    # Get the correct files and directories
+    files_and_dirs = {
+        'assemble_temp_dir':os.path.join(temp_dir, 'assemblies'),
+        'fasta_temp_dir':os.path.join(temp_dir, 'fastas'),
+        'workplace_dir':definitions.WORKPLACE_DIR,
+        'query_file':definitions.SEROTYPE_FILE,
+        'combined_file':definitions.COMBINED,
+        'ectyper_dict_file':definitions.SEROTYPE_ALLELE_JSON
+    }
+
+    if legacy:
+        LOG.info("Using legacy allele data for prediction.")
+        files_and_dirs['query_file'] = definitions.LEGACY_SEROTYPE_FILE
+        files_and_dirs['combined_file'] = definitions.LEGACY_COMBINED
+        files_and_dirs['ectyper_dict_file'] = definitions.LEGACY_SEROTYPE_ALLELE_JSON
+
+    files_and_dirs['output_file'] = os.path.join(
+        files_and_dirs['workplac_dir'],
+        'output',
+TODO:
+    )
 
 def run_prediction(genome_files, args, predictions_file):
     '''
