@@ -9,6 +9,7 @@ Support FASTA and FASTQ format
 * bcftools (v1.2)
 * mash (v2.0)
 * pandas (v0.20.3)
+* seqtk (v1.2)
 
 # Installation
 1. Get `miniconda` if you do not already have `miniconda` or `anaconda`:
