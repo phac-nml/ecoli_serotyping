@@ -7,45 +7,48 @@ from ectyper import (speciesIdentification, loggingFunctions, definitions)
 class TestSpeciesId(unittest.TestCase):
     
     def test_salamonella_fastq_file(self):
-        self.check_seqref()
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            print("No seqref file. Skip this test.")
+        return False
         print("Testing non-ecoli fastq")
         # shortened (first 50 kB) of whole Salmonella reads
         salamonella_fastq = 'test/Data/Salmonella.fastq'
         self.assertIn('Salmonella', speciesIdentification.get_species(salamonella_fastq))
 
     def test_ecoli_fastq_file(self):
-        self.check_seqref()
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            print("No seqref file. Skip this test.")
+        return False
         print("Testing ecoli fastq")
         valid_fastq = 'test/Data/Escherichia.fastq'
         self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fastq))
 
-    # def test_ecoli_fasta_file(self):
-    #     self.check_seqref()
-    #     print("Testing ecoli fasta")
-    #     if not os.path.isfile(definitions.REFSEQ_SKETCH):
-    #         return
-    #     valid_fasta = 'test/Data/Escherichia.fna'
-    #     self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fasta))
-
-    # def test_different_species_fasta_file(self):
-    #     self.check_seqref()
-    #     salamonella_fasta = 'test/Data/Salmonella.fasta'
-    #     streptococcus_fasta = 'test/Data/Streptococcus.fasta'
-    #     straphylococcus_fasta = 'test/Data/Straphylococcus.fasta'
-    #     yersinia_fasta = 'test/Data/Yersinia.fasta'
-    #     listeria_fasta = 'test/Data/Listeria.fasta'
-    #     campylobacter_fasta = 'test/Data/Campylobacter.fasta'
-    #     self.assertIn('Salmonella', speciesIdentification.get_species(salamonella_fasta))
-    #     self.assertIn('Streptococcus', speciesIdentification.get_species(streptococcus_fasta))
-    #     self.assertIn('Staphylococcus', speciesIdentification.get_species(straphylococcus_fasta))
-    #     self.assertIn('Yersinia', speciesIdentification.get_species(yersinia_fasta))
-    #     self.assertIn('Listeria', speciesIdentification.get_species(listeria_fasta))
-    #     self.assertIn('Campylobacter', speciesIdentification.get_species(campylobacter_fasta))
-    
-    def check_seqref(self):
+    def test_ecoli_fasta_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             print("No seqref file. Skip this test.")
-        return
+        return False
+        print("Testing ecoli fasta")
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            return
+        valid_fasta = 'test/Data/Escherichia.fna'
+        self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fasta))
+
+    def test_different_species_fasta_file(self):
+        if not os.path.isfile(definitions.REFSEQ_SKETCH):
+            print("No seqref file. Skip this test.")
+        return False
+        salamonella_fasta = 'test/Data/Salmonella.fasta'
+        streptococcus_fasta = 'test/Data/Streptococcus.fasta'
+        straphylococcus_fasta = 'test/Data/Straphylococcus.fasta'
+        yersinia_fasta = 'test/Data/Yersinia.fasta'
+        listeria_fasta = 'test/Data/Listeria.fasta'
+        campylobacter_fasta = 'test/Data/Campylobacter.fasta'
+        self.assertIn('Salmonella', speciesIdentification.get_species(salamonella_fasta))
+        self.assertIn('Streptococcus', speciesIdentification.get_species(streptococcus_fasta))
+        self.assertIn('Staphylococcus', speciesIdentification.get_species(straphylococcus_fasta))
+        self.assertIn('Yersinia', speciesIdentification.get_species(yersinia_fasta))
+        self.assertIn('Listeria', speciesIdentification.get_species(listeria_fasta))
+        self.assertIn('Campylobacter', speciesIdentification.get_species(campylobacter_fasta))
 
 if __name__ == '__main__':
     loggingFunctions.initialize_logging()
