@@ -5,38 +5,34 @@
 """
 
 import logging
+import ectyper.definitions as D
 import os
-from ectyper import definitions
-
-LOG = logging.getLogger(__name__)
-
-def initialize_logging(log_file=None):
-    '''
-    setup logging to stream INFO log to console
-    and ALL log to log_file
-    :param
-        log_file (str): log filename [optional]
-    :return
-        Log filename
-    '''
-    if log_file is None:
-        log_file = os.path.join(definitions.WORKPLACE_DIR, 'default.log')
 
 
+def initialize_logging():
+    """
+    Set up the screen and file logging.
+    
+    :return: The log filename 
+    """
+
+    # set up DEBUG logging to file, INFO logging to STDERR
+    log_file = os.path.join(D.WORKPLACE_DIR, 'ectyper.log')
+
+    formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+
+    # logging to file
     logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s.%(msecs)02d %(name)-25s %(levelname)-8s %(message)s',
-                        datefmt='%y-%m-%d %H:%M:%S',
+                        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                        datefmt='%m-%d %H:%M',
                         filename=log_file,
                         filemode='w')
-    # If logger already exist, return the existing logger
-    if len(logging.getLogger().handlers)>1:
-        return log_file
-    # add the handler to the root logger
-    ch_handler = logging.StreamHandler()
-    ch_handler.setLevel('INFO')
-    ch_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
-    logging.getLogger('').addHandler(ch_handler)
+    # define a Handler which writes INFO messages or higher to the sys.stderr
+    console = logging.StreamHandler()
+    console.setFormatter(formatter)
+    console.setLevel(logging.INFO)
 
-    # Now, we can log to the root logger, or any other logger. First the root...
-    LOG.info('Logger initialized. Debug log stored at %s', log_file)
-    return log_file
+    # add the handler to the root logger
+    return logging.getLogger('').addHandler(console)
+

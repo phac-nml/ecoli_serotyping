@@ -7,15 +7,15 @@
 import logging
 import os
 import tempfile
-import timeit
 import datetime
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, predictionFunctions,
                      speciesIdentification)
 
-LOG = logging.getLogger(__name__)
 
+LOG_FILE = loggingFunctions.initialize_logging()
+LOG = logging.getLogger(__name__)
 
 def run_program():
     """
@@ -33,24 +33,21 @@ def run_program():
 
     """
     # Initialize the program
+    LOG.info('Starting ectyper -- Serotype prediction. \
+      Log file is: ' + str(LOG_FILE))
     args = commandLineOptions.parse_command_line()
-    LOG.info('Starting ectyper')
     LOG.debug(args)
-    ## Initialize logging and timer
-    start_time = timeit.default_timer()
-    curr_time = timeit.default_timer()
 
     ## Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
         # Get the temporary files
         temp_files = create_tmp_files(temp_dir)
-
+        LOG.info(temp_files)
         # Collect genome files
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
         LOG.debug(raw_genome_files)
 
-        curr_time = timeit.default_timer()
         # Filter invalid file formats
         LOG.info("Start filtering based on file format")
         raw_fasta_files = []
@@ -63,9 +60,6 @@ def run_program():
                 raw_fastq_files.append(file)
         LOG.debug('raw fasta files: %s', str(raw_fasta_files))
         LOG.debug('raw fastq files: %s', str(raw_fastq_files))
-        LOG.info("Finished filtering based on file format in %.2f seconds",
-                timeit.default_timer()-curr_time)
-        curr_time = timeit.default_timer()
 
         # Filter invalid species
         LOG.info("Start filtering non-ecoli genome files")
@@ -80,9 +74,6 @@ def run_program():
                 file, 'fastq', temp_files['assemble_temp_dir'])
             if filtered_file:
                 final_fasta_files.append(filtered_file)
-        LOG.info("Finished filtering non-ecoli genome files in %.2f seconds",
-                timeit.default_timer()-curr_time)
-        curr_time = timeit.default_timer()
 
         LOG.info('%d final fasta files', len(final_fasta_files))
         if final_fasta_files == []:
@@ -95,9 +86,6 @@ def run_program():
                 final_fasta_files, temp_files['fasta_temp_dir'])
         LOG.debug(all_genomes_list)
         LOG.debug(all_genomes_files)
-        LOG.info("Finished standardize genome headers in %.2f seconds",
-                timeit.default_timer()-curr_time)
-        curr_time = timeit.default_timer()
 
         # Main prediction function
         predictions_file = run_prediction(
@@ -105,7 +93,6 @@ def run_program():
         # Add empty rows for genomes without blast result
         predictions_file = predictionFunctions.add_non_predicted(all_genomes_list, predictions_file)
 
-        LOG.info("Ectyper completed successfully in %0.3f sec.", timeit.default_timer() - start_time)
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
 
@@ -130,8 +117,11 @@ def create_tmp_files(temp_dir):
 
     # Create the output directory if it doesn't exist
     output_dir = os.path.dirname(output_file)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+
+    for d in [output_dir, files_and_dirs['assemble_temp_dir'],
+              files_and_dirs['fasta_temp_dir']]:
+        if not os.path.exists(d):
+            os.makedirs(d)
 
     # Finalize the tmp_files dictionary
     files_and_dirs['output_file'] = output_file
@@ -158,28 +148,16 @@ def run_prediction(genome_files, args, predictions_file):
         genome_chunks = [genome_files[i:i + chunk_size]
                         for i in range(0, len(genome_files), chunk_size)]
         for index, chunk in enumerate(genome_chunks):
-            curr_time = timeit.default_timer()
             LOG.info("Start creating blast database #%d", index+1)
             blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
-            LOG.info("Finished creating blast database #%d in %.2f seconds",
-                    index+1, timeit.default_timer()-curr_time)
-            curr_time = timeit.default_timer()
 
             LOG.info("Start blast alignment on database #%d", index+1)
             blast_output_file = blastFunctions.run_blast(
                 query_file, blast_db, args, len(chunk))
-            LOG.info("Finished blast alignment on database #%d in %.2f seconds",
-                    index+1, timeit.default_timer()-curr_time)
-            curr_time = timeit.default_timer()
             LOG.info("Start serotype prediction for database #%d", index+1)
             predictions_file = predictionFunctions.predict_serotype(
                 blast_output_file, ectyper_dict_file, predictions_file, args.verbose)
-            LOG.info("Finished serotype prediction for database #%d in %.2f seconds",
-                    index+1, timeit.default_timer()-curr_time)
-            curr_time = timeit.default_timer()
         return predictions_file
-<<<<<<< HEAD
-=======
 
 def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
     '''
@@ -209,4 +187,3 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
         if speciesIdentification.is_ecoli_genome(genome_file, mash=mash):
             filtered_file = genome_file
     return filtered_file
->>>>>>> moreserotype
