@@ -120,10 +120,6 @@ def create_tmp_files(temp_dir):
     files_and_dirs = {
         'assemble_temp_dir':os.path.join(temp_dir, 'assemblies'),
         'fasta_temp_dir':os.path.join(temp_dir, 'fastas'),
-        'workplace_dir':definitions.WORKPLACE_DIR,
-        'query_file':definitions.SEROTYPE_FILE,
-        'combined_file':definitions.COMBINED,
-        'ectyper_dict_file':definitions.SEROTYPE_ALLELE_JSON
     }
 
     output_file = os.path.join(
