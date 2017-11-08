@@ -34,36 +34,16 @@ def run_program():
     """
     # Initialize the program
     args = commandLineOptions.parse_command_line()
-
+    LOG.info('Starting ectyper')
+    LOG.debug(args)
     ## Initialize logging and timer
     start_time = timeit.default_timer()
     curr_time = timeit.default_timer()
 
     ## Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Create temporary folders
-        assemble_temp_dir = os.path.join(temp_dir, 'assembles')
-        os.mkdir(assemble_temp_dir)
-        fasta_temp_dir = os.path.join(temp_dir, 'fastas')
-        os.mkdir(fasta_temp_dir)
-        ## Parse arguments
-        
-        LOG.info('\nStarting ectyper')
-        LOG.debug(args)
-        ## Get constants from definitions
-        workplace_dir = definitions.WORKPLACE_DIR
-        query_file = definitions.SEROTYPE_FILE
-        ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
-        # Create output directory
-        output_file = os.path.join(
-            workplace_dir,
-            'output',
-            str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.'),
-            'output.csv')
-        output_dir = os.path.split(output_file)[0]
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-            LOG.info('output directory is created')
+        # Get the temporary files
+        temp_files = create_tmp_files(temp_dir)
 
         # Collect genome files
         LOG.info("Gathering genome files")
@@ -91,11 +71,13 @@ def run_program():
         LOG.info("Start filtering non-ecoli genome files")
         final_fasta_files = []
         for file in raw_fasta_files:
-            filtered_file = filter_file_by_species(file, 'fasta', assemble_temp_dir)
+            filtered_file = filter_file_by_species(
+                file, 'fasta', temp_files['assemble_temp_dir'])
             if filtered_file:
                 final_fasta_files.append(filtered_file)
         for file in raw_fastq_files:
-            filtered_file = filter_file_by_species(file, 'fastq', assemble_temp_dir)
+            filtered_file = filter_file_by_species(
+                file, 'fastq', temp_files['assemble_temp_dir'])
             if filtered_file:
                 final_fasta_files.append(filtered_file)
         LOG.info("Finished filtering non-ecoli genome files in %.2f seconds",
@@ -109,7 +91,8 @@ def run_program():
         # Convert genome headers
         LOG.info("Start standardize genome headers")
         (all_genomes_list, all_genomes_files) = \
-            genomeFunctions.get_genome_names_from_files(final_fasta_files, fasta_temp_dir)
+            genomeFunctions.get_genome_names_from_files(
+                final_fasta_files, temp_files['fasta_temp_dir'])
         LOG.debug(all_genomes_list)
         LOG.debug(all_genomes_files)
         LOG.info("Finished standardize genome headers in %.2f seconds",
@@ -117,7 +100,8 @@ def run_program():
         curr_time = timeit.default_timer()
 
         # Main prediction function
-        predictions_file = run_prediction(all_genomes_files, args, output_file)
+        predictions_file = run_prediction(
+            all_genomes_files, args, temp_files['output_file'])
         # Add empty rows for genomes without blast result
         predictions_file = predictionFunctions.add_non_predicted(all_genomes_list, predictions_file)
 
@@ -126,7 +110,7 @@ def run_program():
         predictionFunctions.report_result(predictions_file)
 
 
-def create_tmp_files(temp_dir, legacy):
+def create_tmp_files(temp_dir):
     """
     Return a dictionary of temporary files used by ectyper
     Depending on whether legacy data is required or not
@@ -142,17 +126,24 @@ def create_tmp_files(temp_dir, legacy):
         'ectyper_dict_file':definitions.SEROTYPE_ALLELE_JSON
     }
 
-    if legacy:
-        LOG.info("Using legacy allele data for prediction.")
-        files_and_dirs['query_file'] = definitions.LEGACY_SEROTYPE_FILE
-        files_and_dirs['combined_file'] = definitions.LEGACY_COMBINED
-        files_and_dirs['ectyper_dict_file'] = definitions.LEGACY_SEROTYPE_ALLELE_JSON
-
-    files_and_dirs['output_file'] = os.path.join(
-        files_and_dirs['workplac_dir'],
+    output_file = os.path.join(
+        definitions.WORKPLACE_DIR,
         'output',
-TODO:
-    )
+        str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.'),
+        'output.csv')
+
+    # Create the output directory if it doesn't exist
+    output_dir = os.path.dirname(output_file)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Finalize the tmp_files dictionary
+    files_and_dirs['output_file'] = output_file
+    files_and_dirs['output_dir'] = output_dir
+
+    LOG.info("Temporary files and directory created")
+    return files_and_dirs
+    
 
 def run_prediction(genome_files, args, predictions_file):
     '''
