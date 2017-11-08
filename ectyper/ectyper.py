@@ -9,6 +9,7 @@ import os
 import tempfile
 import timeit
 import datetime
+import sys
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, predictionFunctions,
@@ -45,7 +46,7 @@ def run_program():
         fasta_temp_dir = os.path.join(temp_dir, 'fastas')
         os.mkdir(fasta_temp_dir)
         ## Parse arguments
-        args = commandLineOptions.parse_command_line()
+        args = commandLineOptions.parse_command_line(sys.argv[1:])
         LOG.info('\nStarting ectyper')
         LOG.debug(args)
         ## Get constants from definitions

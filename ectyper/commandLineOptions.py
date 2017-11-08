@@ -3,7 +3,7 @@
 import argparse
 
 
-def parse_command_line():
+def parse_command_line(args):
     """
     The options
     for both the serotyper, and virulence finder.
@@ -56,4 +56,4 @@ def parse_command_line():
         help='Enable detailed output'
     )
 
-    return parser.parse_args()
+    return parser.parse_args(args)

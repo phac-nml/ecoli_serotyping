@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+import json
 import logging
 import os
+from collections import defaultdict
+
 import pandas as pd
-import json
+
 LOG = logging.getLogger(__name__)
 
 """
@@ -34,6 +37,13 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
     predictions_dict = {}
     # Select individual genomes
     output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
+    # Initialize constants
+    gene_pairs = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
+    predictions_columns = ['O_prediction', 'O_info', 'H_prediction','H_info']
+    gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
+    if verbose:
+        for gene in gene_list:
+            predictions_columns.append(gene)
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         df = per_genome_df
         # Extract potential predictors
@@ -43,13 +53,6 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
         predictors_df = predictors_df.sort_values('score', ascending=False)
 
         # Make prediction based on predictors
-        from collections import defaultdict
-        GENE_PAIRS = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
-        predictions_columns = ['O_prediction', 'O_info', 'H_prediction','H_info']
-        gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
-        if verbose:
-            for gene in gene_list:
-                predictions_columns.append(gene)
         predictions = {}
         for column in predictions_columns:
             predictions[column] = None
@@ -68,10 +71,10 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
                     antigen = serotype[0].upper()
                     if antigen != predicting_antigen:
                         continue
-                    if gene in GENE_PAIRS.keys():
+                    if gene in gene_pairs.keys():
                         predictions[antigen+'_info'] = 'Only unpaired alignment found'
                         # Pair gene logic
-                        potential_pairs = genes_pool.get(GENE_PAIRS.get(gene))
+                        potential_pairs = genes_pool.get(gene_pairs.get(gene))
                         if potential_pairs is None:
                             continue
                         if serotype in potential_pairs:
@@ -84,6 +87,13 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
                     predictions[antigen+'_info'] = 'Alignment found'
                     predictions[predicting_antigen+'_prediction']=prediction
             # No alignment found
+            ## Make prediction based on non-paired gene
+            ##   if only one non-paired gene is avaliable
+            if predictions.get(predicting_antigen+'_prediction') is None:
+                if len(genes_pool)==1:
+                    serotypes = list(genes_pool.values())[0]
+                    if len(serotypes)==1:
+                        predictions[predicting_antigen+'_prediction'] = serotypes[0]
         predictions_dict[genome_name] = predictions
     predictions_df = pd.DataFrame(predictions_dict).transpose()
     if predictions_df.empty:
