@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
     Predictive genomics for _E. coli_ from the command line.
     Currently includes serotyping and VF finding.
@@ -8,14 +7,15 @@ import logging
 import os
 import tempfile
 import datetime
+from collections import defaultdict
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, predictionFunctions,
                      speciesIdentification)
 
-
 LOG_FILE = loggingFunctions.initialize_logging()
 LOG = logging.getLogger(__name__)
+
 
 def run_program():
     """
@@ -40,47 +40,22 @@ def run_program():
 
     ## Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Get the temporary files
         temp_files = create_tmp_files(temp_dir)
-        LOG.info(temp_files)
-        # Collect genome files
+        LOG.debug(temp_files)
+
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
         LOG.debug(raw_genome_files)
 
-        # Filter invalid file formats
-        LOG.info("Start filtering based on file format")
-        raw_fasta_files = []
-        raw_fastq_files = []
-        for file in raw_genome_files:
-            file_format = genomeFunctions.get_valid_format(file)
-            if file_format == 'fasta':
-                raw_fasta_files.append(file)
-            elif file_format == 'fastq':
-                raw_fastq_files.append(file)
-        LOG.debug('raw fasta files: %s', str(raw_fasta_files))
-        LOG.debug('raw fastq files: %s', str(raw_fastq_files))
+        LOG.info("Removing invalid file types")
+        raw_files_dict = get_raw_files(raw_genome_files)
+        LOG.debug(raw_files_dict)
 
-        # Filter invalid species
-        LOG.info("Start filtering non-ecoli genome files")
-        final_fasta_files = []
-        for file in raw_fasta_files:
-            filtered_file = filter_file_by_species(
-                file, 'fasta', temp_files['assemble_temp_dir'])
-            if filtered_file:
-                final_fasta_files.append(filtered_file)
-        for file in raw_fastq_files:
-            filtered_file = filter_file_by_species(
-                file, 'fastq', temp_files['assemble_temp_dir'])
-            if filtered_file:
-                final_fasta_files.append(filtered_file)
+        LOG.info("Removing non-E. coli genomes")
+        final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files)
+        LOG.debug(final_fasta_files)
 
-        LOG.info('%d final fasta files', len(final_fasta_files))
-        if final_fasta_files == []:
-            LOG.info("No valid genome file. Terminating the program.")
-            exit(1)
-        # Convert genome headers
-        LOG.info("Start standardize genome headers")
+        LOG.info("Standardizing the genome headers")
         (all_genomes_list, all_genomes_files) = \
             genomeFunctions.get_genome_names_from_files(
                 final_fasta_files, temp_files['fasta_temp_dir'])
@@ -88,10 +63,12 @@ def run_program():
         LOG.debug(all_genomes_files)
 
         # Main prediction function
-        predictions_file = run_prediction(
-            all_genomes_files, args, temp_files['output_file'])
+        predictions_file = run_prediction(all_genomes_files, args,
+                                          temp_files['output_file'])
+
         # Add empty rows for genomes without blast result
-        predictions_file = predictionFunctions.add_non_predicted(all_genomes_list, predictions_file)
+        predictions_file = predictionFunctions.add_non_predicted(
+            all_genomes_list, predictions_file)
 
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
@@ -105,21 +82,22 @@ def create_tmp_files(temp_dir):
 
     # Get the correct files and directories
     files_and_dirs = {
-        'assemble_temp_dir':os.path.join(temp_dir, 'assemblies'),
-        'fasta_temp_dir':os.path.join(temp_dir, 'fastas'),
+        'assemble_temp_dir': os.path.join(temp_dir, 'assemblies'),
+        'fasta_temp_dir': os.path.join(temp_dir, 'fastas'),
     }
 
     output_file = os.path.join(
-        definitions.WORKPLACE_DIR,
-        'output',
-        str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.'),
-        'output.csv')
+        definitions.WORKPLACE_DIR, 'output',
+        str(datetime.datetime.now().date()) + '_' +
+        str(datetime.datetime.now().time()).replace(':', '.'), 'output.csv')
 
     # Create the output directory if it doesn't exist
     output_dir = os.path.dirname(output_file)
 
-    for d in [output_dir, files_and_dirs['assemble_temp_dir'],
-              files_and_dirs['fasta_temp_dir']]:
+    for d in [
+            output_dir, files_and_dirs['assemble_temp_dir'],
+            files_and_dirs['fasta_temp_dir']
+    ]:
         if not os.path.exists(d):
             os.makedirs(d)
 
@@ -129,7 +107,7 @@ def create_tmp_files(temp_dir):
 
     LOG.info("Temporary files and directory created")
     return files_and_dirs
-    
+
 
 def run_prediction(genome_files, args, predictions_file):
     '''
@@ -145,19 +123,66 @@ def run_prediction(genome_files, args, predictions_file):
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into chunks of size 100
         chunk_size = 1000
-        genome_chunks = [genome_files[i:i + chunk_size]
-                        for i in range(0, len(genome_files), chunk_size)]
+        genome_chunks = [
+            genome_files[i:i + chunk_size]
+            for i in range(0, len(genome_files), chunk_size)
+        ]
         for index, chunk in enumerate(genome_chunks):
-            LOG.info("Start creating blast database #%d", index+1)
+            LOG.info("Start creating blast database #%d", index + 1)
             blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
 
-            LOG.info("Start blast alignment on database #%d", index+1)
+            LOG.info("Start blast alignment on database #%d", index + 1)
             blast_output_file = blastFunctions.run_blast(
                 query_file, blast_db, args, len(chunk))
-            LOG.info("Start serotype prediction for database #%d", index+1)
+            LOG.info("Start serotype prediction for database #%d", index + 1)
             predictions_file = predictionFunctions.predict_serotype(
-                blast_output_file, ectyper_dict_file, predictions_file, args.verbose)
+                blast_output_file, ectyper_dict_file, predictions_file,
+                args.verbose)
         return predictions_file
+
+def get_raw_files(raw_files):
+    """
+    Take all the raw files, and filter not fasta / fastq
+
+    :param raw_files:
+    :return (raw_fasta_files, raw_fastq_files)
+    """
+    fasta_files = []
+    fastq_files = []
+
+    for file in raw_files:
+        file_format = genomeFunctions.get_valid_format(file)
+        if file_format == 'fasta':
+            fasta_files.append(file)
+        elif file_format == 'fastq':
+            fastq_files.append(file)
+
+    LOG.debug('raw fasta files: {}'.format(fasta_files))
+    LOG.debug('raw fastq files: {}'.format(fastq_files))
+
+    return({'fasta':fasta_files, 'fastq':fastq_files})
+
+
+def filter_for_ecoli_files(raw_dict, temp_files):
+    """
+    :param raw_dict{fasta:list_of_files, fastq:list_of_files}:
+    """
+    final_files = []
+    for f in raw_dict.keys():
+        temp_dir = temp_files['fasta_temp_dir'] if f == "fasta" else temp_files['assemble_temp_dir']
+
+        for ffile in raw_dict[f]:
+            filtered_file = filter_file_by_species(
+                ffile, f, temp_dir)
+            if filtered_file:
+                final_files.append(filtered_file)
+
+    if final_files == []:
+        LOG.info("No valid genome files. Terminating the program.")
+        exit(1)
+
+    LOG.info('{} final fasta files'.format(len(final_files)))
+    return final_files
 
 def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
     '''
@@ -175,12 +200,17 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
             genomeFunctions.assemble_reads(genome_file, combined_file, temp_dir)
         # If no alignment resut, the file is definitely not E.Coli
         if genomeFunctions.get_valid_format(iden_file) is None:
-            LOG.warning("%s is filtered out because no identification alignment found", genome_file)
+            LOG.warning(
+                "%s is filtered out because no identification alignment found",
+                genome_file)
             return filtered_file
-        if speciesIdentification.is_ecoli_genome(iden_file, genome_file, mash=mash):
+        if speciesIdentification.is_ecoli_genome(
+                iden_file, genome_file, mash=mash):
             # final check before adding the alignment for prediction
             if genomeFunctions.get_valid_format(iden_file) != 'fasta':
-                LOG.warning("%s is filtered out because no prediction alignment found", genome_file)
+                LOG.warning(
+                    "%s is filtered out because no prediction alignment found",
+                    genome_file)
                 return filtered_file
             filtered_file = pred_file
     if genome_format is 'fasta':
