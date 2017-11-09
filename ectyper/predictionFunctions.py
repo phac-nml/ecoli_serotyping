@@ -64,6 +64,8 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
                     predictions[gene]=True
                 if not predictions[predicting_antigen+'_prediction']:
                     serotype = row['serotype']
+                    if serotype[0] is not predicting_antigen:
+                        continue
                     genes_pool[gene].append(serotype)
                     prediction = None
                     if len(serotype) < 1:
