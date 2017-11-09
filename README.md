@@ -8,6 +8,8 @@ Support FASTA and FASTQ format
 * SAMtools (v1.6)
 * bcftools (v1.2)
 * mash (v2.0)
+* pandas (v0.20.3)
+* seqtk (v1.2)
 
 # Installation
 1. Get `miniconda` if you do not already have `miniconda` or `anaconda`:
@@ -24,12 +26,16 @@ Support FASTA and FASTQ format
 # Basic Usage
 1. Put all you fasta/fastq file in one folder
 1. `ectyper -i [dir_path or file_path]`
-1. View result on console or in `output.json`
+1. View result on console or in `output/[timestamp]/output.csv`
 * If you want to enable species identification,
     1. Download refseq from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh
     2. Put refseq into ectyper/Data/
     3. Specify `-s` as argument when executing ectyper
 
 # Benchmark
-1. 81.98% accuracy on Enterobase Database(5844 samples)
-2. 94.02% accuarcy on GenBank Database(452 samples)
+## Genbank Database (452 genomes/836 metadata)
+* concordance to provided metadata: 776 (92.82%)
+* discrepancies with provided metadata: 7 (0.84%)
+## Enterobase Database (5355 genomes/7775 metadata)
+* concordance to provided metadata: 6022 (77.45%)
+* discrepancies with provided metadata: 263 (3.38%)

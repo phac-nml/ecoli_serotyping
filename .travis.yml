@@ -19,7 +19,7 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
   - conda config --add channels bioconda
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast tqdm pandas
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast pandas seqtk
   - source activate test-environment
   - python setup.py install
 

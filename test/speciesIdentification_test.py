@@ -9,15 +9,16 @@ class TestSpeciesId(unittest.TestCase):
     def test_salamonella_fastq_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             print("No seqref file. Skip this test.")
-            return
+        return False
         print("Testing non-ecoli fastq")
+        # shortened (first 50 kB) of whole Salmonella reads
         salamonella_fastq = 'test/Data/Salmonella.fastq'
-        self.assertIn('Salmonella enterica', speciesIdentification.get_species(salamonella_fastq))
+        self.assertIn('Salmonella', speciesIdentification.get_species(salamonella_fastq))
 
     def test_ecoli_fastq_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             print("No seqref file. Skip this test.")
-            return
+        return False
         print("Testing ecoli fastq")
         valid_fastq = 'test/Data/Escherichia.fastq'
         self.assertIn('Escherichia coli', speciesIdentification.get_species(valid_fastq))
@@ -25,7 +26,7 @@ class TestSpeciesId(unittest.TestCase):
     def test_ecoli_fasta_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             print("No seqref file. Skip this test.")
-            return
+        return False
         print("Testing ecoli fasta")
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             return
@@ -35,8 +36,7 @@ class TestSpeciesId(unittest.TestCase):
     def test_different_species_fasta_file(self):
         if not os.path.isfile(definitions.REFSEQ_SKETCH):
             print("No seqref file. Skip this test.")
-            return
-        print("Testing non-ecoli fasta")
+        return False
         salamonella_fasta = 'test/Data/Salmonella.fasta'
         streptococcus_fasta = 'test/Data/Streptococcus.fasta'
         straphylococcus_fasta = 'test/Data/Straphylococcus.fasta'
