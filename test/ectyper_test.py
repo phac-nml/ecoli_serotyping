@@ -22,9 +22,9 @@ class TestEctyper(unittest.TestCase):
         set_input(valid_fastq)
         ectyper.run_program()
 
-    # def test__valid_fasta_file(self):
-    #     valid_fasta = 'test/Data/Escherichia.fna'
-    #     set_input(valid_fasta)
-    #     ectyper.run_program()
+    def test__valid_fasta_file(self):
+        valid_fasta = 'test/Data/Escherichia.fna'
+        set_input(valid_fasta)
+        ectyper.run_program()
 if __name__ == '__main__':
     unittest.main()
