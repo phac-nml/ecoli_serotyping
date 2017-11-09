@@ -3,17 +3,17 @@ try:
 except ImportError:
     from distutils.core import setup
 
-config = {
-    'description': 'E. coli serotyping and virulence finding',
-    'author': 'Camille La Rose, Chad Laing',
-    'url': 'https://github.com/phac-nml/ecoli_serotyping',
-    'download_url': '',
-    'author_email': 'claro100@uottawa.ca, chad.laing@canada.ca',
-    'version': '0.1',
-    'install_requires': ['nose'],
-    'packages': ['main','src'],
-    'scripts': [],
-    'name': 'ecoli_serotyping'
-}
-
-setup(**config)
+setup(
+    name='ectyper',
+    version='0.1',
+    description='E. coli serotyping',
+    url='https://github.com/phac-nml/ecoli_serotyping',
+    author='Camille La Rose, Chad Laing, Sam Sung',
+    author_email='claro100@uottawa.ca, chad.laing@canada.ca, sam.sung@canada.ca',
+    license='MIT',
+    scripts=['bin/ectyper'],
+    packages=['ectyper'],
+    package_data={'ectyper': ['Data/*']},
+    zip_safe=False,
+    test_suite='nose.collector'
+)

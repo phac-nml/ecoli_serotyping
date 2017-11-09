@@ -82,6 +82,9 @@ celerybeat-schedule
 venv/
 ENV/
 
+# IDE
+.vscode/
+
 # Spyder project settings
 .spyderproject
 
@@ -91,8 +94,16 @@ ENV/
 /docs/
 !/ectyper.iml
 /ectyper.iml
-/temp/
 /.idea/
 /ecoli_serotyping.iml
 /.vs/
-/Data/superphy-ectyper-output.json
+
+# Not important
+*.fai
+
+# Essential but too large
+ectyper/Data/refseq.genomes.k21s1000.msh
+
+# output
+*.csv#
+output/

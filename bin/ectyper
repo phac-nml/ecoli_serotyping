@@ -3,9 +3,11 @@
 """
     Shell program for ectyper
 """
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-
-import src.ectyper
+from ectyper import ectyper
 
 if __name__=='__main__':
-    src.ectyper.run_program()
+    ectyper.run_program()

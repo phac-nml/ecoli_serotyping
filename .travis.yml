@@ -1,17 +1,27 @@
 language: python
 python:
-  - "3.5"
-before_install:
-  - pip install pytest
-  - pip install biopython
-  - pip install pandas
-  - sudo apt-get install tar
-  - sudo apt-get install alien
-  - export PYTHONPATH='.'
-  - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.31/ncbi-blast-2.2.31+-2.x86_64.rpm -O /tmp/blast.rpm
-  - sudo alien -i /tmp/blast.rpm
+  # We don't actually use the Travis Python, but this keeps it organized.
+  - "3.6"
+install:
+  - sudo apt-get update
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  - conda config --add channels bioconda
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast pandas seqtk
+  - source activate test-environment
+  - python setup.py install
 
 script:
-  - py.test tests/serotypePrediction_test.py -vv
-  - py.test tests/genomeFunctions_test.py -vv
-  - py.test tests/blastFunctions_test.py -vv
+  - nosetests
