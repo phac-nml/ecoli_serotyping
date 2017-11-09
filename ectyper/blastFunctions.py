@@ -90,8 +90,8 @@ def run_blast(query_file, blast_db, args, chunk_size):
         '-perc_identity', str(percent_identity),
         '-qcov_hsp_perc', str(percent_length),
         '-max_hsps', '1', # each allele only need to hit once
-        # default max_target_seqs=500
-        '-max_target_seqs', str(chunk_size*5), # at most 5 genome hit per query
+        # use default max_target_seqs=500
+        # '-max_target_seqs', str(chunk_size*5), # at most 5 genome hit per query
         "-outfmt",
         '6 qseqid qlen sseqid length pident sstart send sframe qcovhsp',
         "-word_size", "11"
