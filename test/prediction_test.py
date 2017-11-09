@@ -27,9 +27,20 @@ class TestPrediction(unittest.TestCase):
         genome_file = 'test/Data/prediction/unpaired.fna'
         df, raw_df = self.helper(genome_file)
         self.assertEqual(df.shape[0], 1)
-        self.assertNotEqual(df.O_prediction[0], '-')
-        self.assertEqual(df.O_info[0], 'Only unpaired alignment found')
-        self.assertEqual(df.H_prediction[0], 'O64')
+        self.assertEqual(df.O_prediction[0], '-')
+        self.assertEqual(df.O_info[0], 'Only unpaired alignments found')
+        self.assertEqual(df.H_prediction[0], '-')
+        self.assertFalse(raw_df.empty)
+
+    def test_lone_unpaired_prediction(self):
+        print("\nTesting %s" %self.id())
+        genome_file = 'test/Data/prediction/lone_unpaired.fna'
+        df, raw_df = self.helper(genome_file)
+        print(df.to_string())
+        self.assertEqual(df.shape[0], 1)
+        self.assertEqual(df.O_prediction[0], 'O64')
+        self.assertEqual(df.O_info[0], 'Lone unpaired alignment found')
+        self.assertEqual(df.H_prediction[0], '-')
         self.assertFalse(raw_df.empty)
 
     def test_one_prediction(self):

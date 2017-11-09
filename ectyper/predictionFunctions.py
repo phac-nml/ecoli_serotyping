@@ -74,7 +74,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
                     if antigen != predicting_antigen:
                         continue
                     if gene in gene_pairs.keys():
-                        predictions[antigen+'_info'] = 'Only unpaired alignment found'
+                        predictions[antigen+'_info'] = 'Only unpaired alignments found'
                         # Pair gene logic
                         potential_pairs = genes_pool.get(gene_pairs.get(gene))
                         if potential_pairs is None:
@@ -95,6 +95,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
                 if len(genes_pool)==1:
                     serotypes = list(genes_pool.values())[0]
                     if len(serotypes)==1:
+                        predictions[antigen+'_info'] = 'Lone unpaired alignment found'
                         predictions[predicting_antigen+'_prediction'] = serotypes[0]
         predictions_dict[genome_name] = predictions
     predictions_df = pd.DataFrame(predictions_dict).transpose()
