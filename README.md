@@ -31,11 +31,3 @@ Support FASTA and FASTQ format
     1. Download refseq from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh
     2. Put refseq into ectyper/Data/
     3. Specify `-s` as argument when executing ectyper
-
-# Benchmark
-## Genbank Database (452 genomes/836 metadata)
-* concordance to provided metadata: 94.50%(790/836)
-* discrepancies with provided metadata: 0.84%(7/836)
-## Enterobase Database (5355 genomes/7775 metadata)
-* concordance to provided metadata: 85.03%(6611/7775)
-* discrepancies with provided metadata: 3.90%(303/7775)
