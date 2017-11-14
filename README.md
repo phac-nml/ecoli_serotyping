@@ -34,8 +34,8 @@ Support FASTA and FASTQ format
 
 # Benchmark
 ## Genbank Database (452 genomes/836 metadata)
-* concordance to provided metadata: 776 (92.82%)
-* discrepancies with provided metadata: 7 (0.84%)
+* concordance to provided metadata: 94.50%(790/836)
+* discrepancies with provided metadata: 0.84%(7/836)
 ## Enterobase Database (5355 genomes/7775 metadata)
-* concordance to provided metadata: 6022 (77.45%)
-* discrepancies with provided metadata: 263 (3.38%)
+* concordance to provided metadata: 85.03%(6611/7775)
+* discrepancies with provided metadata: 3.90%(303/7775)

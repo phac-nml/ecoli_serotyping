@@ -72,7 +72,7 @@ def run_program():
 
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
-
+    
 
 def create_tmp_files(temp_dir):
     """
@@ -121,8 +121,8 @@ def run_prediction(genome_files, args, predictions_file):
     ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Divide genome files into chunks of size 100
-        chunk_size = 1000
+        # Divide genome files into chunks
+        chunk_size = 50
         genome_chunks = [
             genome_files[i:i + chunk_size]
             for i in range(0, len(genome_files), chunk_size)
