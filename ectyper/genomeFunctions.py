@@ -58,7 +58,11 @@ def get_valid_format(file):
         fmt (str): 'fasta', 'fastq', or None
     """
     # Too small to be a valid genome file
+    if not os.path.isfile(file):
+        LOG.info("%s does not exist in file system", file)
+        return None
     if os.path.getsize(file) < 10:
+        LOG.info("%s is not a valid file (size too small)", file)
         return None
     file_format = os.path.splitext(file)[1][1:]
     valid_fasta_formats = ['fna', 'fa', 'fasta']
@@ -68,6 +72,7 @@ def get_valid_format(file):
     elif file_format in valid_fastq_formats:
         file_format = 'fastq'
     else:
+        LOG.info("%s is not a valid %s format file", file, file_format)
         return None
     for _ in SeqIO.parse(file, file_format):
         LOG.debug("%s is a valid %s format file", file, file_format)
