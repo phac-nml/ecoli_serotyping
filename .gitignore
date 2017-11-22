@@ -107,3 +107,4 @@ ectyper/Data/refseq.genomes.k21s1000.msh
 # output
 *.csv#
 output/
+validation/
