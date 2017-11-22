@@ -38,10 +38,9 @@ def parse_command_line(args=None):
         choices=range(1, 101))
 
     parser.add_argument(
-        "-t",
-        "--tabular",
+        "--verify",
         action="store_true",
-        help="Sets the output format to `tabular`. JSON otherwise.")
+        help="Enable E. Coli. verification")
 
     parser.add_argument(
         "-s",

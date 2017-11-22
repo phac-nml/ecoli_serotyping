@@ -52,7 +52,7 @@ def run_program():
         LOG.debug(raw_files_dict)
 
         LOG.info("Removing non-E. coli genomes")
-        final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files)
+        final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, args.verify)
         LOG.debug(final_fasta_files)
 
         LOG.info("Standardizing the genome headers")
@@ -163,9 +163,11 @@ def get_raw_files(raw_files):
     return({'fasta':fasta_files, 'fastq':fastq_files})
 
 
-def filter_for_ecoli_files(raw_dict, temp_files):
+def filter_for_ecoli_files(raw_dict, temp_files, verify=False):
     """
     :param raw_dict{fasta:list_of_files, fastq:list_of_files}:
+    :parapm temp_file:
+    :param verify:
     """
     final_files = []
     for f in raw_dict.keys():
@@ -173,7 +175,7 @@ def filter_for_ecoli_files(raw_dict, temp_files):
 
         for ffile in raw_dict[f]:
             filtered_file = filter_file_by_species(
-                ffile, f, temp_dir)
+                ffile, f, temp_dir, verify=verify)
             if filtered_file:
                 final_files.append(filtered_file)
 
@@ -184,12 +186,13 @@ def filter_for_ecoli_files(raw_dict, temp_files):
     LOG.info('{} final fasta files'.format(len(final_files)))
     return final_files
 
-def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
+def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, mash=False):
     '''
     Core species recognition functionality
     :param genome_file:
     :param genome_format:
     :param temp_dir:
+    :param verify:
     :param mash:
     :returns filtered_file
     '''
@@ -204,7 +207,7 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
                 "%s is filtered out because no identification alignment found",
                 genome_file)
             return filtered_file
-        if speciesIdentification.is_ecoli_genome(
+        if not verify or speciesIdentification.is_ecoli_genome(
                 iden_file, genome_file, mash=mash):
             # final check before adding the alignment for prediction
             if genomeFunctions.get_valid_format(iden_file) != 'fasta':
@@ -214,6 +217,6 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, mash=False):
                 return filtered_file
             filtered_file = pred_file
     if genome_format is 'fasta':
-        if speciesIdentification.is_ecoli_genome(genome_file, mash=mash):
+        if not verify or speciesIdentification.is_ecoli_genome(genome_file, mash=mash):
             filtered_file = genome_file
     return filtered_file
