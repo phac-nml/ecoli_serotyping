@@ -107,4 +107,3 @@ ectyper/Data/refseq.genomes.k21s1000.msh
 # output
 output/
 .~lock*
-output.csv

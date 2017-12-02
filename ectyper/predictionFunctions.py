@@ -172,9 +172,8 @@ def report_result(csv_file):
     df = pd.read_csv(csv_file)
     if df.empty:
         LOG.info('No prediction was made becuase no alignment was found')
-        return None
-    LOG.info('\n%s'%df.to_string())
-    print('%s:%s'%(df.O_prediction[0], df.H_prediction[0]))
+        return
+    LOG.info('\n%s', df.to_string())
 
 def add_non_predicted(all_genomes_list, predictions_file):
     # Add genomes that do not show up in blast result to prediction file
