@@ -7,7 +7,6 @@ import logging
 import os
 import tempfile
 import datetime
-from shutil import copyfile
 from collections import defaultdict
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
@@ -72,11 +71,6 @@ def run_program():
             all_genomes_list, predictions_file)
 
         # Store most recent result in working directory
-        try:
-            new_output_file = os.path.join(definitions.WORKPLACE_DIR, "output.csv")
-            copyfile(predictions_file, new_output_file)
-        except IOError as err:
-            LOG.error("%s is not writable for most recent output, check output folder instead.")
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
     
@@ -94,9 +88,7 @@ def create_tmp_files(temp_dir):
     }
 
     output_file = os.path.join(
-        definitions.WORKPLACE_DIR, 'output',
-        str(datetime.datetime.now().date()) + '_' +
-        str(datetime.datetime.now().time()).replace(':', '.'), 'output.csv')
+        definitions.WORKPLACE_DIR, 'output', 'output.csv')
 
     # Create the output directory if it doesn't exist
     output_dir = os.path.dirname(output_file)
