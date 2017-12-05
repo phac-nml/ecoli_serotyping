@@ -38,7 +38,10 @@ def get_files_as_list(file_or_directory):
         for root, dirs, files in os.walk(file_or_directory):
             for filename in files:
                 files_list.append(os.path.join(root, filename))
-
+    # check if input is concatenated file locations
+    elif ',' in file_or_directory:
+        for filename in file_or_directory.split(','):
+            files_list.append(os.path.abspath(filename))
     else:
         LOG.info("Using genomes in file " + file_or_directory)
         files_list.append(os.path.abspath(file_or_directory))

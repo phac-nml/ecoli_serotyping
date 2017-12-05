@@ -55,6 +55,10 @@ def run_program():
         final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, args.verify)
         LOG.debug(final_fasta_files)
 
+        if len(final_fasta_files) is 0:
+            LOG.info("No valid genome files. Terminating the program.")
+            return
+
         LOG.info("Standardizing the genome headers")
         (all_genomes_list, all_genomes_files) = \
             genomeFunctions.get_genome_names_from_files(
@@ -177,10 +181,6 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False):
                 ffile, f, temp_dir, verify=verify)
             if filtered_file:
                 final_files.append(filtered_file)
-
-    if final_files == []:
-        LOG.info("No valid genome files. Terminating the program.")
-        exit(1)
 
     LOG.info('{} final fasta files'.format(len(final_files)))
     return final_files
