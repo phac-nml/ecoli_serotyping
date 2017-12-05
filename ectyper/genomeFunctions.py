@@ -40,6 +40,7 @@ def get_files_as_list(file_or_directory):
                 files_list.append(os.path.join(root, filename))
     # check if input is concatenated file locations
     elif ',' in file_or_directory:
+        LOG.info("Using genomes in the input list")
         for filename in file_or_directory.split(','):
             files_list.append(os.path.abspath(filename))
     else:
@@ -61,10 +62,14 @@ def get_valid_format(file):
         fmt (str): 'fasta', 'fastq', or None
     """
     for fm in ['fastq', 'fasta']:
-        with open(file, "r") as handle:
-            data = SeqIO.parse(handle, fm)
-            if any(data):
-                return fm
+        try:
+            with open(file, "r") as handle:
+                data = SeqIO.parse(handle, fm)
+                if any(data):
+                    return fm
+        except FileNotFoundError as err:
+            LOG.warning("%s is not found"%file)
+            return None
     return None
 
 
