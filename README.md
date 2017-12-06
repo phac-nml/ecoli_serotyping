@@ -24,9 +24,9 @@ Support FASTA and FASTQ format
     1. `python setup.py install`
 
 # Basic Usage
-1. Put all you fasta/fastq file in one folder
+1. Put all you fasta/fastq file in one folder (concatenate paired files if you want to result to be considered as single entity)
 1. `ectyper -i [dir_path or file_path]`
-1. View result on console or in `output/[timestamp]/output.csv`
+1. View result on console or in `output/output.csv`
 * If you want to enable species identification,
     1. Download refseq from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh
     2. Put refseq into ectyper/Data/
