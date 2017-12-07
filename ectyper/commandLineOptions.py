@@ -54,7 +54,8 @@ def parse_command_line(args=None):
         "-s",
         "--species",
         action="store_true",
-        help="Enable non-ecoli species identification"
+        help="Enable species identification when non-ecoli genome is found\n\
+            Note: refseq downloading is required when running this option for the first time."
     )
     
     parser.add_argument(
