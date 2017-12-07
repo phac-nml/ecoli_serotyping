@@ -30,16 +30,16 @@ def parse_command_line(args=None):
         "--percentIdentity",
         type=check_percentage,
         help="Percentage of identity wanted to use against the\
-                  database. From 0 to 100, default is 97%%.",
-        default=97)
+                  database. From 0 to 100, default is 90%%.",
+        default=90)
 
     parser.add_argument(
         "-l",
         "--percentLength",
         type=check_percentage,
         help="Percentage of length wanted to use against the \
-                  database. From 0 to 100, default is 97%%.",
-        default=97)
+                  database. From 0 to 100, default is 50%%.",
+        default=50)
 
     parser.add_argument(
         "--verify",

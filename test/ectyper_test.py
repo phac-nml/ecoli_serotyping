@@ -16,14 +16,32 @@ class TestEctyper(unittest.TestCase):
     '''
     Integration tests (slow)
     '''
+    def test_invalid_input(self):
+        valid_fasta = 'test/Data/test_dir/sample.fasta'
+        set_input(valid_fasta, percent_iden=999)
+        with self.assertRaises(SystemExit) as e:
+            ectyper.run_program()
+        self.assertEqual(e.exception.code, 2)
+    
+    def test_invalid_file(self):
+        invalid_file = ''
+        set_input(invalid_file)
+        with self.assertRaises(SystemExit) as e:
+            ectyper.run_program()
+        self.assertEqual(e.exception.code, 0)
 
-    def test__valid_fastq_file(self):
+    def test_valid_fastq_file(self):
         valid_fastq = 'test/Data/Escherichia.fastq'
         set_input(valid_fastq)
         ectyper.run_program()
 
-    def test__valid_fasta_file(self):
-        valid_fasta = 'test/Data/Escherichia.fna'
+    def test_folder_input(self):
+        valid_fasta = 'test/Data/test_dir'
+        set_input(valid_fasta)
+        ectyper.run_program()
+    
+    def test_list_input(self):
+        valid_fasta = 'test/Data/test_dir/sample.fasta,test/Data/test_dir/sample.fasta'
         set_input(valid_fasta)
         ectyper.run_program()
 if __name__ == '__main__':

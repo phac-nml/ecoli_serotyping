@@ -5,11 +5,13 @@ from ectyper.genomeFunctions import get_files_as_list, get_valid_format
 class TestGenomeFunction(unittest.TestCase):
 
     def test_get_files_as_list(self):
-        input = '/home/sam/Projects/galaxy/database/files/000/dataset_85.dat,/home/sam/Projects/galaxy/database/files/000/dataset_84.dat,/home/sam/Projects/galaxy/database/files/000/dataset_83.dat,/home/sam/Projects/galaxy/database/files/000/dataset_82.dat,/home/sam/Projects/galaxy/database/files/000/dataset_81.dat,/home/sam/Projects/galaxy/database/files/000/dataset_80.dat,/home/sam/Projects/galaxy/database/files/000/dataset_79.dat,/home/sam/Projects/galaxy/database/files/000/dataset_78.dat'
+        input = 'test/Data/test_dir/sample.fasta,test/Data/test_dir/sample.fasta.tar,test/Data/test_dir/sample2.fasta,test/Data/test_dir/test_junk.txt'
         output = ''
-        self.assertEqual(len(get_files_as_list(input)), 8)
+        self.assertEqual(len(get_files_as_list(input)), 3)
 
     def test_get_valid_format(self):
-        get_valid_format('123')
+        self.assertEqual(None, get_valid_format('123'))
+        self.assertEqual(None, get_valid_format('test/Data/test_dir/test_junk.txt'))
+        # self.assertEqual(None, get_valid_format('test/Data/test_dir/sample.fasta.tar'))
 if __name__ == '__main__':
     unittest.main()

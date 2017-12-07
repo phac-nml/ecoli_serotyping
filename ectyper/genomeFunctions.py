@@ -70,6 +70,12 @@ def get_valid_format(file):
         except FileNotFoundError as err:
             LOG.warning("%s is not found"%file)
             return None
+        except UnicodeDecodeError as err:
+            LOG.warning("%s is not a valid file"%file)
+            return None
+        except:
+            LOG.warning("%s is an unexpected file"%file)
+    LOG.warning("%s is not a fasta/fastq file"%file)
     return None
 
 

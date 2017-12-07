@@ -57,7 +57,7 @@ def run_program():
 
         if len(final_fasta_files) is 0:
             LOG.info("No valid genome files. Terminating the program.")
-            return
+            exit(0)
 
         LOG.info("Standardizing the genome headers")
         (all_genomes_list, all_genomes_files) = \
