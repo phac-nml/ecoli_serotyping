@@ -52,7 +52,7 @@ def run_program():
         raw_files_dict = get_raw_files(raw_genome_files)
         LOG.debug(raw_files_dict)
 
-        LOG.info("Removing non-E. coli genomes")
+        # Assembling fastq and/or verify ecoli genome
         final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, args.verify)
         LOG.debug(final_fasta_files)
 
@@ -101,6 +101,8 @@ def create_tmp_files(temp_dir, output_dir=None):
         output_dir = os.path.join(definitions.WORKPLACE_DIR, 'output', output_dir)
 
     output_file = os.path.join(output_dir,'output.csv')
+    if os.path.isfile(output_file):
+        os.remove(output_file)
     for d in [
             output_dir, files_and_dirs['assemble_temp_dir'],
             files_and_dirs['fasta_temp_dir']
