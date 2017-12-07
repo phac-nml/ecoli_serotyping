@@ -20,7 +20,7 @@ Support _fasta_ and _fastq_ format
     1. `export PATH="$HOME/miniconda/bin:$PATH"`
 2. Install ectyper  
     * Directly via `conda`  
-    	1. `conda install -c bioconda -c ubcsamsung ectyper`  
+    	1. `conda install -c anaconda -c bioconda -c ubcsamsung ectyper`  
     * Through `github`  
     	1. Install dependencies
           `conda install pandas samtools bowtie2 mash bcftools biopython nose blast seqtk tqdm python=3.6`
