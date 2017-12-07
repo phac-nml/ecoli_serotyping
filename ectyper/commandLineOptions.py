@@ -23,7 +23,8 @@ def parse_command_line(args=None):
         "--input",
         help="Location of new file(s). Can be a single file or \
             a directory",
-        required=True)
+        required=True
+    )
 
     parser.add_argument(
         "-d",
@@ -31,7 +32,8 @@ def parse_command_line(args=None):
         type=check_percentage,
         help="Percentage of identity wanted to use against the\
                   database. From 0 to 100, default is 90%%.",
-        default=90)
+        default=90
+    )
 
     parser.add_argument(
         "-l",
@@ -39,24 +41,33 @@ def parse_command_line(args=None):
         type=check_percentage,
         help="Percentage of length wanted to use against the \
                   database. From 0 to 100, default is 50%%.",
-        default=50)
+        default=50
+    )
 
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Enable E. Coli. verification")
+        help="Enable E. Coli. verification"
+    )
 
     parser.add_argument(
         "-s",
         "--species",
         action="store_true",
-        help="Enable non-ecoli species identification")
+        help="Enable non-ecoli species identification"
+    )
     
     parser.add_argument(
         '-v',
         '--verbose',
         action='store_true',
         help='Enable detailed output'
+    )
+
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Directory location of output files."
     )
 
     if args is None:

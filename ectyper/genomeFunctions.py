@@ -8,6 +8,7 @@ import logging
 import os
 import re
 import tempfile
+from tarfile import is_tarfile
 
 import Bio
 from Bio import SeqIO
@@ -61,15 +62,14 @@ def get_valid_format(file):
     Returns:
         fmt (str): 'fasta', 'fastq', or None
     """
-    # TODO: implement more elegant solutoin
-    if os.path.splitext(file)[1] in ['.tar', '.zip']:
-        LOG.warning("Compressed file is not supported: %s"%file)
-        return None
     for fm in ['fastq', 'fasta']:
         try:
             with open(file, "r") as handle:
                 data = SeqIO.parse(handle, fm)
                 if any(data):
+                    if is_tarfile(file):
+                        LOG.warning("Compressed file is not supported: %s"%file)
+                        return None
                     return fm
         except FileNotFoundError as err:
             LOG.warning("%s is not found"%file)
@@ -79,6 +79,7 @@ def get_valid_format(file):
             return None
         except:
             LOG.warning("%s is an unexpected file"%file)
+            return None
     LOG.warning("%s is not a fasta/fastq file"%file)
     return None
 

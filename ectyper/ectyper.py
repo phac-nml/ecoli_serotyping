@@ -40,7 +40,7 @@ def run_program():
 
     ## Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
-        temp_files = create_tmp_files(temp_dir)
+        temp_files = create_tmp_files(temp_dir, output_dir=args.output)
         LOG.debug(temp_files)
 
         LOG.info("Gathering genome files")
@@ -73,16 +73,17 @@ def run_program():
         # Add empty rows for genomes without blast result
         predictions_file = predictionFunctions.add_non_predicted(
             all_genomes_list, predictions_file)
+        LOG.info('Outputs stored in %s' %temp_files['output_dir'])
 
         # Store most recent result in working directory
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
+
     
 
-def create_tmp_files(temp_dir):
+def create_tmp_files(temp_dir, output_dir=None):
     """
     Return a dictionary of temporary files used by ectyper
-    Depending on whether legacy data is required or not
     """
 
     # Get the correct files and directories
@@ -90,13 +91,15 @@ def create_tmp_files(temp_dir):
         'assemble_temp_dir': os.path.join(temp_dir, 'assemblies'),
         'fasta_temp_dir': os.path.join(temp_dir, 'fastas'),
     }
+    if output_dir is None:
+        output_dir = str(datetime.datetime.now().date()) + '_' + \
+            str(datetime.datetime.now().time()).replace(':', '.')
+    if os.path.isabs(output_dir):
+        pass
+    else:
+        output_dir = os.path.join(definitions.WORKPLACE_DIR, 'output', output_dir)
 
-    output_file = os.path.join(
-        definitions.WORKPLACE_DIR, 'output', 'output.csv')
-
-    # Create the output directory if it doesn't exist
-    output_dir = os.path.dirname(output_file)
-
+    output_file = os.path.join(output_dir,'output.csv')
     for d in [
             output_dir, files_and_dirs['assemble_temp_dir'],
             files_and_dirs['fasta_temp_dir']

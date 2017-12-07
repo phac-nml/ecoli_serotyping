@@ -11,8 +11,15 @@ class TestGenomeFunction(unittest.TestCase):
         self.assertEqual(len(get_files_as_list(input)), 4)
 
     def test_get_valid_format(self):
+        # None file
         self.assertEqual(None, get_valid_format('123'))
+        # Random txt
         self.assertEqual(None, get_valid_format('test/Data/test_dir/test_junk.txt'))
-        self.assertEqual(None, get_valid_format('test/Data/test_dir/sample.fasta.tar'))
+        # renamed tar file
+        self.assertEqual(None, get_valid_format('test/Data/test_dir/sampletar'))
+        # zip file
+        self.assertEqual(None, get_valid_format('test/Data/test_dir/sample.fasta.zip'))
+        # actual fasta
+        self.assertEqual('fasta', get_valid_format('test/Data/test_dir/sample.fasta'))
 if __name__ == '__main__':
     unittest.main()
