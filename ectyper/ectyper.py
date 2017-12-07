@@ -34,8 +34,9 @@ def run_program():
     """
     # Initialize the program
     args = commandLineOptions.parse_command_line()
-    LOG.info('Starting ectyper -- Serotype prediction. \
-      Log file is: ' + str(LOG_FILE))
+    LOG.info('Starting ectyper\nSerotype prediction with input:\n \
+            %s\n \
+            Log file is: %s'%(args,LOG_FILE))
     LOG.debug(args)
 
     ## Initialize temporary directories for the scope of this program
