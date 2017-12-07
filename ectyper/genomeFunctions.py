@@ -61,6 +61,10 @@ def get_valid_format(file):
     Returns:
         fmt (str): 'fasta', 'fastq', or None
     """
+    # TODO: implement more elegant solutoin
+    if os.path.splitext(file)[1] in ['.tar', '.zip']:
+        LOG.warning("Compressed file is not supported: %s"%file)
+        return None
     for fm in ['fastq', 'fasta']:
         try:
             with open(file, "r") as handle:
