@@ -23,7 +23,7 @@ Support _fasta_ and _fastq_ format
     	1. `conda install -c bioconda -c ubcsamsung ectyper`  
     * Through `github`  
     	1. Install dependencies
-          `conda install pandas samtools bowtie2 mash bcftools biopython nose blast tqdm python=3.6`
+          `conda install pandas samtools bowtie2 mash bcftools biopython nose blast seqtk tqdm python=3.6`
     	1. Download git repository then unzip
           `wget https://github.com/phac-nml/ecoli_serotyping/archive/master.zip`
     	1. Install ectyper inside unzipped directory

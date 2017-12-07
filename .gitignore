@@ -108,3 +108,4 @@ ectyper/Data/refseq.genomes.k21s1000.msh
 output/
 .~lock*
 validation/enterobase_90_50_with_blacklist.csv
+.coveragerc
