@@ -25,12 +25,12 @@ def is_ecoli_genome(iden_file, genome_file=None, mash=False):
         genome_file = iden_file
     num_hit = get_num_hits(iden_file)
     if num_hit < 3:
-        LOG.info("%s is identified as an invalid e.coli genome file by marker approach", iden_file)
+        LOG.info("%s is identified as an invalid e.coli genome file by marker approach", os.path.basename(iden_file))
         if mash:
             species = get_species(genome_file)
-            LOG.info("%s is identified as genome of %s by mash approach", iden_file, species)
+            LOG.info("%s is identified as genome of %s by mash approach", os.path.basename(iden_file), species)
         return False
-    LOG.debug("%s is a valid e.coli genome file", iden_file)
+    LOG.debug("%s is a valid e.coli genome file", os.path.basename(iden_file))
     return True
 
 def get_num_hits(target):
@@ -75,11 +75,8 @@ def get_species(file):
     '''
     LOG.info("Identifying species for %s" %file)
     if not os.path.isfile(definitions.REFSEQ_SKETCH):
-        LOG.info("No refseq found." +
-            "Download refseq from " +
-            "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh" +
-            " then put it in ectyper/Data/"
-        )
+        LOG.warning("No refseq found.")
+        return None
     species = 'unknown'
     if genomeFunctions.get_valid_format(file) is 'fasta':
         tmp_file = tempfile.NamedTemporaryFile().name

@@ -33,10 +33,7 @@ Support _fasta_ and _fastq_ format
 1. Put all you fasta/fastq file in one folder (concatenate paired files if you want to result to be considered as single entity)
 1. `ectyper -i [file path]`
 1. View result on console or in `output/output.csv`
-* If you want to enable species identification,
-    1. Download refseq from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh
-    2. Put refseq into ectyper/Data/
-    3. Specify `-s` as argument when executing ectyper
+* If you want to enable species identification, you might need to wait for **ectyper** to download reference sequence when it is the first time you run
 
 # Example Usage
 * `ectyper -i ecoliA.fasta`  for single file

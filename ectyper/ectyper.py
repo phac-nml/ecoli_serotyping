@@ -4,10 +4,11 @@
     Currently includes serotyping and VF finding.
 """
 import logging
-import os
+import os, sys
 import tempfile
 import datetime
 from collections import defaultdict
+from urllib.request import urlretrieve
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, predictionFunctions,
@@ -44,6 +45,14 @@ def run_program():
         temp_files = create_tmp_files(temp_dir, output_dir=args.output)
         LOG.debug(temp_files)
 
+        # Download refseq file if speicies identification is enabled
+        if args.species:
+            if not os.path.isfile(definitions.REFSEQ_SKETCH):
+                refseq_url = 'https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh'
+                LOG.info("No refseq found. Downloading reference file for species identification...")
+                download_file(refseq_url, definitions.REFSEQ_SKETCH)
+                LOG.info("Download complete.")
+
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
         LOG.debug(raw_genome_files)
@@ -52,10 +61,10 @@ def run_program():
         raw_files_dict = get_raw_files(raw_genome_files)
         LOG.debug(raw_files_dict)
 
-        # Assembling fastq and/or verify ecoli genome
-        final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, args.verify)
+        # Assembling fastq + verify ecoli genome
+        LOG.info("Preparing genome files for blast alignment")
+        final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, verify=args.verify, mash=args.species)
         LOG.debug(final_fasta_files)
-
         if len(final_fasta_files) is 0:
             LOG.info("No valid genome files. Terminating the program.")
             exit(0)
@@ -172,11 +181,12 @@ def get_raw_files(raw_files):
     return({'fasta':fasta_files, 'fastq':fastq_files})
 
 
-def filter_for_ecoli_files(raw_dict, temp_files, verify=False):
+def filter_for_ecoli_files(raw_dict, temp_files, verify=False, mash=False):
     """
     :param raw_dict{fasta:list_of_files, fastq:list_of_files}:
     :parapm temp_file:
     :param verify:
+    :param mash:
     """
     final_files = []
     for f in raw_dict.keys():
@@ -184,7 +194,7 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False):
 
         for ffile in raw_dict[f]:
             filtered_file = filter_file_by_species(
-                ffile, f, temp_dir, verify=verify)
+                ffile, f, temp_dir, verify=verify, mash=mash)
             if filtered_file:
                 final_files.append(filtered_file)
 
@@ -212,7 +222,7 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, m
                 "%s is filtered out because no identification alignment found",
                 genome_file)
             return filtered_file
-        if not verify or speciesIdentification.is_ecoli_genome(
+        if not (verify or mash) or speciesIdentification.is_ecoli_genome(
                 iden_file, genome_file, mash=mash):
             # final check before adding the alignment for prediction
             if genomeFunctions.get_valid_format(iden_file) != 'fasta':
@@ -222,6 +232,28 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, m
                 return filtered_file
             filtered_file = pred_file
     if genome_format is 'fasta':
-        if not verify or speciesIdentification.is_ecoli_genome(genome_file, mash=mash):
+        if not (verify or mash) or speciesIdentification.is_ecoli_genome(genome_file, mash=mash):
             filtered_file = genome_file
     return filtered_file
+
+
+def download_file(url, dst):
+    '''
+    download file with progress bar
+    '''
+    urlretrieve(url, dst, reporthook)
+
+def reporthook(blocknum, blocksize, totalsize):
+    '''
+    https://stackoverflow.com/questions/15644964/python-progress-bar-and-downloads
+    '''
+    readsofar = blocknum * blocksize
+    if totalsize > 0:
+        percent = readsofar * 1e2 / totalsize
+        s = "\r%5.1f%% %*d / %d" % (
+            percent, len(str(totalsize)), readsofar, totalsize)
+        sys.stderr.write(s)
+        if readsofar >= totalsize: # near the end
+            sys.stderr.write("\n")
+    else: # total size is unknown
+        sys.stderr.write("read %d\n" % (readsofar,))
