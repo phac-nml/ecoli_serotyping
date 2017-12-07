@@ -33,9 +33,9 @@ def run_program():
 
     """
     # Initialize the program
+    args = commandLineOptions.parse_command_line()
     LOG.info('Starting ectyper -- Serotype prediction. \
       Log file is: ' + str(LOG_FILE))
-    args = commandLineOptions.parse_command_line()
     LOG.debug(args)
 
     ## Initialize temporary directories for the scope of this program
@@ -55,6 +55,10 @@ def run_program():
         final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, args.verify)
         LOG.debug(final_fasta_files)
 
+        if len(final_fasta_files) is 0:
+            LOG.info("No valid genome files. Terminating the program.")
+            return
+
         LOG.info("Standardizing the genome headers")
         (all_genomes_list, all_genomes_files) = \
             genomeFunctions.get_genome_names_from_files(
@@ -70,6 +74,7 @@ def run_program():
         predictions_file = predictionFunctions.add_non_predicted(
             all_genomes_list, predictions_file)
 
+        # Store most recent result in working directory
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
     
@@ -87,9 +92,7 @@ def create_tmp_files(temp_dir):
     }
 
     output_file = os.path.join(
-        definitions.WORKPLACE_DIR, 'output',
-        str(datetime.datetime.now().date()) + '_' +
-        str(datetime.datetime.now().time()).replace(':', '.'), 'output.csv')
+        definitions.WORKPLACE_DIR, 'output', 'output.csv')
 
     # Create the output directory if it doesn't exist
     output_dir = os.path.dirname(output_file)
@@ -178,10 +181,6 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False):
                 ffile, f, temp_dir, verify=verify)
             if filtered_file:
                 final_files.append(filtered_file)
-
-    if final_files == []:
-        LOG.info("No valid genome files. Terminating the program.")
-        exit(1)
 
     LOG.info('{} final fasta files'.format(len(final_files)))
     return final_files

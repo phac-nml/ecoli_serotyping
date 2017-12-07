@@ -38,7 +38,11 @@ def get_files_as_list(file_or_directory):
         for root, dirs, files in os.walk(file_or_directory):
             for filename in files:
                 files_list.append(os.path.join(root, filename))
-
+    # check if input is concatenated file locations
+    elif ',' in file_or_directory:
+        LOG.info("Using genomes in the input list")
+        for filename in file_or_directory.split(','):
+            files_list.append(os.path.abspath(filename))
     else:
         LOG.info("Using genomes in file " + file_or_directory)
         files_list.append(os.path.abspath(file_or_directory))
@@ -57,27 +61,15 @@ def get_valid_format(file):
     Returns:
         fmt (str): 'fasta', 'fastq', or None
     """
-    # Too small to be a valid genome file
-    if not os.path.isfile(file):
-        LOG.info("%s does not exist in file system", file)
-        return None
-    if os.path.getsize(file) < 10:
-        LOG.info("%s is not a valid file (size too small)", file)
-        return None
-    file_format = os.path.splitext(file)[1][1:]
-    valid_fasta_formats = ['fna', 'fa', 'fasta']
-    valid_fastq_formats = ['fq', 'fastq']
-    if file_format in valid_fasta_formats:
-        file_format = 'fasta'
-    elif file_format in valid_fastq_formats:
-        file_format = 'fastq'
-    else:
-        LOG.info("%s is not a valid %s format file", file, file_format)
-        return None
-    for _ in SeqIO.parse(file, file_format):
-        LOG.debug("%s is a valid %s format file", file, file_format)
-        return file_format
-    LOG.info("%s is not a valid %s format file", file, file_format)
+    for fm in ['fastq', 'fasta']:
+        try:
+            with open(file, "r") as handle:
+                data = SeqIO.parse(handle, fm)
+                if any(data):
+                    return fm
+        except FileNotFoundError as err:
+            LOG.warning("%s is not found"%file)
+            return None
     return None
 
 

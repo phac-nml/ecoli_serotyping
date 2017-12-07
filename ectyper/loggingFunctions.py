@@ -28,6 +28,7 @@ def initialize_logging():
         datefmt='%m-%d %H:%M',
         filename=log_file,
         filemode='w')
+
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
     console.setFormatter(formatter)
@@ -35,4 +36,5 @@ def initialize_logging():
 
     # add the handler to the root logger
     logging.getLogger('').addHandler(console)
+
     return log_file

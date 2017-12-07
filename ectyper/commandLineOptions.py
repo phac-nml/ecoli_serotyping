@@ -11,6 +11,12 @@ def parse_command_line(args=None):
     necessarily apply to both.
     """
 
+    def check_percentage(value):
+        ivalue = int(value)
+        if ivalue <= 0 or ivalue > 100:
+            raise argparse.ArgumentTypeError("%s is an invalid positive int percentage value" % value)
+        return ivalue
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-i",
@@ -22,20 +28,18 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-d",
         "--percentIdentity",
-        type=int,
+        type=check_percentage,
         help="Percentage of identity wanted to use against the\
-                  database. From 0 to 100, default is 97%.",
-        default=97,
-        choices=range(1, 101))
+                  database. From 0 to 100, default is 97%%.",
+        default=97)
 
     parser.add_argument(
         "-l",
         "--percentLength",
-        type=int,
+        type=check_percentage,
         help="Percentage of length wanted to use against the \
-                  database. From 0 to 100, default is 97%.",
-        default=97,
-        choices=range(1, 101))
+                  database. From 0 to 100, default is 97%%.",
+        default=97)
 
     parser.add_argument(
         "--verify",
