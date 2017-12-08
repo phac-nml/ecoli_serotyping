@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 """
-    Predictive genomics for _E. coli_ from the command line.
-    Currently includes serotyping and VF finding.
+    Predictive serotyping for _E. coli_.
 """
 import logging
-import os, sys
+import os
+import sys
 import tempfile
 import datetime
-from collections import defaultdict
 from urllib.request import urlretrieve
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
@@ -27,7 +26,7 @@ def run_program():
     (3) Map FASTQ files to FASTA seq
     (1) Get names of all genomes being tested
     (2) Create a BLAST database of those genomes
-    (3) Query for serotype and/or virulence factors
+    (3) Query for serotype
     (4) Parse the results
     (5) Display the results
     :return: success or failure
@@ -46,6 +45,7 @@ def run_program():
         LOG.debug(temp_files)
 
         # Download refseq file if speicies identification is enabled
+        # TODO: move the following to a separate function
         if args.species:
             if not os.path.isfile(definitions.REFSEQ_SKETCH):
                 refseq_url = 'https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh'
@@ -62,6 +62,7 @@ def run_program():
         LOG.debug(raw_files_dict)
 
         # Assembling fastq + verify ecoli genome
+        # TODO: add the check for valid genomes to the function
         LOG.info("Preparing genome files for blast alignment")
         final_fasta_files = filter_for_ecoli_files(raw_files_dict, temp_files, verify=args.verify, mash=args.species)
         LOG.debug(final_fasta_files)
@@ -90,7 +91,6 @@ def run_program():
         predictionFunctions.report_result(predictions_file)
 
     
-
 def create_tmp_files(temp_dir, output_dir=None):
     """
     Return a dictionary of temporary files used by ectyper
@@ -157,6 +157,7 @@ def run_prediction(genome_files, args, predictions_file):
                 blast_output_file, ectyper_dict_file, predictions_file,
                 args.verbose)
         return predictions_file
+
 
 def get_raw_files(raw_files):
     """
@@ -242,6 +243,7 @@ def download_file(url, dst):
     download file with progress bar
     '''
     urlretrieve(url, dst, reporthook)
+
 
 def reporthook(blocknum, blocksize, totalsize):
     '''
