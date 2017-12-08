@@ -87,14 +87,8 @@ def run_program():
         predictionFunctions.report_result(predictions_file)
 
 def download_refseq():
+    '''Download refseq file with progress bar
     '''
-    Download refseq file with progress bar
-    '''
-    def download_file(url, dst):
-        '''
-        download file with progress bar
-        '''
-        urlretrieve(url, dst, reporthook)
 
 
     def reporthook(blocknum, blocksize, totalsize):
@@ -117,12 +111,24 @@ def download_refseq():
     if not os.path.isfile(definitions.REFSEQ_SKETCH):
         refseq_url = 'https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh'
         LOG.info("No refseq found. Downloading reference file for species identification...")
-        download_file(refseq_url, definitions.REFSEQ_SKETCH)
+        urlretrieve(refseq_url, definitions.REFSEQ_SKETCH, reporthook)
         LOG.info("Download complete.")
 
 def create_tmp_files(temp_dir, output_dir=None):
-    """
-    Return a dictionary of temporary files used by ectyper
+    """Create a dictionary of temporary files used by ectyper
+
+    Args:
+        temp_dir: program scope temporary directory
+        output_dir(str, optional):
+            directory to store output
+
+    Return:
+        a dictionary of temporary files
+        example:
+            {'assemble_temp_dir': 'test/temp/assemblies',
+             'fasta_temp_dir': 'test/temp/fastas',
+             'output_dir': os.path.abspath('output')+'/',
+             'output_file': os.path.abspath('output/output.csv')}
     """
 
     # Get the correct files and directories
@@ -160,12 +166,18 @@ def create_tmp_files(temp_dir, output_dir=None):
 
 
 def run_prediction(genome_files, args, predictions_file):
-    '''
-    Core prediction functionality
-    :param genome_files:
-    :param args:
-    :param predictions_file:
-    :returns predictions_file
+    '''Core prediction functionality
+    
+    Args:
+        genome_files:
+            list of genome files
+        args:
+            commandline arguments
+        predictions_file:
+            filename of prediction output
+    
+    Returns:
+        predictions_file with prediction written in it
     '''
     query_file = definitions.SEROTYPE_FILE
     ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
@@ -192,11 +204,16 @@ def run_prediction(genome_files, args, predictions_file):
 
 
 def get_raw_files(raw_files):
-    """
-    Take all the raw files, and filter not fasta / fastq
-
-    :param raw_files:
-    :return (raw_fasta_files, raw_fastq_files)
+    """Take all the raw files, and filter not fasta / fastq
+    
+    Args:
+        raw_files(str): list of files from user input
+    
+    Returns:
+        A dictitionary collection of fasta and fastq files
+        example:
+        {'raw_fasta_files':[],
+         'raw_fastq_files':[]}
     """
     fasta_files = []
     fastq_files = []
@@ -215,11 +232,21 @@ def get_raw_files(raw_files):
 
 
 def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
-    """
-    :param raw_dict{fasta:list_of_files, fastq:list_of_files}:
-    :parapm temp_file:
-    :param verify:
-    :param species:
+    """filter ecoli, identify species, assemble fastq
+    Assemble fastq files to fasta files,
+    then filter all files by reference method if verify is enabled,
+    if identified as non-ecoli, identify species by mash method if species is enabled.
+    
+    Args:
+        raw_dict{fasta:list_of_files, fastq:list_of_files}:
+            dictionary collection of fasta and fastq files
+        temp_file: temporary directory
+        verify(bool):
+            whether to perform ecoli verification
+        species(bool):
+            whether to perform species identification for non-ecoli genome
+    Returns:
+        List of filtered and assembled genome files in fasta format
     """
     final_files = []
     for f in raw_dict.keys():
@@ -236,15 +263,22 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
     return final_files
 
 def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):
-    '''
-    Core species recognition functionality
-    :param genome_file:
-    :param genome_format:
-    :param temp_dir:
-    :param verify:
-    :param mash:
-    :returns filtered_file
-    '''
+    """filter ecoli, identify species, assemble fastq
+    Assemble fastq file to fasta file,
+    then filter the file by reference method if verify is enabled,
+    if identified as non-ecoli, identify species by mash method if species is enabled.
+    
+    Args:
+        genome_file: input genome file
+        genome_format(str): fasta or fastq
+        temp_file: temporary directory
+        verify(bool):
+            whether to perform ecoli verification
+        species(bool):
+            whether to perform species identification for non-ecoli genome
+    Returns:
+        The filtered and assembled genome files in fasta format
+    """
     combined_file = definitions.COMBINED
     filtered_file = None
     if genome_format == 'fastq':

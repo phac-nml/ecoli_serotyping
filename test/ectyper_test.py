@@ -11,9 +11,9 @@ from ectyper import ectyper
 def set_input(input, percent_iden=None, output=None):
     args = ['-i', input]
     if percent_iden:
-        args.append('-d {}'.format(str(percent_iden)))
+        args+=['-d', str(percent_iden)]
     if output:
-        args.append('-o'+output)
+        args+=['-o',output]
     sys.argv[1:] = args
 
 def get_md5(file):
@@ -21,9 +21,7 @@ def get_md5(file):
         return hashlib.md5(handler.read()).hexdigest()
 
 class TestEctyper(unittest.TestCase):
-    '''
-    Integration tests
-    '''
+    # Print all differences if there is difference
     maxDiff = None
 
     def test_invalid_input(self):
