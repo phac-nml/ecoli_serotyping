@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name='ectyper',
-    version='0.0.4',
+    version='0.0.7',
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Camille La Rose, Chad Laing, Sam Sung',

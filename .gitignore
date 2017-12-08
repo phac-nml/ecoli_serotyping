@@ -109,3 +109,4 @@ output/
 .~lock*
 validation/enterobase_90_50_with_blacklist.csv
 .coveragerc
+coverage_html_report/

@@ -12,9 +12,14 @@ def parse_command_line(args=None):
     """
 
     def check_percentage(value):
+        """
+        type checker for percentage input
+        """
         ivalue = int(value)
         if ivalue <= 0 or ivalue > 100:
-            raise argparse.ArgumentTypeError("%s is an invalid positive int percentage value" % value)
+            raise argparse.ArgumentTypeError(
+                "{0} is an invalid positive int percentage value".format(value)
+            )
         return ivalue
 
     parser = argparse.ArgumentParser()
@@ -23,40 +28,52 @@ def parse_command_line(args=None):
         "--input",
         help="Location of new file(s). Can be a single file or \
             a directory",
-        required=True)
+        required=True
+    )
 
     parser.add_argument(
         "-d",
         "--percentIdentity",
         type=check_percentage,
         help="Percentage of identity wanted to use against the\
-                  database. From 0 to 100, default is 97%%.",
-        default=97)
+                  database. From 0 to 100, default is 90%%.",
+        default=90
+    )
 
     parser.add_argument(
         "-l",
         "--percentLength",
         type=check_percentage,
         help="Percentage of length wanted to use against the \
-                  database. From 0 to 100, default is 97%%.",
-        default=97)
+                  database. From 0 to 100, default is 50%%.",
+        default=50
+    )
 
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Enable E. Coli. verification")
+        help="Enable E. Coli. verification"
+    )
 
     parser.add_argument(
         "-s",
         "--species",
         action="store_true",
-        help="Enable non-ecoli species identification")
-    
+        help="Enable species identification when non-ecoli genome is found\n\
+            Note: refseq downloading is required when running this option for the first time."
+    )
+
     parser.add_argument(
         '-v',
         '--verbose',
         action='store_true',
         help='Enable detailed output'
+    )
+
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Directory location of output files."
     )
 
     if args is None:
