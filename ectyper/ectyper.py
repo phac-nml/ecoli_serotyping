@@ -182,8 +182,7 @@ def run_prediction(genome_files, args, predictions_file):
             blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
 
             LOG.info("Start blast alignment on database #{0}".format(index + 1))
-            blast_output_file = blastFunctions.run_blast(
-                query_file, blast_db, args, len(chunk))
+            blast_output_file = blastFunctions.run_blast(query_file, blast_db, args)
             LOG.info("Start serotype prediction for database #{0}".format(index + 1))
             predictions_file = predictionFunctions.predict_serotype(
                 blast_output_file, ectyper_dict_file, predictions_file,

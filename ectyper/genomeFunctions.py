@@ -55,7 +55,7 @@ def get_valid_format(file):
 
     Args:
         file (str): path of file
-    
+
     Returns:
         fmt (str): 'fasta', 'fastq', or None
     """
@@ -164,44 +164,6 @@ def get_genome_name(header):
 
     return str(genome_name)
 
-
-def get_fasta_header_from_file(filename):
-    """
-    Gets the first fasta sequence from the file, and returns the fasta header.
-    The files should have already been validated as fasta format.
-
-    :param filename: the absolute path of the fasta file
-    :return: header
-    """
-
-    for record in SeqIO.parse(filename, "fasta"):
-        return record.description
-
-
-# def get_parsing_dict(ptype, allele_json):
-#     """
-#     Given the parsed arguments from argparser, return a dictionary of functions.
-#     :param
-#         ptype: Type of parsing dict to return
-#         allele_json : allele json filed to be used
-#     :return: {parser: function, predictor: function, data: data, type: type}
-#     """
-
-#     if ptype == 'serotype':
-#         # We will attach the JSON of known fasta headers and alleles to
-#         # a 'data' key in the parsing dictionary.
-#         json_handle = open(allele_json, 'r')
-#         parsing_dict = {
-#             'parser':serotypePrediction.parse_serotype,
-#             'predictor':serotypePrediction.predict_serotype,
-#             'data':json.load(json_handle),
-#             'type':'serotype'}
-#         json_handle.close()
-#         return parsing_dict
-#     else:
-#         LOG.error("No parsing dictionary assigned for {0}".format(ptype))
-#         exit(1)
-
 def assemble_reads(reads, reference, temp_dir):
     '''
     Return path to assembled reads.
@@ -282,21 +244,6 @@ def assemble_reads(reads, reference, temp_dir):
     subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
     return split_mapped_output(output)
 
-def get_num_of_fasta_entry(file):
-    '''
-    Return number of entries in a fasta file
-
-    Args:
-        file(str): path to fasta file
-
-    Returns:
-        int: number of entries
-    '''
-    count = 0
-    for _ in SeqIO.parse(file, 'fasta'):
-        count += 1
-    return count
-
 def split_mapped_output(file):
     '''
     Split given fasta file into two file based on 'lcl' tags
@@ -304,7 +251,7 @@ def split_mapped_output(file):
     Args:
         file(str): path to input fasta file
 
-    Returns: 
+    Returns:
         (str): path to ecoli identification fasta seq
         (str): path to serotype prediction fasta seq
     '''

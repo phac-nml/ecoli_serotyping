@@ -34,7 +34,7 @@ def create_blast_db(filelist, temp_dir):
     return blast_db_path
 
 
-def run_blast(query_file, blast_db, args, chunk_size):
+def run_blast(query_file, blast_db, args):
     """
     Execute a blastn run given the query files and blastdb
 
@@ -61,7 +61,6 @@ def run_blast(query_file, blast_db, args, chunk_size):
         '-qcov_hsp_perc', str(percent_length),
         '-max_hsps', '1', # each allele only need to hit once
         # use default max_target_seqs=500
-        # '-max_target_seqs', str(chunk_size*5), # at most 5 genome hit per query
         "-outfmt",
         '6 qseqid qlen sseqid length pident sstart send sframe qcovhsp',
         "-word_size", "11"
