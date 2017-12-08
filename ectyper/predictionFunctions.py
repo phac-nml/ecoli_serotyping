@@ -175,7 +175,7 @@ def store_df(src_df, dst_file):
             src_df.to_csv(fh, header=False)
     else:
         with open(dst_file, 'w') as fh:
-            src_df.to_csv(fh, header=True, index_label='index')
+            src_df.to_csv(fh, header=True, index_label='genome')
 
 def report_result(csv_file):
     # Report the content of dataframe in log
@@ -183,12 +183,12 @@ def report_result(csv_file):
     if df.empty:
         LOG.info('No prediction was made becuase no alignment was found')
         return
-    LOG.info('\n{0}'.format(df.to_string()))
+    LOG.info('\n{0}'.format(df.to_string(index=False)))
 
 def add_non_predicted(all_genomes_list, predictions_file):
     # Add genomes that do not show up in blast result to prediction file
     df = pd.read_csv(predictions_file)
-    df = df.merge(pd.DataFrame(all_genomes_list, columns=['index']), on='index', how='outer')
+    df = df.merge(pd.DataFrame(all_genomes_list, columns=['genome']), on='genome', how='outer')
     df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
     df.fillna('-', inplace=True)
     df.to_csv(predictions_file, index=False)
