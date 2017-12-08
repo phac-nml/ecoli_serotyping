@@ -13,7 +13,11 @@ def initialize_logging():
     """
     Set up the screen and file logging.
 
-    :return: The log filename
+    Args:
+        None
+        
+    Returns:
+        log_file (str): The log filename
     """
 
     # set up DEBUG logging to file, INFO logging to STDERR
