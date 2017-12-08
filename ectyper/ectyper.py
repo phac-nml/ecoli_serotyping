@@ -199,7 +199,7 @@ def run_prediction(genome_files, args, predictions_file):
             LOG.info("Start serotype prediction for database #{0}".format(index + 1))
             predictions_file = predictionFunctions.predict_serotype(
                 blast_output_file, ectyper_dict_file, predictions_file,
-                args.verbose)
+                args.detailed)
         return predictions_file
 
 

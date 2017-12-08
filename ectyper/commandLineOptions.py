@@ -64,8 +64,7 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        '-v',
-        '--verbose',
+        '--detailed',
         action='store_true',
         help='Enable detailed output'
     )

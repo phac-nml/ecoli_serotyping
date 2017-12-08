@@ -13,14 +13,14 @@ LOG = logging.getLogger(__name__)
     Serotype prediction for E. coli
 """
 
-def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, verbose=False):
+def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
     """
     Make serotype prediction for all genomes based on blast output
     :param blast_output_file: blastn output with
         outfmt "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
     :param ectyper_dict_file: mapping file used to associate allele id to allele informations
     :param predictions_file: csv file to store result
-    :param verbose:
+    :param detailed:
     :return: predictions_file
     """
     basename, extension = os.path.splitext(predictions_file)
@@ -38,14 +38,14 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
     gene_pairs = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
     predictions_columns = ['O_prediction', 'O_info', 'H_prediction', 'H_info']
     gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
-    if verbose:
+    if detailed:
         # Add gene lists for detailed output report
         for gene in gene_list:
             predictions_columns.append(gene)
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         # Make prediction for each genome based on blast output
         predictions_dict[genome_name] = get_prediction(
-            per_genome_df, predictions_columns, verbose, gene_pairs)
+            per_genome_df, predictions_columns, detailed, gene_pairs)
     predictions_df = pd.DataFrame(predictions_dict).transpose()
     if predictions_df.empty:
         predictions_df = pd.DataFrame(columns=predictions_columns)
@@ -55,7 +55,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
     LOG.info("Serotype prediction completed")
     return predictions_file
 
-def get_prediction(per_genome_df, predictions_columns, verbose, gene_pairs):
+def get_prediction(per_genome_df, predictions_columns, detailed, gene_pairs):
     """
     Make serotype prediction for single genomes based on blast output
     :param predictions_columns: blastn outputs for the given genome
@@ -77,7 +77,7 @@ def get_prediction(per_genome_df, predictions_columns, verbose, gene_pairs):
         genes_pool = defaultdict(list)
         for index, row in predictors_df.iterrows():
             gene = row['gene']
-            if verbose:
+            if detailed:
                 predictions[gene] = True
             if not predictions[predicting_antigen+'_prediction']:
                 serotype = row['serotype']
