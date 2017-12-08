@@ -14,14 +14,21 @@ LOG = logging.getLogger(__name__)
 """
 
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
-    """
-    Make serotype prediction for all genomes based on blast output
-    :param blast_output_file: blastn output with
-        outfmt "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
-    :param ectyper_dict_file: mapping file used to associate allele id to allele informations
-    :param predictions_file: csv file to store result
-    :param detailed:
-    :return: predictions_file
+    """Make serotype prediction for all genomes based on blast output
+    
+    Args:
+        blast_output_file(str):
+            blastn output with outfmt:
+                "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
+    ectyper_dict_file(str):
+        mapping file used to associate allele id to allele informations
+    predictions_file(str):
+        csv file to store result
+    detailed(bool, optional):
+        whether to generate detailed output or not
+    
+    Returns:
+        predictions_file
     """
     basename, extension = os.path.splitext(predictions_file)
     parsed_output_file = ''.join([basename, '_raw', extension])
@@ -45,7 +52,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         # Make prediction for each genome based on blast output
         predictions_dict[genome_name] = get_prediction(
-            per_genome_df, predictions_columns, detailed, gene_pairs)
+            per_genome_df, predictions_columns, gene_pairs, detailed)
     predictions_df = pd.DataFrame(predictions_dict).transpose()
     if predictions_df.empty:
         predictions_df = pd.DataFrame(columns=predictions_columns)
@@ -55,12 +62,20 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
     LOG.info("Serotype prediction completed")
     return predictions_file
 
-def get_prediction(per_genome_df, predictions_columns, detailed, gene_pairs):
-    """
-    Make serotype prediction for single genomes based on blast output
-    :param predictions_columns: blastn outputs for the given genome
-    :param predictors_df: 
-    :return: per genome prediction dictionary
+def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
+    """Make serotype prediction for single genomes based on blast output
+    
+    Args:
+        per_genome_df(DataFrame):
+            blastn outputs for the given genome
+        predictions_columns(dict):
+            columns to be filled by prediction function
+        gene_pairs(dict):
+            dict of pair genes used for paired logic
+        detailed(bool):
+            whether to generate detailed output or not
+    Return:
+        Prediction dictionary for the given genome
     """
     # Extract potential predictors
     useful_columns = [
@@ -117,6 +132,14 @@ def get_prediction(per_genome_df, predictions_columns, detailed, gene_pairs):
     return predictions
 
 def blast_output_to_df(blast_output_file):
+    '''Convert raw blast output file to DataFrame
+    Args:
+        blast_output_file(str): location of blast output
+    
+    Returns:
+        DataFrame:
+            DataFrame that contains all informations from blast output
+    '''
     # Load blast output
     output_data = []
     with open(blast_output_file, 'r') as fh:
@@ -165,10 +188,10 @@ def ectyper_dict_to_df(ectyper_dict_file):
         return df
 
 def store_df(src_df, dst_file):
-    """
-    Append dataframe to a file if it exists, otherwise, make a new file
-    :param src_df: dataframe object to be stored
-    :param dst_file: dst_file to be modified/created
+    """Append dataframe to a file if it exists, otherwise, make a new file
+    Args:
+        src_df(str): dataframe object to be stored
+        dst_file(str): dst_file to be modified/created
     """
     if os.path.isfile(dst_file):
         with open(dst_file, 'a') as fh:
@@ -178,7 +201,11 @@ def store_df(src_df, dst_file):
             src_df.to_csv(fh, header=True, index_label='genome')
 
 def report_result(csv_file):
-    # Report the content of dataframe in log
+    '''Report the content of dataframe in log
+    
+    Args:
+        csv_file(str): location of the prediction file
+    '''
     df = pd.read_csv(csv_file)
     if df.empty:
         LOG.info('No prediction was made becuase no alignment was found')
@@ -186,7 +213,16 @@ def report_result(csv_file):
     LOG.info('\n{0}'.format(df.to_string(index=False)))
 
 def add_non_predicted(all_genomes_list, predictions_file):
-    # Add genomes that do not show up in blast result to prediction file
+    '''Add genomes that do not show up in blast result to prediction file
+    
+    Args:
+        all_genome_list(list):
+            list of genomes from user input
+        predictions_file(str):
+            location of the prediction file
+    Returns:
+        str: location of the prediction file
+    '''
     df = pd.read_csv(predictions_file)
     df = df.merge(pd.DataFrame(all_genomes_list, columns=['genome']), on='genome', how='outer')
     df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
