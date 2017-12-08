@@ -4,8 +4,9 @@
 """
 
 import logging
-import ectyper.definitions as D
 import os
+
+import ectyper.definitions as D
 
 
 def initialize_logging():

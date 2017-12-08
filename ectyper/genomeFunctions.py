@@ -3,17 +3,14 @@ Genome Utilities
 '''
 #!/usr/bin/env python
 
-import json
 import logging
 import os
 import re
 import tempfile
 from tarfile import is_tarfile
 
-import Bio
 from Bio import SeqIO
-from ectyper import (blastFunctions, definitions,
-                     subprocess_util)
+from ectyper import definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
 
@@ -68,19 +65,19 @@ def get_valid_format(file):
                 data = SeqIO.parse(handle, fm)
                 if any(data):
                     if is_tarfile(file):
-                        LOG.warning("Compressed file is not supported: %s"%file)
+                        LOG.warning("Compressed file is not supported: {}".format(file))
                         return None
                     return fm
         except FileNotFoundError as err:
-            LOG.warning("%s is not found"%file)
+            LOG.warning("{0} is not found".format(file))
             return None
         except UnicodeDecodeError as err:
-            LOG.warning("%s is not a valid file"%file)
+            LOG.warning("{0} is not a valid file".format(file))
             return None
         except:
-            LOG.warning("%s is an unexpected file"%file)
+            LOG.warning("{0} is an unexpected file".format(file))
             return None
-    LOG.warning("%s is not a fasta/fastq file"%file)
+    LOG.warning("{0} is not a fasta/fastq file".format(file))
     return None
 
 
@@ -234,7 +231,7 @@ def assemble_reads(reads, reference, temp_dir):
         )
     index_dir = os.path.split(index_path)[0]
     if not os.path.isdir(index_dir):
-        LOG.info('Reference index does not exist. Creating new reference index at %s', index_dir)
+        LOG.info('Reference index does not exist. Creating new reference index at {}'.format(index_dir))
         if not os.path.exists(index_dir):
             os.makedirs(index_dir)
         cmd1 = [

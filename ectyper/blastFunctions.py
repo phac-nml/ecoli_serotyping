@@ -3,11 +3,9 @@
 """
 Functions for setting up, running, and parsing blast
 """
-import collections
 import logging
 import os
 
-from ectyper import genomeFunctions
 from ectyper import subprocess_util
 
 LOG = logging.getLogger(__name__)
@@ -24,7 +22,7 @@ def create_blast_db(filelist, temp_dir):
     """
     blast_db_path = os.path.join(temp_dir, 'ectyper_blastdb')
 
-    LOG.debug("Generating the blast db at %s", blast_db_path)
+    LOG.debug("Generating the blast db at {0}".format(blast_db_path))
     cmd = [
         "makeblastdb",
         "-in", ' '.join(filelist),
@@ -83,7 +81,7 @@ def run_blast_for_identification(query_file, blast_db):
     :param blast_db: validated fasta files from the user, in DB form
     :return: the blast output file
     """
-    
+
     LOG.debug('Running blast query {0} against database {1} '.format(
         query_file, blast_db))
 

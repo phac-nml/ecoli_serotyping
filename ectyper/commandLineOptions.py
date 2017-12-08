@@ -12,9 +12,14 @@ def parse_command_line(args=None):
     """
 
     def check_percentage(value):
+        """
+        type checker for percentage input
+        """
         ivalue = int(value)
         if ivalue <= 0 or ivalue > 100:
-            raise argparse.ArgumentTypeError("%s is an invalid positive int percentage value" % value)
+            raise argparse.ArgumentTypeError(
+                "{0} is an invalid positive int percentage value".format(value)
+            )
         return ivalue
 
     parser = argparse.ArgumentParser()
@@ -57,7 +62,7 @@ def parse_command_line(args=None):
         help="Enable species identification when non-ecoli genome is found\n\
             Note: refseq downloading is required when running this option for the first time."
     )
-    
+
     parser.add_argument(
         '-v',
         '--verbose',

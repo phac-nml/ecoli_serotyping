@@ -39,7 +39,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, ver
     output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
     # Initialize constants
     gene_pairs = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
-    predictions_columns = ['O_prediction', 'O_info', 'H_prediction','H_info']
+    predictions_columns = ['O_prediction', 'O_info', 'H_prediction', 'H_info']
     gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
     if verbose:
         for gene in gene_list:
@@ -129,11 +129,12 @@ def blast_output_to_df(blast_output_file):
     if not output_data:
         LOG.info("No hit found for this blast query")
         # Return empty dataframe with correct columns
-        return pd.DataFrame(columns=[
-            'length', 'pident', 'qcovhsp',
-            'qlen', 'qseqid', 'send',
-            'sframe', 'sseqid', 'sstart']
-        )
+        return pd.DataFrame(
+            columns=[
+                'length', 'pident', 'qcovhsp',
+                'qlen', 'qseqid', 'send',
+                'sframe', 'sseqid', 'sstart'
+            ])
     df['score'] = df['pident'].astype(float)*df['qcovhsp'].astype(float)/10000
     return df
 
@@ -173,17 +174,12 @@ def report_result(csv_file):
     if df.empty:
         LOG.info('No prediction was made becuase no alignment was found')
         return
-    LOG.info('\n%s', df.to_string())
+    LOG.info('\n{0}'.format(df.to_string()))
 
 def add_non_predicted(all_genomes_list, predictions_file):
     # Add genomes that do not show up in blast result to prediction file
     df = pd.read_csv(predictions_file)
-    df = df.merge(
-        pd.DataFrame(
-            all_genomes_list,
-            columns=['index']),
-            on='index',
-            how='outer')
+    df = df.merge(pd.DataFrame(all_genomes_list, columns=['index']), on='index', how='outer')
     df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
     df.fillna('-', inplace=True)
     df.to_csv(predictions_file, index=False)
