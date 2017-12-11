@@ -30,7 +30,7 @@ Supports _fasta_ and _fastq_ file formats
           `python setup.py install`
 
 # Basic Usage
-1. Put all your fasta/fastq files in one folder (concatenate paired files if you want the result to be considered a single entity)
+1. Put all of your fasta/fastq files in one folder (concatenate paired files if you want the result to be considered a single entity)
 1. `ectyper -i [file path]`
 1. View the results on the console or in `output/[datatime]/output.csv`
 
