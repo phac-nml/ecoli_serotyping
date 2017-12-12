@@ -172,23 +172,6 @@ def get_genome_name(header):
 
     return str(genome_name)
 
-
-def get_fasta_header_from_file(filename):
-    """
-    Gets the first fasta sequence from the file, and returns the fasta header.
-    The files should have already been validated as fasta format.
-
-    Args:
-        filename (str or handle): the absolute path of the fasta file
-
-    Returns:
-        header (str): the fasta file header
-    """
-
-    for record in SeqIO.parse(filename, "fasta"):
-        return record.description
-
-
 def assemble_reads(reads, reference, temp_dir):
     '''
     Return path to assembled reads.
@@ -268,21 +251,6 @@ def assemble_reads(reads, reference, temp_dir):
     ]
     subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
     return split_mapped_output(output)
-
-def get_num_of_fasta_entry(file):
-    '''
-    Return number of entries in a fasta file
-
-    Args:
-        file (str): path to fasta file
-
-    Returns:
-        int: number of entries
-    '''
-    count = 0
-    for _ in SeqIO.parse(file, 'fasta'):
-        count += 1
-    return count
 
 def split_mapped_output(file):
     '''
