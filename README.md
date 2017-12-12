@@ -1,6 +1,6 @@
 # ECTyper (an easy typer)
 **ECTyper** wraps a standalone serotyping module.  
-Support _fasta_ and _fastq_ format
+Supports _fasta_ and _fastq_ file formats
 
 # Dependencies:
 - python 3.6.3.*
@@ -30,12 +30,37 @@ Support _fasta_ and _fastq_ format
           `python setup.py install`
 
 # Basic Usage
-1. Put all you fasta/fastq file in one folder (concatenate paired files if you want to result to be considered as single entity)
+1. Put all of your fasta/fastq files in one folder (concatenate paired files if you want the result to be considered a single entity)
 1. `ectyper -i [file path]`
-1. View result on console or in `output/output.csv`
-* If you want to enable species identification, you might need to wait for **ectyper** to download reference sequence when it is the first time you run
+1. View the results on the console or in `output/[datatime]/output.csv`
 
 # Example Usage
-* `ectyper -i ecoliA.fasta`  for single file
-* `ectyper -i ecoliA.fasta,ecoliB.fastq,ecoliC.fna`	for multiple file  
-* `ectyper -i ecoli_folder`	for folder
+* `ectyper -i ecoliA.fasta`  for a single file
+* `ectyper -i ecoliA.fasta,ecoliB.fastq,ecoliC.fna`	for multiple files  
+* `ectyper -i ecoli_folder`	for a folder
+
+# Advanced Usage
+```
+usage: ectyper [-h] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
+               [--verify] [-s] [-v] [-o OUTPUT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Location of new file(s). Can be a single file or a
+                        directory
+  -d PERCENTIDENTITY, --percentIdentity PERCENTIDENTITY
+                        Percentage of identity wanted to use against the
+                        database. From 0 to 100, default is 90%.
+  -l PERCENTLENGTH, --percentLength PERCENTLENGTH
+                        Percentage of length wanted to use against the
+                        database. From 0 to 100, default is 50%.
+  --verify              Enable E. Coli. verification
+  -s, --species         Enable species identification when non-ecoli genome is
+                        found Note: refseq downloading is required when
+                        running this option for the first time.
+  -v, --verbose         Enable detailed output
+  -o OUTPUT, --output OUTPUT
+                        Directory location of output files.
+```
+* The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequence.

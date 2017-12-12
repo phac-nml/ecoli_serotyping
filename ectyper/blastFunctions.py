@@ -16,9 +16,12 @@ def create_blast_db(filelist, temp_dir):
     Creating a blast DB using the makeblastdb command.
     The database is created in the temporary folder of the system.
 
-    :param filelist: genome list that was given by the user on the commandline.
-    :param temp_dir: temp directory to store blastdb
-    :return full path of DB
+    Args:
+        filelist: list of genomes that was given by the user on the command line.
+        temp_dir: temporary directory to store the blastdb in.
+
+    Returns:
+        Full path to the DB
     """
     blast_db_path = os.path.join(temp_dir, 'ectyper_blastdb')
 
@@ -38,11 +41,14 @@ def run_blast(query_file, blast_db, args, chunk_size):
     """
     Execute a blastn run given the query files and blastdb
 
-    :param query_file: one or both of the VF / Serotype input files
-    :param blast_db: validated fasta files from the user, in DB form
-    :param args: parsed commandline options from the user
-    :param chunk_size: number of genome in database
-    :return: the blast output file
+    Args:
+        query_file (str): one or both of the VF / Serotype input files
+        blast_db (str): validated fasta files from the user, in DB form
+        args (Namespace object): parsed commadnline options from the user
+        chunck_size: number of genomes in the database
+
+    Returns:
+        The blast output file
     """
     percent_identity = args.percentIdentity
     percent_length = args.percentLength
@@ -77,9 +83,12 @@ def run_blast_for_identification(query_file, blast_db):
     Execute a blastn run given the query files and blastdb
     with special configuration for high performance identification
 
-    :param query_file: one or both of the VF / Serotype input files
-    :param blast_db: validated fasta files from the user, in DB form
-    :return: the blast output file
+    Args:
+        query_file: one or both of the VF / Serotype input files
+        blast_db: validated fasta files from the user, in DB form
+
+    Returns:
+        blast_output_file (str): path to the blast output file
     """
 
     LOG.debug('Running blast query {0} against database {1} '.format(

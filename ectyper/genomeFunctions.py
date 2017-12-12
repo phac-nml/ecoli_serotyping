@@ -20,8 +20,11 @@ def get_files_as_list(file_or_directory):
     Creates a list of files from either the given file, or all files within the
     directory specified (where each file name is its absolute path).
 
-    :param file_or_directory: file or directory name given on commandline
-    :return files_list: List of all the files found.
+    Args:
+        file_or_directory (str): file or directory name given on commandline
+
+    Returns:
+        files_list (list(str)): List of all the files found.
 
     """
 
@@ -50,14 +53,13 @@ def get_files_as_list(file_or_directory):
 
 def get_valid_format(file):
     """
-    Check using SeqIO if files are valid fasta/fastq format.
-    Then return the format.
+    Check using SeqIO if files are valid fasta/fastq format, returns the format.
 
     Args:
         file (str): path of file
-    
+
     Returns:
-        fmt (str): 'fasta', 'fastq', or None
+        fm (str or None): the file format if 'fasta' or 'fastq', otherwise None
     """
     for fm in ['fastq', 'fasta']:
         try:
@@ -89,9 +91,12 @@ def get_genome_names_from_files(files, temp_dir):
     used as the genome name, creates a temporary file using >lcl|filename as the
     first part of the header.
 
-    :param files: The list of files to get the genome names for
-    :param tempdir: The tempdir to store copied files
-    :return: ([genome names], [file names])
+    Args:
+        files (list): The list of files to get the genome names for
+        tempdir (str): A tempdir where the copied files will be stored
+
+    Returns:
+        tuple(list(str), list(str)): first list is genome names, second list is file names
     """
 
     list_of_genomes = []
@@ -128,8 +133,11 @@ def get_genome_name(header):
     Getting the name of the genome by hierarchy. This requires reading the first
     fasta header from the file. It also assumes a single genome per file.
 
-    :param header: The header containing the record.
-    :return genomeName: Name of the genome contained in the header.
+    Args:
+        header (str): The header containing the record.
+
+    Returns:
+        genomeName (str): Name of the genome contained in the header.
     """
 
     re_patterns = (
@@ -170,37 +178,16 @@ def get_fasta_header_from_file(filename):
     Gets the first fasta sequence from the file, and returns the fasta header.
     The files should have already been validated as fasta format.
 
-    :param filename: the absolute path of the fasta file
-    :return: header
+    Args:
+        filename (str or handle): the absolute path of the fasta file
+
+    Returns:
+        header (str): the fasta file header
     """
 
     for record in SeqIO.parse(filename, "fasta"):
         return record.description
 
-
-# def get_parsing_dict(ptype, allele_json):
-#     """
-#     Given the parsed arguments from argparser, return a dictionary of functions.
-#     :param
-#         ptype: Type of parsing dict to return
-#         allele_json : allele json filed to be used
-#     :return: {parser: function, predictor: function, data: data, type: type}
-#     """
-
-#     if ptype == 'serotype':
-#         # We will attach the JSON of known fasta headers and alleles to
-#         # a 'data' key in the parsing dictionary.
-#         json_handle = open(allele_json, 'r')
-#         parsing_dict = {
-#             'parser':serotypePrediction.parse_serotype,
-#             'predictor':serotypePrediction.predict_serotype,
-#             'data':json.load(json_handle),
-#             'type':'serotype'}
-#         json_handle.close()
-#         return parsing_dict
-#     else:
-#         LOG.error("No parsing dictionary assigned for {0}".format(ptype))
-#         exit(1)
 
 def assemble_reads(reads, reference, temp_dir):
     '''
@@ -287,7 +274,7 @@ def get_num_of_fasta_entry(file):
     Return number of entries in a fasta file
 
     Args:
-        file(str): path to fasta file
+        file (str): path to fasta file
 
     Returns:
         int: number of entries
@@ -299,12 +286,13 @@ def get_num_of_fasta_entry(file):
 
 def split_mapped_output(file):
     '''
-    Split given fasta file into two file based on 'lcl' tags
+    Splits given fasta files into two file based on 'lcl' tags
         in the seq header
-    Args:
-        file(str): path to input fasta file
 
-    Returns: 
+    Args:
+        file (str): path to input fasta file
+
+    Returns:
         (str): path to ecoli identification fasta seq
         (str): path to serotype prediction fasta seq
     '''
