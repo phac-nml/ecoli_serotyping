@@ -10,10 +10,12 @@ LOG = logging.getLogger(__name__)
 def run_subprocess(cmd, is_shell=False):
     '''
     Run cmd command on subprocess
-    :param
+
+    Args:
         cmd (str): cmd command
-    :return
-        stdout(str)
+
+    Returns:
+        stdout (str): The stdout of cmd
     '''
     start_time = timeit.default_timer()
     LOG.debug("Running: {0}".format(cmd))
@@ -28,5 +30,5 @@ def run_subprocess(cmd, is_shell=False):
     stderr = comp_proc.stderr
     stdout = comp_proc.stdout
     elapsed_time = timeit.default_timer() - start_time
-    LOG.debug("Subprocess finish successfully in {:0.3f} sec.".format(elapsed_time))
+    LOG.debug("Subprocess finished successfully in {:0.3f} sec.".format(elapsed_time))
     return stdout

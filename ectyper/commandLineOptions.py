@@ -5,10 +5,15 @@ import argparse
 
 def parse_command_line(args=None):
     """
-    The options
-    for both the serotyper, and virulence finder.
+    The options for both the serotyper, and virulence finder.
     The returned object is used by both, but the options do not
     necessarily apply to both.
+
+    Args:
+        args: Optional args to be passed to argparse.parse_args()
+
+    Returns:
+        The populated argparse Namespace
     """
 
     def check_percentage(value):
@@ -64,8 +69,7 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        '-v',
-        '--verbose',
+        '--detailed',
         action='store_true',
         help='Enable detailed output'
     )

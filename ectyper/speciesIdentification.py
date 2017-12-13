@@ -15,10 +15,11 @@ def is_ecoli_genome(iden_file, genome_file=None, mash=False):
     Args:
         iden_file (str): path to valid fasta genome file
         genome_file (str): Optional path to valid fastq file for reads
-        mash (bool): Optional input to decide whether to use mash
-            if genome is identified as non-ecoli
+        mash (bool): Optional input to decide whether to use mash if genome is
+                     identified as non-ecoli
+
     Returns:
-        bool: output
+        bool: True if iden_file is ecoli, False otherwise
     '''
     if genome_file is None:
         genome_file = iden_file
@@ -43,8 +44,7 @@ def get_num_hits(target):
         on the target genome
 
     Args:
-        target(str): target genome
-        args (arguments): console arguments
+        target (str): target genome
 
     Returns:
         int: number of hits found
@@ -72,7 +72,7 @@ def get_species(file):
     Given a fasta/fastq file, return the most likely species identification
 
     Args:
-        file(str): fasta/fastq file input
+        file (str): fasta/fastq file input
 
     Returns:
         str: name of estimated species
@@ -101,10 +101,11 @@ def get_species(file):
 
 def get_species_helper(file):
     '''
-    Given a fasta/fastq file with one sequence, return the most likely species identification
+    Given a fasta/fastq file with one sequence, return the most likely species
+    identification
 
     Args:
-        file(str): fasta/fastq file input
+        file (str): fasta/fastq file input
 
     Returns:
         str: name of estimated species
