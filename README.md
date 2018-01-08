@@ -44,7 +44,7 @@ Supports _fasta_ and _fastq_ file formats.
 usage: ectyper [-h] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
                [--verify] [-s] [-v] [-o OUTPUT]
 
-arguments [DEFUALT]:
+arguments [DEFAULT]:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         Location of new file(s). Can be a single file or a
