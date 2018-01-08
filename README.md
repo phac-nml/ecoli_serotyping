@@ -47,18 +47,18 @@ usage: ectyper [-h] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
 arguments [DEFAULT]:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Location of new file(s). Can be a single file or a
+                        Location of _E. coli_ genome file(s). Can be a single file or a
                         directory
   -d PERCENTIDENTITY, --percentIdentity PERCENTIDENTITY
                         Percent identity required for an allele match [90]
   -l PERCENTLENGTH, --percentLength PERCENTLENGTH
-                        Percent length required for an allele match [50].
-  --verify              Enable _E. coli_ species verification.
+                        Percent length required for an allele match [50]
+  --verify              Enable _E. coli_ species verification
   -s, --species         Enable species identification when a non-_E. coli_ genome is
                         found. Note: refseq downloading is required when
-                        running this option for the first time.
+                        running this option for the first time
   -v, --verbose         Enable detailed output
   -o OUTPUT, --output OUTPUT
-                        Directory for the output files.
+                        Directory for the output files
 ```
 * The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequences.
