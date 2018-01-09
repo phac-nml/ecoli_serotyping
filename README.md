@@ -1,6 +1,6 @@
 # ECTyper (an easy typer)
-**ECTyper** wraps a standalone serotyping module.  
-Supports _fasta_ and _fastq_ file formats
+**ecyper** wraps a standalone serotyping module for _Escherichia coli_. 
+Supports _fasta_ and _fastq_ file formats.
 
 # Dependencies:
 - python 3.6.3.*
@@ -19,9 +19,9 @@ Supports _fasta_ and _fastq_ file formats
     1. `bash miniconda.sh -b -p $HOME/miniconda`
     1. `export PATH="$HOME/miniconda/bin:$PATH"`
 2. Install ectyper  
-    * Directly via `conda`  
-    	1. `conda install -c anaconda -c bioconda -c ubcsamsung ectyper`  
-    * Through `github`  
+    * Directly via `conda` 
+    	1. `conda install -c bioconda ectyper` 
+    * Through `github`
     	1. Install dependencies
           `conda install pandas samtools bowtie2 mash bcftools biopython nose blast seqtk tqdm python=3.6`
     	1. Download git repository then unzip
@@ -32,7 +32,7 @@ Supports _fasta_ and _fastq_ file formats
 # Basic Usage
 1. Put all of your fasta/fastq files in one folder (concatenate paired files if you want the result to be considered a single entity)
 1. `ectyper -i [file path]`
-1. View the results on the console or in `output/[datatime]/output.csv`
+1. View the results on the console or in `output/[datetime]/output.csv`
 
 # Example Usage
 * `ectyper -i ecoliA.fasta`  for a single file
@@ -42,25 +42,23 @@ Supports _fasta_ and _fastq_ file formats
 # Advanced Usage
 ```
 usage: ectyper [-h] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
-               [--verify] [-s] [-v] [-o OUTPUT]
+               [--verify] [-s] [--detailed] [-o OUTPUT]
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Location of new file(s). Can be a single file or a
-                        directory
+                        Location of E. coli genome file(s). Can be a single
+                        file or a directory
   -d PERCENTIDENTITY, --percentIdentity PERCENTIDENTITY
-                        Percentage of identity wanted to use against the
-                        database. From 0 to 100, default is 90%.
+                        Percent identity required for an allele match [default 90]
   -l PERCENTLENGTH, --percentLength PERCENTLENGTH
-                        Percentage of length wanted to use against the
-                        database. From 0 to 100, default is 50%.
-  --verify              Enable E. Coli. verification
-  -s, --species         Enable species identification when non-ecoli genome is
-                        found Note: refseq downloading is required when
-                        running this option for the first time.
-  -v, --verbose         Enable detailed output
+                        Percent length required for an allele match [default 50]
+  --verify              Enable E. coli species verification
+  -s, --species         Enable species identification when a non-E. coli
+                        genome is found Note: refseq downloading is required
+                        when running this option for the first time
+  --detailed            Enable detailed program output
   -o OUTPUT, --output OUTPUT
                         Directory location of output files.
 ```
-* The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequence.
+* The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequences.

@@ -5,9 +5,7 @@ import argparse
 
 def parse_command_line(args=None):
     """
-    The options for both the serotyper, and virulence finder.
-    The returned object is used by both, but the options do not
-    necessarily apply to both.
+    Options for E. coli serotype prediction.
 
     Args:
         args: Optional args to be passed to argparse.parse_args()
@@ -31,7 +29,7 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-i",
         "--input",
-        help="Location of new file(s). Can be a single file or \
+        help="Location of E. coli genome file(s). Can be a single file or \
             a directory",
         required=True
     )
@@ -40,8 +38,7 @@ def parse_command_line(args=None):
         "-d",
         "--percentIdentity",
         type=check_percentage,
-        help="Percentage of identity wanted to use against the\
-                  database. From 0 to 100, default is 90%%.",
+        help="Percent identity required for an allele match [default 90]",
         default=90
     )
 
@@ -49,29 +46,29 @@ def parse_command_line(args=None):
         "-l",
         "--percentLength",
         type=check_percentage,
-        help="Percentage of length wanted to use against the \
-                  database. From 0 to 100, default is 50%%.",
+        help="Percent length required for an allele match [default 50]",
         default=50
     )
 
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Enable E. Coli. verification"
+        help="Enable E. coli species verification"
     )
 
     parser.add_argument(
         "-s",
         "--species",
         action="store_true",
-        help="Enable species identification when non-ecoli genome is found\n\
-            Note: refseq downloading is required when running this option for the first time."
+        help="Enable species identification when a non-E. coli genome is found\n\
+            Note: refseq downloading is required when running this option for\n\
+            the first time"
     )
 
     parser.add_argument(
-        '--detailed',
+        "--detailed",
         action='store_true',
-        help='Enable detailed output'
+        help="Enable detailed program output"
     )
 
     parser.add_argument(
