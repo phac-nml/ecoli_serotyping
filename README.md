@@ -1,5 +1,5 @@
 # ECTyper (an easy typer)
-**ECTyper** wraps a standalone serotyping module for _Escherichia coli_. 
+**ecyper** wraps a standalone serotyping module for _Escherichia coli_. 
 Supports _fasta_ and _fastq_ file formats.
 
 # Dependencies:
@@ -42,23 +42,23 @@ Supports _fasta_ and _fastq_ file formats.
 # Advanced Usage
 ```
 usage: ectyper [-h] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
-               [--verify] [-s] [-v] [-o OUTPUT]
+               [--verify] [-s] [--detailed] [-o OUTPUT]
 
-arguments [DEFAULT]:
+optional arguments:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Location of _E. coli_ genome file(s). Can be a single file or a
-                        directory
+                        Location of E. coli genome file(s). Can be a single
+                        file or a directory
   -d PERCENTIDENTITY, --percentIdentity PERCENTIDENTITY
-                        Percent identity required for an allele match [90]
+                        Percent identity required for an allele match [default 90]
   -l PERCENTLENGTH, --percentLength PERCENTLENGTH
-                        Percent length required for an allele match [50]
-  --verify              Enable _E. coli_ species verification
-  -s, --species         Enable species identification when a non-_E. coli_ genome is
-                        found. Note: refseq downloading is required when
-                        running this option for the first time
-  -v, --verbose         Enable detailed output
+                        Percent length required for an allele match [default 50]
+  --verify              Enable E. coli species verification
+  -s, --species         Enable species identification when a non-E. coli
+                        genome is found Note: refseq downloading is required
+                        when running this option for the first time
+  --detailed            Enable detailed program output
   -o OUTPUT, --output OUTPUT
-                        Directory for the output files
+                        Directory location of output files.
 ```
 * The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequences.
