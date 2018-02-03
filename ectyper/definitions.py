@@ -19,7 +19,7 @@ DATA_DIR = os.path.join(ROOT_DIR, 'Data')
 try:
     # Python3
     WORKPLACE_DIR = os.getcwdu()
-except ImportError:
+except:
     # Python2
     WORKPLACE_DIR = os.getcwd()
 
