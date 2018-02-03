@@ -15,6 +15,7 @@ source:
 requirements:
     build:
         - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
+        - future
     run:
         - python
         - pandas 0.21.0.*
