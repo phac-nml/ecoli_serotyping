@@ -14,7 +14,7 @@ source:
 
 requirements:
     build:
-      noarch: python
+        - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
     run:
         - python
         - pandas 0.21.0.*
