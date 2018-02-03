@@ -16,7 +16,7 @@ requirements:
     build:
         - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
     run:
-        noarch: python
+        - python
         - pandas 0.21.0.*
         - samtools 1.5.*
         - bowtie2 2.3.0.*
