@@ -18,6 +18,7 @@ requirements:
         - future
     run:
         - python
+        - future
         - pandas 0.21.0.*
         - samtools 1.5.*
         - bowtie2 2.3.0.*
@@ -27,5 +28,7 @@ requirements:
         - blast 2.2.31 .*
         - seqtk 1.2.*
 test:
+    requires:
+        - future
     commands:
         - ectyper -h
