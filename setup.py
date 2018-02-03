@@ -20,6 +20,9 @@ setup(
     scripts=['bin/ectyper'],
     packages=['ectyper'],
     package_data={'ectyper': ['Data/*']},
+    install_requires=[
+          'future',
+      ],
     zip_safe=False,
     test_suite='nose.collector'
 )
