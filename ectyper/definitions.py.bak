@@ -3,18 +3,12 @@
 """
     Definitions for the ectyper project
 """
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
 
-from future import standard_library
-standard_library.install_aliases()
 import os
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT_DIR, 'Data')
-WORKPLACE_DIR = os.getcwdu()
+WORKPLACE_DIR = os.getcwd()
 
 SEROTYPE_FILE = os.path.join(DATA_DIR, 'ectyper_data.fasta')
 SEROTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_dict.json')
