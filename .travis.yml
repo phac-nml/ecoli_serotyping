@@ -22,6 +22,9 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast pandas seqtk future
   - source activate test-environment
   - python setup.py install
+  # test the conda build
+  - conda install conda-build
+  - conda build -c bioconda recipe/
 
 script:
   - nosetests
