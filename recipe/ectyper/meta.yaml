@@ -10,21 +10,21 @@ package:
 
 source:
     git_url: https://github.com/phac-nml/ecoli_serotyping.git
-    git_rev: 1.1.4
+    git_rev: pasteurize
 
 requirements:
     build:
         - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
     run:
-        - python
-        - pandas
-        - samtools
-        - bowtie2
-        - mash
-        - bcftools
-        - biopython
-        - blast
-        - seqtk
+        noarch: python
+        - pandas 0.21.0.*
+        - samtools 1.5.*
+        - bowtie2 2.3.0.*
+        - mash 1.1.*
+        - bcftools 1.6.*
+        - biopython 1.69.*
+        - blast 2.2.31 .*
+        - seqtk 1.2.*
 test:
     commands:
         - ectyper -h

@@ -1,5 +1,5 @@
 # ECTyper (an easy typer)
-**ecyper** wraps a standalone serotyping module for _Escherichia coli_. 
+**ecyper** wraps a standalone serotyping module for _Escherichia coli_.
 Supports _fasta_ and _fastq_ file formats.
 
 # Dependencies:
@@ -19,8 +19,8 @@ Supports _fasta_ and _fastq_ file formats.
     1. `bash miniconda.sh -b -p $HOME/miniconda`
     1. `export PATH="$HOME/miniconda/bin:$PATH"`
 2. Install ectyper  
-    * Directly via `conda` 
-    	1. `conda install -c bioconda ectyper` 
+    * Directly via `conda`
+    	1. `conda install -c bioconda ectyper`
     * Through `github`
     	1. Install dependencies
           `conda install pandas samtools bowtie2 mash bcftools biopython nose blast seqtk tqdm python=3.6`
@@ -62,3 +62,6 @@ optional arguments:
                         Directory location of output files.
 ```
 * The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequences.
+
+# Building the conda package
+`conda build -c bioconda recipe/`
