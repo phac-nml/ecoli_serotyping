@@ -5,8 +5,10 @@ from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
 try:
+    print("WARNING: Using setuptools")
     from setuptools import setup
 except ImportError:
+    print("WARNING: Using distutils")
     from distutils.core import setup
 
 setup(

@@ -64,4 +64,7 @@ optional arguments:
 * The first time species identification is enabled you will need to wait for **ectyper** to download the reference sequences.
 
 # Building the conda package
-`conda build -c bioconda recipe/`
+Python 2.7
+`conda build -c bioconda recipe/ --python=2.7`
+Python 3.6
+`conda build -c bioconda recipe/ --python=3.6`
