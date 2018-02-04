@@ -5,11 +5,11 @@ from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
 try:
-    print("WARNING: Using setuptools")
     from setuptools import setup
+    print("WARNING: Using setuptools")
 except ImportError:
-    print("WARNING: Using distutils")
     from distutils.core import setup
+    print("WARNING: Using distutils")
 
 setup(
     name='ectyper',
@@ -21,7 +21,7 @@ setup(
     license='MIT',
     scripts=['bin/ectyper'],
     packages=['ectyper'],
-    package_data={'ectyper': ['Data/*']},
+    include_package_data=True,
     install_requires=[
           'future',
       ],
