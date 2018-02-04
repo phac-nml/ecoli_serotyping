@@ -6,14 +6,12 @@ from future import standard_library
 standard_library.install_aliases()
 try:
     from setuptools import setup
-    print("WARNING: Using setuptools")
 except ImportError:
     from distutils.core import setup
-    print("WARNING: Using distutils")
 
 setup(
     name='ectyper',
-    version='0.9',
+    version='0.0.9',
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Camille La Rose, Chad Laing, Sam Sung',
