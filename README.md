@@ -2,6 +2,8 @@
 **ecyper** wraps a standalone serotyping module for _Escherichia coli_.
 Supports _fasta_ and _fastq_ file formats.
 
+[![Build Status](https://travis-ci.org/phac-nml/ecoli_serotyping.svg?branch=master)](https://travis-ci.org/phac-nml/ecoli_serotyping)
+
 # Dependencies:
 - python 3.6.3.*
 - pandas 0.21.0.*
