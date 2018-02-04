@@ -21,7 +21,7 @@ requirements:
     run:
         - python {{PY_VER}}*
         - future
-        - pandas >=0.21.0.*
+        - pandas >=0.19.2.*
         - samtools >=1.5.*
         - bowtie2 >=2.3.0.*
         - mash >=1.1.*
