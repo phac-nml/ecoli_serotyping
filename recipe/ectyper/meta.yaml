@@ -15,6 +15,7 @@ requirements:
     build:
         - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
         - future
+        script: python setup.py install
     run:
         - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
         - future
