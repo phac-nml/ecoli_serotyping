@@ -16,10 +16,10 @@ build:
 
 requirements:
     build:
-        - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
+        - python >=2.7,<3|>=3.3,{{PY_VER}}*
         - future
     run:
-        - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
+        - python {{PY_VER}}*
         - future
         - pandas
         - samtools
