@@ -24,7 +24,8 @@ install:
   - python setup.py install
   # test the conda build
   - conda install conda-build
-  - conda build -c bioconda recipe/
+  - conda build -c bioconda recipe/ --python=2.7
+  - conda build -c bioconda recipe/ --python=3.6
 
 script:
   - nosetests
