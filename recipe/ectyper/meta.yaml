@@ -9,8 +9,7 @@ package:
     version: 0.9
 
 source:
-    git_url: https://github.com/phac-nml/ecoli_serotyping.git
-    git_rev: pasteurize
+    path: ../../
 
 requirements:
     build:
