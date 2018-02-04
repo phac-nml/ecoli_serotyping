@@ -19,14 +19,14 @@ requirements:
     run:
         - python >=2.7
         - future
-        - pandas 0.21.0.*
-        - samtools 1.5.*
-        - bowtie2 2.3.0.*
-        - mash 1.1.*
-        - bcftools 1.6.*
-        - biopython 1.69.*
-        - blast 2.2.31 .*
-        - seqtk 1.2.*
+        - pandas
+        - samtools
+        - bowtie2
+        - mash
+        - bcftools
+        - biopython
+        - blast
+        - seqtk
 test:
     requires:
         - future
