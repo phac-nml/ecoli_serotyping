@@ -14,10 +14,10 @@ source:
 
 requirements:
     build:
-        - python {{PY_VER}}*,>=2.7,<3.3|>=3.4
+        - python >=2.7
         - future
     run:
-        - python
+        - python >=2.7
         - future
         - pandas 0.21.0.*
         - samtools 1.5.*
