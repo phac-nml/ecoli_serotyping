@@ -58,7 +58,7 @@ def get_num_hits(target):
     '''
     num_hit = 0
     try:
-        with definitions.tempfile.TemporaryDirectory() as temp_dir:
+        with definitions.TEMPDIR() as temp_dir:
             blast_db = blastFunctions.create_blast_db([target], temp_dir)
             result = blastFunctions.run_blast_for_identification(
                 definitions.ECOLI_MARKERS,
@@ -90,7 +90,7 @@ def get_species(file):
         return None
     species = 'unknown'
     if genomeFunctions.get_valid_format(file) == 'fasta':
-        tmp_file = definitions.tempfile.NamedTemporaryFile().name
+        tmp_file = definitions.NAMEDTEMPFILE().name
         basename = os.path.basename(file).replace(' ', '_')
         with open(tmp_file, 'w') as new_fh:
             header = '> {0}\n'.format(basename)

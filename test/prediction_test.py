@@ -65,7 +65,7 @@ class TestPrediction(unittest.TestCase):
     def helper(self, genome_file):
         args = commandLineOptions.parse_command_line(['-i', 'test'])
         genome_file = genome_file
-        with definitions.tempfile.TemporaryDirectory() as temp_dir:
+        with definitions.TEMPDIR() as temp_dir:
             prediction_file = os.path.join(temp_dir + 'output.csv')
             ectyper.run_prediction([genome_file], args, prediction_file)
             basename, extension = os.path.splitext(prediction_file)

@@ -120,7 +120,7 @@ def get_genome_names_from_files(files, temp_dir):
         n_name = file_path_name.replace(' ', '_')
 
         # create a new file for the updated fasta headers
-        new_file = definitions.tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
+        new_file = definitions.NAMEDTEMPFILE(dir=temp_dir, delete=False).name
 
         # add the new name to the list of files and genomes
         list_of_files.append(new_file)

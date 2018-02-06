@@ -38,3 +38,5 @@ try:
 except:
     # Python2
     from backports import tempfile
+# Alias TemporaryDirectory.
+TEMPDIR = tempfile.TemporaryDirectory

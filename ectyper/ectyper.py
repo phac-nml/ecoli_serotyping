@@ -47,7 +47,7 @@ def run_program():
     LOG.debug(args)
 
     ## Initialize temporary directories for the scope of this program
-    with definitions.tempfile.TemporaryDirectory() as temp_dir:
+    with definitions.TEMPDIR() as temp_dir:
         temp_files = create_tmp_files(temp_dir, output_dir=args.output)
         LOG.debug(temp_files)
 
@@ -189,7 +189,7 @@ def run_prediction(genome_files, args, predictions_file):
     query_file = definitions.SEROTYPE_FILE
     ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
     # create a temp dir for blastdb
-    with definitions.tempfile.TemporaryDirectory() as temp_dir:
+    with definitions.TEMPDIR() as temp_dir:
         # Divide genome files into chunks
         chunk_size = 50
         genome_chunks = [
