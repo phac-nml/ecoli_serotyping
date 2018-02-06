@@ -18,11 +18,11 @@ requirements:
     build:
         - python >=2.7,<3|>=3.3,{{PY_VER}}*
         - future
-        - backports # [py27]
+        - backports.weakref # [py27]
     run:
         - python {{PY_VER}}*
         - future
-        - backports # [py27]
+        - backports.weakref # [py27]
         - pandas >=0.19.2.*
         - samtools >=1.5.*
         - bowtie2 >=2.3.0.*
@@ -33,7 +33,7 @@ requirements:
         - seqtk >=1.2.*
 test:
     requires:
-        - backports # [py27]
+        - backports.weakref # [py27]
         - future
     commands:
         - ectyper -h
