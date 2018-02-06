@@ -37,7 +37,8 @@ try:
     from tempfile import TemporaryDirectory, NamedTemporaryFile
 except:
     # Python2
-    from backports.tempfile import TemporaryDirectory, NamedTemporaryFile
+    from ectyper.tempfile import TemporaryDirectory
+    from tempfile import NamedTeemporaryFile
 # Aliases
 TEMPDIR = TemporaryDirectory
 NAMEDTEMPFILE = NamedTemporaryFile
