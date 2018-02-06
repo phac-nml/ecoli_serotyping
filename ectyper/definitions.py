@@ -38,7 +38,7 @@ try:
 except:
     # Python2
     from ectyper.tempfile import TemporaryDirectory
-    from tempfile import NamedTeemporaryFile
+    from tempfile import NamedTemporaryFile
 # Aliases
 TEMPDIR = TemporaryDirectory
 NAMEDTEMPFILE = NamedTemporaryFile
