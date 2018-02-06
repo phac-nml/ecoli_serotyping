@@ -34,9 +34,10 @@ REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')
 
 try:
     # Python3
-    import tempfile
+    from tempfile import TemporaryDirectory, NamedTemporaryFile
 except:
     # Python2
-    from backports import tempfile
-# Alias TemporaryDirectory.
-TEMPDIR = tempfile.TemporaryDirectory
+    from backports.tempfile import TemporaryDirectory, NamedTemporaryFile
+# Aliases
+TEMPDIR = TemporaryDirectory
+NAMEDTEMPFILE = NamedTemporaryFile
