@@ -10,7 +10,6 @@ import argparse
 import hashlib
 import os
 import sys
-import tempfile
 import unittest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))

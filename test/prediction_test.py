@@ -7,12 +7,11 @@ standard_library.install_aliases()
 import datetime
 import os
 import sys
-import tempfile
 import unittest
 
 import pandas as pd
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from ectyper import commandLineOptions, ectyper, predictionFunctions
+from ectyper import commandLineOptions, ectyper, predictionFunctions, definitions
 
 
 class TestPrediction(unittest.TestCase):
@@ -66,7 +65,7 @@ class TestPrediction(unittest.TestCase):
     def helper(self, genome_file):
         args = commandLineOptions.parse_command_line(['-i', 'test'])
         genome_file = genome_file
-        with tempfile.TemporaryDirectory() as temp_dir:
+        with definitions.tempfile.TemporaryDirectory() as temp_dir:
             prediction_file = os.path.join(temp_dir + 'output.csv')
             ectyper.run_prediction([genome_file], args, prediction_file)
             basename, extension = os.path.splitext(prediction_file)

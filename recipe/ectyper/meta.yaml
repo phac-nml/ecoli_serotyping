@@ -21,6 +21,7 @@ requirements:
     run:
         - python {{PY_VER}}*
         - future
+        - backports.tempfile
         - pandas >=0.19.2.*
         - samtools >=1.5.*
         - bowtie2 >=2.3.0.*
@@ -31,6 +32,7 @@ requirements:
         - seqtk >=1.2.*
 test:
     requires:
+        - backports.tempfile
         - future
     commands:
         - ectyper -h

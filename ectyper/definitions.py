@@ -31,3 +31,10 @@ ECOLI_MARKERS = os.path.join(DATA_DIR, 'ecoli_specific_markers.fasta')
 SAMTOOLS = 'samtools'
 REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
 REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')
+
+try:
+    # Python3
+    import tempfile
+except:
+    # Python2
+    from backports import tempfile
