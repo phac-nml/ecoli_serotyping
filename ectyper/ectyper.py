@@ -198,6 +198,8 @@ def run_prediction(genome_files, args, predictions_file):
         ]
         for index, chunk in enumerate(genome_chunks):
             LOG.info("Start creating blast database #{0}".format(index + 1))
+            LOG.info("Using SEROTYPE_FILE: {0}").format(query_file)
+            LOG.info("Using SEROTYPE_ALLELE_JSON: {0}").format(ectyper_dict_file)
             blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
 
             LOG.info("Start blast alignment on database #{0}".format(index + 1))

@@ -32,13 +32,13 @@ SAMTOOLS = 'samtools'
 REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
 REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')
 
-try:
-    # Python3
-    from tempfile import TemporaryDirectory, NamedTemporaryFile
-except:
+if os.name == 'posix' and sys.version_info[0] < 3:
     # Python2
     from ectyper.tempfile import TemporaryDirectory
     from tempfile import NamedTemporaryFile
+else:
+    # Python3
+    from tempfile import TemporaryDirectory, NamedTemporaryFile
 # Aliases
 TEMPDIR = TemporaryDirectory
 NAMEDTEMPFILE = NamedTemporaryFile
