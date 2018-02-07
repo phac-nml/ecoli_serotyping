@@ -138,6 +138,8 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                     predictions[predicting_antigen+'_prediction'] = serotypes[0]
     return predictions
 
+def
+
 def blast_output_to_df(blast_output_file):
     '''Convert raw blast output file to DataFrame
     Args:
@@ -151,6 +153,9 @@ def blast_output_to_df(blast_output_file):
     output_data = []
     with open(blast_output_file, 'r') as fh:
         for line in fh:
+            # For Python2
+            line = unicode(line)
+            # rest...
             fields = line.strip().split()
             entry = {
                 'qseqid': fields[0],
@@ -205,8 +210,7 @@ def store_df(src_df, dst_file):
             src_df.to_csv(fh, header=False)
     else:
         with open(dst_file, 'w') as fh:
-            label = 'genome'
-            src_df.to_csv(fh, header=True, index_label=label)
+            src_df.to_csv(fh, header=True, index_label='genome')
 
 def report_result(csv_file):
     '''Report the content of dataframe in log
