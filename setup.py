@@ -19,6 +19,7 @@ setup(
     license='MIT',
     scripts=['bin/ectyper'],
     packages=['ectyper'],
+    package_data={'ectyper': ['Data/*']},
     include_package_data=True,
     install_requires=[
           'future',
