@@ -138,8 +138,6 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                     predictions[predicting_antigen+'_prediction'] = serotypes[0]
     return predictions
 
-def
-
 def blast_output_to_df(blast_output_file):
     '''Convert raw blast output file to DataFrame
     Args:
