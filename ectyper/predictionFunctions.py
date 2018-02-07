@@ -22,7 +22,7 @@ LOG = logging.getLogger(__name__)
 
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
     """Make serotype prediction for all genomes based on blast output
-    
+
     Args:
         blast_output_file(str):
             blastn output with outfmt:
@@ -33,7 +33,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
         csv file to store result
     detailed(bool, optional):
         whether to generate detailed output or not
-    
+
     Returns:
         predictions_file
     """
@@ -71,7 +71,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
 
 def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
     """Make serotype prediction for single genomes based on blast output
-    
+
     Args:
         per_genome_df(DataFrame):
             blastn outputs for the given genome
@@ -142,7 +142,7 @@ def blast_output_to_df(blast_output_file):
     '''Convert raw blast output file to DataFrame
     Args:
         blast_output_file(str): location of blast output
-    
+
     Returns:
         DataFrame:
             DataFrame that contains all informations from blast output
@@ -205,11 +205,12 @@ def store_df(src_df, dst_file):
             src_df.to_csv(fh, header=False)
     else:
         with open(dst_file, 'w') as fh:
-            src_df.to_csv(fh, header=True, index_label='genome')
+            label = 'genome'
+            src_df.to_csv(fh, header=True, index_label=label)
 
 def report_result(csv_file):
     '''Report the content of dataframe in log
-    
+
     Args:
         csv_file(str): location of the prediction file
     '''
@@ -221,7 +222,7 @@ def report_result(csv_file):
 
 def add_non_predicted(all_genomes_list, predictions_file):
     '''Add genomes that do not show up in blast result to prediction file
-    
+
     Args:
         all_genome_list(list):
             list of genomes from user input
