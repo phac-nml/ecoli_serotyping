@@ -77,7 +77,7 @@ def get_valid_format(file):
                         LOG.warning("Compressed file is not supported: {}".format(file))
                         return None
                     return fm
-        except FileNotFoundError as err:
+        except IOError as err:
             LOG.warning("{0} is not found".format(file))
             return None
         except UnicodeDecodeError as err:
