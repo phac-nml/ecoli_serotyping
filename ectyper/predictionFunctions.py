@@ -152,7 +152,9 @@ def blast_output_to_df(blast_output_file):
     with open(blast_output_file, 'r') as fh:
         for line in fh:
             # For Python2
-            line = unicode(line)
+            if type(line) is not unicode:
+                LOG.warn('Line {0} is of type {1}.'.format(line, unicode(type(line))))
+                line = unicode(line)
             # rest...
             fields = line.strip().split()
             entry = {
