@@ -72,7 +72,7 @@ class TestPrediction(unittest.TestCase):
             raw_prediction_file = ''.join([basename, '_raw', extension])
             predictionFunctions.add_non_predicted(
                 [os.path.splitext(os.path.basename(genome_file))[0]], prediction_file)
-            return pd.read_csv(prediction_file), pd.read_csv(raw_prediction_file)
+            return pd.read_csv(prediction_file, encoding='utf-8'), pd.read_csv(raw_prediction_file, encoding='utf-8')
 
 
 if __name__ == '__main__':

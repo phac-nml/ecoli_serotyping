@@ -151,11 +151,6 @@ def blast_output_to_df(blast_output_file):
     output_data = []
     with open(blast_output_file, 'r') as fh:
         for line in fh:
-            # For Python2
-            if type(line) is not unicode:
-                LOG.warn('Line {0} is of type {1}.'.format(line, unicode(type(line))))
-                line = unicode(line)
-            # rest...
             fields = line.strip().split()
             entry = {
                 'qseqid': fields[0],
@@ -207,10 +202,10 @@ def store_df(src_df, dst_file):
     """
     if os.path.isfile(dst_file):
         with open(dst_file, 'a') as fh:
-            src_df.to_csv(fh, header=False)
+            src_df.to_csv(fh, header=False, encoding='utf-8')
     else:
         with open(dst_file, 'w') as fh:
-            src_df.to_csv(fh, header=True, index_label='genome')
+            src_df.to_csv(fh, header=True, index_label='genome', encoding='utf-8')
 
 def report_result(csv_file):
     '''Report the content of dataframe in log
@@ -218,7 +213,7 @@ def report_result(csv_file):
     Args:
         csv_file(str): location of the prediction file
     '''
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file, encoding='utf-8')
     if df.empty:
         LOG.info('No prediction was made becuase no alignment was found')
         return
@@ -235,9 +230,9 @@ def add_non_predicted(all_genomes_list, predictions_file):
     Returns:
         str: location of the prediction file
     '''
-    df = pd.read_csv(predictions_file)
+    df = pd.read_csv(predictions_file, encoding='utf-8')
     df = df.merge(pd.DataFrame(all_genomes_list, columns=['genome']), on='genome', how='outer')
     df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
     df.fillna('-', inplace=True)
-    df.to_csv(predictions_file, index=False)
+    df.to_csv(predictions_file, index=False, encoding='utf-8')
     return predictions_file
