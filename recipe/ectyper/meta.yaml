@@ -31,9 +31,11 @@ requirements:
         - biopython >=1.68.*
         - blast >=2.2.31.*
         - seqtk >=1.2.*
+        - subprocess32 # [py27]
 test:
     requires: # note: our travis env is defined in .travis.yml, not here.
         - backports.weakref # [py27]
         - future
+        - subprocess32 # [py27]
     commands:
         - ectyper -h

@@ -19,11 +19,11 @@ install:
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
-  - conda config --add channels bioconda
+  - conda config --add channels bioconda conda-forge
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast pandas seqtk future
   - source activate test-environment
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      conda install backports.weakref;
+      conda install backports.weakref subprocess32;
     else
       continue;
     fi

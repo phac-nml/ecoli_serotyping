@@ -10,6 +10,12 @@ standard_library.install_aliases()
 import logging
 import subprocess
 import timeit
+import os
+
+if os.name == 'posix' and sys.version_info[0] < 3:
+    import subprocess32 as subprocess
+else:
+    import subprocess
 
 LOG = logging.getLogger(__name__)
 
@@ -25,26 +31,16 @@ def run_subprocess(cmd, is_shell=False):
     '''
     start_time = timeit.default_timer()
     LOG.debug("Running: {0}".format(cmd))
-    try:
-        # Python3
-        comp_proc = subprocess.run(
-            cmd,
-            shell=is_shell,
-            universal_newlines=True,
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        stderr = comp_proc.stderr
-        stdout = comp_proc.stdout
-    except:
-        # Python2
-        stdout = subprocess.check_output(
-            cmd,
-            shell=is_shell,
-            universal_newlines=True,
-            stderr=subprocess.STDOUT
-        )
+    comp_proc = subprocess.run(
+        cmd,
+        shell=is_shell,
+        universal_newlines=True,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    stderr = comp_proc.stderr
+    stdout = comp_proc.stdout
     elapsed_time = timeit.default_timer() - start_time
     LOG.debug("Subprocess finished successfully in {:0.3f} sec.".format(elapsed_time))
     return stdout
