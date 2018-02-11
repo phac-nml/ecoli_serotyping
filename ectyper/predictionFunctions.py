@@ -103,8 +103,11 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
     predictors_df = per_genome_df[useful_columns]
     # Check for Python 2.7 Compatibility
 
-    if sys.version_info[0] < 3 and predictors_df.empty:
-        LOG.warn("No useful predictors found")
+    if sys.version_info[0] < 3:
+        if predictors_df.empty:
+            LOG.warn("No useful predictors found")
+        else:
+            print(predictors_df)
     predictors_df = predictors_df.sort_values('score', ascending=False)
     predictions = {}
     for column in predictions_columns:
