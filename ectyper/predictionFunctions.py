@@ -221,10 +221,10 @@ def store_df(src_df, dst_file):
     """
     if os.path.isfile(dst_file):
         with open(dst_file, 'a', encoding='utf-8') as fh:
-            src_df.to_csv(fh, header=False, encoding='utf-8')
+            src_df.to_csv(fh, header=False)
     else:
         with open(dst_file, 'w', encoding='utf-8') as fh:
-            src_df.to_csv(fh, header=True, index_label='genome', encoding='utf-8')
+            src_df.to_csv(fh, header=True, index_label='genome')
 
 def report_result(csv_file):
     '''Report the content of dataframe in log
