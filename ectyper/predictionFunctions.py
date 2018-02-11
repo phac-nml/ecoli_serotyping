@@ -21,10 +21,11 @@ LOG = logging.getLogger(__name__)
 """
 
 def df_object_to_unicode(object_df):
-    types = object_df.apply(lambda x: pd.lib.infer_dtype(x.values))
+    types = object_df.apply(lambda x: pd.api.types.infer_dtype(x.values))
     for col in types[types=='object'].index:
         LOG.warn("Converting {0} object to unicode.".format(col))
         object_df[col] = object_df[col].astype(str)
+    print(object_df)
 
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
     """Make serotype prediction for all genomes based on blast output
