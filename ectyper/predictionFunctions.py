@@ -24,7 +24,7 @@ def df_object_to_unicode(object_df):
     types = object_df.apply(lambda x: pd.api.types.infer_dtype(x.values))
     for col in types[types=='object'].index:
         LOG.warn("Converting {0} object to unicode.".format(col))
-        object_df[col] = object_df[col].astype(str)
+        object_df[col] = object_df[col].astype(unicode)
     print(object_df.dtypes)
 
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
