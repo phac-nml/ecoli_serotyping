@@ -4,7 +4,7 @@ from __future__ import division
 from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
-from builtins import open
+# from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 import json
@@ -75,7 +75,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
     print(output_df.dtypes)
     df_object_to_unicode(output_df)
     print(output_df.dtypes)
-    # store_df(output_df, parsed_output_file)
+    store_df(output_df, parsed_output_file)
     print(predictions_df.dtypes)
     store_df(predictions_df, predictions_file)
     LOG.info("Serotype prediction completed")
