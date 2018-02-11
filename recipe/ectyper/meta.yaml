@@ -23,7 +23,7 @@ requirements:
         - python {{PY_VER}}*
         - future
         - backports.weakref # [py27]
-        - pandas >=0.19.2.*
+        - pandas >=0.21.1.*
         - samtools >=1.5.*
         - bowtie2 >=2.3.0.*
         - mash >=1.1.*
