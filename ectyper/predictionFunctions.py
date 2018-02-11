@@ -25,7 +25,7 @@ def df_object_to_unicode(object_df):
     for col in types[types=='object'].index:
         LOG.warn("Converting {0} object to unicode.".format(col))
         object_df[col] = object_df[col].astype(str)
-    print(object_df)
+    print(object_df.dtypes)
 
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
     """Make serotype prediction for all genomes based on blast output
