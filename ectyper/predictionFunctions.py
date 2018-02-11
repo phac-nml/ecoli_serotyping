@@ -20,6 +20,12 @@ LOG = logging.getLogger(__name__)
     Serotype prediction for E. coli
 """
 
+def df_object_to_unicode(object_df):
+    types = df.apply(lambda x: pd.lib.infer_dtype(x.values))
+    for col in types[types=='object'].index:
+        LOG.warn("Converting {0} object to unicode.".format(col))
+        df[col] = df[col].astype(str)
+
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
     """Make serotype prediction for all genomes based on blast output
 
@@ -65,6 +71,8 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
         predictions_df = pd.DataFrame(columns=predictions_columns)
     predictions_df = predictions_df[predictions_columns]
     # TODO: rm This
+    print(output_df.dtypes)
+    df_object_to_unicode(output_df)
     print(output_df.dtypes)
     store_df(output_df, parsed_output_file)
     print(predictions_df.dtypes)
