@@ -10,6 +10,7 @@ standard_library.install_aliases()
 import json
 import logging
 import os
+import sys
 from collections import defaultdict
 
 import pandas as pd
@@ -69,6 +70,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
             per_genome_df, predictions_columns, gene_pairs, detailed)
     predictions_df = pd.DataFrame(predictions_dict).transpose()
     if predictions_df.empty:
+        LOG.warn("Predictions dataframe is empty")
         predictions_df = pd.DataFrame(columns=predictions_columns)
     predictions_df = predictions_df[predictions_columns]
     # df_object_to_unicode(output_df)
@@ -99,6 +101,9 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
     per_genome_df = per_genome_df.sort_values(['gene', 'serotype', 'score'], ascending=False)
     per_genome_df = per_genome_df[~per_genome_df.duplicated(['gene', 'serotype'])]
     predictors_df = per_genome_df[useful_columns]
+    # Check for Python 2.7 Compatibility
+    if predictors_df.empty:
+        LOG.warn("No useful predictors found")
     predictors_df = predictors_df.sort_values('score', ascending=False)
     predictions = {}
     for column in predictions_columns:
@@ -163,6 +168,12 @@ def blast_output_to_df(blast_output_file):
             #     LOG.warn("Non-unicode line {0} detected in: {1}.".format(line, blast_output_file))
             #     line = unicode(line)
             fields = line.strip().split()
+            # Python 2.7 Compatibility
+            sframe_value = fields[7]
+            if sys.version_info[0] < 3:
+                if sframe_value == '-1':
+                    LOG.warn("Line {0} has sframe value being converted.".format(line))
+                    sframe_value = '1'
             entry = {
                 'qseqid': fields[0],
                 'qlen': fields[1],
@@ -171,7 +182,7 @@ def blast_output_to_df(blast_output_file):
                 'pident': fields[4],
                 'sstart': fields[5],
                 'send': fields[6],
-                'sframe': fields[7],
+                'sframe': sframe_value,
                 'qcovhsp': fields[8]
             }
             output_data.append(entry)
