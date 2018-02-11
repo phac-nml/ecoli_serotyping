@@ -151,9 +151,9 @@ def blast_output_to_df(blast_output_file):
     output_data = []
     with open(blast_output_file, 'r') as fh:
         for line in fh:
-            if type(line) is not unicode:
-                LOG.warn("Non-unicode line detected in: {0}.".format(blast_output_file))
-                line = unicode(line)
+            # if type(line) is not unicode:
+            #     LOG.warn("Non-unicode line detected in: {0}.".format(blast_output_file))
+            #     line = unicode(line)
             fields = line.strip().split()
             entry = {
                 'qseqid': fields[0],
@@ -193,6 +193,10 @@ def ectyper_dict_to_df(ectyper_dict_file):
                     'gene': allele.get('gene'),
                     'desc': allele.get('desc')
                 }
+                for key in new_entry:
+                    if type(key) is str:
+                        LOG.warn("{0} is of type str not unicode.".format(key))
+                        new_entry[key] = unicode(new_entry[key])
                 temp_list.append(new_entry)
         df = pd.DataFrame(temp_list)
         return df
