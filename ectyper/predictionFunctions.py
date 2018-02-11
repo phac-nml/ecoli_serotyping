@@ -206,8 +206,8 @@ def ectyper_dict_to_df(ectyper_dict_file):
                     'desc': allele.get('desc')
                 }
                 for key in new_entry:
-                    if type(key) is not str:
-                        LOG.warn("{0} is of type str not unicode.".format(key))
+                    if type(key) is not unicode:
+                        LOG.warn("{0} is of type {1} not unicode.".format(key, type(key)))
                         new_entry[key] = unicode(new_entry[key])
                 temp_list.append(new_entry)
         df = pd.DataFrame(temp_list)
