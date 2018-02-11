@@ -64,7 +64,10 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
     if predictions_df.empty:
         predictions_df = pd.DataFrame(columns=predictions_columns)
     predictions_df = predictions_df[predictions_columns]
+    # TODO: rm This
+    print(output_df.dtypes)
     store_df(output_df, parsed_output_file)
+    print(predictions_df.dtypes)
     store_df(predictions_df, predictions_file)
     LOG.info("Serotype prediction completed")
     return predictions_file
