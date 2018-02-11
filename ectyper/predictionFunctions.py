@@ -159,9 +159,9 @@ def blast_output_to_df(blast_output_file):
     output_data = []
     with open(blast_output_file, 'rb') as fh:
         for line in fh:
-            if type(line) is not unicode:
-                LOG.warn("Non-unicode line {0} detected in: {1}.".format(line, blast_output_file))
-                line = unicode(line)
+            # if type(line) is not unicode:
+            #     LOG.warn("Non-unicode line {0} detected in: {1}.".format(line, blast_output_file))
+            #     line = unicode(line)
             fields = line.strip().split()
             entry = {
                 'qseqid': fields[0],
