@@ -150,6 +150,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                 if len(serotypes) == 1:
                     predictions[antigen+'_info'] = 'Lone unpaired alignment found'
                     predictions[predicting_antigen+'_prediction'] = serotypes[0]
+    print(prediction)
     return predictions
 
 def blast_output_to_df(blast_output_file):
@@ -173,7 +174,7 @@ def blast_output_to_df(blast_output_file):
             sframe_value = fields[7]
             if sys.version_info[0] < 3:
                 if sframe_value == '-1':
-                    LOG.warn("Line {0} has sframe value being converted.".format(line))
+                    # LOG.warn("Line {0} has sframe value being converted.".format(line))
                     sframe_value = '1'
             entry = {
                 'qseqid': fields[0],
