@@ -161,7 +161,7 @@ def blast_output_to_df(blast_output_file):
     '''
     # Load blast output
     output_data = []
-    with open(blast_output_file, 'r', encoding='utf-8') as fh:
+    with open(blast_output_file, 'rb') as fh:
         for line in fh:
             if type(line) is not unicode:
                 LOG.warn("Non-unicode line detected in: {0}.".format(blast_output_file))
@@ -194,7 +194,7 @@ def blast_output_to_df(blast_output_file):
 
 def ectyper_dict_to_df(ectyper_dict_file):
     # Read ectyper dict
-    with open(ectyper_dict_file, encoding='utf-8') as fh:
+    with open(ectyper_dict_file, 'rb') as fh:
         ectyper_dict = json.load(fh)
         temp_list = []
         for antigen, alleles in ectyper_dict.items():
@@ -220,10 +220,10 @@ def store_df(src_df, dst_file):
         dst_file(str): dst_file to be modified/created
     """
     if os.path.isfile(dst_file):
-        with open(dst_file, 'a', encoding='utf-8') as fh:
+        with open(dst_file, 'a') as fh:
             src_df.to_csv(fh, header=False)
     else:
-        with open(dst_file, 'w', encoding='utf-8') as fh:
+        with open(dst_file, 'w') as fh:
             src_df.to_csv(fh, header=True, index_label='genome')
 
 def report_result(csv_file):
