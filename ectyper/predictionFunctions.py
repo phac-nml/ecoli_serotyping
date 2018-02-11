@@ -150,7 +150,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                 if len(serotypes) == 1:
                     predictions[antigen+'_info'] = 'Lone unpaired alignment found'
                     predictions[predicting_antigen+'_prediction'] = serotypes[0]
-    print(prediction)
+    print(predictions)
     return predictions
 
 def blast_output_to_df(blast_output_file):
