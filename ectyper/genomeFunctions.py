@@ -7,7 +7,6 @@ from __future__ import division
 from __future__ import absolute_import
 #!/usr/bin/env python
 
-from builtins import open
 from builtins import str
 from future import standard_library
 standard_library.install_aliases()
@@ -70,7 +69,7 @@ def get_valid_format(file):
     """
     for fm in ['fastq', 'fasta']:
         try:
-            with open(file, "r") as handle:
+            with open(file, definitions.read_flags) as handle:
                 data = SeqIO.parse(handle, fm)
                 if any(data):
                     if is_tarfile(file):
@@ -127,7 +126,7 @@ def get_genome_names_from_files(files, temp_dir):
         list_of_genomes.append(n_name)
 
         with open(new_file, "w") as outfile:
-            with open(file) as infile:
+            with open(file, definitions.read_flags) as infile:
                 for record in SeqIO.parse(infile, "fasta"):
                     outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
                     outfile.write(str(record.seq) + "\n")

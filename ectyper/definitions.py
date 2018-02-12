@@ -42,3 +42,11 @@ else:
 # Aliases
 TEMPDIR = TemporaryDirectory
 NAMEDTEMPFILE = NamedTemporaryFile
+
+# Python 2.7 Compatibility
+if sys.version_info[0] < 3:
+    # In Python 2.7, Pandas will need binary (not unicode) when using open().
+    read_flags = 'rb'
+else:
+    # Python 3.6 will read as unicode text when using open().
+    read_flags = 'r'
