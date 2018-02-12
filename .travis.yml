@@ -29,8 +29,8 @@ install:
     fi
   - python setup.py install
   # Setup automatic conda uploading.
-  - conda install anaconda-client
-  - conda config --set anaconda_upload yes
+  # - conda install anaconda-client
+  # - conda config --set anaconda_upload yes
   # test the conda build
   - conda install conda-build
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then

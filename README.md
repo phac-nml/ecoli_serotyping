@@ -68,6 +68,9 @@ optional arguments:
 # Building the conda package
 Python 2.7
 (requires a custom version of process32 from the channel kevinkle)
+
 `conda build -c kevinkle -c bioconda recipe/ --python=2.7`
+
 Python 3.6
+
 `conda build -c bioconda recipe/ --python=3.6`
