@@ -122,7 +122,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                 predictions[gene] = True
             if not predictions[predicting_antigen+'_prediction']:
                 serotype = row['serotype']
-                if serotype[0] is not predicting_antigen:
+                if serotype[0] != predicting_antigen:
                     print('continuing because serotype[0] is not predicting_antigen')
                     continue
                 genes_pool[gene].append(serotype)
