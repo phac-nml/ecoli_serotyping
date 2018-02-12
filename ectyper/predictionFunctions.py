@@ -115,25 +115,31 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
     for predicting_antigen in ['O', 'H']:
         genes_pool = defaultdict(list)
         for index, row in predictors_df.iterrows():
+            print(row)
             gene = row['gene']
+            print(gene)
             if detailed:
                 predictions[gene] = True
             if not predictions[predicting_antigen+'_prediction']:
                 serotype = row['serotype']
                 if serotype[0] is not predicting_antigen:
+                    print('continuing because serotype[0] is not predicting_antigen')
                     continue
                 genes_pool[gene].append(serotype)
                 prediction = None
                 if len(serotype) < 1:
+                    print('continuing because len(serotype) < 1')
                     continue
                 antigen = serotype[0].upper()
                 if antigen != predicting_antigen:
+                    print('continuing because antigen != predicting_antigen')
                     continue
                 if gene in gene_pairs.keys():
                     predictions[antigen+'_info'] = 'Only unpaired alignments found'
                     # Pair gene logic
                     potential_pairs = genes_pool.get(gene_pairs.get(gene))
                     if potential_pairs is None:
+                        print('continuing because potential_pairs is None')
                         continue
                     if serotype in potential_pairs:
                         prediction = serotype
@@ -141,6 +147,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                     # Normal logic
                     prediction = serotype
                 if prediction is None:
+                    print('continuing because prediction is None')
                     continue
                 predictions[antigen+'_info'] = 'Alignment found'
                 predictions[predicting_antigen+'_prediction'] = prediction
