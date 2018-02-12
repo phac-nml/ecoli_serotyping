@@ -156,9 +156,8 @@ def blast_output_to_df(blast_output_file):
             fields = line.strip().split()
             # Python 2.7 Compatibility
             sframe_value = fields[7]
-            if sys.version_info[0] < 3:
-                if sframe_value == '-1':
-                    sframe_value = '1'
+            if sys.version_info[0] < 3 and sframe_value == '-1':
+                sframe_value = '1'
             entry = {
                 'qseqid': fields[0],
                 'qlen': fields[1],
