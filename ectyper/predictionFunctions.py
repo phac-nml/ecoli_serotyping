@@ -21,13 +21,6 @@ LOG = logging.getLogger(__name__)
     Serotype prediction for E. coli
 """
 
-def df_object_to_unicode(object_df):
-    types = object_df.apply(lambda x: pd.api.types.infer_dtype(x.values))
-    for col in types[types=='object'].index:
-        LOG.warn("Converting {0} object to unicode.".format(col))
-        object_df[col] = object_df[col].astype(unicode)
-    print(object_df.dtypes)
-
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
     """Make serotype prediction for all genomes based on blast output
 
@@ -70,10 +63,8 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
             per_genome_df, predictions_columns, gene_pairs, detailed)
     predictions_df = pd.DataFrame(predictions_dict).transpose()
     if predictions_df.empty:
-        LOG.warn("Predictions dataframe is empty")
         predictions_df = pd.DataFrame(columns=predictions_columns)
     predictions_df = predictions_df[predictions_columns]
-    # df_object_to_unicode(output_df)
     store_df(output_df, parsed_output_file)
     store_df(predictions_df, predictions_file)
     LOG.info("Serotype prediction completed")
@@ -101,13 +92,6 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
     per_genome_df = per_genome_df.sort_values(['gene', 'serotype', 'score'], ascending=False)
     per_genome_df = per_genome_df[~per_genome_df.duplicated(['gene', 'serotype'])]
     predictors_df = per_genome_df[useful_columns]
-    # Check for Python 2.7 Compatibility
-
-    if sys.version_info[0] < 3:
-        if predictors_df.empty:
-            LOG.warn("No useful predictors found")
-        else:
-            print(predictors_df)
     predictors_df = predictors_df.sort_values('score', ascending=False)
     predictions = {}
     for column in predictions_columns:
@@ -115,31 +99,25 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
     for predicting_antigen in ['O', 'H']:
         genes_pool = defaultdict(list)
         for index, row in predictors_df.iterrows():
-            print(row)
             gene = row['gene']
-            print(gene)
             if detailed:
                 predictions[gene] = True
             if not predictions[predicting_antigen+'_prediction']:
                 serotype = row['serotype']
                 if serotype[0] != predicting_antigen:
-                    print('continuing because serotype[0] is not predicting_antigen')
                     continue
                 genes_pool[gene].append(serotype)
                 prediction = None
                 if len(serotype) < 1:
-                    print('continuing because len(serotype) < 1')
                     continue
                 antigen = serotype[0].upper()
                 if antigen != predicting_antigen:
-                    print('continuing because antigen != predicting_antigen')
                     continue
                 if gene in gene_pairs.keys():
                     predictions[antigen+'_info'] = 'Only unpaired alignments found'
                     # Pair gene logic
                     potential_pairs = genes_pool.get(gene_pairs.get(gene))
                     if potential_pairs is None:
-                        print('continuing because potential_pairs is None')
                         continue
                     if serotype in potential_pairs:
                         prediction = serotype
@@ -147,7 +125,6 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                     # Normal logic
                     prediction = serotype
                 if prediction is None:
-                    print('continuing because prediction is None')
                     continue
                 predictions[antigen+'_info'] = 'Alignment found'
                 predictions[predicting_antigen+'_prediction'] = prediction
@@ -160,7 +137,6 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                 if len(serotypes) == 1:
                     predictions[antigen+'_info'] = 'Lone unpaired alignment found'
                     predictions[predicting_antigen+'_prediction'] = serotypes[0]
-    print(predictions)
     return predictions
 
 def blast_output_to_df(blast_output_file):
@@ -176,15 +152,11 @@ def blast_output_to_df(blast_output_file):
     output_data = []
     with open(blast_output_file, 'rb') as fh:
         for line in fh:
-            # if type(line) is not unicode:
-            #     LOG.warn("Non-unicode line {0} detected in: {1}.".format(line, blast_output_file))
-            #     line = unicode(line)
             fields = line.strip().split()
             # Python 2.7 Compatibility
             sframe_value = fields[7]
             if sys.version_info[0] < 3:
                 if sframe_value == '-1':
-                    # LOG.warn("Line {0} has sframe value being converted.".format(line))
                     sframe_value = '1'
             entry = {
                 'qseqid': fields[0],
@@ -224,10 +196,6 @@ def ectyper_dict_to_df(ectyper_dict_file):
                     'gene': allele.get('gene'),
                     'desc': allele.get('desc')
                 }
-                for key in new_entry:
-                    if type(key) is not unicode:
-                        LOG.warn("{0} is of type {1} not unicode.".format(key, type(key)))
-                        new_entry[key] = unicode(new_entry[key])
                 temp_list.append(new_entry)
         df = pd.DataFrame(temp_list)
         return df
