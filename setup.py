@@ -1,3 +1,8 @@
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 try:
     from setuptools import setup
 except ImportError:
@@ -5,7 +10,7 @@ except ImportError:
 
 setup(
     name='ectyper',
-    version='0.0.8',
+    version='0.0.9',
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Camille La Rose, Chad Laing, Sam Sung',
@@ -14,6 +19,9 @@ setup(
     scripts=['bin/ectyper'],
     packages=['ectyper'],
     package_data={'ectyper': ['Data/*']},
+    install_requires=[
+          'future',
+      ],
     zip_safe=False,
     test_suite='nose.collector'
 )

@@ -1,9 +1,21 @@
 '''
 Utilities
 '''
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 import logging
-import subprocess
 import timeit
+import os
+import sys
+
+if os.name == 'posix' and sys.version_info[0] < 3:
+    import subprocess32 as subprocess
+else:
+    import subprocess
 
 LOG = logging.getLogger(__name__)
 

@@ -1,12 +1,17 @@
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 import datetime
 import os
 import sys
-import tempfile
 import unittest
 
 import pandas as pd
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from ectyper import commandLineOptions, ectyper, predictionFunctions
+from ectyper import commandLineOptions, ectyper, predictionFunctions, definitions
 
 
 class TestPrediction(unittest.TestCase):
@@ -60,14 +65,14 @@ class TestPrediction(unittest.TestCase):
     def helper(self, genome_file):
         args = commandLineOptions.parse_command_line(['-i', 'test'])
         genome_file = genome_file
-        with tempfile.TemporaryDirectory() as temp_dir:
+        with definitions.TEMPDIR() as temp_dir:
             prediction_file = os.path.join(temp_dir + 'output.csv')
             ectyper.run_prediction([genome_file], args, prediction_file)
             basename, extension = os.path.splitext(prediction_file)
             raw_prediction_file = ''.join([basename, '_raw', extension])
             predictionFunctions.add_non_predicted(
                 [os.path.splitext(os.path.basename(genome_file))[0]], prediction_file)
-            return pd.read_csv(prediction_file), pd.read_csv(raw_prediction_file)
+            return pd.read_csv(prediction_file, encoding='utf-8'), pd.read_csv(raw_prediction_file, encoding='utf-8')
 
 
 if __name__ == '__main__':

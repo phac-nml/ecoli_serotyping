@@ -1,6 +1,7 @@
 language: python
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
+  - "2.7"
   - "3.6"
 install:
   - sudo apt-get update
@@ -18,10 +19,27 @@ install:
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
-  - conda config --add channels bioconda
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast pandas seqtk
+  - conda config --add channels bioconda --add channels conda-forge
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION samtools bowtie2 mash bcftools biopython nose blast pandas seqtk future
   - source activate test-environment
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      conda install backports.weakref && conda install -c kevinkle subprocess32;
+    else
+      continue;
+    fi
   - python setup.py install
-
+  # Setup automatic conda uploading.
+  # - conda install anaconda-client
+  # - conda config --set anaconda_upload yes
+  # test the conda build
+  - conda install conda-build
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      conda build -c kevinkle -c bioconda recipe/ --python=2.7;
+    else
+      conda build -c bioconda recipe/ --python=3.6;
+    fi
+  -
 script:
   - nosetests
+notifications:
+  email: false

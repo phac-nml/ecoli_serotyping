@@ -2,10 +2,17 @@
 """
     Predictive serotyping for _E. coli_.
 """
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
+from builtins import str
+from future import standard_library
+standard_library.install_aliases()
 import logging
 import os
 import sys
-import tempfile
 import datetime
 from urllib.request import urlretrieve
 
@@ -40,7 +47,7 @@ def run_program():
     LOG.debug(args)
 
     ## Initialize temporary directories for the scope of this program
-    with tempfile.TemporaryDirectory() as temp_dir:
+    with definitions.TEMPDIR() as temp_dir:
         temp_files = create_tmp_files(temp_dir, output_dir=args.output)
         LOG.debug(temp_files)
 
@@ -167,7 +174,7 @@ def create_tmp_files(temp_dir, output_dir=None):
 
 def run_prediction(genome_files, args, predictions_file):
     '''Core prediction functionality
-    
+
     Args:
         genome_files:
             list of genome files
@@ -175,14 +182,14 @@ def run_prediction(genome_files, args, predictions_file):
             commandline arguments
         predictions_file:
             filename of prediction output
-    
+
     Returns:
         predictions_file with prediction written in it
     '''
     query_file = definitions.SEROTYPE_FILE
     ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
     # create a temp dir for blastdb
-    with tempfile.TemporaryDirectory() as temp_dir:
+    with definitions.TEMPDIR() as temp_dir:
         # Divide genome files into chunks
         chunk_size = 50
         genome_chunks = [
@@ -191,6 +198,8 @@ def run_prediction(genome_files, args, predictions_file):
         ]
         for index, chunk in enumerate(genome_chunks):
             LOG.info("Start creating blast database #{0}".format(index + 1))
+            LOG.info("Using SEROTYPE_FILE: {0}".format(query_file))
+            LOG.info("Using SEROTYPE_ALLELE_JSON: {0}".format(ectyper_dict_file))
             blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
 
             LOG.info("Start blast alignment on database #{0}".format(index + 1))
@@ -204,10 +213,10 @@ def run_prediction(genome_files, args, predictions_file):
 
 def get_raw_files(raw_files):
     """Take all the raw files, and filter not fasta / fastq
-    
+
     Args:
         raw_files(str): list of files from user input
-    
+
     Returns:
         A dictitionary collection of fasta and fastq files
         example:
@@ -235,7 +244,7 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
     Assemble fastq files to fasta files,
     then filter all files by reference method if verify is enabled,
     if identified as non-ecoli, identify species by mash method if species is enabled.
-    
+
     Args:
         raw_dict{fasta:list_of_files, fastq:list_of_files}:
             dictionary collection of fasta and fastq files
@@ -266,7 +275,7 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, s
     Assemble fastq file to fasta file,
     then filter the file by reference method if verify is enabled,
     if identified as non-ecoli, identify species by mash method if species is enabled.
-    
+
     Args:
         genome_file: input genome file
         genome_format(str): fasta or fastq

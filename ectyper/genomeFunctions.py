@@ -1,12 +1,18 @@
 '''
 Genome Utilities
 '''
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 #!/usr/bin/env python
 
+from builtins import str
+from future import standard_library
+standard_library.install_aliases()
 import logging
 import os
 import re
-import tempfile
 from tarfile import is_tarfile
 
 from Bio import SeqIO
@@ -63,14 +69,14 @@ def get_valid_format(file):
     """
     for fm in ['fastq', 'fasta']:
         try:
-            with open(file, "r") as handle:
+            with open(file, definitions.read_flags) as handle:
                 data = SeqIO.parse(handle, fm)
                 if any(data):
                     if is_tarfile(file):
                         LOG.warning("Compressed file is not supported: {}".format(file))
                         return None
                     return fm
-        except FileNotFoundError as err:
+        except IOError as err:
             LOG.warning("{0} is not found".format(file))
             return None
         except UnicodeDecodeError as err:
@@ -113,14 +119,14 @@ def get_genome_names_from_files(files, temp_dir):
         n_name = file_path_name.replace(' ', '_')
 
         # create a new file for the updated fasta headers
-        new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
+        new_file = definitions.NAMEDTEMPFILE(dir=temp_dir, delete=False).name
 
         # add the new name to the list of files and genomes
         list_of_files.append(new_file)
         list_of_genomes.append(n_name)
 
         with open(new_file, "w") as outfile:
-            with open(file) as infile:
+            with open(file, definitions.read_flags) as infile:
                 for record in SeqIO.parse(infile, "fasta"):
                     outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
                     outfile.write(str(record.seq) + "\n")
