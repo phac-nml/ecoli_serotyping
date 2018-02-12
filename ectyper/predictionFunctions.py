@@ -17,6 +17,14 @@ import pandas as pd
 
 LOG = logging.getLogger(__name__)
 
+# Python 2.7 Compatibility
+if sys.version_info[0] < 3:
+    # In Python 2.7, Pandas will need binary (not unicode) when using open().
+    read_flags = 'rb'
+else:
+    # Python 3.6 will read as unicode text when using open().
+    read_flags = 'r'
+
 """
     Serotype prediction for E. coli
 """
@@ -150,7 +158,7 @@ def blast_output_to_df(blast_output_file):
     '''
     # Load blast output
     output_data = []
-    with open(blast_output_file, 'rb') as fh:
+    with open(blast_output_file, read_flags) as fh:
         for line in fh:
             fields = line.strip().split()
             # Python 2.7 Compatibility
@@ -185,7 +193,7 @@ def blast_output_to_df(blast_output_file):
 
 def ectyper_dict_to_df(ectyper_dict_file):
     # Read ectyper dict
-    with open(ectyper_dict_file, 'rb') as fh:
+    with open(ectyper_dict_file, read_flags) as fh:
         ectyper_dict = json.load(fh)
         temp_list = []
         for antigen, alleles in ectyper_dict.items():
