@@ -13,6 +13,8 @@ from Bio import SeqIO
 from ectyper import definitions, subprocess_util
 from urllib.request import urlretrieve
 
+from ectyper.ectyper import filter_file_by_species, LOG
+
 LOG = logging.getLogger(__name__)
 
 
@@ -237,7 +239,7 @@ def get_raw_files(raw_files):
         raw_files(str): list of files from user input
 
     Returns:
-        A dictitionary collection of fasta and fastq files
+        A dictionary collection of fasta and fastq files
         example:
         {'raw_fasta_files':[],
          'raw_fastq_files':[]}
@@ -284,3 +286,35 @@ def download_refseq():
         LOG.info("No refseq found. Downloading reference file for species identification...")
         urlretrieve(refseq_url, definitions.REFSEQ_SKETCH, reporthook)
         LOG.info("Download complete.")
+
+
+def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
+    """filter ecoli, identify species, assemble fastq
+    Assemble fastq files to fasta files,
+    then filter all files by reference method if verify is enabled,
+    if identified as non-ecoli, identify species by mash method if species is enabled.
+
+    Args:
+        raw_dict{fasta:list_of_files, fastq:list_of_files}:
+            dictionary collection of fasta and fastq files
+        temp_files: temporary directory
+        verify(bool):
+            whether to perform ecoli verification
+        species(bool):
+            whether to perform species identification for non-ecoli genome
+    Returns:
+        List of filtered and assembled genome files in fasta format
+    """
+    final_files = []
+    for f in raw_dict.keys():
+        temp_dir = temp_files['fasta_temp_dir'] if f == "fasta" else temp_files['assemble_temp_dir']
+
+        for ffile in raw_dict[f]:
+            filtered_file = filter_file_by_species(
+                ffile, f, temp_dir, verify=verify, species=species)
+            if filtered_file is not None and \
+            genomeFunctions.get_valid_format(filtered_file) is not None:
+                final_files.append(filtered_file)
+
+    LOG.info('{} final fasta files'.format(len(final_files)))
+    return final_files
