@@ -137,7 +137,8 @@ def create_tmp_files(temp_dir, output_dir=None):
 
 
 def run_prediction(genome_files, args, predictions_file):
-    '''Core prediction functionality
+    '''
+    Core prediction functionality
     
     Args:
         genome_files:
@@ -150,15 +151,17 @@ def run_prediction(genome_files, args, predictions_file):
     Returns:
         predictions_file with predictions written to it
     '''
+
     query_file = definitions.SEROTYPE_FILE
     ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
+
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Divide genome files into chunks
-        chunk_size = 50
+        # Divide genome files into groups and create databases for each set
+        group_size = definitions.GENOME_GROUP_SIZE
         genome_chunks = [
-            genome_files[i:i + chunk_size]
-            for i in range(0, len(genome_files), chunk_size)
+            genome_files[i:i + group_size]
+            for i in range(0, len(genome_files), group_size)
         ]
         for index, chunk in enumerate(genome_chunks):
             LOG.info("Start creating blast database #{0}".format(index + 1))
