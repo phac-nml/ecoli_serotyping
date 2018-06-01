@@ -6,10 +6,12 @@ Genome Utilities
 
 import logging
 import os
+import sys
 import tempfile
 from tarfile import is_tarfile
 from Bio import SeqIO
 from ectyper import definitions, subprocess_util
+from urllib.request import urlretrieve
 
 LOG = logging.getLogger(__name__)
 
@@ -254,3 +256,31 @@ def get_raw_files(raw_files):
     LOG.debug('raw fastq files: {}'.format(fastq_files))
 
     return({'fasta':fasta_files, 'fastq':fastq_files})
+
+
+def download_refseq():
+    '''Download refseq file with progress bar
+    '''
+
+    def reporthook(blocknum, blocksize, totalsize):
+        '''
+        https://stackoverflow.com/questions/15644964/python-progress-bar-and-downloads
+        '''
+        readsofar = blocknum * blocksize
+        if totalsize > 0:
+            s = "\r {:5.1%} {:{}d} / {:d}".format(
+                readsofar/totalsize, readsofar,
+                len(str(totalsize)),
+                totalsize
+            )
+            sys.stderr.write(s)
+            if readsofar >= totalsize: # near the end
+                sys.stderr.write("\n")
+        else: # total size is unknown
+            sys.stderr.write("read {}\n".format(readsofar))
+
+    if not os.path.isfile(definitions.REFSEQ_SKETCH):
+        refseq_url = 'https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh'
+        LOG.info("No refseq found. Downloading reference file for species identification...")
+        urlretrieve(refseq_url, definitions.REFSEQ_SKETCH, reporthook)
+        LOG.info("Download complete.")

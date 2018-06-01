@@ -4,10 +4,8 @@
 """
 import logging
 import os
-import sys
 import tempfile
 import datetime
-from urllib.request import urlretrieve
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
                      genomeFunctions, loggingFunctions, predictionFunctions,
@@ -45,7 +43,7 @@ def run_program():
 
         # Download refseq file if speicies identification is enabled
         if args.species:
-            download_refseq()
+            genomeFunctions.download_refseq()
 
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
@@ -84,35 +82,6 @@ def run_program():
         # Store most recent result in working directory
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
-
-
-def download_refseq():
-    '''Download refseq file with progress bar
-    '''
-
-
-    def reporthook(blocknum, blocksize, totalsize):
-        '''
-        https://stackoverflow.com/questions/15644964/python-progress-bar-and-downloads
-        '''
-        readsofar = blocknum * blocksize
-        if totalsize > 0:
-            s = "\r {:5.1%} {:{}d} / {:d}".format(
-                readsofar/totalsize, readsofar,
-                len(str(totalsize)),
-                totalsize
-            )
-            sys.stderr.write(s)
-            if readsofar >= totalsize: # near the end
-                sys.stderr.write("\n")
-        else: # total size is unknown
-            sys.stderr.write("read {}\n".format(readsofar))
-
-    if not os.path.isfile(definitions.REFSEQ_SKETCH):
-        refseq_url = 'https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh'
-        LOG.info("No refseq found. Downloading reference file for species identification...")
-        urlretrieve(refseq_url, definitions.REFSEQ_SKETCH, reporthook)
-        LOG.info("Download complete.")
 
 
 def create_tmp_files(temp_dir, output_dir=None):
@@ -233,6 +202,7 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
 
     LOG.info('{} final fasta files'.format(len(final_files)))
     return final_files
+
 
 def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):
     """filter ecoli, identify species, assemble fastq
