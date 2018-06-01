@@ -52,7 +52,7 @@ def run_program():
         LOG.debug(raw_genome_files)
 
         LOG.info("Removing invalid file types")
-        raw_files_dict = get_raw_files(raw_genome_files)
+        raw_files_dict = genomeFunctions.get_raw_files(raw_genome_files)
         LOG.debug(raw_files_dict)
 
         # Assemble fastq and verify _E. coli_ genomes
@@ -201,34 +201,6 @@ def run_prediction(genome_files, args, predictions_file):
                 blast_output_file, ectyper_dict_file, predictions_file,
                 args.detailed)
         return predictions_file
-
-
-def get_raw_files(raw_files):
-    """Take all the raw files, and filter not fasta / fastq
-    
-    Args:
-        raw_files(str): list of files from user input
-    
-    Returns:
-        A dictitionary collection of fasta and fastq files
-        example:
-        {'raw_fasta_files':[],
-         'raw_fastq_files':[]}
-    """
-    fasta_files = []
-    fastq_files = []
-
-    for file in raw_files:
-        file_format = genomeFunctions.get_valid_format(file)
-        if file_format == 'fasta':
-            fasta_files.append(file)
-        elif file_format == 'fastq':
-            fastq_files.append(file)
-
-    LOG.debug('raw fasta files: {}'.format(fasta_files))
-    LOG.debug('raw fastq files: {}'.format(fastq_files))
-
-    return({'fasta':fasta_files, 'fastq':fastq_files})
 
 
 def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):

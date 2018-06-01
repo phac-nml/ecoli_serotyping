@@ -8,7 +8,6 @@ import logging
 import os
 import tempfile
 from tarfile import is_tarfile
-
 from Bio import SeqIO
 from ectyper import definitions, subprocess_util
 
@@ -227,3 +226,31 @@ def split_mapped_output(file):
     with open(predict_file, "w") as output_handle:
         SeqIO.write(predict_seqs, output_handle, "fasta")
     return identif_file, predict_file
+
+
+def get_raw_files(raw_files):
+    """Take all the raw files, and filter not fasta / fastq
+
+    Args:
+        raw_files(str): list of files from user input
+
+    Returns:
+        A dictitionary collection of fasta and fastq files
+        example:
+        {'raw_fasta_files':[],
+         'raw_fastq_files':[]}
+    """
+    fasta_files = []
+    fastq_files = []
+
+    for file in raw_files:
+        file_format = get_valid_format(file)
+        if file_format == 'fasta':
+            fasta_files.append(file)
+        elif file_format == 'fastq':
+            fastq_files.append(file)
+
+    LOG.debug('raw fasta files: {}'.format(fasta_files))
+    LOG.debug('raw fastq files: {}'.format(fastq_files))
+
+    return({'fasta':fasta_files, 'fastq':fastq_files})
