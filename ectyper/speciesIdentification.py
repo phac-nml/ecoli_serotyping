@@ -41,6 +41,7 @@ def is_ecoli_genome(iden_file, genome_file=None, mash=False):
     LOG.debug("{0} is a valid E. coli genome file".format(os.path.basename(iden_file)))
     return True
 
+
 def get_num_hits(target):
     '''
     Return number of matching hits when query the reference genome
@@ -69,6 +70,7 @@ def get_num_hits(target):
     except SystemExit:
         pass
     return num_hit
+
 
 def get_species(file):
     '''

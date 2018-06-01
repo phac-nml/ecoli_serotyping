@@ -8,8 +8,7 @@ import tempfile
 import datetime
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
-                     genomeFunctions, loggingFunctions, predictionFunctions,
-                     speciesIdentification)
+                     genomeFunctions, loggingFunctions, predictionFunctions)
 from ectyper.genomeFunctions import filter_for_ecoli_files
 
 LOG_FILE = loggingFunctions.initialize_logging()
@@ -149,7 +148,7 @@ def run_prediction(genome_files, args, predictions_file):
             filename of prediction output
     
     Returns:
-        predictions_file with prediction written in it
+        predictions_file with predictions written to it
     '''
     query_file = definitions.SEROTYPE_FILE
     ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
@@ -174,43 +173,3 @@ def run_prediction(genome_files, args, predictions_file):
         return predictions_file
 
 
-def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):
-    """filter ecoli, identify species, assemble fastq
-    Assemble fastq file to fasta file,
-    then filter the file by reference method if verify is enabled,
-    if identified as non-ecoli, identify species by mash method if species is enabled.
-    
-    Args:
-        genome_file: input genome file
-        genome_format(str): fasta or fastq
-        temp_dir: temporary directory
-        verify(bool):
-            whether to perform ecoli verification
-        species(bool):
-            whether to perform species identification for non-ecoli genome
-    Returns:
-        The filtered and assembled genome files in fasta format
-    """
-    combined_file = definitions.COMBINED
-    filtered_file = None
-    if genome_format == 'fastq':
-        iden_file, pred_file = \
-            genomeFunctions.assemble_reads(genome_file, combined_file, temp_dir)
-        # If no alignment resut, the file is definitely not E.Coli
-        if genomeFunctions.get_valid_format(iden_file) is None:
-            LOG.warning(
-                "{} is filtered out because no identification alignment found".format(genome_file))
-            return filtered_file
-        if not (verify or species) or speciesIdentification.is_ecoli_genome(
-                iden_file, genome_file, mash=species):
-            # final check before adding the alignment for prediction
-            if genomeFunctions.get_valid_format(iden_file) != 'fasta':
-                LOG.warning(
-                    "{0} is filtered out because no prediction alignment found".format(genome_file))
-                return filtered_file
-            filtered_file = pred_file
-    if genome_format == 'fasta':
-        if not (verify or species) \
-        or speciesIdentification.is_ecoli_genome(genome_file, mash=species):
-            filtered_file = genome_file
-    return filtered_file
