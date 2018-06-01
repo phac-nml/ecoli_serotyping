@@ -6,7 +6,6 @@ Genome Utilities
 
 import logging
 import os
-import re
 import tempfile
 from tarfile import is_tarfile
 
@@ -87,10 +86,8 @@ def get_valid_format(file):
 def get_genome_names_from_files(files, temp_dir):
     """
     For each file:
-    Takes the first header from a fasta file and sends it to the get_genome_name
-    function. Returns the name of the genome. If the name of the file is to be
-    used as the genome name, creates a temporary file using >lcl|filename as the
-    first part of the header.
+    Uses the name of the file for the genome name, creates a temporary file using
+    >lcl|filename as the name in the fasta header.
 
     Args:
         files (list): The list of files to get the genome names for
@@ -103,11 +100,6 @@ def get_genome_names_from_files(files, temp_dir):
     list_of_genomes = []
     list_of_files = []
     for file in files:
-        # Always to use the filename as the genome name.
-        # This means we also need to create a new file adding
-        # the filename to each of the headers, so that downstream applications
-        # (eg. BLAST) can be used with the filename as genome name.
-
         # get only the name of the file for use in the fasta header
         file_base_name = os.path.basename(file)
         file_path_name = os.path.splitext(file_base_name)[0]
@@ -128,50 +120,6 @@ def get_genome_names_from_files(files, temp_dir):
 
     return list_of_genomes, list_of_files
 
-
-def get_genome_name(header):
-    """
-    Getting the name of the genome by hierarchy. This requires reading the first
-    fasta header from the file. It also assumes a single genome per file.
-
-    Args:
-        header (str): The header containing the record.
-
-    Returns:
-        genomeName (str): Name of the genome contained in the header.
-    """
-
-    re_patterns = (
-        # Look for lcl followed by the possible genome name
-        re.compile('(lcl\|[\w\-\.]+)'),
-
-        # Look for contigs in the wwwwdddddd format
-        re.compile('([A-Za-z]{4}\d{2})\d{6}'),
-
-        # Look for a possible genome name at the beginning of the record ID
-        re.compile('^(\w{8}\.\d)'),
-
-        # Look for ref, gb, emb or dbj followed by the possible genome name
-        re.compile('(ref\|\w{2}_\w{6}|gb\|\w{8}|emb\|\w{8}|dbj\|\w{8})'),
-
-        # Look for gi followed by the possible genome name
-        re.compile('(gi\|\d{8})'),
-
-
-        # Look for name followed by space, then description
-        re.compile('^([\w\-\.]+)\s+[\w\-\.]+')
-    )
-
-    # if nothing matches, use the full header as genome_name
-    genome_name = header
-    for rep in re_patterns:
-        m = rep.search(header)
-
-        if m:
-            genome_name = m.group(1)
-            break
-
-    return str(genome_name)
 
 def assemble_reads(reads, reference, temp_dir):
     '''
