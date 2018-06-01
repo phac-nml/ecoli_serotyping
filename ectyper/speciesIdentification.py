@@ -10,32 +10,35 @@ LOG = logging.getLogger(__name__)
 
 def is_ecoli_genome(iden_file, genome_file=None, mash=False):
     '''
-    Return True if file is classified as ecoli by ecoli markers, otherwise False
+    Return True if file is classified as E. coli by the markers of
+    https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3
+    otherwise return False
 
     Args:
         iden_file (str): path to valid fasta genome file
         genome_file (str): Optional path to valid fastq file for reads
         mash (bool): Optional input to decide whether to use mash if genome is
-                     identified as non-ecoli
+                     identified as non-E. coli
 
     Returns:
-        bool: True if iden_file is ecoli, False otherwise
+        bool: True if iden_file is E. coli, False otherwise
     '''
     if genome_file is None:
         genome_file = iden_file
     num_hit = get_num_hits(iden_file)
     if num_hit < 3:
         LOG.info(
-            "{0} is identified as "
-            "an invalid e.coli genome file "
-            "by marker approach".format(os.path.basename(iden_file)))
+            "{0} is identified as an invalid E. coli genome"
+            "by the marker approach of "
+            "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
+            "where at least three E. coli specific markers must be present".format(os.path.basename(iden_file)))
         if mash:
             species = get_species(genome_file)
             LOG.info(
                 "{0} is identified as genome of "
-                "{1} by mash approach".format(os.path.basename(iden_file), species))
+                "{1} by the mash approach".format(os.path.basename(iden_file), species))
         return False
-    LOG.debug("{0} is a valid e.coli genome file".format(os.path.basename(iden_file)))
+    LOG.debug("{0} is a valid E. coli genome file".format(os.path.basename(iden_file)))
     return True
 
 def get_num_hits(target):

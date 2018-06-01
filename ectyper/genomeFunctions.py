@@ -1,7 +1,8 @@
+#!/usr/bin/env python
+
 '''
 Genome Utilities
 '''
-#!/usr/bin/env python
 
 import logging
 import os
@@ -93,7 +94,7 @@ def get_genome_names_from_files(files, temp_dir):
 
     Args:
         files (list): The list of files to get the genome names for
-        tempdir (str): A tempdir where the copied files will be stored
+        temp_dir (str): A tempdir where the copied files will be stored
 
     Returns:
         tuple(list(str), list(str)): first list is genome names, second list is file names

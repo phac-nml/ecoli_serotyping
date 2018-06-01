@@ -16,10 +16,9 @@ from ectyper import (blastFunctions, commandLineOptions, definitions,
 LOG_FILE = loggingFunctions.initialize_logging()
 LOG = logging.getLogger(__name__)
 
-
 def run_program():
     """
-    Wrapper for both the serotyping and virulence finder
+    Wrapper for serotyping
     The program needs to do the following
     (1) Filter genome files based on format
     (2) Filter genome files based on species
@@ -39,7 +38,7 @@ def run_program():
             Log file is: {1}'.format(args, LOG_FILE))
     LOG.debug(args)
 
-    ## Initialize temporary directories for the scope of this program
+    # Initialize temporary directories for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_files = create_tmp_files(temp_dir, output_dir=args.output)
         LOG.debug(temp_files)
@@ -56,7 +55,7 @@ def run_program():
         raw_files_dict = get_raw_files(raw_genome_files)
         LOG.debug(raw_files_dict)
 
-        # Assembling fastq + verify ecoli genome
+        # Assemble fastq and verify _E. coli_ genomes
         LOG.info("Preparing genome files for blast alignment")
         final_fasta_files = filter_for_ecoli_files(
             raw_files_dict, temp_files, verify=args.verify, species=args.species
@@ -80,11 +79,12 @@ def run_program():
         # Add empty rows for genomes without blast result
         predictions_file = predictionFunctions.add_non_predicted(
             all_genomes_list, predictions_file)
-        LOG.info('Outputs stored in {0}'.format(temp_files['output_dir']))
+        LOG.info('Output saved to {0}'.format(temp_files['output_dir']))
 
         # Store most recent result in working directory
         LOG.info('\nReporting result...')
         predictionFunctions.report_result(predictions_file)
+
 
 def download_refseq():
     '''Download refseq file with progress bar
@@ -113,6 +113,7 @@ def download_refseq():
         LOG.info("No refseq found. Downloading reference file for species identification...")
         urlretrieve(refseq_url, definitions.REFSEQ_SKETCH, reporthook)
         LOG.info("Download complete.")
+
 
 def create_tmp_files(temp_dir, output_dir=None):
     """Create a dictionary of temporary files used by ectyper
@@ -239,7 +240,7 @@ def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
     Args:
         raw_dict{fasta:list_of_files, fastq:list_of_files}:
             dictionary collection of fasta and fastq files
-        temp_file: temporary directory
+        temp_files: temporary directory
         verify(bool):
             whether to perform ecoli verification
         species(bool):
@@ -270,7 +271,7 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, s
     Args:
         genome_file: input genome file
         genome_format(str): fasta or fastq
-        temp_file: temporary directory
+        temp_dir: temporary directory
         verify(bool):
             whether to perform ecoli verification
         species(bool):
