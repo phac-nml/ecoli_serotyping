@@ -24,7 +24,7 @@ def run_subprocess(cmd, is_shell=False):
         cmd,
         shell=is_shell,
         universal_newlines=True,
-        check=True,
+        check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
@@ -34,7 +34,9 @@ def run_subprocess(cmd, is_shell=False):
         LOG.debug("Subprocess {} finished successfully in {:0.3f} sec.".format(cmd, elapsed_time))
         return comp_proc.stdout
     else:
+        LOG.error("Error in subprocess. The following command failed: {}".format(cmd))
         LOG.debug("Subprocess {} failed with error: {}".format(cmd, comp_proc.stderr))
+        LOG.critical("ectyper has stopped")
         exit(1)
 
 
