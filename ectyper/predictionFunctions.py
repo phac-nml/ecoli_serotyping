@@ -131,6 +131,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed, ):
                     predictions[predicting_antigen+'_prediction'] = serotypes[0]
     return predictions
 
+
 def blast_output_to_df(blast_output_file):
     '''Convert raw blast output file to DataFrame
     Args:
@@ -169,6 +170,7 @@ def blast_output_to_df(blast_output_file):
             ])
     df['score'] = df['pident'].astype(float)*df['qcovhsp'].astype(float)/10000
     return df
+
 
 def ectyper_dict_to_df(ectyper_dict_file):
     # Read ectyper dict

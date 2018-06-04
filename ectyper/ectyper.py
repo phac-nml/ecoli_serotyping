@@ -8,8 +8,8 @@ import tempfile
 import datetime
 
 from ectyper import (blastFunctions, commandLineOptions, definitions,
-                     genomeFunctions, loggingFunctions, predictionFunctions)
-from ectyper.genomeFunctions import filter_for_ecoli_files
+                     genomeFunctions, loggingFunctions, predictionFunctions, subprocess_util)
+from Bio.Blast.Applications import NcbiblastnCommandline
 
 LOG_FILE = loggingFunctions.initialize_logging()
 LOG = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ def run_program():
 
         # Assemble fastq and verify _E. coli_ genomes
         LOG.info("Preparing genome files for blast alignment")
-        final_fasta_files = filter_for_ecoli_files(
+        final_fasta_files = genomeFunctions.filter_for_ecoli_files(
             raw_files_dict, temp_files, verify=args.verify, species=args.species
         )
         LOG.debug(final_fasta_files)
@@ -152,12 +152,10 @@ def run_prediction(genome_files, args, predictions_file):
         predictions_file with predictions written to it
     '''
 
-    query_file = definitions.SEROTYPE_FILE
-    ectyper_dict_file = definitions.SEROTYPE_ALLELE_JSON
-
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into groups and create databases for each set
+        predictions_output_file = None
         group_size = definitions.GENOME_GROUP_SIZE
         genome_chunks = [
             genome_files[i:i + group_size]
@@ -167,12 +165,23 @@ def run_prediction(genome_files, args, predictions_file):
             LOG.info("Start creating blast database #{0}".format(index + 1))
             blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
 
-            LOG.info("Start blast alignment on database #{0}".format(index + 1))
-            blast_output_file = blastFunctions.run_blast(query_file, blast_db, args)
+            LOG.info("Starting blast alignment on database #{0}".format(index + 1))
+            blast_output_file = blast_db + ".output"
+            bcline = NcbiblastnCommandline(query=definitions.SEROTYPE_FILE,
+                                  db=blast_db,
+                                  out=blast_output_file,
+                                  perc_identity=args.percentIdentity,
+                                  qcov_hsp_perc=args.percentLength,
+                                  max_hsps=1,
+                                  outfmt='"6 qseqid qlen sseqid length pident sstart send sframe qcovhsp"',
+                                  word_size=11
+                                  )
+            subprocess_util.run_subprocess(str(bcline))
+
             LOG.info("Start serotype prediction for database #{0}".format(index + 1))
-            predictions_file = predictionFunctions.predict_serotype(
-                blast_output_file, ectyper_dict_file, predictions_file,
+            predictions_output_file = predictionFunctions.predict_serotype(
+                blast_output_file, definitions.SEROTYPE_ALLELE_JSON, predictions_file,
                 args.detailed)
-        return predictions_file
+        return predictions_output_file
 
 

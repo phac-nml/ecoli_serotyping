@@ -3,10 +3,12 @@ import multiprocessing
 import os
 import tempfile
 from Bio import SeqIO
+from Bio.Blast.Applications import NcbiblastnCommandline
 
 from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
+
 
 def is_ecoli_genome(iden_file, genome_file=None, mash=False):
     '''
@@ -31,7 +33,7 @@ def is_ecoli_genome(iden_file, genome_file=None, mash=False):
             "{0} is identified as an invalid E. coli genome"
             "by the marker approach of "
             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
-            "where at least three E. coli specific markers must be present".format(os.path.basename(iden_file)))
+            " where at least three E. coli specific markers must be present".format(os.path.basename(iden_file)))
         if mash:
             species = get_species(genome_file)
             LOG.info(
@@ -56,12 +58,21 @@ def get_num_hits(target):
     num_hit = 0
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
+
             blast_db = blastFunctions.create_blast_db([target], temp_dir)
-            result = blastFunctions.run_blast_for_identification(
-                definitions.ECOLI_MARKERS,
-                blast_db
-            )
-            with open(result) as handler:
+            result_file = blast_db + ".output"
+            bcline = NcbiblastnCommandline(query=definitions.ECOLI_MARKERS,
+                                  db=blast_db,
+                                  out=result_file,
+                                  perc_identity=90,
+                                  qcov_hsp_perc=90,
+                                  max_target_seqs=1,
+                                  outfmt='"6 qseqid qlen sseqid length pident sstart send sframe"',
+                                  word_size=11
+                                  )
+            subprocess_util.run_subprocess(str(bcline))
+
+            with open(result_file) as handler:
                 LOG.debug("get_num_hits() output:")
                 for line in handler:
                     LOG.debug(line)
