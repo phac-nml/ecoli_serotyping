@@ -86,7 +86,8 @@ def run_program():
 
 
 def create_tmp_files(temp_dir, output_dir=None):
-    """Create a dictionary of temporary files used by ectyper
+    """
+    Create a dictionary of temporary files used by ectyper
 
     Args:
         temp_dir: program scope temporary directory
@@ -137,7 +138,7 @@ def create_tmp_files(temp_dir, output_dir=None):
 
 
 def run_prediction(genome_files, args, predictions_file):
-    '''
+    """
     Core prediction functionality
     
     Args:
@@ -150,7 +151,7 @@ def run_prediction(genome_files, args, predictions_file):
     
     Returns:
         predictions_file with predictions written to it
-    '''
+    """
 
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:

@@ -11,7 +11,7 @@ LOG = logging.getLogger(__name__)
 
 
 def is_ecoli_genome(iden_file, genome_file=None, mash=False):
-    '''
+    """
     Return True if file is classified as E. coli by the markers of
     https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3
     otherwise return False
@@ -24,7 +24,8 @@ def is_ecoli_genome(iden_file, genome_file=None, mash=False):
 
     Returns:
         bool: True if iden_file is E. coli, False otherwise
-    '''
+    """
+
     if genome_file is None:
         genome_file = iden_file
     num_hit = get_num_hits(iden_file)
@@ -45,7 +46,7 @@ def is_ecoli_genome(iden_file, genome_file=None, mash=False):
 
 
 def get_num_hits(target):
-    '''
+    """
     Return number of matching hits when query the reference genome
         on the target genome
 
@@ -54,7 +55,8 @@ def get_num_hits(target):
 
     Returns:
         int: number of hits found
-    '''
+    """
+
     num_hit = 0
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -84,7 +86,7 @@ def get_num_hits(target):
 
 
 def get_species(file):
-    '''
+    """
     Given a fasta/fastq file, return the most likely species identification
 
     Args:
@@ -92,7 +94,8 @@ def get_species(file):
 
     Returns:
         str: name of estimated species
-    '''
+    """
+
     LOG.info("Identifying species for {0}".format(file))
     if not os.path.isfile(definitions.REFSEQ_SKETCH):
         LOG.warning("No refseq found.")
@@ -115,8 +118,9 @@ def get_species(file):
         species = get_species_helper(file)
     return species
 
+
 def get_species_helper(file):
-    '''
+    """
     Given a fasta/fastq file with one sequence, return the most likely species
     identification
 
@@ -125,7 +129,8 @@ def get_species_helper(file):
 
     Returns:
         str: name of estimated species
-    '''
+    """
+
     species = 'unknown'
     cmd = [
         'mash', 'dist',

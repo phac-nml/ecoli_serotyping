@@ -1,6 +1,5 @@
-'''
-Utilities
-'''
+#!/usr/bin/env python
+
 import logging
 import subprocess
 import timeit
@@ -9,7 +8,7 @@ LOG = logging.getLogger(__name__)
 
 
 def run_subprocess(cmd, is_shell=False):
-    '''
+    """
     Run cmd command on subprocess
 
     Args:
@@ -17,7 +16,8 @@ def run_subprocess(cmd, is_shell=False):
 
     Returns:
         stdout (str): The stdout of cmd
-    '''
+    """
+
     start_time = timeit.default_timer()
     LOG.debug("Running: {0}".format(cmd))
     comp_proc = subprocess.run(
