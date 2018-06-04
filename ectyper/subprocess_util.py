@@ -7,6 +7,7 @@ import timeit
 
 LOG = logging.getLogger(__name__)
 
+
 def run_subprocess(cmd, is_shell=False):
     '''
     Run cmd command on subprocess
@@ -27,8 +28,14 @@ def run_subprocess(cmd, is_shell=False):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
-    stderr = comp_proc.stderr
-    stdout = comp_proc.stdout
-    elapsed_time = timeit.default_timer() - start_time
-    LOG.debug("Subprocess finished successfully in {:0.3f} sec.".format(elapsed_time))
-    return stdout
+
+    if comp_proc.returncode == 0:
+        elapsed_time = timeit.default_timer() - start_time
+        LOG.debug("Subprocess {} finished successfully in {:0.3f} sec.".format(cmd, elapsed_time))
+        return comp_proc.stdout
+    else:
+        LOG.debug("Subprocess {} failed with error: {}".format(cmd, comp_proc.stderr))
+        exit(1)
+
+
+
