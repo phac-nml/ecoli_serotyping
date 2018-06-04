@@ -38,6 +38,3 @@ def run_subprocess(cmd):
         LOG.debug("Subprocess {} failed with error: {}".format(cmd, comp_proc.stderr))
         LOG.critical("ectyper has stopped")
         exit(1)
-
-
-

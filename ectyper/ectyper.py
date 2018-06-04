@@ -61,8 +61,8 @@ def run_program():
         )
         LOG.debug(final_fasta_files)
         if len(final_fasta_files) is 0:
-            LOG.info("No valid genome files. Terminating the program.")
-            exit(0)
+            LOG.error("No valid genome files. Terminating the program.")
+            exit("No valid genomes")
 
         LOG.info("Standardizing the genome headers")
         (all_genomes_list, all_genomes_files) = \
@@ -168,15 +168,15 @@ def run_prediction(genome_files, args, predictions_file):
 
             LOG.info("Starting blast alignment on database #{0}".format(index + 1))
             blast_output_file = blast_db + ".output"
-            bcline = NcbiblastnCommandline(query=definitions.SEROTYPE_FILE,
+            bcline = NcbiblastnCommandline(
+                                  query=definitions.SEROTYPE_FILE,
                                   db=blast_db,
                                   out=blast_output_file,
                                   perc_identity=args.percentIdentity,
                                   qcov_hsp_perc=args.percentLength,
                                   max_hsps=1,
                                   outfmt='"6 qseqid qlen sseqid length pident sstart send sframe qcovhsp"',
-                                  word_size=11
-                                  )
+                                  word_size=11)
             subprocess_util.run_subprocess(str(bcline))
 
             LOG.info("Start serotype prediction for database #{0}".format(index + 1))
