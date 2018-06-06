@@ -7,8 +7,8 @@ Supports _fasta_ and _fastq_ file formats.
 - pandas 0.21.0.*
 - samtools 1.5.*
 - bowtie2 2.3.0.*
-- mash 1.1.*
-- bcftools 1.6.*
+- mash 2.0.*
+- bcftools 1.8.*
 - biopython 1.69.*
 - blast 2.2.31 .*
 - seqtk 1.2.*

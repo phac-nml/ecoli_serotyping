@@ -135,7 +135,7 @@ def assemble_reads(reads, reference, temp_dir):
         temp_dir (str): temp_dir for storing assembled files
 
     Returns:
-        tuple(str, str): identifcation and prediction fasta file
+        tuple(str, str): identification and prediction fasta file
     '''
     output = os.path.join(
         temp_dir,
