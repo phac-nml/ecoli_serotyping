@@ -1,11 +1,13 @@
 import sys
 import pytest
+import tempfile
+
 import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 # from ectyper import ectyper
 from ectyper import ectyper
 
-def set_input(input, percent_iden=None, output=None):
+def set_input(input, percent_iden=None, output=tempfile.gettempdir()):
     """
     Create the sys.argv[] without need for commandline input.
     :param input: Input file given by testing function
@@ -26,7 +28,7 @@ def test_integration_invalid_file():
     Giving a non-fasta file in fasta-file name.
     :return: None
     """
-    file = 'test/Data/test_dir/badfasta.fasta'
+    file = 'Data/test_dir/badfasta.fasta'
     set_input(file)
     with pytest.raises(SystemExit) as se:
         ectyper.run_program()
@@ -53,9 +55,10 @@ def test_valid_fastq_file():
     Use a temp dir for the test output
     :return: None
     """
-    file = 'test/Data/Escherichia.fastq'
-    set_input(input, output=output_dir)
+    file = 'Data/Escherichia.fastq'
+    set_input(file)
     ectyper.run_program()
+    assert se.type == SystemExit
 
 
 

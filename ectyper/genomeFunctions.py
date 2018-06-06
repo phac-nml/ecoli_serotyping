@@ -63,25 +63,24 @@ def get_valid_format(file):
         fm (str or None): the file format if 'fasta' or 'fastq', otherwise None
     """
     for fm in ['fastq', 'fasta']:
-        try:
-            with open(file, "r") as handle:
-                data = SeqIO.parse(handle, fm)
-                if any(data):
-                    if is_tarfile(file):
-                        LOG.warning("Compressed file is not supported: {}".format(file))
-                        return None
-                    return fm
-        except FileNotFoundError as err:
-            LOG.warning("{0} is not found".format(file))
-            return None
-        except UnicodeDecodeError as err:
-            LOG.warning("{0} is not a valid file".format(file))
-            return None
-        except:
-            LOG.warning("{0} is an unexpected file".format(file))
-            return None
+            try:
+                with open(file, "r") as handle:
+                    data = SeqIO.parse(handle, fm)
+                    if any(data):
+                        if is_tarfile(file):
+                            LOG.warning("Compressed file is not supported: {}".format(file))
+                            return None
+                        return fm
+            except FileNotFoundError as err:
+                LOG.warning("{0} is not found. Error {}".format(file, err))
+                return None
+            except UnicodeDecodeError as err:
+                LOG.warning("{0} is not a valid file. Error {}".format(file, err))
+                return None
+
     LOG.warning("{0} is not a fasta/fastq file".format(file))
     return None
+
 
 
 def get_genome_names_from_files(files, temp_dir):
@@ -322,7 +321,7 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, s
     """
     Assemble fastq sequences to fasta for the E. coli specific markers
     if verify is enabled. If identified as non-E. coli, identify the probable species
-    using MASHH, if enabled.
+    using MASH, if enabled.
 
     Args:
         genome_file: input genome file
