@@ -12,6 +12,7 @@ from tarfile import is_tarfile
 from Bio import SeqIO
 from ectyper import definitions, subprocess_util, speciesIdentification
 from urllib.request import urlretrieve
+import shutil
 
 LOG = logging.getLogger(__name__)
 
@@ -71,11 +72,14 @@ def get_valid_format(file):
                             LOG.warning("Compressed file is not supported: {}".format(file))
                             return None
                         return fm
-            except FileNotFoundError as err:
-                LOG.warning("{0} is not found. Error {}".format(file, err))
+            except FileNotFoundError:
+                LOG.warning("{0} is not found.".format(file))
                 return None
-            except UnicodeDecodeError as err:
-                LOG.warning("{0} is not a valid file. Error {}".format(file, err))
+            except UnicodeDecodeError:
+                LOG.warning("{0} is not a valid file.".format(file))
+                return None
+            except ValueError:
+                LOG.debug("{0} is not a {1} file.".format(file, fm))
                 return None
 
     LOG.warning("{0} is not a fasta/fastq file".format(file))
@@ -122,69 +126,59 @@ def get_genome_names_from_files(files, temp_dir):
 
 
 def assemble_reads(reads, reference, temp_dir):
-    '''
-    Return path to assembled reads.
-    Assemble short reads by mapping to a reference genome.
-    Default output is the same as reads file
-        (basename+'iden.fasta' and basename+'pred.fasta').
+    """
+    Assembles fastq reads to the specified reference file.
+    :param reads: The fastq file to assemble
+    :param reference: The fasta reference file
+    :param temp_dir: The ectyper temporary directory
+    :return: The full path to the assembled fasta file
+    """
 
-    Args:
-        reads (str): FASTQ/FQ format reads file
-        reference (str): FASTA format reference file
-        temp_dir (str): temp_dir for storing assembled files
-
-    Returns:
-        tuple(str, str): identification and prediction fasta file
-    '''
-    output = os.path.join(
+    output_fasta = os.path.join(
         temp_dir,
-        os.path.splitext(os.path.basename(reads))[0]+'.fasta'
+        os.path.splitext(os.path.basename(reads))[0],
+        '.fasta'
     )
 
-    # run once if index reference does not exist
-    index_path = \
-        os.path.join(
-            definitions.DATA_DIR,
-            'bowtie_index',
-            os.path.splitext(os.path.basename(reference))[0]
-        )
-    index_dir = os.path.split(index_path)[0]
-    if not os.path.isdir(index_dir):
-        LOG.info('Reference index does not exist. Creating new reference index at {}'.format(index_dir))
-        if not os.path.exists(index_dir):
-            os.makedirs(index_dir)
-        cmd1 = [
-            'bowtie2-build',
-            reference,
-            index_path
-        ]
-        subprocess_util.run_subprocess(cmd1)
+    # Create the bowtie2 reference index
+    bowtie_base = os.path.join(temp_dir, 'bowtie_reference')
+    bowtie_build = [
+        'bowtie2-build',
+        reference,
+        bowtie_base
+    ]
+    subprocess_util.run_subprocess(bowtie_build)
 
-    cmd2 = [
+    # Run bowtie2
+    bowtie_run = [
         'bowtie2',
         '--score-min L,1,-0.5',
         '--np 5',
-        '-x', index_path,
+        '-x', bowtie_base,
         '-U', reads,
         '-S', os.path.join(temp_dir, 'reads.sam')
     ]
-    subprocess_util.run_subprocess(cmd2)
+    subprocess_util.run_subprocess(bowtie_run)
 
-    cmd3 = [
+    # Convert reads from sam to bam
+    sam_convert = [
         definitions.SAMTOOLS, 'view',
         '-F 4',
         '-q 1',
         '-bS', os.path.join(temp_dir, 'reads.sam'),
         '-o', os.path.join(temp_dir, 'reads.bam')
     ]
-    subprocess_util.run_subprocess(cmd3)
-    cmd4 = [
+    subprocess_util.run_subprocess(sam_convert)
+
+    # Sort the reads
+    sam_sort = [
         definitions.SAMTOOLS, 'sort',
         os.path.join(temp_dir, 'reads.bam'),
         '-o', os.path.join(temp_dir, 'reads.sorted.bam'),
     ]
-    subprocess_util.run_subprocess(cmd4)
+    subprocess_util.run_subprocess(sam_sort)
 
+    # Create fasta from the reads
     shell_cmd = [
         definitions.SAMTOOLS+' mpileup -uf', # mpileup
         reference,
@@ -196,37 +190,11 @@ def assemble_reads(reads, reference, temp_dir):
         '|',
         'seqtk seq -A -', # fq to fasta
         '>',
-        output
+        output_fasta
     ]
     subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
-    return split_mapped_output(output)
 
-def split_mapped_output(file):
-    '''
-    Splits given fasta files into two file based on 'lcl' tags
-        in the seq header
-
-    Args:
-        file (str): path to input fasta file
-
-    Returns:
-        (str): path to ecoli identification fasta seq
-        (str): path to serotype prediction fasta seq
-    '''
-    identif_file = os.path.splitext(file)[0]+'.iden.fasta'
-    predict_file = os.path.splitext(file)[0]+'.pred.fasta'
-    identif_seqs = []
-    predict_seqs = []
-    for record in SeqIO.parse(file, 'fasta'):
-        if 'lcl' in record.description:
-            identif_seqs.append(record)
-        else:
-            predict_seqs.append(record)
-    with open(identif_file, "w") as output_handle:
-        SeqIO.write(identif_seqs, output_handle, "fasta")
-    with open(predict_file, "w") as output_handle:
-        SeqIO.write(predict_seqs, output_handle, "fasta")
-    return identif_file, predict_file
+    return output_fasta
 
 
 def get_raw_files(raw_files):
@@ -285,6 +253,28 @@ def download_refseq():
         LOG.info("Download complete.")
 
 
+def assembleFastq(raw_files_dict, temp_dir):
+    """
+    For any fastq files, map and assemble the serotyping genes, and optionally
+    the E. coli specific genes.
+    :param raw_files_dict: Dictionary of ['fasta'] and ['fastq'] files
+    :param temp_dir: Temporary files created for ectyper
+    :return: list of all fasta files, including the assembled fastq
+    """
+
+    # Create a combined E. coli specific marker and serotyping allele file
+    # Do this every program run to prevent the need for keeping a separate
+    # combined file in sync.
+    combined_file = os.join.path(temp_dir, 'combined_ident_serotype.fasta')
+    shutil.copy(definitions.ECOLI_MARKERS, combined_file)
+    shutil.copy(definitions.SEROTYPE_FILE, combined_file)
+
+    all_fasta_files = raw_files_dict['fasta']
+    for fastq_file in raw_files_dict['fastq']:
+        fasta_file = assemble_reads(fastq_file, combined_file, temp_dir)
+        all_fasta_files.append(fastq_file)
+
+
 def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
     """filter ecoli, identify species, assemble fastq
     Assemble fastq files to fasta files,
@@ -334,11 +324,11 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, s
     Returns:
         The filtered and assembled genome files in fasta format
     """
-    combined_file = definitions.ECOLI_MARKERS
+
     filtered_file = None
     if genome_format == 'fastq':
         iden_file, pred_file = \
-            assemble_reads(genome_file, combined_file, temp_dir)
+            assemble_reads(genome_file, definitions.ECOLI_MARKERS, temp_dir)
         # If no alignment result, the file is definitely not E. coli
         if get_valid_format(iden_file) is None:
             LOG.warning(
@@ -352,6 +342,7 @@ def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, s
                     "{0} is filtered out because no prediction alignment found".format(genome_file))
                 return filtered_file
             filtered_file = pred_file
+
     if genome_format == 'fasta':
         if not (verify or species) \
         or speciesIdentification.is_ecoli_genome(genome_file, mash=species):
