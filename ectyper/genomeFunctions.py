@@ -13,6 +13,7 @@ from Bio import SeqIO
 from ectyper import definitions, subprocess_util, speciesIdentification
 from urllib.request import urlretrieve
 import shutil
+from collections import defaultdict
 
 LOG = logging.getLogger(__name__)
 
@@ -50,7 +51,9 @@ def get_files_as_list(file_or_directory):
         LOG.info("Using genomes in file " + file_or_directory)
         files_list.append(os.path.abspath(file_or_directory))
 
-    return sorted(files_list)
+    sorted_files = sorted(files_list)
+    LOG.debug(sorted_files)
+    return sorted_files
 
 
 def get_valid_format(file):
@@ -277,36 +280,6 @@ def assembleFastq(raw_files_dict, temp_dir):
     return all_fasta_files
 
 
-def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
-    """filter ecoli, identify species, assemble fastq
-    Assemble fastq files to fasta files,
-    then filter all files by reference method if verify is enabled,
-    if identified as non-ecoli, identify species by mash method if species is enabled.
-
-    Args:
-        raw_dict{fasta:list_of_files, fastq:list_of_files}:
-            dictionary collection of fasta and fastq files
-        temp_files: temporary directory
-        verify(bool):
-            whether to perform ecoli verification
-        species(bool):
-            whether to perform species identification for non-ecoli genome
-    Returns:
-        List of filtered and assembled genome files in fasta format
-    """
-    final_files = []
-    for f in raw_dict.keys():
-        temp_dir = temp_files['fasta_temp_dir'] if f == "fasta" else temp_files['assemble_temp_dir']
-
-        for ffile in raw_dict[f]:
-            filtered_file = filter_file_by_species(
-                ffile, f, temp_dir, verify=verify, species=species)
-            if filtered_file is not None and \
-                get_valid_format(filtered_file) is not None:
-                final_files.append(filtered_file)
-
-    LOG.info('{} final fasta files'.format(len(final_files)))
-    return final_files
 
 
 def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):

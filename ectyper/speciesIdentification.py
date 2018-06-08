@@ -4,7 +4,7 @@ import os
 import tempfile
 from Bio import SeqIO
 from Bio.Blast.Applications import NcbiblastnCommandline
-
+from collections import defaultdict
 from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
@@ -24,28 +24,39 @@ def is_ecoli(genome_file):
             "by the marker approach of "
             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
             " where at least three E. coli specific markers must be "
-            "present".format(os.path.basename(iden_file)))
+            "present".format(os.path.basename(genome_file)))
         return False
     else:
         return True
 
 
+def filter_for_ecoli_files(all_fasta_files):
+    """
+    Checks that all the fasta files contain at least 3 E. coli specific markers
+    :param all_fasta_files: fasta files supplied by the user, as well as assembled fastq files
+    :return: Dict('ecoli':[], 'non_ecoli':[])
+    """
+
+    final_files = defaultdict(list)
+    for f in all_fasta_files:
+        if is_ecoli(f):
+            final_files['ecoli'].append(f)
+        else:
+            final_files['non_ecoli'].append(f)
+
+    return final_files
+
+
 def get_num_hits(target):
     """
-    Return number of matching hits when query the reference genome
-        on the target genome
-
-    Args:
-        target (str): target genome
-
-    Returns:
-        int: number of hits found
+    Identify the number of E. coli specific markers carried by the target genome.
+    :param target: The genome file under analysis
+    :return: The number of E. coli specific markers found
     """
 
     num_hit = 0
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
-
             blast_db = blastFunctions.create_blast_db([target], temp_dir)
             result_file = blast_db + ".output"
             bcline = NcbiblastnCommandline(query=definitions.ECOLI_MARKERS,
@@ -156,3 +167,22 @@ def get_species_helper(file):
                 'No matching species found with distance screening either:{}'.format(err2)
             )
     return species
+
+
+def verify_ecoli(fasta_files, verify):
+    """
+    Verifying the _E. coli_-ness of the genome files
+    :param fasta_files: [] of all fasta files
+    :param verify: Bool of whether or not to verify the files as _E. coli_
+    :return: List of fasta files
+    """
+
+    verified_fasta_files = filter_for_ecoli_files(fasta_files) if verify else fasta_files
+
+    LOG.debug("Verify set to {}. The v_fasta_files: {}".format(verify, verified_fasta_files))
+
+    if len(verified_fasta_files) is 0:
+        LOG.error("No valid genome files. Terminating the program.")
+        exit("No valid genomes")
+
+    return verified_fasta_files

@@ -7,7 +7,7 @@ import os
 import tempfile
 import datetime
 
-from ectyper import (blastFunctions, commandLineOptions, definitions,
+from ectyper import (blastFunctions, commandLineOptions, definitions, speciesIdentification,
                      genomeFunctions, loggingFunctions, predictionFunctions, subprocess_util)
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -32,62 +32,51 @@ def run_program():
     """
     # Initialize the program
     args = commandLineOptions.parse_command_line()
-    LOG.info('Starting ectyper\nSerotype prediction with input:\n \
-            {0}\n \
-            Log file is: {1}'.format(args, LOG_FILE))
     LOG.debug(args)
+    LOG.info("Starting ectyper.\nLog file is: {}".format(LOG_FILE))
 
     # Initialize ectyper directories and temp files for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
         ectyper_files = create_ectyper_files(temp_dir, output_dir=args.output)
-        LOG.debug(ectyper_files)
 
-        # Download refseq file if speicies identification is enabled
+        # Download refseq file if species identification is enabled
         if args.species:
             genomeFunctions.download_refseq()
 
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
-        LOG.debug(raw_genome_files)
 
-        LOG.info("Removing invalid file types")
+        LOG.info("Identifying genome file types")
+        # ['fasta']=[], ['fastq']=[]
         raw_files_dict = genomeFunctions.get_raw_files(raw_genome_files)
         LOG.debug(raw_files_dict)
 
-        # Assemble any fastq files for the serotyping alleles and E. coli markers
-        final_fasta_files = genomeFunctions.assembleFastq(raw_files_dict, temp_dir)
+        # Assemble any fastq files
+        all_fasta_files = genomeFunctions.assembleFastq(raw_files_dict, temp_dir)
+
+        # Verify _E. coli_ genomes, if desired
+        v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.verify)
 
 
-        #  and verify _E. coli_ genomes, if verify selected
-        if args.verify:
-            LOG.info("Preparing genome files for blast alignment")
-            final_fasta_files = genomeFunctions.filter_for_ecoli_files(
-                raw_files_dict, ectyper_files, verify=args.verify, species=args.species
-            )
-            LOG.debug(final_fasta_files)
-
-        if len(final_fasta_files) is 0:
-            LOG.error("No valid genome files. Terminating the program.")
-            exit("No valid genomes")
-
-        LOG.info("Standardizing the genome headers")
-        (all_genomes_list, all_genomes_files) = \
-            genomeFunctions.get_genome_names_from_files(
-                final_fasta_files, ectyper_files['fasta_temp_dir'])
-        LOG.debug(all_genomes_list)
-        LOG.debug(all_genomes_files)
-
-        # Main prediction function
-        predictions_file = run_prediction(all_genomes_files, args,
-                                          ectyper_files['output_file'])
-
-        # Add empty rows for genomes without blast result
-        predictions_file = predictionFunctions.add_non_predicted(
-            all_genomes_list, predictions_file)
-        LOG.info('Output saved to {0}'.format(ectyper_files['output_dir']))
-
-        # Store most recent result in working directory
-        LOG.info('\nReporting result...')
+        # LOG.info("Standardizing the genome headers")
+        # (all_genomes_list, all_genomes_files) = \
+        #     genomeFunctions.get_genome_names_from_files(
+        #         final_fasta_files, ectyper_files['fasta_temp_dir'])
+        # LOG.debug(all_genomes_list)
+        # # LOG.debug(all_genomes_files)
+        #
+        # # Main prediction function
+        # predictions_file = run_prediction(all_genomes_files, args,
+        #                                   ectyper_files['output_file'])
+        #
+        # # Add empty rows for genomes without blast result
+        # predictions_file = predictionFunctions.add_non_predicted(
+        #     all_genomes_list, predictions_file)
+        # LOG.info('Output saved to {0}'.format(ectyper_files['output_dir']))
+        #
+        # # Store most recent result in working directory
+        # LOG.info('\nReporting result...')
+        predictions_file = ''
         predictionFunctions.report_result(predictions_file)
 
 
@@ -140,6 +129,7 @@ def create_ectyper_files(temp_dir, output_dir=None):
     files_and_dirs['output_dir'] = output_dir
 
     LOG.info("ectyper files and directories created")
+    LOG.debug(files_and_dirs)
     return files_and_dirs
 
 
