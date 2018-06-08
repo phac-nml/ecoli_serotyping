@@ -10,39 +10,24 @@ from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_uti
 LOG = logging.getLogger(__name__)
 
 
-def is_ecoli_genome(iden_file, genome_file=None, mash=False):
+def is_ecoli(genome_file):
     """
-    Return True if file is classified as E. coli by the markers of
-    https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3
-    otherwise return False
-
-    Args:
-        iden_file (str): path to valid fasta genome file
-        genome_file (str): Optional path to valid fastq file for reads
-        mash (bool): Optional input to decide whether to use mash if genome is
-                     identified as non-E. coli
-
-    Returns:
-        bool: True if iden_file is E. coli, False otherwise
+    Checks whether the given genome is E. coli or not
+    :param genome_file: The genome file in fasta format
+    :return: True or False
     """
 
-    if genome_file is None:
-        genome_file = iden_file
-    num_hit = get_num_hits(iden_file)
+    num_hit = get_num_hits(genome_file)
     if num_hit < 3:
-        LOG.info(
+        LOG.warning(
             "{0} is identified as an invalid E. coli genome"
             "by the marker approach of "
             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
-            " where at least three E. coli specific markers must be present".format(os.path.basename(iden_file)))
-        if mash:
-            species = get_species(genome_file)
-            LOG.info(
-                "{0} is identified as genome of "
-                "{1} by the mash approach".format(os.path.basename(iden_file), species))
+            " where at least three E. coli specific markers must be "
+            "present".format(os.path.basename(iden_file)))
         return False
-    LOG.debug("{0} is a valid E. coli genome file".format(os.path.basename(iden_file)))
-    return True
+    else:
+        return True
 
 
 def get_num_hits(target):
