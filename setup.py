@@ -1,11 +1,9 @@
 from setuptools import setup
-from setuptools_scm import get_version
 
 setup(
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
     name='ectyper',
-    version=get_version(),
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Camille La Rose, Chad Laing, Sam Sung',

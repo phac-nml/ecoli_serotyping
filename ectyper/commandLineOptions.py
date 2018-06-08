@@ -3,6 +3,8 @@
 import argparse
 from setuptools_scm import get_version
 
+CURRENT_VERSION = get_version(root="..", relative_to=__file__)
+
 def parse_command_line(args=None):
     """
     Options for E. coli serotype prediction.
@@ -27,14 +29,14 @@ def parse_command_line(args=None):
 
     parser = argparse.ArgumentParser(
         description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
-            ' or assembled genome sequences'.format(get_version())
+            ' or assembled genome sequences'.format(CURRENT_VERSION)
     )
 
     parser.add_argument(
         "-V",
         "--version",
         action='version',
-        version="%(prog)s {}".format(get_version())
+        version="%(prog)s {}".format(CURRENT_VERSION)
     )
 
     parser.add_argument(
