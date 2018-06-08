@@ -57,14 +57,9 @@ def run_program():
         # Verify _E. coli_ genomes, if desired
         v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.verify)
 
-
-        # LOG.info("Standardizing the genome headers")
-        # (all_genomes_list, all_genomes_files) = \
-        #     genomeFunctions.get_genome_names_from_files(
-        #         final_fasta_files, ectyper_files['fasta_temp_dir'])
-        # LOG.debug(all_genomes_list)
-        # # LOG.debug(all_genomes_files)
-        #
+        LOG.info("Standardizing the genome headers")
+        final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
+        LOG.info(final_fasta_files)
         # # Main prediction function
         # predictions_file = run_prediction(all_genomes_files, args,
         #                                   ectyper_files['output_file'])
@@ -76,8 +71,8 @@ def run_program():
         #
         # # Store most recent result in working directory
         # LOG.info('\nReporting result...')
-        predictions_file = ''
-        predictionFunctions.report_result(predictions_file)
+        # predictions_file = ''
+        # predictionFunctions.report_result(predictions_file)
 
 
 def create_ectyper_files(temp_dir, output_dir=None):

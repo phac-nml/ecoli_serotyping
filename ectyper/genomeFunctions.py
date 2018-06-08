@@ -12,8 +12,6 @@ from tarfile import is_tarfile
 from Bio import SeqIO
 from ectyper import definitions, subprocess_util, speciesIdentification
 from urllib.request import urlretrieve
-import shutil
-from collections import defaultdict
 
 LOG = logging.getLogger(__name__)
 
@@ -83,11 +81,9 @@ def get_valid_format(file):
                 return None
             except ValueError:
                 LOG.debug("{0} is not a {1} file.".format(file, fm))
-                return None
 
     LOG.warning("{0} is not a fasta/fastq file".format(file))
     return None
-
 
 
 def get_genome_names_from_files(files, temp_dir):
@@ -95,17 +91,12 @@ def get_genome_names_from_files(files, temp_dir):
     For each file:
     Uses the name of the file for the genome name, creates a temporary file using
     >lcl|filename as the name in the fasta header.
-
-    Args:
-        files (list): The list of files to get the genome names for
-        temp_dir (str): A tempdir where the copied files will be stored
-
-    Returns:
-        tuple(list(str), list(str)): first list is genome names, second list is file names
+    :param files: All the fasta files for analyses
+    :param temp_dir: The ectyper temp directory
+    :return: List of files with fasta headers modified for filename
     """
 
-    list_of_genomes = []
-    list_of_files = []
+    modified_genomes = []
     for file in files:
         # get only the name of the file for use in the fasta header
         file_base_name = os.path.basename(file)
@@ -116,8 +107,7 @@ def get_genome_names_from_files(files, temp_dir):
         new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
 
         # add the new name to the list of files and genomes
-        list_of_files.append(new_file)
-        list_of_genomes.append(n_name)
+        modified_genomes.append(new_file)
 
         with open(new_file, "w") as outfile:
             with open(file) as infile:
@@ -125,7 +115,8 @@ def get_genome_names_from_files(files, temp_dir):
                     outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
                     outfile.write(str(record.seq) + "\n")
 
-    return list_of_genomes, list_of_files
+    LOG.debug(("Modified genomes: {}".format(modified_genomes)))
+    return modified_genomes
 
 
 def assemble_reads(reads, reference, temp_dir):
@@ -143,10 +134,11 @@ def assemble_reads(reads, reference, temp_dir):
         '.fasta'
     )
 
-    # Create the bowtie2 reference index
+
     bowtie_base = os.path.join(temp_dir, 'bowtie_reference')
+    LOG.info("Creating the bowtie2 index at {}".format(bowtie_base))
     bowtie_build = [
-        'bowtie2-build',
+      'bowtie2-build',
         reference,
         bowtie_base
     ]
@@ -269,57 +261,63 @@ def assembleFastq(raw_files_dict, temp_dir):
     # Do this every program run to prevent the need for keeping a separate
     # combined file in sync.
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
-    shutil.copy(definitions.ECOLI_MARKERS, combined_file)
-    shutil.copy(definitions.SEROTYPE_FILE, combined_file)
+    LOG.info("Creating combined serotype and identification fasta file")
+
+    with open(combined_file, 'w') as ofh:
+        with open(definitions.ECOLI_MARKERS, 'r') as mfh:
+            ofh.write(mfh.read())
+
+        with open(definitions.SEROTYPE_FILE, 'r') as sfh:
+            ofh.write(sfh.read())
 
     all_fasta_files = raw_files_dict['fasta']
     for fastq_file in raw_files_dict['fastq']:
         fasta_file = assemble_reads(fastq_file, combined_file, temp_dir)
-        all_fasta_files.append(fastq_file)
+        all_fasta_files.append(fasta_file)
 
     return all_fasta_files
 
 
 
-
-def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):
-    """
-    Assemble fastq sequences to fasta for the E. coli specific markers
-    if verify is enabled. If identified as non-E. coli, identify the probable species
-    using MASH, if enabled.
-
-    Args:
-        genome_file: input genome file
-        genome_format(str): fasta or fastq
-        temp_dir: temporary directory
-        verify(bool):
-            whether to perform E. coli verification
-        species(bool):
-            whether to perform species identification for non-E. coli genomes
-    Returns:
-        The filtered and assembled genome files in fasta format
-    """
-
-    filtered_file = None
-    if genome_format == 'fastq':
-        iden_file, pred_file = \
-            assemble_reads(genome_file, definitions.ECOLI_MARKERS, temp_dir)
-        # If no alignment result, the file is definitely not E. coli
-        if get_valid_format(iden_file) is None:
-            LOG.warning(
-                "{} is filtered out because no identification alignment found".format(genome_file))
-            return filtered_file
-        if not (verify or species) or speciesIdentification.is_ecoli_genome(
-                iden_file, genome_file, mash=species):
-            # final check before adding the alignment for prediction
-            if get_valid_format(iden_file) != 'fasta':
-                LOG.warning(
-                    "{0} is filtered out because no prediction alignment found".format(genome_file))
-                return filtered_file
-            filtered_file = pred_file
-
-    if genome_format == 'fasta':
-        if not (verify or species) \
-        or speciesIdentification.is_ecoli_genome(genome_file, mash=species):
-            filtered_file = genome_file
-    return filtered_file
+#
+# def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):
+#     """
+#     Assemble fastq sequences to fasta for the E. coli specific markers
+#     if verify is enabled. If identified as non-E. coli, identify the probable species
+#     using MASH, if enabled.
+#
+#     Args:
+#         genome_file: input genome file
+#         genome_format(str): fasta or fastq
+#         temp_dir: temporary directory
+#         verify(bool):
+#             whether to perform E. coli verification
+#         species(bool):
+#             whether to perform species identification for non-E. coli genomes
+#     Returns:
+#         The filtered and assembled genome files in fasta format
+#     """
+#
+#     filtered_file = None
+#     if genome_format == 'fastq':
+#         iden_file, pred_file = \
+#             assemble_reads(genome_file, definitions.ECOLI_MARKERS, temp_dir)
+#         # If no alignment result, the file is definitely not E. coli
+#         if get_valid_format(iden_file) is None:
+#             LOG.warning(
+#                 "{} is filtered out because no identification alignment found".format(genome_file))
+#             return filtered_file
+#         if not (verify or species) or speciesIdentification.is_ecoli_genome(
+#                 iden_file, genome_file, mash=species):
+#             # final check before adding the alignment for prediction
+#             if get_valid_format(iden_file) != 'fasta':
+#                 LOG.warning(
+#                     "{0} is filtered out because no prediction alignment found".format(genome_file))
+#                 return filtered_file
+#             filtered_file = pred_file
+#
+#     if genome_format == 'fasta':
+#         if not (verify or species) \
+#         or speciesIdentification.is_ecoli_genome(genome_file, mash=species):
+#             filtered_file = genome_file
+#     return filtered_file
