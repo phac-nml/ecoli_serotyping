@@ -37,8 +37,6 @@ def parse_command_line(args=None):
         version="%(prog)s {}".format(get_version())
     )
 
-
-
     parser.add_argument(
         "-i",
         "--input",
@@ -92,4 +90,5 @@ def parse_command_line(args=None):
 
     if args is None:
         return parser.parse_args()
-    return parser.parse_args(args)
+    else:
+        return parser.parse_args(args)
