@@ -265,7 +265,7 @@ def assembleFastq(raw_files_dict, temp_dir):
     # Create a combined E. coli specific marker and serotyping allele file
     # Do this every program run to prevent the need for keeping a separate
     # combined file in sync.
-    combined_file = os.join.path(temp_dir, 'combined_ident_serotype.fasta')
+    combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
     shutil.copy(definitions.ECOLI_MARKERS, combined_file)
     shutil.copy(definitions.SEROTYPE_FILE, combined_file)
 
@@ -273,6 +273,8 @@ def assembleFastq(raw_files_dict, temp_dir):
     for fastq_file in raw_files_dict['fastq']:
         fasta_file = assemble_reads(fastq_file, combined_file, temp_dir)
         all_fasta_files.append(fastq_file)
+
+    return all_fasta_files
 
 
 def filter_for_ecoli_files(raw_dict, temp_files, verify=False, species=False):
