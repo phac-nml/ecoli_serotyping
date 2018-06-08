@@ -1,19 +1,19 @@
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
+from setuptools_scm import get_version
 
 setup(
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     name='ectyper',
-    version='0.0.8',
+    version=get_version(),
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Camille La Rose, Chad Laing, Sam Sung',
     author_email='claro100@uottawa.ca, chad.laing@canada.ca, sam.sung@canada.ca',
-    license='MIT',
+    license='Apache 2',
     scripts=['bin/ectyper'],
     packages=['ectyper'],
     package_data={'ectyper': ['Data/*']},
     zip_safe=False,
-    test_suite='nose.collector'
+    test_suite='py.test'
 )

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-
+from setuptools_scm import get_version
 
 def parse_command_line(args=None):
     """
@@ -25,7 +25,20 @@ def parse_command_line(args=None):
             )
         return ivalue
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
+            ' or assembled genome sequences'.format(get_version())
+    )
+
+    parser.add_argument(
+        "-V",
+        "--version",
+        action='version',
+        version="%(prog)s {}".format(get_version())
+    )
+
+
+
     parser.add_argument(
         "-i",
         "--input",
