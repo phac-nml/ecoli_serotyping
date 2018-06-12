@@ -63,16 +63,15 @@ def run_program():
         # Main prediction function
         predictions_file = run_prediction(final_fasta_files, args,
                                           ectyper_files['output_file'])
-        LOG.debug(predictions_file)
-        # # Add empty rows for genomes without blast result
+
+        # Add empty rows for genomes without blast result
         # predictions_file = predictionFunctions.add_non_predicted(
         #     all_genomes_list, predictions_file)
         # LOG.info('Output saved to {0}'.format(ectyper_files['output_dir']))
-        #
-        # # Store most recent result in working directory
-        # LOG.info('\nReporting result...')
-        # predictions_file = ''
-        # predictionFunctions.report_result(predictions_file)
+
+        # Store most recent result in working directory
+        LOG.info('\nReporting result...')
+        predictionFunctions.report_result(predictions_file)
 
 
 def create_ectyper_files(temp_dir, output_dir=None):
@@ -142,7 +141,7 @@ def run_prediction(genome_files, args, predictions_file):
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into groups and create databases for each set
-        predictions_output_file = ''
+        predictions_output_file = None
         group_size = definitions.GENOME_GROUP_SIZE
         genome_groups = [
             genome_files[i:i + group_size]
@@ -163,15 +162,6 @@ def run_prediction(genome_files, args, predictions_file):
 
             LOG.info("Starting blast alignment on database #{0}".format(index + 1))
             blast_output_file = blast_db + ".output"
-            # bcline = NcbiblastnCommandline(
-            #                       query=definitions.SEROTYPE_FILE,
-            #                       db=blast_db,
-            #                       out=blast_output_file,
-            #                       perc_identity=args.percentIdentity,
-            #                       qcov_hsp_perc=args.percentLength,
-            #                       max_hsps=1,
-            #                       outfmt='"6 qseqid qlen sseqid length pident sstart send sframe qcovhsp"',
-            #                       word_size=11)
             bcline = [
                 'blastn',
                 '-query', definitions.SEROTYPE_FILE,
@@ -185,11 +175,10 @@ def run_prediction(genome_files, args, predictions_file):
             ]
             subprocess_util.run_subprocess(bcline)
 
-        #
-        #     LOG.info("Start serotype prediction for database #{0}".format(index + 1))
-        #     predictions_output_file = predictionFunctions.predict_serotype(
-        #         blast_output_file, definitions.SEROTYPE_ALLELE_JSON, predictions_file,
-        #         args.detailed)
+            LOG.info("Start serotype prediction for database #{0}".format(index + 1))
+            predictions_output_file = predictionFunctions.predict_serotype(
+                blast_output_file, definitions.SEROTYPE_ALLELE_JSON, predictions_file,
+                args.detailed)
         return predictions_output_file
 
 
