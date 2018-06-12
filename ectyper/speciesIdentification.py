@@ -5,7 +5,7 @@ import tempfile
 from Bio import SeqIO
 from Bio.Blast.Applications import NcbiblastnCommandline
 from collections import defaultdict
-from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_util
+from ectyper import genomeFunctions, definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
 
@@ -57,9 +57,19 @@ def get_num_hits(target):
     num_hit = 0
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
-            blast_db = blastFunctions.create_blast_db([target], temp_dir)
+            blast_db = os.path.join(temp_dir, "blastdb_target")
+            blast_db_cmd = [
+                "makeblastdb",
+                "-in", target,
+                "-dbtype", "nucl",
+                "-title", "ectyper_blastdb",
+                "-out", blast_db]
+            subprocess_util.run_subprocess(blast_db_cmd)
+
+
             result_file = blast_db + ".output"
-            bcline = NcbiblastnCommandline(query=definitions.ECOLI_MARKERS,
+            bcline = NcbiblastnCommandline(
+                                  query=definitions.ECOLI_MARKERS,
                                   db=blast_db,
                                   out=result_file,
                                   perc_identity=90,
@@ -138,14 +148,14 @@ def get_species_helper(file):
         'head -1 -'
     ]
     try:
-        mash_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
+        mash_output = subprocess_util.run_subprocess(' '.join(cmd))
         ass_acc_num = '_'.join(mash_output.split('\t')[1].split('_')[:2])
         cmd = [
             'grep -E',
             ass_acc_num,
             definitions.REFSEQ_SUMMARY
         ]
-        summary_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
+        summary_output = subprocess_util.run_subprocess(' '.join(cmd))
         species = summary_output.split('\t')[7]
         return species
     except Exception as err:
@@ -159,7 +169,7 @@ def get_species_helper(file):
                 file,
                 '| sort -gr - | head -1 -'
             ]
-            screen_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
+            screen_output = subprocess_util.run_subprocess(' '.join(cmd))
             LOG.debug(screen_output.split('\t'))
             species = screen_output.split('\t')[5].split('\n')[0]
         except Exception as err2:

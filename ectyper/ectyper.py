@@ -7,7 +7,7 @@ import os
 import tempfile
 import datetime
 
-from ectyper import (blastFunctions, commandLineOptions, definitions, speciesIdentification,
+from ectyper import (commandLineOptions, definitions, speciesIdentification,
                      genomeFunctions, loggingFunctions, predictionFunctions, subprocess_util)
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -61,10 +61,10 @@ def run_program():
         final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
         LOG.info(final_fasta_files)
 
-        # # Main prediction function
-        # predictions_file = run_prediction(all_genomes_files, args,
+        # Main prediction function
+        # predictions_file = run_prediction(final_fasta_files, args,
         #                                   ectyper_files['output_file'])
-        #
+        # LOG.debug(predictions_file)
         # # Add empty rows for genomes without blast result
         # predictions_file = predictionFunctions.add_non_predicted(
         #     all_genomes_list, predictions_file)
@@ -131,18 +131,13 @@ def create_ectyper_files(temp_dir, output_dir=None):
 
 def run_prediction(genome_files, args, predictions_file):
     """
-    Core prediction functionality
-    
-    Args:
-        genome_files:
-            list of genome files
-        args:
-            commandline arguments
-        predictions_file:
-            filename of prediction output
-    
-    Returns:
-        predictions_file with predictions written to it
+    Serotype prediction of all the input files, which have now been properly
+    converted to fasta if required, and their headers standardized
+
+    :param genome_files: List of genome files in fasta format
+    :param args: program arguments from the commandline
+    :param predictions_file: the output file to store the predictions
+    :return: predictions_file
     """
 
     # create a temp dir for blastdb
@@ -150,13 +145,22 @@ def run_prediction(genome_files, args, predictions_file):
         # Divide genome files into groups and create databases for each set
         predictions_output_file = None
         group_size = definitions.GENOME_GROUP_SIZE
-        genome_chunks = [
+        genome_groups = [
             genome_files[i:i + group_size]
             for i in range(0, len(genome_files), group_size)
         ]
-        for index, chunk in enumerate(genome_chunks):
-            LOG.info("Start creating blast database #{0}".format(index + 1))
-            blast_db = blastFunctions.create_blast_db(chunk, temp_dir)
+
+        for index, g_group in enumerate(genome_groups):
+
+            LOG.info("Creating blast database #{0} from {1}".format(index + 1, g_group))
+            blast_db = os.path.join(temp_dir, "blastdb_" + str(index))
+            blast_db_cmd = [
+                "makeblastdb",
+                "-in", ' '.join(g_group),
+                "-dbtype", "nucl",
+                "-title", "ectyper_blastdb",
+                "-out", blast_db]
+            subprocess_util.run_subprocess(blast_db_cmd)
 
             LOG.info("Starting blast alignment on database #{0}".format(index + 1))
             blast_output_file = blast_db + ".output"
