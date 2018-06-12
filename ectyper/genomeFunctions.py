@@ -178,23 +178,22 @@ def assemble_reads(reads, reference, temp_dir):
     ]
     subprocess_util.run_subprocess(sam_sort)
 
-    # # Create fasta from the reads
-    # pileup_reads = os.path.join(temp_dir, 'reads.pileup.bam')
-    # mpileup = [
-    #     'samtools', 'mpileup',
-    #     '-u',
-    #     '-f', reference,
-    #     '--output', pileup_reads,
-    #     sorted_bam_reads]
-    # mpileup_output = subprocess_util.run_subprocess(mpileup)
-    #
-    # variant_calling = [
-    #     'bcftools',
-    #     'call',
-    #     '-c',
-    #     mpileup_output.stdout
-    # ]
-    # subprocess_util(variant_calling)
+    # Create fasta from the reads
+    pileup_reads = os.path.join(temp_dir, 'reads.pileup.bam')
+    mpileup = [
+        'bcftools', 'mpileup',
+        #'-u',
+        '-f', reference,
+        #'--output', pileup_reads,
+        sorted_bam_reads]
+    mpileup_output = subprocess_util.run_subprocess(mpileup)
+
+    variant_calling = [
+        'bcftools',
+        'call',
+        '-c'
+    ]
+    subprocess_util.run_subprocess(variant_calling, mpileup_output.stdout)
 
     #     '|',
     #     ,'bcftools call -c' # variant calling
