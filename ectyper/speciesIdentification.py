@@ -3,7 +3,6 @@ import multiprocessing
 import os
 import tempfile
 from Bio import SeqIO
-from Bio.Blast.Applications import NcbiblastnCommandline
 from collections import defaultdict
 from ectyper import genomeFunctions, definitions, subprocess_util
 
@@ -68,17 +67,18 @@ def get_num_hits(target):
 
 
             result_file = blast_db + ".output"
-            bcline = NcbiblastnCommandline(
-                                  query=definitions.ECOLI_MARKERS,
-                                  db=blast_db,
-                                  out=result_file,
-                                  perc_identity=90,
-                                  qcov_hsp_perc=90,
-                                  max_target_seqs=1,
-                                  outfmt='"6 qseqid qlen sseqid length pident sstart send sframe"',
-                                  word_size=11
-                                  )
-            subprocess_util.run_subprocess(str(bcline))
+            bcline = [
+                'blastn',
+                '-query', definitions.ECOLI_MARKERS,
+                '-db', blast_db,
+                '-out', result_file,
+                '-perc_identity', "90",
+                '-qcov_hsp_perc', "90",
+                '-max_target_seqs', "1",
+                '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe",
+                'word_size', 11
+            ]
+            subprocess_util.run_subprocess(bcline)
 
             with open(result_file) as handler:
                 LOG.debug("get_num_hits() output:")
