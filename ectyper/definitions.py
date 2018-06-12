@@ -15,6 +15,5 @@ SEROTYPE_FILE = os.path.join(DATA_DIR, 'ectyper_data.fasta')
 SEROTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_dict.json')
 
 ECOLI_MARKERS = os.path.join(DATA_DIR, 'ecoli_specific_markers.fasta')
-SAMTOOLS = 'samtools'
 REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
 REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')

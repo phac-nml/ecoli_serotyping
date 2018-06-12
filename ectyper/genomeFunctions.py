@@ -145,49 +145,67 @@ def assemble_reads(reads, reference, temp_dir):
     subprocess_util.run_subprocess(bowtie_build)
 
     # Run bowtie2
+    sam_reads = os.path.join(temp_dir, 'reads.sam')
     bowtie_run = [
         'bowtie2',
         '--score-min L,1,-0.5',
         '--np 5',
         '-x', bowtie_base,
         '-U', reads,
-        '-S', os.path.join(temp_dir, 'reads.sam')
+        '-S', sam_reads
     ]
     subprocess_util.run_subprocess(bowtie_run)
 
     # Convert reads from sam to bam
+    bam_reads = os.path.join(temp_dir, 'reads.bam')
     sam_convert = [
-        definitions.SAMTOOLS, 'view',
+        'samtools', 'view',
+        '-S',
         '-F 4',
         '-q 1',
-        '-bS', os.path.join(temp_dir, 'reads.sam'),
-        '-o', os.path.join(temp_dir, 'reads.bam')
+        '-b',
+        '-o', bam_reads,
+        sam_reads,
     ]
     subprocess_util.run_subprocess(sam_convert)
 
     # Sort the reads
+    sorted_bam_reads = os.path.join(temp_dir, 'reads.sorted.bam')
     sam_sort = [
-        definitions.SAMTOOLS, 'sort',
-        os.path.join(temp_dir, 'reads.bam'),
-        '-o', os.path.join(temp_dir, 'reads.sorted.bam'),
+        'samtools', 'sort',
+        bam_reads,
+        os.path.join(temp_dir, 'reads.sorted')
     ]
     subprocess_util.run_subprocess(sam_sort)
 
-    # Create fasta from the reads
-    shell_cmd = [
-        definitions.SAMTOOLS+' mpileup -uf', # mpileup
-        reference,
-        os.path.join(temp_dir, 'reads.sorted.bam'),
-        '|',
-        'bcftools call -c', # variant calling
-        '|',
-        'vcfutils.pl vcf2fq', # vcf to fq
-        '|',
-        'seqtk seq -A -', # fq to fasta
-        '>',
-        output_fasta
-    ]
-    subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
+    # # Create fasta from the reads
+    # pileup_reads = os.path.join(temp_dir, 'reads.pileup.bam')
+    # mpileup = [
+    #     'samtools', 'mpileup',
+    #     '-u',
+    #     '-f', reference,
+    #     '--output', pileup_reads,
+    #     sorted_bam_reads]
+    # mpileup_output = subprocess_util.run_subprocess(mpileup)
+    #
+    # variant_calling = [
+    #     'bcftools',
+    #     'call',
+    #     '-c',
+    #     mpileup_output.stdout
+    # ]
+    # subprocess_util(variant_calling)
+
+    #     '|',
+    #     ,'bcftools call -c' # variant calling
+    #     '|',
+    #     'vcfutils.pl vcf2fq', # vcf to fq
+    #     '|',
+    #     'seqtk seq -A -', # fq to fasta
+    #     '>',
+    #     output_fasta
+    # ]
+    # subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
 
     return output_fasta
 
