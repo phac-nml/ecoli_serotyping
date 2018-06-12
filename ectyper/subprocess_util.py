@@ -23,7 +23,6 @@ def run_subprocess(cmd, input_data=None):
         cmd,
         shell=False,
         input = input_data,
-        #universal_newlines=True,
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
