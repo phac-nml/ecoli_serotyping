@@ -31,7 +31,7 @@ def run_subprocess(cmd, input_data=None):
 
     if comp_proc.returncode == 0:
         elapsed_time = timeit.default_timer() - start_time
-        LOG.info("Subprocess {} finished successfully in {:0.3f} sec.".format(cmd, elapsed_time))
+        LOG.debug("Subprocess {} finished successfully in {:0.3f} sec.".format(cmd, elapsed_time))
         return comp_proc
     else:
         LOG.error("Error in subprocess. The following command failed: {}".format(cmd))

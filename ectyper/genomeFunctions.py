@@ -203,9 +203,9 @@ def assemble_reads(reads, reference, temp_dir):
     ]
     to_fasta_output = subprocess_util.run_subprocess(to_fasta, to_fastq_output.stdout)
 
-    # Write the final fasta file
+    # Write the final fasta file as bytes rather than str
     LOG.info("Creating fasta file {}".format(output_fasta))
-    with open(output_fasta, 'w') as ofh:
+    with open(output_fasta, 'wb') as ofh:
         ofh.write(to_fasta_output.stdout)
 
     return output_fasta

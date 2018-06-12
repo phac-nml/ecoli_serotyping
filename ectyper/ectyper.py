@@ -60,6 +60,7 @@ def run_program():
         LOG.info("Standardizing the genome headers")
         final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
         LOG.info(final_fasta_files)
+
         # # Main prediction function
         # predictions_file = run_prediction(all_genomes_files, args,
         #                                   ectyper_files['output_file'])
