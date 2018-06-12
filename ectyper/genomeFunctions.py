@@ -130,10 +130,8 @@ def assemble_reads(reads, reference, temp_dir):
 
     output_fasta = os.path.join(
         temp_dir,
-        os.path.splitext(os.path.basename(reads))[0],
-        '.fasta'
+        os.path.splitext(os.path.basename(reads))[0] + '.fasta'
     )
-
 
     bowtie_base = os.path.join(temp_dir, 'bowtie_reference')
     LOG.info("Creating the bowtie2 index at {}".format(bowtie_base))
@@ -179,12 +177,9 @@ def assemble_reads(reads, reference, temp_dir):
     subprocess_util.run_subprocess(sam_sort)
 
     # Create fasta from the reads
-    pileup_reads = os.path.join(temp_dir, 'reads.pileup.bam')
     mpileup = [
         'bcftools', 'mpileup',
-        #'-u',
         '-f', reference,
-        #'--output', pileup_reads,
         sorted_bam_reads]
     mpileup_output = subprocess_util.run_subprocess(mpileup)
 
@@ -195,23 +190,23 @@ def assemble_reads(reads, reference, temp_dir):
     ]
     variant_calling_output = subprocess_util.run_subprocess(variant_calling, mpileup_output.stdout)
 
-    to_fastq =[
+    to_fastq = [
         'vcfutils.pl',
         'vcf2fq'
     ]
     to_fastq_output = subprocess_util.run_subprocess(to_fastq, variant_calling_output.stdout)
 
+    to_fasta = [
+        'seqtk',
+        'seq',
+        '-A'
+    ]
+    to_fasta_output = subprocess_util.run_subprocess(to_fasta, to_fastq_output.stdout)
 
-    #     '|',
-    #     ,'bcftools call -c' # variant calling
-    #     '|',
-    #     'vcfutils.pl vcf2fq', # vcf to fq
-    #     '|',
-    #     'seqtk seq -A -', # fq to fasta
-    #     '>',
-    #     output_fasta
-    # ]
-    # subprocess_util.run_subprocess(' '.join(shell_cmd), is_shell=True)
+    # Write the final fasta file
+    LOG.info("Creating fasta file {}".format(output_fasta))
+    with open(output_fasta, 'w') as ofh:
+        ofh.write(to_fasta_output.stdout)
 
     return output_fasta
 
