@@ -193,7 +193,14 @@ def assemble_reads(reads, reference, temp_dir):
         'call',
         '-c'
     ]
-    subprocess_util.run_subprocess(variant_calling, mpileup_output.stdout)
+    variant_calling_output = subprocess_util.run_subprocess(variant_calling, mpileup_output.stdout)
+
+    to_fastq =[
+        'vcfutils.pl',
+        'vcf2fq'
+    ]
+    to_fastq_output = subprocess_util.run_subprocess(to_fastq, variant_calling_output.stdout)
+
 
     #     '|',
     #     ,'bcftools call -c' # variant calling
