@@ -12,6 +12,7 @@ LOG = logging.getLogger(__name__)
 def is_ecoli(genome_file):
     """
     Checks whether the given genome is E. coli or not
+
     :param genome_file: The genome file in fasta format
     :return: True or False
     """

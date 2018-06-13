@@ -14,21 +14,14 @@ LOG = logging.getLogger(__name__)
 
 
 def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, detailed=False):
-    """Make serotype prediction for all genomes based on blast output
-    
-    Args:
-        blast_output_file(str):
-            blastn output with outfmt:
-                "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp -word_size 11"
-        ectyper_dict_file(str):
-            mapping file used to associate allele id to allele informations
-        predictions_file(str):
-            csv file to store result
-        detailed(bool, optional):
-            whether to generate detailed output or not
+    """
+    Predict the serotype of all genomes, given the blast output of the markers against the genomes
 
-    Returns:
-        predictions_file
+    :param blast_output_file: Results of allele file against the genomes of interest
+    :param ectyper_dict_file: JSON file of known alleles and their O and H mappings
+    :param predictions_file: The CSV output of the program
+    :param detailed: BOOL: generate detailed output or not
+    :return: The CSV formatted predictions file
     """
 
     basename, extension = os.path.splitext(predictions_file)
@@ -71,22 +64,16 @@ def predict_serotype(blast_output_file, ectyper_dict_file, predictions_file, det
 
 def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
     """
-    Make serotype prediction for a single genome based on blast output
-    
-    Args:
-        per_genome_df(DataFrame):
-            blastn outputs for the given genome
-        predictions_columns(dict):
-            columns to be filled by prediction function
-        gene_pairs(dict):
-            dict of pair genes used for paired logic
-        detailed(bool):
-            whether to generate detailed output or not
-    Return:
-        Prediction dictionary for the given genome
+     Make serotype prediction for a single genome based on the blast output
+
+    :param per_genome_df: The blastn results for the given genome
+    :param predictions_columns: Columns to be filled with data from this function
+    :param gene_pairs: Required gene pairs for the O-prediction logic
+    :param detailed: BOOL: Whether to report detailed output or not
+    :return:
     """
 
-    # Extract potential predictors
+    # Extract the needed information from the blast results
     useful_columns = [
         'gene', 'serotype', 'score', 'name', 'desc', 'pident', 'qcovhsp', 'qseqid', 'sseqid'
     ]
@@ -133,6 +120,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
 
                 predictions[antigen+'_info'] = 'Alignment found'
                 predictions[predicting_antigen+'_prediction'] = prediction
+
         # No alignment found
         # Make prediction based on non-paired gene
         # if only one non-paired gene is avaliable, and no paired-genes are available
@@ -147,13 +135,10 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
 
 def blast_output_to_df(blast_output_file):
     """
-    Convert raw blast output file to DataFrame
-    Args:
-        blast_output_file(str): location of blast output
-    
-    Returns:
-        DataFrame:
-            DataFrame of the blast output
+    Convert the raw Blast output to a DataFrame
+
+    :param blast_output_file: Blast results to convert
+    :return: DataFrame of the blast results
     """
 
     output_data = []
@@ -176,6 +161,7 @@ def blast_output_to_df(blast_output_file):
 
     if not output_data:
         LOG.warning("No hits found for blast output file {}".format(blast_output_file))
+
         # Return empty dataframe with correct columns
         return pd.DataFrame(
             columns=[
@@ -190,11 +176,11 @@ def blast_output_to_df(blast_output_file):
 
 def ectyper_dict_to_df(ectyper_dict_file):
     """
-    Load all the known alleles for the O and H genes, and store them as
-    a dataframe.
-    :param ectyper_dict_file: JSON file of all known O and H alleles
-    :return: the dataframe for the converted JSON file
+    Load all the known alleles for the O and H genes, and store them as a DataFrame.
+    :param ectyper_dict_file: JSON file of all known O- and H- alleles
+    :return: DataFrame of the JSON file
     """
+
     with open(ectyper_dict_file) as fh:
         ectyper_dict = json.load(fh)
         temp_list = []
@@ -213,10 +199,12 @@ def ectyper_dict_to_df(ectyper_dict_file):
 
 def store_df(src_df, dst_file):
     """
-    Append dataframe to a file if it exists, otherwise, make a new file
-    Args:
-        src_df(str): dataframe object to be stored
-        dst_file(str): dst_file to be modified/created
+    Store a DataFrame as a file. Append to an existing file, or create a new one
+    if one does not exist.
+
+    :param src_df: DataFrame to be stored
+    :param dst_file: file to be appened to or created
+    :return: None
     """
 
     if os.path.isfile(dst_file):
@@ -229,10 +217,10 @@ def store_df(src_df, dst_file):
 
 def report_result(csv_file):
     """
-    Report the content of the results dataframe in the log
-    
-    Args:
-        csv_file(str): location of the prediction file
+    Outputs the results of the given file to the log.
+
+    :param csv_file: File whose contents will be added to the log
+    :return: None
     """
 
     df = pd.read_csv(csv_file)
