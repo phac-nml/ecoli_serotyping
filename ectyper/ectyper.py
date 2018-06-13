@@ -6,6 +6,7 @@ import logging
 import os
 import tempfile
 import datetime
+import json
 
 from ectyper import (commandLineOptions, definitions, speciesIdentification,
                      genomeFunctions, loggingFunctions, predictionFunctions, subprocess_util)
@@ -51,7 +52,9 @@ def run_program():
         LOG.debug(raw_files_dict)
 
         # Assemble any fastq files
-        all_fasta_files = genomeFunctions.assembleFastq(raw_files_dict, temp_dir)
+        all_fasta_files = genomeFunctions.assembleFastq(raw_files_dict,
+                                                        temp_dir,
+                                                        ectyper_files['alleles_fasta'])
 
         # Verify _E. coli_ genomes, if desired
         v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.verify)
@@ -61,7 +64,9 @@ def run_program():
         LOG.info(final_fasta_files)
 
         # Main prediction function
-        predictions_file = run_prediction(final_fasta_files, args,
+        predictions_file = run_prediction(final_fasta_files,
+                                          args,
+                                          ectyper_files['alleles_fasta'],
                                           ectyper_files['output_file'])
 
         # Add empty rows for genomes without a blast result
@@ -121,19 +126,45 @@ def create_ectyper_files(temp_dir, output_dir=None):
     # Finalize the tmp_files dictionary
     files_and_dirs['output_file'] = output_file
     files_and_dirs['output_dir'] = output_dir
+    files_and_dirs['alleles_fasta'] = create_alleles_fasta_file(temp_dir)
 
     LOG.info("ectyper files and directories created")
     LOG.debug(files_and_dirs)
     return files_and_dirs
 
 
-def run_prediction(genome_files, args, predictions_file):
+def create_alleles_fasta_file(temp_dir):
+    """
+    Every run, re-create the fasta file of alleles to ensure a single
+    source of truth for the ectyper data -- the JSON file.
+
+    :temp_dir: temporary directory for length of program run
+    :return: the filepath for alleles.fasta
+    """
+    output_file = os.path.join(temp_dir,'alleles.fasta')
+
+    with open(definitions.SEROTYPE_ALLELE_JSON, 'r') as jsonfh:
+        json_data = json.load(jsonfh)
+
+        with open(output_file, 'w') as ofh:
+            for a in ["O", "H"]:
+                for k in json_data[a].keys():
+                    ofh.write(">" + k + "\n")
+                    ofh.write(json_data[a][k]["seq"] + "\n")
+
+    LOG.debug(output_file)
+    return output_file
+
+
+
+def run_prediction(genome_files, args, alleles_fasta, predictions_file):
     """
     Serotype prediction of all the input files, which have now been properly
     converted to fasta if required, and their headers standardized
 
     :param genome_files: List of genome files in fasta format
     :param args: program arguments from the commandline
+    :param alleles_fasta: fasta format file of the ectyper O- and H-alleles
     :param predictions_file: the output file to store the predictions
     :return: predictions_file
     """
@@ -164,7 +195,7 @@ def run_prediction(genome_files, args, predictions_file):
             blast_output_file = blast_db + ".output"
             bcline = [
                 'blastn',
-                '-query', definitions.SEROTYPE_FILE,
+                '-query', alleles_fasta,
                 '-db', blast_db,
                 '-out', blast_output_file,
                 '-perc_identity', str(args.percentIdentity),

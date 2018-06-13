@@ -172,7 +172,7 @@ def assemble_reads(reads, reference, temp_dir):
     sam_sort = [
         'samtools', 'sort',
         bam_reads,
-        os.path.join(temp_dir, 'reads.sorted')
+        '-o', sorted_bam_reads
     ]
     subprocess_util.run_subprocess(sam_sort)
 
@@ -267,12 +267,13 @@ def download_refseq():
         LOG.info("Download complete.")
 
 
-def assembleFastq(raw_files_dict, temp_dir):
+def assembleFastq(raw_files_dict, temp_dir, alleles_fasta):
     """
     For any fastq files, map and assemble the serotyping genes, and optionally
     the E. coli specific genes.
     :param raw_files_dict: Dictionary of ['fasta'] and ['fastq'] files
     :param temp_dir: Temporary files created for ectyper
+    :param alleles_fasta: Fasta format file of all O- and H- alleles
     :return: list of all fasta files, including the assembled fastq
     """
 
@@ -286,7 +287,7 @@ def assembleFastq(raw_files_dict, temp_dir):
         with open(definitions.ECOLI_MARKERS, 'r') as mfh:
             ofh.write(mfh.read())
 
-        with open(definitions.SEROTYPE_FILE, 'r') as sfh:
+        with open(alleles_fasta, 'r') as sfh:
             ofh.write(sfh.read())
 
     all_fasta_files = raw_files_dict['fasta']
