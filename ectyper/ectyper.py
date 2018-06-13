@@ -65,9 +65,9 @@ def run_program():
                                           ectyper_files['output_file'])
 
         # Add empty rows for genomes without blast result
-        # predictions_file = predictionFunctions.add_non_predicted(
-        #     all_genomes_list, predictions_file)
-        # LOG.info('Output saved to {0}'.format(ectyper_files['output_dir']))
+        predictions_file = predictionFunctions.add_non_predicted(
+            raw_genome_files, predictions_file)
+        LOG.info('Output saved to {0}'.format(ectyper_files['output_dir']))
 
         # Store most recent result in working directory
         LOG.info('\nReporting result...')

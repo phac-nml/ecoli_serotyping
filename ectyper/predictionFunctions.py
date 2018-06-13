@@ -245,18 +245,20 @@ def report_result(csv_file):
 def add_non_predicted(all_genomes_list, predictions_file):
     """
     Add genomes that do not show up in the blast results to the prediction file
-    
-    Args:
-        all_genomes_list(list):
-            list of genomes from user input
-        predictions_file(str):
-            location of the prediction file
-    Returns:
-        str: location of the prediction file
+
+    :param all_genomes_list: the list of genomes given by the user
+    :param predictions_file: the file containing the ectyper predictions
+    :return: modified prediction file
     """
 
+    # genome names are given without the filename extension
+    genome_names = []
+    for g in all_genomes_list:
+        gname = os.path.splitext(os.path.split(g)[1])[0]
+        genome_names.append(gname)
+
     df = pd.read_csv(predictions_file)
-    df = df.merge(pd.DataFrame(all_genomes_list, columns=['genome']), on='genome', how='outer')
+    df = df.merge(pd.DataFrame(genome_names, columns=['genome']), on='genome', how='outer')
     df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
     df.fillna('-', inplace=True)
     df.to_csv(predictions_file, index=False)
