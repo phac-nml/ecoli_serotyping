@@ -14,19 +14,19 @@ source:
 
 requirements:
     build:
-        - python 3.6.3.*
+        - python 3.6.3
         - pytest 3.*
     run:
-        - python 3.6.3.*
-        - pandas 0.21.0.*
-        - samtools 1.5.*
-        - bowtie2 2.3.0.*
-        - mash 2.*
-        - bcftools 1.8.*
-        - biopython 1.69.*
-        - blast 2.2.31 .*
-        - seqtk 1.2.*
-        - setuptools_scm 2.1.*
+        - python 3.6.3
+        - ">=pandas 0.23"
+        - ">=samtools 1.7"
+        - ">=bowtie2 2.3"
+        - ">=mash 2.0"
+        - ">=bcftools 1.7"
+        - ">=biopython 1.69"
+        - ">=blast 2.2.31"
+        - ">=seqtk 1.2"
+        - ">=setuptools_scm 2.1"
 test:
     commands:
         - ectyper -h
