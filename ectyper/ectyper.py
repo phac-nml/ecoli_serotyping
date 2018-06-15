@@ -201,7 +201,7 @@ def run_prediction(genome_files, args, alleles_fasta, predictions_file):
                 '-perc_identity', str(args.percentIdentity),
                 '-qcov_hsp_perc', str(args.percentLength),
                 '-max_hsps', "1",
-                '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp",
+                '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp sseq",
                 '-word_size', "11"
             ]
             subprocess_util.run_subprocess(bcline)

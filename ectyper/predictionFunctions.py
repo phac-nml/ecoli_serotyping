@@ -75,7 +75,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
 
     # Extract the needed information from the blast results
     useful_columns = [
-        'gene', 'serotype', 'score', 'name', 'desc', 'pident', 'qcovhsp', 'qseqid', 'sseqid'
+        'gene', 'serotype', 'score', 'name', 'desc', 'pident', 'qcovhsp', 'qseqid', 'sseqid', 'sseq'
     ]
     per_genome_df = per_genome_df.sort_values(['gene', 'serotype', 'score'], ascending=False)
     per_genome_df = per_genome_df[~per_genome_df.duplicated(['gene', 'serotype'])]
@@ -88,25 +88,33 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
 
     for predicting_antigen in ['O', 'H']:
         genes_pool = defaultdict(list)
+
         for index, row in predictors_df.iterrows():
             gene = row['gene']
             if detailed:
                 predictions[gene] = True
+
             if not predictions[predicting_antigen+'_prediction']:
                 serotype = row['serotype']
                 if serotype[0] is not predicting_antigen:
                     continue
                 genes_pool[gene].append(serotype)
                 prediction = None
+
                 if len(serotype) < 1:
                     continue
+
                 antigen = serotype[0].upper()
                 if antigen != predicting_antigen:
                     continue
+
                 if gene in gene_pairs.keys():
                     predictions[antigen+'_info'] = 'Only unpaired alignments found'
                     # Pair gene logic
                     potential_pairs = genes_pool.get(gene_pairs.get(gene))
+                    if row['score'] != 1:
+                        LOG.debug("NEW ALLELE for {}: {}".format(gene, row['seq']))
+
                     if potential_pairs is None:
                         continue
                     if serotype in potential_pairs:
@@ -154,7 +162,8 @@ def blast_output_to_df(blast_output_file):
                 'sstart': fields[5],
                 'send': fields[6],
                 'sframe': fields[7],
-                'qcovhsp': fields[8]
+                'qcovhsp': fields[8],
+                'sseq': fields[9]
             }
             output_data.append(entry)
     df = pd.DataFrame(output_data)
@@ -167,7 +176,7 @@ def blast_output_to_df(blast_output_file):
             columns=[
                 'length', 'pident', 'qcovhsp',
                 'qlen', 'qseqid', 'send',
-                'sframe', 'sseqid', 'sstart'
+                'sframe', 'sseqid', 'sstart', 'sseq'
             ])
     else:
         df['score'] = df['pident'].astype(float)*df['qcovhsp'].astype(float)/10000
