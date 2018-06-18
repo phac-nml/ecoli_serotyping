@@ -113,7 +113,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
                     # Pair gene logic
                     potential_pairs = genes_pool.get(gene_pairs.get(gene))
                     if row['score'] != 1:
-                        LOG.debug("NEW ALLELE for {}: {}".format(gene, row['sseq']))
+                        LOG.debug("NEW ALLELE closest to query {}, name: {}, score: {}, sequence: {}".format(row['qseqid'], row['sseqid'], row['score'], row['sseq']))
 
                     if potential_pairs is None:
                         continue
