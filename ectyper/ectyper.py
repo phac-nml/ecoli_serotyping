@@ -2,18 +2,17 @@
 """
     Predictive serotyping for _E. coli_.
 """
-import logging
 import os
 import tempfile
 import datetime
 import json
+import logging
 
-from ectyper import (commandLineOptions, definitions, speciesIdentification,
-                     genomeFunctions, loggingFunctions, predictionFunctions, subprocess_util)
+from ectyper import (commandLineOptions, definitions, speciesIdentification, loggingFunctions,
+                     genomeFunctions, predictionFunctions, subprocess_util)
 
-LOG_FILE = loggingFunctions.initialize_logging()
-LOG = logging.getLogger(__name__)
-
+# setup the application logging
+LOG = loggingFunctions.create_logger()
 
 def run_program():
     """
@@ -32,8 +31,16 @@ def run_program():
     """
     # Initialize the program
     args = commandLineOptions.parse_command_line()
+    output_directory = create_output_directory(args.output)
+
+    #Create a file handler for log messages in the output directory
+    fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'))
+    fh.setLevel(logging.DEBUG)
+    LOG.addHandler(fh)
+
     LOG.debug(args)
-    LOG.info("Starting ectyper v{}.\nLog file is: {}".format(commandLineOptions.current_version(),LOG_FILE))
+    LOG.info("Starting ectyper v{}.\nOutput directory is: {}"
+         .format(commandLineOptions.current_version(), output_directory))
 
     # Initialize ectyper directories and temp files for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -52,7 +59,7 @@ def run_program():
         # Create files for ectyper run
         ectyper_files = create_ectyper_files(temp_dir,
                                              raw_files_dict['fastq'],
-                                             output_dir=args.output
+                                             output_directory
                                           )
 
         # Assemble any fastq files
@@ -84,19 +91,15 @@ def run_program():
         predictionFunctions.report_result(predictions_file)
 
 
-def create_ectyper_files(temp_dir, fastq_list, output_dir=None, ):
+def create_output_directory(output_dir):
     """
-    Create the files needed for an ectyper run.
-    This includes the fasta files and databases, and the output files.
-    :param temp_dir: the temporary directory for the ectyper run
-     :param fastq_list: list of all fastq files, if any
-    :param output_dir: program output directory if specified
-    :return: Dictionary of files for program run
-    """
+    Create the output directory for ectyper
 
+    :param output_dir: The user-specified output directory, if any
+    :return: The output directory
+    """
     # If no output directory is specified for the run, create a one based on time
     out_dir = None
-    files_and_dirs = {}
 
     if output_dir is None:
         date_dir = ''.join([
@@ -111,13 +114,25 @@ def create_ectyper_files(temp_dir, fastq_list, output_dir=None, ):
         else:
             out_dir = os.path.join(definitions.WORKPLACE_DIR, output_dir)
 
-    output_file = os.path.join(out_dir, 'output.csv')
-
     if not os.path.exists(out_dir):
-            os.makedirs(out_dir)
+        os.makedirs(out_dir)
+
+    return out_dir
+
+
+def create_ectyper_files(temp_dir, fastq_list, out_dir):
+    """
+    Create the files needed for an ectyper run.
+    This includes the fasta files and databases, and the output files.
+    :param temp_dir: the temporary directory for the ectyper run
+    :param fastq_list: list of all fastq files, if any
+    :param out_dir: program output directory if specified
+    :return: Dictionary of files for program run
+    """
 
     # Finalize the tmp_files dictionary
-    files_and_dirs['output_file'] = output_file
+    files_and_dirs = {}
+    files_and_dirs['output_file'] =  os.path.join(out_dir, 'output.csv')
     files_and_dirs['output_dir'] = out_dir
     files_and_dirs['alleles_fasta'] = create_alleles_fasta_file(temp_dir)
     files_and_dirs['combined_fasta'] = \

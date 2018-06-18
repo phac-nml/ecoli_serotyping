@@ -6,7 +6,7 @@ about:
 
 package:
     name: ectyper
-    version: 0.1.0
+    version: 0.3.0
 
 source:
     url: https://github.com/phac-nml/ecoli_serotyping/archive/239795e27446c467c8100aeaa73a741efdbb026f.zip
