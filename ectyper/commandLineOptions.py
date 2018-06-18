@@ -3,7 +3,15 @@
 import argparse
 from setuptools_scm import get_version
 
-CURRENT_VERSION = get_version(root="..", relative_to=__file__)
+
+
+def current_version():
+    """
+    Function to return the current version of the program
+    :return: The current version of ectyper
+    """
+    return get_version(root="..", relative_to=__file__)
+
 
 def parse_command_line(args=None):
     """
@@ -29,14 +37,14 @@ def parse_command_line(args=None):
 
     parser = argparse.ArgumentParser(
         description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
-            ' or assembled genome sequences'.format(CURRENT_VERSION)
+            ' or assembled genome sequences'.format(current_version())
     )
 
     parser.add_argument(
         "-V",
         "--version",
         action='version',
-        version="%(prog)s {}".format(CURRENT_VERSION)
+        version="%(prog)s {}".format(current_version())
     )
 
     parser.add_argument(

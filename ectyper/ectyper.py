@@ -33,7 +33,7 @@ def run_program():
     # Initialize the program
     args = commandLineOptions.parse_command_line()
     LOG.debug(args)
-    LOG.info("Starting ectyper.\nLog file is: {}".format(LOG_FILE))
+    LOG.info("Starting ectyper v{}.\nLog file is: {}".format(commandLineOptions.current_version(),LOG_FILE))
 
     # Initialize ectyper directories and temp files for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -81,51 +81,38 @@ def run_program():
 
 def create_ectyper_files(temp_dir, output_dir=None):
     """
-    Create dictionary of files and directories used by ectyper
-
-    Args:
-        temp_dir: program scope temporary directory
-        output_dir(str, optional):
-            directory to store output
-
-    Return:
-        a dictionary of temporary files
-        example:
-            {'assemble_temp_dir': 'test/temp/assemblies',
-             'fasta_temp_dir': 'test/temp/fastas',
-             'output_dir': os.path.abspath('output')+'/',
-             'output_file': os.path.abspath('output/output.csv')}
+    Create the files needed for an ectyper run.
+    This includes the fasta files and databases, and the output files.
+    :param temp_dir:
+    :param output_dir:
+    :return:
     """
 
-    # Get the correct files and directories
-    files_and_dirs = {
-        'assemble_temp_dir': os.path.join(temp_dir, 'assemblies'),
-        'fasta_temp_dir': os.path.join(temp_dir, 'fastas'),
-    }
+    # If no output directory is specified for the run, create a one based on time
+    out_dir = None
+    files_and_dirs = {}
+
     if output_dir is None:
-        output_dir = ''.join([
+        date_dir = ''.join([
             str(datetime.datetime.now().date()),
             '_',
             str(datetime.datetime.now().time()).replace(':', '.')
         ])
-    if os.path.isabs(output_dir):
-        pass
+        out_dir = os.path.join(definitions.WORKPLACE_DIR, date_dir)
     else:
-        output_dir = os.path.join(definitions.WORKPLACE_DIR, 'output', output_dir)
+        if os.path.isabs(output_dir):
+            out_dir = output_dir
+        else:
+            out_dir = os.path.join(definitions.WORKPLACE_DIR, output_dir)
 
-    output_file = os.path.join(output_dir, 'output.csv')
-    if os.path.isfile(output_file):
-        os.remove(output_file)
-    for d in [
-            output_dir, files_and_dirs['assemble_temp_dir'],
-            files_and_dirs['fasta_temp_dir']
-    ]:
-        if not os.path.exists(d):
-            os.makedirs(d)
+    output_file = os.path.join(out_dir, 'output.csv')
+
+    if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
 
     # Finalize the tmp_files dictionary
     files_and_dirs['output_file'] = output_file
-    files_and_dirs['output_dir'] = output_dir
+    files_and_dirs['output_dir'] = out_dir
     files_and_dirs['alleles_fasta'] = create_alleles_fasta_file(temp_dir)
 
     LOG.info("ectyper files and directories created")
