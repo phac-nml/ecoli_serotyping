@@ -37,8 +37,6 @@ def run_program():
 
     # Initialize ectyper directories and temp files for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
-        ectyper_files = create_ectyper_files(temp_dir, output_dir=args.output)
-
         # Download refseq file if species identification is enabled
         if args.species:
             genomeFunctions.download_refseq()
@@ -51,10 +49,17 @@ def run_program():
         raw_files_dict = genomeFunctions.get_raw_files(raw_genome_files)
         LOG.debug(raw_files_dict)
 
+        # Create files for ectyper run
+        ectyper_files = create_ectyper_files(temp_dir,
+                                             raw_files_dict['fastq'],
+                                             output_dir=args.output
+                                          )
+
         # Assemble any fastq files
         all_fasta_files = genomeFunctions.assembleFastq(raw_files_dict,
                                                         temp_dir,
-                                                        ectyper_files['alleles_fasta'])
+                                                        ectyper_files['combined_fasta'],
+                                                        ectyper_files['bowtie_base'])
 
         # Verify _E. coli_ genomes, if desired
         v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.verify)
@@ -79,13 +84,14 @@ def run_program():
         predictionFunctions.report_result(predictions_file)
 
 
-def create_ectyper_files(temp_dir, output_dir=None):
+def create_ectyper_files(temp_dir, fastq_list, output_dir=None, ):
     """
     Create the files needed for an ectyper run.
     This includes the fasta files and databases, and the output files.
-    :param temp_dir:
-    :param output_dir:
-    :return:
+    :param temp_dir: the temporary directory for the ectyper run
+     :param fastq_list: list of all fastq files, if any
+    :param output_dir: program output directory if specified
+    :return: Dictionary of files for program run
     """
 
     # If no output directory is specified for the run, create a one based on time
@@ -114,6 +120,14 @@ def create_ectyper_files(temp_dir, output_dir=None):
     files_and_dirs['output_file'] = output_file
     files_and_dirs['output_dir'] = out_dir
     files_and_dirs['alleles_fasta'] = create_alleles_fasta_file(temp_dir)
+    files_and_dirs['combined_fasta'] = \
+        genomeFunctions.create_combined_alleles_and_markers_file(files_and_dirs['alleles_fasta'], temp_dir)
+
+    # Create a bowtie2 reference if there are assemblies that need to be done
+    if fastq_list:
+        files_and_dirs['bowtie_base'] = genomeFunctions.create_bowtie_base(temp_dir, files_and_dirs['combined_fasta'])
+    else:
+        files_and_dirs['bowtie_base'] = None
 
     LOG.info("ectyper files and directories created")
     LOG.debug(files_and_dirs)
@@ -128,7 +142,7 @@ def create_alleles_fasta_file(temp_dir):
     :temp_dir: temporary directory for length of program run
     :return: the filepath for alleles.fasta
     """
-    output_file = os.path.join(temp_dir,'alleles.fasta')
+    output_file = os.path.join(temp_dir, 'alleles.fasta')
 
     with open(definitions.SEROTYPE_ALLELE_JSON, 'r') as jsonfh:
         json_data = json.load(jsonfh)

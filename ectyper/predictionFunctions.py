@@ -94,7 +94,7 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
             if detailed:
                 predictions[gene] = True
 
-            if not predictions[predicting_antigen+'_prediction']:
+            if not predictions[predicting_antigen + '_prediction']:
                 serotype = row['serotype']
                 if serotype[0] is not predicting_antigen:
                     continue
@@ -109,11 +109,11 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
                     continue
 
                 if gene in gene_pairs.keys():
-                    predictions[antigen+'_info'] = 'Only unpaired alignments found'
+                    predictions[antigen + '_info'] = 'Only unpaired alignments found'
                     # Pair gene logic
                     potential_pairs = genes_pool.get(gene_pairs.get(gene))
                     if row['score'] != 1:
-                        LOG.debug("NEW ALLELE for {}: {}".format(gene, row['seq']))
+                        LOG.debug("NEW ALLELE for {}: {}".format(gene, row['sseq']))
 
                     if potential_pairs is None:
                         continue
@@ -127,17 +127,17 @@ def get_prediction(per_genome_df, predictions_columns, gene_pairs, detailed):
                     continue
 
                 predictions[antigen+'_info'] = 'Alignment found'
-                predictions[predicting_antigen+'_prediction'] = prediction
+                predictions[predicting_antigen + '_prediction'] = prediction
 
         # No alignment found
         # Make prediction based on non-paired gene
         # if only one non-paired gene is avaliable, and no paired-genes are available
-        if predictions.get(predicting_antigen+'_prediction') is None:
+        if predictions.get(predicting_antigen + '_prediction') is None:
             if len(genes_pool) == 1:
                 serotypes = list(genes_pool.values())[0]
                 if len(serotypes) == 1:
-                    predictions[antigen+'_info'] = 'Lone unpaired alignment found'
-                    predictions[predicting_antigen+'_prediction'] = serotypes[0]
+                    predictions[antigen + '_info'] = 'Lone unpaired alignment found'
+                    predictions[predicting_antigen + '_prediction'] = serotypes[0]
     return predictions
 
 

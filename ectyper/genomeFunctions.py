@@ -26,7 +26,6 @@ def get_files_as_list(file_or_directory):
 
     Returns:
         files_list (list(str)): List of all the files found.
-
     """
 
     files_list = []
@@ -119,11 +118,36 @@ def get_genome_names_from_files(files, temp_dir):
     return modified_genomes
 
 
-def assemble_reads(reads, reference, temp_dir):
+def create_bowtie_base(temp_dir, reference):
+    """
+    Create the bowtie reference, based on the combined E. coli markers and
+    O- and H- type alleles
+
+    :param temp_dir: Program wide temporary directory
+    :param reference: The fasta file to use as a reference for the base
+    :return: The full path to bowtie_base
+    """
+
+    LOG.info("Creating bowtie2 base index")
+
+    bowtie_base = os.path.join(temp_dir, 'bowtie_reference')
+    LOG.info("Creating the bowtie2 index at {}".format(bowtie_base))
+    bowtie_build = [
+        'bowtie2-build',
+        '-f',
+        reference,
+        bowtie_base
+    ]
+    subprocess_util.run_subprocess(bowtie_build)
+    return bowtie_base
+
+
+def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     """
     Assembles fastq reads to the specified reference file.
     :param reads: The fastq file to assemble
-    :param reference: The fasta reference file
+    :param bowtie_base: The full-path to the bowtie reference created for this run
+    :param combined_fasta: Combined E. coli markers and O- and H- alleles
     :param temp_dir: The ectyper temporary directory
     :return: The full path to the assembled fasta file
     """
@@ -132,15 +156,6 @@ def assemble_reads(reads, reference, temp_dir):
         temp_dir,
         os.path.splitext(os.path.basename(reads))[0] + '.fasta'
     )
-
-    bowtie_base = os.path.join(temp_dir, 'bowtie_reference')
-    LOG.info("Creating the bowtie2 index at {}".format(bowtie_base))
-    bowtie_build = [
-      'bowtie2-build',
-        reference,
-        bowtie_base
-    ]
-    subprocess_util.run_subprocess(bowtie_build)
 
     # Run bowtie2
     sam_reads = os.path.join(temp_dir, 'reads.sam')
@@ -179,7 +194,7 @@ def assemble_reads(reads, reference, temp_dir):
     # Create fasta from the reads
     mpileup = [
         'bcftools', 'mpileup',
-        '-f', reference,
+        '-f', combined_fasta,
         sorted_bam_reads]
     mpileup_output = subprocess_util.run_subprocess(mpileup)
 
@@ -267,19 +282,35 @@ def download_refseq():
         LOG.info("Download complete.")
 
 
-def assembleFastq(raw_files_dict, temp_dir, alleles_fasta):
+def assembleFastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base):
     """
     For any fastq files, map and assemble the serotyping genes, and optionally
     the E. coli specific genes.
     :param raw_files_dict: Dictionary of ['fasta'] and ['fastq'] files
     :param temp_dir: Temporary files created for ectyper
-    :param alleles_fasta: Fasta format file of all O- and H- alleles
+    :param combined_fasta: Combined E. coli markers and O- and H- alleles
+    :param bowtie_base: The bowtie base index of O- and H- alleles and E. coli markers
     :return: list of all fasta files, including the assembled fastq
     """
 
-    # Create a combined E. coli specific marker and serotyping allele file
-    # Do this every program run to prevent the need for keeping a separate
-    # combined file in sync.
+    all_fasta_files = raw_files_dict['fasta']
+    for fastq_file in raw_files_dict['fastq']:
+        fasta_file = assemble_reads(fastq_file, bowtie_base, combined_fasta, temp_dir)
+        all_fasta_files.append(fasta_file)
+
+    return all_fasta_files
+
+
+def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
+    """
+    Create a combined E. coli specific marker and serotyping allele file
+    Do this every program run to prevent the need for keeping a separate combined file in sync.
+
+    :param alleles_fasta: The O- and H- alleles file
+    :param temp_dir: Temporary directory for program run
+    :return: The combined alleles and markers file
+    """
+
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
     LOG.info("Creating combined serotype and identification fasta file")
 
@@ -290,16 +321,11 @@ def assembleFastq(raw_files_dict, temp_dir, alleles_fasta):
         with open(alleles_fasta, 'r') as sfh:
             ofh.write(sfh.read())
 
-    all_fasta_files = raw_files_dict['fasta']
-    for fastq_file in raw_files_dict['fastq']:
-        fasta_file = assemble_reads(fastq_file, combined_file, temp_dir)
-        all_fasta_files.append(fasta_file)
-
-    return all_fasta_files
+    return combined_file
 
 
 
-#
+
 # def filter_file_by_species(genome_file, genome_format, temp_dir, verify=False, species=False):
 #     """
 #     Assemble fastq sequences to fasta for the E. coli specific markers
