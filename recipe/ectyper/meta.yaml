@@ -16,8 +16,6 @@ requirements:
     build:
         - python 3.6.3
         - pytest 3.*
-    run:
-        - python 3.6.3
         - ">=pandas 0.23"
         - ">=samtools 1.7"
         - ">=bowtie2 2.3"
@@ -27,6 +25,8 @@ requirements:
         - ">=blast 2.2.31"
         - ">=seqtk 1.2"
         - ">=setuptools_scm 2.1"
+    run:
+        - python 3.6.3
 
 test:
     commands:
