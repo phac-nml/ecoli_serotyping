@@ -1,16 +1,16 @@
 about:
-    license: MIT
+    license: Apache 2
     summary: ECtyper is a python script for serotyping E. coli genomes
     author: Chad Laing, Camille La Rose, Sam Sung
     home: https://github.com/phac-nml/ecoli_serotyping
 
 package:
     name: ectyper
-    version: 0.3.0
+    version: "0.3.0"
 
 source:
-    url: https://github.com/phac-nml/ecoli_serotyping/archive/239795e27446c467c8100aeaa73a741efdbb026f.zip
-    md5: d2cfb90afe8290b60c9c491aaee8db70
+    git_rev: v0.3.0
+    git_url: https://github.com/phac-nml/ecoli_serotyping
 
 requirements:
     build:
@@ -27,6 +27,7 @@ requirements:
         - ">=blast 2.2.31"
         - ">=seqtk 1.2"
         - ">=setuptools_scm 2.1"
+
 test:
     commands:
-        - ectyper -h
+        - pytest
