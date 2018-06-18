@@ -103,6 +103,7 @@ def create_output_directory(output_dir):
 
     if output_dir is None:
         date_dir = ''.join([
+            'ectyper_',
             str(datetime.datetime.now().date()),
             '_',
             str(datetime.datetime.now().time()).replace(':', '.')
