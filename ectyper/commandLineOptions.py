@@ -2,13 +2,14 @@
 
 import argparse
 import pkg_resources
+from setuptools_scm import get_version
 
 def the_version():
     v = None
     try:
         v = pkg_resources.get_distribution('ectyper').version()
     except:
-        v = '0.0.0-build'
+        v = get_version(root='..', relative_to=__file__)
 
     return v
 
