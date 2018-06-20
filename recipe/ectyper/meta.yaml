@@ -6,10 +6,10 @@ about:
 
 package:
     name: ectyper
-    version: "0.3.1"
+    version: "0.3.2"
 
 source:
-    url: https://github.com/phac-nml/ecoli_serotyping/archive/v0.3.1.tar.gz
+    url: https://github.com/phac-nml/ecoli_serotyping/archive/v0.3.2.tar.gz
 
 build:
     number: 1
