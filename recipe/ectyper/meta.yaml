@@ -9,7 +9,7 @@ package:
     version: "0.3.0"
 
 source:
-    url: https://github.com/phac-nml/ecoli_serotyping/archive/allele.zip
+    url: https://github.com/phac-nml/ecoli_serotyping/archive/v0.3-beta.tar.gz
 
 build:
     number: 1
