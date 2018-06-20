@@ -6,7 +6,7 @@ about:
 
 package:
     name: ectyper
-    version: "0.3.5"
+    version: "{{ load_setup_py_data().version }}"
 
 source:
     url: https://github.com/phac-nml/ecoli_serotyping/archive/v0.3.5.tar.gz

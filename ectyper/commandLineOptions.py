@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 import argparse
+from ectyper import __version__
 
-VERSION = "0.3.5"
+VERSION = __version__
 
 def parse_command_line(args=None):
     """

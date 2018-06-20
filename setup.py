@@ -1,8 +1,9 @@
 from setuptools import setup
+from ectyper import __version__
 
 setup(
     name='ectyper',
-    version='0.3.5',
+    version=__version__,
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Chad Laing, Sam Sung, Camille La Rose',
