@@ -6,10 +6,10 @@ about:
 
 package:
     name: ectyper
-    version: "0.3.3"
+    version: "0.3.4"
 
 source:
-    url: https://github.com/phac-nml/ecoli_serotyping/archive/v0.3.2.tar.gz
+    url: https://github.com/phac-nml/ecoli_serotyping/archive/v0.3.4.tar.gz
 
 build:
     number: 1
@@ -30,6 +30,7 @@ requirements:
         - biopython >=1.69
         - blast >=2.2.31
         - seqtk >=1.2
+        - setuptools_scm >= 2.1
 
 test:
     import:
