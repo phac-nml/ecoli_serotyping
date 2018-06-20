@@ -33,7 +33,10 @@ requirements:
         - blast >=2.2.31
         - seqtk >=1.2
         - setuptools_scm >=2.1
+        - setuptools_scm_git_archive >=1.0
 
 test:
     import:
         - ectyper
+    commands:
+        - "ectyper -h"

@@ -2,6 +2,7 @@
 
 import argparse
 from setuptools_scm import get_version
+from pkg_resources import get_distribution, DistributionNotFound
 
 
 
@@ -10,7 +11,12 @@ def current_version():
     Function to return the current version of the program
     :return: The current version of ectyper
     """
-    return get_version(root="..", relative_to=__file__)
+    #
+    try:
+        __version__ = get_distribution(__name__).version
+        return __version__
+    except DistributionNotFound:
+        return get_version(root="..", relative_to=__file__)
 
 
 def parse_command_line(args=None):
