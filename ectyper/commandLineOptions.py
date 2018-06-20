@@ -1,22 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
-import pkg_resources
-from setuptools_scm import get_version
 
-def the_version():
-    v = None
-    try:
-        v = pkg_resources.get_distribution('ectyper').version()
-    except:
-        try:
-            v = get_version(root='..', relative_to=__file__)
-        except:
-            v = '0.0.0-build-only'
-    return v
-
-VERSION = the_version()
-
+VERSION = "0.3.5"
 
 def parse_command_line(args=None):
     """
