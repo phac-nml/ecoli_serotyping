@@ -9,8 +9,12 @@ package:
     version: "0.3.0"
 
 source:
-    git_url: https://github.com/phac-nml/ecoli_serotyping/archive/allele.zip
+    url: https://github.com/phac-nml/ecoli_serotyping/archive/allele.zip
     sha1: ab1a5eaa25aae6aabd3f318442d9ff3cc6fd4ff0
+
+build:
+    number: 1
+    script: python setup.py install
 
 requirements:
     build:
@@ -19,7 +23,7 @@ requirements:
         - setuptools_scm_git_archive >=1.0
 
     run:
-        - python 3.6.3
+        - python >=3.6
         - pytest >=3.0
         - pandas >=0.23
         - samtools >=1.7
