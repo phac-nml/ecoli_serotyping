@@ -9,25 +9,27 @@ package:
     version: "0.3.0"
 
 source:
-    git_url: https://github.com/phac-nml/ecoli_serotyping/commits/allele/b6cf2b7a17c94a39cd10d1f086328bb1017a8ec9
-    git_rev: 0.3.0
+    path: https://github.com/phac-nml/ecoli_serotyping/archive/allele.zip
 
 requirements:
     build:
-        - python 3.6.3
-        - pytest 3.*
-        - ">=pandas 0.23"
-        - ">=samtools 1.7"
-        - ">=bowtie2 2.3"
-        - ">=mash 2.0"
-        - ">=bcftools 1.7"
-        - ">=biopython 1.69"
-        - ">=blast 2.2.31"
-        - ">=seqtk 1.2"
-        - ">=setuptools_scm 2.1"
+        - python >=3.6
+        - setuptools_scm >=2.1
+        - setuptools_scm_git_archive >=1.0
+
     run:
         - python 3.6.3
+        - pytest >=3.0
+        - pandas >=0.23
+        - samtools >=1.7
+        - bowtie2 >=2.3
+        - mash >=2.0
+        - bcftools >=1.7
+        - biopython >=1.69
+        - blast >=2.2.31
+        - seqtk >=1.2
+        - setuptools_scm >=2.1
 
 test:
-    commands:
-        - pytest
+    import:
+        - ectyper
