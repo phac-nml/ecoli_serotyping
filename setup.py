@@ -1,7 +1,16 @@
 from setuptools import setup
 
+
+def myversion():
+    from setuptools_scm.version import get_local_dirty_tag
+    def clean_scheme(version):
+        return get_local_dirty_tag(version) if version.dirty else '+clean'
+
+    return {'local_scheme': clean_scheme}
+
+
 setup(
-    use_scm_version=True,
+    use_scm_version=myversion(),
     setup_requires=['setuptools_scm', 'setuptools_scm_git_archive'],
     name='ectyper',
     description='E. coli serotyping',
