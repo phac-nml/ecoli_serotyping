@@ -9,10 +9,11 @@ def the_version():
     try:
         v = pkg_resources.get_distribution('ectyper').version()
     except:
-        v = get_version(root='..', relative_to=__file__)
-
+        try:
+            v = get_version(root='..', relative_to=__file__)
+        except:
+            v = '0.0.0-build-only'
     return v
-
 
 VERSION = the_version()
 
