@@ -1,13 +1,8 @@
 from setuptools import setup
-from setuptools_scm import get_version
-
-def theversion():
-    get_version(root='.', relative_to=__file__)
-
 
 setup(
     name='ectyper',
-    version=theversion(),
+    version='0.3.1',
     description='E. coli serotyping',
     url='https://github.com/phac-nml/ecoli_serotyping',
     author='Chad Laing, Sam Sung, Camille La Rose',
