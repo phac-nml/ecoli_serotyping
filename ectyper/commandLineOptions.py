@@ -1,22 +1,21 @@
 #!/usr/bin/env python
 
 import argparse
+import pkg_resources
 from setuptools_scm import get_version
-from pkg_resources import get_distribution, DistributionNotFound
 
 
-
-def current_version():
-    """
-    Function to return the current version of the program
-    :return: The current version of ectyper
-    """
-    #
+def the_version():
+    v = None
     try:
-        __version__ = get_distribution(__name__).version
-        return __version__
-    except DistributionNotFound:
-        return get_version(root="..", relative_to=__file__)
+        v = pkg_resources.get_distribution('ectyper').version()
+    except:
+        v = get_version(root='..', relative_to=__file__)
+
+    return v
+
+
+VERSION = the_version()
 
 
 def parse_command_line(args=None):
@@ -43,14 +42,14 @@ def parse_command_line(args=None):
 
     parser = argparse.ArgumentParser(
         description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
-            ' or assembled genome sequences'.format(current_version())
+            ' or assembled genome sequences'.format(VERSION)
     )
 
     parser.add_argument(
         "-V",
         "--version",
         action='version',
-        version="%(prog)s {}".format(current_version())
+        version="%(prog)s {}".format(VERSION)
     )
 
     parser.add_argument(
