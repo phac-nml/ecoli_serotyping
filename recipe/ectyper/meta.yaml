@@ -18,8 +18,6 @@ build:
 requirements:
     build:
         - python >=3.6
-        - setuptools_scm >=2.1
-        - setuptools_scm_git_archive >=1.0
 
     run:
         - python >=3.6
@@ -32,8 +30,6 @@ requirements:
         - biopython >=1.69
         - blast >=2.2.31
         - seqtk >=1.2
-        - setuptools_scm >=2.1
-        - setuptools_scm_git_archive >=1.0
 
 test:
     import:
