@@ -76,15 +76,14 @@ def run_program():
         LOG.info(final_fasta_files)
 
         # Main prediction function
-        predictions_file = run_prediction(final_fasta_files,
+        predictions_data_frame = run_prediction(final_fasta_files,
                                           args,
                                           ectyper_files['alleles_fasta'],
                                           ectyper_files['output_file'])
 
         # Add empty rows for genomes without a blast result
         predictions_file = predictionFunctions.add_non_predicted(
-            all_fasta_files, predictions_file)
-        LOG.info('Output saved to {0}'.format(ectyper_files['output_dir']))
+            all_fasta_files, predictions_data_frame, ectyper_files['output_file'])
 
         # Store most recent result in working directory
         LOG.info('\nReporting result...')
@@ -133,7 +132,7 @@ def create_ectyper_files(temp_dir, fastq_list, out_dir):
 
     # Finalize the tmp_files dictionary
     files_and_dirs = {}
-    files_and_dirs['output_file'] =  os.path.join(out_dir, 'output.csv')
+    files_and_dirs['output_file'] = os.path.join(out_dir, 'output.csv')
     files_and_dirs['output_dir'] = out_dir
     files_and_dirs['alleles_fasta'] = create_alleles_fasta_file(temp_dir)
     files_and_dirs['combined_fasta'] = \
@@ -171,7 +170,6 @@ def create_alleles_fasta_file(temp_dir):
 
     LOG.debug(output_file)
     return output_file
-
 
 
 def run_prediction(genome_files, args, alleles_fasta, predictions_file):
@@ -224,9 +222,8 @@ def run_prediction(genome_files, args, alleles_fasta, predictions_file):
             subprocess_util.run_subprocess(bcline)
 
             LOG.info("Start serotype prediction for database #{0}".format(index + 1))
-            predictions_output_file = predictionFunctions.predict_serotype(
-                blast_output_file, definitions.SEROTYPE_ALLELE_JSON, predictions_file,
-                args.detailed)
-        return predictions_output_file
+            predictions_data_frame = predictionFunctions.predict_serotype(
+                blast_output_file, definitions.SEROTYPE_ALLELE_JSON, args.detailed)
+        return predictions_data_frame
 
 

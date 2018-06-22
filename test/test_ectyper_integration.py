@@ -7,7 +7,7 @@ from ectyper import ectyper
 
 TEST_ROOT = os.path.dirname(__file__)
 
-def set_input(input, percent_iden=None, output=tempfile.gettempdir()):
+def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     """
     Create the sys.argv[] without need for commandline input.
     :param input: Input file given by testing function
