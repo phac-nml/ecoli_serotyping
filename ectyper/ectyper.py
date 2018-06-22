@@ -9,7 +9,7 @@ import json
 import logging
 
 from ectyper import (commandLineOptions, definitions, speciesIdentification, loggingFunctions,
-                     genomeFunctions, predictionFunctions, subprocess_util)
+                     genomeFunctions, predictionFunctions, subprocess_util, __version__)
 
 # setup the application logging
 LOG = loggingFunctions.create_logger()
@@ -40,7 +40,7 @@ def run_program():
 
     LOG.debug(args)
     LOG.info("Starting ectyper v{}.\nOutput directory is: {}"
-         .format(commandLineOptions.current_version(), output_directory))
+         .format(__version__, output_directory))
 
     # Initialize ectyper directories and temp files for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:

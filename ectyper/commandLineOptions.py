@@ -3,7 +3,6 @@
 import argparse
 from ectyper import __version__
 
-VERSION = __version__
 
 def parse_command_line(args=None):
     """
@@ -29,14 +28,14 @@ def parse_command_line(args=None):
 
     parser = argparse.ArgumentParser(
         description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
-            ' or assembled genome sequences'.format(VERSION)
+            ' or assembled genome sequences'.format(__version__)
     )
 
     parser.add_argument(
         "-V",
         "--version",
         action='version',
-        version="%(prog)s {}".format(VERSION)
+        version="%(prog)s {}".format(__version__)
     )
 
     parser.add_argument(
