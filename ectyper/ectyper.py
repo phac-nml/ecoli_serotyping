@@ -86,7 +86,7 @@ def run_program():
             all_fasta_files, predictions_data_frame, ectyper_files['output_file'])
 
         # Store most recent result in working directory
-        LOG.info('\nReporting result...')
+        LOG.info('\nReporting results. Saved to {}'.format(predictions_file))
         predictionFunctions.report_result(predictions_file)
 
 

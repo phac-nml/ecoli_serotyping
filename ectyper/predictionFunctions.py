@@ -35,7 +35,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, detailed=False):
     output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
     # Initialize constants
     gene_pairs = {'wzx':'wzy', 'wzy':'wzx', 'wzm':'wzt', 'wzt':'wzm'}
-    prediction_columns = ['genome', 'O_prediction', 'O_info', 'H_prediction', 'H_info']
+    prediction_columns = ['O_prediction', 'O_info', 'H_prediction', 'H_info']
     gene_list = ['wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
     if detailed:
         # Add gene lists for detailed output report
@@ -47,12 +47,14 @@ def predict_serotype(blast_output_file, ectyper_dict_file, detailed=False):
         predictions_dict[genome_name] = get_prediction(
             per_genome_df, prediction_columns, gene_pairs, detailed)
 
-    predictions_df = pd.DataFrame.from_dict(predictions_dict, orient='index')
+    LOG.info("df_dict: {}".format(predictions_dict))
+    predictions_df = pd.DataFrame(predictions_dict)
+    LOG.info("df_df: {}".format(predictions_df))
 
     if predictions_df.empty:
         predictions_df = pd.DataFrame(columns=prediction_columns)
 
-    predictions_df = predictions_df[prediction_columns]
+    #predictions_df = predictions_df[prediction_columns]
 
     LOG.info("Serotype prediction completed")
     return predictions_df
@@ -245,15 +247,16 @@ def add_non_predicted(all_genomes_list, predictions_data_frame, output_file):
     """
 
     # genome names are given without the filename extension
-    genome_names = []
-    for g in all_genomes_list:
-        gname = os.path.splitext(os.path.split(g)[1])[0]
-        genome_names.append(gname)
-
-    LOG.info("DF passed in : {} END".format(predictions_data_frame))
-    df = predictions_data_frame.merge(pd.DataFrame(genome_names, columns=['genome']), on='genome', how='outer')
-    df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
-    df.fillna('-', inplace=True)
-    df.to_csv(output_file, index=False)
+    # genome_names = []
+    # for g in all_genomes_list:
+    #     gname = os.path.splitext(os.path.split(g)[1])[0]
+    #     genome_names.append(gname)
+    #
+    # LOG.info("DF passed in : {} END".format(predictions_data_frame))
+    # df = predictions_data_frame.merge(pd.DataFrame(genome_names, columns=['genome']), on='genome', how='outer')
+    # df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
+    # df.fillna('-', inplace=True)
+    # df.to_csv(output_file, index=False)
+    predictions_data_frame.to_csv(output_file, index=False)
 
     return output_file
