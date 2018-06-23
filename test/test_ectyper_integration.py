@@ -59,17 +59,17 @@ def test_integration_valid_file():
     ectyper.run_program()
     pass
 
-
-def test_valid_fastq_file():
-    """
-    Given a valid fastq file, get the correct results.
-    Use a temp dir for the test output
-    :return: None
-    """
-    file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
-    set_input(file)
-    ectyper.run_program()
-    pass
+#
+# def test_valid_fastq_file():
+#     """
+#     Given a valid fastq file, get the correct results.
+#     Use a temp dir for the test output
+#     :return: None
+#     """
+#     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
+#     set_input(file)
+#     ectyper.run_program()
+#     pass
 
 
 
