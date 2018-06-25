@@ -13,13 +13,12 @@ LOG = logging.getLogger(__name__)
 """
 
 
-def predict_serotype(blast_output_file, ectyper_dict_file, detailed=False):
+def predict_serotype(blast_output_file, ectyper_dict_file):
     """
     Predict the serotype of all genomes, given the blast output of the markers against the genomes
 
     :param blast_output_file: Results of allele file against the genomes of interest
     :param ectyper_dict_file: JSON file of known alleles and their O and H mappings
-    :param detailed: BOOL: generate detailed output or not
     :return: The CSV formatted predictions file
     """
 
@@ -74,7 +73,9 @@ def get_prediction(per_genome_df):
         if serotype[ant] == '-':
             if ant == 'H':
                 serotype[ant] = row.antigen
-                serotype[row.gene] = row.score
+                serotype[row.antigen] = {
+                    row.gene:row.score
+                }
             else:
                 # logic for O-type pairs
                 # skip if an allele for a gene already exists
@@ -164,41 +165,59 @@ def ectyper_dict_to_df(ectyper_dict_file):
         return df
 
 
-def report_result(csv_file):
+def report_result(final_dict, output_file):
     """
-    Outputs the results of the given file to the log.
+    Outputs the results of the ectyper run to the output file, and to the log.
 
-    :param csv_file: File whose contents will be added to the log
+    :param final_dict: Final ectyper predictions dictionary
+    :param output_file: File whose contents will be added to the log
     :return: None
     """
 
-    df = pd.read_csv(csv_file)
-    if df.empty:
-        LOG.info('No prediction was made because no alignment was found')
-        return
-    LOG.info('\n{0}'.format(df.to_string(index=False)))
+    for k, v in final_dict.items():
+        output_line = [
+            k,
+            v['O'],
+            v['H'],
+        ]
+
+        antigens = [v['O'], v['H']]
+        for ant in antigens:
+            if v[ant] is not '-':
+                for kk, vv in sorted(v[ant].items()):
+                    output_line.append(kk + ':' + str(vv))
+
+    print_line = "\t".join(output_line)
+    with open(output_file, "w") as ofh:
+        ofh.write(print_line)
+        LOG.debug(print_line)
 
 
-def add_non_predicted(all_genomes_list, predictions_data_frame, output_file):
+
+
+
+
+
+def add_non_predicted(all_genomes_list, predictions_dict):
     """
-    Add genomes that do not show up in the blast results to the prediction file
+    Add genomes that do not show up in the blast results to the final predictions
 
     :param all_genomes_list: the list of genomes given by the user
-    :param predictions_data_frame: the DataFrame containing the ectyper predictions
+    :param predictions_data_frame: the Dict containing the ectyper predictions
     :return: modified prediction file
     """
 
-    # genome names are given without the filename extension
-    # genome_names = []
-    # for g in all_genomes_list:
-    #     gname = os.path.splitext(os.path.split(g)[1])[0]
-    #     genome_names.append(gname)
-    #
-    # LOG.info("DF passed in : {} END".format(predictions_data_frame))
-    # df = predictions_data_frame.merge(pd.DataFrame(genome_names, columns=['genome']), on='genome', how='outer')
-    # df.fillna({'O_info':'No alignment found', 'H_info':'No alignment found'}, inplace=True)
-    # df.fillna('-', inplace=True)
-    # df.to_csv(output_file, index=False)
-    predictions_data_frame.to_csv(output_file, index=False)
+    serotype = {
+        'O':'-',
+        'H':'-'
+    }
 
-    return output_file
+    # genome names are given without the filename extension
+    for g in all_genomes_list:
+        gname = os.path.splitext(os.path.split(g)[1])[0]
+
+        if gname not in predictions_dict:
+            predictions_dict[gname] = serotype
+
+    return predictions_dict
+

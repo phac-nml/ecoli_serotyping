@@ -76,18 +76,21 @@ def run_program():
         LOG.info(final_fasta_files)
 
         # Main prediction function
-        predictions_data_frame = run_prediction(final_fasta_files,
+        predictions_dict = run_prediction(
+                                          final_fasta_files,
                                           args,
                                           ectyper_files['alleles_fasta'],
-                                          ectyper_files['output_file'])
+                                )
 
         # Add empty rows for genomes without a blast result
-        predictions_file = predictionFunctions.add_non_predicted(
-            all_fasta_files, predictions_data_frame, ectyper_files['output_file'])
+        final_predictions = predictionFunctions.add_non_predicted(
+            all_fasta_files, predictions_dict)
 
         # Store most recent result in working directory
-        LOG.info('\nReporting results. Saved to {}'.format(predictions_file))
-        predictionFunctions.report_result(predictions_file)
+        LOG.info("\nReporting results.")
+
+        predictionFunctions.report_result(final_predictions, ectyper_files['output_file'])
+        LOG.info("\nECTYper has finished successfully.")
 
 
 def create_output_directory(output_dir):
@@ -172,7 +175,7 @@ def create_alleles_fasta_file(temp_dir):
     return output_file
 
 
-def run_prediction(genome_files, args, alleles_fasta, predictions_file):
+def run_prediction(genome_files, args, alleles_fasta):
     """
     Serotype prediction of all the input files, which have now been properly
     converted to fasta if required, and their headers standardized
@@ -223,7 +226,7 @@ def run_prediction(genome_files, args, alleles_fasta, predictions_file):
 
             LOG.info("Start serotype prediction for database #{0}".format(index + 1))
             predictions_data_frame = predictionFunctions.predict_serotype(
-                blast_output_file, definitions.SEROTYPE_ALLELE_JSON, args.detailed)
+                blast_output_file, definitions.SEROTYPE_ALLELE_JSON)
         return predictions_data_frame
 
 
