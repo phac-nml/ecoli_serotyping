@@ -12,7 +12,5 @@ WORKPLACE_DIR = os.getcwd()
 
 GENOME_GROUP_SIZE = 50
 SEROTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_new.json')
-
 ECOLI_MARKERS = os.path.join(DATA_DIR, 'ecoli_specific_markers.fasta')
-REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
-REFSEQ_SKETCH = os.path.join(DATA_DIR, 'refseq.genomes.k21s1000.msh')
+

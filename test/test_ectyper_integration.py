@@ -15,7 +15,7 @@ def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     :param output: Location of output
     :return: None
     """
-    args = ['-i', input, '--verify']
+    args = ['-i', input, '--verify', '--species']
     if percent_iden:
         args += ['-d', str(percent_iden)]
     if output:
@@ -60,16 +60,29 @@ def test_integration_valid_file():
     pass
 
 
-# def test_valid_fastq_file():
-#     """
-#     Given a valid fastq file, get the correct results.
-#     Use a temp dir for the test output
-#     :return: None
-#     """
-#     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
-#     set_input(file)
-#     ectyper.run_program()
-#     pass
+def test_integration_yersinia():
+    """
+    Ensure a non-E. coli gets categorized as such
+    :return: None
+    """
+    file = os.path.join(TEST_ROOT, 'Data/Yersinia.fasta')
+    set_input(file)
+    with pytest.raises(SystemExit) as se:
+        ectyper.run_program()
+    assert se.type == SystemExit
+    assert se.value.code == "No valid genomes"
+
+
+def test_valid_fastq_file():
+    """
+    Given a valid fastq file, get the correct results.
+    Use a temp dir for the test output
+    :return: None
+    """
+    file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
+    set_input(file)
+    ectyper.run_program()
+    pass
 
 
 
