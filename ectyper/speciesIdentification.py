@@ -84,42 +84,8 @@ def get_species(file):
         str: name of estimated species
     """
 
-    LOG.info("Identifying species for {0}".format(file))
-    if not os.path.isfile(definitions.REFSEQ_SKETCH):
-        LOG.warning("No refseq found.")
-        return None
-    species = 'unknown'
-    if genomeFunctions.get_valid_format(file) == 'fasta':
-        tmp_file = tempfile.NamedTemporaryFile().name
-        basename = os.path.basename(file).replace(' ', '_')
-        with open(tmp_file, 'w') as new_fh:
-            header = '> {0}\n'.format(basename)
-            new_fh.write(header)
-            for record in SeqIO.parse(file, 'fasta'):
-                new_fh.write(str(record.seq))
-                new_fh.write('nnnnnnnnnnnnnnnnnnnn')
-        try:
-            species = get_species_helper(tmp_file)
-        except Exception:
-            pass
-    if genomeFunctions.get_valid_format(file) == 'fastq':
-        species = get_species_helper(file)
-    return species
+    species = 'Unknown'
 
-
-def get_species_helper(file):
-    """
-    Given a fasta/fastq file with one sequence, return the most likely species
-    identification
-
-    Args:
-        file (str): fasta/fastq file input
-
-    Returns:
-        str: name of estimated species
-    """
-
-    species = 'unknown'
     cmd = [
         'mash', 'dist',
         file,
