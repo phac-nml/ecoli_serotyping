@@ -73,7 +73,7 @@ def run_program():
 
         LOG.info("Standardizing the genome headers")
         final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
-        LOG.info(final_fasta_files)
+        LOG.debug(final_fasta_files)
 
         # Main prediction function
         predictions_dict = run_prediction(
@@ -187,19 +187,19 @@ def run_prediction(genome_files, args, alleles_fasta):
     :return: predictions_file
     """
 
+    predictions_dict = {}
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into groups and create databases for each set
-        predictions_output_file = None
         group_size = definitions.GENOME_GROUP_SIZE
         genome_groups = [
             genome_files[i:i + group_size]
             for i in range(0, len(genome_files), group_size)
         ]
-
+        LOG.info("Creating blast databases")
         for index, g_group in enumerate(genome_groups):
 
-            LOG.info("Creating blast database #{0} from {1}".format(index + 1, g_group))
+            LOG.debug("Creating blast database #{0} from {1}".format(index + 1, g_group))
             blast_db = os.path.join(temp_dir, "blastdb_" + str(index))
             blast_db_cmd = [
                 "makeblastdb",
@@ -224,9 +224,12 @@ def run_prediction(genome_files, args, alleles_fasta):
             ]
             subprocess_util.run_subprocess(bcline)
 
-            LOG.info("Start serotype prediction for database #{0}".format(index + 1))
-            predictions_data_frame = predictionFunctions.predict_serotype(
+            LOG.info("Starting serotype prediction for database #{0}".format(index + 1))
+            db_prediction_dict = predictionFunctions.predict_serotype(
                 blast_output_file, definitions.SEROTYPE_ALLELE_JSON)
-        return predictions_data_frame
+
+            # merge the per-database predictions with the final predictions dict
+            predictions_dict = {**db_prediction_dict, **predictions_dict}
+        return predictions_dict
 
 
