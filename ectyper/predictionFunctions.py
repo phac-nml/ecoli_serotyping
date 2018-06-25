@@ -174,28 +174,22 @@ def report_result(final_dict, output_file):
     :return: None
     """
 
+    output_line = []
     for k, v in final_dict.items():
-        output_line = [
-            k,
-            v['O'],
-            v['H'],
-        ]
+        output_line.append(k)
+        output_line.append(v['O'])
+        output_line.append(v['H'])
 
         antigens = [v['O'], v['H']]
         for ant in antigens:
-            if v[ant] is not '-':
+            if v[ant] != "-":
                 for kk, vv in sorted(v[ant].items()):
                     output_line.append(kk + ':' + str(vv))
 
     print_line = "\t".join(output_line)
     with open(output_file, "w") as ofh:
         ofh.write(print_line)
-        LOG.debug(print_line)
-
-
-
-
-
+        LOG.info(print_line)
 
 
 def add_non_predicted(all_genomes_list, predictions_dict):

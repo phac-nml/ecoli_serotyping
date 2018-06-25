@@ -69,7 +69,13 @@ def run_program():
                                                         ectyper_files['bowtie_base'])
 
         # Verify _E. coli_ genomes, if desired
-        v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.verify)
+        if args.verify:
+            v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.species)
+        else:
+            v_fasta_files = all_fasta_files
+
+        if len(v_fasta_files) == 0:
+            exit("No valid genomes")
 
         LOG.info("Standardizing the genome headers")
         final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
@@ -87,7 +93,7 @@ def run_program():
             all_fasta_files, predictions_dict)
 
         # Store most recent result in working directory
-        LOG.info("\nReporting results.")
+        LOG.info("Reporting results:\n")
 
         predictionFunctions.report_result(final_predictions, ectyper_files['output_file'])
         LOG.info("\nECTYper has finished successfully.")

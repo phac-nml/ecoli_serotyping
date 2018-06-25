@@ -15,38 +15,38 @@ def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     :param output: Location of output
     :return: None
     """
-    args = ['-i', input]
+    args = ['-i', input, '--verify']
     if percent_iden:
         args += ['-d', str(percent_iden)]
     if output:
         args += ['-o', output]
     sys.argv[1:] = args
 
-#
-# def test_integration_invalid_file():
-#     """
-#     Giving a non-fasta file in fasta-file name.
-#     :return: None
-#     """
-#     file = os.path.join(TEST_ROOT, 'Data/test_dir/badfasta.fasta')
-#     set_input(file)
-#     with pytest.raises(SystemExit) as se:
-#         ectyper.run_program()
-#     assert se.type == SystemExit
-#     assert se.value.code == "No valid genomes"
-#
-#
-# def test_integration_no_file():
-#     """
-#     Giving no input to the program.
-#     :return: None
-#     """
-#     file =  ''
-#     set_input(file)
-#     with pytest.raises(SystemExit) as se:
-#         ectyper.run_program()
-#     assert se.type == SystemExit
-#     assert se.value.code == "No valid genomes"
+
+def test_integration_invalid_file():
+    """
+    Giving a non-fasta file in fasta-file name.
+    :return: None
+    """
+    file = os.path.join(TEST_ROOT, 'Data/test_dir/badfasta.fasta')
+    set_input(file)
+    with pytest.raises(SystemExit) as se:
+        ectyper.run_program()
+    assert se.type == SystemExit
+    assert se.value.code == "No valid genomes"
+
+
+def test_integration_no_file():
+    """
+    Giving no input to the program.
+    :return: None
+    """
+    file =  ''
+    set_input(file)
+    with pytest.raises(SystemExit) as se:
+        ectyper.run_program()
+    assert se.type == SystemExit
+    assert se.value.code == "No valid genomes"
 
 
 def test_integration_valid_file():
@@ -59,7 +59,7 @@ def test_integration_valid_file():
     ectyper.run_program()
     pass
 
-#
+
 # def test_valid_fastq_file():
 #     """
 #     Given a valid fastq file, get the correct results.

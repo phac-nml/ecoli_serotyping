@@ -3,7 +3,6 @@ import multiprocessing
 import os
 import tempfile
 from Bio import SeqIO
-from collections import defaultdict
 from ectyper import genomeFunctions, definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
@@ -30,23 +29,6 @@ def is_ecoli(genome_file):
         return True
 
 
-def filter_for_ecoli_files(all_fasta_files):
-    """
-    Checks that all the fasta files contain at least 3 E. coli specific markers
-    :param all_fasta_files: fasta files supplied by the user, as well as assembled fastq files
-    :return: Dict('ecoli':[], 'non_ecoli':[])
-    """
-
-    final_files = defaultdict(list)
-    for f in all_fasta_files:
-        if is_ecoli(f):
-            final_files['ecoli'].append(f)
-        else:
-            final_files['non_ecoli'].append(f)
-
-    return final_files
-
-
 def get_num_hits(target):
     """
     Identify the number of E. coli specific markers carried by the target genome.
@@ -55,40 +37,39 @@ def get_num_hits(target):
     """
 
     num_hit = 0
-    try:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            blast_db = os.path.join(temp_dir, "blastdb_target")
-            blast_db_cmd = [
-                "makeblastdb",
-                "-in", target,
-                "-dbtype", "nucl",
-                "-title", "ectyper_blastdb",
-                "-out", blast_db]
-            subprocess_util.run_subprocess(blast_db_cmd)
+    name = os.path.splitext(os.path.split(target)[1])[0]
 
+    with tempfile.TemporaryDirectory() as tdir:
+        blast_db = os.path.join(tdir, name)
+        blast_db_cmd = [
+            "makeblastdb",
+            "-in", target,
+            "-dbtype", "nucl",
+            "-title", "ecoli_test",
+            "-out", blast_db]
+        subprocess_util.run_subprocess(blast_db_cmd)
 
-            result_file = blast_db + ".output"
-            bcline = [
-                'blastn',
-                '-query', definitions.ECOLI_MARKERS,
-                '-db', blast_db,
-                '-out', result_file,
-                '-perc_identity', "90",
-                '-qcov_hsp_perc', "90",
-                '-max_target_seqs', "1",
-                '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe",
-                'word_size', 11
-            ]
-            subprocess_util.run_subprocess(bcline)
+        result_file = blast_db + ".output"
+        bcline = [
+            'blastn',
+            '-query', definitions.ECOLI_MARKERS,
+            '-db', blast_db,
+            '-out', result_file,
+            '-perc_identity', "90",
+            '-qcov_hsp_perc', "90",
+            '-max_target_seqs', "1",
+            '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe",
+            '-word_size', "11"
+        ]
+        subprocess_util.run_subprocess(bcline)
 
-            with open(result_file) as handler:
-                LOG.debug("get_num_hits() output:")
-                for line in handler:
-                    LOG.debug(line)
-                    num_hit += 1
-            LOG.debug("{0} aligned to {1} marker sequences".format(target, num_hit))
-    except SystemExit:
-        pass
+        with open(result_file) as handler:
+            LOG.debug("get_num_hits() output:")
+            for line in handler:
+                LOG.debug(line)
+                num_hit += 1
+        LOG.debug("{0} aligned to {1} marker sequences".format(target, num_hit))
+
     return num_hit
 
 
@@ -180,20 +161,24 @@ def get_species_helper(file):
     return species
 
 
-def verify_ecoli(fasta_files, verify):
+def verify_ecoli(fasta_files, species):
     """
     Verifying the _E. coli_-ness of the genome files
     :param fasta_files: [] of all fasta files
-    :param verify: Bool of whether or not to verify the files as _E. coli_
     :return: List of fasta files
     """
 
-    verified_fasta_files = filter_for_ecoli_files(fasta_files) if verify else fasta_files
+    final_files = []
+    for f in fasta_files:
+        if is_ecoli(f):
+            final_files.append(f)
+        else:
+            if species:
+                get_species(f)
+                # Report species prediction
 
-    LOG.debug("Verify set to {}. The v_fasta_files: {}".format(verify, verified_fasta_files))
+    return final_files
 
-    if len(verified_fasta_files) is 0:
-        LOG.error("No valid genome files. Terminating the program.")
-        exit("No valid genomes")
 
-    return verified_fasta_files
+
+
