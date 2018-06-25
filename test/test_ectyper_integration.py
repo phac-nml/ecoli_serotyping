@@ -19,7 +19,7 @@ def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     if percent_iden:
         args += ['-d', str(percent_iden)]
     if output:
-        args += ['-o', '/mnt/c/Users/gnial/ectyper_test']
+        args += ['-o', output]
     sys.argv[1:] = args
 
 #

@@ -30,8 +30,6 @@ def predict_serotype(blast_output_file, ectyper_dict_file, detailed=False):
         LOG.debug("blast_df:\n{}".format(output_df))
         LOG.debug("ectyper_df:\n{}".format(ectyper_df))
 
-
-
     # Merge output_df and ectyper_df
     output_df = output_df.merge(ectyper_df, left_on='qseqid', right_on='name', how='left')
     predictions_dict = {}
@@ -39,102 +37,66 @@ def predict_serotype(blast_output_file, ectyper_dict_file, detailed=False):
     # Select individual genomes
     output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
 
-    ectyper_columns = ['name', 'O-type', 'H-type', 'wzx', 'wzy', 'wzm', 'wzt', 'fliC', 'fllA', 'flkA', 'flmA', 'flnA']
-
     # Make prediction for each genome based on blast output
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
-        predictions_dict[genome_name] = get_prediction(
-            per_genome_df, ectyper_columns)
+        predictions_dict[genome_name] = get_prediction(per_genome_df)
 
-    LOG.info("df_dict: {}".format(predictions_dict))
-    predictions_df = pd.DataFrame(predictions_dict)
-    LOG.info("df_df: {}".format(predictions_df))
-
-    if predictions_df.empty:
-        predictions_df = pd.DataFrame(columns=ectyper_columns)
-
-    #predictions_df = predictions_df[prediction_columns]
 
     LOG.info("Serotype prediction completed")
-    return predictions_df
+    LOG.debug("Predictions dict:\n{}".format(predictions_dict))
+    return predictions_dict
 
 
-def get_prediction(per_genome_df, ectyper_columns):
+def get_prediction(per_genome_df):
     """
      Make serotype prediction for a single genome based on the blast output
 
     :param per_genome_df: The blastn results for the given genome
-    :param predictions_columns: Columns to be filled with data from this function
-    :param gene_pairs: Required gene pairs for the O-prediction logic
-    :param detailed: BOOL: Whether to report detailed output or not
-    :return:
+    :return: serotype dictionary
     """
-    # Extract the needed information from the blast results
-    blast_columns = [
-        'gene', 'serotype', 'score', 'name', 'desc', 'pident', 'qcovhsp', 'qseqid', 'sseqid', 'sseq'
-    ]
-    # per_genome_df = per_genome_df.sort_values(['gene', 'serotype', 'score'], ascending=False)
-    # per_genome_df = per_genome_df[~per_genome_df.duplicated(['gene', 'serotype'])]
-    # predictors_df = per_genome_df[blast_columns]
-    # predictors_df = predictors_df.sort_values('score', ascending=False)
-    #
-    predictions = {}
-    # for column in predictions_columns:
-    #     predictions[column] = None
-    #
-    # for predicting_antigen in ['O', 'H']:
-    #     genes_pool = defaultdict(list)
-    #
-    #     for index, row in predictors_df.iterrows():
-    #         gene = row['gene']
-    #         if detailed:
-    #             predictions[gene] = True
-    #
-    #         if not predictions[predicting_antigen + '_prediction']:
-    #             serotype = row['serotype']
-    #             if serotype[0] is not predicting_antigen:
-    #                 continue
-    #             genes_pool[gene].append(serotype)
-    #             prediction = None
-    #
-    #             if len(serotype) < 1:
-    #                 continue
-    #
-    #             antigen = serotype[0].upper()
-    #             if antigen != predicting_antigen:
-    #                 continue
-    #
-    #             if gene in gene_pairs.keys():
-    #                 predictions[antigen + '_info'] = 'Only unpaired alignments found'
-    #                 # Pair gene logic
-    #                 potential_pairs = genes_pool.get(gene_pairs.get(gene))
-    #                 if row['score'] != 1:
-    #                     LOG.debug("NEW ALLELE closest to query {}, name: {}, score: {}, sequence: {}".format(row['qseqid'], row['sseqid'], row['score'], row['sseq']))
-    #
-    #                 if potential_pairs is None:
-    #                     continue
-    #                 if serotype in potential_pairs:
-    #                     prediction = serotype
-    #             else:
-    #                 # Normal logic
-    #                 prediction = serotype
-    #
-    #             if prediction is None:
-    #                 continue
-    #
-    #             predictions[antigen+'_info'] = 'Alignment found'
-    #             predictions[predicting_antigen + '_prediction'] = prediction
-    #
-    #     # No alignment found
-    #     # Make prediction based on non-paired gene
-    #     # if only one non-paired gene is avaliable, and no paired-genes are available
-    #     if predictions.get(predicting_antigen + '_prediction') is None:
-    #         if len(genes_pool) == 1:
-    #             serotypes = list(genes_pool.values())[0]
-    #             if len(serotypes) == 1:
-    #                 predictions[antigen + '_info'] = 'Lone unpaired alignment found'
-    #                 predictions[predicting_antigen + '_prediction'] = serotypes[0]
-    return predictions
+
+    per_genome_df = per_genome_df.sort_values('score', ascending=False)
+    LOG.debug("per_genome_df:\n{}".format(per_genome_df))
+
+    # The DataFrame is sorted in descending order by score
+    # Once we hit a wzx / wzy or wzm / wzt pair, O type is done
+    # Once we hit a flX gene, H type is done
+
+    serotype = {
+        'O':'-',
+        'H':'-'
+    }
+
+    for row in per_genome_df.itertuples():
+        # if O or H is already set, skip
+        # get the 'O' or 'H' from the antigen column
+        ant = row.antigen[:1]
+        if serotype[ant] == '-':
+            if ant == 'H':
+                serotype[ant] = row.antigen
+                serotype[row.gene] = row.score
+            else:
+                # logic for O-type pairs
+                # skip if an allele for a gene already exists
+                if row.antigen in serotype and row.gene in serotype[row.antigen]:
+                    continue
+                else:
+                    # if antigen has never been encountered, init
+                    if row.antigen not in serotype:
+                        serotype[row.antigen] = {}
+
+                    serotype[row.antigen][row.gene] = row.score
+                    # if wzm / wzy or wzx / wzy, call the match
+                    if 'wzx' in serotype[row.antigen] and 'wzy' in serotype[row.antigen]:
+                        serotype[ant] = row.antigen
+                    elif 'wzm' in serotype[row.antigen] and 'wzt' in serotype[row.antigen]:
+                        serotype[ant] = row.antigen
+                    else:
+                        continue
+        else:
+            continue
+
+    return serotype
 
 
 def blast_output_to_df(blast_output_file):
@@ -200,24 +162,6 @@ def ectyper_dict_to_df(ectyper_dict_file):
                 temp_list.append(new_entry)
         df = pd.DataFrame(temp_list)
         return df
-
-
-# def store_df(src_df, dst_file):
-#     """
-#     Store a DataFrame as a file. Append to an existing file, or create a new one
-#     if one does not exist.
-#
-#     :param src_df: DataFrame to be stored
-#     :param dst_file: file to be appened to or created
-#     :return: None
-#     """
-#
-#     if os.path.isfile(dst_file):
-#         with open(dst_file, 'a') as fh:
-#             src_df.to_csv(fh, header=False)
-#     else:
-#         with open(dst_file, 'w') as fh:
-#             src_df.to_csv(fh, header=True, index_label='genome')
 
 
 def report_result(csv_file):
