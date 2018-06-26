@@ -1,10 +1,8 @@
 import logging
-import multiprocessing
 import os
 import tempfile
-from Bio import SeqIO
 from ectyper import genomeFunctions, definitions, subprocess_util
-import pandas as pd
+import re
 
 LOG = logging.getLogger(__name__)
 
@@ -109,6 +107,23 @@ def get_species(file, args):
     head_output = subprocess_util.run_subprocess(head_cmd, input_data=sort_output.stdout)
     top_match = head_output.stdout.decode("utf-8").split()[0]
     LOG.info(top_match)
+
+    m = re.match(r"(GCF_\d+)", top_match)
+    refseq_key = None
+    if m:
+        refseq_key = m.group(1)
+    else:
+        LOG.critical("Unknown key from MASH species search")
+        exit("MASH error")
+
+    LOG.info(refseq_key)
+    grep_cmd = [
+        'grep',
+        refseq_key,
+        definitions.REFSEQ_SUMMARY
+    ]
+    grep_output = subprocess_util.run_subprocess(grep_cmd)
+    LOG.info(grep_output.stdout)
 
     return species
 
