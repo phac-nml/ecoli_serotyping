@@ -129,24 +129,31 @@ def get_species(file, args):
     return species
 
 
-def verify_ecoli(fasta_files, args):
+def verify_ecoli(fasta_files, ofiles, args):
     """
     Verifying the _E. coli_-ness of the genome files
     :param fasta_files: [] of all fasta files
+    :param ofiles: [] of all non-fasta files
     :param args: Command line arguments
-    :return: List of fasta files
+    :return: ([ecoli_genomes], {file:species})
     """
 
-    final_files = []
+    ecoli_files = []
+    other_files = {}
+
     for f in fasta_files:
         if is_ecoli(f):
-            final_files.append(f)
+            ecoli_files.append(f)
         else:
             if args.species:
-                get_species(f, args)
-                # Report species prediction
+                other_files[f] = get_species(f, args)
+            else:
+                other_files[f] = "Failed E. coli species confirmation"
 
-    return final_files
+    for bf in ofiles:
+        other_files[bf] = "Non fasta / fastq file"
+
+    return ecoli_files, other_files
 
 
 

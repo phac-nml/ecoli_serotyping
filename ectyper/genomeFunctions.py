@@ -61,28 +61,28 @@ def get_valid_format(file):
         file (str): path of file
 
     Returns:
-        fm (str or None): the file format if 'fasta' or 'fastq', otherwise None
+        fm (str or None): the file format if 'fasta', 'fastq', 'other'
     """
     for fm in ['fastq', 'fasta']:
-            try:
-                with open(file, "r") as handle:
-                    data = SeqIO.parse(handle, fm)
-                    if any(data):
-                        if is_tarfile(file):
-                            LOG.warning("Compressed file is not supported: {}".format(file))
-                            return None
-                        return fm
-            except FileNotFoundError:
-                LOG.warning("{0} is not found.".format(file))
-                return None
-            except UnicodeDecodeError:
-                LOG.warning("{0} is not a valid file.".format(file))
-                return None
-            except ValueError:
-                LOG.debug("{0} is not a {1} file.".format(file, fm))
+        try:
+            with open(file, "r") as handle:
+                data = SeqIO.parse(handle, fm)
+                if any(data):
+                    if is_tarfile(file):
+                        LOG.warning("Compressed file is not supported: {}".format(file))
+                        return 'other'
+                    return fm
+        except FileNotFoundError:
+            LOG.warning("{0} is not found.".format(file))
+            return 'other'
+        except UnicodeDecodeError:
+            LOG.warning("{0} is not a valid file.".format(file))
+            return 'other'
+        except ValueError:
+            LOG.debug("{0} is not a {1} file.".format(file, fm))
 
     LOG.warning("{0} is not a fasta/fastq file".format(file))
-    return None
+    return 'other'
 
 
 def get_genome_names_from_files(files, temp_dir):
@@ -240,6 +240,7 @@ def get_raw_files(raw_files):
     """
     fasta_files = []
     fastq_files = []
+    other_files = []
 
     for file in raw_files:
         file_format = get_valid_format(file)
@@ -247,11 +248,16 @@ def get_raw_files(raw_files):
             fasta_files.append(file)
         elif file_format == 'fastq':
             fastq_files.append(file)
+        else:
+            other_files.append(file)
 
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
+    LOG.debug("other non- fasta/fastq files: {}".format(other_files))
 
-    return({'fasta':fasta_files, 'fastq':fastq_files})
+    return({'fasta':fasta_files,
+            'fastq':fastq_files,
+            'other':other_files})
 
 
 def assembleFastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base):

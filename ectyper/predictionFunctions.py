@@ -176,14 +176,18 @@ def report_result(final_dict, output_file):
     output_line = []
     for k, v in final_dict.items():
         output_line.append(k)
-        output_line.append(v['O'])
-        output_line.append(v['H'])
 
-        antigens = [v['O'], v['H']]
-        for ant in antigens:
-            if v[ant] != "-":
-                for kk, vv in sorted(v[ant].items()):
-                    output_line.append(kk + ':' + str(vv))
+        if 'error' in v:
+            output_line.append(v['error'])
+        else:
+            output_line.append(v['O'])
+            output_line.append(v['H'])
+
+            antigens = [v['O'], v['H']]
+            for ant in antigens:
+                if v[ant] != "-":
+                    for kk, vv in sorted(v[ant].items()):
+                        output_line.append(kk + ':' + str(vv))
 
     print_line = "\t".join(output_line)
     with open(output_file, "w") as ofh:
@@ -191,7 +195,7 @@ def report_result(final_dict, output_file):
         LOG.info(print_line)
 
 
-def add_non_predicted(all_genomes_list, predictions_dict):
+def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
     """
     Add genomes that do not show up in the blast results to the final predictions
 
@@ -200,17 +204,15 @@ def add_non_predicted(all_genomes_list, predictions_dict):
     :return: modified prediction file
     """
 
-    serotype = {
-        'O':'-',
-        'H':'-'
-    }
-
     # genome names are given without the filename extension
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
         if gname not in predictions_dict:
-            predictions_dict[gname] = serotype
+            LOG.info("gname is {}".format(gname))
+            predictions_dict[gname] = {
+                'error': other_dict[g]
+            }
 
     return predictions_dict
 

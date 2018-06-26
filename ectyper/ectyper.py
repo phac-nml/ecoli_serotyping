@@ -16,20 +16,11 @@ LOG = loggingFunctions.create_logger()
 
 def run_program():
     """
-    Wrapper for serotyping
-    The program needs to do the following
-    (1) Filter genome files based on format
-    (2) Filter genome files based on species
-    (3) Map FASTQ files to FASTA seq
-    (1) Get names of all genomes being tested
-    (2) Create a BLAST database of those genomes
-    (3) Query for serotype
-    (4) Parse the results
-    (5) Display the results
+    Main function for E. coli serotyping.
+    Creates all required files and controls function execution.
     :return: success or failure
-
     """
-    # Initialize the program
+
     args = commandLineOptions.parse_command_line()
     output_directory = create_output_directory(args.output)
 
@@ -42,16 +33,16 @@ def run_program():
     LOG.info("Starting ectyper v{}.\nOutput directory is: {}"
          .format(__version__, output_directory))
 
-    # Initialize ectyper directories and temp files for the scope of this program
+    # Initialize ectyper directory for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
 
         LOG.info("Identifying genome file types")
-        # ['fasta']=[], ['fastq']=[]
+        # 'fasta'=[], 'fastq'=[], 'other'=[]
         raw_files_dict = genomeFunctions.get_raw_files(raw_genome_files)
+        LOG.info("other files: {}".format(raw_files_dict["other"]))
 
-        LOG.info("Creating combined alleles file")
         alleles_fasta = create_alleles_fasta_file(temp_dir)
         combined_fasta = genomeFunctions.create_combined_alleles_and_markers_file(alleles_fasta, temp_dir)
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir, combined_fasta) if raw_files_dict['fastq'] else None
@@ -62,28 +53,23 @@ def run_program():
                                                         combined_fasta,
                                                         bowtie_base)
 
-        # Verify _E. coli_ genomes, if desired
-        if args.verify:
-            v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args)
-        else:
-            v_fasta_files = all_fasta_files
-
-        if len(v_fasta_files) == 0:
-            exit("No valid genomes")
+        # Verify we have at least one fasta file. Optionally species ID.
+        # Get a tuple of ecoli and other genomes
+        (ecoli_genomes, other_genomes_dict) = speciesIdentification.verify_ecoli(all_fasta_files,
+                                                                                 raw_files_dict['other'],
+                                                                                 args)
 
         LOG.info("Standardizing the genome headers")
-        final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
+        final_fasta_files = genomeFunctions.get_genome_names_from_files(ecoli_genomes, temp_dir)
 
         # Main prediction function
-        predictions_dict = run_prediction(
-                                          final_fasta_files,
+        predictions_dict = run_prediction(final_fasta_files,
                                           args,
-                                          alleles_fasta
-                                )
+                                          alleles_fasta)
 
         # Add empty rows for genomes without a blast result
         final_predictions = predictionFunctions.add_non_predicted(
-            all_fasta_files, predictions_dict)
+            raw_genome_files, predictions_dict, other_genomes_dict)
 
         # Store most recent result in working directory
         LOG.info("Reporting results:\n")
