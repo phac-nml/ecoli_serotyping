@@ -254,18 +254,6 @@ def get_raw_files(raw_files):
     return({'fasta':fasta_files, 'fastq':fastq_files})
 
 
-def download_refseq():
-    '''Download refseq file with progress bar
-    '''
-
-    temp_file = tempfile.mktemp()
-    refseq_url = 'https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh'
-    LOG.info("No refseq found. Downloading reference file for species identification...")
-    urlretrieve(refseq_url, temp_file)
-    LOG.info("Download complete.")
-    return temp_file
-
-
 def assembleFastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base):
     """
     For any fastq files, map and assemble the serotyping genes, and optionally

@@ -50,19 +50,17 @@ def run_program():
         LOG.info("Identifying genome file types")
         # ['fasta']=[], ['fastq']=[]
         raw_files_dict = genomeFunctions.get_raw_files(raw_genome_files)
-        LOG.debug(raw_files_dict)
 
-        # Create files for ectyper run
-        ectyper_files = create_ectyper_files(temp_dir,
-                                             raw_files_dict['fastq'],
-                                             output_directory
-                                          )
+        LOG.info("Creating combined alleles file")
+        alleles_fasta = create_alleles_fasta_file(temp_dir)
+        combined_fasta = genomeFunctions.create_combined_alleles_and_markers_file(alleles_fasta, temp_dir)
+        bowtie_base = genomeFunctions.create_bowtie_base(temp_dir, combined_fasta) if raw_files_dict['fastq'] else None
 
-        # Assemble any fastq files
+        # Assemble any fastq files, get final fasta list
         all_fasta_files = genomeFunctions.assembleFastq(raw_files_dict,
                                                         temp_dir,
-                                                        ectyper_files['combined_fasta'],
-                                                        ectyper_files['bowtie_base'])
+                                                        combined_fasta,
+                                                        bowtie_base)
 
         # Verify _E. coli_ genomes, if desired
         if args.verify:
@@ -75,13 +73,12 @@ def run_program():
 
         LOG.info("Standardizing the genome headers")
         final_fasta_files = genomeFunctions.get_genome_names_from_files(v_fasta_files, temp_dir)
-        LOG.debug(final_fasta_files)
 
         # Main prediction function
         predictions_dict = run_prediction(
                                           final_fasta_files,
                                           args,
-                                          ectyper_files['alleles_fasta'],
+                                          alleles_fasta
                                 )
 
         # Add empty rows for genomes without a blast result
@@ -91,7 +88,7 @@ def run_program():
         # Store most recent result in working directory
         LOG.info("Reporting results:\n")
 
-        predictionFunctions.report_result(final_predictions, ectyper_files['output_file'])
+        predictionFunctions.report_result(final_predictions, os.path.join(output_directory, 'output.csv'))
         LOG.info("\nECTYper has finished successfully.")
 
 
@@ -123,35 +120,6 @@ def create_output_directory(output_dir):
         os.makedirs(out_dir)
 
     return out_dir
-
-
-def create_ectyper_files(temp_dir, fastq_list, out_dir):
-    """
-    Create the files needed for an ectyper run.
-    This includes the fasta files and databases, and the output files.
-    :param temp_dir: the temporary directory for the ectyper run
-    :param fastq_list: list of all fastq files, if any
-    :param out_dir: program output directory if specified
-    :return: Dictionary of files for program run
-    """
-
-    # Finalize the tmp_files dictionary
-    files_and_dirs = {}
-    files_and_dirs['output_file'] = os.path.join(out_dir, 'output.csv')
-    files_and_dirs['output_dir'] = out_dir
-    files_and_dirs['alleles_fasta'] = create_alleles_fasta_file(temp_dir)
-    files_and_dirs['combined_fasta'] = \
-        genomeFunctions.create_combined_alleles_and_markers_file(files_and_dirs['alleles_fasta'], temp_dir)
-
-    # Create a bowtie2 reference if there are assemblies that need to be done
-    if fastq_list:
-        files_and_dirs['bowtie_base'] = genomeFunctions.create_bowtie_base(temp_dir, files_and_dirs['combined_fasta'])
-    else:
-        files_and_dirs['bowtie_base'] = None
-
-    LOG.info("ectyper files and directories created")
-    LOG.debug(files_and_dirs)
-    return files_and_dirs
 
 
 def create_alleles_fasta_file(temp_dir):

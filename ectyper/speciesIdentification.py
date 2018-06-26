@@ -18,7 +18,7 @@ def is_ecoli(genome_file):
     num_hit = get_num_hits(genome_file)
     if num_hit < 3:
         LOG.warning(
-            "{0} is identified as an invalid E. coli genome"
+            "{0} is identified as an invalid E. coli genome "
             "by the marker approach of "
             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
             " where at least three E. coli specific markers must be "
@@ -82,8 +82,7 @@ def get_species(file, args):
     Returns:
         str: name of estimated species
     """
-    # Download refseq file if species identification is enabled
-    refseq_sketch = args.refseq if args.refseq else genomeFunctions.download_refseq()
+
     species = 'Unknown'
 
     mash_cmd = [
@@ -123,7 +122,9 @@ def get_species(file, args):
         definitions.REFSEQ_SUMMARY
     ]
     grep_output = subprocess_util.run_subprocess(grep_cmd)
-    LOG.info(grep_output.stdout)
+    species = grep_output.stdout.decode("utf-8").split('\t')[7]
+
+    LOG.info(species)
 
     return species
 
