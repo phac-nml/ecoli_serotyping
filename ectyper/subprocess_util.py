@@ -7,7 +7,7 @@ import timeit
 LOG = logging.getLogger(__name__)
 
 
-def run_subprocess(cmd, input_data=None):
+def run_subprocess(cmd, input_data=None, un=False):
     """
     Run cmd command on subprocess
 
@@ -24,6 +24,7 @@ def run_subprocess(cmd, input_data=None):
         shell=False,
         input = input_data,
         check=False,
+        universal_newlines=un,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )

@@ -15,7 +15,7 @@ def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     :param output: Location of output
     :return: None
     """
-    args = ['-i', input, '--verify', '--species']
+    args = ['-i', input, '--verify', '--species', '-r', '/home/chad/refseq_sketch/refseq.genomes.k21s1000.msh']
     if percent_iden:
         args += ['-d', str(percent_iden)]
     if output:

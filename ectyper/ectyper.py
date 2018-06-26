@@ -44,10 +44,6 @@ def run_program():
 
     # Initialize ectyper directories and temp files for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Download refseq file if species identification is enabled
-        if args.species:
-            genomeFunctions.download_refseq()
-
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
 
@@ -70,7 +66,7 @@ def run_program():
 
         # Verify _E. coli_ genomes, if desired
         if args.verify:
-            v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args.species)
+            v_fasta_files = speciesIdentification.verify_ecoli(all_fasta_files, args)
         else:
             v_fasta_files = all_fasta_files
 

@@ -4,6 +4,7 @@ import os
 import tempfile
 from Bio import SeqIO
 from ectyper import genomeFunctions, definitions, subprocess_util
+import pandas as pd
 
 LOG = logging.getLogger(__name__)
 
@@ -73,7 +74,7 @@ def get_num_hits(target):
     return num_hit
 
 
-def get_species(file):
+def get_species(file, args):
     """
     Given a fasta/fastq file, return the most likely species identification
 
@@ -83,54 +84,31 @@ def get_species(file):
     Returns:
         str: name of estimated species
     """
-
+    # Download refseq file if species identification is enabled
+    refseq_sketch = args.refseq if args.refseq else genomeFunctions.download_refseq()
     species = 'Unknown'
 
-    cmd = [
+    mash_cmd = [
         'mash', 'dist',
         file,
-        definitions.REFSEQ_SKETCH,
-        '|',
-        'sort -gk3 -',
-        '|',
-        'head -1 -'
+        args.refseq
     ]
-    try:
-        mash_output = subprocess_util.run_subprocess(' '.join(cmd))
-        ass_acc_num = '_'.join(mash_output.split('\t')[1].split('_')[:2])
-        cmd = [
-            'grep -E',
-            ass_acc_num,
-            definitions.REFSEQ_SUMMARY
-        ]
-        summary_output = subprocess_util.run_subprocess(' '.join(cmd))
-        species = summary_output.split('\t')[7]
-        return species
-    except Exception as err:
-        LOG.warning('No matching species found with distance estimation:{0}'.format(err))
-        try:
-            cmd = [
-                'mash screen',
-                '-w',
-                '-p', str(multiprocessing.cpu_count()//2),
-                definitions.REFSEQ_SKETCH,
-                file,
-                '| sort -gr - | head -1 -'
-            ]
-            screen_output = subprocess_util.run_subprocess(' '.join(cmd))
-            LOG.debug(screen_output.split('\t'))
-            species = screen_output.split('\t')[5].split('\n')[0]
-        except Exception as err2:
-            LOG.warning(
-                'No matching species found with distance screening either:{}'.format(err2)
-            )
+    mash_output = subprocess_util.run_subprocess(mash_cmd, un=True)
+    df = pd.read_csv(mash_output.stdout)
+
+    print(df)
+    # Get the results in a pandas DataFrame, sort by best score
+    # Take the best score, look up species in RefSeq summary file
+
+
     return species
 
 
-def verify_ecoli(fasta_files, species):
+def verify_ecoli(fasta_files, args):
     """
     Verifying the _E. coli_-ness of the genome files
     :param fasta_files: [] of all fasta files
+    :param args: Command line arguments
     :return: List of fasta files
     """
 
@@ -139,8 +117,8 @@ def verify_ecoli(fasta_files, species):
         if is_ecoli(f):
             final_files.append(f)
         else:
-            if species:
-                get_species(f)
+            if args.species:
+                get_species(f, args)
                 # Report species prediction
 
     return final_files

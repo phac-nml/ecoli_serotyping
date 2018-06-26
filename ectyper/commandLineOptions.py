@@ -89,6 +89,12 @@ def parse_command_line(args=None):
         help="Directory location of output files."
     )
 
+    parser.add_argument(
+        "-r",
+        "--refseq",
+        help="Location of pre-computed MASH RefSeq sketch"
+    )
+
     if args is None:
         return parser.parse_args()
     else:
