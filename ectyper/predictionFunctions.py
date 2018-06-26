@@ -3,7 +3,6 @@
 import json
 import logging
 import os
-from collections import defaultdict
 import pandas as pd
 
 LOG = logging.getLogger(__name__)

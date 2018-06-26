@@ -90,16 +90,25 @@ def get_species(file, args):
 
     mash_cmd = [
         'mash', 'dist',
-        file,
-        args.refseq
+        args.refseq,
+        file
     ]
-    mash_output = subprocess_util.run_subprocess(mash_cmd, un=True)
-    df = pd.read_csv(mash_output.stdout)
+    mash_output = subprocess_util.run_subprocess(mash_cmd)
 
-    print(df)
-    # Get the results in a pandas DataFrame, sort by best score
-    # Take the best score, look up species in RefSeq summary file
+    sort_cmd = [
+        'sort',
+        '-gk3'
+    ]
+    sort_output = subprocess_util.run_subprocess(sort_cmd, input_data=mash_output.stdout)
 
+    head_cmd = [
+        'head',
+        '-n', '1'
+    ]
+
+    head_output = subprocess_util.run_subprocess(head_cmd, input_data=sort_output.stdout)
+    top_match = head_output.stdout.decode("utf-8").split()[0]
+    LOG.info(top_match)
 
     return species
 
