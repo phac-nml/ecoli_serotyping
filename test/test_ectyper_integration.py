@@ -15,7 +15,7 @@ def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     :param output: Location of output
     :return: None
     """
-    args = ['-i', input, '--verify', '--species', '-r', '/home/chad/refseq_sketch/refseq.genomes.k21s1000.msh']
+    args = ['-i', input, '--verify', '-r', '/home/chad/refseq_sketch/refseq.genomes.k21s1000.msh']
     if percent_iden:
         args += ['-d', str(percent_iden)]
     if output:
@@ -65,7 +65,8 @@ def test_integration_yersinia():
     """
     file = os.path.join(TEST_ROOT, 'Data/Yersinia.fasta')
     set_input(file)
-    ectyper.run_program()
+    output = ectyper.run_program()
+    print(output)
     pass
 
 
