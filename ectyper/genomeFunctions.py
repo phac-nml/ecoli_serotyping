@@ -29,24 +29,26 @@ def get_files_as_list(file_or_directory):
     """
 
     files_list = []
-    if file_or_directory == '':
-        return files_list
+    if file_or_directory:
+        if os.path.isdir(file_or_directory):
+            LOG.info("Gathering genomes from directory " + file_or_directory)
 
-    if os.path.isdir(file_or_directory):
-        LOG.info("Gathering genomes from directory " + file_or_directory)
+            # Create a list containing the file names
+            for root, dirs, files in os.walk(file_or_directory):
+                for filename in files:
+                    files_list.append(os.path.join(root, filename))
+        # check if input is concatenated file locations
+        elif ',' in file_or_directory:
+            LOG.info("Using genomes in the input list")
+            for filename in file_or_directory.split(','):
+                files_list.append(os.path.abspath(filename))
+        else:
+            LOG.info("Using genomes in file " + file_or_directory)
+            files_list.append(os.path.abspath(file_or_directory))
 
-        # Create a list containing the file names
-        for root, dirs, files in os.walk(file_or_directory):
-            for filename in files:
-                files_list.append(os.path.join(root, filename))
-    # check if input is concatenated file locations
-    elif ',' in file_or_directory:
-        LOG.info("Using genomes in the input list")
-        for filename in file_or_directory.split(','):
-            files_list.append(os.path.abspath(filename))
-    else:
-        LOG.info("Using genomes in file " + file_or_directory)
-        files_list.append(os.path.abspath(file_or_directory))
+    if not files_list:
+        LOG.critical("No files were found for the ectyper run")
+        exit("No files were found")
 
     sorted_files = sorted(files_list)
     LOG.debug(sorted_files)

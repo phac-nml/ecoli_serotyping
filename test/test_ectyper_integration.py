@@ -1,7 +1,7 @@
 import sys
 import pytest
 import tempfile
-
+import re
 import os
 from ectyper import ectyper
 
@@ -31,7 +31,6 @@ def test_integration_invalid_file():
     file = os.path.join(TEST_ROOT, 'Data/test_dir/badfasta.fasta')
     set_input(file)
     ectyper.run_program()
-    pass
 
 
 def test_integration_no_file():
@@ -39,12 +38,12 @@ def test_integration_no_file():
     Giving no input to the program.
     :return: None
     """
-    file =  ''
+    file = ''
     set_input(file)
     with pytest.raises(SystemExit) as se:
         ectyper.run_program()
     assert se.type == SystemExit
-    assert se.value.code == "No files given to ectyper"
+    assert se.value.code == "No files were found"
 
 
 def test_integration_valid_file():
@@ -55,20 +54,17 @@ def test_integration_valid_file():
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
     set_input(file)
     ectyper.run_program()
-    pass
 
 
-def test_integration_yersinia():
+def test_integration_yersinia(caplog):
     """
     Ensure a non-E. coli gets categorized as such
     :return: None
     """
     file = os.path.join(TEST_ROOT, 'Data/Yersinia.fasta')
     set_input(file)
-    output = ectyper.run_program()
-    print(output)
-    pass
-
+    ectyper.run_program()
+    assert "Yersinia pestis" in caplog.text
 
 
 def test_valid_fastq_file():
@@ -80,7 +76,7 @@ def test_valid_fastq_file():
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
     set_input(file)
     ectyper.run_program()
-    pass
+
 
 
 
