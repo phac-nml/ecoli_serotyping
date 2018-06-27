@@ -78,3 +78,23 @@ def test_valid_fastq_file(caplog):
     set_input(file)
     ectyper.run_program()
     assert "Escherichia\tO22\tH8" in caplog.text
+
+
+def test_multiple_directories(caplog):
+    """
+    Check a number of small files, some good, some bad,
+    within a nested directory structure.
+
+    :param caplog: Capture logging output for pytest
+    :return: None
+    """
+    the_dir = os.path.join(TEST_ROOT, 'Data/test_dir')
+    set_input(the_dir)
+    ectyper.run_program()
+    assert "sample2\tO148\tH44" in caplog.text
+    assert "sample3\tO148\tH44" in caplog.text
+    assert "sample4\tO148\tH44" in caplog.text
+    assert "badfasta\tNon fasta / fastq file" in caplog.text
+    assert "sample.fasta\tNon fasta / fastq file" in caplog.text
+    assert "sampletar\tNon fasta / fastq file" in caplog.text
+    assert "test_junk\tNon fasta / fastq file" in caplog.text

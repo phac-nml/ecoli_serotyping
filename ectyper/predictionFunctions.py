@@ -173,8 +173,9 @@ def report_result(final_dict, output_file):
     :return: None
     """
 
-    output_line = []
+    output = []
     for k, v in final_dict.items():
+        output_line = []
         output_line.append(k)
 
         if 'error' in v:
@@ -188,11 +189,14 @@ def report_result(final_dict, output_file):
                 if v[ant] != "-":
                     for kk, vv in sorted(v[ant].items()):
                         output_line.append(kk + ':' + str(vv))
-
-    print_line = "\t".join(output_line)
-    with open(output_file, "w") as ofh:
-        ofh.write(print_line)
+        print_line = "\t".join(output_line)
+        output.append(print_line + "\n")
         LOG.info(print_line)
+
+    with open(output_file, "w") as ofh:
+        for line in sorted(output):
+            ofh.write(line)
+
 
 
 def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
