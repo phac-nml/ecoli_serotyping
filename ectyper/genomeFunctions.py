@@ -6,12 +6,10 @@ Genome Utilities
 
 import logging
 import os
-import sys
 import tempfile
 from tarfile import is_tarfile
 from Bio import SeqIO
-from ectyper import definitions, subprocess_util, speciesIdentification
-from urllib.request import urlretrieve
+from ectyper import definitions, subprocess_util
 
 LOG = logging.getLogger(__name__)
 
