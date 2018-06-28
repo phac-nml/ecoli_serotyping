@@ -69,12 +69,6 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "--detailed",
-        action='store_true',
-        help="Enable detailed program output"
-    )
-
-    parser.add_argument(
         "-o",
         "--output",
         help="Directory location of output files."
