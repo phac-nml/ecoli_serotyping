@@ -83,8 +83,6 @@ def get_species(file, args):
         str: name of estimated species
     """
 
-    species = 'Unknown'
-
     mash_cmd = [
         'mash', 'dist',
         args.refseq,
@@ -122,8 +120,8 @@ def get_species(file, args):
         definitions.REFSEQ_SUMMARY
     ]
     grep_output = subprocess_util.run_subprocess(grep_cmd)
-    species = grep_output.stdout.decode("utf-8").split('\t')[7]
 
+    species = grep_output.stdout.decode("utf-8").split('\t')[7]
     LOG.info(species)
 
     return species
@@ -145,7 +143,7 @@ def verify_ecoli(fasta_files, ofiles, args):
         if is_ecoli(f):
             ecoli_files.append(f)
         else:
-            if args.species:
+            if args.refseq:
                 other_files[f] = get_species(f, args)
             else:
                 other_files[f] = "Failed E. coli species confirmation"

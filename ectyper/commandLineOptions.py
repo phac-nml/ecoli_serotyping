@@ -69,15 +69,6 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "-s",
-        "--species",
-        action="store_true",
-        help="Enable species identification when a non-E. coli genome is found\n\
-            Note: refseq downloading is required when running this option for\n\
-            the first time"
-    )
-
-    parser.add_argument(
         "--detailed",
         action='store_true',
         help="Enable detailed program output"
