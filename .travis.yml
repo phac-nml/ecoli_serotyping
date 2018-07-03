@@ -6,16 +6,16 @@ before_install:
 install:
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $HOME/miniconda
-  - PATH="$HOME/miniconda/envs/test-environment/bin:$PATH"
-  # - source ~/.bashrc
+  - echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
+  - source ~/.bashrc
   - conda config --set always_yes yes --set changeps1 no
   - conda update -y conda
   # Useful for debugging any issues with conda
   - conda info -a
   - conda config --add channels bioconda
   - conda config --add channels conda-forge
-  - conda create -q -n test-environment python=3.6 samtools>=1.7 pandas>=0.23 bowtie2>=2.3 mash>=2 bcftools>=1.7 biopython>=1.69 blast>=2.2.31 seqtk>=1.2
-  - source activate test-environment
+  - conda create -q -n test-environment python=3.6 samtools>=1.7 pandas>=0.23 bowtie2>=2.3 mash>=2 bcftools>=1.7 biopython>=1.69 blast>=2.2.31 seqtk>=1.2 pytest>=3.6
+  - conda activate test-environment
   # - python setup.py install
 
 script:
