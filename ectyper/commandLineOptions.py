@@ -3,7 +3,6 @@
 import argparse
 from ectyper import __version__
 
-
 def parse_command_line(args=None):
     """
     Options for E. coli serotype prediction.
@@ -41,8 +40,8 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-i",
         "--input",
-        help="Location of E. coli genome file(s). Can be a single file or \
-            a directory",
+        help="Location of E. coli genome file(s). Can be a single file, a \
+            comma-separated list of files, or a directory",
         required=True
     )
 
@@ -71,13 +70,17 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-o",
         "--output",
-        help="Directory location of output files."
+        help="Directory location of output files"
     )
 
     parser.add_argument(
         "-r",
         "--refseq",
-        help="Location of pre-computed MASH RefSeq sketch"
+        help="Location of pre-computed MASH RefSeq sketch. If provided, genomes "
+             "identified as non-E. coli will have their species identified using "
+             "MASH. For best results the pre-sketched RefSeq archive "
+             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh "
+             "is recommended"
     )
 
     if args is None:

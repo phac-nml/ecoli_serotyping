@@ -24,7 +24,7 @@ requirements:
 
     run:
         - python >=3.6
-        - pytest >=3.0
+        - pytest >=3.6
         - pandas >=0.23
         - samtools >=1.7
         - bowtie2 >=2.3
