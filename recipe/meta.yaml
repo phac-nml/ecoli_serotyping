@@ -38,7 +38,8 @@ test:
     import:
         - ectyper
     files:
-        - test/Data/
+        - Data/
+        - ../test/Data/
     requires:
         - pytest
     commands:
