@@ -42,6 +42,6 @@ test:
     requires:
         - pytest
     commands:
-        - pytest
+        - pytest ../test
 
 
