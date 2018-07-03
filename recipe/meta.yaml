@@ -37,12 +37,8 @@ requirements:
 test:
     import:
         - ectyper
-    files:
-        - Data/
-        - ../test/Data/
-    requires:
-        - pytest
-    commands:
-        - pytest ../test
+    test:
+        - "ectyper --help"
+
 
 
