@@ -41,7 +41,7 @@ test:
         - test/Data/
     requires:
         - pytest
-    command:
+    commands:
         - pytest
 
 
