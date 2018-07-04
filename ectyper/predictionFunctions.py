@@ -187,7 +187,7 @@ def report_result(final_dict, output_file):
             for ant in antigens:
                 if ant != "-":
                     for kk, vv in sorted(v[ant].items()):
-                        output_line.append(kk + ':' + str(vv))
+                        output_line.append(kk + ':' + " {0:.2f}".format(vv))
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")
         LOG.info(print_line)
