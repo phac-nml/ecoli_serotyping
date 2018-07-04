@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-
+from ectyper import __version__
 
 def parse_command_line(args=None):
     """
@@ -25,12 +25,23 @@ def parse_command_line(args=None):
             )
         return ivalue
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
+            ' or assembled genome sequences'.format(__version__)
+    )
+
+    parser.add_argument(
+        "-V",
+        "--version",
+        action='version',
+        version="%(prog)s {}".format(__version__)
+    )
+
     parser.add_argument(
         "-i",
         "--input",
-        help="Location of E. coli genome file(s). Can be a single file or \
-            a directory",
+        help="Location of E. coli genome file(s). Can be a single file, a \
+            comma-separated list of files, or a directory",
         required=True
     )
 
@@ -57,26 +68,22 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "-s",
-        "--species",
-        action="store_true",
-        help="Enable species identification when a non-E. coli genome is found\n\
-            Note: refseq downloading is required when running this option for\n\
-            the first time"
-    )
-
-    parser.add_argument(
-        "--detailed",
-        action='store_true',
-        help="Enable detailed program output"
-    )
-
-    parser.add_argument(
         "-o",
         "--output",
-        help="Directory location of output files."
+        help="Directory location of output files"
+    )
+
+    parser.add_argument(
+        "-r",
+        "--refseq",
+        help="Location of pre-computed MASH RefSeq sketch. If provided, genomes "
+             "identified as non-E. coli will have their species identified using "
+             "MASH. For best results the pre-sketched RefSeq archive "
+             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh "
+             "is recommended"
     )
 
     if args is None:
         return parser.parse_args()
-    return parser.parse_args(args)
+    else:
+        return parser.parse_args(args)

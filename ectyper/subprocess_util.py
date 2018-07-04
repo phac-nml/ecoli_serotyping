@@ -1,14 +1,14 @@
-'''
-Utilities
-'''
+#!/usr/bin/env python
+
 import logging
 import subprocess
 import timeit
 
 LOG = logging.getLogger(__name__)
 
-def run_subprocess(cmd, is_shell=False):
-    '''
+
+def run_subprocess(cmd, input_data=None, un=False):
+    """
     Run cmd command on subprocess
 
     Args:
@@ -16,19 +16,25 @@ def run_subprocess(cmd, is_shell=False):
 
     Returns:
         stdout (str): The stdout of cmd
-    '''
+    """
+
     start_time = timeit.default_timer()
-    LOG.debug("Running: {0}".format(cmd))
     comp_proc = subprocess.run(
         cmd,
-        shell=is_shell,
-        universal_newlines=True,
-        check=True,
+        shell=False,
+        input = input_data,
+        check=False,
+        universal_newlines=un,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
-    stderr = comp_proc.stderr
-    stdout = comp_proc.stdout
-    elapsed_time = timeit.default_timer() - start_time
-    LOG.debug("Subprocess finished successfully in {:0.3f} sec.".format(elapsed_time))
-    return stdout
+
+    if comp_proc.returncode == 0:
+        elapsed_time = timeit.default_timer() - start_time
+        LOG.debug("Subprocess {} finished successfully in {:0.3f} sec.".format(cmd, elapsed_time))
+        return comp_proc
+    else:
+        LOG.error("Error in subprocess. The following command failed: {}".format(cmd))
+        LOG.error("Subprocess {} failed with error: ".format(cmd, comp_proc.stderr))
+        LOG.critical("ectyper has stopped")
+        exit("subprocess failure")

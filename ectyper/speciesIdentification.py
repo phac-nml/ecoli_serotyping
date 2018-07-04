@@ -1,74 +1,79 @@
 import logging
-import multiprocessing
 import os
 import tempfile
-from Bio import SeqIO
-
-from ectyper import genomeFunctions, blastFunctions, definitions, subprocess_util
+from ectyper import genomeFunctions, definitions, subprocess_util
+import re
 
 LOG = logging.getLogger(__name__)
 
-def is_ecoli_genome(iden_file, genome_file=None, mash=False):
-    '''
-    Return True if file is classified as ecoli by ecoli markers, otherwise False
 
-    Args:
-        iden_file (str): path to valid fasta genome file
-        genome_file (str): Optional path to valid fastq file for reads
-        mash (bool): Optional input to decide whether to use mash if genome is
-                     identified as non-ecoli
+def is_ecoli(genome_file):
+    """
+    Checks whether the given genome is E. coli or not
 
-    Returns:
-        bool: True if iden_file is ecoli, False otherwise
-    '''
-    if genome_file is None:
-        genome_file = iden_file
-    num_hit = get_num_hits(iden_file)
+    :param genome_file: The genome file in fasta format
+    :return: True or False
+    """
+
+    num_hit = get_num_hits(genome_file)
     if num_hit < 3:
-        LOG.info(
-            "{0} is identified as "
-            "an invalid e.coli genome file "
-            "by marker approach".format(os.path.basename(iden_file)))
-        if mash:
-            species = get_species(genome_file)
-            LOG.info(
-                "{0} is identified as genome of "
-                "{1} by mash approach".format(os.path.basename(iden_file), species))
+        LOG.warning(
+            "{0} is identified as an invalid E. coli genome "
+            "by the marker approach of "
+            "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
+            " where at least three E. coli specific markers must be "
+            "present".format(os.path.basename(genome_file)))
         return False
-    LOG.debug("{0} is a valid e.coli genome file".format(os.path.basename(iden_file)))
-    return True
+    else:
+        return True
+
 
 def get_num_hits(target):
-    '''
-    Return number of matching hits when query the reference genome
-        on the target genome
+    """
+    Identify the number of E. coli specific markers carried by the target genome.
+    :param target: The genome file under analysis
+    :return: The number of E. coli specific markers found
+    """
 
-    Args:
-        target (str): target genome
-
-    Returns:
-        int: number of hits found
-    '''
     num_hit = 0
-    try:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            blast_db = blastFunctions.create_blast_db([target], temp_dir)
-            result = blastFunctions.run_blast_for_identification(
-                definitions.ECOLI_MARKERS,
-                blast_db
-            )
-            with open(result) as handler:
-                LOG.debug("get_num_hits() output:")
-                for line in handler:
-                    LOG.debug(line)
-                    num_hit += 1
-            LOG.debug("{0} aligned to {1} marker sequences".format(target, num_hit))
-    except SystemExit:
-        pass
+    name = os.path.splitext(os.path.split(target)[1])[0]
+
+    with tempfile.TemporaryDirectory() as tdir:
+        blast_db = os.path.join(tdir, name)
+        blast_db_cmd = [
+            "makeblastdb",
+            "-in", target,
+            "-dbtype", "nucl",
+            "-title", "ecoli_test",
+            "-out", blast_db]
+        subprocess_util.run_subprocess(blast_db_cmd)
+
+        result_file = blast_db + ".output"
+        bcline = [
+            'blastn',
+            '-query', definitions.ECOLI_MARKERS,
+            '-db', blast_db,
+            '-out', result_file,
+            '-perc_identity', "90",
+            '-qcov_hsp_perc', "90",
+            '-max_target_seqs', "1",
+            '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe",
+            '-word_size', "11"
+        ]
+        subprocess_util.run_subprocess(bcline)
+
+        with open(result_file) as handler:
+            LOG.debug("get_num_hits() output:")
+            for line in handler:
+                LOG.debug(line)
+                num_hit += 1
+        LOG.debug("{0} aligned to {1} marker sequences".format(target, num_hit))
+
     return num_hit
 
-def get_species(file):
-    '''
+
+def get_species(file, args):
+    """
     Given a fasta/fastq file, return the most likely species identification
 
     Args:
@@ -76,77 +81,78 @@ def get_species(file):
 
     Returns:
         str: name of estimated species
-    '''
-    LOG.info("Identifying species for {0}".format(file))
-    if not os.path.isfile(definitions.REFSEQ_SKETCH):
-        LOG.warning("No refseq found.")
-        return None
-    species = 'unknown'
-    if genomeFunctions.get_valid_format(file) == 'fasta':
-        tmp_file = tempfile.NamedTemporaryFile().name
-        basename = os.path.basename(file).replace(' ', '_')
-        with open(tmp_file, 'w') as new_fh:
-            header = '> {0}\n'.format(basename)
-            new_fh.write(header)
-            for record in SeqIO.parse(file, 'fasta'):
-                new_fh.write(str(record.seq))
-                new_fh.write('nnnnnnnnnnnnnnnnnnnn')
-        try:
-            species = get_species_helper(tmp_file)
-        except Exception:
-            pass
-    if genomeFunctions.get_valid_format(file) == 'fastq':
-        species = get_species_helper(file)
-    return species
+    """
 
-def get_species_helper(file):
-    '''
-    Given a fasta/fastq file with one sequence, return the most likely species
-    identification
-
-    Args:
-        file (str): fasta/fastq file input
-
-    Returns:
-        str: name of estimated species
-    '''
-    species = 'unknown'
-    cmd = [
+    mash_cmd = [
         'mash', 'dist',
-        file,
-        definitions.REFSEQ_SKETCH,
-        '|',
-        'sort -gk3 -',
-        '|',
-        'head -1 -'
+        args.refseq,
+        file
     ]
-    try:
-        mash_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
-        ass_acc_num = '_'.join(mash_output.split('\t')[1].split('_')[:2])
-        cmd = [
-            'grep -E',
-            ass_acc_num,
-            definitions.REFSEQ_SUMMARY
-        ]
-        summary_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
-        species = summary_output.split('\t')[7]
-        return species
-    except Exception as err:
-        LOG.warning('No matching species found with distance estimation:{0}'.format(err))
-        try:
-            cmd = [
-                'mash screen',
-                '-w',
-                '-p', str(multiprocessing.cpu_count()//2),
-                definitions.REFSEQ_SKETCH,
-                file,
-                '| sort -gr - | head -1 -'
-            ]
-            screen_output = subprocess_util.run_subprocess(' '.join(cmd), is_shell=True)
-            LOG.debug(screen_output.split('\t'))
-            species = screen_output.split('\t')[5].split('\n')[0]
-        except Exception as err2:
-            LOG.warning(
-                'No matching species found with distance screening either:{}'.format(err2)
-            )
+    mash_output = subprocess_util.run_subprocess(mash_cmd)
+
+    sort_cmd = [
+        'sort',
+        '-gk3'
+    ]
+    sort_output = subprocess_util.run_subprocess(sort_cmd, input_data=mash_output.stdout)
+
+    head_cmd = [
+        'head',
+        '-n', '1'
+    ]
+
+    head_output = subprocess_util.run_subprocess(head_cmd, input_data=sort_output.stdout)
+    top_match = head_output.stdout.decode("utf-8").split()[0]
+    LOG.info(top_match)
+
+    m = re.match(r"(GCF_\d+)", top_match)
+    refseq_key = None
+    if m:
+        refseq_key = m.group(1)
+    else:
+        LOG.critical("Unknown key from MASH species search")
+        exit("MASH error")
+
+    LOG.info(refseq_key)
+    grep_cmd = [
+        'grep',
+        refseq_key,
+        definitions.REFSEQ_SUMMARY
+    ]
+    grep_output = subprocess_util.run_subprocess(grep_cmd)
+
+    species = grep_output.stdout.decode("utf-8").split('\t')[7]
+    LOG.info(species)
+
     return species
+
+
+def verify_ecoli(fasta_files, ofiles, args):
+    """
+    Verifying the _E. coli_-ness of the genome files
+    :param fasta_files: [] of all fasta files
+    :param ofiles: [] of all non-fasta files
+    :param args: Command line arguments
+    :return: ([ecoli_genomes], {file:species})
+    """
+
+    ecoli_files = []
+    other_files = {}
+
+    for f in fasta_files:
+        if is_ecoli(f):
+            ecoli_files.append(f)
+        else:
+            if args.refseq:
+                other_files[f] = get_species(f, args)
+            else:
+                other_files[f] = "Failed E. coli species confirmation"
+
+    for bf in ofiles:
+        other_files[bf] = "Non fasta / fastq file"
+
+    return ecoli_files, other_files
+
+
+
+
