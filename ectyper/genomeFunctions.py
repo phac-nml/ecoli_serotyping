@@ -32,15 +32,11 @@ def get_files_as_list(file_or_directory):
     if file_or_directory:
         if os.path.isdir(file_or_directory):
             LOG.info("Gathering genomes from directory " + file_or_directory)
-            # os.path.walk only give "root" as the directory given to it
-            # we want the absolute path of the files
-            absolute_root = os.path.dirname(file_or_directory)
-
 
             # Create a list containing the file names
             for root, dirs, files in os.walk(file_or_directory):
                 for filename in files:
-                    files_list.append(os.path.join(absolute_root, root, filename))
+                    files_list.append(os.path.join(root, filename))
         # check if input is concatenated file locations
         elif ',' in file_or_directory:
             LOG.info("Using genomes in the input list")
