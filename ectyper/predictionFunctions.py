@@ -175,8 +175,7 @@ def report_result(final_dict, output_file):
 
     output = []
     for k, v in final_dict.items():
-        output_line = []
-        output_line.append(k)
+        output_line = [k]
 
         if 'error' in v:
             output_line.append(v['error'])
@@ -186,7 +185,7 @@ def report_result(final_dict, output_file):
 
             antigens = [v['O'], v['H']]
             for ant in antigens:
-                if v[ant] != "-":
+                if ant != "-":
                     for kk, vv in sorted(v[ant].items()):
                         output_line.append(kk + ':' + str(vv))
         print_line = "\t".join(output_line)
@@ -196,7 +195,6 @@ def report_result(final_dict, output_file):
     with open(output_file, "w") as ofh:
         for line in sorted(output):
             ofh.write(line)
-
 
 
 def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
@@ -213,10 +211,9 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
         if gname not in predictions_dict:
-            LOG.info("gname is {}".format(gname))
+            LOG.debug("gname is {}".format(gname))
             predictions_dict[gname] = {
                 'error': other_dict[g]
             }
 
     return predictions_dict
-

@@ -30,7 +30,7 @@ def run_program():
     LOG.addHandler(fh)
 
     LOG.debug(args)
-    LOG.info("Starting ectyper v{}.\nOutput directory is: {}"
+    LOG.info("Starting ectyper v{}\nOutput directory is: {}"
          .format(__version__, output_directory))
 
     # Initialize ectyper directory for the scope of this program
