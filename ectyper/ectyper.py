@@ -74,7 +74,7 @@ def run_program():
         LOG.info("Reporting results:\n")
 
         predictionFunctions.report_result(final_predictions, os.path.join(output_directory, 'output.csv'))
-        LOG.info("\nECTYper has finished successfully.")
+        LOG.info("\nECTyper has finished successfully.")
 
 
 def create_output_directory(output_dir):
