@@ -48,7 +48,7 @@
 usage: ectyper [-h] [-V] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
                [--verify] [-o OUTPUT] [-r REFSEQ]
 
-ectyper v0.4.0 Prediction of Escherichia coli serotype from raw reads or
+ectyper v0.5.4 Prediction of Escherichia coli serotype from raw reads or
 assembled genome sequences
 
 optional arguments:
