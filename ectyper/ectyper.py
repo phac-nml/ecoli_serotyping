@@ -8,6 +8,7 @@ import datetime
 import json
 import logging
 from multiprocessing import Pool
+from functools import partial
 
 from ectyper import (commandLineOptions, definitions, speciesIdentification, loggingFunctions,
                      genomeFunctions, predictionFunctions, subprocess_util, __version__)
@@ -140,54 +141,66 @@ def run_prediction(genome_files, args, alleles_fasta):
     :param args: program arguments from the commandline
     :param alleles_fasta: fasta format file of the ectyper O- and H-alleles
     :param predictions_file: the output file to store the predictions
-    :return: predictions_file
+    :return: predictions_dict
     """
 
     predictions_dict = {}
-    # create a temp dir for blastdb
+
+    # Divide genome files into groups and create databases for each set
+    per_core = int(len(genome_files) / args.cores) + 1
+    group_size = 50 if per_core > 50 else per_core
+
+    genome_groups = [
+        genome_files[i:i + group_size]
+        for i in range(0, len(genome_files), group_size)
+    ]
+    gp = partial(genome_group_prediction, alleles_fasta=alleles_fasta, args=args)
+    pool = Pool(processes=args.cores)
+    results = pool.map(gp, genome_groups)
+
+    # merge the per-database predictions with the final predictions dict
+    for r in results:
+        predictions_dict = {**r, **predictions_dict}
+    return predictions_dict
+
+
+def genome_group_prediction(g_group, alleles_fasta, args):
+    """
+    For each genome group, run blast and make serotype predictions
+    :param g_group: The group of genomes being analyzed
+    :param alleles_fasta: fasta format file of the ectyper O- and H-alleles
+    :param args: commandline args
+    :return: dictionary of the results for the g_group
+    """
+    # create a temp dir for blastdb -- each process gets its own directory
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Divide genome files into groups and create databases for each set
-        per_core = int(len(genome_files) / args.cores) + 1
-        group_size = 50 if per_core > 50 else per_core
+        LOG.debug("Creating blast database from {}".format(g_group))
+        blast_db = os.path.join(temp_dir, "blastdb_")
+        blast_db_cmd = [
+            "makeblastdb",
+            "-in", ' '.join(g_group),
+            "-dbtype", "nucl",
+            "-title", "ectyper_blastdb",
+            "-out", blast_db]
+        subprocess_util.run_subprocess(blast_db_cmd)
 
-        genome_groups = [
-            genome_files[i:i + group_size]
-            for i in range(0, len(genome_files), group_size)
+        LOG.debug("Starting blast alignment on database {}".format(g_group))
+        blast_output_file = blast_db + ".output"
+        bcline = [
+            'blastn',
+            '-query', alleles_fasta,
+            '-db', blast_db,
+            '-out', blast_output_file,
+            '-perc_identity', str(args.percentIdentity),
+            '-qcov_hsp_perc', str(args.percentLength),
+            '-max_hsps', "1",
+            '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp sseq",
+            '-word_size', "11"
         ]
-        LOG.info("Creating blast databases")
-        for index, g_group in enumerate(genome_groups):
+        subprocess_util.run_subprocess(bcline)
 
-            LOG.debug("Creating blast database #{0} from {1}".format(index + 1, g_group))
-            blast_db = os.path.join(temp_dir, "blastdb_" + str(index))
-            blast_db_cmd = [
-                "makeblastdb",
-                "-in", ' '.join(g_group),
-                "-dbtype", "nucl",
-                "-title", "ectyper_blastdb",
-                "-out", blast_db]
-            subprocess_util.run_subprocess(blast_db_cmd)
+        LOG.debug("Starting serotype prediction for database {}".format(g_group))
+        db_prediction_dict = predictionFunctions.predict_serotype(
+            blast_output_file, definitions.SEROTYPE_ALLELE_JSON)
 
-            LOG.info("Starting blast alignment on database #{0}".format(index + 1))
-            blast_output_file = blast_db + ".output"
-            bcline = [
-                'blastn',
-                '-query', alleles_fasta,
-                '-db', blast_db,
-                '-out', blast_output_file,
-                '-perc_identity', str(args.percentIdentity),
-                '-qcov_hsp_perc', str(args.percentLength),
-                '-max_hsps', "1",
-                '-outfmt', "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp sseq",
-                '-word_size', "11"
-            ]
-            subprocess_util.run_subprocess(bcline)
-
-            LOG.info("Starting serotype prediction for database #{0}".format(index + 1))
-            db_prediction_dict = predictionFunctions.predict_serotype(
-                blast_output_file, definitions.SEROTYPE_ALLELE_JSON)
-
-            # merge the per-database predictions with the final predictions dict
-            predictions_dict = {**db_prediction_dict, **predictions_dict}
-        return predictions_dict
-
-
+        return db_prediction_dict

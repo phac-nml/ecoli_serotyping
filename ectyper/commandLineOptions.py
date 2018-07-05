@@ -49,6 +49,7 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-c",
         "--cores",
+        type=int,
         help="The number of cores to run ectyper with",
         default=1
     )
