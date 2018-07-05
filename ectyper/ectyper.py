@@ -147,7 +147,7 @@ def run_prediction(genome_files, args, alleles_fasta):
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into groups and create databases for each set
-        per_core = int(len(genome_files) / args.cores)
+        per_core = int(len(genome_files) / args.cores) + 1
         group_size = 50 if per_core > 50 else per_core
 
         genome_groups = [
