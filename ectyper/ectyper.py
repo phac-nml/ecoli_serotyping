@@ -42,7 +42,7 @@ def run_program():
 
         LOG.info("Identifying genome file types")
         # 'fasta'=[], 'fastq'=[], 'other'=[]
-        raw_files_dict = genomeFunctions.get_raw_files(raw_genome_files)
+        raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files, args)
 
         alleles_fasta = create_alleles_fasta_file(temp_dir)
         combined_fasta = genomeFunctions.create_combined_alleles_and_markers_file(alleles_fasta, temp_dir)

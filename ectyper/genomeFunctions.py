@@ -9,7 +9,9 @@ import os
 import tempfile
 from tarfile import is_tarfile
 from Bio import SeqIO
+from multiprocessing import Pool
 from ectyper import definitions, subprocess_util
+
 
 LOG = logging.getLogger(__name__)
 
@@ -55,7 +57,7 @@ def get_files_as_list(file_or_directory):
     return sorted_files
 
 
-def get_valid_format(file):
+def get_file_format(file):
     """
     Check using SeqIO if files are valid fasta/fastq format, returns the format.
 
@@ -228,30 +230,40 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     return output_fasta
 
 
-def get_raw_files(raw_files):
-    """Take all the raw files, and filter not fasta / fastq
-
-    Args:
-        raw_files(str): list of files from user input
-
-    Returns:
-        A dictionary collection of fasta and fastq files
-        example:
-        {'raw_fasta_files':[],
-         'raw_fastq_files':[]}
+def get_file_format_tuple(file):
     """
+    Wrapper for multiprocessing.
+
+    :param file: file to determine fasta, fastq, or other type
+    :return: (file, type)
+    """
+
+    file_format = get_file_format(file)
+    return file, file_format
+
+
+def identify_raw_files(raw_files, args):
+    """
+    Identify fasta, fastq, or other file type for all input files.
+    :param raw_files: list of all input files
+    :param args: commandline args
+    :return: {'fasta':[], 'fastq':[], 'other':[]}
+    """
+
     fasta_files = []
     fastq_files = []
     other_files = []
 
-    for file in raw_files:
-        file_format = get_valid_format(file)
-        if file_format == 'fasta':
-            fasta_files.append(file)
-        elif file_format == 'fastq':
-            fastq_files.append(file)
+    pool = Pool(processes=args.cores)
+    result_tuples = pool.map(get_file_format_tuple, raw_files)
+
+    for f, ftype in result_tuples:
+        if ftype == 'fasta':
+            fasta_files.append(f)
+        elif ftype == 'fastq':
+            fastq_files.append(f)
         else:
-            other_files.append(file)
+            other_files.append(f)
 
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
