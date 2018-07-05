@@ -144,8 +144,6 @@ def run_prediction(genome_files, args, alleles_fasta):
     :return: predictions_dict
     """
 
-    predictions_dict = {}
-
     # Divide genome files into groups and create databases for each set
     per_core = int(len(genome_files) / args.cores) + 1
     group_size = 50 if per_core > 50 else per_core
@@ -159,6 +157,7 @@ def run_prediction(genome_files, args, alleles_fasta):
     results = pool.map(gp, genome_groups)
 
     # merge the per-database predictions with the final predictions dict
+    predictions_dict = {}
     for r in results:
         predictions_dict = {**r, **predictions_dict}
     return predictions_dict
@@ -172,6 +171,7 @@ def genome_group_prediction(g_group, alleles_fasta, args):
     :param args: commandline args
     :return: dictionary of the results for the g_group
     """
+
     # create a temp dir for blastdb -- each process gets its own directory
     with tempfile.TemporaryDirectory() as temp_dir:
         LOG.debug("Creating blast database from {}".format(g_group))
