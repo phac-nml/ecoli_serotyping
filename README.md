@@ -4,16 +4,16 @@
 **ecyper** is a standalone serotyping module for _Escherichia coli_. It supports _fasta_ and _fastq_ file formats.
 
 # Dependencies:
-- python 3.6.3.*
-- pytest 3.6.*
-- pandas 0.21.0.*
-- samtools 1.5.*
-- bowtie2 2.3.0.*
-- mash 2.0.*
-- bcftools 1.8.*
-- biopython 1.69.*
-- blast 2.2.31 .*
-- seqtk 1.2.*
+- python >=3.5
+- pytest >=3.5
+- pandas 0.23.1
+- samtools 1.8
+- bowtie2 2.3.4.1
+- mash 2.0
+- bcftools 1.8
+- biopython 1.70
+- blast 2.7.1
+- seqtk 1.2
 
 # Installation
 1. Get `miniconda` if you do not already have `miniconda` or `anaconda`:
