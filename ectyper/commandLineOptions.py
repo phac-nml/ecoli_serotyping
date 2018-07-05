@@ -3,6 +3,7 @@
 import argparse
 from ectyper import __version__
 
+
 def parse_command_line(args=None):
     """
     Options for E. coli serotype prediction.
@@ -43,6 +44,13 @@ def parse_command_line(args=None):
         help="Location of E. coli genome file(s). Can be a single file, a \
             comma-separated list of files, or a directory",
         required=True
+    )
+
+    parser.add_argument(
+        "-c",
+        "--cores",
+        help="The number of cores to run ectyper with",
+        default=1
     )
 
     parser.add_argument(

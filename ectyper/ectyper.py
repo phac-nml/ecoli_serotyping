@@ -7,6 +7,7 @@ import tempfile
 import datetime
 import json
 import logging
+from multiprocessing import Pool
 
 from ectyper import (commandLineOptions, definitions, speciesIdentification, loggingFunctions,
                      genomeFunctions, predictionFunctions, subprocess_util, __version__)
@@ -146,7 +147,9 @@ def run_prediction(genome_files, args, alleles_fasta):
     # create a temp dir for blastdb
     with tempfile.TemporaryDirectory() as temp_dir:
         # Divide genome files into groups and create databases for each set
-        group_size = definitions.GENOME_GROUP_SIZE
+        per_core = int(len(genome_files) / args.cores)
+        group_size = 50 if per_core > 50 else per_core
+
         genome_groups = [
             genome_files[i:i + group_size]
             for i in range(0, len(genome_files), group_size)
