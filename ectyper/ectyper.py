@@ -49,10 +49,11 @@ def run_program():
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir, combined_fasta) if raw_files_dict['fastq'] else None
 
         # Assemble any fastq files, get final fasta list
-        all_fasta_files = genomeFunctions.assembleFastq(raw_files_dict,
-                                                        temp_dir,
-                                                        combined_fasta,
-                                                        bowtie_base)
+        all_fasta_files = genomeFunctions.assemble_fastq(raw_files_dict,
+                                                         temp_dir,
+                                                         combined_fasta,
+                                                         bowtie_base,
+                                                         args)
 
         # Verify we have at least one fasta file. Optionally species ID.
         # Get a tuple of ecoli and other genomes

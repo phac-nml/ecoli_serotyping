@@ -10,6 +10,7 @@ import tempfile
 from tarfile import is_tarfile
 from Bio import SeqIO
 from multiprocessing import Pool
+from functools import partial
 from ectyper import definitions, subprocess_util
 
 
@@ -274,7 +275,7 @@ def identify_raw_files(raw_files, args):
             'other':other_files})
 
 
-def assembleFastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base):
+def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
     """
     For any fastq files, map and assemble the serotyping genes, and optionally
     the E. coli specific genes.
@@ -282,13 +283,20 @@ def assembleFastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base):
     :param temp_dir: Temporary files created for ectyper
     :param combined_fasta: Combined E. coli markers and O- and H- alleles
     :param bowtie_base: The bowtie base index of O- and H- alleles and E. coli markers
+    :param args: Commandline arguments
     :return: list of all fasta files, including the assembled fastq
     """
 
+    par = partial(assemble_reads,
+                  bowtie_base=bowtie_base,
+                  combined_fasta=combined_fasta,
+                  temp_dir=temp_dir)
+    pool = Pool(processes=args.cores)
+    results = pool.map(par, raw_files_dict['fastq'])
+
     all_fasta_files = raw_files_dict['fasta']
-    for fastq_file in raw_files_dict['fastq']:
-        fasta_file = assemble_reads(fastq_file, bowtie_base, combined_fasta, temp_dir)
-        all_fasta_files.append(fasta_file)
+    for r in results:
+        all_fasta_files.append(r)
 
     return all_fasta_files
 
