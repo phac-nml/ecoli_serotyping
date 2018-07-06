@@ -12,9 +12,9 @@ install:
   - conda update -y conda
   # Useful for debugging any issues with conda
   - conda info -a
-  - conda config --add channels bioconda
   - conda config --add channels conda-forge
-  - conda create -q -n test-environment python=3.5 samtools>=1.7 pandas>=0.23 bowtie2>=2.3 mash>=2 bcftools>=1.7 biopython>=1.69 blast>=2.2.31 seqtk>=1.2 pytest>=3.5
+  - conda config --add channels bioconda
+  - conda create -q -n test-environment python=3.5 samtools=1.8 pandas=0.23.1 bowtie2=2.3.4.1 mash=2.0 bcftools=1.8 biopython=1.70 blast=2.7.1 seqtk=1.2 pytest=3.5
   - conda activate test-environment
   - python setup.py install
 

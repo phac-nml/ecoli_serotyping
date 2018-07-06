@@ -7,7 +7,7 @@ from ectyper import ectyper
 TEST_ROOT = os.path.dirname(__file__)
 
 
-def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
+def set_input(input, percent_iden=None, output=tempfile.mkdtemp(), cores=1):
     """
     Create the sys.argv[] without need for commandline input.
     :param input: Input file given by testing function
@@ -15,7 +15,10 @@ def set_input(input, percent_iden=None, output=tempfile.mkdtemp()):
     :param output: Location of output
     :return: None
     """
-    args = ['-i', input, '--verify', '-r', os.path.join(TEST_ROOT, 'Data/test_sketch.msh')]
+    args = ['-i', input,
+            '--verify',
+            '-r', os.path.join(TEST_ROOT, 'Data/test_sketch.msh'),
+            '-c', str(cores)]
 
     if percent_iden:
         args += ['-d', str(percent_iden)]
@@ -91,7 +94,7 @@ def test_multiple_directories(caplog):
     :return: None
     """
     the_dir = os.path.join(TEST_ROOT, 'Data/test_dir')
-    set_input(the_dir)
+    set_input(the_dir, cores=3)
     ectyper.run_program()
     assert "sample2\tO148\tH44" in caplog.text
     assert "sample3\tO148\tH44" in caplog.text
