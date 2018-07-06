@@ -177,6 +177,8 @@ def parseFile(result_file, perc_len, perc_id):
                 # has more than 1 genes assoc with it
                 geneDict = {}
                 geneDict['GENE_NAME'] = align_title
+                # Add raw alignment title.
+                geneDict['RAW'] = alignment.title
                 # check if the subject (what we're looking for) was found in forward or reverse
                 # this means found in forward
                 if hsp.sbjct_start < hsp.sbjct_end:
