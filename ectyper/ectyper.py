@@ -49,6 +49,7 @@ def run_program():
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir, combined_fasta) if raw_files_dict['fastq'] else None
 
         # Assemble any fastq files, get final fasta list
+        LOG.info("Assembling final list of fasta files")
         all_fasta_files = genomeFunctions.assemble_fastq(raw_files_dict,
                                                          temp_dir,
                                                          combined_fasta,
@@ -61,7 +62,7 @@ def run_program():
                                                                                  raw_files_dict['other'],
                                                                                  args)
 
-        LOG.info("Standardizing the genome headers")
+        LOG.info("Standardizing the genome headers based on file names")
         final_fasta_files = genomeFunctions.get_genome_names_from_files(ecoli_genomes, temp_dir)
 
         # Main prediction function
