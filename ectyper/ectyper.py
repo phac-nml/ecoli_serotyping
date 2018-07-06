@@ -63,7 +63,10 @@ def run_program():
                                                                                  args)
 
         LOG.info("Standardizing the genome headers based on file names")
-        final_fasta_files = genomeFunctions.get_genome_names_from_files(ecoli_genomes, temp_dir)
+        final_fasta_files = genomeFunctions.get_genome_names_from_files(ecoli_genomes,
+                                                                        temp_dir,
+                                                                        args
+                                                                        )
 
         # Main prediction function
         predictions_dict = run_prediction(final_fasta_files,

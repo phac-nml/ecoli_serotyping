@@ -90,37 +90,52 @@ def get_file_format(file):
     return 'other'
 
 
-def get_genome_names_from_files(files, temp_dir):
+def get_genome_names_from_files(files, temp_dir, args):
     """
     For each file:
     Uses the name of the file for the genome name, creates a temporary file using
     >lcl|filename as the name in the fasta header.
     :param files: All the fasta files for analyses
     :param temp_dir: The ectyper temp directory
+    :param args: Commandline arguments
     :return: List of files with fasta headers modified for filename
     """
 
     modified_genomes = []
-    for file in files:
-        # get only the name of the file for use in the fasta header
-        file_base_name = os.path.basename(file)
-        file_path_name = os.path.splitext(file_base_name)[0]
-        n_name = file_path_name.replace(' ', '_')
+    partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
+    pool = Pool(processes=args.cores)
+    results = pool.map(partial_ghw, files)
 
-        # create a new file for the updated fasta headers
-        new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
-
-        # add the new name to the list of files and genomes
-        modified_genomes.append(new_file)
-
-        with open(new_file, "w") as outfile:
-            with open(file) as infile:
-                for record in SeqIO.parse(infile, "fasta"):
-                    outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
-                    outfile.write(str(record.seq) + "\n")
+    for r in results:
+        modified_genomes.append(r)
 
     LOG.debug(("Modified genomes: {}".format(modified_genomes)))
     return modified_genomes
+
+
+def genome_header_wrapper(file, temp_dir):
+    """
+    Create a temp file where the fasta header is based on the filename
+    :param file: File to use as template for new file with fasta header based on filename
+    :param temp_dir: Temp directory for ectyper run
+    :return: Filename of new, temp, filename based fasta-header file
+    """
+
+    # get only the name of the file for use in the fasta header
+    file_base_name = os.path.basename(file)
+    file_path_name = os.path.splitext(file_base_name)[0]
+    n_name = file_path_name.replace(' ', '_')
+
+    # create a new file for the updated fasta headers
+    new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
+
+    with open(new_file, "w") as outfile:
+        with open(file) as infile:
+            for record in SeqIO.parse(infile, "fasta"):
+                outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
+                outfile.write(str(record.seq) + "\n")
+
+    return new_file
 
 
 def create_bowtie_base(temp_dir, reference):
