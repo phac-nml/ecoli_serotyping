@@ -32,8 +32,8 @@ def run_program():
     LOG.addHandler(fh)
 
     LOG.debug(args)
-    LOG.info("Starting ectyper v{}\nOutput directory is: {}"
-         .format(__version__, output_directory))
+    LOG.info("Starting ectyper v{}".format(__version__))
+    LOG.info("Output_directory is {}".format(output_directory))
 
     # Initialize ectyper directory for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
