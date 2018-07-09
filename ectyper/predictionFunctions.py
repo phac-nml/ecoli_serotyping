@@ -206,14 +206,19 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
     :return: modified prediction file
     """
 
+    # test on '/mnt/moria/enterobase_serotype/ESC_GA9165AA_AS.fasta'
     # genome names are given without the filename extension
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
         if gname not in predictions_dict:
-            LOG.debug("gname is {}".format(gname))
-            predictions_dict[gname] = {
-                'error': other_dict[g]
-            }
+            if g in other_dict:
+                predictions_dict[gname] = {
+                    'error': other_dict[g]
+                }
+            else:
+                predictions_dict[gname] = {
+                    'error': "No serotyping-specific genes found"
+                }
 
     return predictions_dict
