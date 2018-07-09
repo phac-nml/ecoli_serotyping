@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+"""
+Given the `assembly_summary_refseq.txt` file, create a list
+"""
+
+
 import sys
 import re
 
