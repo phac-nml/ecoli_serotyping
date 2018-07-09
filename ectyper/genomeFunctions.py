@@ -13,7 +13,6 @@ from multiprocessing import Pool
 from functools import partial
 from ectyper import definitions, subprocess_util
 
-
 LOG = logging.getLogger(__name__)
 
 
@@ -28,8 +27,6 @@ def get_files_as_list(file_or_directory):
     Returns:
         files_list (list(str)): List of all the files found.
     """
-
-
 
     files_list = []
     if file_or_directory:
@@ -74,7 +71,8 @@ def get_file_format(file):
                 data = SeqIO.parse(handle, fm)
                 if any(data):
                     if is_tarfile(file):
-                        LOG.warning("Compressed file is not supported: {}".format(file))
+                        LOG.warning(
+                            "Compressed file is not supported: {}".format(file))
                         return 'other'
                     return fm
         except FileNotFoundError:
@@ -90,37 +88,56 @@ def get_file_format(file):
     return 'other'
 
 
-def get_genome_names_from_files(files, temp_dir):
+def get_genome_names_from_files(files, temp_dir, args):
     """
     For each file:
-    Uses the name of the file for the genome name, creates a temporary file using
+    Uses the name of the file for the genome name, creates a temporary file
+    using
     >lcl|filename as the name in the fasta header.
     :param files: All the fasta files for analyses
     :param temp_dir: The ectyper temp directory
+    :param args: Commandline arguments
     :return: List of files with fasta headers modified for filename
     """
 
     modified_genomes = []
-    for file in files:
-        # get only the name of the file for use in the fasta header
-        file_base_name = os.path.basename(file)
-        file_path_name = os.path.splitext(file_base_name)[0]
-        n_name = file_path_name.replace(' ', '_')
+    partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
 
-        # create a new file for the updated fasta headers
-        new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
+    with Pool(processes=args.cores) as pool:
+        results = pool.map(partial_ghw, files)
 
-        # add the new name to the list of files and genomes
-        modified_genomes.append(new_file)
-
-        with open(new_file, "w") as outfile:
-            with open(file) as infile:
-                for record in SeqIO.parse(infile, "fasta"):
-                    outfile.write(">lcl|" + n_name + "|" + record.description + "\n")
-                    outfile.write(str(record.seq) + "\n")
+        for r in results:
+            modified_genomes.append(r)
 
     LOG.debug(("Modified genomes: {}".format(modified_genomes)))
     return modified_genomes
+
+
+def genome_header_wrapper(file, temp_dir):
+    """
+    Create a temp file where the fasta header is based on the filename
+    :param file: File to use as template for new file with fasta header based
+    on filename
+    :param temp_dir: Temp directory for ectyper run
+    :return: Filename of new, temp, filename based fasta-header file
+    """
+
+    # get only the name of the file for use in the fasta header
+    file_base_name = os.path.basename(file)
+    file_path_name = os.path.splitext(file_base_name)[0]
+    n_name = file_path_name.replace(' ', '_')
+
+    # create a new file for the updated fasta headers
+    new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
+
+    with open(new_file, "w") as outfile:
+        with open(file) as infile:
+            for record in SeqIO.parse(infile, "fasta"):
+                outfile.write(
+                    ">lcl|" + n_name + "|" + record.description + "\n")
+                outfile.write(str(record.seq) + "\n")
+
+    return new_file
 
 
 def create_bowtie_base(temp_dir, reference):
@@ -151,7 +168,8 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     """
     Assembles fastq reads to the specified reference file.
     :param reads: The fastq file to assemble
-    :param bowtie_base: The full-path to the bowtie reference created for this run
+    :param bowtie_base: The full-path to the bowtie reference created for
+    this run
     :param combined_fasta: Combined E. coli markers and O- and H- alleles
     :param temp_dir: The ectyper temporary directory
     :return: The full path to the assembled fasta file
@@ -208,20 +226,25 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
         'call',
         '-c'
     ]
-    variant_calling_output = subprocess_util.run_subprocess(variant_calling, mpileup_output.stdout)
+    variant_calling_output = \
+        subprocess_util.run_subprocess(variant_calling,
+                                       mpileup_output.stdout)
 
     to_fastq = [
         'vcfutils.pl',
         'vcf2fq'
     ]
-    to_fastq_output = subprocess_util.run_subprocess(to_fastq, variant_calling_output.stdout)
+    to_fastq_output = \
+        subprocess_util.run_subprocess(to_fastq,
+                                       variant_calling_output.stdout)
 
     to_fasta = [
         'seqtk',
         'seq',
         '-A'
     ]
-    to_fasta_output = subprocess_util.run_subprocess(to_fasta, to_fastq_output.stdout)
+    to_fasta_output = subprocess_util.run_subprocess(to_fasta,
+                                                     to_fastq_output.stdout)
 
     # Write the final fasta file as bytes rather than str
     LOG.info("Creating fasta file {}".format(output_fasta))
@@ -255,24 +278,24 @@ def identify_raw_files(raw_files, args):
     fastq_files = []
     other_files = []
 
-    pool = Pool(processes=args.cores)
-    result_tuples = pool.map(get_file_format_tuple, raw_files)
+    with Pool(processes=args.cores) as pool:
+        result_tuples = pool.map(get_file_format_tuple, raw_files)
 
-    for f, ftype in result_tuples:
-        if ftype == 'fasta':
-            fasta_files.append(f)
-        elif ftype == 'fastq':
-            fastq_files.append(f)
-        else:
-            other_files.append(f)
+        for f, ftype in result_tuples:
+            if ftype == 'fasta':
+                fasta_files.append(f)
+            elif ftype == 'fastq':
+                fastq_files.append(f)
+            else:
+                other_files.append(f)
 
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
     LOG.debug("other non- fasta/fastq files: {}".format(other_files))
 
-    return({'fasta':fasta_files,
-            'fastq':fastq_files,
-            'other':other_files})
+    return ({'fasta': fasta_files,
+             'fastq': fastq_files,
+             'other': other_files})
 
 
 def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
@@ -282,7 +305,8 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
     :param raw_files_dict: Dictionary of ['fasta'] and ['fastq'] files
     :param temp_dir: Temporary files created for ectyper
     :param combined_fasta: Combined E. coli markers and O- and H- alleles
-    :param bowtie_base: The bowtie base index of O- and H- alleles and E. coli markers
+    :param bowtie_base: The bowtie base index of O- and H- alleles and E.
+    coli markers
     :param args: Commandline arguments
     :return: list of all fasta files, including the assembled fastq
     """
@@ -291,12 +315,13 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
                   bowtie_base=bowtie_base,
                   combined_fasta=combined_fasta,
                   temp_dir=temp_dir)
-    pool = Pool(processes=args.cores)
-    results = pool.map(par, raw_files_dict['fastq'])
 
     all_fasta_files = raw_files_dict['fasta']
-    for r in results:
-        all_fasta_files.append(r)
+    with Pool(processes=args.cores) as pool:
+        results = pool.map(par, raw_files_dict['fastq'])
+
+        for r in results:
+            all_fasta_files.append(r)
 
     return all_fasta_files
 
@@ -304,7 +329,8 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
 def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
     """
     Create a combined E. coli specific marker and serotyping allele file
-    Do this every program run to prevent the need for keeping a separate combined file in sync.
+    Do this every program run to prevent the need for keeping a separate
+    combined file in sync.
 
     :param alleles_fasta: The O- and H- alleles file
     :param temp_dir: Temporary directory for program run

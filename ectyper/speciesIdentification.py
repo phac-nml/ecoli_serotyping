@@ -140,13 +140,16 @@ def verify_ecoli(fasta_files, ofiles, args):
     other_files = {}
 
     for f in fasta_files:
-        if is_ecoli(f):
-            ecoli_files.append(f)
-        else:
-            if args.refseq:
-                other_files[f] = get_species(f, args)
+        if args.verify:
+            if is_ecoli(f):
+                ecoli_files.append(f)
             else:
-                other_files[f] = "Failed E. coli species confirmation"
+                if args.refseq:
+                    other_files[f] = get_species(f, args)
+                else:
+                    other_files[f] = "Failed E. coli species confirmation"
+        else:
+            ecoli_files.append(f)
 
     for bf in ofiles:
         other_files[bf] = "Non fasta / fastq file"

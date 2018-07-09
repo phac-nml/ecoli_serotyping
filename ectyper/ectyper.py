@@ -32,8 +32,8 @@ def run_program():
     LOG.addHandler(fh)
 
     LOG.debug(args)
-    LOG.info("Starting ectyper v{}\nOutput directory is: {}"
-         .format(__version__, output_directory))
+    LOG.info("Starting ectyper v{}".format(__version__))
+    LOG.info("Output_directory is {}".format(output_directory))
 
     # Initialize ectyper directory for the scope of this program
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -63,7 +63,10 @@ def run_program():
                                                                                  args)
 
         LOG.info("Standardizing the genome headers based on file names")
-        final_fasta_files = genomeFunctions.get_genome_names_from_files(ecoli_genomes, temp_dir)
+        final_fasta_files = genomeFunctions.get_genome_names_from_files(ecoli_genomes,
+                                                                        temp_dir,
+                                                                        args
+                                                                        )
 
         # Main prediction function
         predictions_dict = run_prediction(final_fasta_files,
@@ -155,13 +158,14 @@ def run_prediction(genome_files, args, alleles_fasta):
         for i in range(0, len(genome_files), group_size)
     ]
     gp = partial(genome_group_prediction, alleles_fasta=alleles_fasta, args=args)
-    pool = Pool(processes=args.cores)
-    results = pool.map(gp, genome_groups)
 
-    # merge the per-database predictions with the final predictions dict
     predictions_dict = {}
-    for r in results:
-        predictions_dict = {**r, **predictions_dict}
+    with Pool(processes=args.cores) as pool:
+        results = pool.map(gp, genome_groups)
+
+        # merge the per-database predictions with the final predictions dict
+        for r in results:
+            predictions_dict = {**r, **predictions_dict}
     return predictions_dict
 
 
