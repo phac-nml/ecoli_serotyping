@@ -158,13 +158,14 @@ def run_prediction(genome_files, args, alleles_fasta):
         for i in range(0, len(genome_files), group_size)
     ]
     gp = partial(genome_group_prediction, alleles_fasta=alleles_fasta, args=args)
-    pool = Pool(processes=args.cores)
-    results = pool.map(gp, genome_groups)
 
-    # merge the per-database predictions with the final predictions dict
     predictions_dict = {}
-    for r in results:
-        predictions_dict = {**r, **predictions_dict}
+    with Pool(processes=args.cores) as pool:
+        results = pool.map(gp, genome_groups)
+
+        # merge the per-database predictions with the final predictions dict
+        for r in results:
+            predictions_dict = {**r, **predictions_dict}
     return predictions_dict
 
 
