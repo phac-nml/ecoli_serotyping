@@ -86,6 +86,8 @@ def get_prediction(per_genome_df):
                         serotype[row.antigen] = {}
 
                     serotype[row.antigen][row.gene] = row.score
+                    serotype[row.antigen][row.gene + "_seq"] = row.sseq
+
                     # if wzm / wzy or wzx / wzy, call the match
                     if 'wzx' in serotype[row.antigen] and 'wzy' in serotype[row.antigen]:
                         serotype[ant] = row.antigen
@@ -187,7 +189,11 @@ def report_result(final_dict, output_file):
             for ant in antigens:
                 if ant != "-":
                     for kk, vv in sorted(v[ant].items()):
-                        output_line.append(kk + ':' + " {0:.2f}".format(vv))
+                        if "_seq" in kk:
+                            output_line.append(kk + ':' + vv)
+                        else:
+                            output_line.append(kk + ':' + " {0:.2f}".format(vv))
+
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")
         LOG.info(print_line)
