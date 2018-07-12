@@ -73,7 +73,8 @@ def get_prediction(per_genome_df):
             if ant == 'H':
                 serotype[ant] = row.antigen
                 serotype[row.antigen] = {
-                    row.gene:row.score
+                    row.gene:row.score,
+                    ("≈" + row.gene):row.sseq
                 }
             else:
                 # logic for O-type pairs
@@ -86,7 +87,7 @@ def get_prediction(per_genome_df):
                         serotype[row.antigen] = {}
 
                     serotype[row.antigen][row.gene] = row.score
-                    serotype[row.antigen][row.gene + "_seq"] = row.sseq
+                    serotype[row.antigen]["≈" + row.gene] = row.sseq
 
                     # if wzm / wzy or wzx / wzy, call the match
                     if 'wzx' in serotype[row.antigen] and 'wzy' in serotype[row.antigen]:
@@ -189,7 +190,7 @@ def report_result(final_dict, output_file):
             for ant in antigens:
                 if ant != "-":
                     for kk, vv in sorted(v[ant].items()):
-                        if "_seq" in kk:
+                        if "≈" in kk:
                             output_line.append(kk + ':' + vv)
                         else:
                             output_line.append(kk + ':' + " {0:.2f}".format(vv))
