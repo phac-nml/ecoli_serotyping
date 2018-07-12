@@ -92,6 +92,14 @@ def parse_command_line(args=None):
              "is recommended"
     )
 
+    parser.add_argument(
+        "-s",
+        "--sequence",
+        action="store_true",
+        help="Prints the allele sequences if enabled as the final columns of "
+             "the output"
+    )
+
     if args is None:
         return parser.parse_args()
     else:

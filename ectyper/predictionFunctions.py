@@ -12,12 +12,13 @@ LOG = logging.getLogger(__name__)
 """
 
 
-def predict_serotype(blast_output_file, ectyper_dict_file):
+def predict_serotype(blast_output_file, ectyper_dict_file, args):
     """
     Predict the serotype of all genomes, given the blast output of the markers against the genomes
 
     :param blast_output_file: Results of allele file against the genomes of interest
     :param ectyper_dict_file: JSON file of known alleles and their O and H mappings
+    :param args: Commandline arguments
     :return: The CSV formatted predictions file
     """
 
@@ -37,7 +38,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file):
 
     # Make prediction for each genome based on blast output
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
-        predictions_dict[genome_name] = get_prediction(per_genome_df)
+        predictions_dict[genome_name] = get_prediction(per_genome_df, args)
 
 
     LOG.info("Serotype prediction completed")
@@ -45,11 +46,12 @@ def predict_serotype(blast_output_file, ectyper_dict_file):
     return predictions_dict
 
 
-def get_prediction(per_genome_df):
+def get_prediction(per_genome_df, args):
     """
      Make serotype prediction for a single genome based on the blast output
 
     :param per_genome_df: The blastn results for the given genome
+    :param args: Commandline args
     :return: serotype dictionary
     """
 
@@ -73,9 +75,11 @@ def get_prediction(per_genome_df):
             if ant == 'H':
                 serotype[ant] = row.antigen
                 serotype[row.antigen] = {
-                    row.gene:row.score,
-                    ("≈" + row.gene):row.sseq
+                    row.gene:row.score
                 }
+                if args.sequence:
+                    serotype[row.antigen]["≈" + row.gene] = row.sseq
+
             else:
                 # logic for O-type pairs
                 # skip if an allele for a gene already exists
@@ -86,8 +90,10 @@ def get_prediction(per_genome_df):
                     if row.antigen not in serotype:
                         serotype[row.antigen] = {}
 
+                    if args.sequence:
+                        serotype[row.antigen]["≈" + row.gene] = row.sseq
+
                     serotype[row.antigen][row.gene] = row.score
-                    serotype[row.antigen]["≈" + row.gene] = row.sseq
 
                     # if wzm / wzy or wzx / wzy, call the match
                     if 'wzx' in serotype[row.antigen] and 'wzy' in serotype[row.antigen]:
