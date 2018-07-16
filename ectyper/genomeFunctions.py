@@ -174,14 +174,14 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     :param temp_dir: The ectyper temporary directory
     :return: The full path to the assembled fasta file
     """
-
+    output_name = os.path.splitext(os.path.basename(reads))[0]
     output_fasta = os.path.join(
         temp_dir,
-        os.path.splitext(os.path.basename(reads))[0] + '.fasta'
+         output_name + '.fasta'
     )
 
     # Run bowtie2
-    sam_reads = os.path.join(temp_dir, 'reads.sam')
+    sam_reads = os.path.join(temp_dir, output_name + '.sam')
     bowtie_run = [
         'bowtie2',
         '--score-min L,1,-0.5',
@@ -193,7 +193,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     subprocess_util.run_subprocess(bowtie_run)
 
     # Convert reads from sam to bam
-    bam_reads = os.path.join(temp_dir, 'reads.bam')
+    bam_reads = os.path.join(temp_dir, output_name + '.bam')
     sam_convert = [
         'samtools', 'view',
         '-S',
@@ -206,7 +206,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     subprocess_util.run_subprocess(sam_convert)
 
     # Sort the reads
-    sorted_bam_reads = os.path.join(temp_dir, 'reads.sorted.bam')
+    sorted_bam_reads = os.path.join(temp_dir, output_name + '.sorted.bam')
     sam_sort = [
         'samtools', 'sort',
         bam_reads,
