@@ -35,6 +35,6 @@ def run_subprocess(cmd, input_data=None, un=False):
         return comp_proc
     else:
         LOG.error("Error in subprocess. The following command failed: {}".format(cmd))
-        LOG.error("Subprocess failed with error: ".format(comp_proc.stderr))
+        LOG.error("Subprocess failed with error: {}".format(comp_proc.stderr))
         LOG.critical("ectyper has stopped")
         exit("subprocess failure")
