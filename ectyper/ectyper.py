@@ -207,6 +207,8 @@ def genome_group_prediction(g_group, alleles_fasta, args):
 
         LOG.debug("Starting serotype prediction for database {}".format(g_group))
         db_prediction_dict = predictionFunctions.predict_serotype(
-            blast_output_file, definitions.SEROTYPE_ALLELE_JSON)
+            blast_output_file,
+            definitions.SEROTYPE_ALLELE_JSON,
+            args)
 
         return db_prediction_dict
