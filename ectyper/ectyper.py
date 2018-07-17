@@ -36,7 +36,7 @@ def run_program():
     LOG.info("Output_directory is {}".format(output_directory))
 
     # Initialize ectyper directory for the scope of this program
-    with tempfile.TemporaryDirectory() as temp_dir:
+    with tempfile.TemporaryDirectory(dir=args.temp) as temp_dir:
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
 
