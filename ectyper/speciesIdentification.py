@@ -7,20 +7,22 @@ import re
 LOG = logging.getLogger(__name__)
 
 
-def is_ecoli(genome_file):
+def is_ecoli(genome_file, temp_dir):
     """
     Checks whether the given genome is E. coli or not
 
     :param genome_file: The genome file in fasta format
+    :param temp_dir: ectyper run temp_dir
     :return: True or False
     """
 
-    num_hit = get_num_hits(genome_file)
+    num_hit = get_num_hits(genome_file, temp_dir)
     if num_hit < 3:
         LOG.warning(
             "{0} is identified as an invalid E. coli genome "
             "by the marker approach of "
-            "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0680-0#Tab3"
+            "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866"
+            "-016-0680-0#Tab3"
             " where at least three E. coli specific markers must be "
             "present".format(os.path.basename(genome_file)))
         return False
@@ -28,17 +30,19 @@ def is_ecoli(genome_file):
         return True
 
 
-def get_num_hits(target):
+def get_num_hits(target, temp_dir):
     """
-    Identify the number of E. coli specific markers carried by the target genome.
+    Identify the number of E. coli specific markers carried by the target
+    genome.
     :param target: The genome file under analysis
+    :param temp_dir: ectyper run temp_dir
     :return: The number of E. coli specific markers found
     """
 
     num_hit = 0
     name = os.path.splitext(os.path.split(target)[1])[0]
 
-    with tempfile.TemporaryDirectory() as tdir:
+    with tempfile.TemporaryDirectory(dir=temp_dir) as tdir:
         blast_db = os.path.join(tdir, name)
         blast_db_cmd = [
             "makeblastdb",
@@ -94,14 +98,16 @@ def get_species(file, args):
         'sort',
         '-gk3'
     ]
-    sort_output = subprocess_util.run_subprocess(sort_cmd, input_data=mash_output.stdout)
+    sort_output = subprocess_util.run_subprocess(sort_cmd,
+                                                 input_data=mash_output.stdout)
 
     head_cmd = [
         'head',
         '-n', '1'
     ]
 
-    head_output = subprocess_util.run_subprocess(head_cmd, input_data=sort_output.stdout)
+    head_output = subprocess_util.run_subprocess(head_cmd,
+                                                 input_data=sort_output.stdout)
     top_match = head_output.stdout.decode("utf-8").split()[0]
     LOG.info(top_match)
 
@@ -127,12 +133,13 @@ def get_species(file, args):
     return species
 
 
-def verify_ecoli(fasta_files, ofiles, args):
+def verify_ecoli(fasta_files, ofiles, args, temp_dir):
     """
     Verifying the _E. coli_-ness of the genome files
     :param fasta_files: [] of all fasta files
     :param ofiles: [] of all non-fasta files
     :param args: Command line arguments
+    :param temp_dir: ectyper run temp_dir
     :return: ([ecoli_genomes], {file:species})
     """
 
@@ -141,7 +148,7 @@ def verify_ecoli(fasta_files, ofiles, args):
 
     for f in fasta_files:
         if args.verify:
-            if is_ecoli(f):
+            if is_ecoli(f, temp_dir):
                 ecoli_files.append(f)
             else:
                 if args.refseq:
@@ -155,7 +162,3 @@ def verify_ecoli(fasta_files, ofiles, args):
         other_files[bf] = "Non fasta / fastq file"
 
     return ecoli_files, other_files
-
-
-
-
