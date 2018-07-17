@@ -27,8 +27,9 @@ def parse_command_line(args=None):
         return ivalue
 
     parser = argparse.ArgumentParser(
-        description='ectyper v{} Prediction of Escherichia coli serotype from raw reads'
-            ' or assembled genome sequences'.format(__version__)
+        description='ectyper v{} Prediction of Escherichia coli serotype from '
+                    'raw reads'
+                    ' or assembled genome sequences'.format(__version__)
     )
 
     parser.add_argument(
@@ -85,8 +86,10 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-r",
         "--refseq",
-        help="Location of pre-computed MASH RefSeq sketch. If provided, genomes "
-             "identified as non-E. coli will have their species identified using "
+        help="Location of pre-computed MASH RefSeq sketch. If provided, "
+             "genomes "
+             "identified as non-E. coli will have their species identified "
+             "using "
              "MASH. For best results the pre-sketched RefSeq archive "
              "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh "
              "is recommended"
@@ -98,6 +101,14 @@ def parse_command_line(args=None):
         action="store_true",
         help="Prints the allele sequences if enabled as the final columns of "
              "the output"
+    )
+
+    parser.add_argument(
+        "-t",
+        "--temp",
+        default=None,
+        help="Location of temporary directory for the run. System temp if not "
+             "specified"
     )
 
     if args is None:
