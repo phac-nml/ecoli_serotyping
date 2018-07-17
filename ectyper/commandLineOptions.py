@@ -103,14 +103,6 @@ def parse_command_line(args=None):
              "the output"
     )
 
-    parser.add_argument(
-        "-t",
-        "--temp",
-        default=None,
-        help="Location of temporary directory for the run. System temp if not "
-             "specified"
-    )
-
     if args is None:
         return parser.parse_args()
     else:
