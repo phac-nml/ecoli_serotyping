@@ -55,7 +55,8 @@ def get_prediction(per_genome_df, args):
     :return: serotype dictionary
     """
 
-    per_genome_df = per_genome_df.sort_values('score', ascending=False)
+    per_genome_df = per_genome_df.sort_values(by=['score'], ascending=False,
+                                              kind='mergesort')
     LOG.debug("per_genome_df:\n{}".format(per_genome_df))
 
     # The DataFrame is sorted in descending order by score
@@ -67,43 +68,51 @@ def get_prediction(per_genome_df, args):
         'H':'-'
     }
 
+    otype = {}
+    # Go for the highest match, if both genes exist over the thresholds
+    best_order = []
     for row in per_genome_df.itertuples():
-        # if O or H is already set, skip
+        # H is already set, skip
         # get the 'O' or 'H' from the antigen column
         ant = row.antigen[:1]
-        if serotype[ant] == '-':
-            if ant == 'H':
-                serotype[ant] = row.antigen
-                serotype[row.antigen] = {
-                    row.gene:row.score
-                }
-                if args.sequence:
-                    serotype[row.antigen]["≈" + row.gene] = row.sseq
 
+        if ant == 'H' and serotype[ant] == '-':
+            serotype[ant] = row.antigen
+            serotype[row.antigen] = {
+                row.gene:row.score
+            }
+            if args.sequence:
+                serotype[row.antigen]["≈" + row.gene] = row.sseq
+        elif ant == 'O':
+            # logic for O-type pairs
+            # skip if an allele for a gene already exists
+            if row.antigen in otype and row.gene in otype[row.antigen]:
+                continue
             else:
-                # logic for O-type pairs
-                # skip if an allele for a gene already exists
-                if row.antigen in serotype and row.gene in serotype[row.antigen]:
-                    continue
-                else:
-                    # if antigen has never been encountered, init
-                    if row.antigen not in serotype:
-                        serotype[row.antigen] = {}
+                # if antigen has never been encountered, init
+                if row.antigen not in otype:
+                    otype[row.antigen] = {}
+                    best_order.append(row.antigen)
 
-                    if args.sequence:
-                        serotype[row.antigen]["≈" + row.gene] = row.sseq
+                if args.sequence:
+                    otype[row.antigen]["≈" + row.gene] = row.sseq
 
-                    serotype[row.antigen][row.gene] = row.score
+                otype[row.antigen][row.gene] = row.score
 
-                    # if wzm / wzy or wzx / wzy, call the match
-                    if 'wzx' in serotype[row.antigen] and 'wzy' in serotype[row.antigen]:
-                        serotype[ant] = row.antigen
-                    elif 'wzm' in serotype[row.antigen] and 'wzt' in serotype[row.antigen]:
-                        serotype[ant] = row.antigen
-                    else:
-                        continue
-        else:
-            continue
+
+    # having gone through all the hits over the threshold, make the call
+    # go through the O-antigens in order, making the call on the first that have
+    # a matching pair
+    for o in best_order:
+        # if wzm / wzy or wzx / wzy, call the match
+        if 'wzx' in otype[o] and 'wzy' in otype[o]:
+            serotype['O'] =  o
+            serotype[o]=otype[o]
+            break
+        elif 'wzm' in otype[o] and 'wzt' in otype[o]:
+            serotype['O'] = o
+            serotype[o] = otype[o]
+            break
 
     return serotype
 
