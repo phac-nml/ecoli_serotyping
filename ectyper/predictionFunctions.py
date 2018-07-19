@@ -67,48 +67,50 @@ def get_prediction(per_genome_df, args):
         'H':'-'
     }
 
+    otype = {}
     # Go for the highest match, if both genes exist over the thresholds
     best_order = []
     for row in per_genome_df.itertuples():
-        # if O or H is already set, skip
+        # H is already set, skip
         # get the 'O' or 'H' from the antigen column
         ant = row.antigen[:1]
 
-        if ant == 'H':
+        if ant == 'H' and serotype[ant] == '-':
             serotype[ant] = row.antigen
             serotype[row.antigen] = {
                 row.gene:row.score
             }
             if args.sequence:
                 serotype[row.antigen]["≈" + row.gene] = row.sseq
-
-        else:
+        elif ant == 'O':
             # logic for O-type pairs
             # skip if an allele for a gene already exists
-            if row.antigen in serotype and row.gene in serotype[row.antigen]:
+            if row.antigen in otype and row.gene in otype[row.antigen]:
                 continue
             else:
                 # if antigen has never been encountered, init
-                if row.antigen not in serotype:
-                    serotype[row.antigen] = {}
+                if row.antigen not in otype:
+                    otype[row.antigen] = {}
                     best_order.append(row.antigen)
 
                 if args.sequence:
-                    serotype[row.antigen]["≈" + row.gene] = row.sseq
+                    otype[row.antigen]["≈" + row.gene] = row.sseq
 
-                serotype[row.antigen][row.gene] = row.score
+                otype[row.antigen][row.gene] = row.score
 
 
     # having gone through all the hits over the threshold, make the call
     # go through the O-antigens in order, making the call on the first that have
     # a matching pair
-    for otype in best_order:
+    for o in best_order:
         # if wzm / wzy or wzx / wzy, call the match
-        if 'wzx' in serotype[otype] and 'wzy' in serotype[otype]:
-            serotype[ant] = otype
+        if 'wzx' in otype[o] and 'wzy' in otype[o]:
+            serotype['O'] =  o
+            serotype[o]=otype[o]
             break
-        elif 'wzm' in serotype[otype] and 'wzt' in serotype[otype]:
-            serotype[ant] = otype
+        elif 'wzm' in otype[o] and 'wzt' in otype[o]:
+            serotype['O'] = o
+            serotype[o] = otype[o]
             break
 
     return serotype
