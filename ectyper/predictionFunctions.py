@@ -55,7 +55,7 @@ def get_prediction(per_genome_df, args):
     :return: serotype dictionary
     """
 
-    per_genome_df = per_genome_df.sort_values('score', ascending=False)
+    per_genome_df = per_genome_df.sort_values(by=['score'], ascending=False)
     LOG.debug("per_genome_df:\n{}".format(per_genome_df))
 
     # The DataFrame is sorted in descending order by score
