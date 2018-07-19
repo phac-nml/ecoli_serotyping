@@ -109,16 +109,3 @@ def test_multiple_directories(caplog):
     assert "sample.fasta\tNon fasta / fastq file" in caplog.text
     assert "sampletar\tNon fasta / fastq file" in caplog.text
     assert "test_junk\tNon fasta / fastq file" in caplog.text
-
-
-def test_prediction_logic(caplog):
-    """
-    Ensure the prediction logic works for tough cases
-    :param caplog: Capture logging output for pytest
-    :return: None
-    """
-    file = os.path.join(TEST_ROOT, 'Data/O178_H19.fasta')
-    set_input(file, print_sequence=True)
-    ectyper.run_program()
-    assert "\tO178\tH19" in caplog.text
-
