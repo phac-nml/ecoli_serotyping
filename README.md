@@ -45,10 +45,10 @@
 
 # Advanced Usage
 ```
-usage: ectyper [-h] [-V] -i INPUT [-d PERCENTIDENTITY] [-l PERCENTLENGTH]
-               [--verify] [-o OUTPUT] [-r REFSEQ]
+usage: ectyper [-h] [-V] -i INPUT [-c CORES] [-d PERCENTIDENTITY]
+               [-l PERCENTLENGTH] [--verify] [-o OUTPUT] [-r REFSEQ] [-s]
 
-ectyper v0.5.4 Prediction of Escherichia coli serotype from raw reads or
+ectyper v0.8.0 Prediction of Escherichia coli serotype from raw reads or
 assembled genome sequences
 
 optional arguments:
@@ -57,6 +57,8 @@ optional arguments:
   -i INPUT, --input INPUT
                         Location of E. coli genome file(s). Can be a single
                         file, a comma-separated list of files, or a directory
+  -c CORES, --cores CORES
+                        The number of cores to run ectyper with
   -d PERCENTIDENTITY, --percentIdentity PERCENTIDENTITY
                         Percent identity required for an allele match [default
                         90]
@@ -72,5 +74,7 @@ optional arguments:
                         their species identified using MASH. For best results
                         the pre-sketched RefSeq archive https://gembox.cbcb.um
                         d.edu/mash/refseq.genomes.k21s1000.msh is recommended
+  -s, --sequence        Prints the allele sequences if enabled as the final
+                        columns of the output
 ```
 

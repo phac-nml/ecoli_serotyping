@@ -1,4 +1,4 @@
-{% set version = "0.5.4" %}
+{% set version = "0.8.0" %}
 
 about:
     license: Apache 2
@@ -12,10 +12,11 @@ package:
 
 source:
     url: https://github.com/phac-nml/ecoli_serotyping/archive/v{{ version }}.tar.gz
-    sha256: 6c721eab0b16e20c757a3476014fb4c3270b69509013b18fe882693fee0a73d7
+    sha256: f7b5519263c528834b8876eafdc7096309f57528b268ae439fb68cc015681731
 
 build:
-    number: 2
+    skip: True # [not py35]
+    number: 3
     script: python setup.py install
 
 requirements:
