@@ -51,10 +51,10 @@ def run_program():
         alleles_fasta = create_alleles_fasta_file(temp_dir)
         combined_fasta = \
             genomeFunctions.create_combined_alleles_and_markers_file(
-            alleles_fasta, temp_dir)
+                alleles_fasta, temp_dir)
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
                                                          combined_fasta) if \
-        raw_files_dict['fastq'] else None
+                                                         raw_files_dict['fastq'] else None
 
         # Assemble any fastq files, get final fasta list
         LOG.info("Assembling final list of fasta files")
@@ -66,8 +66,7 @@ def run_program():
 
         # Verify we have at least one fasta file. Optionally species ID.
         # Get a tuple of ecoli and other genomes
-        (
-        ecoli_genomes, other_genomes_dict) = speciesIdentification.verify_ecoli(
+        (ecoli_genomes, other_genomes_dict) = speciesIdentification.verify_ecoli(
             all_fasta_files,
             raw_files_dict['other'],
             args,
