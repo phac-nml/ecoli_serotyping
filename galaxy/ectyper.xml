@@ -1,0 +1,22 @@
+<tool id="ectyper" name="ectyper" version="0.8.0">
+  <description>ectyper is a standalone serotyping module for Escherichia coli. It supports fasta and fastq file formats.</description>
+  <command interpreter="python">ectyper </command>
+  <inputs>
+    <param format="fasta" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output" />
+  </outputs>
+
+  <tests>
+    <test>
+      <param name="input" value="fa_gc_content_input.fa"/>
+      <output name="out_file1" file="fa_gc_content_output.txt"/>
+    </test>
+  </tests>
+
+  <help>
+This tool identifies the serotype of Escherichia coli genome sequences
+  </help>
+
+</tool>
