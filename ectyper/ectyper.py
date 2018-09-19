@@ -94,7 +94,7 @@ def run_program():
 
         predictionFunctions.report_result(final_predictions,
                                           os.path.join(output_directory,
-                                                       'output.csv'))
+                                                       'output.tsv'))
         LOG.info("\nECTyper has finished successfully.")
 
 
