@@ -30,7 +30,7 @@ def run_program():
     output_directory = create_output_directory(args.output)
 
     # Create a file handler for log messages in the output directory
-    fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'))
+    fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
     fh.setLevel(logging.DEBUG)
     LOG.addHandler(fh)
 

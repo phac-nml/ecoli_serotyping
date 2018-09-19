@@ -191,7 +191,9 @@ def report_result(final_dict, output_file):
     :return: None
     """
 
+    header = "Name\tO-type\tH-type\tAlleles\n"
     output = []
+    LOG.info(header)
     for k, v in final_dict.items():
         output_line = [k]
 
@@ -214,7 +216,8 @@ def report_result(final_dict, output_file):
         output.append(print_line + "\n")
         LOG.info(print_line)
 
-    with open(output_file, "w") as ofh:
+    with open(output_file, mode="w", encoding="utf8") as ofh:
+        ofh.write(header)
         for line in sorted(output):
             ofh.write(line)
 
