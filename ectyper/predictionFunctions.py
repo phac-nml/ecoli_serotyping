@@ -40,7 +40,6 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         predictions_dict[genome_name] = get_prediction(per_genome_df, args)
 
-
     LOG.info("Serotype prediction completed")
     LOG.debug("Predictions dict:\n{}".format(predictions_dict))
     return predictions_dict
@@ -60,9 +59,6 @@ def get_prediction(per_genome_df, args):
     LOG.debug("per_genome_df:\n{}".format(per_genome_df))
 
     # The DataFrame is sorted in descending order by score
-    # Once we hit a wzx / wzy or wzm / wzt pair, O type is done
-    # Once we hit a flX gene, H type is done
-
     serotype = {
         'O':'-',
         'H':'-'

@@ -15,6 +15,7 @@ from ectyper import (commandLineOptions, definitions, speciesIdentification,
                      genomeFunctions, predictionFunctions, subprocess_util,
                      __version__)
 
+
 # setup the application logging
 LOG = loggingFunctions.create_logger()
 

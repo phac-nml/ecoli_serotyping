@@ -1,7 +1,7 @@
 [![Master branch build status](https://api.travis-ci.org/phac-nml/ecoli_serotyping.svg?branch=master "Master Build Status")](https://travis-ci.org/phac-nml/ecoli_serotyping)
 
 # ECTyper (an easy typer)
-**ecyper** is a standalone serotyping module for _Escherichia coli_. It supports _fasta_ and _fastq_ file formats.
+**ectyper** is a standalone serotyping module for _Escherichia coli_. It supports _fasta_ and _fastq_ file formats.
 
 # Dependencies:
 - python >=3.5
@@ -48,7 +48,7 @@
 usage: ectyper [-h] [-V] -i INPUT [-c CORES] [-d PERCENTIDENTITY]
                [-l PERCENTLENGTH] [--verify] [-o OUTPUT] [-r REFSEQ] [-s]
 
-ectyper v0.8.0 Prediction of Escherichia coli serotype from raw reads or
+ectyper v0.8.1 Prediction of Escherichia coli serotype from raw reads or
 assembled genome sequences
 
 optional arguments:
