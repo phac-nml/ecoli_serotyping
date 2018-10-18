@@ -47,9 +47,9 @@ with open(sys.argv[1], 'r', encoding='utf-8') as csvfh:
         m = re.search(r"Escherichia coli", row[7])
         if m:
             ftp_link = row[19]
-            mftp = re.search(r"(GCF_.*$)", ftp_link)
+            mftp = re.search(r"(G\w\w_.*$)", ftp_link)
             if mftp:
-                ftp_link = ftp_link + '/' + mftp.group(1) + "_genomic.fna.gz"
+                ftp_link = ftp_link + "/" + mftp.group(1) + "_genomic.fna.gz"
 
             msero = re.search(r"O\d+", row[7])
             if msero:
@@ -64,6 +64,7 @@ with open(sys.argv[1], 'r', encoding='utf-8') as csvfh:
                     results[row[0]]={}
 
                 results[row[0]]['H'] = mflag.group(1)
+
                 results[row[0]]['ftp'] = ftp_link
 
 for k,v in results.items():
