@@ -1,5 +1,6 @@
 import logging
 
+
 def create_logger():
     """
     Create the logger for ectyper

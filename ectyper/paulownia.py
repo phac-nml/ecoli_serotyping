@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
-import warnings
 import argparse
 import os
 from subprocess import call
-import shutil
 from collections import defaultdict
+import loggingFunctions
+
+LOG = loggingFunctions.create_logger()
 
 """Runs blast based on file of query genes, creates a concatenated alignment \
     for the new genome, adds to the existing universal alignment using MAFFT \
@@ -40,26 +41,13 @@ parser.add_argument("-n","--number_of_threads", help="The number of threads \
     to use in the alignment and tree building processes", default="1")
 args = parser.parse_args()
 
-def count_query_sequences(query_file):
-    "Counts the number of query sequences in the multi-fasta input file"
-
-    in_FH = open(query_file,'r')
-
-    counter=0
-    for line in in_FH:
-        if line[:1] is '>':
-            counter += 1
-    return counter
-
-NUM_QUERY_SEQUENCES = count_query_sequences(args.query)
-print("Number of query sequences: " + str(NUM_QUERY_SEQUENCES))
 
 def create_blast_data_file(new_data):
     "If new_data is a directory, combine all the files into a file for \
     blast. If not, use the supplied file directly."
 
     if os.path.isdir(new_data):
-        print("Using all files in " + new_data)
+        LOG.info("Using all files in " + new_data)
         blast_data_file = (os.path.normpath(args.tmp_dir) + os.sep 
             + 'blast_data.fasta')
 
@@ -69,7 +57,7 @@ def create_blast_data_file(new_data):
 
         for f in all_files:
             full_file = os.path.normpath(new_data) + os.sep + f
-            print("File: " + full_file)
+            LOG.info("File: " + full_file)
             in_FH = open(full_file,'r')
             out_FH.write(in_FH.read())
 
@@ -77,7 +65,7 @@ def create_blast_data_file(new_data):
             out_FH.write("\n")
         return blast_data_file
     else:
-        print("Using the file " + new_data)
+        LOG.info("Using the file " + new_data)
         return args.new_data
 
 
@@ -96,7 +84,7 @@ def run_blast(new_file):
     call([args.blast_dir + "blastn", "-db", db_name,
           "-query", args.query,
           "-outfmt", '6 " qseqid qlen sseqid length pident sseq "', "-out",
-          blast_output, "-max_target_seqs", "1000"])
+          blast_output])
     return (blast_output)
 
 
@@ -108,13 +96,10 @@ def parse_blast_results(blast_out_file):
         universal alignment"
     in_FH = open(blast_out_file, 'r')
 
-    
-    name = None
     temp_file_name = None
     genome_hits = {}
     genome_concat = defaultdict(str)
     genome_counts = defaultdict(int)
-    prev_query = None
 
     for line in in_FH:
         clean = line.strip()
@@ -140,17 +125,6 @@ def parse_blast_results(blast_out_file):
             genome_concat[curr_hit] += columns[5]
             genome_counts[curr_hit] += 1
 
-    #check that all new genomes have a hit for all query sequences
-    #if they don't, emit warning and remove from further analyses
-    temp_file_name =  os.path.normpath(args.tmp_dir) + os.sep + "temp.aln"
-    aln_FH = open(temp_file_name, 'w')
-    for key, value in genome_counts.iteritems():
-        if value == NUM_QUERY_SEQUENCES:            
-            aln_FH.write(">" + key + "\n" + genome_concat[key] + "\n")
-        else:
-            print('Only ' + str(value) + ' genes present in the genome '
-                + str(key) + '. Expected '  + str(NUM_QUERY_SEQUENCES)
-                + " removing " + str(key) + " from alignment")
     return temp_file_name
 
 
@@ -166,34 +140,10 @@ def create_new_alignment(temp_concat):
         call([args.mafft_exe, "--thread", args.number_of_threads,
              "--add", temp_concat, args.alignment_file],stdout=aln_out_FH)
     else:
-        warnings.warn("No existing alignment file, creating new alignment")
+        LOG.warning("No existing alignment file, creating new alignment")
         call([args.mafft_exe, "--thread", args.number_of_threads,
             temp_concat],stdout=aln_out_FH)
     return temp_new_aln
-
-
-def replace_old_file(old_file,new_file):
-    "Given a new file, check that the file size of the new file \
-    is greater than the old (indicating successful addition of information). \
-    Otherwise keep the original file and print a warning. Creates a backup \
-    version of the file (.bak) for posterity."
-
-    print("Old file: " + old_file)
-    print("New file: " + new_file)
-
-    old_file_stat = os.stat(old_file)
-    old_size = old_file_stat.st_size
-
-    new_file_stat = os.stat(new_file)
-    new_size = new_file_stat.st_size
-
-    if new_size > old_size:
-        print("Replacing old file with one containing new data.")
-        shutil.copyfile(old_file,old_file + ".bak")
-        shutil.copyfile(new_file,old_file)
-    else:
-        warnings.warn("The newly generated file has a problem. \
-            Reverting to old file")
 
 
 def create_new_tree(new_aln):
