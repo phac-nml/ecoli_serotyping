@@ -11,7 +11,7 @@ from multiprocessing import Pool
 from functools import partial
 
 from ectyper import (commandLineOptions, definitions, speciesIdentification,
-                     loggingFunctions,
+                     loggingFunctions, paulownia,
                      genomeFunctions, predictionFunctions, subprocess_util,
                      __version__)
 
@@ -87,8 +87,15 @@ def run_program():
                                           temp_dir)
 
         # Add empty rows for genomes without a blast result
-        final_predictions = predictionFunctions.add_non_predicted(
+        missing_predictions = predictionFunctions.add_non_predicted(
             raw_genome_files, predictions_dict, other_genomes_dict)
+
+
+        # Run paulownia if required
+        final_predictions = paulownia.phylogeny_predictions(missing_predictions,
+                                                            raw_genome_files,
+                                                            args)
+
 
         # Store most recent result in working directory
         LOG.info("Reporting results:\n")

@@ -238,8 +238,14 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
                     'error': other_dict[g]
                 }
             else:
+                """
+                We will run Paulownia on valid files with no hits
+                This allows for a higher percent ID to be used, and
+                to fall back on phylogenetic prediction
+                """
                 predictions_dict[gname] = {
-                    'error': "No serotyping-specific genes found"
+                    'paulownia': True,
+                    'error': "No serotype-specific genes found"
                 }
 
     return predictions_dict

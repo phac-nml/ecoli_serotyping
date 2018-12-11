@@ -13,6 +13,25 @@ Runs blast based on file of query genes, creates a concatenated alignment \
     and launches clearcut to generate a new tree
 """
 
+def phylogeny_predictions(results_dict, raw_files, args):
+    """
+
+    :param args: command line arguments
+    :param raw_files: initial files given to program
+    :param results_dict: All predictions and missing values from allele data
+    :return: dictionary with any phylogentic predictions made
+    """
+
+    phylogeny_dict = results_dict
+    if args.phylogeny:
+        # blast_data = create_blast_data_file(args.new_data)
+        # blast_file = run_blast(blast_data)
+        # new_concat = parse_blast_results(blast_file)
+        # new_aln = create_new_alignment(new_concat)
+        # new_tree = create_new_tree(new_aln)
+
+    return phylogeny_dict
+
 # SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 #
 # parser = argparse.ArgumentParser()
@@ -41,34 +60,6 @@ Runs blast based on file of query genes, creates a concatenated alignment \
 # parser.add_argument("-n","--number_of_threads", help="The number of threads \
 #     to use in the alignment and tree building processes", default="1")
 # args = parser.parse_args()
-
-
-def create_blast_data_file(new_data):
-    "If new_data is a directory, combine all the files into a file for \
-    blast. If not, use the supplied file directly."
-
-    if os.path.isdir(new_data):
-        LOG.info("Using all files in " + new_data)
-        blast_data_file = (os.path.normpath(args.tmp_dir) + os.sep 
-            + 'blast_data.fasta')
-
-        all_files = os.listdir(new_data)
-
-        out_FH = open(blast_data_file, 'w')
-
-        for f in all_files:
-            full_file = os.path.normpath(new_data) + os.sep + f
-            LOG.info("File: " + full_file)
-            in_FH = open(full_file,'r')
-            out_FH.write(in_FH.read())
-
-            #ensure each fasta sequence starts on a new line
-            out_FH.write("\n")
-        return blast_data_file
-    else:
-        LOG.info("Using the file " + new_data)
-        return args.new_data
-
 
 
 def run_blast(new_file):
@@ -155,10 +146,5 @@ def create_new_tree(new_aln):
     return(temp_new_tree)
 
 
-if __name__ == '__main__':
-    blast_data = create_blast_data_file(args.new_data)
-    blast_file = run_blast(blast_data)
-    new_concat = parse_blast_results(blast_file)
-    new_aln = create_new_alignment(new_concat)
-    new_tree = create_new_tree(new_aln)
+
 
