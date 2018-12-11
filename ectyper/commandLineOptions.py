@@ -103,6 +103,13 @@ def parse_command_line(args=None):
              "the output"
     )
 
+    parser.add_argument(
+        "-p",
+        "--phylogeny",
+        action="sore_true",
+        help="Calculate whole-genome based phylogenetic prediction of serotype"
+    )
+
     if args is None:
         return parser.parse_args()
     else:

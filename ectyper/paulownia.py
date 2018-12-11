@@ -1,45 +1,46 @@
 #!/usr/bin/env python
 
-import argparse
 import os
-from subprocess import call
+import logging
 from collections import defaultdict
-import loggingFunctions
+from ectyper import definitions, subprocess_util
 
-LOG = loggingFunctions.create_logger()
+LOG = logging.getLogger(__name__)
 
-"""Runs blast based on file of query genes, creates a concatenated alignment \
+"""
+Runs blast based on file of query genes, creates a concatenated alignment \
     for the new genome, adds to the existing universal alignment using MAFFT \
-    and launches clearcut to generate a new tree"""
+    and launches clearcut to generate a new tree
+"""
 
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
-
-parser = argparse.ArgumentParser()
-parser.add_argument("new_data", help="Location of the new genome \
-    fasta file(s). Can be a file or directory. If directory, assumes \
-    only fasta files inside, with consistently labelled headers.")
-parser.add_argument("query", help="The input query genes used for \
-    construction of the phylogeny")
-parser.add_argument("-c", "--clearcut_exe", help="The location of the \
-    clearcut fast-nj executable", default="/usr/bin/clearcut")
-parser.add_argument("-b", "--blast_dir", help="The location of the blast \
-    program directory", default="/usr/bin/")
-parser.add_argument("-a", "--alignment_file", help="The alignment file of all \
-    currently aligned genomes",
-    default=SCRIPT_DIRECTORY + "previous.aln")
-parser.add_argument("-o", "--out_tree", help="The new tree based on all \
-    previous genomes and the newly added one",
-    default=SCRIPT_DIRECTORY+ "new_paulownia.tre")
-parser.add_argument("-m", "--mafft_exe", help="The location of the MAFFT \
-    executable", default="/usr/bin/mafft")
-parser.add_argument("-t", "--tmp_dir", help="Location of temporary file \
-    construction.", default="/tmp/")
-parser.add_argument("-p", "--percent_id_cutoff", help="The minimum percent \
-    identity that a blast hit must have to be considered 'present'",
-    default=90)
-parser.add_argument("-n","--number_of_threads", help="The number of threads \
-    to use in the alignment and tree building processes", default="1")
-args = parser.parse_args()
+# SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+#
+# parser = argparse.ArgumentParser()
+# parser.add_argument("new_data", help="Location of the new genome \
+#     fasta file(s). Can be a file or directory. If directory, assumes \
+#     only fasta files inside, with consistently labelled headers.")
+# parser.add_argument("query", help="The input query genes used for \
+#     construction of the phylogeny")
+# parser.add_argument("-c", "--clearcut_exe", help="The location of the \
+#     clearcut fast-nj executable", default="/usr/bin/clearcut")
+# parser.add_argument("-b", "--blast_dir", help="The location of the blast \
+#     program directory", default="/usr/bin/")
+# parser.add_argument("-a", "--alignment_file", help="The alignment file of all \
+#     currently aligned genomes",
+#     default=SCRIPT_DIRECTORY + "previous.aln")
+# parser.add_argument("-o", "--out_tree", help="The new tree based on all \
+#     previous genomes and the newly added one",
+#     default=SCRIPT_DIRECTORY+ "new_paulownia.tre")
+# parser.add_argument("-m", "--mafft_exe", help="The location of the MAFFT \
+#     executable", default="/usr/bin/mafft")
+# parser.add_argument("-t", "--tmp_dir", help="Location of temporary file \
+#     construction.", default="/tmp/")
+# parser.add_argument("-p", "--percent_id_cutoff", help="The minimum percent \
+#     identity that a blast hit must have to be considered 'present'",
+#     default=90)
+# parser.add_argument("-n","--number_of_threads", help="The number of threads \
+#     to use in the alignment and tree building processes", default="1")
+# args = parser.parse_args()
 
 
 def create_blast_data_file(new_data):
