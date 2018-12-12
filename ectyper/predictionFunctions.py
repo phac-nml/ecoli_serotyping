@@ -244,8 +244,8 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
                 to fall back on phylogenetic prediction
                 """
                 predictions_dict[gname] = {
-                    'paulownia': True,
-                    'error': "No serotype-specific genes found"
+                    'O': '-',
+                    'H':'-'
                 }
 
     return predictions_dict

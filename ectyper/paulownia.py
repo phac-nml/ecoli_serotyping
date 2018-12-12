@@ -22,7 +22,7 @@ def phylogeny_predictions(results_dict, raw_files, args):
     phylogeny_dict = results_dict
     if args.phylogeny:
         for k,v in results_dict.items():
-            if 'paulownia' in results_dict[k]:
+            if ('O' in results_dict[k] and results_dict[k]['O'] == '-') or ('H' in results_dict[k] and results_dict[k]['H'] == '-'):
                 LOG.info("Paulownia {}".format(k))
             else:
                 LOG.info("No phylo {}".format(k))

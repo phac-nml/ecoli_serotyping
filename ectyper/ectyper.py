@@ -9,7 +9,6 @@ import json
 import logging
 from multiprocessing import Pool
 from functools import partial
-
 from ectyper import (commandLineOptions, definitions, speciesIdentification,
                      loggingFunctions, paulownia,
                      genomeFunctions, predictionFunctions, subprocess_util,
