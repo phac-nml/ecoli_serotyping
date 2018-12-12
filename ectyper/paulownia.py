@@ -19,6 +19,7 @@ def phylogeny_predictions(results_dict, raw_files, args):
     :return: dictionary with any phylogentic predictions made
     """
 
+    genomes_for_paulownia = []
     phylogeny_dict = results_dict
     if args.phylogeny:
         for k,v in results_dict.items():
@@ -26,13 +27,26 @@ def phylogeny_predictions(results_dict, raw_files, args):
                 LOG.info("Paulownia {}".format(k))
             else:
                 LOG.info("No phylo {}".format(k))
-        # blast_data = create_blast_data_file(args.new_data)
+                genomes_for_paulownia.append(k)
+
+        # blast_database = create_blast_database(genomes_for_paulownia, raw_files)
         # blast_file = run_blast(blast_data)
         # new_concat = parse_blast_results(blast_file)
         # new_aln = create_new_alignment(new_concat)
         # new_tree = create_new_tree(new_aln)
 
     return phylogeny_dict
+
+
+
+
+# def create_blast_database(genomes_for_paulownia, raw_files):
+#     """
+#
+#     :param genomes_for_paulownia: genomes to run paulownia on
+#     :param raw_files: corresponding files
+#     :return:
+#     """
 
 # SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 #

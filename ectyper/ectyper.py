@@ -44,7 +44,43 @@ def run_program():
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
 
         LOG.info("Identifying genome file types")
-        # 'fasta'=[], 'fastq'=[], 'other'=[]
+        """
+        Data structure for storage of program results:
+        'genome' is taken from the filename, subsequent fasta files
+            use the name 'genome' as the fasta header
+        ectyper_data{
+            'genome':{
+                'fasta':filename | None,
+                'fastq':filename | None,
+                'O':{
+                    'type':'-' | <predicted type>,
+                    'genes':[
+                        {'name':"wzx",
+                        'percent_id':99,
+                        'seq':"ATG..."
+                        },
+                        {
+                        'name':"wzy",
+                        'percent_id':98,
+                        'seq':"ATC..."
+                        }
+                    ]
+                'H':{
+                    'type':'-' | <predicted type>,
+                    'genes':[
+                        {'name':"fliC",
+                        'percent_id':98,
+                        'seq':"ATG..."
+                        }
+                    ]
+                    
+                }             
+            }
+        }
+        
+        
+        """
+
         raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
                                                             args)
 
