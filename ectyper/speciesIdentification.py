@@ -29,6 +29,18 @@ def is_ecoli(genome_file, temp_dir):
     else:
         return True
 
+def is_shigella(f, args):
+    """
+    Checks whether the given genome is Shigella or not
+    :param f: path to the genome file (FASTA,FASTQ)
+    :param args: command line arguments passed to ecTyper during execution
+    :return: Boolean True or False
+    """
+    speciesname = get_species(f,args)
+    if re.match("shigella",speciesname,re.IGNORECASE):
+        return True
+    else:
+        return False
 
 def get_num_hits(target, temp_dir):
     """
@@ -132,6 +144,12 @@ def get_species(file, args):
 
     return species
 
+def getSampleName(file):
+    # get only the name of the file for use in the fasta header
+    file_base_name = os.path.basename(file)
+    file_path_name = os.path.splitext(file_base_name)[0]
+    n_name = file_path_name.replace(' ', '_')  # sample name
+    return n_name
 
 def verify_ecoli(fasta_files, ofiles, args, temp_dir):
     """
@@ -143,22 +161,30 @@ def verify_ecoli(fasta_files, ofiles, args, temp_dir):
     :return: ([ecoli_genomes], {file:species})
     """
 
-    ecoli_files = []
-    other_files = {}
+    #ecoli_files = []
+    ecoli_files_dict = {}
+    other_files_dict = {}
 
     for f in fasta_files:
+        sampleName = getSampleName(f)
         if args.verify:
             if is_ecoli(f, temp_dir):
-                ecoli_files.append(f)
+                #ecoli_files.append(f)
+                ecoli_files_dict[sampleName] = {"species":"Escherichia coli","filepath":f}
+            elif is_shigella(f, temp_dir):
+                other_files_dict[sampleName] = {"species": "Shigella","filepath":f}
             else:
                 if args.refseq:
-                    other_files[f] = get_species(f, args)
+                     speciesname = get_species(f, args)
+                     other_files_dict[sampleName] = {"species":speciesname,"filepath":f}
                 else:
-                    other_files[f] = "Failed E. coli species confirmation"
+                    other_files_dict[sampleName] = {"species":"Failed E. coli species confirmation based on 10 E.coli specific markers"}
         else:
-            ecoli_files.append(f)
+            #ecoli_files.append(f)
+            ecoli_files_dict[f] = {"species":get_species(f, args),"filepath":f}
 
     for bf in ofiles:
-        other_files[bf] = "Non fasta / fastq file"
+        sampleName = getSampleName(bf)
+        other_files_dict[sampleName] = {"message":"Non fasta / fastq file","filepath":bf}
 
-    return ecoli_files, other_files
+    return ecoli_files_dict, other_files_dict
