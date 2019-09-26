@@ -3,9 +3,71 @@ import os
 import tempfile
 from ectyper import genomeFunctions, definitions, subprocess_util
 import re
+import requests
+import time #for file age calculations
 
 LOG = logging.getLogger(__name__)
 
+def get_fileAge(file):
+    if os.path.exists(file):
+        age = int(time.time() - os.stat(file).st_mtime)
+        LOG.info("RefSeq MASH refseq.genomes.k21s1000.msh age is {} days".format(int(age / 86400)))
+        return age #file age in seconds
+    else:
+        LOG.error("RefSeq MASH refseq.genomes.k21s1000.msh does not exist. Was not able to get file age.")
+        return 0
+
+def bool_downloadMashRefSketch(targetpath):
+    if os.path.exists(targetpath) == False:
+       return True
+    #if the file size is smaller than 700MB
+    elif os.path.getsize(targetpath) < 700000000:
+       return True
+    #re-download mash sketch after 6 months (16070400 seconds)
+    elif get_fileAge(targetpath) > 16070400:
+        LOG.warning("MASH Sketch exists and is >6 month old and needs to be re-downloaded")
+        return True
+    else:
+        return False
+
+def get_refseq_mash():
+    """
+    Get MASH sketch of refseq genomes for species identification and check that the most recent version is installed
+    :return returns boolean value depending on success of failure to download RefSeq MASH sketch
+    """
+
+    urls=["https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh",
+          "https://share.corefacility.ca/index.php/s/KDhSNQfhE6npIyo/download",
+          "https://gitlab.com/kbessonov/ectyper/raw/master/ectyper/Data/refseq.genomes.k21s1000.msh"]
+
+    targetpath = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh")
+
+    if bool_downloadMashRefSketch(targetpath):
+        for url in urls:
+            LOG.info("Trying to download MASH sketch from {}.".format(url))
+            try:
+              response = requests.get(url,timeout=10, verify=False)
+              response.raise_for_status()
+              if response.status_code == 200:
+                  LOG.info("Downloading ~700MB from {}.".format(url))
+                  with open(targetpath, 'wb') as fp:
+                      fp.write(response.content)
+                  fp.close()
+            except Exception as e:
+              LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,str(e)))
+              pass
+
+            # checks if download was successful and of the right size
+            if bool_downloadMashRefSketch(targetpath) == False:
+                LOG.info("Sucessfully downloaded RefSeq MASH sketch from {} for species verification".format(url))
+                return True
+            else:
+                LOG.error("Something went wrong with the file download or downloaded file is truncated/corrupted from {}. Trying next mirror ...".format(url))
+        return False #if all mirrors failed
+
+    else:
+        LOG.info("RefSeq sketch is in good health and does not need to be downloaded")
+        return True
 
 def is_ecoli(genome_file, temp_dir):
     """
@@ -28,19 +90,6 @@ def is_ecoli(genome_file, temp_dir):
         return False
     else:
         return True
-
-def is_shigella(f, args):
-    """
-    Checks whether the given genome is Shigella or not
-    :param f: path to the genome file (FASTA,FASTQ)
-    :param args: command line arguments passed to ecTyper during execution
-    :return: Boolean True or False
-    """
-    speciesname = get_species(f,args)
-    if re.match("shigella",speciesname,re.IGNORECASE):
-        return True
-    else:
-        return False
 
 def get_num_hits(target, temp_dir):
     """
@@ -98,7 +147,6 @@ def get_species(file, args):
     Returns:
         str: name of estimated species
     """
-
     mash_cmd = [
         'mash', 'dist',
         args.refseq,
@@ -167,24 +215,30 @@ def verify_ecoli(fasta_files, ofiles, args, temp_dir):
 
     for f in fasta_files:
         sampleName = getSampleName(f)
+        print(args.refseq,os.path.dirname(__file__))
+        if args.refseq:
+            speciesname = get_species(f, args)
+        else:   #if user does not specify a RefSeq sketch, use the default one
+            args.refseq = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh") #default sketch
+            speciesname = get_species(f, args)
         if args.verify:
             if is_ecoli(f, temp_dir):
                 #ecoli_files.append(f)
-                ecoli_files_dict[sampleName] = {"species":"Escherichia coli","filepath":f}
-            elif is_shigella(f, temp_dir):
-                other_files_dict[sampleName] = {"species": "Shigella","filepath":f}
+                ecoli_files_dict[sampleName] = {"species":"Escherichia coli","filepath":f,"error":"-"}
+            #elif is_shigella(f, speciesname, args):
+            #    other_files_dict[sampleName] = {"species": speciesname, "filepath": f}
             else:
                 if args.refseq:
-                     speciesname = get_species(f, args)
-                     other_files_dict[sampleName] = {"species":speciesname,"filepath":f}
+                    other_files_dict[sampleName] = {"species":speciesname,"filepath":f,"error":"-"}
                 else:
-                    other_files_dict[sampleName] = {"species":"Failed E. coli species confirmation based on 10 E.coli specific markers"}
+                    other_files_dict[sampleName] = {"species":"Non-Ecoli", "error":"Failed E. coli species confirmation based on 10 E.coli specific markers"}
         else:
             #ecoli_files.append(f)
-            ecoli_files_dict[f] = {"species":get_species(f, args),"filepath":f}
+            ecoli_files_dict[f] = {"species":speciesname,"filepath":f}
 
     for bf in ofiles:
         sampleName = getSampleName(bf)
-        other_files_dict[sampleName] = {"message":"Non fasta / fastq file","filepath":bf}
+        LOG.warning("Non fasta / fastq file")
+        other_files_dict[sampleName] = {"error":"Non fasta / fastq file","filepath":bf,"species":"-"}
 
     return ecoli_files_dict, other_files_dict

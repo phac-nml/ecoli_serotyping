@@ -223,20 +223,20 @@ def quality_control_results(sample, final_results_dict):
 
     if Otype != "-" and Htype != "-":
         scores = [mean(Oscores),Hscore]
-        minscore = min(scores)
+        aggregatescore = mean(scores)
     elif Otype != "-" and Htype == "-":
-        minscore = min(Oscores)
+        aggregatescore = min(Oscores)
     else:
         return {"QCflag":"FAIL","AlleleNames":AllelsList,"NumberOfAlleles":len(AllelsList)} #if O and H serovar is not determined OR O is not determined, automatic fail
 
 
-    if minscore >= 0.95:
+    if aggregatescore >= 0.95:
         qcflag = "PASS"
         confidencelevel="HIGH"
-    elif 0.80 <= minscore < 0.95:
+    elif 0.80 <= aggregatescore < 0.95:
         qcflag = "PASS"
         confidencelevel = "MEDIUM"
-    elif 0.10 <= minscore < 0.80:
+    elif 0.10 <= aggregatescore < 0.80:
         qcflag = "PASS"
         confidencelevel = "LOW"
     else:
@@ -255,24 +255,24 @@ def report_result(final_dict, output_dir, output_file):
     :return: None
     """
 
-    header = "Name\tSpecies\tO-type\tH-type\tSerovar\tECtyperQC\tConfidence\tEvidence\tAlleles\n"
+    header = "Name\tSpecies\tO-type\tH-type\tSerovar\tECtyperQC\tConfidence\tEvidence\tAlleles\tWarnings\n"
     output = []
     LOG.info(header)
 
     alleleseqs={}
 
     print(final_dict)
-    for k in final_dict.keys():
-        sample=k
+    for sample in final_dict.keys():
         output_line = [sample] #name of a query sample/genome
-        output_line.append(final_dict[k]["species"]) #add species info
+        output_line.append(final_dict[sample]["species"]) #add species info
         Otype="-"; Htype="-"
-        if "O" in final_dict[k].keys():
-            Otype=final_dict[k]["O"]
+
+        if "O" in final_dict[sample].keys():
+            Otype=final_dict[sample]["O"]
         output_line.append(Otype)
 
-        if "H" in final_dict[k].keys():
-            Htype=final_dict[k]["H"]
+        if "H" in final_dict[sample].keys():
+            Htype=final_dict[sample]["H"]
         output_line.append(Htype)
         output_line.append("{}:{}".format(Otype,Htype))
 
@@ -290,11 +290,17 @@ def report_result(final_dict, output_dir, output_file):
                     alleles = alleles + "{}:{};".format(Hallele, score)
                 else:
                     alleleseqs[Hallele+"-"+Htype]=final_dict[sample][Htype][Hallele]
-        QCdict = quality_control_results(sample, final_dict)
-        output_line.append(QCdict["QCflag"]) #QC flag
-        output_line.append(QCdict["ConfidenceLevel"])  #Confidence level
-        output_line.append("Based on {} allele(s)".format(QCdict["NumberOfAlleles"])) #evidence
+
+        if alleles == "":
+            alleles = "-"
+            output_line = output_line + ["-"]*3
+        else:
+            QCdict = quality_control_results(sample, final_dict)
+            output_line.append(QCdict["QCflag"]) #QC flag
+            output_line.append(QCdict["ConfidenceLevel"])  #Confidence level
+            output_line.append("Based on {} allele(s)".format(QCdict["NumberOfAlleles"])) #evidence
         output_line.append(alleles) #allele markers with the corresponding confidence score ranging from 0 to 1
+        output_line.append(final_dict[sample]["error"])
 
 
         if alleleseqs:
@@ -342,17 +348,20 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
 
     # test on '/mnt/moria/enterobase_serotype/ESC_GA9165AA_AS.fasta'
     # genome names are given without the filename extension
+
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
         if gname not in predictions_dict:
-            if g in other_dict:
+            if gname in other_dict:
                 predictions_dict[gname] = {
-                    'error': other_dict[g]
+                    'error': other_dict[gname]["error"],
+                    'species': other_dict[gname]["species"]
                 }
             else:
                 predictions_dict[gname] = {
-                    'error': "No serotyping-specific genes found"
+                    'error': "No serotyping-specific genes found",
+                    'species': other_dict[gname]["species"]
                 }
 
     return predictions_dict

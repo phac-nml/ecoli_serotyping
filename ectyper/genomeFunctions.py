@@ -16,6 +16,7 @@ from ectyper import definitions, subprocess_util
 LOG = logging.getLogger(__name__)
 
 
+
 def get_files_as_list(file_or_directory):
     """
     Creates a list of files from either the given file, or all files within the

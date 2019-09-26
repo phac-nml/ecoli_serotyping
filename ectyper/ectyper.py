@@ -39,8 +39,12 @@ def run_program():
     LOG.debug(args)
     LOG.info("Starting ectyper v{}".format(__version__))
     LOG.info("Output_directory is {}".format(output_directory))
-    #print(LOG)
 
+
+    #init RefSeq database for species identification
+    if speciesIdentification.get_refseq_mash() == False:
+        LOG.error("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
+        exit(1)
     # Initialize ectyper directory for the scope of this program
 
     with tempfile.TemporaryDirectory(dir=output_directory) as temp_dir:
@@ -82,20 +86,20 @@ def run_program():
 
         LOG.info("Standardizing the E.coli genome headers based on file names") #e.g. lcl|Escherichia_O26H11|17
         #final_fasta_files \
-        ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
-            ecoli_genomes_dict,
-            temp_dir,
-            args
-            )
-        #print(ecoli_genomes_dict);exit(1)
-
-        # Main prediction function
-        predictions_dict = run_prediction(ecoli_genomes_dict, #final_fasta_files
+        predictions_dict={}
+        if ecoli_genomes_dict:
+            ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
+                ecoli_genomes_dict,
+                temp_dir,
+                args
+                )
+            # Main prediction function
+            predictions_dict = run_prediction(ecoli_genomes_dict, #final_fasta_files
                                           args,
                                           alleles_fasta,
                                           temp_dir)
 
-        # Add empty rows for genomes without a blast result
+        # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
         final_predictions = predictionFunctions.add_non_predicted(
             raw_genome_files, predictions_dict, other_genomes_dict)
 
@@ -175,7 +179,7 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir):
     :param temp_dir: ectyper run temp dir
     :return: predictions_dict
     """
-    print("Genome files:",genome_files_dict)
+
     genome_files = [genome_files_dict[k]["modheaderfile"] for k in genome_files_dict.keys()]
     # Divide genome files into groups and create databases for each set
     per_core = int(len(genome_files) / args.cores) + 1
@@ -197,7 +201,11 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir):
             predictions_dict = {**r, **predictions_dict}
 
     for genome_name in predictions_dict.keys():
-        predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]
+        try:
+            predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]
+            predictions_dict[genome_name]["error"] = genome_files_dict[genome_name]["error"]
+        except KeyError as e:
+            predictions_dict[genome_name]["error"] = "Error: "+str(e)+" in "+genome_name
 
     return predictions_dict
 
