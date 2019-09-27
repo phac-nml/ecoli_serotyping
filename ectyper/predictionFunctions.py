@@ -21,10 +21,10 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     :param args: Commandline arguments
     :return: The CSV formatted predictions file
     """
-
     LOG.info("Predicting serotype from blast output")
     output_df = blast_output_to_df(blast_output_file) #columns: length	pident	qcovhsp	qlen qseqid	send	sframe	sseq	sseqid	sstart	score
     #output_df.to_csv("blast_output_df.tsv",sep="\t") #DEBUG
+
     ectyper_df = ectyper_dict_to_df(ectyper_dict_file) #columns: antigen	desc	gene	name
     #ectyper_df.to_csv("ectyper_df.tsv", sep="\t")  # DEBUG
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
@@ -59,7 +59,7 @@ def get_prediction(per_genome_df, args):
 
     per_genome_df = per_genome_df.sort_values(by=['score'], ascending=False,
                                               kind='mergesort')
-    per_genome_df.to_csv("per_genome_df.tsv", sep="\t")
+    #per_genome_df.to_csv("per_genome_df.tsv", sep="\t")
     LOG.debug("per_genome_df:\n{}".format(per_genome_df))
 
     # The DataFrame is sorted in descending order by score e.g. serotype={'O': 'O26', 'H': 'H11', 'H11': {'fliC': 1.0}, 'O26': {'wzx': 0.46}}
@@ -202,12 +202,13 @@ def quality_control_results(sample, final_results_dict):
     Determined approximate quality of the prediction based on the allele scores. Adopt pessimistic approach by looking at min values
     :param sample: sample/genome name)
     :param final_results_dict: dictionary with final output results (e.g. serovar, sequences, conf. scores)
-    :return:
+    :return: Quality Control dictionary
     """
 
     Otype=final_results_dict[sample]["O"]; Oscores=[]
     Htype=final_results_dict[sample]["H"]; Hscore  = 0
     AllelsList=[]
+    species=final_results_dict[sample]["species"]
 
     if Otype != "-":
         for allele in final_results_dict[sample][Otype].keys():
@@ -221,13 +222,16 @@ def quality_control_results(sample, final_results_dict):
               Hscore = final_results_dict[sample][Htype][allele]
               AllelsList.append(allele)
 
+    if species != "Escherichia coli":
+        return {"QCflag":"NA","AlleleNames":AllelsList,"NumberOfAlleles":len(AllelsList),"ConfidenceLevel":"-"}
+
     if Otype != "-" and Htype != "-":
         scores = [mean(Oscores),Hscore]
         aggregatescore = mean(scores)
     elif Otype != "-" and Htype == "-":
         aggregatescore = min(Oscores)
     else:
-        return {"QCflag":"FAIL","AlleleNames":AllelsList,"NumberOfAlleles":len(AllelsList)} #if O and H serovar is not determined OR O is not determined, automatic fail
+        return {"QCflag":"FAIL","AlleleNames":AllelsList,"NumberOfAlleles":len(AllelsList),"ConfidenceLevel":"-"} #if O and H serovar is not determined OR O is not determined = automatic fail
 
 
     if aggregatescore >= 0.95:
@@ -236,7 +240,7 @@ def quality_control_results(sample, final_results_dict):
     elif 0.80 <= aggregatescore < 0.95:
         qcflag = "PASS"
         confidencelevel = "MEDIUM"
-    elif 0.10 <= aggregatescore < 0.80:
+    elif 0.50 <= aggregatescore < 0.80:
         qcflag = "PASS"
         confidencelevel = "LOW"
     else:
@@ -261,7 +265,7 @@ def report_result(final_dict, output_dir, output_file):
 
     alleleseqs={}
 
-    print(final_dict)
+    #print(final_dict)
     for sample in final_dict.keys():
         output_line = [sample] #name of a query sample/genome
         output_line.append(final_dict[sample]["species"]) #add species info

@@ -100,7 +100,6 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     :param args: Commandline arguments
     :return: List of files with fasta headers modified for filename
     """
-    print(files_dict)
     files=[]
     for sample in files_dict.keys(): #{'Escherichia_O26H11': {'species': 'Escherichia coli', 'filepath': '/Data/Escherichia_O26H11.fasta'}}
        files.append(files_dict[sample]["filepath"])

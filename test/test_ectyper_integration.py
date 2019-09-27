@@ -90,7 +90,7 @@ def test_valid_fastq_file(caplog):
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
     set_input(file)
     ectyper.run_program()
-    assert "Escherichia\tO22\tH8" in caplog.text
+    assert "Escherichia\tEscherichia coli\tO22\tH8" in caplog.text
 
 
 def test_multiple_directories(caplog):

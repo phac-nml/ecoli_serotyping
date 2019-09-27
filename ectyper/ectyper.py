@@ -43,8 +43,8 @@ def run_program():
 
     #init RefSeq database for species identification
     if speciesIdentification.get_refseq_mash() == False:
-        LOG.error("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
-        exit(1)
+        LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
+        exit("No MASH RefSeq sketch found in default location (i.e. ectyper/Data)")
     # Initialize ectyper directory for the scope of this program
 
     with tempfile.TemporaryDirectory(dir=output_directory) as temp_dir:

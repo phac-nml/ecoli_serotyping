@@ -77,8 +77,8 @@ def is_ecoli(genome_file, temp_dir):
     :param temp_dir: ectyper run temp_dir
     :return: True or False
     """
-
     num_hit = get_num_hits(genome_file, temp_dir)
+
     if num_hit < 3:
         LOG.warning(
             "{0} is identified as an invalid E. coli genome "
@@ -90,6 +90,12 @@ def is_ecoli(genome_file, temp_dir):
         return False
     else:
         return True
+
+def is_escherichia_genus(speciesname):
+    if re.match("Escherichia",speciesname):
+        return  True
+    else:
+        return  False
 
 def get_num_hits(target, temp_dir):
     """
@@ -215,18 +221,21 @@ def verify_ecoli(fasta_files, ofiles, args, temp_dir):
 
     for f in fasta_files:
         sampleName = getSampleName(f)
-        print(args.refseq,os.path.dirname(__file__))
+
         if args.refseq:
             speciesname = get_species(f, args)
         else:   #if user does not specify a RefSeq sketch, use the default one
             args.refseq = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh") #default sketch
             speciesname = get_species(f, args)
+
         if args.verify:
             if is_ecoli(f, temp_dir):
                 #ecoli_files.append(f)
                 ecoli_files_dict[sampleName] = {"species":"Escherichia coli","filepath":f,"error":"-"}
             #elif is_shigella(f, speciesname, args):
             #    other_files_dict[sampleName] = {"species": speciesname, "filepath": f}
+            elif is_escherichia_genus(speciesname):
+                ecoli_files_dict[sampleName] = {"species":speciesname,"filepath":f,"error":"This sample belongs to Escherichia genus so serotyping results might not be accurate"}
             else:
                 if args.refseq:
                     other_files_dict[sampleName] = {"species":speciesname,"filepath":f,"error":"-"}

@@ -3,7 +3,7 @@ import os
 import logging
 from ectyper import ectyper
 from ectyper.predictionFunctions import quality_control_results
-
+LOG=logging.getLogger("TEST")
 TEST_ROOT = os.path.dirname(__file__)
 
 def set_input(input,
@@ -50,11 +50,10 @@ def test_Otyping(caplog):
          Otype = secondrow[2]
          Htype = secondrow[3]
 
-         print(secondrow)
-    assert Otype == "O26", "Rerpoted O-type:" + Otype
-    assert Htype == "H11", "Rerpoted H-type:" + Htype
+    assert Otype == "O26", "Expected O26 but reported O-type:" + Otype
+    assert Htype == "H11", "Expected H11 but reported H-type:" + Htype
 
-def test_QCmodule():
+def test_QCmodule(): #QCmodule
     final_dict={'Sample1': {'O': 'O26',
                                        'H': 'H11',
                                        'H11': {'fliC': 1.0,
@@ -78,7 +77,8 @@ def test_QCmodule():
                                          }
                   }
 
-    assert quality_control_results("Sample2", final_dict) == {'AlleleNames': ['fliC'], 'NumberOfAlleles': 1, 'QCflag': 'FAIL'}
+
+    assert quality_control_results("Sample2", final_dict) == {'AlleleNames': ['fliC'], 'NumberOfAlleles': 1, 'QCflag': 'FAIL','ConfidenceLevel': '-'}
 
     final_dict = {'Sample3': {'O': 'O26',
                                          'O26': {'≈wzx' : 'ATG','wzx'  : 0.56,
@@ -134,7 +134,7 @@ def test_mixofspecies(caplog):
                         'Data/Campylobacter.fasta') +","+os.path.join(TEST_ROOT, 'Data/Salmonella.fasta')+","\
                          + os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
     set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
-    ectyper.run_program();
+    ectyper.run_program()
 
     with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
          rows = outfp.readlines()
@@ -143,6 +143,7 @@ def test_mixofspecies(caplog):
     serovars=[]; genomenames=[]; QCflag=[]; confidence=[]
     for row in rows:
         rowlist = row.split("\t")
+        print(rowlist)
         serovars.append(rowlist[4])
         genomenames.append(rowlist[0])
         QCflag.append(rowlist[5])
@@ -152,3 +153,44 @@ def test_mixofspecies(caplog):
     assert genomenames == ["Campylobacter","Escherichia","Salmonella"]
     assert QCflag == ["-","PASS","-"]
     assert confidence == ["-","HIGH","-"]
+
+def test_Ealbertii_1(caplog): #error
+    LOG.info("Starting 1 of 3 test on EnteroBase on sample ESC_HA8355AA_AS: Escherichia albertii O65:H5")
+    caplog.set_level(logging.DEBUG)
+    file = os.path.join(TEST_ROOT,
+                        'Data/ESC_HA8355AA_AS_Ealberii_O65H5.fasta')
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+    ectyper.run_program()
+    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+         rows = outfp.readlines()
+    secondrow=rows[1:][0] #remove header line
+    print(secondrow)
+    assert "ESC_HA8355AA_AS_Ealberii_O65H5\tEscherichia albertii\tO65\tH5\tO65:H5\tNA" in secondrow  #suggest to be H52 and not H5
+
+def test_Ealbertii_2(): #error
+    LOG.info("Starting 2 of 3 test on EnteroBase on sample on ESC_HA8509AA_AS: Escherichia albertii O5:H5")
+
+    file = os.path.join(TEST_ROOT,
+                        'Data/ESC_HA8509AA_AS_EalbertiiO5H5.fasta')
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+    ectyper.run_program()
+
+    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+         rows = outfp.readlines()
+    secondrow=rows[1:][0] #remove header line
+    print(secondrow)
+    assert "ESC_HA8509AA_AS_EalbertiiO5H5\tEscherichia albertii\t-\tH5\t-:H5\tNA" in secondrow
+
+def test_Ealbertii_3(caplog):
+    LOG.info("Starting 3 of 3 test Escherichia albertii O49:NM") #can not type O49 due to poor sequence quality of uncertainty of wet-lab O49 typing
+    caplog.set_level(logging.DEBUG)
+    file = os.path.join(TEST_ROOT,
+                        'Data/Ealbertii_O49NM.fasta')
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+    ectyper.run_program()
+
+    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+         rows = outfp.readlines()
+    secondrow=rows[1:][0] #remove header line
+    print(secondrow)
+    assert "Ealbertii_O49NM\tEscherichia albertii\t-\tH5\t-:H5\tNA" in secondrow
