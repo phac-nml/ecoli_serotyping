@@ -32,7 +32,7 @@ def run_program():
 
     # Create a file handler for log messages in the output directory
     fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
-    fh.setLevel(logging.ERROR)
+    fh.setLevel(logging.INFO)
 
     LOG.addHandler(fh)
 

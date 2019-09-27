@@ -33,6 +33,7 @@ requirements:
         - biopython 1.70.*
         - blast 2.7.1.*
         - seqtk 1.2.*
+        - requests
 
 test:
     import:
