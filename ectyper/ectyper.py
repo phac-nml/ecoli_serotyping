@@ -17,6 +17,7 @@ from ectyper import (commandLineOptions, definitions, speciesIdentification,
 
 
 # setup the application logging
+
 LOG = loggingFunctions.create_logger()
 
 
@@ -26,20 +27,26 @@ def run_program():
     Creates all required files and controls function execution.
     :return: success or failure
     """
-
     args = commandLineOptions.parse_command_line()
     output_directory = create_output_directory(args.output)
 
     # Create a file handler for log messages in the output directory
     fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
-    fh.setLevel(logging.INFO)
+
+    if args.debug:
+        fh.setLevel(logging.DEBUG)
+        LOG.setLevel(logging.DEBUG)
+    else:
+        fh.setLevel(logging.INFO)
+        LOG.setLevel(logging.INFO)
+
 
     LOG.addHandler(fh)
 
-    LOG.debug(args)
+
     LOG.info("Starting ectyper v{}".format(__version__))
     LOG.info("Output_directory is {}".format(output_directory))
-
+    LOG.info(args)
 
     #init RefSeq database for species identification
     if speciesIdentification.get_refseq_mash() == False:
@@ -69,7 +76,7 @@ def run_program():
 
         # Assemble any fastq files, get final fasta list
         LOG.info("Assembling final list of fasta files")
-        all_fasta_files = genomeFunctions.assemble_fastq(raw_files_dict,
+        all_fastafastq_files_dict = genomeFunctions.assemble_fastq(raw_files_dict,
                                                          temp_dir,
                                                          combined_fasta,
                                                          bowtie_base,
@@ -78,7 +85,7 @@ def run_program():
         # Verify we have at least one fasta file. Optionally species ID.
         # Get a tuple of ecoli and other genomes
         (ecoli_genomes_dict, other_genomes_dict) = speciesIdentification.verify_ecoli(
-            all_fasta_files,
+            all_fastafastq_files_dict,
             raw_files_dict['other'],
             args,
             temp_dir)
@@ -132,7 +139,7 @@ def create_output_directory(output_dir):
         ])
         out_dir = os.path.join(definitions.WORKPLACE_DIR, date_dir)
     else:
-        print(output_dir)
+        #print(output_dir)
         if os.path.isabs(output_dir):
             out_dir = output_dir
         else:

@@ -14,6 +14,7 @@
 - biopython 1.70
 - blast 2.7.1
 - seqtk 1.2
+- requests >=2.0
 
 # Installation
 1. Get `miniconda` if you do not already have `miniconda` or `anaconda`:

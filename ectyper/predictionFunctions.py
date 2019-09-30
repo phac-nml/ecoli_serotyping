@@ -23,7 +23,9 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     """
     LOG.info("Predicting serotype from blast output")
     output_df = blast_output_to_df(blast_output_file) #columns: length	pident	qcovhsp	qlen qseqid	send	sframe	sseq	sseqid	sstart	score
-    #output_df.to_csv("blast_output_df.tsv",sep="\t") #DEBUG
+    if args.debug:
+        LOG.debug("Wrote BLAST results file blast_outputBLAST_df.tsv in {}".format(os.getcwd()))
+        output_df.to_csv("blast_outputBLAST_df.tsv",sep="\t") #DEBUG
 
     ectyper_df = ectyper_dict_to_df(ectyper_dict_file) #columns: antigen	desc	gene	name
     #ectyper_df.to_csv("ectyper_df.tsv", sep="\t")  # DEBUG
@@ -59,8 +61,10 @@ def get_prediction(per_genome_df, args):
 
     per_genome_df = per_genome_df.sort_values(by=['score'], ascending=False,
                                               kind='mergesort')
-    #per_genome_df.to_csv("per_genome_df.tsv", sep="\t")
-    LOG.debug("per_genome_df:\n{}".format(per_genome_df))
+
+    if args.debug:
+        per_genome_df.to_csv("per_genome_df.tsv", sep="\t")
+        LOG.debug("Wrote per_genome_df.tsv to {}".format(os.getcwd()))
 
     # The DataFrame is sorted in descending order by score e.g. serotype={'O': 'O26', 'H': 'H11', 'H11': {'fliC': 1.0}, 'O26': {'wzx': 0.46}}
     serotype = {
@@ -70,7 +74,7 @@ def get_prediction(per_genome_df, args):
 
     otype = {} #{antigen:{gene:score}} key value pairs e.g. otype ={'O26':{'wzx':1.00,'wzy':1.00}} or {'O26': {'wzx': 0.46}}
     # Go for the highest match, if both genes exist over the thresholds
-    best_order = [] #based on score centered on identity and coverage e.g. best_order = ['O26', 'O174']
+
     for row in per_genome_df.itertuples():
         # H is already set, skip
         # get the 'O' or 'H' from the antigen column
@@ -92,21 +96,38 @@ def get_prediction(per_genome_df, args):
                 # if antigen has never been encountered, init
                 if row.antigen not in otype:
                     otype[row.antigen] = {}
-                    best_order.append(row.antigen)
-
+                    #best_order.append(row.antigen)
                 if args.sequence:
                     otype[row.antigen]["≈" + row.gene] = row.sseq
 
                 otype[row.antigen][row.gene] = row.score
 
+    rank_Otype_dict={}
+    #rank O-type serovars based on the sum of scores from BOTH alleles (wzx/wzy or wzt/wzm)
+    for otypename in otype.keys():
+        rank_Otype_dict[otypename]={"numalleles":0, "scores":[], "sumscore":0}
+        alleles = [key for key in otype[otypename].keys() if "≈" not in key]
+        rank_Otype_dict[otypename]["numalleles"] = len(alleles)
+        scores = [otype[otypename][allele]  for allele in alleles]
+        rank_Otype_dict[otypename]["scores"] = scores
+        rank_Otype_dict[otypename]["sumscore"] = sum(scores)
+
+
+    #maxscore=0; best_order_list = [] #based on score centered on identity and coverage e.g. best_order = ['O26', 'O174']
+    scorestupleslist = [(otypename,rank_Otype_dict[otypename]["sumscore"]) for otypename in rank_Otype_dict.keys()]
+    scorestupleslist = sorted(scorestupleslist, key=lambda x: x[1], reverse=True)
+    best_order_list = [item[0] for item in scorestupleslist]
+
+
     LOG.debug("Otype dict:\n{}".format(otype))
     LOG.debug("Serotype dict:\n{}".format(serotype))
-    LOG.debug("\"Best order\" list:\n{}".format(best_order))
+    LOG.debug("\"Best order alleles-scores\" list:\n{}".format(scorestupleslist))
+    LOG.debug("\"Best order alleles\" list:\n{}".format(best_order_list))
 
     # having gone through all the hits over the threshold, make the call
     # go through the O-antigens in order, making the call on the first that have
     # a matching pair
-    for o in best_order:
+    for o in best_order_list:
         # if wzm / wzy or wzx / wzy, call the match
         if 'wzx' in otype[o] and 'wzy' in otype[o]:
             serotype['O'] =  o
@@ -202,7 +223,7 @@ def quality_control_results(sample, final_results_dict):
     Determined approximate quality of the prediction based on the allele scores. Adopt pessimistic approach by looking at min values
     :param sample: sample/genome name)
     :param final_results_dict: dictionary with final output results (e.g. serovar, sequences, conf. scores)
-    :return: Quality Control dictionary
+    :return: Quality dictionary
     """
 
     Otype=final_results_dict[sample]["O"]; Oscores=[]
@@ -280,30 +301,31 @@ def report_result(final_dict, output_dir, output_file):
         output_line.append(Htype)
         output_line.append("{}:{}".format(Otype,Htype))
 
-        alleles = ""
+        allelesscoresstr = ""
         if Otype != "-":
-            for Oallele, score in final_dict[sample][Otype].items():
+            for Oallele in sorted(final_dict[sample][Otype].keys()): #makes sure that wzx/wzy and wzm/wzt are reported alphabetically
                 if "≈" not in Oallele:
-                    alleles = alleles + "{}:{};".format(Oallele, score)
+                    score=final_dict[sample][Otype][Oallele]
+                    allelesscoresstr = allelesscoresstr + "{}:{:.3f};".format(Oallele, score)
                 else:
                     alleleseqs[Oallele+"-"+Otype]=final_dict[sample][Otype][Oallele]
 
         if Htype != "-":
             for Hallele, score in final_dict[sample][Htype].items():
                 if "≈" not in Hallele:
-                    alleles = alleles + "{}:{};".format(Hallele, score)
+                    allelesscoresstr = allelesscoresstr + "{}:{:.3f};".format(Hallele, score)
                 else:
                     alleleseqs[Hallele+"-"+Htype]=final_dict[sample][Htype][Hallele]
 
-        if alleles == "":
-            alleles = "-"
+        if allelesscoresstr == "":
+            allelesscoresstr = "-"
             output_line = output_line + ["-"]*3
         else:
             QCdict = quality_control_results(sample, final_dict)
             output_line.append(QCdict["QCflag"]) #QC flag
             output_line.append(QCdict["ConfidenceLevel"])  #Confidence level
             output_line.append("Based on {} allele(s)".format(QCdict["NumberOfAlleles"])) #evidence
-        output_line.append(alleles) #allele markers with the corresponding confidence score ranging from 0 to 1
+        output_line.append(allelesscoresstr) #allele markers with the corresponding confidence score ranging from 0 to 1
         output_line.append(final_dict[sample]["error"])
 
 

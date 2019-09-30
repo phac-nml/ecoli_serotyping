@@ -108,7 +108,7 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
 
     with Pool(processes=args.cores) as pool:
         (results)= pool.map(partial_ghw, files)
-        print(results)
+        #print(results)
 
         for r in results:
             sample=r["samplename"]
@@ -258,7 +258,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     with open(output_fasta, 'wb') as ofh:
         ofh.write(to_fasta_output.stdout)
 
-    return output_fasta
+    return {"fastq_file":reads,"fasta_file":output_fasta}
 
 
 def get_file_format_tuple(file):
@@ -323,14 +323,16 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
                   combined_fasta=combined_fasta,
                   temp_dir=temp_dir)
 
-    all_fasta_files = raw_files_dict['fasta']
+    all_fasta_files_dict = dict.fromkeys(raw_files_dict['fasta']) #add assembled genomes as new keys
     with Pool(processes=args.cores) as pool:
-        results = pool.map(par, raw_files_dict['fastq'])
+        iterator = pool.map(par, raw_files_dict['fastq'])
+        for item in iterator:
+            all_fasta_files_dict[item["fasta_file"]]=item["fastq_file"]
 
-        for r in results:
-            all_fasta_files.append(r)
+   #     for r in results:
+   #         all_fasta_files.append(r)
 
-    return all_fasta_files
+    return all_fasta_files_dict
 
 
 def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):

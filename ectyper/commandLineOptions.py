@@ -103,6 +103,13 @@ def parse_command_line(args=None):
              "the output"
     )
 
+    parser.add_argument(
+        "-D",
+        "--debug",
+        action="store_true",
+        help="Print more detailed log including debug level messages"
+    )
+
     if args is None:
         return parser.parse_args()
     else:

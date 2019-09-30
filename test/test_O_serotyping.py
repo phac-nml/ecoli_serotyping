@@ -12,7 +12,8 @@ def set_input(input,
               output="tmp",
               cores=1,
               print_sequence=False,
-              sketchpath=False):
+              sketchpath=False,
+              debug=False):
     """
     Create the sys.argv[] without need for commandline input.
     :param input: Input file given by testing function
@@ -32,6 +33,8 @@ def set_input(input,
         args += ['-o', output]
     if print_sequence:
         args += ['--sequence']
+    if debug:
+        args+=['--debug']
     sys.argv[1:] = args
 
 def test_Otyping(caplog):
@@ -53,6 +56,18 @@ def test_Otyping(caplog):
     assert Otype == "O26", "Expected O26 but reported O-type:" + Otype
     assert Htype == "H11", "Expected H11 but reported H-type:" + Htype
 
+
+def test_closeOalles_O42_O28(caplog):
+    caplog.set_level(logging.DEBUG)
+    file = os.path.join(TEST_ROOT,
+                        'Data/EscherichiaO28H5.fasta')  # +","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
+    set_input(input=file, cores=4, print_sequence=True, debug=False)
+    ectyper.run_program()
+    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+         secondrow = outfp.readlines()[1]
+    print(secondrow)
+    assert "EscherichiaO28H5\tEscherichia coli\tO28\tH25\tO28:H25\tPASS\tHIGH" in secondrow
+
 def test_QCmodule(): #QCmodule
     final_dict={'Sample1': {'O': 'O26',
                                        'H': 'H11',
@@ -62,7 +77,8 @@ def test_QCmodule(): #QCmodule
                                                'wzx'  : 0.46,
                                                '≈wzy' : 'CTT',
                                                'wzy'  : 0.08
-                                               }
+                                               },
+                                        'species': 'Escherichia coli'
                                        }
                 }
 
@@ -73,7 +89,8 @@ def test_QCmodule(): #QCmodule
                                          'H': 'H11',
                                          'H11': {'fliC': 1.0,
                                                  '≈fliC': 'AAC'
-                                                }
+                                                },
+                                         'species': 'Escherichia coli'
                                          }
                   }
 
@@ -84,6 +101,7 @@ def test_QCmodule(): #QCmodule
                                          'O26': {'≈wzx' : 'ATG','wzx'  : 0.56,
                                                 },
                                          'H': '-',
+                                          'species': 'Escherichia coli'
                                          }
                   }
 
@@ -94,6 +112,7 @@ def test_QCmodule(): #QCmodule
                                       '≈wzy': 'ATG','wzy': 0.87
                                       },
                               'H': '-',
+                              'species': 'Escherichia coli'
                               }
                   }
 
@@ -104,6 +123,7 @@ def test_QCmodule(): #QCmodule
                               'O26': {'≈wzx': 'ATG', 'wzx': 0.99
                                       },
                               'H': '-',
+                              'species': 'Escherichia coli'
                               }
                   }
 
@@ -194,3 +214,29 @@ def test_Ealbertii_3(caplog):
     secondrow=rows[1:][0] #remove header line
     print(secondrow)
     assert "Ealbertii_O49NM\tEscherichia albertii\t-\tH5\t-:H5\tNA" in secondrow
+
+
+def test_Ecoli_O17H18(caplog):
+    caplog.set_level(logging.DEBUG)
+    file = os.path.join(TEST_ROOT,
+                        'Data/EscherichiaO17H18.fasta')
+    set_input(input=file, cores=4, print_sequence=False, sketchpath=False,debug=True)
+    ectyper.run_program()
+
+    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+         rows = outfp.readlines()
+    secondrow=rows[1:][0] #remove header line
+    print(secondrow)
+    assert "Escherichia coli\tO17\tH18\tO17:H18\tPASS\tHIGH" in secondrow
+
+
+# def test_EC20151996():
+#     file = os.path.join(TEST_ROOT,
+#                         'Data/EC20151996rawreads.fastq')
+#     set_input(input=file, cores=4, print_sequence=False, sketchpath=False, debug=True)
+#     ectyper.run_program()
+#     with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+#          rows = outfp.readlines()
+#     secondrow=rows[1:][0] #remove header line
+#     print(secondrow)
+#     assert "EC20151996rawreads\tEscherichia albertii\tO3\tH17\tO3:H17\tNA\t-\tBased on 3 allele(s)" in secondrow
