@@ -3,13 +3,13 @@ import os
 import logging
 from ectyper import ectyper
 from ectyper.predictionFunctions import quality_control_results
+import tempfile
 LOG=logging.getLogger("TEST")
 TEST_ROOT = os.path.dirname(__file__)
 
 def set_input(input,
               percent_iden=None,
-              #output=tempfile.mkdtemp(),
-              output="tmp",
+              output=tempfile.mkdtemp(),
               cores=1,
               print_sequence=False,
               sketchpath=False,
@@ -37,6 +37,7 @@ def set_input(input,
         args+=['--debug']
     sys.argv[1:] = args
 
+
 def test_Otyping(caplog):
     """
     Giving E.coli fasta genomes with truncated wzx and wzy genes with reference coverage <50 predict O and H antigens
@@ -44,11 +45,13 @@ def test_Otyping(caplog):
     """
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT, 'Data/Escherichia_O26H11.fasta')#+","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
-    set_input(input=file,cores=4,print_sequence=True)
+    tmpdir=tempfile.mkdtemp()
+    set_input(input=file,cores=4,print_sequence=True, output=tmpdir)
+
     ectyper.run_program()
 
 
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          secondrow = outfp.readlines()[1].split("\t")
          Otype = secondrow[2]
          Htype = secondrow[3]
@@ -61,9 +64,11 @@ def test_closeOalles_O42_O28(caplog):
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT,
                         'Data/EscherichiaO28H5.fasta')  # +","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
-    set_input(input=file, cores=4, print_sequence=True, debug=False)
+
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=True, debug=False, output=tmpdir)
     ectyper.run_program()
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          secondrow = outfp.readlines()[1]
     print(secondrow)
     assert "EscherichiaO28H5\tEscherichia coli\tO28\tH25\tO28:H25\tPASS\tHIGH" in secondrow
@@ -135,9 +140,11 @@ def test_Shigella_typing(caplog):
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT,
                         'Data/DRR015915_Shigella_boydii.fasta')  # +","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
-    set_input(input=file, cores=4, print_sequence=True)
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=True, output=tmpdir)
     ectyper.run_program()
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          secondrow = outfp.readlines()[1].split("\t")
          species = secondrow[1]
     assert species == "Shigella boydii"
@@ -153,10 +160,12 @@ def test_mixofspecies(caplog):
     file = os.path.join(TEST_ROOT,
                         'Data/Campylobacter.fasta') +","+os.path.join(TEST_ROOT, 'Data/Salmonella.fasta')+","\
                          + os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
+
     ectyper.run_program()
 
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     rows=rows[1:] #remove header line
 
@@ -179,9 +188,11 @@ def test_Ealbertii_1(caplog): #error
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT,
                         'Data/ESC_HA8355AA_AS_Ealberii_O65H5.fasta')
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
+
     ectyper.run_program()
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #remove header line
     print(secondrow)
@@ -192,10 +203,11 @@ def test_Ealbertii_2(): #error
 
     file = os.path.join(TEST_ROOT,
                         'Data/ESC_HA8509AA_AS_EalbertiiO5H5.fasta')
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
     ectyper.run_program()
 
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #remove header line
     print(secondrow)
@@ -206,10 +218,12 @@ def test_Ealbertii_3(caplog):
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT,
                         'Data/Ealbertii_O49NM.fasta')
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False)
+
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
     ectyper.run_program()
 
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir ,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #remove header line
     print(secondrow)
@@ -220,10 +234,12 @@ def test_Ecoli_O17H18(caplog):
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT,
                         'Data/EscherichiaO17H18.fasta')
-    set_input(input=file, cores=4, print_sequence=False, sketchpath=False,debug=True)
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=False, sketchpath=False,debug=True, output=tmpdir)
+
     ectyper.run_program()
 
-    with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #remove header line
     print(secondrow)
