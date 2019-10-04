@@ -237,7 +237,7 @@ def get_species(file, args):
     grep_output = subprocess_util.run_subprocess(grep_cmd)
 
     species = grep_output.stdout.decode("utf-8").split('\t')[7]
-    LOG.info("MASH dist predicted species name:".format(species))
+    LOG.info("MASH dist predicted species name:{}".format(species))
 
     return species
 

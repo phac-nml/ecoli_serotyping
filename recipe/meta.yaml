@@ -4,7 +4,7 @@
 about:
     license: Apache 2
     summary: ECtyper is a python program for serotyping E. coli genomes
-    author: Chad Laing, Camille La Rose, Sam Sung
+    author: Chad Laing, Kyrylo Bessonov, Camille La Rose, Sam Sung
     home: https://github.com/phac-nml/ecoli_serotyping
 
 package:
@@ -12,34 +12,44 @@ package:
     version: {{ version }}
 
 source:
-    url: https://github.com/phac-nml/ecoli_serotyping/archive/v{{ version }}.tar.gz
+    #url: https://github.com/phac-nml/ecoli_serotyping/archive/v{{ version }}.tar.gz
+    git_url: https://github.com/kbessonov1984/ecoli_serotyping.git
+    git_rev: master
 
 build:
-    number: 1
-    script: python setup.py install
+    number: 0
+    script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
     build:
         - python >=3.5
+        - pip
 
     run:
         - python >=3.5
         - pytest >=3.5
-        - pandas 0.23.1.*
-        - samtools 1.8.*
-        - bowtie2 2.3.4.1.*
-        - mash 2.0.*
-        - bcftools 1.8.*
-        - biopython 1.70.*
-        - blast 2.7.1.*
-        - seqtk 1.2.*
-        - requests 2.22.*
-        - portalocker 1.5.*
+        - pandas >=0.23.1.*
+        - samtools >=1.8.*
+        - bowtie2 >=2.3.*
+        - mash >=2.0.*
+        - bcftools >=1.8.*
+        - biopython >=1.70.*
+        - blast >=2.7.1.*
+        - seqtk >=1.2.*
+        - requests >=2.*.*
+        - portalocker >=1.5.*
 test:
     import:
         - ectyper
-    test:
+    source_files:
+        - test
+    requires:
+         - pytest
+    commands:
         - "ectyper --help"
+        - "pytest -s ./test/test_ectyper_integration.py"
+        - "pytest -s ./test/test_O_serotyping.py"
+
 
 
 
