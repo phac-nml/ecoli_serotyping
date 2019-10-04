@@ -5,13 +5,15 @@ from ectyper import genomeFunctions, definitions, subprocess_util
 import re
 import requests
 import time #for file age calculations
+import portalocker
 
 LOG = logging.getLogger(__name__)
 
 def get_fileAge(file):
     if os.path.exists(file):
         age = int(time.time() - os.stat(file).st_mtime)
-        LOG.info("RefSeq MASH refseq.genomes.k21s1000.msh age is {} days".format(int(age / 86400)))
+        LOG.info("RefSeq MASH refseq.genomes.k21s1000.msh age is {} days downloaded on {}".format(int(age / 86400),
+                                                                                                  time.strftime('%Y-%m-%d at %H:%M:%S', time.localtime(os.path.getmtime(file)))))
         return age #file age in seconds
     else:
         LOG.error("RefSeq MASH refseq.genomes.k21s1000.msh does not exist. Was not able to get file age.")
@@ -46,17 +48,19 @@ def get_refseq_mash():
         for url in urls:
             LOG.info("Trying to download MASH sketch from {}.".format(url))
             try:
-              response = requests.get(url,timeout=10, verify=False)
-              response.raise_for_status()
-              if response.status_code == 200:
-                  LOG.info("Downloading ~700MB from {}.".format(url))
-                  with open(targetpath, 'wb') as fp:
+                LOG.info("Downloading ~700MB from {}.".format(url))
+                response = requests.get(url,timeout=10, verify=False)
+                response.raise_for_status()
+                if response.status_code == 200:
+                  portalocker.Lock(targetpath,timeout=3)
+                  with open(file=targetpath,mode="wb") as fp:
                       fp.write(response.content)
                   fp.close()
+
                   download_RefSeq_assembly_summary()
             except Exception as e:
-              LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,str(e)))
-              pass
+                LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,e))
+                pass
 
             # checks if download was successful and of the right size
             if bool_downloadMashRefSketch(targetpath) == False:
@@ -74,23 +78,29 @@ def get_refseq_mash():
         return True
 
 def download_RefSeq_assembly_summary():
+    url = "http://ftp.ncbi.nlm.nih.gov/genomes/refseq/assembly_summary_refseq.txt"
+    targetpath = os.path.join(os.path.dirname(__file__), "Data/assembly_summary_refseq.txt")
     try:
-        url = "http://ftp.ncbi.nlm.nih.gov/genomes/refseq/assembly_summary_refseq.txt"
         response = requests.get(url, timeout=10, verify=False)
         response.raise_for_status()
-        targetpath = os.path.join(os.path.dirname(__file__), "Data/assembly_summary_refseq.txt")
+
 
         if response.status_code == 200:
-            with open(targetpath, 'wb') as fp:
-                fp.write(response.content)
+            portalocker.Lock(targetpath, timeout=3)
+            with open(file=targetpath,mode="w") as fp:
+                fp.write(response.text)
             fp.close()
             LOG.info("Successfully downloaded assembly_summary_refseq.txt".format(response.status_code))
         else:
             LOG.critical("Server response error {}. Failed to download assembly_summary_refseq.txt".format(response.status_code))
 
     except Exception as e:
-        LOG.critical("Failed to download assembly_summary_refseq.txt from {}. Will use default\nError msg {}".format(url, str(e)))
+        LOG.critical("Failed to download or write to a disk assembly_summary_refseq.txt from {}.\nError msg {}".format(url, str(e)))
         pass
+
+    if (os.path.exists(targetpath)) == False or os.path.getsize(targetpath) < 54000000:
+        exit(1)
+        LOG.critical("The assembly_summary_refseq.txt file does not exist or is corrupted at {} path".format(targetpath))
 
 def is_ecoli(genome_file, temp_dir):
     """
@@ -207,7 +217,7 @@ def get_species(file, args):
     top_hit = head_output.stdout.decode("utf-8").split()
     top_match = top_hit[0]; top_match_dist = top_hit[2]; top_match_hashratio = top_hit[4]
 
-    LOG.info("MASH species RefSeq top hit {} with distance {} and shared hashes {}".format(top_match,top_match_dist,top_match_hashratio))
+    LOG.info("MASH species RefSeq top hit {} with distance {} and shared hashes ratio {}".format(top_match,top_match_dist,top_match_hashratio))
 
     m = re.match(r"(GCF_\d+)", top_match)
     #refseq_key = None
@@ -227,7 +237,7 @@ def get_species(file, args):
     grep_output = subprocess_util.run_subprocess(grep_cmd)
 
     species = grep_output.stdout.decode("utf-8").split('\t')[7]
-    LOG.info(species)
+    LOG.info("MASH dist predicted species name:".format(species))
 
     return species
 
@@ -251,7 +261,7 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
     #ecoli_files = []
     ecoli_files_dict = {}
     other_files_dict = {}
-    print(fasta_fastq_files_dict)
+
     fasta_files= fasta_fastq_files_dict.keys()
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
