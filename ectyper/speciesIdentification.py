@@ -12,8 +12,8 @@ LOG = logging.getLogger(__name__)
 def get_fileAge(file):
     if os.path.exists(file):
         age = int(time.time() - os.stat(file).st_mtime)
-        LOG.info("RefSeq MASH refseq.genomes.k21s1000.msh age is {} days downloaded on {}".format(int(age / 86400),
-                                                                                                  time.strftime('%Y-%m-%d at %H:%M:%S', time.localtime(os.path.getmtime(file)))))
+        LOG.info("RefSeq MASH refseq.genomes.k21s1000.msh age is {} days downloaded on {} located {}".format(int(age / 86400),
+                                                                                                  time.strftime('%Y-%m-%d at %H:%M:%S', time.localtime(os.path.getmtime(file))), file))
         return age #file age in seconds
     else:
         LOG.error("RefSeq MASH refseq.genomes.k21s1000.msh does not exist. Was not able to get file age.")
@@ -52,11 +52,8 @@ def get_refseq_mash():
                 response = requests.get(url,timeout=10, verify=False)
                 response.raise_for_status()
                 if response.status_code == 200:
-                  portalocker.Lock(targetpath,timeout=3)
-                  with open(file=targetpath,mode="wb") as fp:
-                      fp.write(response.content)
-                  fp.close()
-
+                  with portalocker.Lock(filename=targetpath, mode="wb", flags=portalocker.LOCK_EX) as fp:
+                      fp.write(response.content); fp.flush()
                   download_RefSeq_assembly_summary()
             except Exception as e:
                 LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,e))
@@ -86,10 +83,8 @@ def download_RefSeq_assembly_summary():
 
 
         if response.status_code == 200:
-            portalocker.Lock(targetpath, timeout=3)
-            with open(file=targetpath,mode="w") as fp:
-                fp.write(response.text)
-            fp.close()
+            with portalocker.Lock(filename=targetpath, mode="w", flags=portalocker.LOCK_EX) as fp:
+                fp.write(response.text); fp.flush()
             LOG.info("Successfully downloaded assembly_summary_refseq.txt".format(response.status_code))
         else:
             LOG.critical("Server response error {}. Failed to download assembly_summary_refseq.txt".format(response.status_code))
@@ -237,7 +232,7 @@ def get_species(file, args):
     grep_output = subprocess_util.run_subprocess(grep_cmd)
 
     species = grep_output.stdout.decode("utf-8").split('\t')[7]
-    LOG.info("MASH dist predicted species name:{}".format(species))
+    LOG.info("MASH dist predicted species name: {}".format(species))
 
     return species
 
