@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.5"
+  - "3.6"
 before_install:
   - sudo apt-get update
 install:
@@ -14,7 +14,7 @@ install:
   - conda info -a
   - conda config --add channels conda-forge
   - conda config --add channels bioconda
-  - conda create -q -n test-environment python=3.5 samtools=1.8 pandas=0.23.1 bowtie2=2.3.4.1 mash=2.0 bcftools=1.8 biopython=1.70 blast=2.7.1 seqtk=1.2 pytest=3.5
+  - conda create -q -n test-environment python=3.6 samtools=1.8 pandas=0.23.1 bowtie2=2.3.4.1 mash=2.0 bcftools=1.8 biopython=1.70 blast=2.7.1 seqtk=1.2 pytest=3.5 requests=2.22.0 portalocker=1.5.1
   - conda activate test-environment
   - python setup.py install
 

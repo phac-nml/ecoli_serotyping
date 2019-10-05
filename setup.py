@@ -4,10 +4,10 @@ from ectyper import __version__
 setup(
     name='ectyper',
     version=__version__,
-    description='E. coli serotyping',
+    description='Escherichia coli fast serotyping using both raw reads and assemblies with automatic species identification',
     url='https://github.com/phac-nml/ecoli_serotyping',
-    author='Chad Laing, Sam Sung, Camille La Rose',
-    author_email='chad.laing@canada.ca, sam.sung@canada.ca, claro100@uottawa.ca',
+    author='Chad Laing, Kyrylo Bessonov, Sam Sung, Camille La Rose, ',
+    author_email='chad.laing@canada.ca, kyrylo.bessonov@canada.ca, sam.sung@canada.ca, claro100@uottawa.ca',
     license='Apache 2',
     scripts=['bin/ectyper'],
     packages=['ectyper'],

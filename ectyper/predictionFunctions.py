@@ -21,10 +21,14 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     :param args: Commandline arguments
     :return: The CSV formatted predictions file
     """
-
     LOG.info("Predicting serotype from blast output")
-    output_df = blast_output_to_df(blast_output_file)
-    ectyper_df = ectyper_dict_to_df(ectyper_dict_file)
+    output_df = blast_output_to_df(blast_output_file) #columns: length	pident	qcovhsp	qlen qseqid	send	sframe	sseq	sseqid	sstart	score
+    if args.debug:
+        LOG.debug("Wrote BLAST results file blast_outputBLAST_df.tsv in {}".format(os.getcwd()))
+        output_df.to_csv("blast_outputBLAST_df.tsv",sep="\t") #DEBUG
+
+    ectyper_df = ectyper_dict_to_df(ectyper_dict_file) #columns: antigen	desc	gene	name
+    #ectyper_df.to_csv("ectyper_df.tsv", sep="\t")  # DEBUG
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         LOG.debug("blast_df:\n{}".format(output_df))
         LOG.debug("ectyper_df:\n{}".format(ectyper_df))
@@ -33,8 +37,9 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     output_df = output_df.merge(ectyper_df, left_on='qseqid', right_on='name', how='left')
     predictions_dict = {}
 
+
     # Select individual genomes
-    output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
+    output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1] #e.g. lcl|Escherichia_O26H11|17
 
     # Make prediction for each genome based on blast output
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
@@ -56,17 +61,20 @@ def get_prediction(per_genome_df, args):
 
     per_genome_df = per_genome_df.sort_values(by=['score'], ascending=False,
                                               kind='mergesort')
-    LOG.debug("per_genome_df:\n{}".format(per_genome_df))
 
-    # The DataFrame is sorted in descending order by score
+    if args.debug:
+        per_genome_df.to_csv("per_genome_df.tsv", sep="\t")
+        LOG.debug("Wrote per_genome_df.tsv to {}".format(os.getcwd()))
+
+    # The DataFrame is sorted in descending order by score e.g. serotype={'O': 'O26', 'H': 'H11', 'H11': {'fliC': 1.0}, 'O26': {'wzx': 0.46}}
     serotype = {
         'O':'-',
         'H':'-'
     }
 
-    otype = {}
+    otype = {} #{antigen:{gene:score}} key value pairs e.g. otype ={'O26':{'wzx':1.00,'wzy':1.00}} or {'O26': {'wzx': 0.46}}
     # Go for the highest match, if both genes exist over the thresholds
-    best_order = []
+
     for row in per_genome_df.itertuples():
         # H is already set, skip
         # get the 'O' or 'H' from the antigen column
@@ -88,24 +96,54 @@ def get_prediction(per_genome_df, args):
                 # if antigen has never been encountered, init
                 if row.antigen not in otype:
                     otype[row.antigen] = {}
-                    best_order.append(row.antigen)
-
+                    #best_order.append(row.antigen)
                 if args.sequence:
                     otype[row.antigen]["≈" + row.gene] = row.sseq
 
                 otype[row.antigen][row.gene] = row.score
 
+    rank_Otype_dict={}
+    #rank O-type serovars based on the sum of scores from BOTH alleles (wzx/wzy or wzt/wzm)
+    for otypename in otype.keys():
+        rank_Otype_dict[otypename]={"numalleles":0, "scores":[], "sumscore":0}
+        alleles = [key for key in otype[otypename].keys() if "≈" not in key]
+        rank_Otype_dict[otypename]["numalleles"] = len(alleles)
+        scores = [otype[otypename][allele]  for allele in alleles]
+        rank_Otype_dict[otypename]["scores"] = scores
+        rank_Otype_dict[otypename]["sumscore"] = sum(scores)
+
+
+    #maxscore=0; best_order_list = [] #based on score centered on identity and coverage e.g. best_order = ['O26', 'O174']
+    scorestupleslist = [(otypename,rank_Otype_dict[otypename]["sumscore"]) for otypename in rank_Otype_dict.keys()]
+    scorestupleslist = sorted(scorestupleslist, key=lambda x: x[1], reverse=True)
+    best_order_list = [item[0] for item in scorestupleslist]
+
+
+    LOG.debug("Otype dict:\n{}".format(otype))
+    LOG.debug("Serotype dict:\n{}".format(serotype))
+    LOG.debug("\"Best order alleles-scores\" list:\n{}".format(scorestupleslist))
+    LOG.debug("\"Best order alleles\" list:\n{}".format(best_order_list))
 
     # having gone through all the hits over the threshold, make the call
     # go through the O-antigens in order, making the call on the first that have
     # a matching pair
-    for o in best_order:
+    for o in best_order_list:
         # if wzm / wzy or wzx / wzy, call the match
         if 'wzx' in otype[o] and 'wzy' in otype[o]:
             serotype['O'] =  o
             serotype[o]=otype[o]
             break
         elif 'wzm' in otype[o] and 'wzt' in otype[o]:
+            serotype['O'] = o
+            serotype[o] = otype[o]
+            break
+        # FIX: O-antigen typing might fail due to poor sequencing or inability to assemble one of the wzx/wzy/wzm/wzt loci
+        # if only one of the signatures is found, still produce output but warn user on false positives
+        elif 'wzx' in otype[o] or 'wzy' in otype[o]:
+            serotype['O'] = o
+            serotype[o] = otype[o]
+            break
+        elif 'wzm' in otype[o] or 'wzt' in otype[o]:
             serotype['O'] = o
             serotype[o] = otype[o]
             break
@@ -177,36 +215,143 @@ def ectyper_dict_to_df(ectyper_dict_file):
         df = pd.DataFrame(temp_list)
         return df
 
+def mean(numbers):
+    return sum(numbers)/len(numbers)
 
-def report_result(final_dict, output_file):
+def quality_control_results(sample, final_results_dict):
+    """
+    Determined approximate quality of the prediction based on the allele scores. Adopt pessimistic approach by looking at min values
+    :param sample: sample/genome name)
+    :param final_results_dict: dictionary with final output results (e.g. serovar, sequences, conf. scores)
+    :return: Quality dictionary
+    """
+
+    Otype=final_results_dict[sample]["O"]; Oscores=[]
+    Htype=final_results_dict[sample]["H"]; Hscore  = 0
+    AllelsList=[]
+    species=final_results_dict[sample]["species"]
+
+    if Otype != "-":
+        for allele in final_results_dict[sample][Otype].keys():
+            if any([item == allele for item in ["wzx","wzy","wzm","wzt"]]):
+              Oscores.append(final_results_dict[sample][Otype][allele])
+              AllelsList.append(allele)
+
+    if Htype != "-":
+        for allele in final_results_dict[sample][Htype].keys():
+            if any([item == allele for item in ["fliC"]]):
+              Hscore = final_results_dict[sample][Htype][allele]
+              AllelsList.append(allele)
+
+    if species != "Escherichia coli":
+        return {"QCflag":"NA","AlleleNames":AllelsList,"NumberOfAlleles":len(AllelsList),"ConfidenceLevel":"-"}
+
+    if Otype != "-" and Htype != "-":
+        scores = [mean(Oscores),Hscore]
+        aggregatescore = mean(scores)
+    elif Otype != "-" and Htype == "-":
+        aggregatescore = min(Oscores)
+    else:
+        return {"QCflag":"FAIL","AlleleNames":AllelsList,"NumberOfAlleles":len(AllelsList),"ConfidenceLevel":"-"} #if O and H serovar is not determined OR O is not determined = automatic fail
+
+
+    if aggregatescore >= 0.95:
+        qcflag = "PASS"
+        confidencelevel="HIGH"
+    elif 0.80 <= aggregatescore < 0.95:
+        qcflag = "PASS"
+        confidencelevel = "MEDIUM"
+    elif 0.50 <= aggregatescore < 0.80:
+        qcflag = "PASS"
+        confidencelevel = "LOW"
+    else:
+        qcflag = "FAIL"
+        confidencelevel = "-"
+
+    return {"QCflag": qcflag, "AlleleNames": AllelsList, "NumberOfAlleles": len(AllelsList), "ConfidenceLevel":confidencelevel}
+
+
+def report_result(final_dict, output_dir, output_file):
     """
     Outputs the results of the ectyper run to the output file, and to the log.
 
-    :param final_dict: Final ectyper predictions dictionary
+    :param final_dict: Final ectyper predictions dictionary {'Sample': {'O': 'O26', 'H': 'H11', 'H11': {'fliC': 1.0}, 'O26': {'wzx': 0.46}}}
     :param output_file: File whose contents will be added to the log
     :return: None
     """
 
-    header = "Name\tO-type\tH-type\tAlleles\n"
+    header = "Name\tSpecies\tO-type\tH-type\tSerovar\tECtyperQC\tConfidence\tEvidence\tAlleles\tWarnings\n"
     output = []
     LOG.info(header)
-    for k, v in final_dict.items():
-        output_line = [k]
 
-        if 'error' in v:
-            output_line.append(v['error'])
+    alleleseqs={}
+
+    #print(final_dict)
+    for sample in final_dict.keys():
+        output_line = [sample] #name of a query sample/genome
+        output_line.append(final_dict[sample]["species"]) #add species info
+        Otype="-"; Htype="-"
+
+        if "O" in final_dict[sample].keys():
+            Otype=final_dict[sample]["O"]
+        output_line.append(Otype)
+
+        if "H" in final_dict[sample].keys():
+            Htype=final_dict[sample]["H"]
+        output_line.append(Htype)
+        output_line.append("{}:{}".format(Otype,Htype))
+
+        allelesscoresstr = ""
+        if Otype != "-":
+            for Oallele in sorted(final_dict[sample][Otype].keys()): #makes sure that wzx/wzy and wzm/wzt are reported alphabetically
+                if "≈" not in Oallele:
+                    score=final_dict[sample][Otype][Oallele]
+                    allelesscoresstr = allelesscoresstr + "{}:{:.3f};".format(Oallele, score)
+                else:
+                    alleleseqs[Oallele+"-"+Otype]=final_dict[sample][Otype][Oallele]
+
+        if Htype != "-":
+            for Hallele, score in final_dict[sample][Htype].items():
+                if "≈" not in Hallele:
+                    allelesscoresstr = allelesscoresstr + "{}:{:.3f};".format(Hallele, score)
+                else:
+                    alleleseqs[Hallele+"-"+Htype]=final_dict[sample][Htype][Hallele]
+
+        if allelesscoresstr == "":
+            allelesscoresstr = "-"
+            output_line = output_line + ["-"]*3
         else:
-            output_line.append(v['O'])
-            output_line.append(v['H'])
+            QCdict = quality_control_results(sample, final_dict)
+            output_line.append(QCdict["QCflag"]) #QC flag
+            output_line.append(QCdict["ConfidenceLevel"])  #Confidence level
+            output_line.append("Based on {} allele(s)".format(QCdict["NumberOfAlleles"])) #evidence
+        output_line.append(allelesscoresstr) #allele markers with the corresponding confidence score ranging from 0 to 1
+        output_line.append(final_dict[sample]["error"])
 
-            antigens = [v['O'], v['H']]
-            for ant in antigens:
-                if ant != "-":
-                    for kk, vv in sorted(v[ant].items()):
-                        if "≈" in kk:
-                            output_line.append(kk + ':' + vv)
-                        else:
-                            output_line.append(kk + ':' + " {0:.2f}".format(vv))
+
+        if alleleseqs:
+            with open(file=output_dir+"/queryalleleseqs.fasta", mode="w") as fp:
+                for allele, seq in alleleseqs.items():
+                    fp.write(">{}\n{}\n".format(allele[1:],seq))
+                fp.close()
+
+        #if 'error' in v:
+        #    output_line.append(v['error'])
+        #else:
+        #    output_line.append(v['O'])
+        #    output_line.append(v['H'])
+        #    output_line.append("PASS") #QC flag
+
+        #    antigens = [v['O'], v['H']]
+        #    for ant in antigens:
+        #        if ant != "-":
+        #            for kk, vv in sorted(v[ant].items()):
+        #                #if "≈" in kk:
+                        #    output_line.append(kk + ':' + vv)
+                        #else:
+        #               output_line.append(kk + ':' + " {0:.2f}".format(vv))
+        #       else:
+        #           output_line.append(["-"]*4)
 
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")
@@ -229,17 +374,20 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
 
     # test on '/mnt/moria/enterobase_serotype/ESC_GA9165AA_AS.fasta'
     # genome names are given without the filename extension
+
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
         if gname not in predictions_dict:
-            if g in other_dict:
+            if gname in other_dict:
                 predictions_dict[gname] = {
-                    'error': other_dict[g]
+                    'error': other_dict[gname]["error"],
+                    'species': other_dict[gname]["species"]
                 }
             else:
                 predictions_dict[gname] = {
-                    'error': "No serotyping-specific genes found"
+                    'error': "No serotyping-specific genes found",
+                    'species': other_dict[gname]["species"]
                 }
 
     return predictions_dict

@@ -16,6 +16,7 @@ from ectyper import definitions, subprocess_util
 LOG = logging.getLogger(__name__)
 
 
+
 def get_files_as_list(file_or_directory):
     """
     Creates a list of files from either the given file, or all files within the
@@ -88,30 +89,36 @@ def get_file_format(file):
     return 'other'
 
 
-def get_genome_names_from_files(files, temp_dir, args):
+def get_genome_names_from_files(files_dict, temp_dir, args):
     """
     For each file:
     Uses the name of the file for the genome name, creates a temporary file
     using
-    >lcl|filename as the name in the fasta header.
+    >lcl|filename as the name in the fasta header.  e.g. lcl|Escherichia_O26H11|17
     :param files: All the fasta files for analyses
     :param temp_dir: The ectyper temp directory
     :param args: Commandline arguments
     :return: List of files with fasta headers modified for filename
     """
-
-    modified_genomes = []
+    files=[]
+    for sample in files_dict.keys(): #{'Escherichia_O26H11': {'species': 'Escherichia coli', 'filepath': '/Data/Escherichia_O26H11.fasta'}}
+       files.append(files_dict[sample]["filepath"])
+    #modified_genomes = []
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
 
     with Pool(processes=args.cores) as pool:
-        results = pool.map(partial_ghw, files)
+        (results)= pool.map(partial_ghw, files)
+        #print(results)
 
         for r in results:
-            modified_genomes.append(r)
+            sample=r["samplename"]
+            files_dict[sample]["modheaderfile"] = r["newfile"]
+            #modified_genomes.append(r)
 
+    modified_genomes = [files_dict[samples]["modheaderfile"] for samples in files_dict.keys()]
     LOG.debug(("Modified genomes: {}".format(modified_genomes)))
-    return modified_genomes
-
+    #return modified_genomes
+    return files_dict
 
 def genome_header_wrapper(file, temp_dir):
     """
@@ -125,7 +132,7 @@ def genome_header_wrapper(file, temp_dir):
     # get only the name of the file for use in the fasta header
     file_base_name = os.path.basename(file)
     file_path_name = os.path.splitext(file_base_name)[0]
-    n_name = file_path_name.replace(' ', '_')
+    n_name = file_path_name.replace(' ', '_') #sample name
 
     # create a new file for the updated fasta headers
     new_file = tempfile.NamedTemporaryFile(dir=temp_dir, delete=False).name
@@ -137,7 +144,7 @@ def genome_header_wrapper(file, temp_dir):
                     ">lcl|" + n_name + "|" + record.description + "\n")
                 outfile.write(str(record.seq) + "\n")
 
-    return new_file
+    return {"oldfile":file,"newfile":new_file, "samplename":n_name}
 
 
 def create_bowtie_base(temp_dir, reference):
@@ -251,7 +258,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     with open(output_fasta, 'wb') as ofh:
         ofh.write(to_fasta_output.stdout)
 
-    return output_fasta
+    return {"fastq_file":reads,"fasta_file":output_fasta}
 
 
 def get_file_format_tuple(file):
@@ -316,14 +323,16 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
                   combined_fasta=combined_fasta,
                   temp_dir=temp_dir)
 
-    all_fasta_files = raw_files_dict['fasta']
+    all_fasta_files_dict = dict.fromkeys(raw_files_dict['fasta']) #add assembled genomes as new keys
     with Pool(processes=args.cores) as pool:
-        results = pool.map(par, raw_files_dict['fastq'])
+        iterator = pool.map(par, raw_files_dict['fastq'])
+        for item in iterator:
+            all_fasta_files_dict[item["fasta_file"]]=item["fastq_file"]
 
-        for r in results:
-            all_fasta_files.append(r)
+   #     for r in results:
+   #         all_fasta_files.append(r)
 
-    return all_fasta_files
+    return all_fasta_files_dict
 
 
 def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
@@ -340,6 +349,7 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
     LOG.info("Creating combined serotype and identification fasta file")
 
+    #print(definitions.ECOLI_MARKERS)
     with open(combined_file, 'w') as ofh:
         with open(definitions.ECOLI_MARKERS, 'r') as mfh:
             ofh.write(mfh.read())

@@ -1,22 +1,113 @@
-<tool id="ectyper" name="ectyper" version="0.8.0">
+<tool id="ectyper" name="ectyper" version="0.8.1">
   <description>ectyper is a standalone serotyping module for Escherichia coli. It supports fasta and fastq file formats.</description>
-  <command interpreter="python">ectyper </command>
+  <requirements>
+     <requirement type="package" version="0.8.1">ectyper</requirement>
+  </requirements>
+  <command detect_errors="exit_code">
+  <![CDATA[
+  #set $genomes = ''
+  #if hasattr($input, '__iter__')
+    #for $i in $input
+        ln -s "${i}" "${i.name}" &&
+        #if len($genomes) > 0
+          #set $genomes = $genomes + ',' + str($i.name)
+        #else
+          #set $genomes = str($i.name)
+        #end if      
+    #end for
+  #else
+    ln -s "${input}" "${input.name}" &&
+    #set $genomes = $input.name
+  #end if
+
+  #if $mash_input
+    ln -s "${mash_input}" mash_sketch.msh &&
+  #end if
+ 
+  ectyper  --cores \${GALAXY_SLOTS:-4} 
+  --input "${genomes}" 
+  --percentIdentity '$adv_param.min_percentIdentity'
+  --percentLength '$adv_param.percentLength'
+  #if $adv_param.verifyEcoli
+    --verify
+  #end if
+  #if $mash_input
+    --refseq mash_sketch.msh
+  #end if   
+  #if $adv_param.alleleSequence
+    --sequence
+  #end if
+  --output '.'
+  ]]>
+  </command>
   <inputs>
-    <param format="fasta" name="input" type="data" label="Source file"/>
+    <param name="input" type="data"  format="fastq,fasta" label="Genome(s) input(s)" help="FASTA or FASTQ file(s) with contig(s)"/>
+    <param name="mash_input" type="data" optional="true" format="binary" label="Mash genome sketches (Optional)" help="Optionally provide MASH sketches to find closest genome (in case O/H typing fails)"/>
+    <section name="adv_param" title="Advanced parameters" expanded="False">
+      <param name="min_percentIdentity" type="integer" value="90" min="1" max="100"/>
+      <param name="percentLength" type="integer" value="50" min="1" max="100"/>
+      <param name="verifyEcoli" type="boolean" checked="true" label="Enable E. coli species verification"/>
+      <param name="alleleSequence" type="boolean" checked="false" label="Print the allele sequences as the final columns of the output?"/> 
+      <param name="logging" type="boolean" checked="false"  label="Include log file in the run outputs?" />
+    </section>  
   </inputs>
   <outputs>
-    <data format="tabular" name="output" />
+    <data name="output_result" format="tabular" from_work_dir="output.tsv" label="${tool.name} serotype report"> </data> 
+    <data name="output_log" format="text" from_work_dir="ectyper.log" label="${tool.name} log file"> 
+        <filter>adv_param['logging']==True</filter>
+    </data>   
   </outputs>
-
   <tests>
     <test>
-      <param name="input" value="fa_gc_content_input.fa"/>
-      <output name="out_file1" file="fa_gc_content_output.txt"/>
+      <param name="input" value="Escherichia2.fastq"/>
+      <assert_stderr>
+            <has_text text="O22"/> 
+            <has_text text="H8"/> 
+      </assert_stderr>
+      <output name="output_result" ftype="tabular" >
+          <assert_contents>
+              <has_text_matching expression="O22"/>
+         </assert_contents>
+      </output>
     </test>
   </tests>
 
   <help>
-This tool identifies the serotype of Escherichia coli genome sequences
-  </help>
+**Syntax**
 
+This tool identifies the serotype of Escherichia coli genome sequences based on a set of *wzm/wzt*, *wzx/wzy* and *fliC/flkA/flmA* alleles corresponding to O and H antigens, respectively. 
+
+For more information please visit https://github.com/phac-nml/ecoli_serotyping. 
+
+-----
+
+**Input:**
+
+Accepts a variety of inputs including single or multiple FASTQ and/or FASTA file(s). Inputs might contain pure raw reads, but for more accurate results draft assemblies are recommended. 
+
+Optionally select a MASH RefSeq genome sketch (version 2.0 and above) for cases when O/H typing would fail. Download RefSeq genome sketch containing 91,283 genomes with 1000 hashes each directly from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh . 
+
+**Output:**
+
+Tab-delimited report listing identified O and H antigens together with corresponding highest scoring alleles and normalized BLAST score defined as (%identity x query coverage length) / 10000
+
+-----
+
+**Parameters (Optional):**
+
+  - **Print the allele sequences as the final columns of the output?** Turn ON/OFF addition of the actual O and H antigen allelic sequences in the report
+  - **Enable E. coli species verification:** Turn ON/OFF for more rigorous species verification (recommended)
+  - **Include log file in the run outputs?:** Turn ON/OFF optional output of the ectyper log file for a more detailed results assessment
+
+  </help>
+<citations>
+    <citation type="bibtex">
+  @misc{githubectyper,
+  author = {Laing Chad},
+  title = {ECtyper - serotyping module for Escherichia coli},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  url = {https://github.com/phac-nml/ecoli_serotyping}
+    }</citation>
+</citations>
 </tool>

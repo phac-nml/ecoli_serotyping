@@ -15,7 +15,9 @@ def create_logger():
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
     console.setFormatter(formatter)
-    console.setLevel(logging.INFO)
+
+
+    #console.setLevel(logging.INFO)
     log.addHandler(console)
 
     return log

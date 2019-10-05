@@ -2,7 +2,7 @@
 """
     Predictive serotyping for _E. coli_.
 """
-import os
+import os, time
 import tempfile
 import datetime
 import json
@@ -17,6 +17,7 @@ from ectyper import (commandLineOptions, definitions, speciesIdentification,
 
 
 # setup the application logging
+
 LOG = loggingFunctions.create_logger()
 
 
@@ -26,20 +27,33 @@ def run_program():
     Creates all required files and controls function execution.
     :return: success or failure
     """
-
     args = commandLineOptions.parse_command_line()
     output_directory = create_output_directory(args.output)
 
     # Create a file handler for log messages in the output directory
     fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
-    fh.setLevel(logging.DEBUG)
+
+    if args.debug:
+        fh.setLevel(logging.DEBUG)
+        LOG.setLevel(logging.DEBUG)
+    else:
+        fh.setLevel(logging.INFO)
+        LOG.setLevel(logging.INFO)
+
+
     LOG.addHandler(fh)
 
-    LOG.debug(args)
+
     LOG.info("Starting ectyper v{}".format(__version__))
     LOG.info("Output_directory is {}".format(output_directory))
+    LOG.info("Command-line arguments {}".format(args))
 
+    #init RefSeq database for species identification
+    if speciesIdentification.get_refseq_mash() == False:
+        LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
+        exit("No MASH RefSeq sketch file found in the default location")
     # Initialize ectyper directory for the scope of this program
+
     with tempfile.TemporaryDirectory(dir=output_directory) as temp_dir:
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
@@ -48,18 +62,21 @@ def run_program():
         # 'fasta'=[], 'fastq'=[], 'other'=[]
         raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
                                                             args)
-
         alleles_fasta = create_alleles_fasta_file(temp_dir)
+
         combined_fasta = \
             genomeFunctions.create_combined_alleles_and_markers_file(
                 alleles_fasta, temp_dir)
+
+        #print(combined_fasta);
+        time.sleep(100)
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
                                                          combined_fasta) if \
                                                          raw_files_dict['fastq'] else None
 
         # Assemble any fastq files, get final fasta list
         LOG.info("Assembling final list of fasta files")
-        all_fasta_files = genomeFunctions.assemble_fastq(raw_files_dict,
+        all_fastafastq_files_dict = genomeFunctions.assemble_fastq(raw_files_dict,
                                                          temp_dir,
                                                          combined_fasta,
                                                          bowtie_base,
@@ -67,33 +84,36 @@ def run_program():
 
         # Verify we have at least one fasta file. Optionally species ID.
         # Get a tuple of ecoli and other genomes
-        (ecoli_genomes, other_genomes_dict) = speciesIdentification.verify_ecoli(
-            all_fasta_files,
+        (ecoli_genomes_dict, other_genomes_dict) = speciesIdentification.verify_ecoli(
+            all_fastafastq_files_dict,
             raw_files_dict['other'],
             args,
             temp_dir)
 
-        LOG.info("Standardizing the genome headers based on file names")
-        final_fasta_files = genomeFunctions.get_genome_names_from_files(
-            ecoli_genomes,
-            temp_dir,
-            args
-            )
 
-        # Main prediction function
-        predictions_dict = run_prediction(final_fasta_files,
+        LOG.info("Standardizing the E.coli genome headers based on file names") #e.g. lcl|Escherichia_O26H11|17
+        #final_fasta_files \
+        predictions_dict={}
+        if ecoli_genomes_dict:
+            ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
+                ecoli_genomes_dict,
+                temp_dir,
+                args
+                )
+            # Main prediction function
+            predictions_dict = run_prediction(ecoli_genomes_dict, #final_fasta_files
                                           args,
                                           alleles_fasta,
                                           temp_dir)
 
-        # Add empty rows for genomes without a blast result
+        # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
         final_predictions = predictionFunctions.add_non_predicted(
             raw_genome_files, predictions_dict, other_genomes_dict)
 
         # Store most recent result in working directory
         LOG.info("Reporting results:\n")
 
-        predictionFunctions.report_result(final_predictions,
+        predictionFunctions.report_result(final_predictions, output_directory,
                                           os.path.join(output_directory,
                                                        'output.tsv'))
         LOG.info("\nECTyper has finished successfully.")
@@ -119,6 +139,7 @@ def create_output_directory(output_dir):
         ])
         out_dir = os.path.join(definitions.WORKPLACE_DIR, date_dir)
     else:
+        #print(output_dir)
         if os.path.isabs(output_dir):
             out_dir = output_dir
         else:
@@ -126,7 +147,6 @@ def create_output_directory(output_dir):
 
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
-
     return out_dir
 
 
@@ -138,6 +158,7 @@ def create_alleles_fasta_file(temp_dir):
     :temp_dir: temporary directory for length of program run
     :return: the filepath for alleles.fasta
     """
+
     output_file = os.path.join(temp_dir, 'alleles.fasta')
 
     with open(definitions.SEROTYPE_ALLELE_JSON, 'r') as jsonfh:
@@ -153,7 +174,7 @@ def create_alleles_fasta_file(temp_dir):
     return output_file
 
 
-def run_prediction(genome_files, args, alleles_fasta, temp_dir):
+def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir):
     """
     Serotype prediction of all the input files, which have now been properly
     converted to fasta if required, and their headers standardized
@@ -166,6 +187,7 @@ def run_prediction(genome_files, args, alleles_fasta, temp_dir):
     :return: predictions_dict
     """
 
+    genome_files = [genome_files_dict[k]["modheaderfile"] for k in genome_files_dict.keys()]
     # Divide genome files into groups and create databases for each set
     per_core = int(len(genome_files) / args.cores) + 1
     group_size = 50 if per_core > 50 else per_core
@@ -184,6 +206,14 @@ def run_prediction(genome_files, args, alleles_fasta, temp_dir):
         # merge the per-database predictions with the final predictions dict
         for r in results:
             predictions_dict = {**r, **predictions_dict}
+
+    for genome_name in predictions_dict.keys():
+        try:
+            predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]
+            predictions_dict[genome_name]["error"] = genome_files_dict[genome_name]["error"]
+        except KeyError as e:
+            predictions_dict[genome_name]["error"] = "Error: "+str(e)+" in "+genome_name
+
     return predictions_dict
 
 

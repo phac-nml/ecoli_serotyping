@@ -29,7 +29,7 @@ def parse_command_line(args=None):
     parser = argparse.ArgumentParser(
         description='ectyper v{} Prediction of Escherichia coli serotype from '
                     'raw reads'
-                    ' or assembled genome sequences'.format(__version__)
+                    ' or assembled genome sequences. The default settings are recommended.'.format(__version__)
     )
 
     parser.add_argument(
@@ -67,8 +67,8 @@ def parse_command_line(args=None):
         "-l",
         "--percentLength",
         type=check_percentage,
-        help="Percent length required for an allele match [default 50]",
-        default=50
+        help="Percent length required for an allele match [default 10]",
+        default=10
     )
 
     parser.add_argument(
@@ -101,6 +101,13 @@ def parse_command_line(args=None):
         action="store_true",
         help="Prints the allele sequences if enabled as the final columns of "
              "the output"
+    )
+
+    parser.add_argument(
+        "-D",
+        "--debug",
+        action="store_true",
+        help="Print more detailed log including debug level messages"
     )
 
     if args is None:
