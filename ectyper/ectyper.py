@@ -91,6 +91,7 @@ def run_program():
             temp_dir)
 
 
+
         LOG.info("Standardizing the E.coli genome headers based on file names") #e.g. lcl|Escherichia_O26H11|17
         #final_fasta_files \
         predictions_dict={}
@@ -108,7 +109,7 @@ def run_program():
 
         # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
         final_predictions = predictionFunctions.add_non_predicted(
-            raw_genome_files, predictions_dict, other_genomes_dict)
+            raw_genome_files, predictions_dict, other_genomes_dict, ecoli_genomes_dict)
 
         # Store most recent result in working directory
         LOG.info("Reporting results:\n")

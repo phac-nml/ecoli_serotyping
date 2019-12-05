@@ -363,7 +363,7 @@ def report_result(final_dict, output_dir, output_file):
             ofh.write(line)
 
 
-def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
+def add_non_predicted(all_genomes_list, predictions_dict, other_dict, ecoli_dict):
     """
     Add genomes that do not show up in the blast results to the final predictions
 
@@ -378,6 +378,7 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
+
         if gname not in predictions_dict:
             if gname in other_dict:
                 predictions_dict[gname] = {
@@ -386,8 +387,8 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict):
                 }
             else:
                 predictions_dict[gname] = {
-                    'error': "No serotyping-specific genes found",
-                    'species': other_dict[gname]["species"]
+                    'error':  "No serotyping-specific E.coli genes found",
+                    'species': ecoli_dict[gname]["species"]
                 }
 
     return predictions_dict

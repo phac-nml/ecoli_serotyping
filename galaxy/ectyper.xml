@@ -1,29 +1,29 @@
-<tool id="ectyper" name="ectyper" version="0.8.1">
+<tool id="ectyper" name="ectyper" version="0.9.0">
   <description>ectyper is a standalone serotyping module for Escherichia coli. It supports fasta and fastq file formats.</description>
   <requirements>
-     <requirement type="package" version="0.8.1">ectyper</requirement>
+     <requirement type="package" version="0.9.0">ectyper</requirement>
   </requirements>
   <command detect_errors="exit_code">
   <![CDATA[
   #set $genomes = ''
   #if hasattr($input, '__iter__')
     #for $i in $input
-        ln -s "${i}" "${i.name}" &&
+        ln -s "${i}" "${i.element_identifier}" &&
         #if len($genomes) > 0
-          #set $genomes = $genomes + ',' + str($i.name)
+          #set $genomes = $genomes + ',' + str($i.element_identifier)
         #else
-          #set $genomes = str($i.name)
+          #set $genomes = str($i.element_identifier)
         #end if      
     #end for
   #else
-    ln -s "${input}" "${input.name}" &&
-    #set $genomes = $input.name
+    ln -s "${input}" "${input.element_identifier}" &&
+    #set $genomes = $input.element_identifier
   #end if
 
   #if $mash_input
     ln -s "${mash_input}" mash_sketch.msh &&
   #end if
- 
+
   ectyper  --cores \${GALAXY_SLOTS:-4} 
   --input "${genomes}" 
   --percentIdentity '$adv_param.min_percentIdentity'
@@ -41,19 +41,19 @@
   ]]>
   </command>
   <inputs>
-    <param name="input" type="data"  format="fastq,fasta" label="Genome(s) input(s)" help="FASTA or FASTQ file(s) with contig(s)"/>
-    <param name="mash_input" type="data" optional="true" format="binary" label="Mash genome sketches (Optional)" help="Optionally provide MASH sketches to find closest genome (in case O/H typing fails)"/>
+    <param name="input" type="data"  format="fastq,fasta" label="Genome(s) input(s)" help="FASTA or FASTQ file(s)"/>
+    <param name="mash_input" type="data" optional="true" format="binary" label="Mash genome sketches (Optional)" help="Optionally provide custom MASH genome sketch to help with species identification (otherwise default RefSeq sketch is used)"/>
     <section name="adv_param" title="Advanced parameters" expanded="False">
       <param name="min_percentIdentity" type="integer" value="90" min="1" max="100"/>
-      <param name="percentLength" type="integer" value="50" min="1" max="100"/>
+      <param name="percentLength" type="integer" value="10" min="1" max="100"/>
       <param name="verifyEcoli" type="boolean" checked="true" label="Enable E. coli species verification"/>
       <param name="alleleSequence" type="boolean" checked="false" label="Print the allele sequences as the final columns of the output?"/> 
       <param name="logging" type="boolean" checked="false"  label="Include log file in the run outputs?" />
     </section>  
   </inputs>
   <outputs>
-    <data name="output_result" format="tabular" from_work_dir="output.tsv" label="${tool.name} serotype report"> </data> 
-    <data name="output_log" format="text" from_work_dir="ectyper.log" label="${tool.name} log file"> 
+    <data name="output_result" format="tabular" from_work_dir="output.tsv" label="${tool.name} serotype report on ${input.element_identifier}"> </data>
+    <data name="output_log" format="text" from_work_dir="ectyper.log" label="${tool.name} log file on ${input.element_identifier}">
         <filter>adv_param['logging']==True</filter>
     </data>   
   </outputs>
@@ -75,7 +75,9 @@
   <help>
 **Syntax**
 
-This tool identifies the serotype of Escherichia coli genome sequences based on a set of *wzm/wzt*, *wzx/wzy* and *fliC/flkA/flmA* alleles corresponding to O and H antigens, respectively. 
+This tool identifies the serotype of assembled or assembly-free Escherichia coli genome sample based on a set of either *wzm/wzt* or *wzx/wzy* and *fliC/flkA/flmA* alleles corresponding to O and H antigens, respectively.
+The non-E.coli genomes and other Escherichia genus species are successfully identified and well handled. The 0.9.0 version improves tool sensitivy when target alleles are truncated or
+poorly covered by raw reads.
 
 For more information please visit https://github.com/phac-nml/ecoli_serotyping. 
 
@@ -83,9 +85,11 @@ For more information please visit https://github.com/phac-nml/ecoli_serotyping.
 
 **Input:**
 
-Accepts a variety of inputs including single or multiple FASTQ and/or FASTA file(s). Inputs might contain pure raw reads, but for more accurate results draft assemblies are recommended. 
+Accepts a variety of inputs including both single and/or multiple FASTQ and/or FASTA file(s). Inputs might contain pure raw reads, but for more accurate results, draft assemblies are recommended.
 
-Optionally select a MASH RefSeq genome sketch (version 2.0 and above) for cases when O/H typing would fail. Download RefSeq genome sketch containing 91,283 genomes with 1000 hashes each directly from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh . 
+The default MASH RefSeq genome sketch is included and updated every 6 months, but one can supply custom sketch file for species identification.
+
+One can download RefSeq genome sketch containing approximately 91,283 genomes from https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh.
 
 **Output:**
 

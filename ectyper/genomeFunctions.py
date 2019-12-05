@@ -98,26 +98,25 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     :param files: All the fasta files for analyses
     :param temp_dir: The ectyper temp directory
     :param args: Commandline arguments
-    :return: List of files with fasta headers modified for filename
+    :return: Dictionary of files with the fasta headers modified for each filename {sampleid: {species:"","filepath":"","modheaderfile":"","error":""}}
     """
     files=[]
-    for sample in files_dict.keys(): #{'Escherichia_O26H11': {'species': 'Escherichia coli', 'filepath': '/Data/Escherichia_O26H11.fasta'}}
+    for sample in files_dict.keys(): # files_dict = {'Escherichia_O26H11': {'species': 'Escherichia coli', 'filepath': '/Data/Escherichia_O26H11.fasta'}}
        files.append(files_dict[sample]["filepath"])
-    #modified_genomes = []
+
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
+
 
     with Pool(processes=args.cores) as pool:
         (results)= pool.map(partial_ghw, files)
-        #print(results)
 
         for r in results:
             sample=r["samplename"]
             files_dict[sample]["modheaderfile"] = r["newfile"]
             #modified_genomes.append(r)
-
     modified_genomes = [files_dict[samples]["modheaderfile"] for samples in files_dict.keys()]
     LOG.debug(("Modified genomes: {}".format(modified_genomes)))
-    #return modified_genomes
+
     return files_dict
 
 def genome_header_wrapper(file, temp_dir):

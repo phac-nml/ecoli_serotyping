@@ -54,7 +54,7 @@ def get_refseq_mash():
                 if response.status_code == 200:
                   with portalocker.Lock(filename=targetpath, mode="wb", flags=portalocker.LOCK_EX) as fp:
                       fp.write(response.content); fp.flush()
-                  download_RefSeq_assembly_summary()
+                  download_assembly_summary()
             except Exception as e:
                 LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,e))
                 pass
@@ -70,32 +70,37 @@ def get_refseq_mash():
     else:
         assemblysummarypath = os.path.join(os.path.dirname(__file__), "Data/assembly_summary_refseq.txt")
         if os.path.exists(assemblysummarypath) == False:
-            download_RefSeq_assembly_summary()
-        LOG.info("RefSeq sketch is in good health and does not need to be downloaded")
+            download_assembly_summary()
+        LOG.info("RefSeq sketch (refseq.genomes.k21s1000.msh) and assembly meta data (assembly_summary_refseq.txt) is in good health and does not need to be downloaded")
         return True
 
-def download_RefSeq_assembly_summary():
-    url = "http://ftp.ncbi.nlm.nih.gov/genomes/refseq/assembly_summary_refseq.txt"
-    targetpath = os.path.join(os.path.dirname(__file__), "Data/assembly_summary_refseq.txt")
+def download_assembly_summary():
+    sourceurls = {"assembly_summary_refseq.txt":"http://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/assembly_summary_refseq.txt"}
+
     try:
-        response = requests.get(url, timeout=10, verify=False)
-        response.raise_for_status()
+        for targetfile, url in sourceurls.items():
+            targetpath = os.path.join(os.path.dirname(__file__), "Data/"+targetfile)
+            response = requests.get(url, timeout=10, verify=False)
+            response.raise_for_status()
 
+            if response.status_code == 200:
+                with portalocker.Lock(filename=targetpath, mode="w", flags=portalocker.LOCK_EX) as fp:
+                    fp.write(response.text); fp.flush()
+                LOG.info("Successfully downloaded {} with response code {}".format(targetfile, response.status_code))
+            else:
+                LOG.critical("Server response error {}. Failed to download {}".format(response.status_code,targetfile))
 
-        if response.status_code == 200:
-            with portalocker.Lock(filename=targetpath, mode="w", flags=portalocker.LOCK_EX) as fp:
-                fp.write(response.text); fp.flush()
-            LOG.info("Successfully downloaded assembly_summary_refseq.txt".format(response.status_code))
-        else:
-            LOG.critical("Server response error {}. Failed to download assembly_summary_refseq.txt".format(response.status_code))
+            if not os.path.exists(targetpath):
+                exit(1)
+                LOG.critical("The {} file does not exist or is corrupted at {} path".format(targetfile, targetpath))
 
     except Exception as e:
-        LOG.critical("Failed to download or write to a disk assembly_summary_refseq.txt from {}.\nError msg {}".format(url, str(e)))
+        print(e)
+        LOG.critical("Failed to download or write to a disk assembly_summary_genbank.txt or assembly_summary_refseq.txt.\nError msg {}".format(str(e)))
         pass
 
-    if (os.path.exists(targetpath)) == False or os.path.getsize(targetpath) < 54000000:
-        exit(1)
-        LOG.critical("The assembly_summary_refseq.txt file does not exist or is corrupted at {} path".format(targetpath))
+
+
 
 def is_ecoli(genome_file, temp_dir):
     """
@@ -105,6 +110,7 @@ def is_ecoli(genome_file, temp_dir):
     :param temp_dir: ectyper run temp_dir
     :return: True or False
     """
+    LOG.info("Verifying if sample is a valid E.coli genome based on the 10 markers")
     num_hit = get_num_hits(genome_file, temp_dir)
 
     if num_hit < 3:
@@ -117,6 +123,7 @@ def is_ecoli(genome_file, temp_dir):
             "present".format(os.path.basename(genome_file)))
         return False
     else:
+        LOG.info("Samples is a valid E.coli genome based on the {} markers".format(num_hit))
         return True
 
 def is_escherichia_genus(speciesname):
@@ -204,34 +211,63 @@ def get_species(file, args):
 
     head_cmd = [
         'head',
-        '-n', '1'
+        '-n', '5'
     ]
 
     head_output = subprocess_util.run_subprocess(head_cmd,
                                                  input_data=sort_output.stdout)
-    top_hit = head_output.stdout.decode("utf-8").split()
-    top_match = top_hit[0]; top_match_dist = top_hit[2]; top_match_hashratio = top_hit[4]
+    top_hit_lines = head_output.stdout.decode("utf-8").split('\n')
 
-    LOG.info("MASH species RefSeq top hit {} with distance {} and shared hashes ratio {}".format(top_match,top_match_dist,top_match_hashratio))
+    LOG.info("Following top hits returned by MASH {}".format([top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines]))
 
-    m = re.match(r"(GCF_\d+)", top_match)
-    #refseq_key = None
-    if m:
-        refseq_key = m.group(1)
-    else:
-        LOG.critical("Unknown key from MASH species search")
-        return("Undetermined species. Could not map genome accession #{} to species".format(top_match))
-        #exit("MASH error")
+    for top_hit_line in top_hit_lines:
+        top_hit_line_elements = top_hit_line.split()
 
-    LOG.info(refseq_key)
-    grep_cmd = [
-        'grep',
-        refseq_key,
-        definitions.REFSEQ_SUMMARY
-    ]
-    grep_output = subprocess_util.run_subprocess(grep_cmd)
 
-    species = grep_output.stdout.decode("utf-8").split('\t')[7]
+        top_match = top_hit_line_elements[0]; top_match_dist = top_hit_line_elements[2]; top_match_hashratio = top_hit_line_elements[4]
+
+        m = re.match(r"(GCF_\d+)", top_match)
+
+        top_match_hashratio_tuple = re.findall('(\d+)\/(\d+)', top_match_hashratio)[0]
+        top_match_sharedhashes = int(top_match_hashratio_tuple[0])
+
+        if m:
+            refseq_key = m.group(1)
+        else:
+            LOG.warning("Could not detemine species based on MASH Distance"
+                        "Could not extract GCF_# accession number from the MASH dist results.".format(top_match))
+            continue #try other top match
+
+        if m is None or top_match_sharedhashes < 100:
+            LOG.warning("\nCould not detemine species based on MASH Distance.\n"
+                        "Either:\n"
+                        "1. MASH sketch meta data accessions do not start with GCF_ prefix or\n"
+                        "2. Number of shared hashes to reference is below 100.\n"
+                        "3. Meta data can not match none of the top 5 RefSeq accession numbers\n"
+                        "Found {} shared hashes to {}".format(top_match_hashratio,top_match))
+            species = "-" # if after 10 IDs still no accession number match, give up
+            return species
+
+        LOG.info(refseq_key)
+        grep_cmd = [
+            'grep',
+            refseq_key,
+            definitions.REFSEQ_SUMMARY
+        ]
+        grep_output = subprocess_util.run_subprocess(grep_cmd, ignorereturncode=True)
+        grep_output_decoded = grep_output.stdout.decode("utf-8").split('\t')
+
+        if grep_output_decoded and len(grep_output_decoded) >= 8:
+            species = grep_output.stdout.decode("utf-8").split('\t')[7]
+        else:
+            species = "-"
+
+        if not species == "-":
+            break  #no need to continue looping if top hit species is found
+
+    LOG.info(
+        "MASH species RefSeq top hit {} with distance {} and shared hashes ratio {}".format(top_match, top_match_dist,
+                                                                                            top_match_hashratio))
     LOG.info("MASH dist predicted species name: {}".format(species))
 
     return species
@@ -257,7 +293,7 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
     ecoli_files_dict = {}
     other_files_dict = {}
 
-    fasta_files= fasta_fastq_files_dict.keys()
+    fasta_files = fasta_fastq_files_dict.keys()
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
 
@@ -277,20 +313,30 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
 
         if args.verify:
             if is_ecoli(fasta, temp_dir):
-                #ecoli_files.append(f)
                 ecoli_files_dict[sampleName] = {"species":"Escherichia coli","filepath":fasta,"error":"-"}
             #elif is_shigella(f, speciesname, args):
             #    other_files_dict[sampleName] = {"species": speciesname, "filepath": f}
             elif is_escherichia_genus(speciesname):
                 ecoli_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":"This sample belongs to Escherichia genus so serotyping results might not be accurate"}
             else:
-                if args.refseq:
-                    other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":"-"}
-                else:
-                    other_files_dict[sampleName] = {"species":"Non-Ecoli", "error":"Failed E. coli species confirmation based on 10 E.coli specific markers"}
+                #if args.refseq:
+                #    other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":"-"}
+                #else:
+                other_files_dict[sampleName] = {"species":speciesname, "error":"Failed E.coli species confirmation based on 10 E.coli specific markers"}
         else:
             #ecoli_files.append(f)
-            ecoli_files_dict[fasta] = {"species":speciesname,"filepath":fasta}
+            #Withouth --verify assume all input genomes are E.coli and try to type them regardless of MASH result
+            if re.match("Escherichia", speciesname):
+                ecoli_files_dict[sampleName] = {"species":speciesname,"filepath":fasta, "error": "-"}
+            elif speciesname == "-":
+                other_files_dict[sampleName] = {"species": speciesname,
+                                                "error": "MASH dist species determination was not successful"}
+
+                ecoli_files_dict[sampleName]["error"] = "MASH dist species determination was not successful.\n" \
+                                                         "Try running ECTyper with the --verify switch instead"
+            else:
+                other_files_dict[sampleName] = {"species": speciesname, "filepath": fasta, "error": "Non-Ecoli"}
+
 
     for bf in ofiles:
         sampleName = getSampleName(bf)
