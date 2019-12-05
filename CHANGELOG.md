@@ -27,10 +27,6 @@ Did not found any noticeable negative effect on specificity and accuracy based o
 * Implemented better species identification error handling for cases when accession number
 is not found in the assembly stats. This is especially important for custom
 MASH sketches that might have accession numbers not found in `assembly_summary.txt`  stats file
-* Added `--assemblystats` command line flag for cases when user will supply its own MASH sketch for species 
-identification
-* Replaced the `assembly_stats.txt` file with the GenBank equivalent as
-some of RefSeq sequences found in the MASH sketch were removed and GenBank is a superset 
-that covers all accessions found in sketch
-* added `--assemblername` flag to allow to assemble raw reads via 
-`Shovill`, `Spades`, `Canu`, `Unicycler` assembler.
+* Corrected issues #76 and 77. Improved behaviour in case of no `--verify` switch is 
+specified and MASH distance to RefSeq genomes fails
+* Added additional test cases for non-E.coli genomes
