@@ -136,7 +136,7 @@ def test_mash_sketch_and_assembly_metadata():
     """
     ectyper.speciesIdentification.get_refseq_mash()
     ROOT_DIR = os.path.abspath(os.path.join(TEST_ROOT, '..'))
-    MASHSTATSMETAFILE=os.path.join(TEST_ROOT+"/tmp/mash_refseq_meta.txt")
+    MASHSTATSMETAFILE=os.path.join(TEST_ROOT+"/mash_refseq_meta.txt")
     MASHINFILE = os.path.join(ROOT_DIR, 'ectyper/Data/refseq.genomes.k21s1000.msh')
     ASSEMBLYREFSEQMETAFILE = os.path.join(ROOT_DIR, 'ectyper/Data/assembly_summary_refseq.txt')
 
