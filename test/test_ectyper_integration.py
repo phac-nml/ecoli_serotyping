@@ -143,7 +143,7 @@ def test_mash_sketch_and_assembly_metadata():
 
     cmd = ["mash info -t " +  MASHINFILE   + " > " + MASHSTATSMETAFILE]
     print("File written to {}".format(MASHSTATSMETAFILE))
-    #subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, shell=True)
     mashsketchdatadf = pandas.read_csv(MASHSTATSMETAFILE,sep="\t")
     mashaccessions=[re.findall("(GCF_\d+)\.+",item)[0] for item in mashsketchdatadf.iloc[:,2].values.tolist()]
     LOG.info("Extracted {} MASH RefSeq accessions".format(len(mashaccessions)))
