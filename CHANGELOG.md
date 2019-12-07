@@ -23,3 +23,10 @@ Did not found any noticeable negative effect on specificity and accuracy based o
 * wrote additional unit tests
 
 
+**v0.9.1**
+* Implemented better species identification error handling for cases when accession number
+is not found in the assembly stats. This is especially important for custom
+MASH sketches that might have accession numbers not found in `assembly_summary.txt`  stats file
+* Corrected issues #76 and 77. Improved behaviour in case of no `--verify` switch is 
+specified and MASH distance to RefSeq genomes fails
+* Added additional test cases for non-E.coli genomes
