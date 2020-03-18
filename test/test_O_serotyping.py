@@ -248,15 +248,3 @@ def test_Ecoli_O17H18(caplog):
     assert "Escherichia coli\tO17\tH18\tO17:H18\tPASS\tHIGH" in secondrow
 
 
-def test_EalbertiIrregular():
-    '''
-    These strains were typed as E.coli
-    :return:
-    '''
-    file = '/Users/kirill/WORK/ECTyper/results/EalbertiiGenomes/DRR017165.fa'
-    #customsketchfile='/Users/kirill/WORK/ECTyper/ecoli_serotyping/test/Data/test_sketch.msh'
-    set_input(input=file, cores=4, print_sequence=False, verify=True, debug=False, output="/Users/kirill/Desktop")
-    ectyper.run_program()
-
-    #SRR6821037	Escherichia coli	O102	H6	O102:H6
-    #SRR6826356	Escherichia coli	-	H31	-:H31
