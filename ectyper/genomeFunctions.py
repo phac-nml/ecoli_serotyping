@@ -328,9 +328,6 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
         for item in iterator:
             all_fasta_files_dict[item["fasta_file"]]=item["fastq_file"]
 
-   #     for r in results:
-   #         all_fasta_files.append(r)
-
     return all_fasta_files_dict
 
 

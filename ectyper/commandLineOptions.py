@@ -67,8 +67,8 @@ def parse_command_line(args=None):
         "-l",
         "--percentLength",
         type=check_percentage,
-        help="Percent length required for an allele match [default 10]",
-        default=10
+        help="Percent length required for an allele match [default 45]",
+        default=45
     )
 
     parser.add_argument(

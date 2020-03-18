@@ -10,9 +10,10 @@ TEST_ROOT = os.path.dirname(__file__)
 def set_input(input,
               percent_iden=None,
               output=tempfile.mkdtemp(),
+              customsketchfile=None,
               cores=1,
               print_sequence=False,
-              sketchpath=False,
+              verify=False,
               debug=False):
     """
     Create the sys.argv[] without need for commandline input.
@@ -22,17 +23,18 @@ def set_input(input,
     :return: None
     """
     args = ['-i', input,
-            '--verify',
             '-c', str(cores)
             ]
-    if sketchpath:
-        args+=['-r', os.path.join(TEST_ROOT, 'Data/refseqsketch/refseq.genomes.k21s1000.msh')]
+    if verify:
+        args+=['--verify']
     if percent_iden:
         args += ['-d', str(percent_iden)]
     if output:
         args += ['-o', output]
     if print_sequence:
         args += ['--sequence']
+    if customsketchfile:
+        args += ['-r', customsketchfile]
     if debug:
         args+=['--debug']
     sys.argv[1:] = args
@@ -46,7 +48,7 @@ def test_Otyping(caplog):
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT, 'Data/Escherichia_O26H11.fasta')#+","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
     tmpdir=tempfile.mkdtemp()
-    set_input(input=file,cores=4,print_sequence=True, output=tmpdir)
+    set_input(input=file,cores=4,print_sequence=True, verify=True, output=tmpdir, debug=False)
 
     ectyper.run_program()
 
@@ -141,7 +143,7 @@ def test_Shigella_typing(caplog):
     file = os.path.join(TEST_ROOT,
                         'Data/DRR015915_Shigella_boydii.fasta')  # +","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=True, verify=True, output=tmpdir)
     ectyper.run_program()
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
@@ -161,7 +163,7 @@ def test_mixofspecies(caplog):
                         'Data/Campylobacter.fasta') +","+os.path.join(TEST_ROOT, 'Data/Salmonella.fasta')+","\
                          + os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=True, output=tmpdir)
 
     ectyper.run_program()
 
@@ -189,7 +191,7 @@ def test_Ealbertii_1(caplog): #error
     file = os.path.join(TEST_ROOT,
                         'Data/ESC_HA8355AA_AS_Ealberii_O65H5.fasta')
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=True,  output=tmpdir)
 
     ectyper.run_program()
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
@@ -204,7 +206,7 @@ def test_Ealbertii_2(): #error
     file = os.path.join(TEST_ROOT,
                         'Data/ESC_HA8509AA_AS_EalbertiiO5H5.fasta')
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=True, output=tmpdir)
     ectyper.run_program()
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
@@ -220,7 +222,7 @@ def test_Ealbertii_3(caplog):
                         'Data/Ealbertii_O49NM.fasta')
 
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, sketchpath=False, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=True,  output=tmpdir)
     ectyper.run_program()
 
     with open(os.path.join(tmpdir ,"output.tsv")) as outfp:
@@ -235,7 +237,7 @@ def test_Ecoli_O17H18(caplog):
     file = os.path.join(TEST_ROOT,
                         'Data/EscherichiaO17H18.fasta')
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=False, sketchpath=False,debug=True, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=False, verify=True, debug=True, output=tmpdir)
 
     ectyper.run_program()
 
@@ -246,13 +248,15 @@ def test_Ecoli_O17H18(caplog):
     assert "Escherichia coli\tO17\tH18\tO17:H18\tPASS\tHIGH" in secondrow
 
 
-# def test_EC20151996():
-#     file = os.path.join(TEST_ROOT,
-#                         'Data/EC20151996rawreads.fastq')
-#     set_input(input=file, cores=4, print_sequence=False, sketchpath=False, debug=True)
-#     ectyper.run_program()
-#     with open(os.path.join(TEST_ROOT,"tmp/output.tsv")) as outfp:
-#          rows = outfp.readlines()
-#     secondrow=rows[1:][0] #remove header line
-#     print(secondrow)
-#     assert "EC20151996rawreads\tEscherichia albertii\tO3\tH17\tO3:H17\tNA\t-\tBased on 3 allele(s)" in secondrow
+def test_EalbertiIrregular():
+    '''
+    These strains were typed as E.coli
+    :return:
+    '''
+    file = '/Users/kirill/WORK/ECTyper/results/EalbertiiGenomes/DRR017165.fa'
+    #customsketchfile='/Users/kirill/WORK/ECTyper/ecoli_serotyping/test/Data/test_sketch.msh'
+    set_input(input=file, cores=4, print_sequence=False, verify=True, debug=False, output="/Users/kirill/Desktop")
+    ectyper.run_program()
+
+    #SRR6821037	Escherichia coli	O102	H6	O102:H6
+    #SRR6826356	Escherichia coli	-	H31	-:H31

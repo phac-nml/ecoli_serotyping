@@ -48,12 +48,13 @@ def run_program():
     LOG.info("Output_directory is {}".format(output_directory))
     LOG.info("Command-line arguments {}".format(args))
 
-    #init RefSeq database for species identification
+    # Init RefSeq database for species identification
     if speciesIdentification.get_refseq_mash() == False:
         LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
         exit("No MASH RefSeq sketch file found in the default location")
-    # Initialize ectyper directory for the scope of this program
 
+
+    # Initialize ectyper temporary directory for the scope of this program (it will be deleted when program ends)
     with tempfile.TemporaryDirectory(dir=output_directory) as temp_dir:
         LOG.info("Gathering genome files")
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
@@ -68,8 +69,7 @@ def run_program():
             genomeFunctions.create_combined_alleles_and_markers_file(
                 alleles_fasta, temp_dir)
 
-        #print(combined_fasta);
-        time.sleep(100)
+
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
                                                          combined_fasta) if \
                                                          raw_files_dict['fastq'] else None
@@ -92,8 +92,7 @@ def run_program():
 
 
 
-        LOG.info("Standardizing the E.coli genome headers based on file names") #e.g. lcl|Escherichia_O26H11|17
-        #final_fasta_files \
+        LOG.info("Standardizing the E.coli genome headers based on file names")
         predictions_dict={}
         if ecoli_genomes_dict:
             ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
@@ -101,8 +100,8 @@ def run_program():
                 temp_dir,
                 args
                 )
-            # Main prediction function
-            predictions_dict = run_prediction(ecoli_genomes_dict, #final_fasta_files
+            # Run main prediction function
+            predictions_dict = run_prediction(ecoli_genomes_dict,
                                           args,
                                           alleles_fasta,
                                           temp_dir)
@@ -112,7 +111,7 @@ def run_program():
             raw_genome_files, predictions_dict, other_genomes_dict, ecoli_genomes_dict)
 
         # Store most recent result in working directory
-        LOG.info("Reporting results:\n")
+        LOG.info("Reporting results:")
 
         predictionFunctions.report_result(final_predictions, output_directory,
                                           os.path.join(output_directory,
@@ -140,7 +139,6 @@ def create_output_directory(output_dir):
         ])
         out_dir = os.path.join(definitions.WORKPLACE_DIR, date_dir)
     else:
-        #print(output_dir)
         if os.path.isabs(output_dir):
             out_dir = output_dir
         else:
@@ -212,6 +210,7 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir):
         try:
             predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]
             predictions_dict[genome_name]["error"] = genome_files_dict[genome_name]["error"]
+            predictions_dict[genome_name]["ecolimarkers"] = genome_files_dict[genome_name]['ecolimarkers']
         except KeyError as e:
             predictions_dict[genome_name]["error"] = "Error: "+str(e)+" in "+genome_name
 

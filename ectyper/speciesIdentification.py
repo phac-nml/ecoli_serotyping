@@ -102,7 +102,7 @@ def download_assembly_summary():
 
 
 
-def is_ecoli(genome_file, temp_dir):
+def is_ecoli(genome_file, temp_dir,ecolidict):
     """
     Checks whether the given genome is E. coli or not
 
@@ -110,24 +110,26 @@ def is_ecoli(genome_file, temp_dir):
     :param temp_dir: ectyper run temp_dir
     :return: True or False
     """
-    LOG.info("Verifying if sample is a valid E.coli genome based on the 10 markers")
+    LOG.info("Verifying if sample is a valid E.coli genome based on the 10 E.coli specific markers")
     num_hit = get_num_hits(genome_file, temp_dir)
+    ecolidict["nhitsmarkers"] = num_hit
 
-    if num_hit < 3:
+    if num_hit < 9:
         LOG.warning(
-            "{0} is identified as an invalid E. coli genome "
+            "{0} is identified as an invalid E. coli genome.\nOnly {1} out of 10 E.coli specific markers were identified "
             "by the marker approach of "
             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866"
             "-016-0680-0#Tab3"
-            " where at least three E. coli specific markers must be "
-            "present".format(os.path.basename(genome_file)))
+            " where at least 9 out of 10 E. coli specific markers must be "
+            "present for a given genome to be considered E.coli".format(os.path.basename(genome_file), num_hit))
         return False
     else:
         LOG.info("Samples is a valid E.coli genome based on the {} markers".format(num_hit))
         return True
 
+
 def is_escherichia_genus(speciesname):
-    if re.match("Escherichia",speciesname):
+    if re.match(r"Escherichia",speciesname):
         return  True
     else:
         return  False
@@ -170,8 +172,9 @@ def get_num_hits(target, temp_dir):
 
         with open(result_file) as handler:
             LOG.debug("get_num_hits() output:")
+            LOG.debug("qseqid\tqlen\tsseqid\tlength\tpident\tsstart\tsend\tsframe")
             for line in handler:
-                LOG.debug(line)
+                LOG.debug(line.strip())
                 num_hit += 1
         LOG.debug("{0} aligned to {1} marker sequences".format(target, num_hit))
 
@@ -188,6 +191,8 @@ def get_species(file, args):
     Returns:
         str: name of estimated species
     """
+
+    top_match="-"; top_match_dist="-"; top_match_hashratio="-"; species="-"
     mash_cmd = [
         'mash', 'dist',
         args.refseq,
@@ -218,17 +223,26 @@ def get_species(file, args):
                                                  input_data=sort_output.stdout)
     top_hit_lines = head_output.stdout.decode("utf-8").split('\n')
 
-    LOG.info("Following top hits returned by MASH {}".format([top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines]))
+
+    if len(top_hit_lines) < 1:
+        LOG.warning("No hits returned by mash sketch search. Species identification failed!")
+    else:
+        LOG.info("Following top hits returned by MASH {}".format([top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines]))
+
 
     for top_hit_line in top_hit_lines:
+
         top_hit_line_elements = top_hit_line.split()
 
+        if len(top_hit_line_elements) < 5:
+            LOG.warning("No columns in the mash results ouptut to split. Species identification failed!")
+            continue
 
         top_match = top_hit_line_elements[0]; top_match_dist = top_hit_line_elements[2]; top_match_hashratio = top_hit_line_elements[4]
 
         m = re.match(r"(GCF_\d+)", top_match)
 
-        top_match_hashratio_tuple = re.findall('(\d+)\/(\d+)', top_match_hashratio)[0]
+        top_match_hashratio_tuple = re.findall(r'(\d+)\/(\d+)', top_match_hashratio)[0]
         top_match_sharedhashes = int(top_match_hashratio_tuple[0])
 
         if m:
@@ -239,13 +253,13 @@ def get_species(file, args):
             continue #try other top match
 
         if m is None or top_match_sharedhashes < 100:
-            LOG.warning("\nCould not detemine species based on MASH Distance.\n"
+            LOG.warning("\nTop MASH sketch hit {} with {} shared hashes."
+                        "\nCould not assign species based on MASH distance to reference sketch file.\n"
                         "Either:\n"
-                        "1. MASH sketch meta data accessions do not start with GCF_ prefix or\n"
-                        "2. Number of shared hashes to reference is below 100.\n"
-                        "3. Meta data can not match none of the top 5 RefSeq accession numbers\n"
-                        "Found {} shared hashes to {}".format(top_match_hashratio,top_match))
-            species = "-" # if after 10 IDs still no accession number match, give up
+                        "1. MASH sketch meta data accessions do not start with the GCF_ prefix or\n"
+                        "2. Number of shared hashes to reference is less than 100 (i.e. too distant).\n"
+                        .format(top_match,top_match_hashratio))
+            species = "-" # if after top 10 genome IDs still no accession number match, give up
             return species
 
         LOG.info(refseq_key)
@@ -296,47 +310,38 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
     fasta_files = fasta_fastq_files_dict.keys()
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
+        speciesname = "-"
+        numofecolimarkers = {"ecolimarkers": 0} #number of E.coli specific markers
 
-        if args.refseq:
-            if fasta_fastq_files_dict[fasta]:
-                fastq_file = fasta_fastq_files_dict[fasta]
-                speciesname = get_species(fastq_file, args) #would like to submit entire fastq file for more accurate species identification instead of allele-based fasta surrogate
-            else:
-                speciesname = get_species(fasta, args)
-        else:   #if user does not specify a RefSeq sketch, use the default one
-            args.refseq = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh") #default sketch
+        if args.verify:
+
+            # assign the default RefSeq sketch if none is specified
+            if args.refseq == None:
+                args.refseq = os.path.join(os.path.dirname(__file__),
+                                           "Data/refseq.genomes.k21s1000.msh")
+
+            #do species prediction of fastq files if available for better accuracy
             if fasta_fastq_files_dict[fasta]:
                 fastq_file = fasta_fastq_files_dict[fasta]
                 speciesname = get_species(fastq_file, args)
             else:
                 speciesname = get_species(fasta, args)
 
-        if args.verify:
-            if is_ecoli(fasta, temp_dir):
-                ecoli_files_dict[sampleName] = {"species":"Escherichia coli","filepath":fasta,"error":"-"}
-            #elif is_shigella(f, speciesname, args):
-            #    other_files_dict[sampleName] = {"species": speciesname, "filepath": f}
+            failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples"
+            if re.match("Escherichia coli", speciesname):
+                numofecolimarkers["ecolimarkers"] = get_num_hits(fasta,temp_dir) #get number of E.coli markers
+                ecoli_files_dict[sampleName] = {"species":speciesname,"ecolimarkers":numofecolimarkers["ecolimarkers"],
+                                                "filepath":fasta, "error": "-"}
+            elif is_ecoli(fasta, temp_dir,numofecolimarkers):
+                ecoli_files_dict[sampleName] = {"species":"Escherichia coli", "ecolimarkers":numofecolimarkers["ecolimarkers"],
+                                                "filepath":fasta,"error":failverifyerrormessage}
             elif is_escherichia_genus(speciesname):
-                ecoli_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":"This sample belongs to Escherichia genus so serotyping results might not be accurate"}
+                other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
             else:
-                #if args.refseq:
-                #    other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":"-"}
-                #else:
-                other_files_dict[sampleName] = {"species":speciesname, "error":"Failed E.coli species confirmation based on 10 E.coli specific markers"}
+                other_files_dict[sampleName] = {"species":speciesname, "error":failverifyerrormessage}
         else:
-            #ecoli_files.append(f)
-            #Withouth --verify assume all input genomes are E.coli and try to type them regardless of MASH result
-            if re.match("Escherichia", speciesname):
-                ecoli_files_dict[sampleName] = {"species":speciesname,"filepath":fasta, "error": "-"}
-            elif speciesname == "-":
-                other_files_dict[sampleName] = {"species": speciesname,
-                                                "error": "MASH dist species determination was not successful"}
-
-                ecoli_files_dict[sampleName]["error"] = "MASH dist species determination was not successful.\n" \
-                                                         "Try running ECTyper with the --verify switch instead"
-            else:
-                other_files_dict[sampleName] = {"species": speciesname, "filepath": fasta, "error": "Non-Ecoli"}
-
+            ecoli_files_dict[sampleName] = {"species": speciesname,"nmarkers":numofecolimarkers["nmarkers"],
+                                            "filepath": fasta, "error": "-"}
 
     for bf in ofiles:
         sampleName = getSampleName(bf)

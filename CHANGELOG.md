@@ -30,3 +30,12 @@ MASH sketches that might have accession numbers not found in `assembly_summary.t
 * Corrected issues #76 and 77. Improved behaviour in case of no `--verify` switch is 
 specified and MASH distance to RefSeq genomes fails
 * Added additional test cases for non-E.coli genomes
+
+**v1.0.0**
+* Updated database of the reference alleles removing truncated and overlapping alleles for greater speed and accuracy
+* Simplified report output removing confidence score categories
+* Changed `--verify` flag logic. 
+  * Now species verification via MASH distance to RefSeq genomes and E.coli specific alleles is done only if `--verify`
+parameter is specified. 
+  * If `--verify` is not specified, all input genomes are treated as E.coli without doing any species verification
+  
