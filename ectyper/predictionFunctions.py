@@ -284,11 +284,12 @@ def quality_control_results(sample, final_results_dict):
     Otype = "-"; Htype = "-"
 
     numalleles = 0
+   
     if "O" in final_results_dict[sample]:
-        Otype=final_results_dict[sample]["O"]
+        Otype=final_results_dict[sample]["O"]["serogroup"]
         numalleles += len(final_results_dict[sample]["H"]["alleles"].keys())
     if "H" in final_results_dict[sample]:
-        Htype=final_results_dict[sample]["H"]
+        Htype=final_results_dict[sample]["H"]["serogroup"]
         numalleles += len(final_results_dict[sample]["O"]["alleles"].keys())
 
     species=final_results_dict[sample]["species"]
@@ -301,6 +302,7 @@ def quality_control_results(sample, final_results_dict):
         QCflag = "FAIL"
     else:
         QCflag = "PASS"
+
 
     return {"QCflag":QCflag,"NumberOfAlleles":numalleles}
 
