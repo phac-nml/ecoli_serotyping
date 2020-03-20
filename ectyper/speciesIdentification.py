@@ -208,8 +208,8 @@ def get_species(file, args):
                                                  input_data=mash_output.stdout)
 
     if args.debug:
-        LOG.debug("Wrote MASH output at {}".format(os.getcwd()))
-        with open(file="mash_output.txt", mode="w") as fp:
+        LOG.debug("Wrote MASH against reference sketch results to {}".format(args.output))
+        with open(file=args.output+"/mash_output.txt", mode="w") as fp:
             fp.write(sort_output.stdout.decode("utf-8"))
         fp.close()
 
@@ -293,7 +293,7 @@ def getSampleName(file):
     n_name = file_path_name.replace(' ', '_')  # sample name
     return n_name
 
-def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
+def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
     """
     Verifying the _E. coli_-ness of the genome files
     :param fasta_files: [] of all fasta files
@@ -306,6 +306,7 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
     #ecoli_files = []
     ecoli_files_dict = {}
     other_files_dict = {}
+    filesnotfound_dict = {}
 
     fasta_files = fasta_fastq_files_dict.keys()
     for fasta in fasta_files:
@@ -340,7 +341,8 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
             else:
                 other_files_dict[sampleName] = {"species":speciesname, "error":failverifyerrormessage}
         else:
-            ecoli_files_dict[sampleName] = {"species": speciesname,"nmarkers":numofecolimarkers["nmarkers"],
+            numofecolimarkers["ecolimarkers"] = get_num_hits(fasta, temp_dir)  # get number of E.coli markers
+            ecoli_files_dict[sampleName] = {"species": speciesname,"ecolimarkers":numofecolimarkers["ecolimarkers"],
                                             "filepath": fasta, "error": "-"}
 
     for bf in ofiles:
@@ -348,4 +350,8 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, args, temp_dir):
         LOG.warning("Non fasta / fastq file")
         other_files_dict[sampleName] = {"error":"Non fasta / fastq file","filepath":bf,"species":"-"}
 
-    return ecoli_files_dict, other_files_dict
+    for file in filesnotfound:
+        sampleName = getSampleName(file)
+        filesnotfound_dict[sampleName]={"error":"File {} not found!".format(file)}
+
+    return ecoli_files_dict, other_files_dict,filesnotfound_dict

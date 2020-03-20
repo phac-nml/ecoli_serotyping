@@ -60,9 +60,11 @@ def run_program():
         raw_genome_files = genomeFunctions.get_files_as_list(args.input)
 
         LOG.info("Identifying genome file types")
-        # 'fasta'=[], 'fastq'=[], 'other'=[]
+
         raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
                                                             args)
+
+
         alleles_fasta = create_alleles_fasta_file(temp_dir)
 
         combined_fasta = \
@@ -84,12 +86,12 @@ def run_program():
 
         # Verify we have at least one fasta file. Optionally species ID.
         # Get a tuple of ecoli and other genomes
-        (ecoli_genomes_dict, other_genomes_dict) = speciesIdentification.verify_ecoli(
+        (ecoli_genomes_dict, other_genomes_dict, filesnotfound_dict) = speciesIdentification.verify_ecoli(
             all_fastafastq_files_dict,
             raw_files_dict['other'],
+            raw_files_dict['filesnotfound'],
             args,
             temp_dir)
-
 
 
         LOG.info("Standardizing the E.coli genome headers based on file names")
@@ -106,9 +108,10 @@ def run_program():
                                           alleles_fasta,
                                           temp_dir)
 
+
         # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
         final_predictions = predictionFunctions.add_non_predicted(
-            raw_genome_files, predictions_dict, other_genomes_dict, ecoli_genomes_dict)
+            raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
 
         # Store most recent result in working directory
         LOG.info("Reporting results:")
@@ -128,7 +131,7 @@ def create_output_directory(output_dir):
     """
     # If no output directory is specified for the run, create a one based on
     # time
-    out_dir = None
+
 
     if output_dir is None:
         date_dir = ''.join([
@@ -258,9 +261,12 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir):
 
         LOG.debug(
             "Starting serotype prediction for database {}".format(g_group))
-        db_prediction_dict = predictionFunctions.predict_serotype(
+        db_prediction_dict, blast_output_df = predictionFunctions.predict_serotype(
             blast_output_file,
             definitions.SEROTYPE_ALLELE_JSON,
             args)
 
+        blast_output_file_path = args.output+"/blast_output_alleles.txt"
+        blast_output_df.to_csv(blast_output_file_path , sep="\t")
+        LOG.info("BLAST output file against reference alleles is written at {}".format(blast_output_file_path))
         return db_prediction_dict

@@ -47,6 +47,7 @@ def get_files_as_list(file_or_directory):
             LOG.info("Using genomes in file " + file_or_directory)
             files_list.append(os.path.abspath(file_or_directory))
 
+
     if not files_list:
         LOG.critical("No files were found for the ectyper run")
         exit("No files were found")
@@ -77,8 +78,8 @@ def get_file_format(file):
                         return 'other'
                     return fm
         except FileNotFoundError:
-            LOG.warning("{0} is not found.".format(file))
-            return 'other'
+            LOG.error("{0} is not found.".format(file))
+            return 'filenotfound'
         except UnicodeDecodeError:
             LOG.warning("{0} is not a valid file.".format(file))
             return 'other'
@@ -283,6 +284,7 @@ def identify_raw_files(raw_files, args):
     fasta_files = []
     fastq_files = []
     other_files = []
+    filesnotfound_files = []
 
     with Pool(processes=args.cores) as pool:
         result_tuples = pool.map(get_file_format_tuple, raw_files)
@@ -292,16 +294,20 @@ def identify_raw_files(raw_files, args):
                 fasta_files.append(f)
             elif ftype == 'fastq':
                 fastq_files.append(f)
-            else:
+            elif ftype == 'other':
                 other_files.append(f)
-
+            elif ftype == 'filenotfound':
+                filesnotfound_files.append(f)
+    LOG.info("Folowing files were not found in the input: {}".format(",".join(filesnotfound_files)))
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
     LOG.debug("other non- fasta/fastq files: {}".format(other_files))
 
     return ({'fasta': fasta_files,
              'fastq': fastq_files,
-             'other': other_files})
+             'other': other_files,
+             'filesnotfound': filesnotfound_files
+             })
 
 
 def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
@@ -345,7 +351,6 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
     LOG.info("Creating combined serotype and identification fasta file")
 
-    #print(definitions.ECOLI_MARKERS)
     with open(combined_file, 'w') as ofh:
         with open(definitions.ECOLI_MARKERS, 'r') as mfh:
             ofh.write(mfh.read())

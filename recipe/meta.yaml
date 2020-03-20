@@ -17,7 +17,8 @@ source:
     git_rev: master
 
 build:
-    number: 0
+    number: 
+    noarch: python
     script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -47,7 +48,7 @@ test:
          - pytest
     commands:
         - "ectyper --help"
-        - "pytest"
+     #   - "pytest"
 
 
 

@@ -50,7 +50,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     LOG.info("Serotype prediction completed")
     LOG.debug("Predictions dict:\n{}".format(predictions_dict))
 
-    return predictions_dict
+    return predictions_dict, output_df
 
 
 def get_prediction(per_genome_df, args):
@@ -78,8 +78,6 @@ def get_prediction(per_genome_df, args):
     serotype["gene2allele"] = {}
 
 
-
-    otype = {} #{antigen:{gene:score}} key value pairs e.g. otype ={'O26':{'wzx':1.00,'wzy':1.00}} or {'O26': {'wzx': 0.46}}
     # Go for the highest match, if both genes exist over the thresholds
     blastresultsdict={}; blastresultsdict["O"]={}; blastresultsdict["H"]={}
 
@@ -94,79 +92,25 @@ def get_prediction(per_genome_df, args):
         blastresultsdict[ant][row.qseqid]["score"] = row.score
         blastresultsdict[ant][row.qseqid]["identity"] = row.pident
         blastresultsdict[ant][row.qseqid]["coverage"] = row.qcovhsp
-        blastresultsdict[ant][row.qseqid]["contigname"] = row.sseqid
+        blastresultsdict[ant][row.qseqid]["contigname"] = row.sseqid.split('|')[2]
         blastresultsdict[ant][row.qseqid]["startpos"] = row.sstart
         blastresultsdict[ant][row.qseqid]["endpos"] = row.send
         blastresultsdict[ant][row.qseqid]["length"] = row.length
 
 
-        #if row.antigen not in blastresultsdict[ant].keys():
-        #    blastresultsdict[ant][row.antigen]={}
-
-        #if row.gene not in blastresultsdict[ant][row.antigen].keys():
-        #    blastresultsdict[ant][row.antigen][row.gene] = {}
-
-        #blastresultsdict[ant][row.antigen][row.gene][row.qseqid] = {}
-        #print(row.antigen, row.qseqid, row.gene)
-        #blastresultsdict[ant][row.antigen][row.gene] = {}
-
-        # if ant == 'H' and serotype[ant]["serogroup"] == '-':
-        #     serotype[ant]["serogroup"]  = row.antigen
-        #     serotype[ant]["genescores"] = {row.gene:row.score}
-        #     serotype[ant][row.qseqid] = {}
-        #     serotype[ant][row.qseqid]["identity"] = row.pident
-        #     serotype[ant][row.qseqid]["coverage"] = row.qcovhsp
-        #     serotype[ant][row.qseqid]["length"] = row.length
-        #     serotype[ant][row.qseqid]["contigname"] = row.sseqid
-        #     serotype[ant][row.qseqid]["startpos"] = row.sstart
-        #     serotype[ant][row.qseqid]["endpos"] = row.send
-        #
-        #     if args.sequence:
-        #         serotype[ant]["sequence"] = row.sseq
-        #
-        #
-        # elif ant == 'O' and serotype[ant]["serogroup"] == '-':
-        #     # skip if an allele for a gene already exists
-        #     if row.antigen in otype and row.gene in otype[row.antigen]:
-        #         continue
-        #     else:
-        #         # if antigen has never been encountered, init
-        #         if row.antigen not in otype.keys():
-        #             otype[row.antigen] = {}
-        #         if row.gene not in otype.keys():
-        #             otype[row.antigen][row.gene] = {}
-        #
-        #         if args.sequence:
-        #             otype[row.antigen][row.gene]["sequence"] = row.sseq
-        #         otype[row.antigen][row.gene]["score"] = row.score
-        #         otype[row.antigen][row.gene]["allele"] = row.qseqid
-        #         otype[row.antigen][row.gene]["contig"] = row.sseqid
-        #         otype[row.antigen][row.gene]["startpos"] = row.sstart
-        #         otype[row.antigen][row.gene]["endpos"] = row.send
-        #         otype[row.antigen][row.gene]["identity"] = row.pident
-        #         otype[row.antigen][row.gene]["coverage"] = row.qcovhsp
-        #         otype[row.antigen][row.gene]["length"] = row.length
-
     allelefieldnames = ["identity", "coverage", "contigname", "length", "startpos", "endpos", "gene"]
 
     ant = "H"
-    topHallele = max([(dballele,blastresultsdict["H"][dballele]["score"]) for dballele in blastresultsdict["H"].keys()])[0]
-    serotype[ant]["serogroup"] = blastresultsdict["H"][topHallele]["antigen"]
-    gene = blastresultsdict["H"][topHallele]["gene"]
-    score = blastresultsdict["H"][topHallele]["score"]
-    serotype[ant]["genescores"] = {gene:score}
-    serotype["gene2allele"][gene] = topHallele
-
-    serotype[ant]["alleles"][topHallele] = setAlleleMeta(allelefieldnames,blastresultsdict[ant][topHallele])
-
-
-    # serotype[ant]["alleles"][topHallele]['identity'] = blastresultsdict[ant][topHallele]["identity"]
-    # serotype[ant]["alleles"][topHallele]['coverage'] = blastresultsdict[ant][topHallele]["coverage"]
-    # serotype[ant]["alleles"][topHallele]['contigname'] = blastresultsdict[ant][topHallele]["contigname"]
-    # serotype[ant]["alleles"][topHallele]['length'] = blastresultsdict[ant][topHallele]["length"]
-    # serotype[ant]["alleles"][topHallele]['startpos'] = blastresultsdict[ant][topHallele]["startpos"]
-    # serotype[ant]["alleles"][topHallele]['endpos'] = blastresultsdict[ant][topHallele]["endpos"]
-
+    if blastresultsdict[ant].keys():
+        topHallele = max([(dballele,blastresultsdict[ant][dballele]["score"]) for dballele in blastresultsdict["H"].keys()])[0]
+        serotype[ant]["serogroup"] = blastresultsdict[ant][topHallele]["antigen"]
+        gene = blastresultsdict[ant][topHallele]["gene"]
+        score = blastresultsdict[ant][topHallele]["score"]
+        serotype[ant]["genescores"] = {gene:score}
+        serotype["gene2allele"][gene] = topHallele
+        serotype[ant]["alleles"][topHallele] = setAlleleMeta(allelefieldnames,blastresultsdict[ant][topHallele])
+    else:
+        LOG.warning("No H antigen alleles were identified in this sample")
 
     sortedOalleles = [tuple[0] for tuple in sorted([(dballele,
                                          blastresultsdict["O"][dballele]["score"])
@@ -177,21 +121,19 @@ def get_prediction(per_genome_df, args):
     for allele in sortedOalleles:
         oantigen = blastresultsdict["O"][allele]["antigen"]
         if blastresultsdict["O"][allele]["antigen"] not in otype.keys():
-            otype[oantigen] = {"genescores":{}, "alleles":[]}
+            otype[oantigen] = {"genescores":{}, "alleles":[], "allele2gene":{}}
         if blastresultsdict["O"][allele]["gene"] not in otype[oantigen]["genescores"].keys():
             gene = blastresultsdict["O"][allele]["gene"]
             otype[oantigen]["genescores"][gene] = blastresultsdict["O"][allele]["score"]
             otype[oantigen]["alleles"].append(allele)
-            serotype["gene2allele"][gene] = allele
+            otype[oantigen]["allele2gene"][allele] = gene
 
 
-    rank_Otype_dict={}
     #rank O-type serovars based on the sum of scores from BOTH alleles (wzx/wzy or wzt/wzm)
+    rank_Otype_dict = {}
     for oantigen in otype.keys():
         rank_Otype_dict[oantigen]={"numalleles":0, "scores":[], "sumscore":0}
-        #alleles = [key for key in otype[oantigen][alleles].keys()]
         rank_Otype_dict[oantigen]["numalleles"] = len(otype[oantigen]["alleles"])
-        #scores = [  for allele in otype[oantigen]["alleles"]]
         rank_Otype_dict[oantigen]["scores"] = otype[oantigen]["genescores"].values()
         rank_Otype_dict[oantigen]["sumscore"] = sum(rank_Otype_dict[oantigen]["scores"] )
 
@@ -210,8 +152,6 @@ def get_prediction(per_genome_df, args):
     # go through the O-antigens in order, making the call on the first that have
     # a matching pair
 
-    #o-type {'O102': {'wzx': 1.0, 'wzy': 0.73}}
-    # {'O102': {'genes': ['wzx', 'wzy'], 'scores': [1.0, 0.73], 'alleles': ['O102-5-wzx', 'O102-4-wzy-origin']}}
     ant="O"; selectedOantigen = ""
     for oantigen in best_order_list:
         # if wzm / wzy or wzx / wzy, call the match
@@ -249,9 +189,12 @@ def get_prediction(per_genome_df, args):
             selectedOantigen = oantigen
             break
 
+
     if selectedOantigen:
         for allele in otype[selectedOantigen]["alleles"]:
             serotype[ant]["alleles"][allele] = setAlleleMeta(allelefieldnames, blastresultsdict[ant][allele])
+            gene = otype[selectedOantigen]["allele2gene"][allele]
+            serotype["gene2allele"][gene] = allele
 
     return serotype
 
@@ -347,20 +290,9 @@ def quality_control_results(sample, final_results_dict):
     if "H" in final_results_dict[sample]:
         Htype=final_results_dict[sample]["H"]
         numalleles += len(final_results_dict[sample]["O"]["alleles"].keys())
-    #AllelsList=[]
+
     species=final_results_dict[sample]["species"]
     QCflag = "FAIL"
-
-
-    # if Otype != "-":
-    #     for allele in final_results_dict[sample]["O"]["genescores"].keys():
-    #         if any([item == allele for item in ["wzx","wzy","wzm","wzt"]]):
-    #           AllelsList.append(allele)
-    #
-    # if Htype != "-":
-    #     for allele, score in final_results_dict[sample]["H"]["genescores"].items():
-    #         if any([item == allele for item in ["fliC",""]]):
-    #           AllelsList.append(allele)
 
     if not re.match("Escherichia coli", species):
         return {"QCflag":QCflag,"NumberOfAlleles":numalleles}
@@ -383,8 +315,9 @@ def report_result(final_dict, output_dir, output_file):
     """
 
     header = "Name\tSpecies\tO-type\tH-type\tSerotype\tQC\t" \
-             "Evidence\tGeneScores\tAlleles\tIdentity\t" \
-             "Coverage\tContigs\tRanges\tLengths\tEcoliMarkers\tWarnings\n"
+             "Evidence\tGeneScores\tAllelesDBKeys\tQueryIdentities(%)\t" \
+             "QueryCoverages(%)\tQueryContigNames\tQueryAlleleRanges\t" \
+             "QueryAlleleLengths\tEcoliSpecificMarkers\tWarnings\n"
     output = []
     LOG.info(header.strip())
 
@@ -429,8 +362,9 @@ def report_result(final_dict, output_dir, output_file):
         else:
             output_line.append(genescoresstr)
 
-        identity_list = []; coverage_list = []; allele_list = []; contig_list = [];
+        identity_list = []; coverage_list = []; allele_list = []; contig_list = []
         startend_positions_list = []; length_match = []
+
         for ant, gene in genelistorder:
             allele = final_dict[sample]["gene2allele"][gene]
             identity_list.append(final_dict[sample][ant]["alleles"][allele]["identity"])
@@ -446,6 +380,7 @@ def report_result(final_dict, output_dir, output_file):
                 output_line.append(";".join(list))
             else:
                 output_line.append("-")
+
 
         if "ecolimarkers" in final_dict[sample]:
             output_line.append(str(final_dict[sample]['ecolimarkers']))
@@ -470,7 +405,7 @@ def report_result(final_dict, output_dir, output_file):
             ofh.write(line)
 
 
-def add_non_predicted(all_genomes_list, predictions_dict, other_dict, ecoli_dict):
+def add_non_predicted(all_genomes_list, predictions_dict, other_dict, filesnotfound_dict, ecoli_dict):
     """
     Add genomes that do not show up in the blast results to the final predictions
 
@@ -479,9 +414,7 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, ecoli_dict
     :return: modified prediction file
     """
 
-    # test on '/mnt/moria/enterobase_serotype/ESC_GA9165AA_AS.fasta'
     # genome names are given without the filename extension
-
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
 
@@ -492,6 +425,11 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, ecoli_dict
                     'error': other_dict[gname]["error"],
                     'species': other_dict[gname]["species"]
                 }
+            elif gname in filesnotfound_dict:
+                predictions_dict[gname] = {
+                'error': filesnotfound_dict[gname]["error"],
+                'species': '-'
+            }
             else:
                 predictions_dict[gname] = {
                     'error':  "No O and H antigen determinant E.coli genes were found. Try running with --verify parameter",
