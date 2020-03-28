@@ -2,7 +2,7 @@
 """
     Predictive serotyping for _E. coli_.
 """
-import os, time
+import os, re
 import tempfile
 import datetime
 import json
@@ -29,6 +29,9 @@ def run_program():
     """
     args = commandLineOptions.parse_command_line()
     output_directory = create_output_directory(args.output)
+
+    if args.debug:
+        LOG.debug("Command-line arguments were:\n{}".format(args))
 
     # Create a file handler for log messages in the output directory
     fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
@@ -64,12 +67,16 @@ def run_program():
         raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
                                                             args)
 
+        if args.dbpath:
+            dbpath = args.dbpath
+        else:
+            dbpath = definitions.SEROTYPE_ALLELE_JSON #default database path
 
-        alleles_fasta = create_alleles_fasta_file(temp_dir)
+        alleles_fasta_file = create_alleles_fasta_file(temp_dir, dbpath)
 
         combined_fasta = \
             genomeFunctions.create_combined_alleles_and_markers_file(
-                alleles_fasta, temp_dir)
+                alleles_fasta_file, temp_dir)
 
 
         bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
@@ -105,13 +112,34 @@ def run_program():
             # Run main prediction function
             predictions_dict = run_prediction(ecoli_genomes_dict,
                                           args,
-                                          alleles_fasta,
+                                          alleles_fasta_file,
                                           temp_dir)
 
 
         # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
         final_predictions = predictionFunctions.add_non_predicted(
             raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
+
+
+        for sample in final_predictions.keys():
+            if 'O' in final_predictions[sample]: #not all samples will have O-antigen dictionary
+
+                pred_serogroup = final_predictions[sample]['O']["serogroup"]
+                highlysimilar_Ogroup_cluster = "".join([group for group in definitions.OSEROTYPE_GROUPS_DICT.keys()
+                                              for ref_serogroup in definitions.OSEROTYPE_GROUPS_DICT[group]
+                                              if re.match(ref_serogroup, pred_serogroup)])
+
+                if highlysimilar_Ogroup_cluster:
+                    final_predictions[sample]['O']['highlysimilargroup'] = highlysimilar_Ogroup_cluster
+                    final_predictions[sample]['O']['highlysimilarantigens'] = definitions.OSEROTYPE_GROUPS_DICT[highlysimilar_Ogroup_cluster]
+                    final_predictions[sample]['error'] = final_predictions[sample]['error'] + \
+                                                         "High similarity O-antigen group {}:{} as per A.Iguchi et.al (PMID: 25428893)".format(
+                                                          final_predictions[sample]['O']['highlysimilargroup'],
+                                                          "/".join(final_predictions[sample]['O']['highlysimilarantigens']))
+                else:
+                    final_predictions[sample]['O']['highlysimilargroup'] = ''
+                    final_predictions[sample]['O']['highlysimilarantigens'] = []
+
 
         # Store most recent result in working directory
         LOG.info("Reporting results:")
@@ -152,18 +180,23 @@ def create_output_directory(output_dir):
     return out_dir
 
 
-def create_alleles_fasta_file(temp_dir):
+def create_alleles_fasta_file(temp_dir, dbpath):
     """
     Every run, re-create the fasta file of alleles to ensure a single
     source of truth for the ectyper data -- the JSON file.
 
     :temp_dir: temporary directory for length of program run
+    :dbpath: path to O and H antigen alleles database in JSON format
     :return: the filepath for alleles.fasta
     """
 
     output_file = os.path.join(temp_dir, 'alleles.fasta')
 
-    with open(definitions.SEROTYPE_ALLELE_JSON, 'r') as jsonfh:
+    if os.path.exists(dbpath) == False:
+        LOG.critical("Allele DB path does not exist at {} path".format(dbpath))
+        exit(1)
+
+    with open(dbpath, 'r') as jsonfh:
         json_data = json.load(jsonfh)
 
         with open(output_file, 'w') as ofh:
@@ -213,7 +246,6 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir):
         try:
             predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]
             predictions_dict[genome_name]["error"] = genome_files_dict[genome_name]["error"]
-            predictions_dict[genome_name]["ecolimarkers"] = genome_files_dict[genome_name]['ecolimarkers']
         except KeyError as e:
             predictions_dict[genome_name]["error"] = "Error: "+str(e)+" in "+genome_name
 
@@ -253,20 +285,21 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir):
             '-qcov_hsp_perc', str(args.percentLength),
             '-max_hsps', "1",
             '-outfmt',
-            "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp "
-            "sseq",
+            "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp bitscore sseq",
             '-word_size', "11"
         ]
         subprocess_util.run_subprocess(bcline)
 
-        LOG.debug(
-            "Starting serotype prediction for database {}".format(g_group))
+        LOG.debug("Starting serotype prediction for database {}".format(g_group))
+        LOG.debug("BLAST results output file {}".format(blast_output_file))
+
         db_prediction_dict, blast_output_df = predictionFunctions.predict_serotype(
             blast_output_file,
             definitions.SEROTYPE_ALLELE_JSON,
             args)
 
         blast_output_file_path = args.output+"/blast_output_alleles.txt"
-        blast_output_df.to_csv(blast_output_file_path , sep="\t")
+        blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , sep="\t", index=False)
         LOG.info("BLAST output file against reference alleles is written at {}".format(blast_output_file_path))
+
         return db_prediction_dict

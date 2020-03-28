@@ -102,30 +102,30 @@ def download_assembly_summary():
 
 
 
-def is_ecoli(genome_file, temp_dir,ecolidict):
-    """
-    Checks whether the given genome is E. coli or not
-
-    :param genome_file: The genome file in fasta format
-    :param temp_dir: ectyper run temp_dir
-    :return: True or False
-    """
-    LOG.info("Verifying if sample is a valid E.coli genome based on the 10 E.coli specific markers")
-    num_hit = get_num_hits(genome_file, temp_dir)
-    ecolidict["nhitsmarkers"] = num_hit
-
-    if num_hit < 9:
-        LOG.warning(
-            "{0} is identified as an invalid E. coli genome.\nOnly {1} out of 10 E.coli specific markers were identified "
-            "by the marker approach of "
-            "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866"
-            "-016-0680-0#Tab3"
-            " where at least 9 out of 10 E. coli specific markers must be "
-            "present for a given genome to be considered E.coli".format(os.path.basename(genome_file), num_hit))
-        return False
-    else:
-        LOG.info("Samples is a valid E.coli genome based on the {} markers".format(num_hit))
-        return True
+# def is_ecoli(genome_file, temp_dir,ecolidict):
+#     """
+#     Checks whether the given genome is E. coli or not
+#
+#     :param genome_file: The genome file in fasta format
+#     :param temp_dir: ectyper run temp_dir
+#     :return: True or False
+#     """
+#     LOG.info("Verifying if sample is a valid E.coli genome based on the 10 E.coli specific markers")
+#     num_hit = get_num_hits(genome_file, temp_dir)
+#     ecolidict["nhitsmarkers"] = num_hit
+#
+#     if num_hit < 9:
+#         LOG.warning(
+#             "{0} is identified as an invalid E. coli genome.\nOnly {1} out of 10 E.coli specific markers were identified "
+#             "by the marker approach of "
+#             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866"
+#             "-016-0680-0#Tab3"
+#             " where at least 9 out of 10 E. coli specific markers must be "
+#             "present for a given genome to be considered E.coli".format(os.path.basename(genome_file), num_hit))
+#         return False
+#     else:
+#         LOG.info("Samples is a valid E.coli genome based on the {} markers".format(num_hit))
+#         return True
 
 
 def is_escherichia_genus(speciesname):
@@ -300,10 +300,9 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
     :param ofiles: [] of all non-fasta files
     :param args: Command line arguments
     :param temp_dir: ectyper run temp_dir
-    :return: ([ecoli_genomes], {file:species})
+    :return: ecoli_genomes dictionary, other_genomes dictionary, notfound_files dictionary
     """
 
-    #ecoli_files = []
     ecoli_files_dict = {}
     other_files_dict = {}
     filesnotfound_dict = {}
@@ -312,7 +311,7 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
         speciesname = "-"
-        numofecolimarkers = {"ecolimarkers": 0} #number of E.coli specific markers
+
 
         if args.verify:
 
@@ -330,20 +329,15 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
 
             failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples"
             if re.match("Escherichia coli", speciesname):
-                numofecolimarkers["ecolimarkers"] = get_num_hits(fasta,temp_dir) #get number of E.coli markers
-                ecoli_files_dict[sampleName] = {"species":speciesname,"ecolimarkers":numofecolimarkers["ecolimarkers"],
-                                                "filepath":fasta, "error": "-"}
-            elif is_ecoli(fasta, temp_dir,numofecolimarkers):
-                ecoli_files_dict[sampleName] = {"species":"Escherichia coli", "ecolimarkers":numofecolimarkers["ecolimarkers"],
-                                                "filepath":fasta,"error":failverifyerrormessage}
+                ecoli_files_dict[sampleName] = {"species":speciesname,
+                                                "filepath":fasta, "error": ""}
             elif is_escherichia_genus(speciesname):
                 other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
             else:
                 other_files_dict[sampleName] = {"species":speciesname, "error":failverifyerrormessage}
         else:
-            numofecolimarkers["ecolimarkers"] = get_num_hits(fasta, temp_dir)  # get number of E.coli markers
-            ecoli_files_dict[sampleName] = {"species": speciesname,"ecolimarkers":numofecolimarkers["ecolimarkers"],
-                                            "filepath": fasta, "error": "-"}
+            ecoli_files_dict[sampleName] = {"species": speciesname,
+                                            "filepath": fasta, "error": ""}
 
     for bf in ofiles:
         sampleName = getSampleName(bf)

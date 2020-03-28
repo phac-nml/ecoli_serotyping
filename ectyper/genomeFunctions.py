@@ -102,7 +102,7 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     :return: Dictionary of files with the fasta headers modified for each filename {sampleid: {species:"","filepath":"","modheaderfile":"","error":""}}
     """
     files=[]
-    for sample in files_dict.keys(): # files_dict = {'Escherichia_O26H11': {'species': 'Escherichia coli', 'filepath': '/Data/Escherichia_O26H11.fasta'}}
+    for sample in files_dict.keys():
        files.append(files_dict[sample]["filepath"])
 
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
@@ -114,7 +114,7 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
         for r in results:
             sample=r["samplename"]
             files_dict[sample]["modheaderfile"] = r["newfile"]
-            #modified_genomes.append(r)
+
     modified_genomes = [files_dict[samples]["modheaderfile"] for samples in files_dict.keys()]
     LOG.debug(("Modified genomes: {}".format(modified_genomes)))
 
@@ -352,8 +352,8 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
     LOG.info("Creating combined serotype and identification fasta file")
 
     with open(combined_file, 'w') as ofh:
-        with open(definitions.ECOLI_MARKERS, 'r') as mfh:
-            ofh.write(mfh.read())
+        #with open(definitions.ECOLI_MARKERS, 'r') as mfh:
+        #    ofh.write(mfh.read())
 
         with open(alleles_fasta, 'r') as sfh:
             ofh.write(sfh.read())

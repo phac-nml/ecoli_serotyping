@@ -104,10 +104,14 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "-D",
         "--debug",
         action="store_true",
         help="Print more detailed log including debug level messages"
+    )
+
+    parser.add_argument(
+        "--dbpath",
+        help="Path to custom database of O and H antigen alleles in JSON format.\nCheck Data/ectyper_database.json for more information"
     )
 
     if args is None:
