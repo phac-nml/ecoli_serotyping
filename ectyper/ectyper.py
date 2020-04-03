@@ -124,14 +124,12 @@ def run_program():
         for sample in final_predictions.keys():
             if 'O' in final_predictions[sample]: #not all samples will have O-antigen dictionary
 
-                pred_serogroup = final_predictions[sample]['O']["serogroup"]
-                highlysimilar_Ogroup_cluster = "".join([group for group in definitions.OSEROTYPE_GROUPS_DICT.keys()
-                                              for ref_serogroup in definitions.OSEROTYPE_GROUPS_DICT[group]
-                                              if re.match(ref_serogroup, pred_serogroup)])
+                highsimilar_Ogroup = getOantigenHighSimilarGroup(final_predictions,sample)
 
-                if highlysimilar_Ogroup_cluster:
-                    final_predictions[sample]['O']['highlysimilargroup'] = highlysimilar_Ogroup_cluster
-                    final_predictions[sample]['O']['highlysimilarantigens'] = definitions.OSEROTYPE_GROUPS_DICT[highlysimilar_Ogroup_cluster]
+
+                if highsimilar_Ogroup:
+                    final_predictions[sample]['O']['highlysimilargroup'] = highsimilar_Ogroup
+                    final_predictions[sample]['O']['highlysimilarantigens'] = definitions.OSEROTYPE_GROUPS_DICT[highsimilar_Ogroup]
                     final_predictions[sample]['error'] = final_predictions[sample]['error'] + \
                                                          "High similarity O-antigen group {}:{} as per A.Iguchi et.al (PMID: 25428893)".format(
                                                           final_predictions[sample]['O']['highlysimilargroup'],
@@ -146,8 +144,26 @@ def run_program():
 
         predictionFunctions.report_result(final_predictions, output_directory,
                                           os.path.join(output_directory,
-                                                       'output.tsv'))
+                                                       'output.tsv'),args)
         LOG.info("\nECTyper has finished successfully.")
+
+def getOantigenHighSimilarGroup(final_predictions, sample):
+    pred_Otypes = final_predictions[sample]['O']["serogroup"].split("/") #if call is a mixed call
+
+    highlysimilar_Ogroups = set()
+    for group_number in definitions.OSEROTYPE_GROUPS_DICT.keys():
+        for Otype in pred_Otypes:
+            if Otype in definitions.OSEROTYPE_GROUPS_DICT[group_number]:
+                highlysimilar_Ogroups.add(group_number)
+
+    if len(highlysimilar_Ogroups) == 1:
+        return next(iter(highlysimilar_Ogroups))
+    elif len(highlysimilar_Ogroups) >= 2:
+        LOG.warning("O-types belong to different high similarity O-antigen groups: {}".format(highlysimilar_Ogroups))
+        return  None
+    else:
+        return None
+
 
 
 def create_output_directory(output_dir):

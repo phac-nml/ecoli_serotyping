@@ -31,6 +31,7 @@ def predict_serotype(blast_output_file, ectyper_dict_file, args):
     output_df = output_df.merge(ectyper_df, left_on='qseqid', right_on='name', how='left')
     predictions_dict = {}
 
+
     # Select individual genomes
     output_df['genome_name'] = output_df['sseqid'].str.split('|').str[1]
 
@@ -80,14 +81,13 @@ def get_prediction(per_genome_df, args):
             blastresultsdict[ant][row.qseqid] = {}
             blastresultsdict[ant][row.qseqid]["gene"] = row.gene
             blastresultsdict[ant][row.qseqid]["antigen"] = row.antigen
-            blastresultsdict[ant][row.qseqid]["score"] = row.score
-            blastresultsdict[ant][row.qseqid]["identity"] = row.pident
-            blastresultsdict[ant][row.qseqid]["coverage"] = row.qcovhsp
+            blastresultsdict[ant][row.qseqid]["score"] = float(row.score)
+            blastresultsdict[ant][row.qseqid]["identity"] = float(row.pident)
+            blastresultsdict[ant][row.qseqid]["coverage"] = float(row.qcovhsp)
             blastresultsdict[ant][row.qseqid]["contigname"] = row.sseqid.split('|')[2]
-            blastresultsdict[ant][row.qseqid]["startpos"] = row.sstart
-            blastresultsdict[ant][row.qseqid]["endpos"] = row.send
-            blastresultsdict[ant][row.qseqid]["length"] = row.length
-
+            blastresultsdict[ant][row.qseqid]["startpos"] = int(row.sstart)
+            blastresultsdict[ant][row.qseqid]["endpos"] = int(row.send)
+            blastresultsdict[ant][row.qseqid]["length"] = int(row.length)
 
     allelefieldnames = ["identity", "coverage", "contigname", "length", "startpos", "endpos", "gene"]
 
@@ -337,7 +337,7 @@ def quality_control_results(sample, final_results_dict):
     return {"QCflag":QCflag,"NumberOfAlleles":numalleles}
 
 
-def report_result(final_dict, output_dir, output_file):
+def report_result(final_dict, output_dir, output_file, args):
     """
     Outputs the results of the ectyper run to the output file, and to the log.
 
@@ -375,17 +375,20 @@ def report_result(final_dict, output_dir, output_file):
         genescoresstr = ""; genelistorder = []
         if Otype != "-":
             for Ogene, score in sorted(final_dict[sample]["O"]["genescores"].items()): #makes sure that wzx/wzy and wzm/wzt are reported alphabetically
-                genescoresstr = genescoresstr + "{}:{:.3f};".format(Ogene, score)
+                genescoresstr = genescoresstr + "{}:{:.3g};".format(Ogene, score)
                 genelistorder.append(("O", Ogene))
 
         if Htype != "-":
             for Hgene, score in final_dict[sample]["H"]['genescores'].items():
-                genescoresstr = genescoresstr + "{}:{:.3f};".format(Hgene, score)
+                genescoresstr = genescoresstr + "{}:{:.2g};".format(Hgene, score)
                 genelistorder.append(("H", Hgene))
 
 
         QCdict = quality_control_results(sample, final_dict)
+        if args.verify is False:
+            QCdict["QCflag"] = "-"
         output_line.append(QCdict["QCflag"])
+
 
         if genescoresstr == "":
             output_line.append("-")
@@ -402,16 +405,16 @@ def report_result(final_dict, output_dir, output_file):
 
         for ant, gene in genelistorder:
             allele = final_dict[sample]["gene2allele"][gene]
-            identity_list.append(final_dict[sample][ant]["alleles"][allele]["identity"])
-            coverage_list.append(final_dict[sample][ant]["alleles"][allele]["coverage"])
+            identity_list.append("{:g}".format(final_dict[sample][ant]["alleles"][allele]["identity"]))
+            coverage_list.append("{:g}".format(final_dict[sample][ant]["alleles"][allele]["coverage"]))
             contig_list.append(final_dict[sample][ant]["alleles"][allele]["contigname"])
             if final_dict[sample][ant]["alleles"][allele]["startpos"] < final_dict[sample][ant]["alleles"][allele]["endpos"]:
-                startend_positions_list.append(final_dict[sample][ant]["alleles"][allele]["startpos"]+"-"+
-                                               final_dict[sample][ant]["alleles"][allele]["endpos"])
+                startend_positions_list.append(str(final_dict[sample][ant]["alleles"][allele]["startpos"])+"-"+
+                                               str(final_dict[sample][ant]["alleles"][allele]["endpos"]))
             else:
-                startend_positions_list.append(final_dict[sample][ant]["alleles"][allele]["endpos"] + "-" +
-                                               final_dict[sample][ant]["alleles"][allele]["startpos"])
-            length_match.append(final_dict[sample][ant]["alleles"][allele]["length"])
+                startend_positions_list.append(str(final_dict[sample][ant]["alleles"][allele]["endpos"]) + "-" +
+                                               str(final_dict[sample][ant]["alleles"][allele]["startpos"]))
+            length_match.append("{:}".format(final_dict[sample][ant]["alleles"][allele]["length"]))
 
 
             if "identical_alleles" in final_dict[sample][ant].keys():
