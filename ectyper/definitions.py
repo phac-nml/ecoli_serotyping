@@ -30,3 +30,6 @@ OSEROTYPE_GROUPS_DICT = {'1': ['O20','O137'],
                          '15':['O89','O101','O162'],
                          '16':['O169','O183']
                          }
+HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference
+MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to pre-filter BLAST output  (identical to global threshold)
+MIN_O_COVERAGE_LS = 48 #low similarity group O antigen min coverage threshold to pre-filter BLAST output (based on cross-talk study results)

@@ -50,7 +50,7 @@ def get_files_as_list(file_or_directory):
 
     if not files_list:
         LOG.critical("No files were found for the ectyper run")
-        exit("No files were found")
+        raise FileNotFoundError("No files were found to run on")
 
     sorted_files = sorted(files_list)
     LOG.debug(sorted_files)

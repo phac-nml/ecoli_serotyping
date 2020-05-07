@@ -2,7 +2,8 @@
 
 import argparse
 from ectyper import __version__
-
+import json
+import ectyper.definitions as definitions
 
 def parse_command_line(args=None):
     """
@@ -19,24 +20,36 @@ def parse_command_line(args=None):
         """
         type checker for percentage input
         """
-        ivalue = int(value)
+        try:
+            ivalue = int(value)
+        except ValueError:
+            raise argparse.ArgumentTypeError(
+                "{0} is not an integer. A valid positive integer percentage value is required".format(value)
+            )
         if ivalue <= 0 or ivalue > 100:
             raise argparse.ArgumentTypeError(
-                "{0} is an invalid positive int percentage value".format(value)
+                "{0} is an invalid positive integer percentage value".format(value)
             )
         return ivalue
 
+    def checkdbversion():
+        with open(file=definitions.SEROTYPE_ALLELE_JSON) as fp:
+            database = json.load(fp)
+        return database["version"]
+
+    dbversion = checkdbversion()
+
     parser = argparse.ArgumentParser(
-        description='ectyper v{} Prediction of Escherichia coli serotype from '
+        description='ectyper v{} database v{} Prediction of Escherichia coli serotype from '
                     'raw reads'
-                    ' or assembled genome sequences. The default settings are recommended.'.format(__version__)
+                    ' or assembled genome sequences. The default settings are recommended.'.format(__version__, dbversion)
     )
 
     parser.add_argument(
         "-V",
         "--version",
         action='version',
-        version="%(prog)s {}".format(__version__)
+        version="%(prog)s {} running database version {}".format(__version__,dbversion)
     )
 
     parser.add_argument(
@@ -56,19 +69,35 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "-d",
-        "--percentIdentity",
+        "-opid",
+        "--percentIdentityOtype",
         type=check_percentage,
-        help="Percent identity required for an allele match [default 90]",
+        help="Percent identity required for an O antigen allele match [default 90]",
         default=90
     )
 
     parser.add_argument(
-        "-l",
-        "--percentLength",
+        "-hpid",
+        "--percentIdentityHtype",
         type=check_percentage,
-        help="Percent length required for an allele match [default 45]",
-        default=45
+        help="Percent identity required for an H antigen allele match [default 95]",
+        default=95
+    )
+
+    parser.add_argument(
+        "-oplen",
+        "--percentLengthOtype",
+        type=check_percentage,
+        help="Percent length required for an O antigen allele match [default 95]",
+        default=90
+    )
+
+    parser.add_argument(
+        "-hplen",
+        "--percentLengthHtype",
+        type=check_percentage,
+        help="Percent length required for an H antigen allele match [default 50]",
+        default=50
     )
 
     parser.add_argument(

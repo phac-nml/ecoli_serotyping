@@ -5,7 +5,7 @@ from ectyper import genomeFunctions, definitions, subprocess_util
 import re
 import requests
 import time #for file age calculations
-import portalocker
+
 
 LOG = logging.getLogger(__name__)
 
@@ -43,6 +43,32 @@ def get_refseq_mash():
           "https://gitlab.com/kbessonov/ectyper/raw/master/ectyper/Data/refseq.genomes.k21s1000.msh"]
 
     targetpath = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh")
+    lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock")
+
+    #lock system
+    if os.path.exists(lockfilepath) == False:
+        try:
+            open(file=lockfilepath, mode="w").close()
+            LOG.info("Placed lock file at {}".format(lockfilepath))
+        except Exception as e:
+            LOG.error("Failed to place a lock file at {}. Database diretory can not be accessed. Wrong path?".format(
+                lockfilepath))
+            LOG.error("{}".format(e))
+            raise FileNotFoundError("Failed to place a lock file at {}".format(lockfilepath))
+    else:
+        while os.path.exists(lockfilepath):
+            elapsed_time = time.time() - os.path.getmtime(lockfilepath)
+            LOG.info("Lock file found at {}. Waiting for other processes to finish database init ...".format(lockfilepath))
+            LOG.info("Elapsed time {} min. Will continue processing after 16 min mark.".format(int(elapsed_time / 60)))
+            if elapsed_time >= 600:
+                LOG.info("Elapsed time {} min. Assuming previous process completed all init steps. Continue ...".format(int(elapsed_time / 60)))
+                try:  # if previous process failed and 10 min passed since, remove the lock
+                    os.remove(lockfilepath)
+                except:  # continue if file was removed by other process
+                    pass
+                break
+            time.sleep(60)  # recheck every 1 min if lock file was removed
+        LOG.info("Lock file no longer exists/removed. Continue with databases download ...")
 
     if bool_downloadMashRefSketch(targetpath):
         for url in urls:
@@ -52,9 +78,10 @@ def get_refseq_mash():
                 response = requests.get(url,timeout=10, verify=False)
                 response.raise_for_status()
                 if response.status_code == 200:
-                  with portalocker.Lock(filename=targetpath, mode="wb", flags=portalocker.LOCK_EX) as fp:
-                      fp.write(response.content); fp.flush()
+                  with open(file=targetpath, mode="wb") as fp:
+                      fp.write(response.content)
                   download_assembly_summary()
+                break
             except Exception as e:
                 LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,e))
                 pass
@@ -84,8 +111,8 @@ def download_assembly_summary():
             response.raise_for_status()
 
             if response.status_code == 200:
-                with portalocker.Lock(filename=targetpath, mode="w", flags=portalocker.LOCK_EX) as fp:
-                    fp.write(response.text); fp.flush()
+                with open(file=targetpath, mode="w") as fp:
+                    fp.write(response.text)
                 LOG.info("Successfully downloaded {} with response code {}".format(targetfile, response.status_code))
             else:
                 LOG.critical("Server response error {}. Failed to download {}".format(response.status_code,targetfile))
@@ -327,7 +354,8 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
             else:
                 speciesname = get_species(fasta, args)
 
-            failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples"
+            failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples." \
+                                                                             "If sure that sample is E.coli run without --verify parameter."
             if re.match("Escherichia coli", speciesname):
                 ecoli_files_dict[sampleName] = {"species":speciesname,
                                                 "filepath":fasta, "error": ""}

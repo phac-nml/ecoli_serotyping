@@ -3,7 +3,6 @@ import os
 import logging
 import re
 from ectyper import ectyper
-from ectyper.predictionFunctions import quality_control_results
 import tempfile
 LOG=logging.getLogger("TEST")
 TEST_ROOT = os.path.dirname(__file__)
@@ -75,68 +74,6 @@ def test_closeOalles_O42_O28(caplog):
          secondrow = outfp.readlines()[1]
     print(secondrow)
     assert "EscherichiaO28H5\tEscherichia coli\tO28\tH25\tO28:H25\tPASS\tHIGH" in secondrow
-
-def test_QCmodule(): #QCmodule
-    final_dict={'Sample1': {'O': 'O26',
-                                       'H': 'H11',
-                                       'H11': {'fliC': 1.0,
-                                               '≈fliC': 'AAC'},
-                                       'O26': {'≈wzx' : 'ATG',
-                                               'wzx'  : 0.46,
-                                               '≈wzy' : 'CTT',
-                                               'wzy'  : 0.08
-                                               },
-                                        'species': 'Escherichia coli'
-                                       }
-                }
-
-    assert  quality_control_results("Sample1",final_dict) == {'AlleleNames': ['wzx', 'wzy', 'fliC'], 'NumberOfAlleles': 3, 'QCflag': 'PASS', 'ConfidenceLevel': 'LOW'}
-
-
-    final_dict = {'Sample2': {'O': '-',
-                                         'H': 'H11',
-                                         'H11': {'fliC': 1.0,
-                                                 '≈fliC': 'AAC'
-                                                },
-                                         'species': 'Escherichia coli'
-                                         }
-                  }
-
-
-    assert quality_control_results("Sample2", final_dict) == {'AlleleNames': ['fliC'], 'NumberOfAlleles': 1, 'QCflag': 'FAIL','ConfidenceLevel': '-'}
-
-    final_dict = {'Sample3': {'O': 'O26',
-                                         'O26': {'≈wzx' : 'ATG','wzx'  : 0.56,
-                                                },
-                                         'H': '-',
-                                          'species': 'Escherichia coli'
-                                         }
-                  }
-
-    assert quality_control_results("Sample3", final_dict) == {'AlleleNames': ['wzx'], 'NumberOfAlleles': 1, 'QCflag': 'PASS','ConfidenceLevel': 'LOW'}
-
-    final_dict = {'Sample4': {'O': 'O26',
-                              'O26': {'≈wzx': 'ATG','wzx': 0.95,
-                                      '≈wzy': 'ATG','wzy': 0.87
-                                      },
-                              'H': '-',
-                              'species': 'Escherichia coli'
-                              }
-                  }
-
-    assert quality_control_results("Sample4", final_dict) == {'AlleleNames': ['wzx','wzy'], 'NumberOfAlleles': 2,
-                                                              'QCflag': 'PASS','ConfidenceLevel': 'MEDIUM'}
-
-    final_dict = {'Sample5': {'O': 'O26',
-                              'O26': {'≈wzx': 'ATG', 'wzx': 0.99
-                                      },
-                              'H': '-',
-                              'species': 'Escherichia coli'
-                              }
-                  }
-
-    assert quality_control_results("Sample5", final_dict) == {'AlleleNames': ['wzx'], 'NumberOfAlleles': 1,
-                                                              'QCflag': 'PASS', 'ConfidenceLevel': 'HIGH'}
 
 
 def test_Shigella_typing(caplog):
