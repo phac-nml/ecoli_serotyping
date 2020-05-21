@@ -18,7 +18,7 @@ source:
     #git_rev: master
 
 build:
-    number: 11
+    number: 17
     noarch: python
     script: python -m pip install --no-deps --ignore-installed .
 

@@ -1,9 +1,11 @@
 import logging
 import os
 import tempfile
-from ectyper import genomeFunctions, definitions, subprocess_util
+from ectyper import definitions, subprocess_util
 import re
 import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import time #for file age calculations
 
 
@@ -32,6 +34,29 @@ def bool_downloadMashRefSketch(targetpath):
     else:
         return False
 
+def setLockFile(lockfilepath):
+    if os.path.exists(lockfilepath) == False:
+        try:
+            open(file=lockfilepath, mode="w").close()
+            LOG.info("Placed lock file at {}".format(lockfilepath))
+        except Exception as e:
+            LOG.error("Failed to place a lock file at {}. Database diretory can not be accessed. Wrong path?".format(
+                lockfilepath))
+            LOG.error("{}".format(e))
+            raise FileNotFoundError("Failed to place a lock file at {}".format(lockfilepath))
+    else:
+        while os.path.exists(lockfilepath):
+            elapsed_time = time.time() - os.path.getmtime(lockfilepath) #get file age
+            LOG.info("Lock file found at {}. Waiting for other processes to finish database init ...".format(lockfilepath))
+            LOG.info("Elapsed time {} min. Will continue processing after 10 min mark even if lock file is present.".format(int(elapsed_time / 60)))
+            if elapsed_time >= 600:
+                LOG.info("Elapsed time {} min. Assuming previous process completed all init steps. Continue ...".format(int(elapsed_time / 60)))
+                if os.path.exists(lockfilepath):  # if previous process failed and 10 min passed since, remove the lock
+                    os.remove(lockfilepath)
+                break
+            time.sleep(60)  # recheck every 1 min if lock file was removed
+        LOG.info("Lock file doest not exist or is removed by other process. Continue with databases download ...")
+
 def get_refseq_mash():
     """
     Get MASH sketch of refseq genomes for species identification and check that the most recent version is installed
@@ -45,53 +70,33 @@ def get_refseq_mash():
     targetpath = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh")
     lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock")
 
-    #lock system
-    if os.path.exists(lockfilepath) == False:
-        try:
-            open(file=lockfilepath, mode="w").close()
-            LOG.info("Placed lock file at {}".format(lockfilepath))
-        except Exception as e:
-            LOG.error("Failed to place a lock file at {}. Database diretory can not be accessed. Wrong path?".format(
-                lockfilepath))
-            LOG.error("{}".format(e))
-            raise FileNotFoundError("Failed to place a lock file at {}".format(lockfilepath))
-    else:
-        while os.path.exists(lockfilepath):
-            elapsed_time = time.time() - os.path.getmtime(lockfilepath)
-            LOG.info("Lock file found at {}. Waiting for other processes to finish database init ...".format(lockfilepath))
-            LOG.info("Elapsed time {} min. Will continue processing after 16 min mark.".format(int(elapsed_time / 60)))
-            if elapsed_time >= 600:
-                LOG.info("Elapsed time {} min. Assuming previous process completed all init steps. Continue ...".format(int(elapsed_time / 60)))
-                try:  # if previous process failed and 10 min passed since, remove the lock
-                    os.remove(lockfilepath)
-                except:  # continue if file was removed by other process
-                    pass
-                break
-            time.sleep(60)  # recheck every 1 min if lock file was removed
-        LOG.info("Lock file no longer exists/removed. Continue with databases download ...")
 
     if bool_downloadMashRefSketch(targetpath):
+        setLockFile(lockfilepath)
         for url in urls:
             LOG.info("Trying to download MASH sketch from {}.".format(url))
             try:
                 LOG.info("Downloading ~700MB from {}.".format(url))
                 response = requests.get(url,timeout=10, verify=False)
                 response.raise_for_status()
+                LOG.info("Response code for MASH sketch download for mirror {} is {}".format(response.status_code,url))
                 if response.status_code == 200:
                   with open(file=targetpath, mode="wb") as fp:
                       fp.write(response.content)
                   download_assembly_summary()
-                break
+                  os.remove(lockfilepath)
             except Exception as e:
                 LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,e))
                 pass
 
-            # checks if download was successful and of the right size
+            #checks if download was successful and of the right size
             if bool_downloadMashRefSketch(targetpath) == False:
                 LOG.info("Sucessfully downloaded RefSeq MASH sketch from {} for species verification".format(url))
                 return True
             else:
-                LOG.error("Something went wrong with the file download or downloaded file is truncated/corrupted from {}. Trying next mirror ...".format(url))
+                LOG.error("Something went wrong with the file download from {}. Trying next mirror ...".format(url))
+        LOG.error("All mirrors tried but none worked. Check you Internet connection or download manually (see README)...")
+        os.remove(lockfilepath)
         return False #if all mirrors failed
 
     else:
@@ -279,12 +284,14 @@ def get_species(file, args):
                         "Could not extract GCF_# accession number from the MASH dist results.".format(top_match))
             continue #try other top match
 
-        if m is None or top_match_sharedhashes < 100:
+        if m is None or top_match_sharedhashes < 3:
             LOG.warning("\nTop MASH sketch hit {} with {} shared hashes."
                         "\nCould not assign species based on MASH distance to reference sketch file.\n"
-                        "Either:\n"
-                        "1. MASH sketch meta data accessions do not start with the GCF_ prefix or\n"
+                        "Due to either:\n"
+                        "1. MASH sketch meta data accessions do not start with the GCF_ prefix in assembly_summary_refseq.txt or\n"
                         "2. Number of shared hashes to reference is less than 100 (i.e. too distant).\n"
+                        "3. Genome coverage is very limited causing species verification to fail.\n"
+                        "If sample is E.coli, try running without --verify parameter"
                         .format(top_match,top_match_hashratio))
             species = "-" # if after top 10 genome IDs still no accession number match, give up
             return species
@@ -369,8 +376,8 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
 
     for bf in ofiles:
         sampleName = getSampleName(bf)
-        LOG.warning("Non fasta / fastq file")
-        other_files_dict[sampleName] = {"error":"Non fasta / fastq file","filepath":bf,"species":"-"}
+        LOG.warning("Non fasta / fastq file.")
+        other_files_dict[sampleName] = {"error":"Non fasta / fastq file. ","filepath":bf,"species":"-"}
 
     for file in filesnotfound:
         sampleName = getSampleName(file)

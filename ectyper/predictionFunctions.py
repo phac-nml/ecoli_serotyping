@@ -356,15 +356,30 @@ def getQuality_control_results(sample, final_results_dict, ectyperdb_dict):
     :return: Quality dictionary
     """
 
-    Otype = final_results_dict[sample]['O']['serogroup']
-    Otypealleles = final_results_dict[sample]['O']['alleles'].keys()
-    Htype = final_results_dict[sample]['H']['serogroup']
-    Htypealleles = final_results_dict[sample]['H']['alleles'].keys()
+    if 'O' in final_results_dict[sample]:
+        Otype = final_results_dict[sample]['O']['serogroup']
+        Otypealleles = final_results_dict[sample]['O']['alleles'].keys()
+    else:
+        Otype = "-"
+        Otypealleles=[]
+
+    if 'H' in final_results_dict[sample]:
+        Htype = final_results_dict[sample]['H']['serogroup']
+        Htypealleles = final_results_dict[sample]['H']['alleles'].keys()
+    else:
+        Htype = "-"
+        Htypealleles=[]
 
     #QC1: Check if species is E.coli
     if not re.match("Escherichia coli", final_results_dict[sample]["species"]):
         final_results_dict[sample]["error"]=final_results_dict[sample]["error"]+"Sample was not identified as valid E.coli sample but as {}".format(final_results_dict[sample]["species"])
         return "WARNING (WRONG SPECIES)"
+
+    if not 'O' and 'H' in final_results_dict[sample]:
+        return  "-"
+
+
+
     #QC2: Check on quality of O and H antigen prediction if at all taking into account resolution power of each antigen
     if Otype == "-" and Htype == "-":
         final_results_dict[sample]["error"]=final_results_dict[sample]["error"]+"Failed to type both O and H antigens. Consider lowering thresholds or traditional serotyping"
@@ -380,17 +395,28 @@ def getQuality_control_results(sample, final_results_dict, ectyperdb_dict):
                                                                                     "Consider traditional serotyping as in-silico predictions might not be accurate".format((1-definitions.HIGH_SIMILARITY_THRESHOLD_O)*100)
         return "WARNING MIXED O-TYPE"
     else:
-        identitycheckboolO = [final_results_dict[sample]["O"]["alleles"][allele]["identity"] >= ectyperdb_dict["O"][allele]["MinPident"] for allele in Otypealleles]
-        identitycheckboolH = [final_results_dict[sample]["H"]["alleles"][allele]["identity"] >= ectyperdb_dict["H"][allele]["MinPident"] for allele in Htypealleles]
-        coveragecheckboolO = [final_results_dict[sample]["O"]["alleles"][allele]["coverage"] >= ectyperdb_dict["O"][allele]["MinPcov"] for allele in Otypealleles]
-        coveragecheckboolH = [final_results_dict[sample]["H"]["alleles"][allele]["coverage"] >= ectyperdb_dict["H"][allele]["MinPcov"] for allele in Htypealleles]
 
-        if all(identitycheckboolO+coveragecheckboolO+identitycheckboolH+coveragecheckboolH) and all([item != [] for item in [identitycheckboolO,identitycheckboolH]]):
+        checkpredscoresboolO = [final_results_dict[sample]["O"]["alleles"][allele]["identity"] *
+                                final_results_dict[sample]["O"]["alleles"][allele]["coverage"] / 1e4 >=
+                                ectyperdb_dict["O"][allele]["MinPident"] * ectyperdb_dict["O"][allele]["MinPcov"] / 1e4
+                                for allele in Otypealleles]
+
+        checkpredscoresboolH = [final_results_dict[sample]["H"]["alleles"][allele]["identity"] *
+                                final_results_dict[sample]["H"]["alleles"][allele]["coverage"] / 1e4 >=
+                                ectyperdb_dict["H"][allele]["MinPident"] * ectyperdb_dict["H"][allele]["MinPcov"] / 1e4
+                                for allele in Htypealleles]
+
+        #identitycheckboolO = [final_results_dict[sample]["O"]["alleles"][allele]["identity"] >= ectyperdb_dict["O"][allele]["MinPident"] for allele in Otypealleles]
+        #identitycheckboolH = [final_results_dict[sample]["H"]["alleles"][allele]["identity"] >= ectyperdb_dict["H"][allele]["MinPident"] for allele in Htypealleles]
+        #coveragecheckboolO = [final_results_dict[sample]["O"]["alleles"][allele]["coverage"] >= ectyperdb_dict["O"][allele]["MinPcov"] for allele in Otypealleles]
+        #coveragecheckboolH = [final_results_dict[sample]["H"]["alleles"][allele]["coverage"] >= ectyperdb_dict["H"][allele]["MinPcov"] for allele in Htypealleles]
+
+        if all(checkpredscoresboolO+checkpredscoresboolH) and all([item != [] for item in [checkpredscoresboolO,checkpredscoresboolH]]):
             QCflag="PASS (REPORTABLE)"
-        elif all(identitycheckboolO+coveragecheckboolO):
+        elif all(checkpredscoresboolO):
             QCflag="WARNING (H NON-REPORT)"
             final_results_dict[sample]["error"]=final_results_dict[sample]["error"]+"H-antigen has %identity or %coverage below reportable threshold"
-        elif all(identitycheckboolH+coveragecheckboolH):
+        elif all(checkpredscoresboolH):
             QCflag="WARNING (O NON-REPORT)"
             final_results_dict[sample]["error"]=final_results_dict[sample]["error"]+"O-antigen has %identity or %coverage below reportable threshold"
         else:
@@ -412,9 +438,9 @@ def report_result(final_dict, output_dir, output_file, args):
     """
 
     header = "Name\tSpecies\tO-type\tH-type\tSerotype\tQC\t" \
-             "Evidence\tGeneScores\tTopAlleleKeys\tQueryGeneIdentities(%)\t" \
-             "QueryGeneCoverages(%)\tQueryContigNames\tQueryGeneRanges\t" \
-             "QueryGeneLengths\tDatabase\tWarnings\n"
+             "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
+             "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
+             "GeneLengths\tDatabase\tWarnings\n"
     output = []
     LOG.info(header.strip())
 

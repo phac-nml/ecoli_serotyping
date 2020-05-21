@@ -69,6 +69,7 @@ def run_program():
     except:
         raise Exception("Could not load database JSON file")
 
+
     check_database_struct(ectyperdb_dict, dbpath)
 
     LOG.info("Starting ectyper v{} running on allele database v{} ({})".format(__version__, ectyperdb_dict["version"], ectyperdb_dict["date"]))
@@ -94,11 +95,11 @@ def run_program():
     # Init RefSeq database for species identification
     if speciesIdentification.get_refseq_mash() == False:
         LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
-        exit("No MASH RefSeq sketch file found in the default location")
-
-
-
-
+        exit("No MASH RefSeq sketch file found at {}".format(dbpath))
+    else:
+        lockfilepath=os.path.join(dbpath,".lock")
+        if os.path.exists(lockfilepath):
+            os.remove(lockfilepath)
 
     # Initialize ectyper temporary directory for the scope of this program (it will be deleted when program ends)
     with tempfile.TemporaryDirectory(dir=output_directory) as temp_dir:
@@ -179,7 +180,8 @@ def run_program():
                 else:
                     final_predictions[sample]['O']['highlysimilargroup'] = ''
                     final_predictions[sample]['O']['highlysimilarantigens'] = []
-            if 'O' and 'H' in final_predictions[sample] and args.verify:
+
+            if args.verify:
                 final_predictions[sample]["QC"] = predictionFunctions.getQuality_control_results(sample,final_predictions,ectyperdb_dict)
 
         # Store most recent result in working directory

@@ -58,7 +58,7 @@ def test_Otyping(caplog):
          Otype = secondrow[2]
          Htype = secondrow[3]
 
-    assert Otype == "O26", "Expected O26 but reported O-type:" + Otype
+    assert Otype == "-", "Expected no call but reported O-type:" + Otype
     assert Htype == "H8", "Expected H11 but reported H-type:" + Htype
 
 
@@ -68,12 +68,12 @@ def test_closeOalles_O42_O28(caplog):
                         'Data/EscherichiaO28H5.fasta')  # +","+os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
 
     tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, debug=False, output=tmpdir)
+    set_input(input=file, cores=4, print_sequence=True, verify=True, debug=False, output=tmpdir)
     ectyper.run_program()
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          secondrow = outfp.readlines()[1]
     print(secondrow)
-    assert "EscherichiaO28H5\tEscherichia coli\tO28\tH25\tO28:H25\tPASS\tHIGH" in secondrow
+    assert re.match(r".+Escherichia coli.+O42\/O28\tH25\tO42\/O28:H25", secondrow)
 
 
 def test_Shigella_typing(caplog):
@@ -122,7 +122,7 @@ def test_mixofspecies(caplog):
     expectedspecies_list = ["Campylobacter jejuni","Escherichia coli","Salmonella enterica"]
     for i in range(0,3):
         assert bool(re.match(expectedspecies_list[i], genomenames[i])) == True
-    assert QCflag == ["FAIL","PASS","FAIL"]
+    assert QCflag == ["WARNING (WRONG SPECIES)","PASS (REPORTABLE)","WARNING (WRONG SPECIES)"]
 
 
 def test_Ealbertii_1(caplog): #error
@@ -137,9 +137,8 @@ def test_Ealbertii_1(caplog): #error
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #remove header line
-    #print(secondrow)
     assert "Escherichia albertii" in secondrow
-    assert "FAIL" in secondrow
+    assert "WARNING (WRONG SPECIES)" in secondrow
 
 def test_Ealbertii_2(): #error
     LOG.info("Starting 2 of 3 test on EnteroBase on sample on ESC_HA8509AA_AS: Escherichia albertii O5:H5")
@@ -152,10 +151,10 @@ def test_Ealbertii_2(): #error
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
-    secondrow=rows[1:][0] #remove header line
+    secondrow=rows[1:][0] #check only second row
 
     assert "Escherichia albertii" in secondrow
-    assert "FAIL" in secondrow
+    assert "WARNING (WRONG SPECIES)" in secondrow
 
 def test_Ealbertii_3(caplog):
     LOG.info("Starting 3 of 3 test Escherichia albertii O49:NM") #can not type O49 due to poor sequence quality of uncertainty of wet-lab O49 typing
@@ -169,10 +168,9 @@ def test_Ealbertii_3(caplog):
 
     with open(os.path.join(tmpdir ,"output.tsv")) as outfp:
          rows = outfp.readlines()
-    secondrow=rows[1:][0] #remove header line
-    print(secondrow)
+    secondrow=rows[1:][0] #check only second row
     assert "Escherichia albertii" in secondrow
-    assert "FAIL" in secondrow
+    assert "WARNING (WRONG SPECIES)" in secondrow
 
 
 def test_Ecoli_O17H18(caplog):
@@ -186,8 +184,7 @@ def test_Ecoli_O17H18(caplog):
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
-    secondrow=rows[1:][0] #remove header line
-    print(secondrow)
-    assert "Escherichia coli\tO17\tH18\tO17:H18\tPASS\tHIGH" in secondrow
+    secondrow=rows[1:][0] #check only second row
+    assert "Escherichia coli\tO77/O17/O44/O106\tH18\tO77/O17/O44/O106:H18\tWARNING MIXED O-TYPE" in secondrow
 
 

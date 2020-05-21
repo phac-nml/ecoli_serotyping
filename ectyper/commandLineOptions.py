@@ -85,18 +85,18 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "-oplen",
-        "--percentLengthOtype",
+        "-opcov",
+        "--percentCoverageOtype",
         type=check_percentage,
-        help="Percent length required for an O antigen allele match [default 95]",
+        help="Minumum percent coverage required for an O antigen allele match [default 95]",
         default=90
     )
 
     parser.add_argument(
-        "-hplen",
-        "--percentLengthHtype",
+        "-hpcov",
+        "--percentCoverageHtype",
         type=check_percentage,
-        help="Percent length required for an H antigen allele match [default 50]",
+        help="Minumum percent coverage required for an H antigen allele match [default 50]",
         default=50
     )
 
@@ -135,12 +135,12 @@ def parse_command_line(args=None):
     parser.add_argument(
         "--debug",
         action="store_true",
-        help="Print more detailed log including debug level messages"
+        help="Print more detailed log including debug messages"
     )
 
     parser.add_argument(
         "--dbpath",
-        help="Path to custom database of O and H antigen alleles in JSON format.\nCheck Data/ectyper_database.json for more information"
+        help="Path to a custom database of O and H antigen alleles in JSON format.\nCheck Data/ectyper_database.json for more information"
     )
 
     if args is None:

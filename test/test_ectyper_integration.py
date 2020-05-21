@@ -60,10 +60,10 @@ def test_integration_no_file():
     """
     file = ''
     set_input(file)
-    with pytest.raises(SystemExit) as se:
+    with pytest.raises(FileNotFoundError) as se:
         ectyper.run_program()
-    assert se.type == SystemExit
-    assert se.value.code == "No files were found"
+    assert se.type == FileNotFoundError
+    assert str(se.value) == "No files were found to run on"
 
 
 def test_integration_valid_file(caplog):
@@ -74,7 +74,10 @@ def test_integration_valid_file(caplog):
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
     set_input(file)
     ectyper.run_program()
-    assert "Escherichia\tEscherichia coli\tO103\tH2\tO103:H2\tPASS\tHIGH" in caplog.text
+    print(caplog.text)
+    assert "PASS (REPORTABLE)" in caplog.text
+    assert "O103:H2" in caplog.text
+    assert "Escherichia coli" in caplog.text
 
 
 def test_integration_yersinia(caplog):
@@ -86,6 +89,7 @@ def test_integration_yersinia(caplog):
     set_input(file)
     ectyper.run_program()
     assert "Yersinia pestis" in caplog.text
+    assert "WARNING (WRONG SPECIES)" in caplog.text
 
 def test_integration_validfasta_noverify(caplog):
     """
@@ -95,8 +99,8 @@ def test_integration_validfasta_noverify(caplog):
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
     set_input(file, verify=False)
     ectyper.run_program()
-    assert "Escherichia\tEscherichia coli O103:H2 str. 12009\tO103\tH2\tO103:H2" in caplog.text
-
+    assert "O103\tH2\tO103:H2" in caplog.text
+    assert "Escherichia\t-\tO103\tH2" in caplog.text
 
 def test_valid_fastq_file(caplog):
     """
@@ -105,10 +109,20 @@ def test_valid_fastq_file(caplog):
     :return: None
     """
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
-    set_input(file)
+    set_input(file, verify=False)
     ectyper.run_program()
-    assert "Escherichia\tEscherichia coli\tO22\tH8" in caplog.text
+    assert "O22:H8" in caplog.text
 
+def test_valid_fastq_file_with_verify(caplog):
+    """
+    Given a valid fastq file with low genome coverage, test species verification fail
+    Use a temp dir for the test output
+    :return: None
+    """
+    file = os.path.join(TEST_ROOT, 'Data/Escherichia.fastq')
+    set_input(file, verify=True)
+    ectyper.run_program()
+    assert "Escherichia coli" in caplog.text
 
 def test_multiple_directories(caplog):
     """
@@ -119,15 +133,16 @@ def test_multiple_directories(caplog):
     :return: None
     """
     the_dir = os.path.join(TEST_ROOT, 'Data/test_dir')
-    set_input(the_dir, cores=4, print_sequence=True)
+    set_input(the_dir, cores=4, verify=True, print_sequence=True)
     ectyper.run_program()
-    assert "sample2\tEscherichia coli\tO148\tH44" in caplog.text
-    assert "sample3\tEscherichia coli\tO148\tH44" in caplog.text
-    assert "sample4\tEscherichia coli\tO148\tH44" in caplog.text
-    assert "badfasta\t-\t-\t-\t-:-\t-\t-\t-\t-\tNon fasta / fastq file" in caplog.text
-    assert "sample.fasta\t-\t-\t-\t-:-\t-\t-\t-\t-\tNon fasta / fastq file" in caplog.text
-    assert "sampletar\t-\t-\t-\t-:-\t-\t-\t-\t-\tNon fasta / fastq file" in caplog.text
-    assert "test_junk\t-\t-\t-\t-:-\t-\t-\t-\t-\tNon fasta / fastq file" in caplog.text
+    assert any([True if re.match(r".+sample2.+WARNING\s+\(WRONG\s+SPECIES\).+Sample identified as -", line) else False for line in caplog.text.splitlines()]) #O148:H44
+    assert any([True if re.match(r".+sample3.+WARNING\s+\(WRONG\s+SPECIES\).+Sample identified as -", line) else False for line in caplog.text.splitlines()]) #O148:H44
+    assert any([True if re.match(r".+sample4.+WARNING\s+\(WRONG\s+SPECIES\).+Sample identified as -", line) else False for line in caplog.text.splitlines()]) #O148:H44
+    assert any([True if re.match(r".+badfasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
+    assert any([True if re.match(r".+sample.fasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
+    assert any([True if re.match(r".+sampletar.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
+    assert any([True if re.match(r".+test_junk.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
+
 
 def test_mash_sketch_and_assembly_metadata():
     """
@@ -145,30 +160,24 @@ def test_mash_sketch_and_assembly_metadata():
     print("File written to {}".format(MASHSTATSMETAFILE))
     subprocess.run(cmd, shell=True)
     mashsketchdatadf = pandas.read_csv(MASHSTATSMETAFILE,sep="\t")
-    mashaccessions=[re.findall("(GCF_\d+)\.+",item)[0] for item in mashsketchdatadf.iloc[:,2].values.tolist()]
+    mashaccessions=[re.findall(r"(GCF_\d+)\.+",item)[0] for item in mashsketchdatadf.iloc[:,2].values.tolist()]
     LOG.info("Extracted {} MASH RefSeq accessions".format(len(mashaccessions)))
 
 
     genomeassemblystatrefseqsdf = pandas.read_csv(ASSEMBLYREFSEQMETAFILE, sep="\t", skiprows=1)
-    #print(genomeassemblystatrefseqsdf.iloc[:, 0].values.tolist()[0:10])
-    metaaccessionsrefseq = [re.findall("(GCF_\d+)\.+",item)[0]  for item  in genomeassemblystatrefseqsdf.iloc[:, 0].values.tolist()]
-    #print(metaaccessionsrefseq[0:10])
+    metaaccessionsrefseq = [re.findall(r"(GCF_\d+)\.+",item)[0]  for item  in genomeassemblystatrefseqsdf.iloc[:, 0].values.tolist()]
     metaaccessionsrefseqdict = dict.fromkeys(metaaccessionsrefseq, True)
 
 
-    LOG.info("Extracted {} assembly meta data accessions".format(len(metaaccessionsrefseq)))
+    LOG.info("Extracted {} assembly metadata accessions from {}".format(len(metaaccessionsrefseq),MASHSTATSMETAFILE))
 
     notfoundaccessions = []
     for accession in mashaccessions:
         if not metaaccessionsrefseqdict.get(accession):
             notfoundaccessions.append(accession)
 
-    LOG.info("Not found accessions in meta data {}".format(len(notfoundaccessions)))
-    print(notfoundaccessions)
-
-    #genomeassemblystatsdf.loc[1:2, ["# assembly_accession",'bioproject', 'biosample',"wgs_master",
-    # "refseq_category","taxid","species_taxid", "organism_name","ftp_path"]]
+    LOG.info("{} of accessions not found in metadata file {}".format(len(notfoundaccessions),MASHSTATSMETAFILE))
 
 
 
-    # assembly_accession    bioproject      biosample       wgs_master      refseq_category taxid   species_taxid   organism_name   infraspecific_name      isolate version_status  assembly_level  release_type    genome_rep      seq_rel_date    asm_name        submitter       gbrs_paired_asm paired_asm_comp ftp_path        excluded_from_refseq    relation_to_type_material
+
