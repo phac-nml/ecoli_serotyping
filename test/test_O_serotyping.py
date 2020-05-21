@@ -59,7 +59,7 @@ def test_Otyping(caplog):
          Htype = secondrow[3]
 
     assert Otype == "-", "Expected no call but reported O-type:" + Otype
-    assert Htype == "H8", "Expected H11 but reported H-type:" + Htype
+    assert Htype == "H11", "Expected H11 but reported H-type:" + Htype
 
 
 def test_closeOalles_O42_O28(caplog):
