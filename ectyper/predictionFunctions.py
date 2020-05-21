@@ -406,11 +406,6 @@ def getQuality_control_results(sample, final_results_dict, ectyperdb_dict):
                                 ectyperdb_dict["H"][allele]["MinPident"] * ectyperdb_dict["H"][allele]["MinPcov"] / 1e4
                                 for allele in Htypealleles]
 
-        #identitycheckboolO = [final_results_dict[sample]["O"]["alleles"][allele]["identity"] >= ectyperdb_dict["O"][allele]["MinPident"] for allele in Otypealleles]
-        #identitycheckboolH = [final_results_dict[sample]["H"]["alleles"][allele]["identity"] >= ectyperdb_dict["H"][allele]["MinPident"] for allele in Htypealleles]
-        #coveragecheckboolO = [final_results_dict[sample]["O"]["alleles"][allele]["coverage"] >= ectyperdb_dict["O"][allele]["MinPcov"] for allele in Otypealleles]
-        #coveragecheckboolH = [final_results_dict[sample]["H"]["alleles"][allele]["coverage"] >= ectyperdb_dict["H"][allele]["MinPcov"] for allele in Htypealleles]
-
         if all(checkpredscoresboolO+checkpredscoresboolH) and all([item != [] for item in [checkpredscoresboolO,checkpredscoresboolH]]):
             QCflag="PASS (REPORTABLE)"
         elif all(checkpredscoresboolO):

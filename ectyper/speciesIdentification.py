@@ -133,33 +133,6 @@ def download_assembly_summary():
 
 
 
-
-# def is_ecoli(genome_file, temp_dir,ecolidict):
-#     """
-#     Checks whether the given genome is E. coli or not
-#
-#     :param genome_file: The genome file in fasta format
-#     :param temp_dir: ectyper run temp_dir
-#     :return: True or False
-#     """
-#     LOG.info("Verifying if sample is a valid E.coli genome based on the 10 E.coli specific markers")
-#     num_hit = get_num_hits(genome_file, temp_dir)
-#     ecolidict["nhitsmarkers"] = num_hit
-#
-#     if num_hit < 9:
-#         LOG.warning(
-#             "{0} is identified as an invalid E. coli genome.\nOnly {1} out of 10 E.coli specific markers were identified "
-#             "by the marker approach of "
-#             "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866"
-#             "-016-0680-0#Tab3"
-#             " where at least 9 out of 10 E. coli specific markers must be "
-#             "present for a given genome to be considered E.coli".format(os.path.basename(genome_file), num_hit))
-#         return False
-#     else:
-#         LOG.info("Samples is a valid E.coli genome based on the {} markers".format(num_hit))
-#         return True
-
-
 def is_escherichia_genus(speciesname):
     if re.match(r"Escherichia",speciesname):
         return  True
