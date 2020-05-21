@@ -42,10 +42,10 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
         output_df = output_df.query(
             '(type == "O" & pident >= ' + str(definitions.MIN_O_IDENTITY_LS) + ' & qcovhsp >= ' +
             str(definitions.MIN_O_COVERAGE_LS) + ') | '
-            '(type == "H" & pident >= ' +str(args.percentIdentityHtype) + ' & qcovhsp >= ' + str(args.percentLengthHtype) + ' )')
+            '(type == "H" & pident >= ' +str(args.percentIdentityHtype) + ' & qcovhsp >= ' + str(args.percentCoverageHtype) + ' )')
     else:
-        output_df = output_df.query('(type == "O" & pident >= '+str(args.percentIdentityOtype)+' & qcovhsp >= '+str(args.percentLengthOtype)+') | '
-                                    '(type == "H" & pident >= '+str(args.percentIdentityHtype)+' & qcovhsp >= '+str(args.percentLengthHtype)+' )')
+        output_df = output_df.query('(type == "O" & pident >= '+str(args.percentIdentityOtype)+' & qcovhsp >= '+str(args.percentCoverageOtype)+') | '
+                                    '(type == "H" & pident >= '+str(args.percentIdentityHtype)+' & qcovhsp >= '+str(args.percentCoverageHtype)+' )')
 
     # Append individual genomes/samples to overall dataframe for future selection
     output_df = output_df.assign(genome_name=output_df['sseqid'].str.split('|').str[1].values)
