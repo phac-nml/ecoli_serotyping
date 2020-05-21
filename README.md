@@ -111,7 +111,7 @@ For each reference allele minimum `%identity` and `%coverage` values were determ
 The QC module covers the following serotyping scenarios. More scenarios might be added in future versions depending on user needs.
 
 | QC flag          |      Explanation                                                 | 
-|------------------|:-----------------------------------------------------------------:|
+|------------------|:-----------------------------------------------------------------|
 |PASS (REPORTABLE) |Both O and H antigen alleles meet min `%identity` or `%coverage` thresholds (ensuring no antigen cross-talk) and single antigen predicted for O and H|
 |FAIL (-:- TYPING) |Sample is E.coli and O and H antigens are not typed. Serotype:  -:- |
 |WARNING MIXED O-TYPE|A mixed O antigen call is predicted requiring wet-lab confirmation |
