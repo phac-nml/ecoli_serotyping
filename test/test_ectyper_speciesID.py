@@ -48,21 +48,21 @@ def test_failed_species_identification(caplog):
     file = os.path.join(TEST_ROOT, 'Data/GCF_001672015.1.fna')
     set_input(input=file, verify=True)
     ectyper.run_program()
-    assert "GCF_001672015.1\tEscherichia coli\t-\tH8\t-:H8\tFAIL" in caplog.text
+    assert "GCF_001672015.1\tEscherichia coli\t-\tH8\t-:H8\tWARNING (-:H TYPING)" in caplog.text
 
 def test_failed_species_identification_nospeciesverify(caplog):
     caplog.set_level(logging.DEBUG)
     file = os.path.join(TEST_ROOT, 'Data/GCF_001672015.1.fna')
     set_input(input=file, verify=False)
     ectyper.run_program()
-    assert "GCF_001672015.1\tEscherichia coli\t-\tH8\t-:H8\tFAIL" in caplog.text
+    assert "GCF_001672015.1\t-\t-\tH8\t-:H8\t-" in caplog.text
 
 
 def test_non_existing_accession_in_meta(caplog):
     """
     GCA_900059685.2 - Streptococcus pneumoniae - ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/900/059/685/GCA_900059685.2_12291_5_44
     is not present in assembly_summary_refseq.txt and is a perfect candidate to try to test
-    species identification function without the fall-back 10 E.coli marker approach
+    species identification function
     :param caplog:
     :return:
     """
@@ -70,10 +70,12 @@ def test_non_existing_accession_in_meta(caplog):
     file = os.path.join(TEST_ROOT, 'Data/GCA_900059685.2.fna')
     set_input(input=file, verify=False)
     ectyper.run_program()
+    assert "No O and H antigen determinant E.coli genes were found" in caplog.text
 
 def test_speciesID_non_existing():
     """
-    GCF_001672015.1.fna is not present in `assembly_summary_refseq.txt`. Let's see how get_species would recover from this using the 10 hits
+    GCF_001672015.1.fna is not present in `assembly_summary_refseq.txt`. Let's see how get_species would recover from this
+    using top 10 hits
     :return:
     """
     fastafile=os.path.join(TEST_ROOT, 'Data/GCF_001672015.1.fna')

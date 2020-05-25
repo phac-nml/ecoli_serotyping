@@ -47,9 +47,10 @@ def get_files_as_list(file_or_directory):
             LOG.info("Using genomes in file " + file_or_directory)
             files_list.append(os.path.abspath(file_or_directory))
 
+
     if not files_list:
         LOG.critical("No files were found for the ectyper run")
-        exit("No files were found")
+        raise FileNotFoundError("No files were found to run on")
 
     sorted_files = sorted(files_list)
     LOG.debug(sorted_files)
@@ -77,8 +78,8 @@ def get_file_format(file):
                         return 'other'
                     return fm
         except FileNotFoundError:
-            LOG.warning("{0} is not found.".format(file))
-            return 'other'
+            LOG.error("{0} is not found.".format(file))
+            return 'filenotfound'
         except UnicodeDecodeError:
             LOG.warning("{0} is not a valid file.".format(file))
             return 'other'
@@ -101,7 +102,7 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     :return: Dictionary of files with the fasta headers modified for each filename {sampleid: {species:"","filepath":"","modheaderfile":"","error":""}}
     """
     files=[]
-    for sample in files_dict.keys(): # files_dict = {'Escherichia_O26H11': {'species': 'Escherichia coli', 'filepath': '/Data/Escherichia_O26H11.fasta'}}
+    for sample in files_dict.keys():
        files.append(files_dict[sample]["filepath"])
 
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
@@ -113,7 +114,7 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
         for r in results:
             sample=r["samplename"]
             files_dict[sample]["modheaderfile"] = r["newfile"]
-            #modified_genomes.append(r)
+
     modified_genomes = [files_dict[samples]["modheaderfile"] for samples in files_dict.keys()]
     LOG.debug(("Modified genomes: {}".format(modified_genomes)))
 
@@ -283,6 +284,7 @@ def identify_raw_files(raw_files, args):
     fasta_files = []
     fastq_files = []
     other_files = []
+    filesnotfound_files = []
 
     with Pool(processes=args.cores) as pool:
         result_tuples = pool.map(get_file_format_tuple, raw_files)
@@ -292,16 +294,20 @@ def identify_raw_files(raw_files, args):
                 fasta_files.append(f)
             elif ftype == 'fastq':
                 fastq_files.append(f)
-            else:
+            elif ftype == 'other':
                 other_files.append(f)
-
+            elif ftype == 'filenotfound':
+                filesnotfound_files.append(f)
+    LOG.info("Folowing files were not found in the input: {}".format(",".join(filesnotfound_files)))
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
     LOG.debug("other non- fasta/fastq files: {}".format(other_files))
 
     return ({'fasta': fasta_files,
              'fastq': fastq_files,
-             'other': other_files})
+             'other': other_files,
+             'filesnotfound': filesnotfound_files
+             })
 
 
 def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
@@ -328,9 +334,6 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
         for item in iterator:
             all_fasta_files_dict[item["fasta_file"]]=item["fastq_file"]
 
-   #     for r in results:
-   #         all_fasta_files.append(r)
-
     return all_fasta_files_dict
 
 
@@ -348,10 +351,9 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
     LOG.info("Creating combined serotype and identification fasta file")
 
-    #print(definitions.ECOLI_MARKERS)
     with open(combined_file, 'w') as ofh:
-        with open(definitions.ECOLI_MARKERS, 'r') as mfh:
-            ofh.write(mfh.read())
+        #with open(definitions.ECOLI_MARKERS, 'r') as mfh:
+        #    ofh.write(mfh.read())
 
         with open(alleles_fasta, 'r') as sfh:
             ofh.write(sfh.read())

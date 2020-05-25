@@ -13,11 +13,13 @@ package:
 
 source:
     #url: https://github.com/phac-nml/ecoli_serotyping/archive/v{{ version }}.tar.gz
-    git_url: https://github.com/kbessonov1984/ecoli_serotyping.git
-    git_rev: master
+    path: /Users/kirill/WORK/ECTyper/ecoli_serotyping
+    #git_url: https://github.com/kbessonov1984/ecoli_serotyping.git
+    #git_rev: master
 
 build:
-    number: 0
+    number: 17
+    noarch: python
     script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -37,7 +39,6 @@ requirements:
         - blast >=2.7.1.*
         - seqtk >=1.2.*
         - requests >=2.*.*
-        - portalocker >=1.5.*
 test:
     import:
         - ectyper
@@ -47,7 +48,7 @@ test:
          - pytest
     commands:
         - "ectyper --help"
-        - "pytest"
+     #   - "pytest"
 
 
 

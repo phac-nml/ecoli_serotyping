@@ -33,7 +33,6 @@ requirements:
         - blast 2.7.1.*
         - seqtk 1.2.*
         - requests 2.22.*
-        - portalocker 1.5.*
 test:
     import:
         - ectyper
