@@ -123,7 +123,33 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 |WARNING (O and H NON-REPORT)| Both O and H antigen alleles do not meet min %identity or %coverage thresholds|
 
 
- 
+# Report format and fields
+`ECTyper` capitalizes on a concise minimum output coupled to easy results interpretation and reporting. `ECTyper v1.0` serotyping results are available in a tab-delimited `output.tsv` file consisting of the 16 columns listed below:
+
+1. **Name**: Sample name (usually a unique identifier) 
+2. **Species**: the species column provides valuable species identification information in case of inadvertent sample contamination or mislabelling events
+3. **O-type**: O antigen
+4. **H-type**: H antigen
+5. **Serotype**: Predicted O and H antigen(s)
+6. **QC**: One of the 9 the Quality Control classification values summarizing overall quality and reliability of prediction
+7. **Evidence**: How many alleles in total used to call O and H antigens
+8. **GeneScores**: ECTyper O and H antigen, gene scores ranging from 0 to 1, represented by the selected alleles listed in the next column
+9. **AllelesKeys**: Best matching `ECTyper` database allele keys used to call a given serotype  
+10. **GeneIdentities(%)**: `%indentity` values of the input alleles
+11. **GeneCoverages(%)**: `%coverage` values of the input alleles
+12. **GeneContigNames**: the contig names where the input alleles are found
+13. **GeneRanges**: genomic coordinate ranges of the input alleles
+14. **GeneLengths**: the input allele length values 
+15. **Database**: database release version and date
+16. **Warnings**: any additional warnings linked to quality control status or any other error messages. 
+
+
+Selected columns from the `ECTyper` typical report are shown below. 
+
+|Name|Species|Serotype|QC |GeneScores|AlleleKeys|
+|------|:------|:-------|:--|:---------|:------------|
+|15-520|Escherichia coli|O174:H21|PASS (REPORTABLE)|wzx:1; wzy:1; fliC:1;|O104-5-wzx-origin;O104-13-wzy;H7-6-fliC-origin;|
+EC20151709|Escherichia coli|O157:H43|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;| 
 
 
 # Availability
