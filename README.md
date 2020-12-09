@@ -1,41 +1,65 @@
+[![European Galaxy server](https://img.shields.io/badge/usegalaxy-.eu-brightgreen?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAASCAYAAABB7B6eAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAACC2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KD0UqkwAAAn9JREFUOBGlVEuLE0EQruqZiftwDz4QYT1IYM8eFkHFw/4HYX+GB3/B4l/YP+CP8OBNTwpCwFMQXAQPKtnsg5nJZpKdni6/6kzHvAYDFtRUT71f3UwAEbkLch9ogQxcBwRKMfAnM1/CBwgrbxkgPAYqlBOy1jfovlaPsEiWPROZmqmZKKzOYCJb/AbdYLso9/9B6GppBRqCrjSYYaquZq20EUKAzVpjo1FzWRDVrNay6C/HDxT92wXrAVCH3ASqq5VqEtv1WZ13Mdwf8LFyyKECNbgHHAObWhScf4Wnj9CbQpPzWYU3UFoX3qkhlG8AY2BTQt5/EA7qaEPQsgGLWied0A8VKrHAsCC1eJ6EFoUd1v6GoPOaRAtDPViUr/wPzkIFV9AaAZGtYB568VyJfijV+ZBzlVZJ3W7XHB2RESGe4opXIGzRTdjcAupOK09RA6kzr1NTrTj7V1ugM4VgPGWEw+e39CxO6JUw5XhhKihmaDacU2GiR0Ohcc4cZ+Kq3AjlEnEeRSazLs6/9b/kh4eTC+hngE3QQD7Yyclxsrf3cpxsPXn+cFdenF9aqlBXMXaDiEyfyfawBz2RqC/O9WF1ysacOpytlUSoqNrtfbS642+4D4CS9V3xb4u8P/ACI4O810efRu6KsC0QnjHJGaq4IOGUjWTo/YDZDB3xSIxcGyNlWcTucb4T3in/3IaueNrZyX0lGOrWndstOr+w21UlVFokILjJLFhPukbVY8OmwNQ3nZgNJNmKDccusSb4UIe+gtkI+9/bSLJDjqn763f5CQ5TLApmICkqwR0QnUPKZFIUnoozWcQuRbC0Km02knj0tPYx63furGs3x/iPnz83zJDVNtdP3QAAAABJRU5ErkJggg==)](https://usegalaxy.eu/root?tool_id=ectyper)
 [![Master branch build status](https://api.travis-ci.org/phac-nml/ecoli_serotyping.svg?branch=master "Master Build Status")](https://travis-ci.org/phac-nml/ecoli_serotyping)
+![GitHub all releases](https://img.shields.io/github/downloads/phac-nml/ecoli_serotyping/total)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/phac-nml/ecoli_serotyping)
+![Conda](https://img.shields.io/conda/dn/bioconda/ectyper)
+![GitHub last commit](https://img.shields.io/github/last-commit/phac-nml/ecoli_serotyping)
+![GitHub issues](https://img.shields.io/github/issues/phac-nml/ecoli_serotyping)
+![Docker Pulls](https://img.shields.io/docker/pulls/kbessonov/ectyper)
 
 # ECTyper (an easy typer)
-**ectyper** is a standalone versatile serotyping module for _Escherichia coli_. It supports both _fasta_ (assembled) and _fastq_ (raw reads) file formats.
-The tool provides convenient species identification coupled to quality control module giving a complete, transparent and reference laboratories suitable report on E.coli serotpying.
+`ECTyper` is a standalone versatile serotyping module for _Escherichia coli_. It supports both _fasta_ (assembled) and _fastq_ (raw reads) file formats.
+The tool provides convenient species identification coupled to quality control module giving a complete, transparent and reference laboratories suitable report on E.coli serotyping.
 
 
 # Dependencies:
-- python >=3.5
-- pytest >=3.5
-- pandas 0.23.1
-- samtools 1.8
-- bowtie2 2.3.4.1
-- mash 2.0
-- bcftools 1.8
-- biopython 1.70
-- blast 2.7.1
-- seqtk 1.2
-- requests >=2.0
+- python >= 3.5
+- bcftools >= 1.8
+- blast == 2.7.1
+- seqtk >= 1.2
+- samtools >= 1.8
+- bowtie2 >= 2.3.4.1
+- mash >= 2.0
+
+# Python packages:
+- biopython >= 1.70
+- pandas >= 0.23.1
+- requests >= 2.0
 
 
 # Installation
+
+## Option 1: Conda
 1. If you do not have conda environment, get and install `miniconda` or `anaconda`:
-    1. `wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh`
-    1. `bash miniconda.sh -b -p $HOME/miniconda`
-    1. `echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc`
-    1. `source ~/.bashrc`
-2. Install ectyper either  
-    * Directly via `conda` (simplest option)
-    	1. `conda install -c bioconda ectyper` 
-    * As a source code through `github` repository
-    	1. Install dependencies
-          `pandas samtools bowtie2 mash bcftools biopython pytest blast seqtk tqdm python=3.6`
-    	1. Clone the repository (most recent build) or checkout a particular release
-          `git clone https://github.com/galaxyproject/galaxy.git`
-          `git checkout v1.0.0`
-    	1. Install ectyper
-          `python setup.py install`
+
+    ```wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    bash miniconda.sh -b -p $HOME/miniconda
+    echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
+    source ~/.bashrc```
+    
+2. Install conda package from `bioconda` channel 
+	```conda install -c bioconda ectyper```
+
+## Option 2: Source
+Second option is to install from the source.
+1. Install dependencies. On Ubuntu distro run
+```
+apt install samtools bowtie2 mash bcftools ncbi-blast+ seqtk
+```
+1. Install python dependencies via `pip`:
+
+```
+pip3 install pandas biopython
+```
+
+1. Clone the repository or checkout a particular release (e.g v1.0.0 or v0.8.1):
+
+```
+git clone https://github.com/phac-nml/ecoli_serotyping.git
+git checkout v1.0.0 #optionally checkout release version
+```
+   
+1. Install ectyper: `python3 setup.py install`
 
 # Basic Usage
 1. Put the fasta/fastq files for serotyping analyses in one folder (concatenate paired raw reads files if you would like them to be considered a single entity)
@@ -55,7 +79,7 @@ usage: ectyper [-h] [-V] -i INPUT [-c CORES] [-opid PERCENTIDENTITYOTYPE]
                [-hplen PERCENTLENGTHHTYPE] [--verify] [-o OUTPUT] [-r REFSEQ] [-s] [--debug]
                [--dbpath DBPATH]
 
-ectyper v1.0.0 database v1.0 Prediction of Escherichia coli serotype from raw reads or assembled
+ectyper v1.0 database v1.0 Prediction of Escherichia coli serotype from raw reads or assembled
 genome sequences. The default settings are recommended.
 
 optional arguments:
@@ -90,8 +114,8 @@ optional arguments:
                         Data/ectyper_database.json for more information
 ```
 
-# Fine tunning parameters
-ECTyper requires minimum options to run (`-i` and `-o`) but allows for extensive configuration to accomodate wide variaty of typing scenarios
+# Fine-tunning parameters
+`ECTyper` requires minimum options to run (`-i` and `-o`) but allows for extensive configuration to accomodate wide variaty of typing scenarios
 
 | Parameter|      Explanation                                                 | Usage scenario                                                                    |
 |----------|:----------------------------------------------------------------:|:----------------------------------------------------------------------------------:
@@ -110,20 +134,19 @@ These codes allow to quickly filter "reportable" and "non-reportable" samples. T
 For each reference allele minimum `%identity` and `%coverage` values were determined as a function of potential "cross-talk" between antigens (i.e. multiple potential antigen calls at a given setting).
 The QC module covers the following serotyping scenarios. More scenarios might be added in future versions depending on user needs.
 
-| QC flag          |      Explanation                                                 | 
+| QC flag          |      Explanation                                          | 
 |------------------|:-----------------------------------------------------------------|
 |PASS (REPORTABLE) |Both O and H antigen alleles meet min `%identity` or `%coverage` thresholds (ensuring no antigen cross-talk) and single antigen predicted for O and H|
 |FAIL (-:- TYPING) |Sample is E.coli and O and H antigens are not typed. Serotype:  -:- |
 |WARNING MIXED O-TYPE|A mixed O antigen call is predicted requiring wet-lab confirmation |
-|WARNING (WRONG SPECIES)| Sample is non-E.coli (e.g. E.albertii, Shigella, etc.) based on RefSeq assemblies|
-|WARNING (-:H TYPING)| Sample is E.coli and O antigen is not predicted (e.g. -:H18)|
-|WARNING (O:- TYPING)| Sample is E.coli and O antigen is not predicted (e.g. O17:-)|
+|WARNING (WRONG SPECIES)| A sample is non-E.coli (e.g. E.albertii, Shigella, etc.) based on RefSeq assemblies|
+|WARNING (-:H TYPING)| A sample is E.coli and O antigen is not predicted (e.g. -:H18)|
+|WARNING (O:- TYPING)| A sample is E.coli and O antigen is not predicted (e.g. O17:-)|
 |WARNING (O NON-REPORT)|O antigen alleles do not meet min %identity or %coverage thresholds|
 |WARNING (H NON-REPORT)|H antigen alleles do not meet min %id or %cov thresholds|
 |WARNING (O and H NON-REPORT)| Both O and H antigen alleles do not meet min %identity or %coverage thresholds|
-
-
-# Report format and fields
+ 
+# Report format
 `ECTyper` capitalizes on a concise minimum output coupled to easy results interpretation and reporting. `ECTyper v1.0` serotyping results are available in a tab-delimited `output.tsv` file consisting of the 16 columns listed below:
 
 1. **Name**: Sample name (usually a unique identifier) 
@@ -131,6 +154,19 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 3. **O-type**: O antigen
 4. **H-type**: H antigen
 5. **Serotype**: Predicted O and H antigen(s)
+<<<<<<< HEAD
+6. **QC**: The Quality Control value summarizing the overall quality of prediction
+7. **Evidence**: How many alleles in total used to both call O and H antigens
+8. **GeneScores**: ECTyper O and H antigen gene scores in 0 to 1 range
+9. **AllelesKeys**: Best matching `ECTyper` database allele keys used to call the serotype  
+10. **GeneIdentities(%)**: `%identity` values of the query alleles
+11. **GeneCoverages(%)**: `%coverage` values of the query alleles
+12. **GeneContigNames**: the contig names where the query alleles were found
+13. **GeneRanges**: genomic coordinates of the query alleles
+14. **GeneLengths**: allele lengths of the query alleles
+15. **Database**: database release version and date
+16. **Warnings**: any additional warnings linked to the quality control status or any other error message(s). 
+=======
 6. **QC**: One of the 9 the Quality Control classification values summarizing overall quality and reliability of prediction
 7. **Evidence**: How many alleles in total used to call O and H antigens
 8. **GeneScores**: ECTyper O and H antigen, gene scores ranging from 0 to 1, represented by the selected alleles listed in the next column
@@ -142,19 +178,40 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 14. **GeneLengths**: the input allele length values 
 15. **Database**: database release version and date
 16. **Warnings**: any additional warnings linked to quality control status or any other error messages. 
+>>>>>>> c6347ff15e078a6ea6047b96969efb9f3cdbf4f9
 
 
 Selected columns from the `ECTyper` typical report are shown below. 
 
+<<<<<<< HEAD
+|Name|Species|Serotype|Evidence|QC|GeneScores|AlleleKeys|GeneIdentities(%)   |    GeneCoverages(%)   |     GeneContigNames| GeneRanges   |   GeneLengths  |   Database |        Warnings|
+|------|:------|:-------|:--|:---------|:------------|:-----|:-----|:----|:----|:----|:----|:---|:--|
+|15-520|Escherichia coli|O174:H21|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1; wzy:1; fliC:1;|O104-5-wzx-origin;O104-13-wzy;H7-6-fliC-origin;|100;100;100;|    100;100;100;|contig00049;contig00001;contig00019;|   22302-23492;178-1290;6507-8264;| 1191;1113;1758;| v1.0 (2020-05-07)  |     -  |
+EC20151709|Escherichia coli|O157:H43|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;|100;99.916;99.934;   |   100;100;100;  |  contig00002;contig00002;contig00003; |   62558-63949;64651-65835;59962-61467;   | 1392;1185;1506; |v1.0 (2020-05-07)  |     - |
+=======
 |Name|Species|Serotype|QC |GeneScores|AlleleKeys|
 |------|:------|:-------|:--|:---------|:------------|
 |15-520|Escherichia coli|O174:H21|PASS (REPORTABLE)|wzx:1; wzy:1; fliC:1;|O104-5-wzx-origin;O104-13-wzy;H7-6-fliC-origin;|
-EC20151709|Escherichia coli|O157:H43|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;| 
+EC20151709|Escherichia coli|O157:H43|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;|
+>>>>>>> c6347ff15e078a6ea6047b96969efb9f3cdbf4f9
+
+
 
 
 # Availability
-1. Terminal: Source code from this repository
-1. Terminal: Conda package available from BioConda channel at [https://anaconda.org/bioconda/ectyper](https://anaconda.org/bioconda/ectyper)
-1. Terminal: Docker/Singularity images (coming soon) 
-1. Web-based: Galaxy wrapper available for installation from [Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)
-1. Web-based: IRIDA plug-in available from [https://github.com/phac-nml/irida-plugin-ectyper](https://github.com/phac-nml/irida-plugin-ectyper)
+
+|Resource|Description|Type|
+|--------|:----------|:---|
+|[Conda](https://anaconda.org/bioconda/ectyper)   |package available from BioConda channel|Terminal|
+<<<<<<< HEAD
+|[Docker](https://hub.docker.com/r/kbessonov/ectyper)| Images containing completely initialized ECTyper with all dependencies | Terminal|
+|[GitHub](https://github.com/phac-nml/ecoli_serotyping) | Install source code as any Python package| Terminal|
+|[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation on a private/public instance| Web-based|
+|[Galaxy EU](https://usegalaxy.eu/root?tool_id=ectyper)|Open public server to execute your analysis from anywhere|Web-based| 
+=======
+|Docker/Singularity| Images containing completely initialized ECTyper with all dependencies (coming shortly) | Terminal|
+|[GitHub](https://github.com/phac-nml/ecoli_serotyping) | Install source code as any Python package| Terminal|
+|[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation| Web-based|
+>>>>>>> c6347ff15e078a6ea6047b96969efb9f3cdbf4f9
+|[IRIDA plugin](https://github.com/phac-nml/irida-plugin-ectyper)| IRIDA instances could easily install additional pipeline | Web-based|
+
