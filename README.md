@@ -165,17 +165,6 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 14. **GeneLengths**: allele lengths of the query alleles
 15. **Database**: database release version and date
 16. **Warnings**: any additional warnings linked to the quality control status or any other error message(s). 
-6. **QC**: One of the 9 the Quality Control classification values summarizing overall quality and reliability of prediction
-7. **Evidence**: How many alleles in total used to call O and H antigens
-8. **GeneScores**: ECTyper O and H antigen, gene scores ranging from 0 to 1, represented by the selected alleles listed in the next column
-9. **AllelesKeys**: Best matching `ECTyper` database allele keys used to call a given serotype  
-10. **GeneIdentities(%)**: `%indentity` values of the input alleles
-11. **GeneCoverages(%)**: `%coverage` values of the input alleles
-12. **GeneContigNames**: the contig names where the input alleles are found
-13. **GeneRanges**: genomic coordinate ranges of the input alleles
-14. **GeneLengths**: the input allele length values 
-15. **Database**: database release version and date
-16. **Warnings**: any additional warnings linked to quality control status or any other error messages. 
 
 
 Selected columns from the `ECTyper` typical report are shown below. 
@@ -184,11 +173,6 @@ Selected columns from the `ECTyper` typical report are shown below.
 |------|:------|:-------|:--|:---------|:------------|:-----|:-----|:----|:----|:----|:----|:---|:--|
 |15-520|Escherichia coli|O174:H21|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1; wzy:1; fliC:1;|O104-5-wzx-origin;O104-13-wzy;H7-6-fliC-origin;|100;100;100;|    100;100;100;|contig00049;contig00001;contig00019;|   22302-23492;178-1290;6507-8264;| 1191;1113;1758;| v1.0 (2020-05-07)  |     -  |
 EC20151709|Escherichia coli|O157:H43|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;|100;99.916;99.934;   |   100;100;100;  |  contig00002;contig00002;contig00003; |   62558-63949;64651-65835;59962-61467;   | 1392;1185;1506; |v1.0 (2020-05-07)  |     - |
-=======
-|Name|Species|Serotype|QC |GeneScores|AlleleKeys|
-|------|:------|:-------|:--|:---------|:------------|
-|15-520|Escherichia coli|O174:H21|PASS (REPORTABLE)|wzx:1; wzy:1; fliC:1;|O104-5-wzx-origin;O104-13-wzy;H7-6-fliC-origin;|
-EC20151709|Escherichia coli|O157:H43|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;|
 
 
 
@@ -202,8 +186,5 @@ EC20151709|Escherichia coli|O157:H43|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O1
 |[GitHub](https://github.com/phac-nml/ecoli_serotyping) | Install source code as any Python package| Terminal|
 |[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation on a private/public instance| Web-based|
 |[Galaxy EU](https://usegalaxy.eu/root?tool_id=ectyper)|Open public server to execute your analysis from anywhere|Web-based| 
-|Docker/Singularity| Images containing completely initialized ECTyper with all dependencies (coming shortly) | Terminal|
-|[GitHub](https://github.com/phac-nml/ecoli_serotyping) | Install source code as any Python package| Terminal|
-|[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation| Web-based|
 |[IRIDA plugin](https://github.com/phac-nml/irida-plugin-ectyper)| IRIDA instances could easily install additional pipeline | Web-based|
 
