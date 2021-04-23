@@ -93,7 +93,7 @@ def run_program():
     LOG.info("Command-line arguments {}".format(args))
 
     # Init RefSeq database for species identification
-    if speciesIdentification.get_refseq_mash() == False:
+    if speciesIdentification.get_refseq_mash_and_assembly_summary() == False:
         LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
         exit("No MASH RefSeq sketch file found at {}".format(dbpath))
     else:

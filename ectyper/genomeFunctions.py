@@ -161,13 +161,18 @@ def create_bowtie_base(temp_dir, reference):
 
     bowtie_base = os.path.join(temp_dir, 'bowtie_reference')
     LOG.info("Creating the bowtie2 index at {}".format(bowtie_base))
+
     bowtie_build = [
         'bowtie2-build',
         '-f',
         reference,
         bowtie_base
     ]
-    subprocess_util.run_subprocess(bowtie_build)
+    try:
+        subprocess_util.run_subprocess(bowtie_build)
+    except FileNotFoundError:
+        raise Exception("Bowtie2 aligner is not installed or not working properly. Refer to https://github.com/BenLangmead/bowtie2 ...")
+
     return bowtie_base
 
 

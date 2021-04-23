@@ -149,7 +149,7 @@ def test_mash_sketch_and_assembly_metadata():
     Test if all accessions in mash sketch are a complete subset of the assembly stats superset.
     Ensure that all accession numbers are represented in the meta data assembly stats
     """
-    ectyper.speciesIdentification.get_refseq_mash()
+    ectyper.speciesIdentification.get_refseq_mash_and_assembly_summary()
     ROOT_DIR = os.path.abspath(os.path.join(TEST_ROOT, '..'))
     MASHSTATSMETAFILE=os.path.join(TEST_ROOT+"/mash_refseq_meta.txt")
     MASHINFILE = os.path.join(ROOT_DIR, 'ectyper/Data/refseq.genomes.k21s1000.msh')

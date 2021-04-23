@@ -30,6 +30,12 @@ OSEROTYPE_GROUPS_DICT = {'1': ['O20','O137'],
                          '15':['O89','O101','O162'],
                          '16':['O169','O183']
                          }
-HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference
+MASH_URLS = ["https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh",
+             "https://share.corefacility.ca/index.php/s/KDhSNQfhE6npIyo/download",
+             "https://gitlab.com/kbessonov/ectyper/raw/master/ectyper/Data/refseq.genomes.k21s1000.msh"]
+assembly_summary_refseq_url_dict = {"assembly_summary_refseq.txt":
+                                    "http://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/assembly_summary_refseq.txt"
+                                    }
+HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference on average
 MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to pre-filter BLAST output  (identical to global threshold)
 MIN_O_COVERAGE_LS = 48 #low similarity group O antigen min coverage threshold to pre-filter BLAST output (based on cross-talk study results)

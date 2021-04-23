@@ -11,26 +11,13 @@ import time #for file age calculations
 
 LOG = logging.getLogger(__name__)
 
-def get_fileAge(file):
-    if os.path.exists(file):
-        age = int(time.time() - os.stat(file).st_mtime)
-        LOG.info("RefSeq MASH refseq.genomes.k21s1000.msh age is {} days downloaded on {} located {}".format(int(age / 86400),
-                                                                                                  time.strftime('%Y-%m-%d at %H:%M:%S', time.localtime(os.path.getmtime(file))), file))
-        return age #file age in seconds
-    else:
-        LOG.error("RefSeq MASH refseq.genomes.k21s1000.msh does not exist. Was not able to get file age.")
-        return 0
 
 def bool_downloadMashRefSketch(targetpath):
     if os.path.exists(targetpath) == False:
        return True
-    #if the file size is smaller than 700MB, re-download mash sketch from Internet
+    #if the file size is smaller than 700MB, re-download mash sketch
     elif os.path.getsize(targetpath) < 700000000:
        return True
-    #re-download mash sketch after 6 months (16070400 seconds)
-    elif get_fileAge(targetpath) > 16070400:#
-        LOG.warning("MASH Sketch exists and is >6 month old and needs to be re-downloaded")
-        return True
     else:
         return False
 
@@ -57,15 +44,12 @@ def setLockFile(lockfilepath):
             time.sleep(60)  # recheck every 1 min if lock file was removed
         LOG.info("Lock file doest not exist or is removed by other process. Continue with databases download ...")
 
-def get_refseq_mash():
+def get_refseq_mash_and_assembly_summary():
     """
     Get MASH sketch of refseq genomes for species identification and check that the most recent version is installed
     :return returns boolean value depending on success of failure to download RefSeq MASH sketch
     """
 
-    urls=["https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh",
-          "https://share.corefacility.ca/index.php/s/KDhSNQfhE6npIyo/download",
-          "https://gitlab.com/kbessonov/ectyper/raw/master/ectyper/Data/refseq.genomes.k21s1000.msh"]
 
     targetpath = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh")
     lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock")
@@ -73,7 +57,7 @@ def get_refseq_mash():
 
     if bool_downloadMashRefSketch(targetpath):
         setLockFile(lockfilepath)
-        for url in urls:
+        for url in definitions.MASH_URLS:
             LOG.info("Trying to download MASH sketch from {}.".format(url))
             try:
                 LOG.info("Downloading ~700MB from {}.".format(url))
@@ -107,7 +91,7 @@ def get_refseq_mash():
         return True
 
 def download_assembly_summary():
-    sourceurls = {"assembly_summary_refseq.txt":"http://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/assembly_summary_refseq.txt"}
+    sourceurls = definitions.assembly_summary_refseq_url_dict
 
     try:
         for targetfile, url in sourceurls.items():

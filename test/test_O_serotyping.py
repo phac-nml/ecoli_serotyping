@@ -91,7 +91,7 @@ def test_Shigella_typing(caplog):
 
 def test_download_refseq_mash(caplog):
     caplog.set_level(logging.DEBUG)
-    response = ectyper.speciesIdentification.get_refseq_mash()
+    response = ectyper.speciesIdentification.get_refseq_mash_and_assembly_summary()
     assert response == True,"Something went wrong with the RefSeq sketch download. Check internet connection ..."
 
 

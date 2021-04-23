@@ -1,9 +1,8 @@
 [![European Galaxy server](https://img.shields.io/badge/usegalaxy-.eu-brightgreen?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAASCAYAAABB7B6eAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAACC2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KD0UqkwAAAn9JREFUOBGlVEuLE0EQruqZiftwDz4QYT1IYM8eFkHFw/4HYX+GB3/B4l/YP+CP8OBNTwpCwFMQXAQPKtnsg5nJZpKdni6/6kzHvAYDFtRUT71f3UwAEbkLch9ogQxcBwRKMfAnM1/CBwgrbxkgPAYqlBOy1jfovlaPsEiWPROZmqmZKKzOYCJb/AbdYLso9/9B6GppBRqCrjSYYaquZq20EUKAzVpjo1FzWRDVrNay6C/HDxT92wXrAVCH3ASqq5VqEtv1WZ13Mdwf8LFyyKECNbgHHAObWhScf4Wnj9CbQpPzWYU3UFoX3qkhlG8AY2BTQt5/EA7qaEPQsgGLWied0A8VKrHAsCC1eJ6EFoUd1v6GoPOaRAtDPViUr/wPzkIFV9AaAZGtYB568VyJfijV+ZBzlVZJ3W7XHB2RESGe4opXIGzRTdjcAupOK09RA6kzr1NTrTj7V1ugM4VgPGWEw+e39CxO6JUw5XhhKihmaDacU2GiR0Ohcc4cZ+Kq3AjlEnEeRSazLs6/9b/kh4eTC+hngE3QQD7Yyclxsrf3cpxsPXn+cFdenF9aqlBXMXaDiEyfyfawBz2RqC/O9WF1ysacOpytlUSoqNrtfbS642+4D4CS9V3xb4u8P/ACI4O810efRu6KsC0QnjHJGaq4IOGUjWTo/YDZDB3xSIxcGyNlWcTucb4T3in/3IaueNrZyX0lGOrWndstOr+w21UlVFokILjJLFhPukbVY8OmwNQ3nZgNJNmKDccusSb4UIe+gtkI+9/bSLJDjqn763f5CQ5TLApmICkqwR0QnUPKZFIUnoozWcQuRbC0Km02knj0tPYx63furGs3x/iPnz83zJDVNtdP3QAAAABJRU5ErkJggg==)](https://usegalaxy.eu/root?tool_id=ectyper)
 [![Master branch build status](https://api.travis-ci.org/phac-nml/ecoli_serotyping.svg?branch=master "Master Build Status")](https://travis-ci.org/phac-nml/ecoli_serotyping)
-![GitHub all releases](https://img.shields.io/github/downloads/phac-nml/ecoli_serotyping/total)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/phac-nml/ecoli_serotyping)
 ![Conda](https://img.shields.io/conda/dn/bioconda/ectyper)
-![GitHub last commit](https://img.shields.io/github/last-commit/phac-nml/ecoli_serotyping)
+[![PyPI version](https://badge.fury.io/py/ectyper.svg)](https://badge.fury.io/py/ectyper)
 ![GitHub issues](https://img.shields.io/github/issues/phac-nml/ecoli_serotyping)
 ![Docker Pulls](https://img.shields.io/docker/pulls/kbessonov/ectyper)
 
@@ -29,7 +28,7 @@ The tool provides convenient species identification coupled to quality control m
 
 # Installation
 
-## Option 1: Conda
+## Option 1: As a conda package
 1. If you do not have conda environment, get and install `miniconda` or `anaconda`:
 
     ```wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
@@ -40,7 +39,7 @@ The tool provides convenient species identification coupled to quality control m
 2. Install conda package from `bioconda` channel 
 	```conda install -c bioconda ectyper```
 
-## Option 2: Source
+## Option 2: From the source directly
 Second option is to install from the source.
 1. Install dependencies. On Ubuntu distro run
 ```
@@ -52,7 +51,7 @@ apt install samtools bowtie2 mash bcftools ncbi-blast+ seqtk
 pip3 install pandas biopython
 ```
 
-1. Clone the repository or checkout a particular release (e.g v1.0.0 or v0.8.1):
+1. Clone the repository or checkout a particular release (e.g v1.0.0, etc.):
 
 ```
 git clone https://github.com/phac-nml/ecoli_serotyping.git
@@ -181,10 +180,12 @@ EC20151709|Escherichia coli|O157:H43|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:
 
 |Resource|Description|Type|
 |--------|:----------|:---|
-|[Conda](https://anaconda.org/bioconda/ectyper)   |package available from BioConda channel|Terminal|
-|[Docker](https://hub.docker.com/r/kbessonov/ectyper)| Images containing completely initialized ECTyper with all dependencies | Terminal|
-|[GitHub](https://github.com/phac-nml/ecoli_serotyping) | Install source code as any Python package| Terminal|
-|[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation on a private/public instance| Web-based|
-|[Galaxy EU](https://usegalaxy.eu/root?tool_id=ectyper)|Open public server to execute your analysis from anywhere|Web-based| 
-|[IRIDA plugin](https://github.com/phac-nml/irida-plugin-ectyper)| IRIDA instances could easily install additional pipeline | Web-based|
+|[PyPI](https://pypi.org/project/ectyper/)| PyPI pacakge that could be installed via `pip` utility|Terminal|
+|[Conda](https://anaconda.org/bioconda/ectyper)   | Conda package available from BioConda channel|Terminal|
+|[Docker](https://hub.docker.com/r/kbessonov/ectyper)| Images containing completely initialized ECTyper with all dependencies |Terminal|
+|[Singluarity](https://biocontainers.pro/tools/ectyper) | Images containing completely initialized ECTyper with all dependencies |Terminal|
+|[GitHub](https://github.com/phac-nml/ecoli_serotyping) | Install source code as any Python package|Terminal|
+|[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation on a private/public instance|Web-based|
+|[Galaxy Europe](https://usegalaxy.eu/root?tool_id=ectyper)| Galaxy public server to execute your analysis from anywhere|Web-based| 
+|[IRIDA plugin](https://github.com/phac-nml/irida-plugin-ectyper)| IRIDA instances could easily install additional pipeline|Web-based|
 

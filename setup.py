@@ -1,6 +1,7 @@
 from setuptools import setup
 from ectyper import __version__
 
+
 setup(
     name='ectyper',
     version=__version__,
@@ -11,7 +12,9 @@ setup(
     license='Apache 2',
     scripts=['bin/ectyper'],
     packages=['ectyper'],
-    package_data={'ectyper': ['Data/*']},
+    install_requires=['requests','biopython','pandas'],
+    package_data={'ectyper': ['Data/*.json', 'Data/*.py']},
     zip_safe=False,
     test_suite='py.test'
 )
+
