@@ -2,7 +2,7 @@
 [![Master branch build status](https://api.travis-ci.org/phac-nml/ecoli_serotyping.svg?branch=master "Master Build Status")](https://travis-ci.org/phac-nml/ecoli_serotyping)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/phac-nml/ecoli_serotyping)
 ![Conda](https://img.shields.io/conda/dn/bioconda/ectyper)
-[![PyPI version](https://badge.fury.io/py/ectyper.svg)](https://badge.fury.io/py/ectyper)
+[![PyPI version](https://badge.fury.io/py/ectyper.svg)](https://pypi.org/project/ectyper/)
 ![GitHub issues](https://img.shields.io/github/issues/phac-nml/ecoli_serotyping)
 ![Docker Pulls](https://img.shields.io/docker/pulls/kbessonov/ectyper)
 
