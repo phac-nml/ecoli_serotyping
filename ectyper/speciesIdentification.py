@@ -85,7 +85,7 @@ def get_refseq_mash_and_assembly_summary():
 
     else:
         assemblysummarypath = os.path.join(os.path.dirname(__file__), "Data/assembly_summary_refseq.txt")
-        if os.path.exists(assemblysummarypath) == False:
+        if os.path.exists(assemblysummarypath) == False or os.path.getsize(assemblysummarypath) == 0:
             download_assembly_summary()
         LOG.info("RefSeq sketch (refseq.genomes.k21s1000.msh) and assembly meta data (assembly_summary_refseq.txt) is in good health and does not need to be downloaded")
         return True
@@ -100,15 +100,15 @@ def download_assembly_summary():
             response.raise_for_status()
 
             if response.status_code == 200:
-                with open(file=targetpath, mode="w") as fp:
+                with open(file=targetpath, mode="w", encoding="utf8") as fp:
                     fp.write(response.text)
                 LOG.info("Successfully downloaded {} with response code {}".format(targetfile, response.status_code))
             else:
                 LOG.critical("Server response error {}. Failed to download {}".format(response.status_code,targetfile))
 
             if not os.path.exists(targetpath):
-                exit(1)
                 LOG.critical("The {} file does not exist or is corrupted at {} path".format(targetfile, targetpath))
+                exit(1)
 
     except Exception as e:
         print(e)
