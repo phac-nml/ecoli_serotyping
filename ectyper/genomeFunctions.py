@@ -3,11 +3,14 @@
 '''
 Genome Utilities
 '''
-
+import bz2
+import gzip
 import logging
-import os
+import os, os.path
 import tempfile
+from shutil import copyfileobj
 from tarfile import is_tarfile
+from pathlib import Path
 from Bio import SeqIO
 from multiprocessing import Pool
 from functools import partial
@@ -68,6 +71,22 @@ def get_file_format(file):
         fm (str or None): the file format if 'fasta', 'fastq', 'other'
     """
     for fm in ['fastq', 'fasta']:
+        try:
+            with gzip.open(file, 'rt') as handle:
+                data = SeqIO.parse(handle, fm)
+                if any(data):
+                    LOG.info(f"Sniffer: File is a GZIP {fm}")
+                    return fm
+        except gzip.BadGzipFile:
+            pass
+        try:
+            with bz2.open(file, 'rt') as handle:
+                data = SeqIO.parse(handle, fm)
+                if any(data):
+                    LOG.info(f"Sniffer: File is a BZ2 {fm}")
+                    return fm
+        except IOError:
+            pass
         try:
             with open(file, "r") as handle:
                 data = SeqIO.parse(handle, fm)
@@ -186,6 +205,24 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     :param temp_dir: The ectyper temporary directory
     :return: The full path to the assembled fasta file
     """
+
+    #check if reads can be decompressed; if so, move them to a tempfile
+
+    name = Path(reads).stem
+    #old_reads = reads
+    try:
+        with gzip.open(reads, 'rb') as fi, open(os.path.join(temp_dir, name), 'wb') as temp_reads:
+            copyfileobj(fi, temp_reads)
+            reads = temp_reads.name
+    except gzip.BadGzipFile:
+        try:
+            with bz2.open(reads, 'rb') as fi, open(os.path.join(temp_dir, name), 'wb') as temp_reads:
+                copyfileobj(fi, temp_reads)
+                reads = temp_reads.name
+        except IOError:
+            pass
+
+
     output_name = os.path.splitext(os.path.basename(reads))[0]
     output_fasta = os.path.join(
         temp_dir,
@@ -262,6 +299,8 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     LOG.info("Creating fasta file {}".format(output_fasta))
     with open(output_fasta, 'wb') as ofh:
         ofh.write(to_fasta_output.stdout)
+
+
 
     return {"fastq_file":reads,"fasta_file":output_fasta}
 
