@@ -10,7 +10,6 @@ import os, os.path
 import tempfile
 from shutil import copyfileobj
 from tarfile import is_tarfile
-from pathlib import Path
 from Bio import SeqIO
 from multiprocessing import Pool
 from functools import partial
@@ -208,7 +207,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
 
     #check if reads can be decompressed; if so, move them to a tempfile
 
-    name = Path(reads).stem
+    name = os.path.basename(reads).split('.')[0]
     #old_reads = reads
     try:
         with gzip.open(reads, 'rb') as fi, open(os.path.join(temp_dir, name), 'wb') as temp_reads:
