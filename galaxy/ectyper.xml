@@ -41,7 +41,7 @@
   ]]>
   </command>
   <inputs>
-    <param name="input" type="data"  format="fastq,fasta" label="Genome(s) input(s)" help="FASTA or FASTQ file(s)"/>
+    <param name="input" type="data"  format="fastq,fasta,fastq.gz,fastq.bz2,fastqsanger,fastqsanger.gz,fastqsanger.bz2,fastqillumina,fastqillumina.gz,fastqillumina.bz2" label="Genome(s) input(s)" help="FASTA or FASTQ file(s)"/>
     <param name="mash_input" type="data" optional="true" format="binary" label="Mash genome sketches (Optional)" help="Optionally provide custom MASH genome sketch to help with species identification (otherwise default RefSeq sketch is used)"/>
     <section name="adv_param" title="Advanced parameters" expanded="False">
       <param name="min_percentIdentity" type="integer" value="90" min="1" max="100"/>
@@ -59,7 +59,31 @@
   </outputs>
   <tests>
     <test>
-      <param name="input" value="Escherichia2.fastq"/>
+      <param name="input" value="Escherichia.fastq"/>
+      <assert_stderr>
+            <has_text text="O22"/> 
+            <has_text text="H8"/> 
+      </assert_stderr>
+      <output name="output_result" ftype="tabular" >
+          <assert_contents>
+              <has_text_matching expression="O22"/>
+         </assert_contents>
+      </output>
+    </test>
+    <test>
+      <param name="input" value="Escherichia.gz"/>
+      <assert_stderr>
+            <has_text text="O22"/> 
+            <has_text text="H8"/> 
+      </assert_stderr>
+      <output name="output_result" ftype="tabular" >
+          <assert_contents>
+              <has_text_matching expression="O22"/>
+         </assert_contents>
+      </output>
+    </test>
+    <test>
+      <param name="input" value="Escherichia.bz2"/>
       <assert_stderr>
             <has_text text="O22"/> 
             <has_text text="H8"/> 
