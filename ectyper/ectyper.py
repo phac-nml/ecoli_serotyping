@@ -17,8 +17,8 @@ from ectyper import (commandLineOptions, definitions, speciesIdentification,
 
 
 # setup the application logging
-
 LOG = loggingFunctions.create_logger()
+
 
 def check_database_struct(db, dbpath):
     levelOneKeys = ["version","date","O","H"]
@@ -48,8 +48,7 @@ def run_program():
     Creates all required files and controls function execution.
     :return: success or failure
     """
-
-
+    
     args = commandLineOptions.parse_command_line()
     output_directory = create_output_directory(args.output)
 
@@ -74,9 +73,6 @@ def run_program():
 
     LOG.info("Starting ectyper v{} running on allele database v{} ({})".format(__version__, ectyperdb_dict["version"], ectyperdb_dict["date"]))
 
-    if args.debug:
-        LOG.debug("Command-line arguments were:\n{}".format(args))
-
     # Create a file handler for log messages in the output directory
     fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
 
@@ -86,14 +82,15 @@ def run_program():
     else:
         fh.setLevel(logging.INFO)
         LOG.setLevel(logging.INFO)
-
-
     LOG.addHandler(fh)
+
+    LOG.debug("Command-line arguments were:\n{}".format(args))
     LOG.info("Output_directory is {}".format(output_directory))
     LOG.info("Command-line arguments {}".format(args))
 
-    # Init RefSeq database for species identification
-    if speciesIdentification.get_refseq_mash_and_assembly_summary() == False:
+    # Init MASH species database for species identification
+    
+    if speciesIdentification.get_species_mash(args.reference) == False:
         LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
         exit("No MASH RefSeq sketch file found at {}".format(dbpath))
     else:
@@ -286,6 +283,7 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir, ectyperdb_d
         genome_files[i:i + group_size]
         for i in range(0, len(genome_files), group_size)
     ]
+    
     gp = partial(genome_group_prediction, alleles_fasta=alleles_fasta,
                  args=args, temp_dir=temp_dir, ectyperdb_dict=ectyperdb_dict)
 
@@ -316,7 +314,11 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
     :param temp_dir: ectyper run temp dir
     :return: dictionary of the results for the g_group
     """
-
+    if args.debug:
+        LOG.setLevel(logging.DEBUG)
+    else:
+        LOG.setLevel(logging.INFO)    
+    
     # create a temp dir for blastdb -- each process gets its own directory
     with tempfile.TemporaryDirectory(dir=temp_dir) as temp_dir:
         LOG.debug("Creating blast database from {}".format(g_group))

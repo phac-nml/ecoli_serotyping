@@ -2,7 +2,7 @@
 
 import argparse
 from ectyper import __version__
-import json
+import json, os
 import ectyper.definitions as definitions
 
 def parse_command_line(args=None):
@@ -114,14 +114,13 @@ def parse_command_line(args=None):
 
     parser.add_argument(
         "-r",
-        "--refseq",
-        help="Location of pre-computed MASH RefSeq sketch. If provided, "
+        "--reference",
+        default=os.path.join(os.path.dirname(__file__),"Data/EnteroRef_GTDBSketch_20231003_V2.msh"),
+        help="Location of pre-computed MASH sketch for species identification. If provided, "
              "genomes "
              "identified as non-E. coli will have their species identified "
              "using "
-             "MASH. For best results the pre-sketched RefSeq archive "
-             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh "
-             "is recommended"
+             "MASH dist"
     )
 
     parser.add_argument(
