@@ -5,14 +5,118 @@ import logging
 import os, re
 import pandas as pd
 import ectyper.definitions as definitions
+from ectyper import subprocess_util, commandLineOptions
 
+from Bio import SeqRecord
+from Bio.Seq import  Seq
+from Bio.SeqIO import FastaIO
 
 LOG = logging.getLogger(__name__)
 
 """
     Serotype prediction for E. coli
 """
+def fasta_custom_header_generator(record):
+    return f"{record.id}|{record.name}|{record.description}"
 
+def json2fasta(json_file, output_dir):
+    basename = os.path.basename(definitions.PATHOTYPE_ALLELE_JSON).split('.json')[0]
+    fasta_pathotypedb_path = os.path.join(output_dir,f'{basename}.fasta')
+    
+    if os.path.exists(fasta_pathotypedb_path):
+        return fasta_pathotypedb_path
+    
+    with open(json_file) as fp:
+        json_db = json.load(fp)
+    sequences = []
+    
+    for marker in json_db['markers'].keys():
+        marker_dict = json_db['markers'][marker]
+        for item in marker_dict:
+            sequences.append(SeqRecord.SeqRecord(seq= Seq(item['dnasequence']) , id = item['accession'], name=marker+'|'+item['gene'], 
+                                                 description = re.sub(' ','_',item["description"]))) 
+    with open(fasta_pathotypedb_path, "w") as fp:
+        fasta_out = FastaIO.FastaWriter(fp, wrap=None, record2title=fasta_custom_header_generator )
+        fasta_out.write_file(sequences)
+    LOG.info(f"Created pathotype database in fasta format from JSON at {fasta_pathotypedb_path}") 
+    return fasta_pathotypedb_path
+
+def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, output_dir):
+    LOG.info(f"Starting pathotype predictions for E.coli {len(ecoli_genome_files_dict.keys())} samples ({len(other_genomes_dict.keys())} non-E.coli sample(s) will be skipped) ...")
+    path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
+    
+    predictions_pathotype_dict = {}
+    with open(definitions.PATHOTYPE_ALLELE_JSON) as fp:
+        pathotype_db = json.load(fp)
+
+    pathotype_genes_overall_df=pd.DataFrame()
+
+    for g in other_genomes_dict.keys():
+        predictions_pathotype_dict[g]={}
+        predictions_pathotype_dict[g]['pathotype'] = ['-']
+        predictions_pathotype_dict[g]['genes'] = ['-']
+        predictions_pathotype_dict[g]['rule_ids']=['-']
+
+
+    for g in ecoli_genome_files_dict.keys():
+        LOG.info(f"Running pathotype prediction on {g} ...")
+        predictions_pathotype_dict[g]={}
+        predictions_pathotype_dict[g]['pathotype'] = []
+        predictions_pathotype_dict[g]['genes'] = []
+        predictions_pathotype_dict[g]['rule_ids']=[]
+        input_sequence_file = ecoli_genome_files_dict[g]['modheaderfile'] 
+        cmd = [
+            "blastn",
+            "-query", path2patho_db,
+            "-subject", input_sequence_file,
+            "-out", f"{temp_dir}/blast_pathotype_result.txt",
+            "-outfmt", "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp bitscore sseq"
+        ]
+        subprocess_util.run_subprocess(cmd)
+        if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
+            LOG.info(f"For sample {g} the pathotype BLAST results file is empty. Skipping ...")
+            predictions_pathotype_dict[g]['pathotype'] = ['None']
+            predictions_pathotype_dict[g]['genes'] = ['-']
+            predictions_pathotype_dict[g]['rule_ids']=['-']
+            continue
+
+        pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
+        pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'qcovhsp', 'bitscore', 'sseq']
+        pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True)
+        pathotype_genes_tmp_df['gene'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])
+        pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
+        pathotype_genes_tmp_df['sample_id'] = g
+        pathotype_genes_overall_df = pd.concat([pathotype_genes_overall_df,pathotype_genes_tmp_df], ignore_index=True)
+
+        genes_list = list(pathotype_genes_tmp_df.gene.unique())
+        predictions_pathotype_dict[g]['genes']=genes_list
+        
+        for pathotype in pathotype_db['pathotypes']:
+            for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
+                ngenes_in_rule = len(pathotype_db['pathotypes'][pathotype]['rules'][rule_id])
+                matched_gene_counter = 0
+                for gene in pathotype_db['pathotypes'][pathotype]['rules'][rule_id]:
+                    if "!" in gene:
+                        gene = re.sub('!','',gene)
+                        if gene not in genes_list:
+                            matched_gene_counter += 1
+                        else:
+                            matched_gene_counter = 0
+                            break    
+                    elif gene in genes_list:
+                        matched_gene_counter += 1
+                if ngenes_in_rule == matched_gene_counter:
+                    predictions_pathotype_dict[g]['pathotype'].append(pathotype)
+                    predictions_pathotype_dict[g]['rule_ids'].append(rule_id)
+        predictions_pathotype_dict[g]['pathotype']=list(set(predictions_pathotype_dict[g]['pathotype']))
+        if len(predictions_pathotype_dict[g]['pathotype']) == 0:
+              predictions_pathotype_dict[g]['pathotype'] = ['None']
+              predictions_pathotype_dict[g]['genes'] = ['-']
+              predictions_pathotype_dict[g]['rule_ids']=['-']
+
+    pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
+    return predictions_pathotype_dict
+        
 
 def predict_serotype(blast_output_file, ectyper_dict, args):
     """
@@ -435,7 +539,7 @@ def report_result(final_dict, output_dir, output_file, args):
     header = "Name\tSpecies\tO-type\tH-type\tSerotype\tQC\t" \
              "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
              "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
-             "GeneLengths\tDatabase\tWarnings\n"
+             "GeneLengths\tDatabase\tWarnings\tPathotype\tPathotype_genes\tPathotype_rules\n"
     output = []
     LOG.info(header.strip())
 
@@ -533,6 +637,15 @@ def report_result(final_dict, output_dir, output_file, args):
             output_line.append(final_dict[sample]["error"])
         else:
             output_line.append("-")
+
+        if 'pathotype' in final_dict[sample]:
+            output_line.append(final_dict[sample]['pathotype'])
+            output_line.append(final_dict[sample]['pathotype_genes'])
+            output_line.append(final_dict[sample]['pathotype_rule_ids'])
+        else:
+            output_line.append("-")
+            output_line.append("-")
+            output_line.append("-")  
 
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")

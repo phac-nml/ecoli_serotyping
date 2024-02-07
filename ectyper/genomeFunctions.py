@@ -11,7 +11,7 @@ from tarfile import is_tarfile
 from Bio import SeqIO
 from multiprocessing import Pool
 from functools import partial
-from ectyper import definitions, subprocess_util
+from ectyper import definitions, subprocess_util, predictionFunctions,commandLineOptions
 
 LOG = logging.getLogger(__name__)
 
@@ -342,7 +342,7 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
     return all_fasta_files_dict
 
 
-def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
+def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir, pathotype):
     """
     Create a combined E. coli specific marker and serotyping allele file
     Do this every program run to prevent the need for keeping a separate
@@ -350,6 +350,7 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
 
     :param alleles_fasta: The O- and H- alleles file
     :param temp_dir: Temporary directory for program run
+    :param pathotype: Boolean value indicating if pathotyping information is requested
     :return: The combined alleles and markers file
     """
 
@@ -362,5 +363,11 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
 
         with open(alleles_fasta, 'r') as sfh:
             ofh.write(sfh.read())
+        
+        #add pathotype allele references if required
+        if pathotype:
+            path2patho_db  = predictionFunctions.json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
+            with open(path2patho_db, 'r') as sfh:
+                ofh.write(sfh.read())
 
     return combined_file

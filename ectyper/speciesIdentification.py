@@ -199,9 +199,9 @@ def get_species(file, args):
 
 
     if len(top_hit_lines) < 1:
-        LOG.warning("No hits returned by mash sketch search. Species identification failed!")
+        LOG.warning('For {file} no hits returned by MASH species id sketch search. Species identification failed!')
     else:
-        LOG.info("Following top hits returned by MASH {}".format([top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]))
+        LOG.info(f'For {file} following top hits returned by MASH {[top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]}')
 
 
     for top_hit_line in top_hit_lines:

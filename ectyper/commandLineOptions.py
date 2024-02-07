@@ -142,6 +142,12 @@ def parse_command_line(args=None):
         help="Path to a custom database of O and H antigen alleles in JSON format.\nCheck Data/ectyper_database.json for more information"
     )
 
+    parser.add_argument(
+        "--pathotype",
+        action="store_true",
+        help="Predict E.coli pathotype(s) using either raw or assembled reads\n"
+    )
+
     if args is None:
         return parser.parse_args()
     else:
