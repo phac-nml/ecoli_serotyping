@@ -75,7 +75,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
         subprocess_util.run_subprocess(cmd)
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
             LOG.info(f"For sample {g} the pathotype BLAST results file is empty. Skipping ...")
-            predictions_pathotype_dict[g]['pathotype'] = ['None']
+            predictions_pathotype_dict[g]['pathotype'] = ['ND']
             predictions_pathotype_dict[g]['genes'] = ['-']
             predictions_pathotype_dict[g]['rule_ids']=['-']
             continue
@@ -110,7 +110,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
                     predictions_pathotype_dict[g]['rule_ids'].append(rule_id)
         predictions_pathotype_dict[g]['pathotype']=list(set(predictions_pathotype_dict[g]['pathotype']))
         if len(predictions_pathotype_dict[g]['pathotype']) == 0:
-              predictions_pathotype_dict[g]['pathotype'] = ['None']
+              predictions_pathotype_dict[g]['pathotype'] = ['ND']
               predictions_pathotype_dict[g]['genes'] = ['-']
               predictions_pathotype_dict[g]['rule_ids']=['-']
 
