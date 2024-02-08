@@ -3951,28 +3951,24 @@
             "rules": {
                 "13": [
                     "eae",
-                    "!stx1"
+                    "!stx1",
+                    "!stx2"
                 ],
                 "14": [
-                    "eae",
+                    "bfpA",
+                    "!stx1",
                     "!stx2"
                 ],
                 "15": [
+                    "eae",
                     "bfpA",
-                    "!stx1"
-                ],
-                "16": [
-                    "bfpA",
+                    "!stx1",
                     "!stx2"
                 ],
-                "17": [
+                "16": [
                     "eae",
                     "bfpA",
-                    "!stx1"
-                ],
-                "18": [
-                    "eae",
-                    "bfpA",
+                    "!stx1",
                     "!stx2"
                 ]
             }
@@ -3980,25 +3976,25 @@
         "ETEC": {
             "name": "Enterotoxigenic Escherichia coli",
             "rules": {
-                "19": [
+                "17": [
                     "ltcA"
                 ],
-                "20": [
+                "18": [
                     "sta1"
                 ],
-                "21": [
+                "19": [
                     "sta2"
                 ],
-                "22": [
+                "20": [
                     "sta3/4"
                 ],
-                "24": [
+                "21": [
                     "stb"
                 ],
-                "25": [
+                "22": [
                     "eltA"
                 ],
-                "26": [
+                "23": [
                     "eltB"
                 ]
             }
@@ -4006,13 +4002,13 @@
         "STEC": {
             "name": "Shiga toxin-producing Escherichia coli",
             "rules": {
-                "27": [
+                "24": [
                     "stx1"
                 ],
-                "28": [
+                "25": [
                     "stx2"
                 ],
-                "29": [
+                "26": [
                     "stx1",
                     "stx2"
                 ]
