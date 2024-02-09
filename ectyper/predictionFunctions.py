@@ -5,7 +5,7 @@ import logging
 import os, re
 import pandas as pd
 import ectyper.definitions as definitions
-from ectyper import subprocess_util, commandLineOptions
+from ectyper import subprocess_util
 
 from Bio import SeqRecord
 from Bio.Seq import  Seq
@@ -17,6 +17,14 @@ LOG = logging.getLogger(__name__)
     Serotype prediction for E. coli
 """
 def fasta_custom_header_generator(record):
+    """_summary_
+
+    Args:
+        record (Bio.SeqRecord): Biopython Sequence object
+
+    Returns:
+        sring: formatted FASTA header string using the format <id>|<accession>|<marker>|<gene symbol>|<gene full name>
+    """
     return f"{record.id}|{record.name}|{record.description}"
 
 def json2fasta(json_file, output_dir):
@@ -33,7 +41,7 @@ def json2fasta(json_file, output_dir):
     for marker in json_db['markers'].keys():
         marker_dict = json_db['markers'][marker]
         for item in marker_dict:
-            sequences.append(SeqRecord.SeqRecord(seq= Seq(item['dnasequence']) , id = item['accession'], name=marker+'|'+item['gene'], 
+            sequences.append(SeqRecord.SeqRecord(seq= Seq(item['dnasequence']) , id = item['id'], name=item['accession']+'|'+marker+'|'+item['gene'], 
                                                  description = re.sub(' ','_',item["description"]))) 
     with open(fasta_pathotypedb_path, "w") as fp:
         fasta_out = FastaIO.FastaWriter(fp, wrap=None, record2title=fasta_custom_header_generator )
@@ -78,18 +86,31 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
             predictions_pathotype_dict[g]['pathotype'] = ['ND']
             predictions_pathotype_dict[g]['genes'] = ['-']
             predictions_pathotype_dict[g]['rule_ids']=['-']
+            predictions_pathotype_dict[g]['allele_id']=['-']
+            predictions_pathotype_dict[g]['accession']=['-']
+            predictions_pathotype_dict[g]['pident'] = ['-']
+            predictions_pathotype_dict[g]['pcov'] = ['-']
             continue
 
         pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
         pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'qcovhsp', 'bitscore', 'sseq']
         pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True)
-        pathotype_genes_tmp_df['gene'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])
-        pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
+        pathotype_genes_tmp_df['allele_id'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
+        pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])
+        pathotype_genes_tmp_df['gene'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[2])
         pathotype_genes_tmp_df['sample_id'] = g
         pathotype_genes_overall_df = pd.concat([pathotype_genes_overall_df,pathotype_genes_tmp_df], ignore_index=True)
 
-        genes_list = list(pathotype_genes_tmp_df.gene.unique())
+        pathotype_genes_top_hits = pathotype_genes_tmp_df.loc[pathotype_genes_tmp_df.groupby('gene')['bitscore'].transform("idxmax").unique()].sort_values('gene')
+        pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
+
+        genes_list = pathotype_genes_top_hits['gene'].to_list()
+        
         predictions_pathotype_dict[g]['genes']=genes_list
+        predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
+        predictions_pathotype_dict[g]['accession']=pathotype_genes_top_hits['accession'].to_list()
+        predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
+        predictions_pathotype_dict[g]['pcov'] = pathotype_genes_top_hits['qcovhsp'].astype(str).to_list()
         
         for pathotype in pathotype_db['pathotypes']:
             for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
@@ -113,6 +134,10 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
               predictions_pathotype_dict[g]['pathotype'] = ['ND']
               predictions_pathotype_dict[g]['genes'] = ['-']
               predictions_pathotype_dict[g]['rule_ids']=['-']
+              predictions_pathotype_dict[g]['allele_id']=['-']
+              predictions_pathotype_dict[g]['accession']=['-']
+              predictions_pathotype_dict[g]['pident'] = ['-']
+              predictions_pathotype_dict[g]['pcov'] = ['-']
 
     pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
     return predictions_pathotype_dict
@@ -539,7 +564,8 @@ def report_result(final_dict, output_dir, output_file, args):
     header = "Name\tSpecies\tO-type\tH-type\tSerotype\tQC\t" \
              "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
              "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
-             "GeneLengths\tDatabase\tWarnings\tPathotype\tPathotype_genes\tPathotype_rules\n"
+             "GeneLengths\tDatabase\tWarnings\t" \
+             "Pathotype\tPathotypeGeneSym\tPathotypeGeneIds\tPathotypeGeneIdentities(%)\tPathotypeGeneCoverages(%)\tPathotypeRuleIds\n"
     output = []
     LOG.info(header.strip())
 
@@ -641,11 +667,17 @@ def report_result(final_dict, output_dir, output_file, args):
         if 'pathotype' in final_dict[sample]:
             output_line.append(final_dict[sample]['pathotype'])
             output_line.append(final_dict[sample]['pathotype_genes'])
+            output_line.append(final_dict[sample]['pathotype_genes_ids'])
+            output_line.append(final_dict[sample]['pathotype_genes_pident'])
+            output_line.append(final_dict[sample]['pathotype_genes_pcov'])
             output_line.append(final_dict[sample]['pathotype_rule_ids'])
         else:
             output_line.append("-")
             output_line.append("-")
-            output_line.append("-")  
+            output_line.append("-") 
+            output_line.append("-")
+            output_line.append("-")
+            output_line.append("-") 
 
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")
