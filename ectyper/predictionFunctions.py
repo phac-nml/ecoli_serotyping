@@ -90,6 +90,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
             predictions_pathotype_dict[g]['accession']=['-']
             predictions_pathotype_dict[g]['pident'] = ['-']
             predictions_pathotype_dict[g]['pcov'] = ['-']
+            predictions_pathotype_dict[g]['length_ratio'] = ['-']
             continue
 
         pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
@@ -104,13 +105,17 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
         pathotype_genes_top_hits = pathotype_genes_tmp_df.loc[pathotype_genes_tmp_df.groupby('gene')['bitscore'].transform("idxmax").unique()].sort_values('gene')
         pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
 
-        genes_list = pathotype_genes_top_hits['gene'].to_list()
+        gene_list = pathotype_genes_top_hits['gene'].to_list()
         
-        predictions_pathotype_dict[g]['genes']=genes_list
+        predictions_pathotype_dict[g]['genes']=gene_list
         predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
         predictions_pathotype_dict[g]['accession']=pathotype_genes_top_hits['accession'].to_list()
         predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
         predictions_pathotype_dict[g]['pcov'] = pathotype_genes_top_hits['qcovhsp'].astype(str).to_list()
+        
+        
+        predictions_pathotype_dict[g]['length_ratio'] = pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list()
+ 
         
         for pathotype in pathotype_db['pathotypes']:
             for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
@@ -119,12 +124,12 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
                 for gene in pathotype_db['pathotypes'][pathotype]['rules'][rule_id]:
                     if "!" in gene:
                         gene = re.sub('!','',gene)
-                        if gene not in genes_list:
+                        if gene not in gene_list:
                             matched_gene_counter += 1
                         else:
                             matched_gene_counter = 0
                             break    
-                    elif gene in genes_list:
+                    elif gene in gene_list:
                         matched_gene_counter += 1
                 if ngenes_in_rule == matched_gene_counter:
                     predictions_pathotype_dict[g]['pathotype'].append(pathotype)
@@ -138,6 +143,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
               predictions_pathotype_dict[g]['accession']=['-']
               predictions_pathotype_dict[g]['pident'] = ['-']
               predictions_pathotype_dict[g]['pcov'] = ['-']
+              predictions_pathotype_dict[g]['length_ratio'] = ['-']
 
     pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
     return predictions_pathotype_dict
@@ -565,7 +571,8 @@ def report_result(final_dict, output_dir, output_file, args):
              "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
              "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
              "GeneLengths\tDatabase\tWarnings\t" \
-             "Pathotype\tPathotypeGeneSym\tPathotypeGeneIds\tPathotypeGeneIdentities(%)\tPathotypeGeneCoverages(%)\tPathotypeRuleIds\n"
+             "Pathotype\tPathotypeGeneSym\tPathotypeGeneIds\t" \
+             "PathotypeGeneIdentities(%)\tPathotypeGeneCoverages(%)\tPathotypeLengthRatio\tPathotypeRuleIds\n"
     output = []
     LOG.info(header.strip())
 
@@ -670,14 +677,10 @@ def report_result(final_dict, output_dir, output_file, args):
             output_line.append(final_dict[sample]['pathotype_genes_ids'])
             output_line.append(final_dict[sample]['pathotype_genes_pident'])
             output_line.append(final_dict[sample]['pathotype_genes_pcov'])
+            output_line.append(final_dict[sample]['pathotype_length_ratio'])
             output_line.append(final_dict[sample]['pathotype_rule_ids'])
         else:
-            output_line.append("-")
-            output_line.append("-")
-            output_line.append("-") 
-            output_line.append("-")
-            output_line.append("-")
-            output_line.append("-") 
+            output_line+['-']*7
 
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")

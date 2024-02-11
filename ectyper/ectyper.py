@@ -177,6 +177,7 @@ def run_program():
                 final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
                 final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
                 final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
+                final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])
                 final_predictions[sample]["pathotype_rule_ids"] = ",".join(sorted(predictions_pathotype_dict[sample]['rule_ids']))
                 
 
