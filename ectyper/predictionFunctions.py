@@ -50,7 +50,10 @@ def json2fasta(json_file, output_dir):
     return fasta_pathotypedb_path
 
 def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, output_dir):
-    LOG.info(f"Starting pathotype predictions for E.coli {len(ecoli_genome_files_dict.keys())} samples ({len(other_genomes_dict.keys())} non-E.coli sample(s) will be skipped) ...")
+    LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Use --verify option to run pathotype predictions only on E.coli samples ...")
+    
+    if len(other_genomes_dict.keys()) > 0:
+        LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
     
     predictions_pathotype_dict = {}
@@ -64,6 +67,11 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
         predictions_pathotype_dict[g]['pathotype'] = ['-']
         predictions_pathotype_dict[g]['genes'] = ['-']
         predictions_pathotype_dict[g]['rule_ids']=['-']
+        predictions_pathotype_dict[g]['allele_id']=['-']
+        predictions_pathotype_dict[g]['accession']=['-']
+        predictions_pathotype_dict[g]['pident'] = ['-']
+        predictions_pathotype_dict[g]['pcov'] = ['-']
+        predictions_pathotype_dict[g]['length_ratio'] = ['-']
 
 
     for g in ecoli_genome_files_dict.keys():

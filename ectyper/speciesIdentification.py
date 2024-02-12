@@ -255,15 +255,14 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
         sampleName = getSampleName(fasta)
         speciesname = "-"
 
+        #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
+        if fasta_fastq_files_dict[fasta]:
+            fastq_file = fasta_fastq_files_dict[fasta]
+            speciesname = get_species(fastq_file, args)
+        else:
+            speciesname = get_species(fasta, args)
 
         if args.verify:
-            #do species prediction of fastq files if available for better accuracy
-            if fasta_fastq_files_dict[fasta]:
-                fastq_file = fasta_fastq_files_dict[fasta]
-                speciesname = get_species(fastq_file, args)
-            else:
-                speciesname = get_species(fasta, args)
-
             failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples." \
                                                                              "If sure that sample is E.coli run without --verify parameter."
             if re.match("Escherichia coli", speciesname):

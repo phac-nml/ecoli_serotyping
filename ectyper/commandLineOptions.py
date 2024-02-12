@@ -40,7 +40,7 @@ def parse_command_line(args=None):
     dbversion = checkdbversion()
 
     parser = argparse.ArgumentParser(
-        description='ectyper v{} database v{} Prediction of Escherichia coli serotype from '
+        description='ectyper v{} antigen database v{}. Prediction of Escherichia coli serotype, pathotype and shiga toxin tying from '
                     'raw reads'
                     ' or assembled genome sequences. The default settings are recommended.'.format(__version__, dbversion)
     )
@@ -115,7 +115,7 @@ def parse_command_line(args=None):
     parser.add_argument(
         "-r",
         "--reference",
-        default=os.path.join(os.path.dirname(__file__),"Data/EnteroRef_GTDBSketch_20231003_V2.msh"),
+        default=definitions.SPECIES_ID_SKETCH,
         help="Location of pre-computed MASH sketch for species identification. If provided, "
              "genomes "
              "identified as non-E. coli will have their species identified "
@@ -139,13 +139,13 @@ def parse_command_line(args=None):
 
     parser.add_argument(
         "--dbpath",
-        help="Path to a custom database of O and H antigen alleles in JSON format.\nCheck Data/ectyper_database.json for more information"
+        help="Path to a custom database of O and H antigen alleles in JSON format.\n"
     )
 
     parser.add_argument(
         "--pathotype",
         action="store_true",
-        help="Predict E.coli pathotype(s) using either raw or assembled reads\n"
+        help="Predict E.coli pathotype\n"
     )
 
     if args is None:
