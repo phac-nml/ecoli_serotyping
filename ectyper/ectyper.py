@@ -2,8 +2,7 @@
 """
     Predictive serotyping for _E. coli_.
 """
-import os
-import tempfile
+import os, shutil, random
 import datetime
 import json
 import logging
@@ -19,6 +18,11 @@ from ectyper import (commandLineOptions, definitions, speciesIdentification,
 # setup the application logging
 LOG = loggingFunctions.create_logger()
 
+def create_temporary_directory(output_directory):
+    characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    random_string = "".join(random.choice(characters) for _ in range(9))
+    temp_dir = os.path.join(output_directory,"tmp_"+random_string)
+    return temp_dir
 
 def check_database_struct(db, dbpath):
     levelOneKeys = ["version","date","O","H"]
@@ -96,68 +100,67 @@ def run_program():
         if os.path.exists(lockfilepath):
             os.remove(lockfilepath)
 
-    # Initialize ectyper temporary directory for the scope of this program (it will be deleted when program ends)
-    if args.debug:
-        temp_dir = tempfile.TemporaryDirectory(dir=output_directory, delete = False)
-    else:
-        temp_dir = tempfile.TemporaryDirectory(dir=output_directory, delete = True)
+    # Initialize ectyper temporary directory. If --debug is specified then temp folder will be not be deleted. 
+    # Python 3.12 introduced delete = False/True option in tempfile lib, so using explicit code supporting Python < 3.12
+    temp_dir = create_temporary_directory(output_directory)
+    os.makedirs(temp_dir, exist_ok=True)
+   
+    LOG.info("Gathering genome files")
+    raw_genome_files = genomeFunctions.get_files_as_list(args.input)
+    print(raw_genome_files)
 
-    with temp_dir as temp_dir:
-        LOG.info("Gathering genome files")
-        raw_genome_files = genomeFunctions.get_files_as_list(args.input)
+    LOG.info("Identifying genome file types")
 
-        LOG.info("Identifying genome file types")
-
-        raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
+    raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
                                                             args)
 
 
-        alleles_fasta_file = create_alleles_fasta_file(temp_dir, ectyperdb_dict) #from JSON ectyper database file
+    alleles_fasta_file = create_alleles_fasta_file(temp_dir, ectyperdb_dict) #from JSON ectyper database file
 
-        combined_fasta = \
+    combined_fasta = \
             genomeFunctions.create_combined_alleles_and_markers_file(
                 alleles_fasta_file, temp_dir, args.pathotype) #create a fasta reference from O-H alleles and optionally from pathotypes alleles database
 
 
-        bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
+    bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
                                                          combined_fasta) if \
                                                          raw_files_dict['fastq'] else None #only run this function on raw read inputs
         
 
-        # Assemble any fastq files, get final fasta list
-        LOG.info("Assembling final list of fasta files")
-        all_fastafastq_files_dict = genomeFunctions.assemble_fastq(raw_files_dict,
+    # Assemble any fastq files, get final fasta list
+    LOG.info("Assembling final list of fasta files")
+    all_fastafastq_files_dict = genomeFunctions.assemble_fastq(raw_files_dict,
                                                          temp_dir,
                                                          combined_fasta,
                                                          bowtie_base,
                                                          args)
 
-        # Verify we have at least one fasta file. Optionally species ID.
-        # Get a tuple of ecoli and other genomes
-        (ecoli_genomes_dict, other_genomes_dict, filesnotfound_dict) = speciesIdentification.verify_ecoli(
+    # Verify we have at least one fasta file. Optionally species ID.
+    # Get a tuple of ecoli and other genomes
+    (ecoli_genomes_dict, other_genomes_dict, filesnotfound_dict) = speciesIdentification.verify_ecoli(
             all_fastafastq_files_dict,
             raw_files_dict['other'],
             raw_files_dict['filesnotfound'],
             args,
             temp_dir)
 
-
-        LOG.info("Standardizing the E.coli genome headers based on file names")
-        predictions_dict={}
-        if ecoli_genomes_dict:
-            ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
+    
+    LOG.info("Standardizing the E.coli genome headers based on file names")
+    predictions_dict={}
+    if ecoli_genomes_dict:
+        ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
                 ecoli_genomes_dict,
                 temp_dir,
                 args
                 )
             
-            # Run pathotype predictions if requested
-            if args.pathotype:
-                predictions_pathotype_dict = predictionFunctions.predict_pathotype(ecoli_genomes_dict, other_genomes_dict,
+        # Run pathotype predictions if requested
+        if args.pathotype:
+            predictions_pathotype_dict = predictionFunctions.predict_pathotype(ecoli_genomes_dict, other_genomes_dict,
                                                                                    temp_dir, args.output)
             
-            # Run main prediction function
-            predictions_dict = run_prediction(ecoli_genomes_dict,
+        # Run main prediction function
+        predictions_dict = run_prediction(ecoli_genomes_dict,
                                           args,
                                           alleles_fasta_file,
                                           temp_dir,
@@ -165,48 +168,49 @@ def run_program():
             
 
 
-        # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
-        final_predictions = predictionFunctions.add_non_predicted(
-            raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
+    # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
+    final_predictions = predictionFunctions.add_non_predicted(
+        raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
 
-        for sample in final_predictions.keys():
-            final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"
-            if args.pathotype:
-                final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
-                final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
-                final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
-                final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
-                final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
-                final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])
-                final_predictions[sample]["pathotype_rule_ids"] = ",".join(sorted(predictions_pathotype_dict[sample]['rule_ids']))
+    for sample in final_predictions.keys():
+        final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"
+        if args.pathotype:
+            final_predictions[sample]["pathotype"] = "-".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
+            final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
+            final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
+            final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
+            final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
+            final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])
+            final_predictions[sample]["pathotype_rule_ids"] = ",".join(sorted(predictions_pathotype_dict[sample]['rule_ids']))
                 
 
-            if 'O' in final_predictions[sample]: #not all samples will have O-antigen dictionary
+        if 'O' in final_predictions[sample]: #not all samples will have O-antigen dictionary
+            highsimilar_Ogroup = getOantigenHighSimilarGroup(final_predictions,sample)
 
-                highsimilar_Ogroup = getOantigenHighSimilarGroup(final_predictions,sample)
 
-
-                if highsimilar_Ogroup:
-                    final_predictions[sample]['O']['highlysimilargroup'] = highsimilar_Ogroup
-                    final_predictions[sample]['O']['highlysimilarantigens'] = definitions.OSEROTYPE_GROUPS_DICT[highsimilar_Ogroup]
-                    final_predictions[sample]['error'] = final_predictions[sample]['error'] + \
+            if highsimilar_Ogroup:
+                final_predictions[sample]['O']['highlysimilargroup'] = highsimilar_Ogroup
+                final_predictions[sample]['O']['highlysimilarantigens'] = definitions.OSEROTYPE_GROUPS_DICT[highsimilar_Ogroup]
+                final_predictions[sample]['error'] = final_predictions[sample]['error'] + \
                                                          "High similarity O-antigen group {}:{} as per A.Iguchi et.al (PMID: 25428893)".format(
                                                           final_predictions[sample]['O']['highlysimilargroup'],
                                                           "/".join(final_predictions[sample]['O']['highlysimilarantigens']))
-                else:
-                    final_predictions[sample]['O']['highlysimilargroup'] = ''
-                    final_predictions[sample]['O']['highlysimilarantigens'] = []
+            else:
+                final_predictions[sample]['O']['highlysimilargroup'] = ''
+                final_predictions[sample]['O']['highlysimilarantigens'] = []
 
-            if args.verify:
-                final_predictions[sample]["QC"] = predictionFunctions.getQuality_control_results(sample,final_predictions,ectyperdb_dict)
+        if args.verify:
+            final_predictions[sample]["QC"] = predictionFunctions.getQuality_control_results(sample,final_predictions,ectyperdb_dict)
 
-        # Store most recent result in working directory
-        LOG.info("Reporting results:")
-
-        predictionFunctions.report_result(final_predictions, output_directory,
+    # Store most recent result in working directory
+    LOG.info("Reporting final results ...")
+    predictionFunctions.report_result(final_predictions, output_directory,
                                           os.path.join(output_directory,
                                                        'output.tsv'),args)
-        LOG.info("ECTyper has finished successfully.")
+    
+    if args.debug == False:
+        shutil.rmtree(temp_dir, ignore_errors=True)
+    LOG.info("ECTyper has finished successfully.")
 
 def getOantigenHighSimilarGroup(final_predictions, sample):
     pred_Otypes = final_predictions[sample]['O']["serogroup"].split("/") #if call is a mixed call
@@ -267,7 +271,6 @@ def create_alleles_fasta_file(temp_dir, ectyperdb_dict):
     :dbpath: path to O and H antigen alleles database in JSON format
     :return: the filepath for alleles.fasta
     """
-
     output_file = os.path.join(temp_dir, 'alleles.fasta')
 
     with open(output_file, 'w') as ofh:
@@ -335,20 +338,20 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
     """
 
     # create a temp dir for blastdb -- each process gets its own directory
-    with tempfile.TemporaryDirectory(dir=temp_dir) as temp_dir:
-        LOG.debug("Creating blast database from {}".format(g_group))
-        blast_db = os.path.join(temp_dir, "blastdb_")
-        blast_db_cmd = [
+    temp_dir_group = create_temporary_directory(temp_dir)
+    LOG.debug("Creating blast database from {}".format(g_group))
+    blast_db = os.path.join(temp_dir_group, "blastdb_")
+    blast_db_cmd = [
             "makeblastdb",
             "-in", ' '.join(g_group),
             "-dbtype", "nucl",
             "-title", "ectyper_blastdb",
             "-out", blast_db]
-        subprocess_util.run_subprocess(blast_db_cmd)
+    subprocess_util.run_subprocess(blast_db_cmd)
 
-        LOG.debug("Starting blast alignment on database {}".format(g_group))
-        blast_output_file = blast_db + ".output"
-        bcline = [
+    LOG.debug("Starting blast alignment on database {}".format(g_group))
+    blast_output_file = blast_db + ".output"
+    bcline = [
             'blastn',
             '-query', alleles_fasta,
             '-db', blast_db,
@@ -360,21 +363,21 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
             "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp bitscore sseq",
             '-word_size', "11"
         ]
-        subprocess_util.run_subprocess(bcline)
+    subprocess_util.run_subprocess(bcline)
 
-        LOG.debug("Starting serotype prediction for database {}".format(g_group))
-        LOG.debug("BLAST results output file {}".format(blast_output_file))
-
-
+    LOG.debug("Starting serotype prediction for database {}".format(g_group))
+    LOG.debug("BLAST results output file {}".format(blast_output_file))
 
 
-        db_prediction_dict, blast_output_df = predictionFunctions.predict_serotype(
+
+
+    db_prediction_dict, blast_output_df = predictionFunctions.predict_serotype(
             blast_output_file,
             ectyperdb_dict,
             args)
 
-        blast_output_file_path = os.path.join(args.output,"blast_output_alleles.txt")
-        blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , sep="\t", index=False)
-        LOG.info("BLAST output file against reference alleles is written at {}".format(blast_output_file_path))
+    blast_output_file_path = os.path.join(args.output,"blast_output_alleles.txt")
+    blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , sep="\t", index=False)
+    LOG.info("BLAST output file against reference alleles is written at {}".format(blast_output_file_path))
 
-        return db_prediction_dict
+    return db_prediction_dict

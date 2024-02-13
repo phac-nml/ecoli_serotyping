@@ -256,6 +256,13 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
         sampleName = getSampleName(fasta)
         speciesname = "-"
 
+        if sampleName in ecoli_files_dict or sampleName in other_files_dict:
+            error_msg = "Duplicated parsed filenames found ('{}'). Offending file paths {}. Only unique file names are supported in batch mode".format(
+                                sampleName, [file for file in fasta_files if sampleName in file]
+            )
+            LOG.error(error_msg)
+            raise ValueError(error_msg)
+
         #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
         if fasta_fastq_files_dict[fasta]:
             fastq_file = fasta_fastq_files_dict[fasta]
