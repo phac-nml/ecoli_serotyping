@@ -72,7 +72,7 @@ def get_species_mash(targetpath):
 
             #checks if download was successful and of the right size
             if bool_downloadMashSketch(targetpath) == False:
-                LOG.info("Sucessfully downloaded MASH sketch from {} for species verification".format(url))
+                LOG.info("Successfully downloaded MASH sketch from {} for species verification".format(url))
                 return True
             else:
                 LOG.error("Something went wrong with the file download from {}. Trying next mirror ...".format(url))
@@ -201,7 +201,8 @@ def get_species(file, args):
     if len(top_hit_lines) < 1:
         LOG.warning('For {file} no hits returned by MASH species id sketch search. Species identification failed!')
     else:
-        LOG.info(f'For {file} following top hits returned by MASH {[top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]}')
+        LOG.info('For {} following top hits returned by MASH {}'.format(file,
+                                                                        [top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]))
 
 
     for top_hit_line in top_hit_lines:

@@ -2150,7 +2150,7 @@
                 "gene": "stx2",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "subtype": "1",
+                "subtype": "a",
                 "id": "221"
             },
             {
@@ -2260,7 +2260,7 @@
                 "gene": "stx2",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "subtype": "2",
+                "subtype": "d",
                 "id": "232"
             },
             {
@@ -3120,7 +3120,7 @@
                 "gene": "stx2A",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "subtype": "1",
+                "subtype": "d",
                 "id": "318"
             },
             {
@@ -4050,7 +4050,7 @@
                 "gene": "stx2B",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "subtype": "1",
+                "subtype": "c",
                 "id": "411"
             },
             {

@@ -20,7 +20,7 @@ def fasta_custom_header_generator(record):
     """_summary_
 
     Args:
-        record (Bio.SeqRecord): Biopython Sequence object
+        record (Bio.SeqRecord): BioPython Sequence object
 
     Returns:
         sring: formatted FASTA header string using the format <id>|<accession>|<marker>|<gene symbol>|<gene full name>
