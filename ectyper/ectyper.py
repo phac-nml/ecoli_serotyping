@@ -107,7 +107,6 @@ def run_program():
    
     LOG.info("Gathering genome files")
     raw_genome_files = genomeFunctions.get_files_as_list(args.input)
-    print(raw_genome_files)
 
     LOG.info("Identifying genome file types")
 
@@ -157,7 +156,9 @@ def run_program():
         # Run pathotype predictions if requested
         if args.pathotype:
             predictions_pathotype_dict = predictionFunctions.predict_pathotype(ecoli_genomes_dict, other_genomes_dict,
-                                                                                   temp_dir, args.pathpid, args.pathpcov, 
+                                                                                   temp_dir, 
+                                                                                   args.percentIdentityPathotype, 
+                                                                                   args.percentCoveragePathotype, 
                                                                                    args.output)
             
         # Run main prediction function
