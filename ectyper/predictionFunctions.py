@@ -49,8 +49,8 @@ def json2fasta(json_file, output_dir):
     LOG.info(f"Created pathotype database in fasta format from JSON at {fasta_pathotypedb_path}") 
     return fasta_pathotypedb_path
 
-def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, output_dir):
-    LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Use --verify option to run pathotype predictions only on E.coli samples ...")
+def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pident, pcov, output_dir):
+    LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
     
     if len(other_genomes_dict.keys()) > 0:
         LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
@@ -103,6 +103,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, out
 
         pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
         pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'qcovhsp', 'bitscore', 'sseq']
+        pathotype_genes_tmp_df.query(f'pident > {pident} and qcovhsp > {pcov}', inplace=True) # Default BioNumerics thershold in pathotype module
         pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True)
         pathotype_genes_tmp_df['allele_id'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
         pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])

@@ -157,7 +157,8 @@ def run_program():
         # Run pathotype predictions if requested
         if args.pathotype:
             predictions_pathotype_dict = predictionFunctions.predict_pathotype(ecoli_genomes_dict, other_genomes_dict,
-                                                                                   temp_dir, args.output)
+                                                                                   temp_dir, args.pathpid, args.pathpcov, 
+                                                                                   args.output)
             
         # Run main prediction function
         predictions_dict = run_prediction(ecoli_genomes_dict,
@@ -175,7 +176,7 @@ def run_program():
     for sample in final_predictions.keys():
         final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"
         if args.pathotype:
-            final_predictions[sample]["pathotype"] = "-".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
+            final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
             final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
             final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
             final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
