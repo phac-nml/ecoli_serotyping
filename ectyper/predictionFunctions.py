@@ -50,6 +50,19 @@ def json2fasta(json_file, output_dir):
     return fasta_pathotypedb_path
 
 def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pident, pcov, output_dir):
+    """Get pathotype(s) of a sample
+
+    Args:
+        ecoli_genome_files_dict (dict): dictionary of E.coli genome paths to analyze (key: sample_id, value: path)
+        other_genomes_dict (dict): dictionary of non-E.coli genome paths to analyze (key: sample_id, value: path)
+        temp_dir (path): temporary folder path
+        pident (float): min %identity to filter blastn pathotype allele hits
+        pcov (float): min %coverage to filter blastn pathotype allele hits
+        output_dir (path): output results directory path
+
+    Returns:
+        list: list of pathotypes
+    """
     LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
     
     if len(other_genomes_dict.keys()) > 0:
