@@ -63,14 +63,42 @@
         ],
         "afaE": [
             {
-                "accession": "WKR97463.1",
-                "description": "M agglutinin-type afimbrial adhesin BmaE/AfaE-8",
-                "dnasequence": "ATGAATTTAAAGAAAATAGCTATCGCAAGCAGTGTCTTTGCAGGTATAACAATGGCGCTAACTTGCCATGCTGTGACAGTAACAGCCACTCATACAGTTGAATCAGATGCTGAATTCACAATAGATTGGGTCGACGCTGGGCCAACGACTACAGATGCAAAAGATGGTGAGGTTTGGGGGCACCTTGATATGACTCAAACCAGGGGAACACCAACATTCGGAAAACTCCGCAATCCTCAAGGAGAGACTTCGCCAGGACCGTTGAAGGCGCCATTCAGTTTTACCGGGCCAGATGGTCATACTGCAAGAGCGTACCTTGATTCATACGGCGCACCGATTCACAACTACGCAGGGGATAACCTTGCTAATGGGGTGAAGGTAGGTAGTGGAAGCGGAAACACTCCATTTGTTGTTGGGACAGCAAGTCGACTAACTGCAAGAATCTTCGGAGACCAGACATTGGTTCCAGGAGTCTACCGGACAACCTTTGAATTAACTACTTGGACCGACTGA",
-                "gene": "afaE-8",
-                "protsequence": "MNLKKIAIASSVFAGITMALTCHAVTVTATHTVESDAEFTIDWVDAGPTTTDAKDGEVWGHLDMTQTRGTPTFGKLRNPQGETSPGPLKAPFSFTGPDGHTARAYLDSYGAPIHNYAGDNLANGVKVGSGSGNTPFVVGTASRLTARIFGDQTLVPGVYRTTFELTTWTD",
-                "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "synonym": "bmaE",
+                "accession": "X69197.1",
+                "dnasequence": "ATGAAAAAATTAGCGATCATAGGCGCAACCAGCGTAATGATGATGACCGGCACCGCTCAAGCCAATTTTACCAGCAGCGGCACCAACGGGAAGGTCGACCTGACTATAACCGAAGAATGCCGCGTGACAGTCGAGAGCAAAAGCGAGTCGTTCTTGCGAAGCGGCCTGGTCGCCAACAGGCACATCACTAACCTCGGGATCCAATCCACGGGGTGTGGGACAGGACAACGTGTCGCGCTCAAGCTTGGCGCGGGCTCGTACGACGACACGAACGGGGCGCACATGACGCACGAAAACGGCACTGACAAGCTTCTGGTGAGTATGGGCTCTGCGACGGGCGATGGGACCCAAGACGGCGGTGTATATTATATCAACCGGGACGGGAACTGGAACGGGCAGATGGTGTTCATCGTACGAAATGACCAACAGCACCTACCAACCGGCAAGTACACCCTGAACCTCGAAGGCGGGTTCTGGACAAAATAA",
+                "gene": "afaE1",
+                "protsequence": "MKKLAIIGATSVMMMTGTAQANFTSSGTNGKVDLTITEECRVTVESKSESFLRSGLVANRHITNLGIQSTGCGTGQRVALKLGAGSYDDTNGAHMTHENGTDKLLVSMGSATGDGTQDGGVYYINRDGNWNGQMVFIVRNDQQHLPTGKYTLNLEGGFWTK",
+                "description": "AFA-I adhesin",
+                "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/ and https://www.uniprot.org/uniprotkb/P08180",
                 "id": "7"
+            },
+            {
+                "accession": "X76688.1",
+                "gene": "afaE3",
+                "dnasequence": "ATGAAAAAATTAGCGATCATGGCCGCGGCCAGCATGGTGTTCGCCGTGAGCTCCGCGCATGCTGGGTTCACCCCGAGTGGCACCACCGGCACCACCAAACTCACAGTTACCGAAGAGTGCCAGGTACGGGTTGGTGACCTGACCGTGGCTAAGACTCGTGGCCAACTGACGGACGCAGCACCAATAGGGCCGGTCACCGTGCAAGCGCTGGGATGCAACGCCCGCCAGGTCGCGTTGAAGGCAGACACCGATAACTTCGAACAGGGCAAGTTCTTCCTGATCAGCGACAACAATAGGGATAAGCTCTATGTCAATATACGGCCTATGGATAACTCCGCCTGGACGACCGACAATGGTGTCTTCTACAAAAACGATGTCGGGAGCTGGGGTGGAACTATCGGGATCTACGTAGATGGGCAACAAACGAACACACCGCCCGGCAACTACACACTGACCCTGACCGGGGGTTACTGGGCAAAATGA",
+                "protsequence": "MKKLAIMAAASMVFAVSSAHAGFTPSGTTGTTKLTVTEECQVRVGDLTVAKTRGQLTDAAPIGPVTVQALGCNARQVALKADTDNFEQGKFFLISDNNRDKLYVNIRPMDNSAWTTDNGVFYKNDVGSWGGTIGIYVDGQQTNTPPGNYTLTLTGGYWAK",
+                "description": "Afimbrial adhesin AFA-III",
+                "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/",
+                "id": "8"
+            }
+        ],
+        "daaE": [
+            {
+                "accession": "WP_230887433.1",
+                "dnasequence": "ATGAAAAAATTAGCGATAATGGCCGCCGCCAGCATGATTTTCACTGTGGGCTCCGCGCAAGCCACGTTCCAAGCGAGCGGGACAACGGGTATTACCACACTGACTGTGACCGAAGAGTGCCGGGTGCAGGTCGGTAACGTTACCGCGACGCTCGCGCGAAGCAAGCTAAAAGACGACACGGCTATAGGGGTGATCGGGGTAGCCGCTCTAGGATGCAACGGCCTGCAGACCGCGTTGCAGGCCGACCCAGACAACTACGATGCGACAAATCTATATATGACTAGCCGCAACCATGACAAACTTAATGTCAAACTAAAAGCCACAGATGGGTCCAGTTGGACCTACGGGAACGGCGTGTTCTACAAAACCGAAGGCGGTAACTGGGGTGGGCACGTTGGGATCTCCGTGGACGGGAACCAAACTGATAAACCGACCGGTGAATACACACTGAACCTCACCGGGGGTTACTGGACGAACTAA",
+                "protsequence": "MKKLAIMAAASMIFTVGSAQATFQASGTTGITTLTVTEECRVQVGNVTATLARSKLKDDTAIGVIGVAALGCNGLQTALQADPDNYDATNLYMTSRNHDKLNVKLKATDGSSWTYGNGVFYKTEGGNWGGHVGISVDGNQTDKPTGEYTLNLTGGYWTN",
+                "gene": "daaE",
+                "description": "Dr family adhesin structural subunit DaaE",
+                "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/",
+                "id": "9"
+            },
+            {
+                "id": "10",
+                "accession": "AKN63257.1",
+                "dnasequence": "ATGAAAAAATTAGCGATAATGGCCGCCGCCAGCATGATTTTCACTGTGGGCTCCGCGCAAGCCACGTTCCAAGCGAGCGGGACAACGGGTATTACCACACTGACTGTGACCGAAGAGTGCCGGGTGCAGGTCGGTAACGTTACCGCGACGCTCGCGCGAAGCAAGCTAAAAGACGACACGGCTATAGGGGTGATCGGGGTAACCGCTCTAGGATGCAACGGCCTGCAGACCGCGTTGCAGGCCGACCCAGACAACTACGATGCGACAAATCTATATATGACTAGCCGCAACCATGACAAACTTAATGTCAAACTAAAAGCCACAGATGGGTCCAGTTGGACCTACGGGAACGGCGTGTTCTACAAAACCGAAGGCGGTAACTGGGGTGGGCTCGTTGGGATCTCCGTGGACGGGAACCAAACTGATAAACCGACCGGTGAATACACACTGAACCTCACCGGGGGTTACTGGGCAAAATGA",
+                "protsequence": "MKKLAIMAAASMIFTVGSAQATFQASGTTGITTLTVTEECRVQVGNVTATLARSKLKDDTAIGVIGVTALGCNGLQTALQADPDNYDATNLYMTSRNHDKLNVKLKATDGSSWTYGNGVFYKTEGGNWGGLVGISVDGNQTDKPTGEYTLNLTGGYWAK",
+                "gene": "daaE",
+                "description": "Dr family adhesin structural subunit DaaE",
+                "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/"
             }
         ],
         "aggA": [
@@ -81,7 +109,7 @@
                 "protsequence": "MKTLKNMRRKNLYITLGLVSLLSGGANAASQQTTQTIRLTVTNDCPVTITTTPPQTVGVSSTTPIGFSAKVTTSDQCIKAGAKVWLWGTGPANKWVLQHAKVAKQKYTLNPSIDGGADFVNQGTDAKIYKKLTSGNKFLNASVSVNPKTQVLIPGEYTMILHAAVDF",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "description": "aggregative adherence fimbria I major subunit AggA",
-                "id": "8"
+                "id": "11"
             },
             {
                 "accession": "Y18149.1",
@@ -90,7 +118,7 @@
                 "protsequence": "MKTLKNMRRKNLYITLGLVSLLSGGANAASQQTTETIRLTVTNDCPVTITTTLPQTVGVSSTKQIVFSAKVTTSDQCIKAGAKVWLWGTGTANKWVLQHTKVAQQKYTLNPSIDGGAYFVAQGSNAKIYKKLTSGNKFLNASVSVNPTTQVLIPGEYTMIVHAAGRL",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "gene": "aggA",
-                "id": "9"
+                "id": "12"
             },
             {
                 "accession": "AAR02190.1",
@@ -99,7 +127,7 @@
                 "gene": "aggA",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "description": "aggregative adherence fimbria I major subunit AggA",
-                "id": "10"
+                "id": "13"
             },
             {
                 "accession": "AAA57454.1",
@@ -108,7 +136,7 @@
                 "gene": "aggA",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "description": "aggregative adherence fimbria I major subunit AggA",
-                "id": "11"
+                "id": "14"
             },
             {
                 "accession": "EQX61716.1",
@@ -117,7 +145,7 @@
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "protsequence": "ATGAAAACATTAAAAAATATGAGAAGAAAGAATTTATGTATTACTTTGGGTTTAGTTAGTCTTCTATCTGGGGGGGCTAACGCTGCGTTACAAAAACCTACATCAAAAACAACTGAGACAATCCGCCTCATCGTTACAAATGATTGTCCTGTTACTATAACTGCATTTAGTCCATCAACTACTGTTGGTGTATCGTCAACAAAACCAATAACATTGGGCGCAACAGTAACGACGGCAGATCAATGTGTTAAAGCCGGTGCAAGGGTCTGGTTATGGGGAACAGGTTTCCGTAATAAGTGGGTCCTACAGCATACTACAAATACAACACAAAAATACACATTACAACCCGATATAGATGGCAATGCAGATTTTCTGGCTAACGGAACTGATGCAACAATTCATAAAAAATTGACAATGAGAGACAAAACTCTGCGGGCAAGTGTTAATGTTAATCCTCAAGCTCAAGTATTGATACCAGGCGAATATACAATGACACTCCATGCCGGAATTAATTTTTAA",
                 "dnasequence": "MKTLKNMRRKNLCITLGLVSLLSGGANAALQKPTSKTTETIRLIVTNDCPVTITAFSPSTTVGVSSTKPITLGATVTTADQCVKAGARVWLWGTGFRNKWVLQHTTNTTQKYTLQPDIDGNADFLANGTDATIHKKLTMRDKTLRASVNVNPQAQVLIPGEYTMTLHAGINF",
-                "id": "12"
+                "id": "15"
             }
         ],
         "aggR": [
@@ -128,7 +156,7 @@
                 "gene": "aggR",
                 "protsequence": "MKLKQNIEKEIIKINNIRIHQYTVLYTSNCTIDVYTKEGSNTYLRNELIFLERGINISVRLQKKKSTANPFIAIRLSSDTLRRLKDALMIIYGISKVDACSCPNWSKGIIVADADDSVLDTFKSIDNNDDSRITSDLIYLISKIENNKKIIESIYISAVSFFSDKVRNIIEKDLSKRWTLAIIADEFNVSEITIRKRLESEYITFNQILMQSRMSKAALLLLDNSYQISQISNMIGFSSTSYFIRLFVKHFGITPKQFLTYFKSQ",
                 "source": "https://github.com/B-UMMI/patho_typing/",
-                "id": "13"
+                "id": "16"
             },
             {
                 "accession": "CU928159",
@@ -137,7 +165,7 @@
                 "gene": "aggR",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "14"
+                "id": "17"
             },
             {
                 "accession": "AB255435",
@@ -146,7 +174,7 @@
                 "gene": "aggR",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "15"
+                "id": "18"
             }
         ],
         "bfpA": [
@@ -158,7 +186,7 @@
                 "protsequence": "MVSKIMNKKYEKGLSLIESAMVLALAATVTAGVMFYYQSASDSNKSQNAISEVMSATSAINGLYIGQTSYSGLDSTILLNTSAIPDNYKDTTNKKITNPFGGELNVGPANNNTAFGYYLTLTRLDKAACVSLATLNLGTSAKGYGVNISSENNITSFGNSADQAAKSTAITPAEAATACKNTDSTNKVTYFMK",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "-",
-                "id": "16"
+                "id": "19"
             },
             {
                 "accession": "AB247925",
@@ -167,7 +195,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "17"
+                "id": "20"
             },
             {
                 "accession": "AM114103",
@@ -176,7 +204,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "18"
+                "id": "21"
             },
             {
                 "accession": "FN391182",
@@ -185,7 +213,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "19"
+                "id": "22"
             },
             {
                 "accession": "AB247923",
@@ -194,7 +222,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "20"
+                "id": "23"
             }
         ],
         "eae": [
@@ -206,7 +234,7 @@
                 "protsequence": "MITHGFYARTRHKHKLKKTFIMLSAGLGLFFYVNQNSFANGENYFKLSSDSKLLTQNAAQDRLFYTLKTGETVANISKSQGISLSVIWSLNKHLYSSESEMMKAGPGQQIILPLKKLSVEYSALPVLGSAPVVAAGGVAGHTNKMTKMSPDATKSNTTDDKALNYAAQQAASLGSQLQSRSLNGDYAKDTALGMASSQASSQLQAWLQHYGTAEVNLQSGNNFDGSSLDFLLPFYDSENMLAFGQVGARYIDSRFTANLGAGQRFFLPENMLGYNVFIDQDFSGDNTRLGIGGEYWRDYFKSSVNGYFRMSGWHESYNKKDYDERPANGFDIRFNGYLPSYPALGAKLMYEQYYGDNVALFNSDKLQSNPGAATVGVNYTPIPLVTMGIDYRHGTGNENDLLYSMQFRYQFDKPWSQQIEPQYVNELRTLSGSRYDLVQRNNNIILEYKKQDILSLNIPHDINGTEHSTQKIQLIVKSKYGLDRIVWDDSALRSQGGQIQHGGSQSAQDYQAILPAYVQGGSNIYKVTARAYDRNGNSSNNVQLTITVLPNGQVVDQVGVTDFTADKTSAKADGIEAITYTATVKKNGVAQANVPVTFSIVSGTATLGANSARTDGNGKATVTLKSATPGQVVVSAKTAEMTSPLNASAVIFVDQTKASITEIKADKTTAKADGSDAITYTVRVMKEGAPVVDQKVTFSKDFGTLNKTEATTDQNGYATVKLSSNTPGKAIVSAKVSGVGTEVKATTVEFFAPLSIDGDKVTVIGTGITGALPKNWLQYGQVKLQATGGNGKYTWKSSNTKIASVDNSGVITLNEKGSATITVVSGDNQSATYTINAPGSIVIAVDKNTRVTYFDAENKCKTNSANLAQSKELLANIYSTWGAANKYPYYSGSKSLTAWIKQSSSEQSSGVSSTYDLVTKNQLINVGVNNKNAFSVCVK",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "-",
-                "id": "21"
+                "id": "24"
             },
             {
                 "accession": "AB647560",
@@ -215,7 +243,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "22"
+                "id": "25"
             },
             {
                 "accession": "AB647609",
@@ -224,7 +252,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "23"
+                "id": "26"
             },
             {
                 "accession": "FJ609827",
@@ -233,7 +261,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "24"
+                "id": "27"
             },
             {
                 "accession": "AF116899",
@@ -242,7 +270,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "25"
+                "id": "28"
             },
             {
                 "accession": "AJ303141",
@@ -251,7 +279,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "26"
+                "id": "29"
             },
             {
                 "accession": "AB647400",
@@ -260,7 +288,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "27"
+                "id": "30"
             },
             {
                 "accession": "AJ877229",
@@ -269,7 +297,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "28"
+                "id": "31"
             },
             {
                 "accession": "AY223510",
@@ -278,7 +306,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "29"
+                "id": "32"
             },
             {
                 "accession": "AJ877230",
@@ -287,7 +315,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "30"
+                "id": "33"
             },
             {
                 "accession": "AY696839",
@@ -296,7 +324,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "31"
+                "id": "34"
             },
             {
                 "accession": "AJ705052",
@@ -305,7 +333,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "32"
+                "id": "35"
             },
             {
                 "accession": "AB647369",
@@ -314,7 +342,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "33"
+                "id": "36"
             },
             {
                 "accession": "AB647607",
@@ -323,7 +351,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "34"
+                "id": "37"
             },
             {
                 "accession": "FJ609811",
@@ -332,7 +360,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "35"
+                "id": "38"
             },
             {
                 "accession": "FM872421",
@@ -341,7 +369,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "36"
+                "id": "39"
             },
             {
                 "accession": "AJ876652",
@@ -350,7 +378,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "37"
+                "id": "40"
             },
             {
                 "accession": "AB647460",
@@ -359,7 +387,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "38"
+                "id": "41"
             },
             {
                 "accession": "AJ705051",
@@ -368,7 +396,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "39"
+                "id": "42"
             },
             {
                 "accession": "DQ523610",
@@ -377,7 +405,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "40"
+                "id": "43"
             },
             {
                 "accession": "AF022236",
@@ -386,7 +414,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "41"
+                "id": "44"
             },
             {
                 "accession": "FM180568",
@@ -395,7 +423,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "42"
+                "id": "45"
             },
             {
                 "accession": "AB647391",
@@ -404,7 +432,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "43"
+                "id": "46"
             },
             {
                 "accession": "FJ609822",
@@ -413,7 +441,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "44"
+                "id": "47"
             },
             {
                 "accession": "AB647569",
@@ -422,7 +450,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "45"
+                "id": "48"
             },
             {
                 "accession": "AJ705050",
@@ -431,7 +459,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "46"
+                "id": "49"
             },
             {
                 "accession": "AJ876651",
@@ -440,7 +468,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "47"
+                "id": "50"
             },
             {
                 "accession": "AB647610",
@@ -449,7 +477,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "48"
+                "id": "51"
             },
             {
                 "accession": "GU944692",
@@ -458,7 +486,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "49"
+                "id": "52"
             },
             {
                 "accession": "AF530555",
@@ -467,7 +495,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "50"
+                "id": "53"
             },
             {
                 "accession": "AJ271407",
@@ -476,7 +504,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "51"
+                "id": "54"
             },
             {
                 "accession": "AJ744865",
@@ -485,7 +513,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "52"
+                "id": "55"
             },
             {
                 "accession": "AF449417",
@@ -494,7 +522,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "53"
+                "id": "56"
             },
             {
                 "accession": "FJ609810",
@@ -503,7 +531,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "54"
+                "id": "57"
             },
             {
                 "accession": "FJ609831",
@@ -512,7 +540,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "55"
+                "id": "58"
             },
             {
                 "accession": "AB647440",
@@ -521,7 +549,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "56"
+                "id": "59"
             },
             {
                 "accession": "AJ876649",
@@ -530,7 +558,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "57"
+                "id": "60"
             },
             {
                 "accession": "AB647555",
@@ -539,7 +567,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "58"
+                "id": "61"
             },
             {
                 "accession": "AB647368",
@@ -548,7 +576,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "59"
+                "id": "62"
             },
             {
                 "accession": "FJ609833",
@@ -557,7 +585,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "60"
+                "id": "63"
             },
             {
                 "accession": "AB647573",
@@ -566,7 +594,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "61"
+                "id": "64"
             },
             {
                 "accession": "AF530554",
@@ -575,7 +603,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "62"
+                "id": "65"
             },
             {
                 "accession": "AF071034",
@@ -584,7 +612,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "63"
+                "id": "66"
             },
             {
                 "accession": "FM872418",
@@ -593,7 +621,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "64"
+                "id": "67"
             },
             {
                 "accession": "EF204930",
@@ -602,7 +630,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "65"
+                "id": "68"
             },
             {
                 "accession": "ECU59503",
@@ -611,7 +639,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "66"
+                "id": "69"
             }
         ],
         "eltA": [
@@ -623,7 +651,7 @@
                 "protsequence": "MKNITFIFFILLASPLYANGDKLYRADSRPPDEIKRSGGLMPRGHNEYFDRGTQMNINLYDHARGTQTGFVRYDDGYVSTSLSLRSAHLAGQSILSGYSTYYIYVIATAPNMFNVNDVLGVYSPHPYEQEVSALGGIPYSQIYGWYRVNFGVIDERLHRNREYRDRYYRNLNIAPAEDGYRLAGFPPDHQAWREEPWIHHAPQGCGNSSRTITGDTCNEETQNLSTIYLREYQSKVKRQIFSDYQSEVDIYNGIRDEL",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "3",
-                "id": "67"
+                "id": "70"
             },
             {
                 "accession": "NC_013507.1",
@@ -632,7 +660,7 @@
                 "gene": "eltA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "68"
+                "id": "71"
             },
             {
                 "accession": "NC_014232.1",
@@ -641,7 +669,7 @@
                 "gene": "eltA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "69"
+                "id": "72"
             }
         ],
         "eltB": [
@@ -653,7 +681,7 @@
                 "protsequence": "MNKVKFYVLFTALLSSLCAHGAPQSITELCSEYHNTQIYTINDKILSYTESMAGKREMVIITFKSGATFQVEVPGSQHIDSQKKAIERMKDTLRITYLTETKIDKLCVWNNKTPNSIAAISMEN",
                 "source": "manual curation of https://www.ncbi.nlm.nih.gov/nuccore/EU113242",
                 "subtype": "3",
-                "id": "70"
+                "id": "73"
             },
             {
                 "accession": "NC_014232.1",
@@ -662,7 +690,7 @@
                 "gene": "eltB",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "71"
+                "id": "74"
             }
         ],
         "icsA": [
@@ -673,7 +701,7 @@
                 "gene": "icsA",
                 "protsequence": "MNQIHKFFCNMTQCSQGGAGELPTVKEKTCKLSFSPFVVGASLLLGGPIAFAIPLSGTQELHFSEDNYEKLLTPVDGLSPLGAGEDGMDAWYITSSNPSHASRTKLRINSDIMISAGHGGAGDNNDGNSCGGNGGDSITGSDLSIINQGMILGGSGGSGADHNGDGGEAVTGDNLFIINGEIISGGHGGDSYSDSDGGNGGDAVTGVNLPIINKGTISGGNGGNNYGEGDGGNGGDAITGSSLSVINKGTFAGGNGGAAYGYGYDGYGGNAITGDNLSIINNGAILGGNGGHWGDAINGSNMTIANSGYIISGKEDDGTQNVAGNAIHITGGNNSLILHEGSVITGDVQVNNSSILKIINNDYTGTTPTIEGDLCAGDCTTVSLSGNKFTVSGDVSFGENSSLNLAGISSLEASGNMSFGNNVKVEAIINNWAQKDYKLLSADKGITGFSVSNISIINPLLTTGAIDYTKSYISDQNKLIYGLSWNDTDGDSHGEFNLKENAELTVSTILADNLSHHNINSWDGKSLTKSGEGTLILAEKNTYSGFTNINAGILKMGTVEAMTRTAGVIVNKGATLNFSGMNQTVNTLLNSGTVLINNINAPFLPDPVIVTGNMTLEKNGHVILNNSSSNVGQTYVQKGNWHGKGGILSLGAVLGNDNSKTDRLEITGHASGITYVAVTNEGGSGDKTLEGVQIISTDSSDKNAFIQKGRIVAGSYDYRLKQGTVSGLNTNKWYLTSQMDNQESKQMSNQESTQMSSRRASSQLVSSLNLGEGSIHTWRPEAGSYIANLIAMNTMFSPSLYDRHGSTIVDPTTGQLSETTMWIRTVGGHNEHNLADRQLKTTANRMVYQIGGDILKTNFTDHDGLHVGIMGAYGYQDSKTHNKYTSYSSRGTVSGYTAGLYSSWFQDEKERTGLYMDAWLQYGWFNNTVKGDGFTGEKYSSKGITGALEAGYIYPTIRWTTHNNIDNALYLNPQVQITRHGVKANDYIEHNGTMVTSSGVNNIQAKLGLRTSLISHSCIDKETLRKFEPFLEVNWKWSSKQYGVIMNGMSNHQIGNRNVIELKTGVGGRLADNLSIWGNVSQQLGNNSYRDTQGILGVKYTF",
                 "source": "BioNumerics (https://www.bionumerics.com/) and manual curation https://www.nature.com/articles/nrmicro818",
-                "id": "72"
+                "id": "75"
             }
         ],
         "ipaD": [
@@ -684,7 +712,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "73"
+                "id": "76"
             },
             {
                 "accession": "CP000039",
@@ -693,7 +721,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "74"
+                "id": "77"
             },
             {
                 "accession": "AF348706",
@@ -702,7 +730,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "75"
+                "id": "78"
             },
             {
                 "accession": "AF386526",
@@ -711,7 +739,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "76"
+                "id": "79"
             },
             {
                 "accession": "CP001384",
@@ -720,7 +748,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "77"
+                "id": "80"
             },
             {
                 "accession": "CP000035",
@@ -729,7 +757,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "78"
+                "id": "81"
             },
             {
                 "accession": "GQ201921",
@@ -738,7 +766,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "79"
+                "id": "82"
             },
             {
                 "accession": "AY206439",
@@ -747,7 +775,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "80"
+                "id": "83"
             },
             {
                 "accession": "CP001062",
@@ -756,7 +784,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "81"
+                "id": "84"
             }
         ],
         "ipaH": [
@@ -768,7 +796,7 @@
                 "protsequence": "MKPAHNPSFFRSFCGLGCISRLSVEEQNITDYHRIWDNWAKEGAATEDRTQAVRLLKICLAFQEPALNLSLLRLRSLPYLPPHIQELNISSNELRSLPELPPSLTVLKASDNRLSRLPALPPHLVALDVSLNRVLTCLPSLPSSLQSLSALLNSLETLPDLPPALQKLSVGNNQLTALPELPCELQELSAFDNRLQELPPLPQNLRLLNVGENQLHRLPELPQRLQSLYIPNNQLNTLPDSIMNLHIYADVNIYNNPLSTRTLQALQRLTSSPDYHGPRIYFSMSDGQQNTLHRPLADAVTAWFPENKQSDVSQIWHAFEHEEHANTFSAFLDRLSDTVSARNTSGFREQVAAWLEKLSASAELRQQSFAVAADATESCEDRVALTWNNLRKTLLVHQASEGLFDNDTGALLSLGREMFRLEILEDIARDKVRTLHFVDEIEVYLAFQTMLAEKLQLSTAVKEMRFYGVSGVTANDLRTAEAMVRSREENEFTDWFSLWGPWHAVLKRTEADRWALAEEQKYEMLENEYPQRVADRLKASGLSGDADAEREAGAQVMRETEQQIYRQLTDEVLALRLPENGSQLHHS",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "H",
-                "id": "82"
+                "id": "85"
             },
             {
                 "accession": "CP000034",
@@ -777,7 +805,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "83"
+                "id": "86"
             },
             {
                 "accession": "CP000036",
@@ -786,7 +814,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "84"
+                "id": "87"
             },
             {
                 "accession": "CP000038",
@@ -795,7 +823,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "85"
+                "id": "88"
             },
             {
                 "accession": "HE616528",
@@ -804,7 +832,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "86"
+                "id": "89"
             },
             {
                 "accession": "CP000266",
@@ -813,7 +841,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "87"
+                "id": "90"
             },
             {
                 "accession": "AE005674",
@@ -822,7 +850,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "88"
+                "id": "91"
             },
             {
                 "accession": "CP001383",
@@ -831,7 +859,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "89"
+                "id": "92"
             },
             {
                 "accession": "CP001063",
@@ -840,7 +868,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "90"
+                "id": "93"
             }
         ],
         "ltcA": [
@@ -851,7 +879,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "91"
+                "id": "94"
             },
             {
                 "accession": "EU113250",
@@ -860,7 +888,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "92"
+                "id": "95"
             },
             {
                 "accession": "EU113255",
@@ -869,7 +897,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "93"
+                "id": "96"
             },
             {
                 "accession": "EU113253",
@@ -878,7 +906,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "94"
+                "id": "97"
             },
             {
                 "accession": "EU113246",
@@ -887,7 +915,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "95"
+                "id": "98"
             },
             {
                 "accession": "EU113254",
@@ -896,7 +924,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "96"
+                "id": "99"
             },
             {
                 "accession": "EU113249",
@@ -905,7 +933,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "97"
+                "id": "100"
             },
             {
                 "accession": "EU113247",
@@ -914,7 +942,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "98"
+                "id": "101"
             },
             {
                 "accession": "EU113252",
@@ -923,7 +951,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "99"
+                "id": "102"
             },
             {
                 "accession": "EU113243",
@@ -932,7 +960,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "100"
+                "id": "103"
             },
             {
                 "accession": "EU113244",
@@ -941,7 +969,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "101"
+                "id": "104"
             },
             {
                 "accession": "EU113251",
@@ -950,7 +978,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "102"
+                "id": "105"
             },
             {
                 "accession": "EU113248",
@@ -959,7 +987,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "103"
+                "id": "106"
             }
         ],
         "sta1": [
@@ -970,7 +998,7 @@
                 "gene": "sta1",
                 "protsequence": "MKKLMLAIFISVLSFPSFSQSTESLDSSKEKITLETKKCDVVKNNSEKKSENMNNTFYCCELCCNPACAPCY",
                 "source": "https://www.ncbi.nlm.nih.gov/protein/147878",
-                "id": "104"
+                "id": "107"
             },
             {
                 "accession": "AJ555214",
@@ -980,7 +1008,7 @@
                 "protsequence": "MKKLMLAIFISVLSFPSFSQSTESLDSSKEKITLETKKCDVVKNNSEKKSENMNNTFYCCELCCNPACAGCY",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "synonym": "estA1",
-                "id": "105"
+                "id": "108"
             }
         ],
         "sta2": [
@@ -992,7 +1020,7 @@
                 "protsequence": "MKKSILFIFLSVLSFSPFAQDAKPAGSSKEKITLESKKCNIVKKNNESSPESMNSSNYCCELCCNPACTGCY",
                 "source": "manual curation (https://www.sciencedirect.com/science/article/pii/S1438422116300960#upi0005)",
                 "synonym": "estA2",
-                "id": "106"
+                "id": "109"
             }
         ],
         "sta3/4": [
@@ -1004,7 +1032,7 @@
                 "protsequence": "MPCSGGNMKKSILFIFLSVLSFSPFAQDAKPVESSKEKITLESKKCNIAKKSNKSGPESMNSSNYCCELCCNPACTGCY",
                 "source": "manual curation based on https://www.sciencedirect.com/science/article/pii/S1438422116300960#upi0005",
                 "synonym": "estA3/4",
-                "id": "107"
+                "id": "110"
             },
             {
                 "accession": "J03311.2",
@@ -1014,7 +1042,7 @@
                 "protsequence": "MKKSILFIFLSVLSFSPFAQDAKPVESSKEKITLESKKCNIAKKSNKSGPESMNSSNYCCELCCNPACTGCY",
                 "source": "manual curation (https://www.sciencedirect.com/science/article/pii/S1438422116300960#upi0005)",
                 "synonym": "estA3/4",
-                "id": "108"
+                "id": "111"
             }
         ],
         "stb": [
@@ -1027,7 +1055,7 @@
                 "source": "-",
                 "subtype": "II",
                 "synonym": "ST",
-                "id": "109"
+                "id": "112"
             },
             {
                 "accession": "AY028790",
@@ -1036,7 +1064,7 @@
                 "gene": "stb",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "110"
+                "id": "113"
             },
             {
                 "accession": "AJ555214",
@@ -1045,7 +1073,7 @@
                 "gene": "stb",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "111"
+                "id": "114"
             },
             {
                 "accession": "CP000913",
@@ -1054,7 +1082,7 @@
                 "gene": "stb",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "112"
+                "id": "115"
             }
         ],
         "stx1": [
@@ -1066,7 +1094,7 @@
                 "protsequence:": "MKIIIFRVLTFFFVIFSVNVVAKEFTLDFSTAKTYVDSLNVIRSAIGTPLQTISSGGTSLLMIDSGTGDNLFAVDVRGIDPEEGRFNNLRLIVERNNLYVTGFVNRTNNVFYRFADFSHVTFPGTTAVTLSGDSSYTTLQRVAGISRTGMQINRHSLTTSYLDLMSHSGTSLTQSVARAMLRFVTVTAEALRFRQIQRGFRTTLDDLSGRSYVMTAEDVDLTLNWGRLSSVLPDYHGQDSVRVGRISFGSINAILGSVALILNCHHHASRVARMASDEFPSMCPADGRVRGITHNKILWDSSTLGAILMRRTISS",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "a",
-                "id": "113"
+                "id": "116"
             },
             {
                 "accession": "QKU39470.1",
@@ -1076,7 +1104,7 @@
                 "protsequence": "MKKTLLIAASLSFFSASALATPDCVTGKVEYTKYNDDDTFTVKVGDKELFTNRWNLQSLLLSAQITGMTVTIKTNACHNGGGFSEVIFR",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "a",
-                "id": "114"
+                "id": "117"
             },
             {
                 "accession": "M24352",
@@ -1086,7 +1114,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "115"
+                "id": "118"
             },
             {
                 "accession": "M19437",
@@ -1096,7 +1124,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "116"
+                "id": "119"
             },
             {
                 "accession": "L04539",
@@ -1106,7 +1134,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "117"
+                "id": "120"
             },
             {
                 "accession": "Z36900",
@@ -1116,7 +1144,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "118"
+                "id": "121"
             },
             {
                 "accession": "AB083044",
@@ -1126,7 +1154,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "119"
+                "id": "122"
             },
             {
                 "accession": "AB035142",
@@ -1136,7 +1164,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "120"
+                "id": "123"
             },
             {
                 "accession": "AM230663",
@@ -1146,7 +1174,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "121"
+                "id": "124"
             },
             {
                 "accession": "AM230662",
@@ -1156,7 +1184,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "122"
+                "id": "125"
             },
             {
                 "accession": "AJ279086",
@@ -1166,7 +1194,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "123"
+                "id": "126"
             },
             {
                 "accession": "Z36899",
@@ -1176,7 +1204,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "124"
+                "id": "127"
             },
             {
                 "accession": "AF461168",
@@ -1186,7 +1214,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "125"
+                "id": "128"
             },
             {
                 "accession": "M19473",
@@ -1196,7 +1224,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "126"
+                "id": "129"
             },
             {
                 "accession": "AB048232",
@@ -1206,7 +1234,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "127"
+                "id": "130"
             },
             {
                 "accession": "AB071620",
@@ -1216,7 +1244,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "128"
+                "id": "131"
             },
             {
                 "accession": "AB048237",
@@ -1226,7 +1254,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "129"
+                "id": "132"
             },
             {
                 "accession": "AB071622",
@@ -1236,7 +1264,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "130"
+                "id": "133"
             },
             {
                 "accession": "AB071624",
@@ -1246,7 +1274,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "131"
+                "id": "134"
             },
             {
                 "accession": "DQ449666",
@@ -1256,7 +1284,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "132"
+                "id": "135"
             },
             {
                 "accession": "Z36901",
@@ -1266,7 +1294,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "133"
+                "id": "136"
             },
             {
                 "accession": "AB050958",
@@ -1276,7 +1304,7 @@
                 "protsequence": "MKIMIFRALTFFFVIFSVNAIAKEFTLDFSTAKKYVDSLNVIRSAIGTPLQTISSGGTSLLMIDSGTGDNLFAVDIMGLEPEEERFNNLRLIVERNNLYVTGFVNRTNNVFYRFADFSHVTFPGTRAVTLSGDSSYTTLQRVAGISRTGMQINRHSLTTSYLDLMSYSGTSLTQSVARAMLRFVTVTAEALRFRQIQRGFRTTLDDLSGRSYVMTAEDVDLTLNWGRLSSILPDYHGQDSVRVGRISFGSINAILGSVALILNCHHHASRVARMTPDEFPSMCPTDGSGRGITHNKILWDSSTLGAILIRRTISS",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "134"
+                "id": "137"
             },
             {
                 "accession": "AB050959",
@@ -1286,7 +1314,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "135"
+                "id": "138"
             },
             {
                 "accession": "AY986980",
@@ -1296,7 +1324,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "136"
+                "id": "139"
             },
             {
                 "accession": "AY170851",
@@ -1306,7 +1334,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "137"
+                "id": "140"
             },
             {
                 "accession": "AB050959",
@@ -1316,7 +1344,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "138"
+                "id": "141"
             },
             {
                 "accession": "AY170851",
@@ -1326,7 +1354,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "139"
+                "id": "142"
             },
             {
                 "accession": "AY986982",
@@ -1336,7 +1364,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "140"
+                "id": "143"
             },
             {
                 "accession": "AB071621",
@@ -1346,7 +1374,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "141"
+                "id": "144"
             },
             {
                 "accession": "AB048235",
@@ -1356,7 +1384,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "142"
+                "id": "145"
             },
             {
                 "accession": "AB048237",
@@ -1366,7 +1394,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "143"
+                "id": "146"
             },
             {
                 "accession": "GQ429160",
@@ -1376,7 +1404,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "144"
+                "id": "147"
             },
             {
                 "accession": "AJ314838",
@@ -1386,7 +1414,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "145"
+                "id": "148"
             },
             {
                 "accession": "AB071619",
@@ -1396,7 +1424,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "146"
+                "id": "149"
             },
             {
                 "accession": "AM230663",
@@ -1406,7 +1434,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "147"
+                "id": "150"
             },
             {
                 "accession": "AM230662",
@@ -1416,7 +1444,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "148"
+                "id": "151"
             },
             {
                 "accession": "JQ327854",
@@ -1426,7 +1454,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "149"
+                "id": "152"
             },
             {
                 "accession": "JX206444",
@@ -1436,7 +1464,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "150"
+                "id": "153"
             },
             {
                 "accession": "AF461168",
@@ -1446,7 +1474,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "151"
+                "id": "154"
             },
             {
                 "accession": "JQ327853",
@@ -1456,7 +1484,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "152"
+                "id": "155"
             },
             {
                 "accession": "AB083043",
@@ -1466,7 +1494,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "153"
+                "id": "156"
             },
             {
                 "accession": "AY986981",
@@ -1476,7 +1504,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "154"
+                "id": "157"
             },
             {
                 "accession": "AY170851",
@@ -1486,7 +1514,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "155"
+                "id": "158"
             },
             {
                 "accession": "AB083044",
@@ -1496,7 +1524,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "156"
+                "id": "159"
             },
             {
                 "accession": "AB048237",
@@ -1506,7 +1534,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "157"
+                "id": "160"
             },
             {
                 "accession": "GQ429160",
@@ -1516,7 +1544,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "158"
+                "id": "161"
             },
             {
                 "accession": "AB048235",
@@ -1526,7 +1554,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "159"
+                "id": "162"
             },
             {
                 "accession": "DQ449666",
@@ -1536,7 +1564,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "160"
+                "id": "163"
             },
             {
                 "accession": "AB071622",
@@ -1546,7 +1574,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "161"
+                "id": "164"
             },
             {
                 "accession": "AB071624",
@@ -1556,7 +1584,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "162"
+                "id": "165"
             },
             {
                 "accession": "AY135685",
@@ -1566,7 +1594,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "163"
+                "id": "166"
             },
             {
                 "accession": "AB071620",
@@ -1576,7 +1604,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "164"
+                "id": "167"
             },
             {
                 "accession": "MF872150.1",
@@ -1586,7 +1614,7 @@
                 "protsequence": "MKKVLLIAVSLSFLSASVLAAPDCVTGKVEYTKYNDDDTFTVKVADKELFTNRWNLQSLLLSAQITGMTVTIKTTACHNGGGFSEVIFR",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "165"
+                "id": "168"
             },
             {
                 "accession": "Z36899",
@@ -1596,7 +1624,25 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "166"
+                "id": "169"
+            },
+            {
+                "accession": "AHJ80154.1",
+                "description":"Shiga toxin 1 subunit B (Stx1e)",
+                "gene": "stx1B",
+                "dnasequence":"ATGAAAAAGATATTATTAATAGTAGCATCACTTTCATTCTTTTCAGCAAGTGTGTTGGCAGCACCTGATTGTGTAACTGGAAAGGTGGAGTATACAAAATATAATGATGACGATACCTTTACAGTGAAAGTGGGTGATAAAGAATTATATACTACCAGATGGAATCTTCAGTCACTTCTTCTTAGTGCACAAATTACGGGGATGACGATAACCATTAAAACTAATAGCTGTAGAAATGGAGAGGGGTTCAGTGAGGTGATTTTTCGCTGA",
+                "protsequence":"MKKILLIVASLSFFSASVLAAPDCVTGKVEYTKYNDDDTFTVKVGDKELYTTRWNLQSLLLSAQITGMTITIKTNSCRNGEGFSEVIFR",
+                "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
+                "subtype": "e"
+            },
+            {
+                "accession": "AHJ80155.1",
+                "description": "Shiga toxin 1 subunit A (Stx1e)",
+                "gene": "stx1A",
+                "dnasequence":"ATGATATTGATGATTTTCAGGGGGCTGACTTTTTTCTTTTTTATTCTTTCGGCTAATGCAGTCGCCCAGGATTTTACAGTCGATTTCTCCACAGCAAAGAAGTATGTGGATTCGCTGAATGCCATTCGTTCAGCAATAGGAACCCCATTACATAGTATTTCATCAGGAGGAACATCTTTACTGATGATTGATAATGGTACAGGCGATAATTTGTTTGCGGTTGATATCAGGGGGTTAGATCCAGAGGAAGAACGGTTTGACAATTTACGCCTGATTATTGAGAGAAATAACTTATATGTGACGGGATTTGTTAACAGGACAAGCAATATCTTTTATCGTTTTGCTGATTTTTCACACGTAACCTTTCCTGGTACAAGAGCGGTTACATTGTCTGGTGACAGTAGCTATACAACTTTGCAGCGGGTTGCGGGGATTGGTCGTACGGGGATGCAGATTAATCGCCATTCATTGACTACATCTTATCTGGATTTGATGTCATATAGCGGAAGTTCACTGACGCAGCCTGTAGCAAGGGCAATGTTACGGTTTGTTACGGTGACAGCCGAAGCTTTGCGTTTTCGCCAAATCCAAAGGGGCTTCCGAACGACACTTGATGATGTCAGTGGGCACTCTTATACAATGACAGTTGAAGATGTTGATCTTACACTGAACTGGGGAAGGCTGAGCAGTGTTCTGCCTGACTATCATGGGCAAGACTCTGTTCGTGTTGGGCGAATTTCTTTTGGAGGGGTTAATGCAATCCTGGGAAGTGTGGCATTAATACTGAATTGCCATCATCATACATCACGAGTTTCCAGAATGGCGCCTGATGAATTTCCTTCTATGTGCCCGGCAAACGGAAGAGAGCGTGGGATCACTCACGATAGAGTATTGTGGGATTCATCCACTCTGGGAGCAATTTTAATACGCAGAGCTATTAGCAGTTGA",
+                "protsequence":"MILMIFRGLTFFFFILSANAVAQDFTVDFSTAKKYVDSLNAIRSAIGTPLHSISSGGTSLLMIDNGTGDNLFAVDIRGLDPEEERFDNLRLIIERNNLYVTGFVNRTSNIFYRFADFSHVTFPGTRAVTLSGDSSYTTLQRVAGIGRTGMQINRHSLTTSYLDLMSYSGSSLTQPVARAMLRFVTVTAEALRFRQIQRGFRTTLDDVSGHSYTMTVEDVDLTLNWGRLSSVLPDYHGQDSVRVGRISFGGVNAILGSVALILNCHHHTSRVSRMAPDEFPSMCPANGRERGITHDRVLWDSSTLGAILIRRAISS",
+                "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
+                "subtype": "e"
             }
         ],
         "stx2": [
@@ -1608,7 +1654,7 @@
                 "protsequence": "MKCILFKWVLCLLLGFSSVSYSREFTIDFSTQQSYVSSLNSIRTEISTPLEHISQGTTSVSVINHTPPGSYFAVDIRGLDVYQARFDHLRLIIEQNNLYVAGFVNTATNTFYRFSDFTHISVPGVTTASMTTDSSYTTLQRVAALERSGMQISRHSLVSSYLALMEFSGNTMTRDASRAVLRFVTVTAEALRFRQIQREFRQALSETAPVYTMTPGDVDLTLNWGRISNVLPEYRGEDGVRVGRISFNNISAILGTVAVILNCHHQGARSVRAVNEESQPECQITGDRPVIKINNTLWESNTAAAFLNRKSQFLYTTGK",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "a",
-                "id": "167"
+                "id": "170"
             },
             {
                 "accession": "AAM70046.1",
@@ -1618,7 +1664,7 @@
                 "protsequence": "MKKMFMAVLFALASVNAMAADCAKGKIEFSKYNEDDTFTVKVDGKEYWTSRWNLRPLLQSAQLTGMTVTIKSSTCESGSGFAEVQFNND",
                 "source": "manual curation of https://www.ncbi.nlm.nih.gov/nuccore/AF461173.1/",
                 "subtype": "a",
-                "id": "168"
+                "id": "171"
             },
             {
                 "accession": "FM998851",
@@ -1628,7 +1674,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "169"
+                "id": "172"
             },
             {
                 "accession": "AY443054",
@@ -1638,7 +1684,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "170"
+                "id": "173"
             },
             {
                 "accession": "GQ429162",
@@ -1648,7 +1694,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "171"
+                "id": "174"
             },
             {
                 "accession": "FM998852",
@@ -1658,7 +1704,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "172"
+                "id": "175"
             },
             {
                 "accession": "GQ429163",
@@ -1668,7 +1714,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "173"
+                "id": "176"
             },
             {
                 "accession": "GQ429168",
@@ -1678,7 +1724,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "174"
+                "id": "177"
             },
             {
                 "accession": "FM998854",
@@ -1688,7 +1734,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "175"
+                "id": "178"
             },
             {
                 "accession": "FM998861",
@@ -1698,7 +1744,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "176"
+                "id": "179"
             },
             {
                 "accession": "FM998839",
@@ -1708,7 +1754,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "177"
+                "id": "180"
             },
             {
                 "accession": "Z37725",
@@ -1718,7 +1764,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "178"
+                "id": "181"
             },
             {
                 "accession": "FM998842",
@@ -1728,7 +1774,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "179"
+                "id": "182"
             },
             {
                 "accession": "Z50754",
@@ -1738,7 +1784,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "180"
+                "id": "183"
             },
             {
                 "accession": "AY443052",
@@ -1748,7 +1794,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "181"
+                "id": "184"
             },
             {
                 "accession": "AJ272135",
@@ -1758,7 +1804,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "182"
+                "id": "185"
             },
             {
                 "accession": "AF524944",
@@ -1768,7 +1814,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "183"
+                "id": "186"
             },
             {
                 "accession": "FM998856",
@@ -1778,7 +1824,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "184"
+                "id": "187"
             },
             {
                 "accession": "FM998858",
@@ -1788,7 +1834,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "185"
+                "id": "188"
             },
             {
                 "accession": "EF441619",
@@ -1798,7 +1844,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "186"
+                "id": "189"
             },
             {
                 "accession": "AY633459",
@@ -1808,7 +1854,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "187"
+                "id": "190"
             },
             {
                 "accession": "GQ429170",
@@ -1818,7 +1864,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "188"
+                "id": "191"
             },
             {
                 "accession": "AF461171",
@@ -1828,7 +1874,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "189"
+                "id": "192"
             },
             {
                 "accession": "AY443057",
@@ -1838,7 +1884,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "190"
+                "id": "193"
             },
             {
                 "accession": "AF461173",
@@ -1848,7 +1894,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "191"
+                "id": "194"
             },
             {
                 "accession": "AB030484",
@@ -1858,7 +1904,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "192"
+                "id": "195"
             },
             {
                 "accession": "AY633472",
@@ -1868,7 +1914,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "193"
+                "id": "196"
             },
             {
                 "accession": "EF441613",
@@ -1878,7 +1924,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "194"
+                "id": "197"
             },
             {
                 "accession": "AY633471",
@@ -1888,7 +1934,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "195"
+                "id": "198"
             },
             {
                 "accession": "DQ344636",
@@ -1898,7 +1944,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "196"
+                "id": "199"
             },
             {
                 "accession": "EF441609",
@@ -1908,7 +1954,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "197"
+                "id": "200"
             },
             {
                 "accession": "EF441599",
@@ -1918,7 +1964,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "198"
+                "id": "201"
             },
             {
                 "accession": "X07865",
@@ -1928,7 +1974,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "199"
+                "id": "202"
             },
             {
                 "accession": "EF441618",
@@ -1938,7 +1984,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "200"
+                "id": "203"
             },
             {
                 "accession": "EF441604",
@@ -1948,7 +1994,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "201"
+                "id": "204"
             },
             {
                 "accession": "AY443044",
@@ -1958,7 +2004,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "202"
+                "id": "205"
             },
             {
                 "accession": "L11079",
@@ -1968,7 +2014,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "203"
+                "id": "206"
             },
             {
                 "accession": "M59432",
@@ -1978,7 +2024,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "204"
+                "id": "207"
             },
             {
                 "accession": "FM177471",
@@ -1988,7 +2034,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "205"
+                "id": "208"
             },
             {
                 "accession": "AF500189",
@@ -1998,7 +2044,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "206"
+                "id": "209"
             },
             {
                 "accession": "AY443043",
@@ -2008,7 +2054,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "207"
+                "id": "210"
             },
             {
                 "accession": "EU086525",
@@ -2018,7 +2064,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "208"
+                "id": "211"
             },
             {
                 "accession": "AM982821",
@@ -2028,7 +2074,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "209"
+                "id": "212"
             },
             {
                 "accession": "AY633464",
@@ -2038,7 +2084,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "210"
+                "id": "213"
             },
             {
                 "accession": "AY633473",
@@ -2048,7 +2094,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "211"
+                "id": "214"
             },
             {
                 "accession": "AY633453",
@@ -2058,7 +2104,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "212"
+                "id": "215"
             },
             {
                 "accession": "AY633467",
@@ -2068,7 +2114,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "213"
+                "id": "216"
             },
             {
                 "accession": "AY633469",
@@ -2078,7 +2124,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "214"
+                "id": "217"
             },
             {
                 "accession": "AY739671",
@@ -2088,7 +2134,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "215"
+                "id": "218"
             },
             {
                 "accession": "DQ235774",
@@ -2098,7 +2144,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "216"
+                "id": "219"
             },
             {
                 "accession": "AB071845",
@@ -2108,7 +2154,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "217"
+                "id": "220"
             },
             {
                 "accession": "AF461167",
@@ -2118,7 +2164,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "218"
+                "id": "221"
             },
             {
                 "accession": "AF291819",
@@ -2128,7 +2174,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "219"
+                "id": "222"
             },
             {
                 "accession": "AB015057",
@@ -2138,7 +2184,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "220"
+                "id": "223"
             },
             {
                 "accession": "AY443045",
@@ -2148,7 +2194,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "221"
+                "id": "224"
             },
             {
                 "accession": "AY633470",
@@ -2158,7 +2204,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "222"
+                "id": "225"
             },
             {
                 "accession": "AY443049",
@@ -2168,7 +2214,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "223"
+                "id": "226"
             },
             {
                 "accession": "FM998860",
@@ -2178,7 +2224,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "224"
+                "id": "227"
             },
             {
                 "accession": "AY443047",
@@ -2188,7 +2234,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "225"
+                "id": "228"
             },
             {
                 "accession": "AF479828",
@@ -2198,7 +2244,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "226"
+                "id": "229"
             },
             {
                 "accession": "GQ429172",
@@ -2208,7 +2254,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "227"
+                "id": "230"
             },
             {
                 "accession": "AY633457",
@@ -2218,7 +2264,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "228"
+                "id": "231"
             },
             {
                 "accession": "AY633458",
@@ -2228,7 +2274,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "229"
+                "id": "232"
             },
             {
                 "accession": "AY443048",
@@ -2238,7 +2284,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "230"
+                "id": "233"
             },
             {
                 "accession": "FM998848",
@@ -2248,7 +2294,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "231"
+                "id": "234"
             },
             {
                 "accession": "AF500191",
@@ -2258,7 +2304,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "232"
+                "id": "235"
             },
             {
                 "accession": "EF441621",
@@ -2268,7 +2314,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "233"
+                "id": "236"
             },
             {
                 "accession": "FM99884",
@@ -2278,7 +2324,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "234"
+                "id": "237"
             },
             {
                 "accession": "AF500190",
@@ -2288,7 +2334,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "235"
+                "id": "238"
             },
             {
                 "accession": "DQ235775",
@@ -2298,7 +2344,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "236"
+                "id": "239"
             },
             {
                 "accession": "AF479829",
@@ -2308,7 +2354,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "237"
+                "id": "240"
             },
             {
                 "accession": "EU816447",
@@ -2318,7 +2364,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "238"
+                "id": "241"
             },
             {
                 "accession": "X61283",
@@ -2328,7 +2374,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "239"
+                "id": "242"
             },
             {
                 "accession": "EF441605",
@@ -2338,7 +2384,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "240"
+                "id": "243"
             },
             {
                 "accession": "EF584538",
@@ -2348,7 +2394,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "241"
+                "id": "244"
             },
             {
                 "accession": "AF329817",
@@ -2358,7 +2404,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "242"
+                "id": "245"
             },
             {
                 "accession": "AF500192",
@@ -2368,7 +2414,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "243"
+                "id": "246"
             },
             {
                 "accession": "AY095209",
@@ -2378,7 +2424,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "244"
+                "id": "247"
             },
             {
                 "accession": "DQ059012",
@@ -2388,7 +2434,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "245"
+                "id": "248"
             },
             {
                 "accession": "SNS",
@@ -2398,7 +2444,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "246"
+                "id": "249"
             },
             {
                 "accession": "FN182287",
@@ -2408,7 +2454,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "247"
+                "id": "250"
             },
             {
                 "accession": "FM998855",
@@ -2418,7 +2464,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "248"
+                "id": "251"
             },
             {
                 "accession": "AB012102",
@@ -2428,7 +2474,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "249"
+                "id": "252"
             },
             {
                 "accession": "AB048228",
@@ -2438,7 +2484,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "250"
+                "id": "253"
             },
             {
                 "accession": "AB048238",
@@ -2448,7 +2494,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "251"
+                "id": "254"
             },
             {
                 "accession": "AB048224",
@@ -2458,7 +2504,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "252"
+                "id": "255"
             },
             {
                 "accession": "AB048223",
@@ -2468,7 +2514,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "253"
+                "id": "256"
             },
             {
                 "accession": "AB048229",
@@ -2478,7 +2524,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "254"
+                "id": "257"
             },
             {
                 "accession": "AB012101",
@@ -2488,7 +2534,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "255"
+                "id": "258"
             },
             {
                 "accession": "AB048226",
@@ -2498,7 +2544,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "256"
+                "id": "259"
             },
             {
                 "accession": "AB048225",
@@ -2508,7 +2554,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "257"
+                "id": "260"
             },
             {
                 "accession": "AJ313015",
@@ -2518,7 +2564,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "258"
+                "id": "261"
             },
             {
                 "accession": "AF043627",
@@ -2528,7 +2574,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "259"
+                "id": "262"
             },
             {
                 "accession": "AJ567997",
@@ -2538,7 +2584,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "260"
+                "id": "263"
             },
             {
                 "accession": "EF441616",
@@ -2548,7 +2594,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "261"
+                "id": "264"
             },
             {
                 "accession": "AJ567995",
@@ -2558,7 +2604,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "262"
+                "id": "265"
             },
             {
                 "accession": "L11078",
@@ -2568,7 +2614,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "263"
+                "id": "266"
             },
             {
                 "accession": "X65949",
@@ -2578,7 +2624,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "264"
+                "id": "267"
             },
             {
                 "accession": "AM904726",
@@ -2588,7 +2634,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "265"
+                "id": "268"
             },
             {
                 "accession": "AB048227",
@@ -2598,7 +2644,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "266"
+                "id": "269"
             },
             {
                 "accession": "AY286000",
@@ -2608,7 +2654,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "267"
+                "id": "270"
             },
             {
                 "accession": "AB048236",
@@ -2618,7 +2664,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "268"
+                "id": "271"
             },
             {
                 "accession": "AJ966783",
@@ -2628,7 +2674,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "269"
+                "id": "272"
             },
             {
                 "accession": "AB472687",
@@ -2638,7 +2684,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "270"
+                "id": "273"
             },
             {
                 "accession": "AJ010730",
@@ -2648,7 +2694,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "271"
+                "id": "274"
             },
             {
                 "accession": "M29153",
@@ -2658,7 +2704,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "272"
+                "id": "275"
             },
             {
                 "accession": "X81418",
@@ -2668,7 +2714,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "273"
+                "id": "276"
             },
             {
                 "accession": "AJ313016",
@@ -2678,7 +2724,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "274"
+                "id": "277"
             },
             {
                 "accession": "FM998844",
@@ -2688,7 +2734,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "275"
+                "id": "278"
             },
             {
                 "accession": "U72191",
@@ -2698,7 +2744,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "276"
+                "id": "279"
             },
             {
                 "accession": "M21534",
@@ -2708,7 +2754,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "277"
+                "id": "280"
             },
             {
                 "accession": "X81417",
@@ -2718,7 +2764,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "278"
+                "id": "281"
             },
             {
                 "accession": "X81415",
@@ -2728,7 +2774,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "279"
+                "id": "282"
             },
             {
                 "accession": "X81416",
@@ -2738,7 +2784,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "280"
+                "id": "283"
             },
             {
                 "accession": "FN182286",
@@ -2748,7 +2794,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "281"
+                "id": "284"
             },
             {
                 "accession": "FM998846",
@@ -2758,7 +2804,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "282"
+                "id": "285"
             },
             {
                 "accession": "AY368993",
@@ -2768,7 +2814,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "283"
+                "id": "286"
             },
             {
                 "accession": "AM939642",
@@ -2778,7 +2824,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "284"
+                "id": "287"
             },
             {
                 "accession": "FM998838",
@@ -2788,7 +2834,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "285"
+                "id": "288"
             },
             {
                 "accession": "AY332411",
@@ -2798,7 +2844,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "286"
+                "id": "289"
             },
             {
                 "accession": "AJ567998",
@@ -2808,7 +2854,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "287"
+                "id": "290"
             },
             {
                 "accession": "AJ249351",
@@ -2818,7 +2864,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "288"
+                "id": "291"
             },
             {
                 "accession": "AB472687",
@@ -2828,7 +2874,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "289"
+                "id": "292"
             },
             {
                 "accession": "AB232172",
@@ -2838,7 +2884,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "290"
+                "id": "293"
             },
             {
                 "accession": "AM904726",
@@ -2848,7 +2894,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "291"
+                "id": "294"
             },
             {
                 "accession": "AY332411",
@@ -2858,7 +2904,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "292"
+                "id": "295"
             },
             {
                 "accession": "X81418",
@@ -2868,7 +2914,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "293"
+                "id": "296"
             },
             {
                 "accession": "U72191",
@@ -2878,7 +2924,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "294"
+                "id": "297"
             },
             {
                 "accession": "FM998844",
@@ -2888,7 +2934,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "295"
+                "id": "298"
             },
             {
                 "accession": "GU945539",
@@ -2898,7 +2944,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "296"
+                "id": "299"
             },
             {
                 "accession": "FM998849",
@@ -2908,7 +2954,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "297"
+                "id": "300"
             },
             {
                 "accession": "X81417",
@@ -2918,7 +2964,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "298"
+                "id": "301"
             },
             {
                 "accession": "AY368993",
@@ -2928,7 +2974,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "299"
+                "id": "302"
             },
             {
                 "accession": "X81415",
@@ -2938,7 +2984,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "300"
+                "id": "303"
             },
             {
                 "accession": "X81416",
@@ -2948,7 +2994,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "301"
+                "id": "304"
             },
             {
                 "accession": "AB252836",
@@ -2958,7 +3004,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "302"
+                "id": "305"
             },
             {
                 "accession": "FN182286",
@@ -2968,7 +3014,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "303"
+                "id": "306"
             },
             {
                 "accession": "FM998846",
@@ -2978,7 +3024,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "304"
+                "id": "307"
             },
             {
                 "accession": "FM998838",
@@ -2988,7 +3034,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "305"
+                "id": "308"
             },
             {
                 "accession": "AJ313016",
@@ -2998,7 +3044,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "306"
+                "id": "309"
             },
             {
                 "accession": "AM937001",
@@ -3008,7 +3054,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "307"
+                "id": "310"
             },
             {
                 "accession": "KC339670",
@@ -3018,7 +3064,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "308"
+                "id": "311"
             },
             {
                 "accession": "FN252457",
@@ -3028,7 +3074,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "309"
+                "id": "312"
             },
             {
                 "accession": "GQ919289",
@@ -3038,7 +3084,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "310"
+                "id": "313"
             },
             {
                 "accession": "AY286000",
@@ -3048,7 +3094,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "311"
+                "id": "314"
             },
             {
                 "accession": "GQ995452",
@@ -3058,7 +3104,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "312"
+                "id": "315"
             },
             {
                 "accession": "AB048227",
@@ -3068,7 +3114,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "313"
+                "id": "316"
             },
             {
                 "accession": "GU228505",
@@ -3078,7 +3124,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "314"
+                "id": "317"
             },
             {
                 "accession": "AJ966783",
@@ -3088,7 +3134,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "315"
+                "id": "318"
             },
             {
                 "accession": "AB048236",
@@ -3098,7 +3144,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "316"
+                "id": "319"
             },
             {
                 "accession": "AY443043",
@@ -3108,7 +3154,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "317"
+                "id": "320"
             },
             {
                 "accession": "AB741082",
@@ -3118,7 +3164,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "318"
+                "id": "321"
             },
             {
                 "accession": "DQ059012",
@@ -3128,7 +3174,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "319"
+                "id": "322"
             },
             {
                 "accession": "EF441605",
@@ -3138,7 +3184,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "320"
+                "id": "323"
             },
             {
                 "accession": "AF500189",
@@ -3148,7 +3194,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "321"
+                "id": "324"
             },
             {
                 "accession": "EF584538",
@@ -3158,7 +3204,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "322"
+                "id": "325"
             },
             {
                 "accession": "AF479828",
@@ -3168,7 +3214,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "323"
+                "id": "326"
             },
             {
                 "accession": "AY443047",
@@ -3178,7 +3224,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "324"
+                "id": "327"
             },
             {
                 "accession": "AY443049",
@@ -3188,7 +3234,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "325"
+                "id": "328"
             },
             {
                 "accession": "FM998860",
@@ -3198,7 +3244,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "326"
+                "id": "329"
             },
             {
                 "accession": "AY443045",
@@ -3208,7 +3254,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "327"
+                "id": "330"
             },
             {
                 "accession": "AF500191",
@@ -3218,7 +3264,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "328"
+                "id": "331"
             },
             {
                 "accession": "JX206445",
@@ -3228,7 +3274,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "329"
+                "id": "332"
             },
             {
                 "accession": "AY443054",
@@ -3238,7 +3284,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "330"
+                "id": "333"
             },
             {
                 "accession": "AF500192",
@@ -3248,7 +3294,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "331"
+                "id": "334"
             },
             {
                 "accession": "AF329817",
@@ -3258,7 +3304,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "332"
+                "id": "335"
             },
             {
                 "accession": "DQ235775",
@@ -3268,7 +3314,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "333"
+                "id": "336"
             },
             {
                 "accession": "EF441603",
@@ -3278,7 +3324,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "334"
+                "id": "337"
             },
             {
                 "accession": "JN193428",
@@ -3288,7 +3334,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "335"
+                "id": "338"
             },
             {
                 "accession": "X67514",
@@ -3298,7 +3344,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "336"
+                "id": "339"
             },
             {
                 "accession": "X61283",
@@ -3308,7 +3354,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "337"
+                "id": "340"
             },
             {
                 "accession": "AF479829",
@@ -3318,7 +3364,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "338"
+                "id": "341"
             },
             {
                 "accession": "EU816442",
@@ -3328,7 +3374,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "339"
+                "id": "342"
             },
             {
                 "accession": "Z50754",
@@ -3338,7 +3384,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "340"
+                "id": "343"
             },
             {
                 "accession": "FM998854",
@@ -3348,7 +3394,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "341"
+                "id": "344"
             },
             {
                 "accession": "AY443057",
@@ -3358,7 +3404,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "342"
+                "id": "345"
             },
             {
                 "accession": "FR850031",
@@ -3368,7 +3414,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "343"
+                "id": "346"
             },
             {
                 "accession": "FM998840",
@@ -3378,7 +3424,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "344"
+                "id": "347"
             },
             {
                 "accession": "JN193431",
@@ -3388,7 +3434,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "345"
+                "id": "348"
             },
             {
                 "accession": "AY633460",
@@ -3398,7 +3444,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "346"
+                "id": "349"
             },
             {
                 "accession": "EF441619",
@@ -3408,7 +3454,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "347"
+                "id": "350"
             },
             {
                 "accession": "AY633459",
@@ -3418,7 +3464,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "348"
+                "id": "351"
             },
             {
                 "accession": "EF441621",
@@ -3428,7 +3474,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "349"
+                "id": "352"
             },
             {
                 "accession": "AY633457",
@@ -3438,7 +3484,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "350"
+                "id": "353"
             },
             {
                 "accession": "AF500190",
@@ -3448,7 +3494,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "351"
+                "id": "354"
             },
             {
                 "accession": "AY095209",
@@ -3458,7 +3504,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "352"
+                "id": "355"
             },
             {
                 "accession": "AY633471",
@@ -3468,7 +3514,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "353"
+                "id": "356"
             },
             {
                 "accession": "JQ011318",
@@ -3478,7 +3524,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "354"
+                "id": "357"
             },
             {
                 "accession": "EF441604",
@@ -3488,7 +3534,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "355"
+                "id": "358"
             },
             {
                 "accession": "CP003297",
@@ -3498,7 +3544,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "356"
+                "id": "359"
             },
             {
                 "accession": "AY143336",
@@ -3508,7 +3554,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "357"
+                "id": "360"
             },
             {
                 "accession": "DQ344636",
@@ -3518,7 +3564,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "358"
+                "id": "361"
             },
             {
                 "accession": "AB048835",
@@ -3528,7 +3574,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "359"
+                "id": "362"
             },
             {
                 "accession": "JQ411011",
@@ -3538,7 +3584,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "360"
+                "id": "363"
             },
             {
                 "accession": "AY633472",
@@ -3548,7 +3594,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "361"
+                "id": "364"
             },
             {
                 "accession": "AB048837",
@@ -3558,7 +3604,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "362"
+                "id": "365"
             },
             {
                 "accession": "FM998859",
@@ -3568,7 +3614,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "363"
+                "id": "366"
             },
             {
                 "accession": "FR874040",
@@ -3578,7 +3624,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "364"
+                "id": "367"
             },
             {
                 "accession": "AJ272135",
@@ -3588,7 +3634,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "365"
+                "id": "368"
             },
             {
                 "accession": "AF525040",
@@ -3598,7 +3644,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "366"
+                "id": "369"
             },
             {
                 "accession": "FM998861",
@@ -3608,7 +3654,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "367"
+                "id": "370"
             },
             {
                 "accession": "FM998842",
@@ -3618,7 +3664,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "368"
+                "id": "371"
             },
             {
                 "accession": "Z37725",
@@ -3628,7 +3674,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "369"
+                "id": "372"
             },
             {
                 "accession": "FM998839",
@@ -3638,7 +3684,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "370"
+                "id": "373"
             },
             {
                 "accession": "AY633470",
@@ -3648,7 +3694,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "371"
+                "id": "374"
             },
             {
                 "accession": "GQ429162",
@@ -3658,7 +3704,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "372"
+                "id": "375"
             },
             {
                 "accession": "FM998852",
@@ -3668,7 +3714,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "373"
+                "id": "376"
             },
             {
                 "accession": "AY443052",
@@ -3678,7 +3724,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "374"
+                "id": "377"
             },
             {
                 "accession": "GQ429163",
@@ -3688,7 +3734,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "375"
+                "id": "378"
             },
             {
                 "accession": "EF441622",
@@ -3698,7 +3744,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "376"
+                "id": "379"
             },
             {
                 "accession": "FM998851",
@@ -3708,7 +3754,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "377"
+                "id": "380"
             },
             {
                 "accession": "GQ429168",
@@ -3718,7 +3764,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "378"
+                "id": "381"
             },
             {
                 "accession": "EF441618",
@@ -3728,7 +3774,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "379"
+                "id": "382"
             },
             {
                 "accession": "GQ429170",
@@ -3738,7 +3784,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "380"
+                "id": "383"
             },
             {
                 "accession": "L11079",
@@ -3748,7 +3794,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "381"
+                "id": "384"
             },
             {
                 "accession": "AY443044",
@@ -3758,7 +3804,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "382"
+                "id": "385"
             },
             {
                 "accession": "AM982821",
@@ -3768,7 +3814,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "383"
+                "id": "386"
             },
             {
                 "accession": "AB015057",
@@ -3778,7 +3824,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "384"
+                "id": "387"
             },
             {
                 "accession": "FR851897",
@@ -3788,7 +3834,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "385"
+                "id": "388"
             },
             {
                 "accession": "EF441616",
@@ -3798,7 +3844,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "386"
+                "id": "389"
             },
             {
                 "accession": "AJ567995",
@@ -3808,7 +3854,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "387"
+                "id": "390"
             },
             {
                 "accession": "L11078",
@@ -3818,7 +3864,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "388"
+                "id": "391"
             },
             {
                 "accession": "X65949",
@@ -3828,7 +3874,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "389"
+                "id": "392"
             },
             {
                 "accession": "AJ313015",
@@ -3838,7 +3884,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "390"
+                "id": "393"
             },
             {
                 "accession": "AF043627",
@@ -3848,7 +3894,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "391"
+                "id": "394"
             },
             {
                 "accession": "AB012102",
@@ -3858,7 +3904,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "392"
+                "id": "395"
             },
             {
                 "accession": "AB048224",
@@ -3868,7 +3914,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "393"
+                "id": "396"
             },
             {
                 "accession": "AB048238",
@@ -3878,7 +3924,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "394"
+                "id": "397"
             },
             {
                 "accession": "AB048222",
@@ -3888,7 +3934,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "395"
+                "id": "398"
             },
             {
                 "accession": "AB048226",
@@ -3898,7 +3944,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "396"
+                "id": "399"
             },
             {
                 "accession": "AB048229",
@@ -3908,7 +3954,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "397"
+                "id": "400"
             },
             {
                 "accession": "AB048223",
@@ -3918,7 +3964,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "398"
+                "id": "401"
             },
             {
                 "accession": "AB048225",
@@ -3928,7 +3974,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "399"
+                "id": "402"
             },
             {
                 "accession": "GU126552",
@@ -3938,7 +3984,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "400"
+                "id": "403"
             },
             {
                 "accession": "AJ567997",
@@ -3948,7 +3994,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "401"
+                "id": "404"
             },
             {
                 "accession": "FN252458",
@@ -3958,7 +4004,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "402"
+                "id": "405"
             },
             {
                 "accession": "EF584538",
@@ -3968,7 +4014,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "403"
+                "id": "406"
             },
             {
                 "accession": "JX206445",
@@ -3978,7 +4024,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "404"
+                "id": "407"
             },
             {
                 "accession": "AY633457",
@@ -3988,7 +4034,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "405"
+                "id": "408"
             },
             {
                 "accession": "JN193431",
@@ -3998,7 +4044,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "406"
+                "id": "409"
             },
             {
                 "accession": "AY633460",
@@ -4008,7 +4054,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "407"
+                "id": "410"
             },
             {
                 "accession": "AF479829",
@@ -4018,7 +4064,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "408"
+                "id": "411"
             },
             {
                 "accession": "AY443045",
@@ -4028,7 +4074,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "409"
+                "id": "412"
             },
             {
                 "accession": "JN193429",
@@ -4038,7 +4084,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "410"
+                "id": "413"
             },
             {
                 "accession": "EF441604",
@@ -4048,7 +4094,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "411"
+                "id": "414"
             },
             {
                 "accession": "FM998840",
@@ -4058,7 +4104,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "412"
+                "id": "415"
             },
             {
                 "accession": "EU086525",
@@ -4068,7 +4114,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "413"
+                "id": "416"
             },
             {
                 "accession": "AF461167",
@@ -4078,7 +4124,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "414"
+                "id": "417"
             },
             {
                 "accession": "L11079",
@@ -4088,7 +4134,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "415"
+                "id": "418"
             },
             {
                 "accession": "AB071845",
@@ -4098,7 +4144,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "416"
+                "id": "419"
             },
             {
                 "accession": "AM904726",
@@ -4108,7 +4154,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "417"
+                "id": "420"
             },
             {
                 "accession": "AY633472",
@@ -4118,7 +4164,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "418"
+                "id": "421"
             },
             {
                 "accession": "EF441618",
@@ -4128,7 +4174,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "419"
+                "id": "422"
             },
             {
                 "accession": "EF441613",
@@ -4138,7 +4184,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "420"
+                "id": "423"
             },
             {
                 "accession": "JN193428",
@@ -4148,7 +4194,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "421"
+                "id": "424"
             },
             {
                 "accession": "AB028900",
@@ -4158,7 +4204,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "422"
+                "id": "425"
             },
             {
                 "accession": "AB028904",
@@ -4168,7 +4214,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "423"
+                "id": "426"
             },
             {
                 "accession": "AF461171",
@@ -4178,7 +4224,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "424"
+                "id": "427"
             },
             {
                 "accession": "EF441599",
@@ -4188,7 +4234,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "425"
+                "id": "428"
             },
             {
                 "accession": "EF441609",
@@ -4198,7 +4244,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "426"
+                "id": "429"
             },
             {
                 "accession": "AE005174",
@@ -4208,7 +4254,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "427"
+                "id": "430"
             },
             {
                 "accession": "AY443054",
@@ -4218,7 +4264,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "428"
+                "id": "431"
             },
             {
                 "accession": "FM998839",
@@ -4228,7 +4274,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "429"
+                "id": "432"
             },
             {
                 "accession": "GQ429163",
@@ -4238,7 +4284,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "430"
+                "id": "433"
             },
             {
                 "accession": "AB028899",
@@ -4248,7 +4294,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "431"
+                "id": "434"
             },
             {
                 "accession": "FM998856",
@@ -4258,7 +4304,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "432"
+                "id": "435"
             },
             {
                 "accession": "AJ271063",
@@ -4268,7 +4314,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "433"
+                "id": "436"
             },
             {
                 "accession": "AJ272135",
@@ -4278,7 +4324,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "434"
+                "id": "437"
             },
             {
                 "accession": "AF525040",
@@ -4288,7 +4334,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "435"
+                "id": "438"
             },
             {
                 "accession": "DQ059012",
@@ -4298,7 +4344,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "436"
+                "id": "439"
             },
             {
                 "accession": "AF500187",
@@ -4308,7 +4354,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "437"
+                "id": "440"
             },
             {
                 "accession": "AF500188",
@@ -4318,7 +4364,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "438"
+                "id": "441"
             },
             {
                 "accession": "FN182287",
@@ -4328,7 +4374,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "439"
+                "id": "442"
             },
             {
                 "accession": "AB232172",
@@ -4338,7 +4384,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "440"
+                "id": "443"
             },
             {
                 "accession": "AB472687",
@@ -4348,7 +4394,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "441"
+                "id": "444"
             },
             {
                 "accession": "AB252836",
@@ -4358,7 +4404,26 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "442"
+                "id": "445"
+            },
+            {
+                "accession": "AUM09788.1",
+                "description": "Shiga toxin 2 subunit A",
+                "dnasequence":"ATGAAGTGTATATTGTTAAAATGGATGCTGTGCCTGTTACTGGGCTTTTCTTCGGTATCCTATTCCCGGGAGTTTACGATAGACTTTTCGACTCAACAAAGTTATGTCTCTTCGTTAAATAGTATACGGACAGCGATATCGACCCCTCTTGAACATATATCTCAGGGAACCACATCGGTATCTGTTATTAATCATACGTCACCAGGAAGTTATATTACTGTCGATATACGAGGGCTTGATGTCTATCAGGCGCGCTTTGACCATCTTCGCCTGATTGTTGAGCAAAATAATTTATATGTGGCAGGGTTCGTTAATACGGCAACAAATACTTTCTACAGATTTTCAGATTTTGCACATATATCAGTGCCCGGTGTGACAACTGTTTCCATGACAACGGACAGCAGTTATACCACTCTGCAACGTGTCGCAGCGCTGGAACGTTCCGGAATGCAAATCAGTCGTCACTCACTGGTTTCATCATATCTGGCGTTAATGGAGTTCAGTGGTAATGCCATGACCAGAGAGGCTTCCAGGGCTGTCCTGCGTTTTGTCACTGTTACAGCCGAAGCCTTACGGTTCAGGCAAATACAGAGAGAATTTCGTCAGGCGCTATCTGAAGCAGCTCCTGTTTATACGATGACACCGGAAGACGTGGACCTTACTCTGAACTGGGGGAGAATCAGCAATGTGCTTCCGGAGTTTCGGGGAGAGGATGGTGTCAGAGTGGGGAGAATATCCTTTAATAATATATCAGCAATACTGGGTACTGTGGCGGTTATATTGAATTGCCATCATCAGGGGGCACGTTCTGTTCGCTCCGTTAATGAAGAGAAACAGCCGGAATGTCAGATAACTGGCGACAGGCCAGTTATAAAAATAAATAATATTTTATGGGAAAGTAATACAGCAGCAGCTTTTCTGAACCGAAGATCTCATTCTTTATATGCAACTGGTGAATGA",
+                "protsequence":"MKCILLKWMLCLLLGFSSVSYSREFTIDFSTQQSYVSSLNSIRTAISTPLEHISQGTTSVSVINHTSPGSYITVDIRGLDVYQARFDHLRLIVEQNNLYVAGFVNTATNTFYRFSDFAHISVPGVTTVSMTTDSSYTTLQRVAALERSGMQISRHSLVSSYLALMEFSGNAMTREASRAVLRFVTVTAEALRFRQIQREFRQALSEAAPVYTMTPEDVDLTLNWGRISNVLPEFRGEDGVRVGRISFNNISAILGTVAVILNCHHQGARSVRSVNEEKQPECQITGDRPVIKINNILWESNTAAAFLNRRSHSLYATGE",
+                "gene": "stx2A",
+                "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
+                "subtype":"h"
+
+            },
+            {
+                "accession": "AUM09787.1",
+                "description": "Shiga toxin 2 subunit B",
+                "dnasequence": "ATGAAGAAGATGTTTATGGTGGCTTTATTTGCGTTAGTTTCTGTTAATGCAATGGCAGCGGAATGCGCTAAAGGTAAAATTGAGTTCTCTAAATATAATGGGGATAATACATTCACAGTAAAAGTGGCCGGGAAAGAATACTGGACTAACCGCTGGAATCTGCAACCGTTACTGCAAAGTGCACAGTTGACAGGAATGACTGTAACAATCAAATCCATTACCTGTGATTCAGGCTCCGGATTTGCTGAAGTGCAGTTTAATTAG",
+                "protsequence": "MKKMFMVALFALVSVNAMAAECAKGKIEFSKYNGDNTFTVKVAGKEYWTNRWNLQPLLQSAQLTGMTVTIKSITCDSGSGFAEVQFN",
+                "gene": "stx2B",
+                "source":"AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
+                "subtype":"h"
             }
         ]
     },
@@ -4368,35 +4433,39 @@
             "rules": {
                 "0": [
                     "afaC",
-                    "afaE"
+                    "afaE",
+                    "daaE"
                 ],
                 "1": [
                     "afaC"
                 ],
                 "2": [
                     "afaE"
+                ],
+                "3": [
+                    "daaE"
                 ]
             }
         },
         "EAEC": {
             "name": "Enteroaggregative Escherichia coli",
             "rules": {
-                "3": [
+                "4": [
                     "aatA",
                     "aaiC",
                     "aggR",
                     "aggA"
                 ],
-                "4": [
+                "5": [
                     "aatA"
                 ],
-                "5": [
+                "6": [
                     "aaiC"
                 ],
-                "6": [
+                "7": [
                     "aggR"
                 ],
-                "7": [
+                "8": [
                     "aggA"
                 ]
             }
@@ -4404,15 +4473,15 @@
         "EHEC": {
             "name": "Enterohaemorrhagic Escherichia coli",
             "rules": {
-                "8": [
+                "9": [
                     "stx1",
                     "eae"
                 ],
-                "9": [
+                "10": [
                     "stx2",
                     "eae"
                 ],
-                "10": [
+                "11": [
                     "stx1",
                     "stx2",
                     "eae"
@@ -4422,13 +4491,13 @@
         "EIEC": {
             "name": "Enteroinvasive Escherichia coli",
             "rules": {
-                "11": [
+                "12": [
                     "ipaH"
                 ],
-                "12": [
+                "13": [
                     "ipaD"
                 ],
-                "13": [
+                "14": [
                     "ipaH",
                     "ipaD"
                 ]
@@ -4437,17 +4506,17 @@
         "EPEC": {
             "name": "Enteropathogenic Escherichia coli",
             "rules": {
-                "14": [
+                "15": [
                     "eae",
                     "!stx1",
                     "!stx2"
                 ],
-                "15": [
+                "16": [
                     "bfpA",
                     "!stx1",
                     "!stx2"
                 ],
-                "16": [
+                "17": [
                     "eae",
                     "bfpA",
                     "!stx1",
@@ -4458,25 +4527,25 @@
         "ETEC": {
             "name": "Enterotoxigenic Escherichia coli",
             "rules": {
-                "17": [
+                "18": [
                     "ltcA"
                 ],
-                "18": [
+                "19": [
                     "sta1"
                 ],
-                "19": [
+                "20": [
                     "sta2"
                 ],
-                "20": [
+                "21": [
                     "sta3/4"
                 ],
-                "21": [
+                "22": [
                     "stb"
                 ],
-                "22": [
+                "23": [
                     "eltA"
                 ],
-                "23": [
+                "24": [
                     "eltB"
                 ]
             }
@@ -4484,13 +4553,13 @@
         "STEC": {
             "name": "Shiga toxin-producing Escherichia coli",
             "rules": {
-                "24": [
+                "25": [
                     "stx1"
                 ],
-                "25": [
+                "26": [
                     "stx2"
                 ],
-                "26": [
+                "27": [
                     "stx1",
                     "stx2"
                 ]

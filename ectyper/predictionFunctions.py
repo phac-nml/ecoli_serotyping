@@ -593,8 +593,8 @@ def report_result(final_dict, output_dir, output_file, args):
              "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
              "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
              "GeneLengths\tDatabase\tWarnings\t" \
-             "Pathotype\tPathotypeGeneSym\tPathotypeGeneIds\t" \
-             "PathotypeGeneIdentities(%)\tPathotypeGeneCoverages(%)\tPathotypeLengthRatio\tPathotypeRuleIds\n"
+             "Pathotype\tPathotypeGeneNames\tPathotypeDBAlleleIDs\t" \
+             "PathotypeAlleleIdentities(%)\tPathotypeAlleleCoverages(%)\tPathotypeLengthRatio\tPathotypeRuleIDs\n"
     output = []
     LOG.info(header.strip())
 

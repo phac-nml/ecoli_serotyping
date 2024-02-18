@@ -145,7 +145,7 @@ def run_program():
 
     
     LOG.info("Standardizing the E.coli genome headers based on file names")
-    predictions_dict={}
+    predictions_dict={}; predictions_pathotype_dict={}
     if ecoli_genomes_dict:
         ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
                 ecoli_genomes_dict,
