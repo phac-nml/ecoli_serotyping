@@ -55,7 +55,7 @@ def json2fasta(json_file, output_dir):
     LOG.info(f"Created pathotype database in fasta format from JSON at {fasta_pathotypedb_path}") 
     return fasta_pathotypedb_path
 
-def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pident, pcov, output_dir):
+def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pident, pcov, output_dir, pathotype_db):
     """Get pathotype(s) of a sample
 
     Args:
@@ -70,7 +70,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
         list: list of pathotypes
     """
     LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
-    FIELDS_LIST = ['pathotype', 'genes', 'rule_ids', 'allele_id', 'accession', 'pident', 'pcov','length_ratio',
+    FIELDS_LIST = ['pathotype', 'genes', 'rule_ids', 'accessions', 'allele_id', 'accession', 'pident', 'pcov','length_ratio',
                    'stx1_gene', 'stx1_subtype', 'stx1_accession', 'stx1_allele_id', 'stx1_pident', 'stx1_pcov',
                    'stx2_gene', 'stx2_subtype', 'stx2_accession', 'stx2_allele_id', 'stx2_pident', 'stx2_pcov']
 
@@ -79,9 +79,6 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
     
     predictions_pathotype_dict = {}
-    with open(definitions.PATHOTYPE_ALLELE_JSON) as fp:
-        pathotype_db = json.load(fp)
-
     pathotype_genes_overall_df=pd.DataFrame()
 
     for g in other_genomes_dict.keys():
@@ -109,12 +106,13 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
 
         pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
         pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'qcovhsp', 'bitscore', 'sseq']
-        
-        pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True)
+        pathotype_genes_tmp_df.query(f'pident > {pident} and qcovhsp > {pcov}', inplace=True) # Default BioNumerics threshold in pathotype module
+        pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True) #sort hit in descending order by bitscore
         pathotype_genes_tmp_df['allele_id'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
         pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])
         pathotype_genes_tmp_df['gene'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[2])
         pathotype_genes_tmp_df['sample_id'] = g
+        
 
         #Shiga toxin typing
         shiga_1_toxin_df = pathotype_genes_tmp_df.query('gene == "stx1"')
@@ -138,18 +136,15 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
             predictions_pathotype_dict[g]['stx2_pident']=top_result_stx2.iloc[0,:]['pident'].astype(str)
             predictions_pathotype_dict[g]['stx2_pcov']=top_result_stx2.iloc[0,:]['qcovhsp'].astype(str)
         
-
-        pathotype_genes_tmp_df.query(f'pident > {pident} and qcovhsp > {pcov}', inplace=True) # Default BioNumerics thershold in pathotype module
+        
         pathotype_genes_overall_df = pd.concat([pathotype_genes_overall_df,pathotype_genes_tmp_df], ignore_index=True)
-
         pathotype_genes_top_hits = pathotype_genes_tmp_df.loc[pathotype_genes_tmp_df.groupby('gene')['bitscore'].transform("idxmax").unique()].sort_values('gene')
         pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
-
-        gene_list = pathotype_genes_top_hits['gene'].to_list()
         
+        gene_list = pathotype_genes_top_hits['gene'].to_list()
         predictions_pathotype_dict[g]['genes']=gene_list
         predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
-        predictions_pathotype_dict[g]['accession']=pathotype_genes_top_hits['accession'].to_list()
+        predictions_pathotype_dict[g]['accessions']=pathotype_genes_top_hits['accession'].to_list()
         predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
         predictions_pathotype_dict[g]['pcov'] = pathotype_genes_top_hits['qcovhsp'].astype(str).to_list()
         predictions_pathotype_dict[g]['length_ratio'] = pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list()
@@ -172,8 +167,11 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
                 if ngenes_in_rule == matched_gene_counter:
                     predictions_pathotype_dict[g]['pathotype'].append(pathotype)
                     predictions_pathotype_dict[g]['rule_ids'].append(rule_id)
-
-        predictions_pathotype_dict[g]['pathotype']=list(set(predictions_pathotype_dict[g]['pathotype'])) #final pathotype(s) list
+        final_pathotypes_list = list(set(predictions_pathotype_dict[g]['pathotype']))
+        if len(final_pathotypes_list) == 0:
+            predictions_pathotype_dict[g]['pathotype']= ['ND']
+        else:    
+            predictions_pathotype_dict[g]['pathotype']=final_pathotypes_list #final pathotype(s) list
        
     #write pathotype blastn results
     pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
@@ -602,9 +600,9 @@ def report_result(final_dict, output_dir, output_file, args):
              "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
              "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
              "GeneLengths\tDatabase\tWarnings\t" \
-             "Pathotype\tPathotypeGeneNames\tPathotypeDBAlleleIDs\t" \
+             "DECPathotype\tPathotypeGeneNames\tPathotypeAlleleAccessions\tPathotypeDBAlleleIDs\t" \
              "PathotypeAlleleIdentities(%)\tPathotypeAlleleCoverages(%)\tPathotypeLengthRatio\tPathotypeRuleIDs\t" \
-             "Stx1Gene\tStx1Subtype\tStx1Accession\tStx1AlleleID\tStx1AlleleIdentity(%)\tStx1AlleleCoverage(%)" \
+             "Stx1Gene\tStx1Subtype\tStx1Accession\tStx1AlleleID\tStx1AlleleIdentity(%)\tStx1AlleleCoverage(%)\t" \
              "Stx2Gene\tStx2Subtype\tStx2Accession\tStx2AlleleID\tStx2AlleleIdentity(%)\tStx2AlleleCoverage\n"
     output = []
     LOG.info(header.strip())
@@ -707,6 +705,7 @@ def report_result(final_dict, output_dir, output_file, args):
         if 'pathotype' in final_dict[sample]:
             output_line.append(final_dict[sample]['pathotype'])
             output_line.append(final_dict[sample]['pathotype_genes'])
+            output_line.append(final_dict[sample]['pathotype_accessions'])
             output_line.append(final_dict[sample]['pathotype_genes_ids'])
             output_line.append(final_dict[sample]['pathotype_genes_pident'])
             output_line.append(final_dict[sample]['pathotype_genes_pcov'])

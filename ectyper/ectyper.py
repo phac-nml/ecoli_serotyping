@@ -84,8 +84,15 @@ def run_program():
 
 
     check_database_struct(ectyperdb_dict, dbpath)
+    
+    with open(definitions.PATHOTYPE_ALLELE_JSON) as fp:
+        pathotype_db = json.load(fp)
 
-    LOG.info("Starting ectyper v{} running on allele database v{} ({})".format(__version__, ectyperdb_dict["version"], ectyperdb_dict["date"]))
+    LOG.info("Starting ectyper v{} running on O and H antigen allele database v{} ({}) and pathotype database v{}".format(
+        __version__, 
+        ectyperdb_dict["version"], 
+        ectyperdb_dict["date"],
+        pathotype_db['version']))
     LOG.debug("Command-line arguments were:\n{}".format(args))
     LOG.info("Output_directory is {}".format(output_directory))
     LOG.info("Command-line arguments {}".format(args))
@@ -159,7 +166,7 @@ def run_program():
                                                                                    temp_dir, 
                                                                                    args.percentIdentityPathotype, 
                                                                                    args.percentCoveragePathotype, 
-                                                                                   args.output)
+                                                                                   args.output, pathotype_db)
             
         # Run main prediction function
         predictions_dict = run_prediction(ecoli_genomes_dict,
@@ -177,10 +184,10 @@ def run_program():
     for sample in final_predictions.keys():
         final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"
         if args.pathotype:
-            print(sample)
             final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
             final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
             final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
+            final_predictions[sample]["pathotype_accessions"] = ",".join(predictions_pathotype_dict[sample]['accessions'])
             final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
             final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
             final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])

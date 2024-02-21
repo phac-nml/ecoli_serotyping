@@ -38,14 +38,19 @@ def get_files_as_list(file_or_directory):
             for root, dirs, files in os.walk(file_or_directory):
                 for filename in files:
                     files_list.append(os.path.join(root, filename))
-        # check if input is concatenated file locations
+        # check if input is concatenated file locations separated by , (comma)
         elif ',' in file_or_directory:
             LOG.info("Using genomes in the input list")
             for filename in file_or_directory.split(','):
-                files_list.append(os.path.abspath(filename))
+                if os.path.exists(os.path.abspath(filename)):
+                    files_list.append(os.path.abspath(filename))
         else:
-            LOG.info("Using genomes in file " + file_or_directory)
-            files_list.append(os.path.abspath(file_or_directory))
+            LOG.info("Checking file " + file_or_directory)
+            input_abs_file_path = os.path.abspath(file_or_directory)
+            if os.path.exists(input_abs_file_path):
+                files_list.append(os.path.abspath(input_abs_file_path))
+            else:
+                LOG.warning(f"File {input_abs_file_path} not found")    
 
 
     if not files_list:
