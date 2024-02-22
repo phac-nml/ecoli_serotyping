@@ -87,9 +87,6 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
     for g in ecoli_genome_files_dict.keys():
         LOG.info(f"Running pathotype prediction on {g} ...")
         predictions_pathotype_dict[g]={field:'-' for field in FIELDS_LIST}
-        predictions_pathotype_dict[g]['pathotype'] = []
-        predictions_pathotype_dict[g]['genes'] = []
-        predictions_pathotype_dict[g]['rule_ids']=[]
         input_sequence_file = ecoli_genome_files_dict[g]['modheaderfile'] 
         cmd = [
             "blastn",
@@ -142,33 +139,35 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
         pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
         
         gene_list = pathotype_genes_top_hits['gene'].to_list()
-        predictions_pathotype_dict[g]['genes']=gene_list
-        predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
-        predictions_pathotype_dict[g]['accessions']=pathotype_genes_top_hits['accession'].to_list()
-        predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
-        predictions_pathotype_dict[g]['pcov'] = pathotype_genes_top_hits['qcovhsp'].astype(str).to_list()
-        predictions_pathotype_dict[g]['length_ratio'] = pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list()
- 
-        
-        for pathotype in pathotype_db['pathotypes']:
-            for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
-                ngenes_in_rule = len(pathotype_db['pathotypes'][pathotype]['rules'][rule_id])
-                matched_gene_counter = 0
-                for gene in pathotype_db['pathotypes'][pathotype]['rules'][rule_id]:
-                    if "!" in gene:
-                        gene = re.sub('!','',gene)
-                        if gene not in gene_list:
+        if gene_list:
+            predictions_pathotype_dict[g]['pathotype'] = []
+            predictions_pathotype_dict[g]['rule_ids']=[]
+            predictions_pathotype_dict[g]['genes']=gene_list
+            predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
+            predictions_pathotype_dict[g]['accessions']=pathotype_genes_top_hits['accession'].to_list()
+            predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
+            predictions_pathotype_dict[g]['pcov'] = pathotype_genes_top_hits['qcovhsp'].astype(str).to_list()
+            predictions_pathotype_dict[g]['length_ratio'] = pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list()
+    
+            for pathotype in pathotype_db['pathotypes']:
+                for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
+                    ngenes_in_rule = len(pathotype_db['pathotypes'][pathotype]['rules'][rule_id])
+                    matched_gene_counter = 0
+                    for gene in pathotype_db['pathotypes'][pathotype]['rules'][rule_id]:
+                        if "!" in gene:
+                            gene = re.sub('!','',gene)
+                            if gene not in gene_list:
+                                matched_gene_counter += 1
+                            else:
+                                matched_gene_counter = 0
+                                break    
+                        elif gene in gene_list:
                             matched_gene_counter += 1
-                        else:
-                            matched_gene_counter = 0
-                            break    
-                    elif gene in gene_list:
-                        matched_gene_counter += 1
-                if ngenes_in_rule == matched_gene_counter:
-                    predictions_pathotype_dict[g]['pathotype'].append(pathotype)
-                    predictions_pathotype_dict[g]['rule_ids'].append(rule_id)
+                    if ngenes_in_rule == matched_gene_counter:
+                        predictions_pathotype_dict[g]['pathotype'].append(pathotype)
+                        predictions_pathotype_dict[g]['rule_ids'].append(rule_id)
         final_pathotypes_list = list(set(predictions_pathotype_dict[g]['pathotype']))
-        if len(final_pathotypes_list) == 0:
+        if '-' in final_pathotypes_list  or len(final_pathotypes_list) == 0:
             predictions_pathotype_dict[g]['pathotype']= ['ND']
         else:    
             predictions_pathotype_dict[g]['pathotype']=final_pathotypes_list #final pathotype(s) list

@@ -161,7 +161,7 @@ def parse_command_line(args=None):
         "--percentCoveragePathotype",
         type=check_percentage,
         help="Minimum percent coverage required for a pathotype reference allele match [default: %(default)s]",
-        default=60
+        default=50
     )
 
     if args is None:
