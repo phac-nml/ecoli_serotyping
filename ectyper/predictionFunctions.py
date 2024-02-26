@@ -55,7 +55,7 @@ def json2fasta(json_file, output_dir):
     LOG.info(f"Created pathotype database in fasta format from JSON at {fasta_pathotypedb_path}") 
     return fasta_pathotypedb_path
 
-def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pident, pcov, output_dir, pathotype_db):
+def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, output_dir, pathotype_db):
     """Get pathotype(s) of a sample
 
     Args:
@@ -74,7 +74,7 @@ def predict_pathotype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, pid
                    'stx1_gene', 'stx1_subtype', 'stx1_accession', 'stx1_allele_id', 'stx1_pident', 'stx1_pcov',
                    'stx2_gene', 'stx2_subtype', 'stx2_accession', 'stx2_allele_id', 'stx2_pident', 'stx2_pcov']
 
-    if len(other_genomes_dict.keys()) > 0:
+    if len(other_genomes_dict.keys()) > 0 and verify_species_flag == True:
         LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
     
