@@ -4,6 +4,8 @@
 [![PyPI version](https://badge.fury.io/py/ectyper.svg)](https://pypi.org/project/ectyper/)
 ![GitHub issues](https://img.shields.io/github/issues/phac-nml/ecoli_serotyping)
 ![Docker Pulls](https://img.shields.io/docker/pulls/kbessonov/ectyper)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/phac-nml/ecoli_serotyping)
+
 
 # ECTyper (an easy typer)
 `ECTyper` is a standalone versatile serotyping module for _Escherichia coli_. It supports both _fasta_ (assembled) and _fastq_ (raw reads) file formats.
@@ -72,44 +74,33 @@ git checkout v1.0.0 #optionally checkout release version
 
 # Advanced Usage
 ```
-usage: ectyper [-h] [-V] -i INPUT [-c CORES] [-opid PERCENTIDENTITYOTYPE]
-               [-hpid PERCENTIDENTITYHTYPE] [-oplen PERCENTLENGTHOTYPE]
-               [-hplen PERCENTLENGTHHTYPE] [--verify] [-o OUTPUT] [-r REFSEQ] [-s] [--debug]
-               [--dbpath DBPATH]
+usage: ectyper [-h] [-V] -i INPUT [-c CORES] [-opid PERCENTIDENTITYOTYPE] [-hpid PERCENTIDENTITYHTYPE] [-opcov PERCENTCOVERAGEOTYPE] [-hpcov PERCENTCOVERAGEHTYPE] [--verify] [-o OUTPUT] [-r REFSEQ] [-s] [--debug] [--dbpath DBPATH]
 
-ectyper v1.0.0 database v1.0 Prediction of Escherichia coli serotype from raw reads or assembled
-genome sequences. The default settings are recommended.
+ectyper v1.0.0 database v1.0 Prediction of Escherichia coli serotype from raw reads or assembled genome sequences. The default settings are recommended.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -V, --version         show program's version number and exit
   -i INPUT, --input INPUT
-                        Location of E. coli genome file(s). Can be a single file, a comma-
-                        separated list of files, or a directory
+                        Location of E. coli genome file(s). Can be a single file, a comma-separated list of files, or a directory
   -c CORES, --cores CORES
                         The number of cores to run ectyper with
   -opid PERCENTIDENTITYOTYPE, --percentIdentityOtype PERCENTIDENTITYOTYPE
                         Percent identity required for an O antigen allele match [default 90]
   -hpid PERCENTIDENTITYHTYPE, --percentIdentityHtype PERCENTIDENTITYHTYPE
                         Percent identity required for an H antigen allele match [default 95]
-  -oplen PERCENTLENGTHOTYPE, --percentLengthOtype PERCENTLENGTHOTYPE
-                        Percent length required for an O antigen allele match [default 95]
-  -hplen PERCENTLENGTHHTYPE, --percentLengthHtype PERCENTLENGTHHTYPE
-                        Percent length required for an H antigen allele match [default 50]
+  -opcov PERCENTCOVERAGEOTYPE, --percentCoverageOtype PERCENTCOVERAGEOTYPE
+                        Minumum percent coverage required for an O antigen allele match [default 90]
+  -hpcov PERCENTCOVERAGEHTYPE, --percentCoverageHtype PERCENTCOVERAGEHTYPE
+                        Minumum percent coverage required for an H antigen allele match [default 50]
   --verify              Enable E. coli species verification
   -o OUTPUT, --output OUTPUT
                         Directory location of output files
   -r REFSEQ, --refseq REFSEQ
-                        Location of pre-computed MASH RefSeq sketch. If provided, genomes
-                        identified as non-E. coli will have their species identified using MASH.
-                        For best results the pre-sketched RefSeq archive
-                        https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh is
-                        recommended
-  -s, --sequence        Prints the allele sequences if enabled as the final columns of the
-                        output
+                        Location of pre-computed MASH RefSeq sketch. If provided, genomes identified as non-E. coli will have their species identified using MASH. For best results the pre-sketched RefSeq archive https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh is recommended
+  -s, --sequence        Prints the allele sequences if enabled as the final columns of the output
   --debug               Print more detailed log including debug messages
-  --dbpath DBPATH       Path to a custom database of O and H antigen alleles in JSON format. Check
-                        Data/ectyper_database.json for more information
+  --dbpath DBPATH       Path to a custom database of O and H antigen alleles in JSON format. Check Data/ectyper_database.json for more information
 ```
 
 # Fine-tunning parameters
