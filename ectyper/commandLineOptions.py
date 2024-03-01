@@ -72,7 +72,7 @@ def parse_command_line(args=None):
         "-opid",
         "--percentIdentityOtype",
         type=check_percentage,
-        help="Percent identity required for an O antigen allele match [default 90]",
+        help="Percent identity required for an O antigen allele match [default %(default)s]",
         default=90
     )
 
@@ -80,7 +80,7 @@ def parse_command_line(args=None):
         "-hpid",
         "--percentIdentityHtype",
         type=check_percentage,
-        help="Percent identity required for an H antigen allele match [default 95]",
+        help="Percent identity required for an H antigen allele match [default %(default)s]",
         default=95
     )
 
@@ -88,7 +88,7 @@ def parse_command_line(args=None):
         "-opcov",
         "--percentCoverageOtype",
         type=check_percentage,
-        help="Minumum percent coverage required for an O antigen allele match [default 95]",
+        help="Minumum percent coverage required for an O antigen allele match [default %(default)s]",
         default=90
     )
 
@@ -96,7 +96,7 @@ def parse_command_line(args=None):
         "-hpcov",
         "--percentCoverageHtype",
         type=check_percentage,
-        help="Minumum percent coverage required for an H antigen allele match [default 50]",
+        help="Minumum percent coverage required for an H antigen allele match [default %(default)s]",
         default=50
     )
 
