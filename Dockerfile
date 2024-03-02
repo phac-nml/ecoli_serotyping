@@ -7,5 +7,7 @@ RUN apt install mash ncbi-blast+  bowtie2 seqtk samtools bcftools -y
 RUN git clone https://github.com/phac-nml/ecoli_serotyping.git
 # install the tool and initilize its species ID MASH database
 RUN cd ecoli_serotyping && git checkout v2.0.0 && pip3 install .
-RUN python3 -c "from ectyper import (definitions, speciesIdentification); import urllib3, requests; urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning); speciesIdentification.get_species_mash(definitions.SPECIES_ID_SKETCH)"
+RUN python3 -c "from ectyper import (definitions, speciesIdentification); speciesIdentification.get_species_mash(definitions.SPECIES_ID_SKETCH)"
 
+#build image:  docker build --tag  ectyper:2.0.0 .
+#type a sample: docker run -it --rm -v $PWD:/mnt ectyper:2.0.0 ectyper -i /mnt/assembly.fasta -o temp/ --pathotype
