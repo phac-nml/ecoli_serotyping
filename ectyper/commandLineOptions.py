@@ -145,7 +145,7 @@ def parse_command_line(args=None):
     parser.add_argument(
         "--pathotype",
         action="store_true",
-        help="Predict E.coli pathotype\n"
+        help="Predict E.coli pathotype and Shiga toxin subtype(s) if present\n"
     )
 
     parser.add_argument(
