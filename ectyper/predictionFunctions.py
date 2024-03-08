@@ -99,11 +99,12 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
             LOG.info(f"For sample {g} the pathotype BLAST results file is empty. Skipping ...")
             predictions_pathotype_dict[g]={field:'-' for field in FIELDS_LIST}
+            predictions_pathotype_dict[g]['pathotype']= ['ND']
             continue
 
         pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
         pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'qcovhsp', 'bitscore', 'sseq']
-        pathotype_genes_tmp_df.query(f'pident > {pident} and qcovhsp > {pcov}', inplace=True) # Default BioNumerics threshold in pathotype module
+        pathotype_genes_tmp_df.query(f'pident >= {pident} and qcovhsp >= {pcov}', inplace=True) # Default BioNumerics threshold in pathotype module
         pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True) #sort hit in descending order by bitscore
         pathotype_genes_tmp_df['allele_id'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
         pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])
@@ -139,10 +140,10 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
         
         gene_list = pathotype_genes_top_hits['gene'].to_list()
-        if gene_list:
+        if len(gene_list)!= 0:
             predictions_pathotype_dict[g]['pathotype'] = []
             predictions_pathotype_dict[g]['rule_ids']=[]
-            predictions_pathotype_dict[g]['genes']=gene_list
+            predictions_pathotype_dict[g]['genes'] = gene_list
             predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
             predictions_pathotype_dict[g]['accessions']=pathotype_genes_top_hits['accession'].to_list()
             predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
@@ -165,10 +166,11 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
                             matched_gene_counter += 1
                     if ngenes_in_rule == matched_gene_counter:
                         predictions_pathotype_dict[g]['pathotype'].append(pathotype)
-                        predictions_pathotype_dict[g]['rule_ids'].append(rule_id)
+                        predictions_pathotype_dict[g]['rule_ids'].append(rule_id)              
         final_pathotypes_list = list(set(predictions_pathotype_dict[g]['pathotype']))
         if '-' in final_pathotypes_list  or len(final_pathotypes_list) == 0:
             predictions_pathotype_dict[g]['pathotype']= ['ND']
+            predictions_pathotype_dict[g]['rule_ids'] = '-'
         else:    
             predictions_pathotype_dict[g]['pathotype']=final_pathotypes_list #final pathotype(s) list
        

@@ -149,6 +149,7 @@ def run_program():
             raw_files_dict['filesnotfound'],
             args,
             temp_dir)
+    
 
     
     LOG.info("Standardizing the E.coli genome headers based on file names")
@@ -185,28 +186,30 @@ def run_program():
     for sample in final_predictions.keys():
         final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"
         if args.pathotype:
-            final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
-            final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
-            final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
-            final_predictions[sample]["pathotype_accessions"] = ",".join(predictions_pathotype_dict[sample]['accessions'])
-            final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
-            final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
-            final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])
-            final_predictions[sample]["pathotype_rule_ids"] = ",".join(sorted(predictions_pathotype_dict[sample]['rule_ids']))
+            if sample in predictions_pathotype_dict: #could happen that file is non-fasta and pathotyping was called
+                final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
+                final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
+                final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
+                final_predictions[sample]["pathotype_accessions"] = ",".join(predictions_pathotype_dict[sample]['accessions'])
+                final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
+                final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
+                final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])
+                final_predictions[sample]["pathotype_rule_ids"] = ",".join(sorted(predictions_pathotype_dict[sample]['rule_ids']))
+                
+                final_predictions[sample]["stx1_gene"] = predictions_pathotype_dict[sample]['stx1_gene']
+                final_predictions[sample]["stx1_subtype"] = predictions_pathotype_dict[sample]['stx1_subtype']
+                final_predictions[sample]["stx1_accession"] = predictions_pathotype_dict[sample]['stx1_accession']
+                final_predictions[sample]["stx1_allele_id"] = predictions_pathotype_dict[sample]['stx1_allele_id']
+                final_predictions[sample]["stx1_pident"] = predictions_pathotype_dict[sample]['stx1_pident']
+                final_predictions[sample]["stx1_pcov"] = predictions_pathotype_dict[sample]['stx1_pcov']
+                
+                final_predictions[sample]["stx2_gene"] = predictions_pathotype_dict[sample]['stx2_gene']
+                final_predictions[sample]["stx2_subtype"] = predictions_pathotype_dict[sample]['stx2_subtype']
+                final_predictions[sample]["stx2_accession"] = predictions_pathotype_dict[sample]['stx2_accession']
+                final_predictions[sample]["stx2_allele_id"] = predictions_pathotype_dict[sample]['stx2_allele_id']
+                final_predictions[sample]["stx2_pident"] = predictions_pathotype_dict[sample]['stx2_pident']
+                final_predictions[sample]["stx2_pcov"] = predictions_pathotype_dict[sample]['stx2_pcov']
             
-            final_predictions[sample]["stx1_gene"] = predictions_pathotype_dict[sample]['stx1_gene']
-            final_predictions[sample]["stx1_subtype"] = predictions_pathotype_dict[sample]['stx1_subtype']
-            final_predictions[sample]["stx1_accession"] = predictions_pathotype_dict[sample]['stx1_accession']
-            final_predictions[sample]["stx1_allele_id"] = predictions_pathotype_dict[sample]['stx1_allele_id']
-            final_predictions[sample]["stx1_pident"] = predictions_pathotype_dict[sample]['stx1_pident']
-            final_predictions[sample]["stx1_pcov"] = predictions_pathotype_dict[sample]['stx1_pcov']
-            
-            final_predictions[sample]["stx2_gene"] = predictions_pathotype_dict[sample]['stx2_gene']
-            final_predictions[sample]["stx2_subtype"] = predictions_pathotype_dict[sample]['stx2_subtype']
-            final_predictions[sample]["stx2_accession"] = predictions_pathotype_dict[sample]['stx2_accession']
-            final_predictions[sample]["stx2_allele_id"] = predictions_pathotype_dict[sample]['stx2_allele_id']
-            final_predictions[sample]["stx2_pident"] = predictions_pathotype_dict[sample]['stx2_pident']
-            final_predictions[sample]["stx2_pcov"] = predictions_pathotype_dict[sample]['stx2_pcov']
             
                 
 
