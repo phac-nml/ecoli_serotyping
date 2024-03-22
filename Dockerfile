@@ -10,4 +10,4 @@ RUN cd ecoli_serotyping && git checkout v2.0.0 && pip3 install .
 RUN ectyper_init
 
 #build image:  docker build --tag  ectyper:2.0.0 .
-#type a sample: docker run -it --rm -v $PWD:/mnt ectyper:2.0.0 ectyper -i /mnt/assembly.fasta -o temp/ --pathotype
+#type a sample: docker run -it --rm -v $PWD:/mnt ectyper:2.0.0 ectyper -i /mnt/assembly.fasta -o /mnt/temp/ --pathotype

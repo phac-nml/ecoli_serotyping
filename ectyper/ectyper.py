@@ -98,9 +98,9 @@ def run_program():
     LOG.info("Command-line arguments {}".format(args))
 
     # Init MASH species database for species identification
-    if speciesIdentification.get_species_mash(args.reference, dbpath) == False:
+    if speciesIdentification.get_species_mash(args.reference) == False:
         LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
-        exit("No MASH RefSeq sketch file found at {}".format(dbpath))    
+        exit("No MASH RefSeq sketch file found at {}".format(args.referencebpath))    
 
     # Initialize ectyper temporary directory. If --debug is specified then temp folder will be not be deleted. 
     # Python 3.12 introduced delete = False/True option in tempfile lib, so using explicit code supporting Python < 3.12
