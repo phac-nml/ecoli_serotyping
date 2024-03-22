@@ -32,7 +32,7 @@ OSEROTYPE_GROUPS_DICT = {'1': ['O20','O137'],
                          '15':['O89','O101','O162'],
                          '16':['O169','O183']
                          }
-MASH_URLS = ["https://rbhqaq.sn.files.1drv.com/y4mtYaMy88Tj5zKxMPXK6xEy9Tm5TxyH0rbQXJpIstNOK8L8OMTf8LhZ21P9XPT0-JbOUONzqAIsM66oaPRdMHLivwg9nyf3X4tutZ0UHGMwp4QKzD_VExiVY6KHbqtnKSIiBP3cv4Pg0kwrtyGnRys2DrvelPpz77CIQX_AZ7idSXkwcFcBuR40lF1YwdYZ9kSLYxF2kMR9CSol8Jbw2V8cg"]
+MASH_URLS = ["https://drive.google.com/file/d/1p0XVb7PuiApYk5ndjLksIc3RcDmUwi6L"]
 
 HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference on average
 MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to pre-filter BLAST output  (identical to global threshold)

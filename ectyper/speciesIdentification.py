@@ -48,12 +48,14 @@ def get_species_mash(targetpath):
     """
 
 
-    lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock")
+    lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock") #prevents race condition
+    if os.path.exists(lockfilepath):
+        os.remove(lockfilepath)
 
 
     if bool_downloadMashSketch(targetpath):
+        LOG.info("MASH species id sketch is missing and needs to be downloaded ...")
         setLockFile(lockfilepath)
-        LOG.info("MASH species id sketch is missing ...")
         for url in definitions.MASH_URLS:
             try:
                 if os.path.exists(targetpath) == False:
