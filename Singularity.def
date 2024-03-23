@@ -1,0 +1,16 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%environment
+    DEBIAN_FRONTEND="noninteractive" TZ="America/New_York"
+
+%post
+    apt update && apt install git python3-pip -y
+    apt install libcurl4-openssl-dev libssl-dev -y
+    pip3 install Cython numpy
+    apt install mash ncbi-blast+  bowtie2 seqtk samtools bcftools -y
+    git clone https://github.com/phac-nml/ecoli_serotyping.git
+    cd ecoli_serotyping && git checkout v2.0.0 && pip3 install .
+    ectyper_init
+# To build an image run the following. Might use --remote flag if no sudo/admin priv.
+# singularity build ectyper_v2.0.0_22032024.sif Singularity.def
