@@ -97,7 +97,7 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         ]
         subprocess_util.run_subprocess(cmd)
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
-            LOG.info(f"For sample {g} the pathotype BLAST results file is empty. Skipping ...")
+            LOG.warning(f"No pathotype signatures found for sample {g} as pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty. Skipping ...")
             predictions_pathotype_dict[g]={field:'-' for field in FIELDS_LIST}
             predictions_pathotype_dict[g]['pathotype']= ['ND']
             continue
@@ -189,7 +189,10 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
     :return: The CSV formatted predictions file
     """
 
-    LOG.info("Predicting serotype from blast output")
+    LOG.info(f"Predicting serotype from BLAST output {blast_output_file}")
+    if os.stat(blast_output_file).st_size == 0:
+        LOG.warning(f"Empty O- and H- antigen BLAST output file {blast_output_file}. Antigen prediction will be skipped")
+        return {}, pd.DataFrame()
     output_df = blast_output_to_df(blast_output_file) #columns: length	pident	qcovhsp	qlen qseqid	send sframe	sseq	sseqid	sstart	score
 
     ectyper_df = ectyper_dict_to_df(ectyper_dict) #columns: antigen	desc gene name
@@ -219,7 +222,7 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         predictions_dict[genome_name] = get_prediction(per_genome_df, args)
 
-    LOG.info("Serotype prediction completed")
+    LOG.info("Serotype prediction successfully completed")
     LOG.debug("Predictions dict:\n{}".format(predictions_dict))
 
     return predictions_dict, output_df

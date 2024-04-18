@@ -165,7 +165,7 @@ def run_program():
                                                                                    args.percentCoveragePathotype, 
                                                                                    args.output, pathotype_db)
             
-        # Run main prediction function
+        # Run main serotype prediction function
         predictions_dict = run_prediction(ecoli_genomes_dict,
                                           args,
                                           alleles_fasta_file,
@@ -329,7 +329,7 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir, ectyperdb_d
         genome_files[i:i + group_size]
         for i in range(0, len(genome_files), group_size)
     ]
-    
+    LOG.debug(f"Using O- and H- antigen allele database FASTA file for serotype predictions located at {alleles_fasta}")
     gp = partial(genome_group_prediction, alleles_fasta=alleles_fasta,
                  args=args, temp_dir=temp_dir, ectyperdb_dict=ectyperdb_dict)
 
@@ -373,7 +373,7 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
             "-out", blast_db]
     subprocess_util.run_subprocess(blast_db_cmd)
 
-    LOG.debug("Starting blast alignment on database {}".format(g_group))
+    LOG.debug("Starting blast alignment on O- and H- antigen database {}".format(g_group))
     blast_output_file = blast_db + ".output"
     bcline = [
             'blastn',
@@ -398,7 +398,7 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
     db_prediction_dict, blast_output_df = predictionFunctions.predict_serotype(
             blast_output_file,
             ectyperdb_dict,
-            args)
+            args);
 
     blast_output_file_path = os.path.join(args.output,"blast_output_alleles.txt")
     blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , sep="\t", index=False)
