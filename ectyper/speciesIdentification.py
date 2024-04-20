@@ -6,6 +6,7 @@ import re
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from Bio import SeqIO
 import time #for file age calculations
 
 
@@ -239,16 +240,26 @@ def getSampleName(file):
     n_name = file_path_name.replace(' ', '_')  # sample name
     return n_name
 
-def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
+def is_valid_fasta_file(fasta, sampleName):
+    # try to read the first sequence of FASTA file and make a format validity decision. No reason to check all reads
+    for contig in SeqIO.parse(fasta, "fasta").records:
+        if contig.seq != '':
+            LOG.debug(f'{sampleName}: input FASTA file {fasta} format is valid FASTA')       
+            return True
+        else:
+            LOG.warning(f'{sampleName}: input FASTA file {fasta} format is invalid FASTA. Skipping further analyses ...')
+            return False          
+            
+    
+def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args):
     """
-    Verifying the _E. coli_-ness of the genome files
+    Verifying the E. coli-ness of the genome files and validity of file inputs
     :param fasta_files: [] of all fasta files
     :param ofiles: [] of all non-fasta files
     :param args: Command line arguments
-    :param temp_dir: ectyper run temp_dir
     :return: ecoli_genomes dictionary, other_genomes dictionary, notfound_files dictionary
     """
-
+    LOG.info("Verifying the E. coli-ness of the genome files and validity of file inputs")
     ecoli_files_dict = {}
     other_files_dict = {}
     filesnotfound_dict = {}
@@ -257,6 +268,11 @@ def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
         speciesname = "-"
+
+        if is_valid_fasta_file(fasta, sampleName) == False:
+            failverifyerrormessage = f"Sample {sampleName} FASTA file ({fasta}) is empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens database or input FASTA is empty/corrupted. Please check sequence input file of {sampleName}"
+            other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
+            return ecoli_files_dict, other_files_dict,filesnotfound_dict
 
         if sampleName in ecoli_files_dict or sampleName in other_files_dict:
             error_msg = "Duplicated parsed filenames found ('{}'). Offending file paths {}. Only unique file names are supported in batch mode".format(

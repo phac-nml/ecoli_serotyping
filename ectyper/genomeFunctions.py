@@ -152,7 +152,7 @@ def genome_header_wrapper(file, temp_dir):
     return {"oldfile":file,"newfile":new_file, "samplename":n_name}
 
 
-def create_bowtie_base(temp_dir, reference):
+def create_bowtie_base(temp_dir, reference, cores):
     """
     Create the bowtie reference, based on the combined E. coli markers and
     O- and H- type alleles
@@ -170,6 +170,7 @@ def create_bowtie_base(temp_dir, reference):
     bowtie_build = [
         'bowtie2-build',
         '-f',
+        '--threads', f"{cores}",
         reference,
         bowtie_base
     ]
@@ -181,7 +182,7 @@ def create_bowtie_base(temp_dir, reference):
     return bowtie_base
 
 
-def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
+def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
     """
     Assembles fastq reads to the specified reference file.
     :param reads: The fastq file to assemble
@@ -201,6 +202,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     sam_reads = os.path.join(temp_dir, output_name + '.sam')
     bowtie_run = [
         'bowtie2',
+        '--threads',f'{cores}',
         '--score-min L,1,-0.5',
         '--np 5',
         '-x', bowtie_base,
@@ -213,6 +215,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     bam_reads = os.path.join(temp_dir, output_name + '.bam')
     sam_convert = [
         'samtools', 'view',
+        '--threads', f'{cores}',
         '-S',
         '-F 4',
         '-q 1',
@@ -225,7 +228,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     # Sort the reads
     sorted_bam_reads = os.path.join(temp_dir, output_name + '.sorted.bam')
     sam_sort = [
-        'samtools', 'sort',
+        'samtools', 'sort', '--threads', f'{cores}',
         bam_reads,
         '-o', sorted_bam_reads
     ]
@@ -233,14 +236,14 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
 
     # Create fasta from the reads
     mpileup = [
-        'bcftools', 'mpileup',
+        'bcftools', 'mpileup', '--threads', f'{cores}',
         '-f', combined_fasta,
         sorted_bam_reads]
     mpileup_output = subprocess_util.run_subprocess(mpileup)
 
     variant_calling = [
         'bcftools',
-        'call',
+        'call', '--threads', f'{cores}',
         '-c'
     ]
     variant_calling_output = \
@@ -332,11 +335,15 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
     :param args: Commandline arguments
     :return: list of all fasta files, including the assembled fastq
     """
-
+    if len(raw_files_dict['fastq']) == 1:
+        cores = args.cores
+    else:
+        cores = 1    
     par = partial(assemble_reads,
                   bowtie_base=bowtie_base,
                   combined_fasta=combined_fasta,
-                  temp_dir=temp_dir)
+                  temp_dir=temp_dir,
+                  cores=cores)
 
     all_fasta_files_dict = dict.fromkeys(raw_files_dict['fasta']) #add assembled genomes as new keys
     with Pool(processes=args.cores) as pool:

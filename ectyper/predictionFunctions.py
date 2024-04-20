@@ -193,6 +193,7 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
     if os.stat(blast_output_file).st_size == 0:
         LOG.warning(f"Empty O- and H- antigen BLAST output file {blast_output_file}. Antigen prediction will be skipped")
         return {}, pd.DataFrame()
+        
     output_df = blast_output_to_df(blast_output_file) #columns: length	pident	qcovhsp	qlen qseqid	send sframe	sseq	sseqid	sstart	score
 
     ectyper_df = ectyper_dict_to_df(ectyper_dict) #columns: antigen	desc gene name

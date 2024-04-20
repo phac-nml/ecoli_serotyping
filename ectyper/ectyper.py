@@ -122,9 +122,9 @@ def run_program():
             genomeFunctions.create_combined_alleles_and_markers_file(
                 alleles_fasta_file, temp_dir, args.pathotype) #create a fasta reference from O-H alleles and optionally from pathotypes alleles database
 
-
+    
     bowtie_base = genomeFunctions.create_bowtie_base(temp_dir,
-                                                         combined_fasta) if \
+                                                         combined_fasta, args.cores) if \
                                                          raw_files_dict['fastq'] else None #only run this function on raw read inputs
         
 
@@ -138,12 +138,11 @@ def run_program():
 
     # Verify we have at least one fasta file. Optionally species ID.
     # Get a tuple of ecoli and other genomes
-    (ecoli_genomes_dict, other_genomes_dict, filesnotfound_dict) = speciesIdentification.verify_ecoli(
+    (ecoli_genomes_dict, other_genomes_dict, filesnotfound_dict) = speciesIdentification.verify_ecoli_and_inputs(
             all_fastafastq_files_dict,
             raw_files_dict['other'],
             raw_files_dict['filesnotfound'],
-            args,
-            temp_dir)
+            args)
     
 
     
