@@ -55,7 +55,108 @@ def json2fasta(json_file, output_dir):
     LOG.info(f"Created pathotype database in fasta format from JSON at {fasta_pathotypedb_path}") 
     return fasta_pathotypedb_path
 
-def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, output_dir, pathotype_db):
+def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
+    results_dict = {
+                    'stx_genes':[],
+                    'stx_accessions':[],
+                    'stx_allele_ids':[],
+                    'stx_pidents': [],
+                    'stx_pcovs':[],
+                    'stx_contigs':[],
+                    'stx_gene_ranges':[]
+                }
+    for gene in ['stx1', 'stx2']:
+        stx_toxin_df = pathotype_genes_tmp_df.query(f'gene == "{gene}"')
+        stx_toxin_df.loc[:,['stx_subtype', 'stx_seqtype', 'stx_contig_name','rangeid']] = '-'
+   
+            
+        
+    
+        if stx_toxin_df.empty == False:
+            #homogenize allele coordinates for +1 and -1 strands making coordinates on +1 strand
+            hits_coordinates = stx_toxin_df.query('sframe == -1')[['send','sstart']]
+            stx_toxin_df.loc[list(stx_toxin_df.loc[:,'sframe'] == -1),'sstart'] = hits_coordinates['send']
+            stx_toxin_df.loc[list(stx_toxin_df.loc[:,'sframe'] == -1), 'send'] = hits_coordinates['sstart']
+            #annotate stx dataframe of potential hits with shiga toxin subtype, contig name and sequence type
+            stx_toxin_df.loc[:,'stx_subtype'] = stx_toxin_df['qseqid'].apply(lambda x:x.split('|')[4]).copy().to_list() #extract subtypes
+            stx_toxin_df.loc[:,'stx_contig_name']  = stx_toxin_df['sseqid'].apply(lambda x: x.split('|')[2]).copy().to_list()#extract contig names
+            stx_contigs = stx_toxin_df.stx_contig_name.unique()
+            stx_types = ['complete_sequence','subunit_A', 'subunit_B'] #extract molecule types
+            stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
+            stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
+ 
+
+            # for each contig cluster stx ranges by based on coordiantes overlap. Create groups of overlapping ranges
+            clusters_of_ranges = {}; cluster_counter=0
+            for contig_name in stx_contigs:
+                stx_toxin_df_tmp = stx_toxin_df.query(f'stx_contig_name == "{contig_name}"')
+                unique_ranges = sorted(list(stx_toxin_df_tmp.apply(lambda x: range(x['sstart'],x['send']+1), axis=1).unique()),key=lambda r: r.start)
+                ranges_groupby_overlap=[]
+                for urange in unique_ranges:
+                    overlap = [True if len(set(urange).intersection(unique_ranges[i])) > 0 else False for i in range(0, len(unique_ranges))]
+                    ranges_groupby_overlap.append([unique_ranges[i] for i,v in enumerate(unique_ranges) if overlap[i] == True])
+                ranges_grouped_list = list(set(tuple(i) for i in ranges_groupby_overlap))
+
+                #for each group of ranges create single range based on min and max values of ranges in that group
+                ranges_candidate_list = []
+                for range_list in ranges_grouped_list:
+                    range_min = min([i[0] for i in range_list ]); range_max = max([i[-1] for i in range_list])+1
+                    ranges_candidate_list.append(range(range_min,range_max))
+                #final dictonary result of unique non-overlapping ranges per contig
+                for range_unique in set(ranges_candidate_list):
+                    clusters_of_ranges[f"{cluster_counter}"]={'range': range_unique, 'contig':contig_name}
+                    cluster_counter += 1
+            #annotate shiga toxin dataframe with ranges identifiers
+            stx_toxin_df.loc[:,'rangeid'] = stx_toxin_df.apply(lambda x: [range_id 
+                                                                        for range_id in clusters_of_ranges.keys() 
+                                                                        if x['sstart'] in clusters_of_ranges[range_id]['range'] and
+                                                                        x['stx_contig_name'] == clusters_of_ranges[range_id]['contig']][0], 
+                                                                        axis=1).copy().to_list()
+            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping ranges found on {len([v['contig'] for v in clusters_of_ranges.values()])} contigs for {gene}")
+            #write shiga toxin dataframe for inspection just in case
+            if debug:
+                stx_df_out_filename = f'{gene}_allhits_annotated_df.txt'
+                LOG.debug(f"Wrote {gene} annotated potential hits dataframe {stx_df_out_filename} to {output_dir}")
+                stx_toxin_df.to_csv(os.path.join(output_dir,stx_df_out_filename), sep="\t", index=False)
+            # get top hit for each common gene range. Provide mixed call if >1 hits share the same 'bitscore'
+            stx_subtypes_dict={}
+            for range_id in clusters_of_ranges.keys():
+                max_bitscore = stx_toxin_df.query(f'rangeid == "{range_id}"')['bitscore'].max()
+                tmp_df = stx_toxin_df.query(f'rangeid =="{range_id}" and bitscore == {max_bitscore}')
+                for subtype in tmp_df['stx_subtype'].unique():
+                    stx_hit = tmp_df.query(f'`stx_subtype` == "{subtype}"').iloc[0]
+                    if subtype not in stx_subtypes_dict: #insert only subtypes not already encountered
+                        stx_subtypes_dict[subtype] = stx_hit[['sstart','send']].to_dict()
+                        stx_subtypes_dict[subtype]['index'] = stx_hit.name
+                        stx_subtypes_dict[subtype]['bitscore'] = stx_hit.bitscore
+                        stx_subtypes_dict[subtype]['contig'] = stx_hit.stx_contig_name
+                        stx_subtypes_dict[subtype]['gene_range'] = f"{stx_hit.sstart}-{stx_hit.send}"
+                        stx_subtypes_dict[subtype]['gene'] = stx_hit.gene+stx_hit.stx_subtype
+                        stx_subtypes_dict[subtype]['accession'] = stx_hit.accession
+                        stx_subtypes_dict[subtype]['allele_id'] = stx_hit.allele_id
+                        stx_subtypes_dict[subtype]['pident'] = stx_hit.pident
+                        stx_subtypes_dict[subtype]['pcov'] = stx_hit.qcovhsp
+                        stx_subtypes_dict[subtype]['subtype'] = subtype
+                       
+        
+            for contig in set([stx_subtypes_dict[s]['contig'] for s in stx_subtypes_dict.keys()]):
+                for dict_item in [stx_subtypes_dict[s] for s in stx_subtypes_dict if stx_subtypes_dict[s]['contig'] == contig]:
+                    results_dict['stx_genes'].append(dict_item['gene'])
+                    results_dict['stx_accessions'].append(dict_item['accession'])
+                    results_dict['stx_allele_ids'].append(dict_item['allele_id'])
+                    results_dict['stx_pidents'].append(str(dict_item['pident']))
+                    results_dict['stx_pcovs'].append(str(dict_item['pcov']))
+                    results_dict['stx_contigs'].append(str(dict_item['contig']))
+                    results_dict['stx_gene_ranges'].append(str(dict_item['gene_range']))
+                
+    #report shiga toxin subtypes in alphabetical order    
+    sorted_order = [i[0] for i in sorted(enumerate(results_dict['stx_genes']), key=lambda x:x[1])  ] 
+    for k in results_dict.keys():
+        results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])        
+    return results_dict
+
+def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, 
+                                              output_dir, debug, pathotype_db):
     """Get pathotype(s) of a sample
 
     Args:
@@ -70,10 +171,7 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         list: list of pathotypes
     """
     LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
-    FIELDS_LIST = ['pathotype', 'genes', 'rule_ids', 'accessions', 'allele_id', 'accession', 'pident', 'pcov','length_ratio',
-                   'stx1_gene', 'stx1_subtype', 'stx1_accession', 'stx1_allele_id', 'stx1_pident', 'stx1_pcov',
-                   'stx2_gene', 'stx2_subtype', 'stx2_accession', 'stx2_allele_id', 'stx2_pident', 'stx2_pcov']
-
+    
     if len(other_genomes_dict.keys()) > 0 and verify_species_flag == True:
         LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
@@ -82,59 +180,39 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
     pathotype_genes_overall_df=pd.DataFrame()
 
     for g in other_genomes_dict.keys():
-        predictions_pathotype_dict[g]={field:'-' for field in FIELDS_LIST}
+        predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
 
     for g in ecoli_genome_files_dict.keys():
         LOG.info(f"Running pathotype prediction on {g} ...")
-        predictions_pathotype_dict[g]={field:'-' for field in FIELDS_LIST}
+        predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
         input_sequence_file = ecoli_genome_files_dict[g]['modheaderfile'] 
         cmd = [
             "blastn",
             "-query", path2patho_db,
             "-subject", input_sequence_file,
             "-out", f"{temp_dir}/blast_pathotype_result.txt",
-            "-outfmt", "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp bitscore sseq"
+            "-outfmt", "6 qseqid qlen sseqid length pident sstart send sframe slen qcovhsp bitscore sseq"
         ]
         subprocess_util.run_subprocess(cmd)
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
             LOG.warning(f"No pathotype signatures found for sample {g} as pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty. Skipping ...")
-            predictions_pathotype_dict[g]={field:'-' for field in FIELDS_LIST}
+            predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
             predictions_pathotype_dict[g]['pathotype']= ['ND']
             continue
 
         pathotype_genes_tmp_df = pd.read_csv(f'{temp_dir}/blast_pathotype_result.txt', sep="\t", header=None)
-        pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'qcovhsp', 'bitscore', 'sseq']
-        pathotype_genes_tmp_df.query(f'pident >= {pident} and qcovhsp >= {pcov}', inplace=True) # Default BioNumerics threshold in pathotype module
+        pathotype_genes_tmp_df.columns = ['qseqid', 'qlen', 'sseqid', 'length', 'pident', 'sstart', 'send', 'sframe', 'slen', 'qcovhsp', 'bitscore', 'sseq']
         pathotype_genes_tmp_df.sort_values('bitscore', ascending=False,inplace=True) #sort hit in descending order by bitscore
         pathotype_genes_tmp_df['allele_id'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[0])
         pathotype_genes_tmp_df['accession'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[1])
         pathotype_genes_tmp_df['gene'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[2])
         pathotype_genes_tmp_df['sample_id'] = g
         
-
-        #Shiga toxin typing
-        shiga_1_toxin_df = pathotype_genes_tmp_df.query('gene == "stx1"')
-        shiga_2_toxin_df = pathotype_genes_tmp_df.query('gene == "stx2"')
-        if shiga_1_toxin_df.empty == False:
-            top_result_stx1 = shiga_1_toxin_df.head(1)
-            top_result_list = top_result_stx1['qseqid'].str.split('|').to_list()[0]
-            predictions_pathotype_dict[g]['stx1_gene']=top_result_list[2]+top_result_list[4]
-            predictions_pathotype_dict[g]['stx1_subtype']=top_result_list[4]
-            predictions_pathotype_dict[g]['stx1_accession']=top_result_list[1]
-            predictions_pathotype_dict[g]['stx1_allele_id']=top_result_list[0]
-            predictions_pathotype_dict[g]['stx1_pident']=top_result_stx1.iloc[0,:]['pident'].astype(str)
-            predictions_pathotype_dict[g]['stx1_pcov']=top_result_stx1.iloc[0,:]['qcovhsp'].astype(str)
-        if shiga_2_toxin_df.empty == False:    
-            top_result_stx2 = shiga_2_toxin_df.head(1)
-            top_result_list = top_result_stx2['qseqid'].str.split('|').to_list()[0]
-            predictions_pathotype_dict[g]['stx2_gene']=top_result_list[2]+top_result_list[4]
-            predictions_pathotype_dict[g]['stx2_subtype']=top_result_list[4]
-            predictions_pathotype_dict[g]['stx2_accession']=top_result_list[1]
-            predictions_pathotype_dict[g]['stx2_allele_id']=top_result_list[0]
-            predictions_pathotype_dict[g]['stx2_pident']=top_result_stx2.iloc[0,:]['pident'].astype(str)
-            predictions_pathotype_dict[g]['stx2_pcov']=top_result_stx2.iloc[0,:]['qcovhsp'].astype(str)
+        #shiga toxin subtyping
+        result_stx1_stx2 = shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug)
+        predictions_pathotype_dict[g].update(result_stx1_stx2) #Update dictionary with shiga toxin typing results
         
-        
+        pathotype_genes_tmp_df.query(f'pident >= {pident} and qcovhsp >= {pcov}', inplace=True) # Default BioNumerics threshold in pathotype module
         pathotype_genes_overall_df = pd.concat([pathotype_genes_overall_df,pathotype_genes_tmp_df], ignore_index=True)
         pathotype_genes_top_hits = pathotype_genes_tmp_df.loc[pathotype_genes_tmp_df.groupby('gene')['bitscore'].transform("idxmax").unique()].sort_values('gene')
         pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
@@ -142,13 +220,13 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         gene_list = pathotype_genes_top_hits['gene'].to_list()
         if len(gene_list)!= 0:
             predictions_pathotype_dict[g]['pathotype'] = []
-            predictions_pathotype_dict[g]['rule_ids']=[]
-            predictions_pathotype_dict[g]['genes'] = gene_list
-            predictions_pathotype_dict[g]['allele_id']=pathotype_genes_top_hits['allele_id'].to_list()
-            predictions_pathotype_dict[g]['accessions']=pathotype_genes_top_hits['accession'].to_list()
-            predictions_pathotype_dict[g]['pident'] = pathotype_genes_top_hits['pident'].astype(str).to_list()
-            predictions_pathotype_dict[g]['pcov'] = pathotype_genes_top_hits['qcovhsp'].astype(str).to_list()
-            predictions_pathotype_dict[g]['length_ratio'] = pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list()
+            predictions_pathotype_dict[g]['pathotype_rule_ids']=[]
+            predictions_pathotype_dict[g]['pathotype_genes'] = ",".join(gene_list)
+            predictions_pathotype_dict[g]['pathotype_allele_id']=";".join(pathotype_genes_top_hits['allele_id'].to_list())
+            predictions_pathotype_dict[g]['pathotype_accessions']=";".join(pathotype_genes_top_hits['accession'].to_list())
+            predictions_pathotype_dict[g]['pathotype_pident'] = ";".join(pathotype_genes_top_hits['pident'].astype(str).to_list())
+            predictions_pathotype_dict[g]['pathotype_pcov'] = ";".join(pathotype_genes_top_hits['qcovhsp'].astype(str).to_list())
+            predictions_pathotype_dict[g]['pathotype_length_ratio'] = ";".join(pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list())
     
             for pathotype in pathotype_db['pathotypes']:
                 for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
@@ -166,13 +244,14 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
                             matched_gene_counter += 1
                     if ngenes_in_rule == matched_gene_counter:
                         predictions_pathotype_dict[g]['pathotype'].append(pathotype)
-                        predictions_pathotype_dict[g]['rule_ids'].append(rule_id)              
+                        predictions_pathotype_dict[g]['pathotype_rule_ids'].append(rule_id)              
         final_pathotypes_list = list(set(predictions_pathotype_dict[g]['pathotype']))
         if '-' in final_pathotypes_list  or len(final_pathotypes_list) == 0:
             predictions_pathotype_dict[g]['pathotype']= ['ND']
-            predictions_pathotype_dict[g]['rule_ids'] = '-'
+            predictions_pathotype_dict[g]['pathotype_rule_ids'] = '-'
         else:    
             predictions_pathotype_dict[g]['pathotype']=final_pathotypes_list #final pathotype(s) list
+            predictions_pathotype_dict[g]['pathotype_rule_ids'] = ";".join(predictions_pathotype_dict[g]['pathotype_rule_ids'])
        
     #write pathotype blastn results
     pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
@@ -191,7 +270,7 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
 
     LOG.info(f"Predicting serotype from BLAST output {blast_output_file}")
     if os.stat(blast_output_file).st_size == 0:
-        LOG.warning(f"Empty O- and H- antigen BLAST output file {blast_output_file}. Antigen prediction will be skipped")
+        LOG.warning(f"Empty O- and H- antigen BLAST output file {blast_output_file}. O-/H- antigen prediction will be skipped as no potential hits available. Check inputs")
         return {}, pd.DataFrame()
         
     output_df = blast_output_to_df(blast_output_file) #columns: length	pident	qcovhsp	qlen qseqid	send sframe	sseq	sseqid	sstart	score
@@ -601,14 +680,9 @@ def report_result(final_dict, output_dir, output_file, args):
     :return: None
     """
 
-    header = "Name\tSpecies\tO-type\tH-type\tSerotype\tQC\t" \
-             "Evidence\tGeneScores\tAlleleKeys\tGeneIdentities(%)\t" \
-             "GeneCoverages(%)\tGeneContigNames\tGeneRanges\t" \
-             "GeneLengths\tDatabase\tWarnings\t" \
-             "DECPathotype\tPathotypeGeneNames\tPathotypeAlleleAccessions\tPathotypeDBAlleleIDs\t" \
-             "PathotypeAlleleIdentities(%)\tPathotypeAlleleCoverages(%)\tPathotypeLengthRatio\tPathotypeRuleIDs\t" \
-             "Stx1Gene\tStx1Subtype\tStx1Accession\tStx1AlleleID\tStx1AlleleIdentity(%)\tStx1AlleleCoverage(%)\t" \
-             "Stx2Gene\tStx2Subtype\tStx2Accession\tStx2AlleleID\tStx2AlleleIdentity(%)\tStx2AlleleCoverage\n"
+    
+    header = "\t".join(definitions.OUTPUT_TSV_HEADER)+"\n"
+    
     output = []
     LOG.info(header.strip())
 
@@ -706,31 +780,11 @@ def report_result(final_dict, output_dir, output_file, args):
             output_line.append(final_dict[sample]["error"])
         else:
             output_line.append("-")
-
         if 'pathotype' in final_dict[sample]:
-            output_line.append(final_dict[sample]['pathotype'])
-            output_line.append(final_dict[sample]['pathotype_genes'])
-            output_line.append(final_dict[sample]['pathotype_accessions'])
-            output_line.append(final_dict[sample]['pathotype_genes_ids'])
-            output_line.append(final_dict[sample]['pathotype_genes_pident'])
-            output_line.append(final_dict[sample]['pathotype_genes_pcov'])
-            output_line.append(final_dict[sample]['pathotype_length_ratio'])
-            output_line.append(final_dict[sample]['pathotype_rule_ids'])
-            output_line.append(final_dict[sample]['stx1_gene'])
-            output_line.append(final_dict[sample]['stx1_subtype'])
-            output_line.append(final_dict[sample]['stx1_accession'])
-            output_line.append(final_dict[sample]['stx1_allele_id']) 
-            output_line.append(final_dict[sample]['stx1_pident'])
-            output_line.append(final_dict[sample]['stx1_pcov'])
-            output_line.append(final_dict[sample]['stx2_gene'])
-            output_line.append(final_dict[sample]['stx2_subtype'])
-            output_line.append(final_dict[sample]['stx2_accession'])
-            output_line.append(final_dict[sample]['stx2_allele_id']) 
-            output_line.append(final_dict[sample]['stx2_pident'])
-            output_line.append(final_dict[sample]['stx2_pcov'])
+            for field in definitions.PATHOTYPE_TOXIN_FIELDS:
+                output_line.append(final_dict[sample][field])
         else:
-            output_line+['-']*9
-
+            output_line.extend(['-']*len([f for f in definitions.OUTPUT_TSV_HEADER if 'Pathotype' in f or 'Stx' in f]))
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")
         LOG.info(print_line)

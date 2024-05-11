@@ -7,7 +7,7 @@ from ectyper import ectyper
 
 TEST_ROOT = os.path.dirname(__file__)
 ROOT_DIR = os.path.abspath(os.path.join(TEST_ROOT, '..'))
-MASHINFILE = os.path.join(ROOT_DIR, 'ectyper/Data/refseq.genomes.k21s1000.msh')
+MASHINFILE = os.path.join(ROOT_DIR, 'ectyper/Data/EnteroRef_GTDBSketch_20231003_V2.msh')
 
 
 def set_input(input,
@@ -55,7 +55,8 @@ def test_failed_species_identification_nospeciesverify(caplog):
     file = os.path.join(TEST_ROOT, 'Data/GCF_001672015.1.fna')
     set_input(input=file, verify=False)
     ectyper.run_program()
-    assert "GCF_001672015.1\t-\t-\tH8\t-:H8\t-" in caplog.text
+    print()
+    assert "GCF_001672015.1\tEscherichia coli\t-\tH8\t-:H8\t-" in caplog.text
 
 
 def test_non_existing_accession_in_meta(caplog):
@@ -74,13 +75,12 @@ def test_non_existing_accession_in_meta(caplog):
 
 def test_speciesID_non_existing():
     """
-    GCF_001672015.1.fna is not present in `assembly_summary_refseq.txt`. Let's see how get_species would recover from this
-    using top 10 hits
+    GCF_001672015.1.fna species ID identification making sure it is identified as E.coli
     :return:
     """
     fastafile=os.path.join(TEST_ROOT, 'Data/GCF_001672015.1.fna')
     set_input(input=fastafile, verify=False, refseqmash=True)
     args = ectyper.commandLineOptions.parse_command_line()
-    species = ectyper.speciesIdentification.get_species(file=fastafile, args=args)
-    print("Identified species {}".format(species))
-    assert "Escherichia coli" == species
+    result = ectyper.speciesIdentification.verify_ecoli_and_inputs(fasta_fastq_files_dict={fastafile:None}, 
+                                                                   ofiles={}, filesnotfound={}, args=args)
+    assert result[0]['GCF_001672015.1']['species'] == 'Escherichia coli'

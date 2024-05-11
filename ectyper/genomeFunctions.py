@@ -311,7 +311,8 @@ def identify_raw_files(raw_files, args):
                 other_files.append(f)
             elif ftype == 'filenotfound':
                 filesnotfound_files.append(f)
-    LOG.info("Folowing files were not found in the input: {}".format(",".join(filesnotfound_files)))
+    if len(filesnotfound_files) > 0:          
+        LOG.warning("Folowing files were not found in the input: {}".format(",".join(filesnotfound_files)))
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
     LOG.debug("other non- fasta/fastq files: {}".format(other_files))

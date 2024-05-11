@@ -152,7 +152,7 @@ def get_num_hits(target, temp_dir):
     return num_hit
 
 
-def get_species(file, args):
+def get_species(file, args, cores=1):
     """
     Given a fasta/fastq file, return the most likely species identification
 
@@ -169,7 +169,7 @@ def get_species(file, args):
         raise FileNotFoundError(f'Missing required species ID sketch at {sketch_metadata_file} path')
 
     mash_cmd = [
-        'mash', 'dist',
+        'mash', 'dist', '-p', f"{cores}",
         args.reference,
         file
     ]
@@ -204,8 +204,8 @@ def get_species(file, args):
     if len(top_hit_lines) < 1:
         LOG.warning('For {file} no hits returned by MASH species id sketch search. Species identification failed!')
     else:
-        LOG.info('For {} following top hits returned by MASH {}'.format(file,
-                                                                        [top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]))
+        LOG.info('For {} following top hits and hash ratios returned by MASH {}'.format(file,
+                                                                        [(top_hit_line.split("\t")[0],top_hit_line.split("\t")[4]) for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]))
 
 
     for top_hit_line in top_hit_lines:
@@ -217,18 +217,19 @@ def get_species(file, args):
             continue
 
         top_match = top_hit_line_elements[0]; top_match_dist = top_hit_line_elements[2]; top_match_hashratio = top_hit_line_elements[4]
+        matched_hashes = top_match_hashratio.split('/')[0]
         matched_meta_line = subprocess_util.run_subprocess(['grep',top_match, sketch_metadata_file],
                                                       ignorereturncode=True).stdout.decode('utf-8').split('\t')
-        if len(matched_meta_line) == 4:
+        if len(matched_meta_line) == 4 and matched_hashes != '0':
             m=re.search('s__(.+)',matched_meta_line[3])
             if m:
                species = m.group(1).strip('"')
                LOG.info(
-        "MASH species top hit {} with distance {} and shared hashes ratio {}".format(top_match, top_match_dist,
+        "MASH species top hit {} identified as {} with distance {} to {} and shared hashes ratio {}".format(top_match, species, top_match_dist, file,
                                                                                             top_match_hashratio))
                LOG.info("MASH dist predicted species name: '{}' based on species ID sketch {}".format(species, args.reference))
         else:
-            LOG.warning("Could not determine species based on MASH distance results key {}".format(top_match))
+            LOG.warning(f"Could not determine species based on MASH distance for {file}")
             species = "-"
         return species    
         
@@ -244,7 +245,7 @@ def is_valid_fasta_file(fasta, sampleName):
     # try to read the first sequence of FASTA file and make a format validity decision. No reason to check all reads
     for contig in SeqIO.parse(fasta, "fasta").records:
         if contig.seq != '':
-            LOG.debug(f'{sampleName}: input FASTA file {fasta} format is valid FASTA')       
+            LOG.debug(f'{sampleName}: input file {fasta} is a valid FASTA')       
             return True
         else:
             LOG.warning(f'{sampleName}: input FASTA file {fasta} format is invalid FASTA. Skipping further analyses ...')
@@ -272,7 +273,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
         if is_valid_fasta_file(fasta, sampleName) == False:
             failverifyerrormessage = f"Sample {sampleName} FASTA file ({fasta}) is empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens database or input FASTA is empty/corrupted. Please check sequence input file of {sampleName}"
             other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
-            return ecoli_files_dict, other_files_dict,filesnotfound_dict
+            return ecoli_files_dict, other_files_dict, filesnotfound_dict
 
         if sampleName in ecoli_files_dict or sampleName in other_files_dict:
             error_msg = "Duplicated parsed filenames found ('{}'). Offending file paths {}. Only unique file names are supported in batch mode".format(
@@ -284,9 +285,9 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
         #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
         if fasta_fastq_files_dict[fasta]:
             fastq_file = fasta_fastq_files_dict[fasta]
-            speciesname = get_species(fastq_file, args)
+            speciesname = get_species(fastq_file, args, args.cores)
         else:
-            speciesname = get_species(fasta, args)
+            speciesname = get_species(fasta, args, args.cores)
 
         if args.verify:
             failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples." \

@@ -62,8 +62,10 @@ def run_program():
     
     if args.debug:
         fh.setLevel(logging.DEBUG)
+        LOG.setLevel(logging.DEBUG)
     else:
         fh.setLevel(logging.INFO)
+        LOG.setLevel(logging.INFO)
     LOG.addHandler(fh)
 
     #try to load database
@@ -100,7 +102,7 @@ def run_program():
     # Init MASH species database for species identification
     if speciesIdentification.get_species_mash(args.reference) == False:
         LOG.critical("MASH RefSeq sketch does not exists and was not able to be downloaded. Aborting run ...")
-        exit("No MASH RefSeq sketch file found at {}".format(args.referencebpath))    
+        exit("No MASH RefSeq sketch file found at {}".format(args.reference))    
 
     # Initialize ectyper temporary directory. If --debug is specified then temp folder will be not be deleted. 
     # Python 3.12 introduced delete = False/True option in tempfile lib, so using explicit code supporting Python < 3.12
@@ -162,7 +164,7 @@ def run_program():
                                                                                    args.verify,
                                                                                    args.percentIdentityPathotype, 
                                                                                    args.percentCoveragePathotype, 
-                                                                                   args.output, pathotype_db)
+                                                                                   args.output, args.debug, pathotype_db)
             
         # Run main serotype prediction function
         predictions_dict = run_prediction(ecoli_genomes_dict,
@@ -182,31 +184,12 @@ def run_program():
         if args.pathotype:
             if sample in predictions_pathotype_dict: #could happen that file is non-fasta and pathotyping was called
                 final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
-                final_predictions[sample]["pathotype_genes"] = ",".join(predictions_pathotype_dict[sample]['genes'])
-                final_predictions[sample]["pathotype_genes_ids"] = ",".join(predictions_pathotype_dict[sample]['allele_id'])
-                final_predictions[sample]["pathotype_accessions"] = ",".join(predictions_pathotype_dict[sample]['accessions'])
-                final_predictions[sample]["pathotype_genes_pident"] = ",".join(predictions_pathotype_dict[sample]['pident'])
-                final_predictions[sample]["pathotype_genes_pcov"] = ",".join(predictions_pathotype_dict[sample]['pcov'])
-                final_predictions[sample]["pathotype_length_ratio"] = ",".join(predictions_pathotype_dict[sample]['length_ratio'])
-                final_predictions[sample]["pathotype_rule_ids"] = ",".join(sorted(predictions_pathotype_dict[sample]['rule_ids']))
+                for field_name in  [f for f in definitions.PATHOTYPE_TOXIN_FIELDS if 'pathotype_' in f]:
+                    final_predictions[sample][field_name] = predictions_pathotype_dict[sample][field_name]
                 
-                final_predictions[sample]["stx1_gene"] = predictions_pathotype_dict[sample]['stx1_gene']
-                final_predictions[sample]["stx1_subtype"] = predictions_pathotype_dict[sample]['stx1_subtype']
-                final_predictions[sample]["stx1_accession"] = predictions_pathotype_dict[sample]['stx1_accession']
-                final_predictions[sample]["stx1_allele_id"] = predictions_pathotype_dict[sample]['stx1_allele_id']
-                final_predictions[sample]["stx1_pident"] = predictions_pathotype_dict[sample]['stx1_pident']
-                final_predictions[sample]["stx1_pcov"] = predictions_pathotype_dict[sample]['stx1_pcov']
-                
-                final_predictions[sample]["stx2_gene"] = predictions_pathotype_dict[sample]['stx2_gene']
-                final_predictions[sample]["stx2_subtype"] = predictions_pathotype_dict[sample]['stx2_subtype']
-                final_predictions[sample]["stx2_accession"] = predictions_pathotype_dict[sample]['stx2_accession']
-                final_predictions[sample]["stx2_allele_id"] = predictions_pathotype_dict[sample]['stx2_allele_id']
-                final_predictions[sample]["stx2_pident"] = predictions_pathotype_dict[sample]['stx2_pident']
-                final_predictions[sample]["stx2_pcov"] = predictions_pathotype_dict[sample]['stx2_pcov']
-            
-            
-                
-
+                for field_name in [f for f in definitions.PATHOTYPE_TOXIN_FIELDS if 'stx' in f]:
+                    final_predictions[sample][field_name] = predictions_pathotype_dict[sample][field_name]
+                    
         if 'O' in final_predictions[sample]: #not all samples will have O-antigen dictionary
             highsimilar_Ogroup = getOantigenHighSimilarGroup(final_predictions,sample)
 
@@ -226,7 +209,7 @@ def run_program():
             final_predictions[sample]["QC"] = predictionFunctions.getQuality_control_results(sample,final_predictions,ectyperdb_dict)
 
     # Store most recent result in working directory
-    LOG.info("Reporting final results ...")
+    LOG.info("Reporting final results to output.tsv file ...")
     predictionFunctions.report_result(final_predictions, output_directory,
                                           os.path.join(output_directory,
                                                        'output.tsv'),args)
@@ -359,7 +342,7 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
     :param temp_dir: ectyper run temp dir
     :return: dictionary of the results for the g_group
     """
-
+    
     # create a temp dir for blastdb -- each process gets its own directory
     temp_dir_group = create_temporary_directory(temp_dir)
     LOG.debug("Creating blast database from {}".format(g_group))
