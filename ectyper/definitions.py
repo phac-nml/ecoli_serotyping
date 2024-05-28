@@ -39,11 +39,11 @@ MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to
 MIN_O_COVERAGE_LS = 48 #low similarity group O antigen min coverage threshold to pre-filter BLAST output (based on cross-talk study results)
 PATHOTYPE_TOXIN_FIELDS = ['pathotype', 'pathotype_genes',  'pathotype_accessions', 'pathotype_allele_id', 
                    'pathotype_pident', 'pathotype_pcov','pathotype_length_ratio', 'pathotype_rule_ids',
-                   'stx_genes', 'stx_accessions', 'stx_allele_ids', 'stx_pidents', 'stx_pcovs','stx_contigs', 'stx_gene_ranges']
+                   'stx_genes', 'stx_accessions', 'stx_allele_ids', 'stx_pidents', 'stx_pcovs', 'stx_gene_lengths', 'stx_contigs', 'stx_gene_ranges']
 OUTPUT_TSV_HEADER = ['Name','Species','O-type','H-type','Serotype','QC',
              'Evidence','GeneScores','AlleleKeys','GeneIdentities(%)',
              'GeneCoverages(%)','GeneContigNames','GeneRanges',
              'GeneLengths','Database','Warnings','Pathotype','PathotypeGenes', 'PathotypeAccessions', 'PathotypeAlleleIDs', 
              'PathotypeIdentities(%)','PathotypeCoverages(%)','PathotypeLengthRatio','PathotypeRuleIDs', 
-             'StxSubtypes','StxAccessions','StxAlleleIDs', 'StxIdentities(%)','StxCoverages(%)',
-             'StxContigNames','StxCoordinates']
+             'StxSubtypes','StxAccessions','StxAlleleIDs', 'StxIdentities(%)','StxCoverages(%)','StxLengths',
+             'StxContigNames', 'StxCoordinates']

@@ -109,7 +109,8 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     files=[]
     for sample in files_dict.keys():
        files.append(files_dict[sample]["filepath"])
-
+    
+    LOG.debug("Updating fasta headers ....")
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
 
 

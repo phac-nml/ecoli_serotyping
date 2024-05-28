@@ -156,7 +156,7 @@ def run_program():
                 temp_dir,
                 args
                 )
-            
+           
         # Run pathotype predictions if requested
         if args.pathotype:
             predictions_pathotype_dict = predictionFunctions.predict_pathotype_and_shiga_toxin_subtype(ecoli_genomes_dict, other_genomes_dict,
