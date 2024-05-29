@@ -79,12 +79,11 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             stx_toxin_df.loc[list(stx_toxin_df.loc[:,'sframe'] == -1), 'send'] = hits_coordinates['sstart']
             #annotate stx dataframe of potential hits with shiga toxin subtype, contig name and sequence type
             stx_toxin_df.loc[:,'stx_subtype'] = stx_toxin_df['qseqid'].apply(lambda x:x.split('|')[4]).copy().to_list() #extract subtypes
-            stx_toxin_df.loc[:,'stx_contig_name']  = stx_toxin_df['sseqid'].apply(lambda x: x.split('|')[2]).copy().to_list()#extract contig names
+            stx_toxin_df.loc[:,'stx_contig_name']  = stx_toxin_df['sseqid'].apply(lambda x: x.split('|')[2]).copy().to_list() #extract contig names
             stx_contigs = stx_toxin_df.stx_contig_name.unique()
             stx_types = ['complete_sequence','subunit_A', 'subunit_B'] #extract molecule types
             stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
             stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
- 
 
             # for each contig cluster stx ranges by based on coordiantes overlap. Create groups of overlapping ranges
             clusters_of_ranges = {}; cluster_counter=0
@@ -112,7 +111,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                                                                         if x['sstart'] in clusters_of_ranges[range_id]['range'] and
                                                                         x['stx_contig_name'] == clusters_of_ranges[range_id]['contig']][0], 
                                                                         axis=1).copy().to_list()
-            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping ranges found on {len([v['contig'] for v in clusters_of_ranges.values()])} contigs for {gene}")
+            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping ranges found on {len([v['contig'] for v in clusters_of_ranges.values()])} contigs for {gene}. ({[v['contig'] for v in clusters_of_ranges.values()]})")
             #write shiga toxin dataframe for inspection just in case
             if debug:
                 stx_df_out_filename = f'{gene}_allhits_annotated_df.txt'
@@ -357,7 +356,7 @@ def get_prediction(per_genome_df, args):
             blastresultsdict[ant][row.qseqid]["score"] = float(row.score)
             blastresultsdict[ant][row.qseqid]["identity"] = float(row.pident)
             blastresultsdict[ant][row.qseqid]["coverage"] = float(row.qcovhsp)
-            blastresultsdict[ant][row.qseqid]["contigname"] = row.sseqid.split('|')[2]
+            blastresultsdict[ant][row.qseqid]["contigname"] = row.sseqid.split('|')[2] #3rd position is used for contig name assignment
             blastresultsdict[ant][row.qseqid]["startpos"] = int(row.sstart)
             blastresultsdict[ant][row.qseqid]["endpos"] = int(row.send)
             blastresultsdict[ant][row.qseqid]["length"] = int(row.length)

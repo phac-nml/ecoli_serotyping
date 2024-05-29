@@ -147,7 +147,7 @@ def genome_header_wrapper(file, temp_dir):
         with open(file) as infile:
             for record in SeqIO.parse(infile, "fasta"):
                 outfile.write(
-                    ">lcl|" + n_name + "|" + record.description + "\n")
+                    ">lcl|" + n_name + "|" + record.description.replace('|','_') + "\n") #the | symbol used to find contig names in FASTA headers so should be avoided
                 outfile.write(str(record.seq) + "\n")
 
     return {"oldfile":file,"newfile":new_file, "samplename":n_name}

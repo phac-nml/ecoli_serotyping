@@ -166,13 +166,14 @@ def run_program():
                                                                                    args.percentCoveragePathotype, 
                                                                                    args.output, args.debug, pathotype_db)
             
+            
         # Run main serotype prediction function
         predictions_dict = run_prediction(ecoli_genomes_dict,
                                           args,
                                           alleles_fasta_file,
                                           temp_dir,
                                           ectyperdb_dict)
-            
+           
 
 
     # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
@@ -344,8 +345,9 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
     """
     
     # create a temp dir for blastdb -- each process gets its own directory
+    LOG.setLevel(logging.INFO) #set level to info as by default only WARNING level is set at init time
     temp_dir_group = create_temporary_directory(temp_dir)
-    LOG.debug("Creating blast database from {}".format(g_group))
+    LOG.info("Creating blast O- and H- antigen database from {}".format(g_group))
     blast_db = os.path.join(temp_dir_group, "blastdb_")
     blast_db_cmd = [
             "makeblastdb",
@@ -355,15 +357,13 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
             "-out", blast_db]
     subprocess_util.run_subprocess(blast_db_cmd)
 
-    LOG.debug("Starting blast alignment on O- and H- antigen database {}".format(g_group))
+    LOG.info("Starting blast alignment on O- and H- antigen database {}".format(g_group))
     blast_output_file = blast_db + ".output"
     bcline = [
             'blastn',
             '-query', alleles_fasta,
             '-db', blast_db,
             '-out', blast_output_file,
-           # '-perc_identity', str(args.percentIdentity),
-           # '-qcov_hsp_perc', str(args.percentLength),
             '-max_hsps', "1",
             '-outfmt',
             "6 qseqid qlen sseqid length pident sstart send sframe qcovhsp bitscore sseq",
