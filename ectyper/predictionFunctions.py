@@ -85,7 +85,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
             stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
 
-            # for each contig cluster stx ranges by based on coordiantes overlap. Create groups of overlapping ranges
+            # for each contig cluster stx ranges by based on coordinates overlap. create groups of overlapping ranges
             clusters_of_ranges = {}; cluster_counter=0
             for contig_name in stx_contigs:
                 stx_toxin_df_tmp = stx_toxin_df.query(f'stx_contig_name == "{contig_name}"')
@@ -101,7 +101,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                 for range_list in ranges_grouped_list:
                     range_min = min([i[0] for i in range_list ]); range_max = max([i[-1] for i in range_list])+1
                     ranges_candidate_list.append(range(range_min,range_max))
-                #final dictonary result of unique non-overlapping ranges per contig
+                #final dictionary result of unique non-overlapping ranges per contig
                 for range_unique in set(ranges_candidate_list):
                     clusters_of_ranges[f"{cluster_counter}"]={'range': range_unique, 'contig':contig_name}
                     cluster_counter += 1
