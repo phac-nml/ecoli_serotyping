@@ -91,40 +91,54 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                 stx_toxin_df_tmp = stx_toxin_df.query(f'stx_contig_name == "{contig_name}"')
                 unique_ranges = sorted(list(stx_toxin_df_tmp.apply(lambda x: range(x['sstart'],x['send']+1), axis=1).unique()),key=lambda r: r.start)
                 ranges_groupby_overlap=[]
+                #for each range find with which ranges it might overlap (all vs all)
                 for urange in unique_ranges:
                     overlap = [True if len(set(urange).intersection(unique_ranges[i])) > 0 else False for i in range(0, len(unique_ranges))]
                     ranges_groupby_overlap.append([unique_ranges[i] for i,v in enumerate(unique_ranges) if overlap[i] == True])
                 ranges_grouped_list = list(set(tuple(i) for i in ranges_groupby_overlap))
-
-                #for each group of ranges create single range based on min and max values of ranges in that group
+                
+                #for each group of overlapping ranges create single range based on min and max values of ranges in that group
                 ranges_candidate_list = []
                 for range_list in ranges_grouped_list:
                     range_min = min([i[0] for i in range_list ]); range_max = max([i[-1] for i in range_list])+1
                     ranges_candidate_list.append(range(range_min,range_max))
+                ranges_candidate_set_unique = [(i,len(i)) for i in set(ranges_candidate_list)]
                 #final dictionary result of unique non-overlapping ranges per contig
-                for range_unique in set(ranges_candidate_list):
-                    clusters_of_ranges[f"{cluster_counter}"]={'range': range_unique, 'contig':contig_name}
-                    cluster_counter += 1
+                overlap_ranges_overall = []
+                for range_unique, range_length in ranges_candidate_set_unique:
+                    if range_unique in overlap_ranges_overall:
+                        continue
+                    #find if a given range still overlaps with any in the set
+                    overlap_bool = [True if len(set(r).intersection(range_unique)) > 0 else False for r, l in ranges_candidate_set_unique]
+                    overlap_indices = [i for i, b in enumerate(overlap_bool) if b == True]
+                    overlap_ranges = [r for i,r in enumerate(ranges_candidate_set_unique) if i in overlap_indices]
+                    overlap_ranges_overall.extend([r for r,l in overlap_ranges])
+                    overlap_max_len_range = max([r[1] for i,r in enumerate(overlap_ranges) if i in overlap_indices])
+                    final_select_range = [r for r, l in ranges_candidate_set_unique if l == overlap_max_len_range]
+                    #find if a given range still overlaps with any in the set
+                    clusters_of_ranges[f"{cluster_counter}"]={'range': final_select_range[0], 'contig':contig_name, 'range_length': range_length}
+                    cluster_counter += 1       
             #annotate shiga toxin dataframe with ranges identifiers
             stx_toxin_df.loc[:,'rangeid'] = stx_toxin_df.apply(lambda x: [range_id 
                                                                         for range_id in clusters_of_ranges.keys() 
                                                                         if x['sstart'] in clusters_of_ranges[range_id]['range'] and
                                                                         x['stx_contig_name'] == clusters_of_ranges[range_id]['contig']][0], 
                                                                         axis=1).copy().to_list()
-            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping ranges found on {len([v['contig'] for v in clusters_of_ranges.values()])} contigs for {gene}. ({[v['contig'] for v in clusters_of_ranges.values()]})")
+            stx_toxin_df = stx_toxin_df.astype({'rangeid':'int32', 'bitscore':'int32'})
+            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping ranges found on {len([v['contig'] for v in clusters_of_ranges.values()])} contigs for {gene} with ranges ({[ {v['contig']: (min(v['range']),max(v['range']))} for v in clusters_of_ranges.values()]} )".rstrip("\n"))
             #write shiga toxin dataframe for inspection just in case
             if debug:
                 stx_df_out_filename = f'{gene}_allhits_annotated_df.txt'
-                LOG.debug(f"Wrote {gene} annotated potential hits dataframe {stx_df_out_filename} to {output_dir}")
+                LOG.debug(f"Wrote {gene} annotated potential hits dataframe to {output_dir}/{stx_df_out_filename}")
                 stx_toxin_df.to_csv(os.path.join(output_dir,stx_df_out_filename), sep="\t", index=False)
             # get top hit for each common gene range. Provide mixed call if >1 hits share the same 'bitscore'
             stx_subtypes_dict={}
-            for range_id in clusters_of_ranges.keys():
-                max_bitscore = stx_toxin_df.query(f'rangeid == "{range_id}"')['bitscore'].max()
-                tmp_df = stx_toxin_df.query(f'rangeid =="{range_id}" and bitscore == {max_bitscore}')
+            for range_id in stx_toxin_df['rangeid'].unique():
+                max_bitscore = stx_toxin_df.query(f'rangeid == {range_id}')['bitscore'].max()
+                tmp_df = stx_toxin_df.query(f'rangeid == {range_id} and bitscore == {max_bitscore}')
                 for subtype in tmp_df['stx_subtype'].unique():
                     stx_hit = tmp_df.query(f'`stx_subtype` == "{subtype}"').iloc[0]
-                    if subtype not in stx_subtypes_dict: #insert only subtypes not already encountered
+                    if subtype not in stx_subtypes_dict: #insert only subtypes not already encountered in the dictionary even if that would a data loss as usually those a lower quality results
                         stx_subtypes_dict[subtype] = stx_hit[['sstart','send']].to_dict()
                         stx_subtypes_dict[subtype]['index'] = stx_hit.name
                         stx_subtypes_dict[subtype]['bitscore'] = stx_hit.bitscore
@@ -172,21 +186,27 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         list: list of pathotypes
     """
     LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
-    
+
     if len(other_genomes_dict.keys()) > 0 and verify_species_flag == True:
         LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
+    
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
     
     predictions_pathotype_dict = {}
     pathotype_genes_overall_df = pd.DataFrame()
 
-    for g in other_genomes_dict.keys():
-        predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
 
-    for g in ecoli_genome_files_dict.keys():
+    #perform pathotyping for all samples if --pathotype key is provided unless a --verify option is specified
+    merged_samples_dict = ecoli_genome_files_dict.copy()
+    merged_samples_dict.update(other_genomes_dict)
+
+    for g in merged_samples_dict.keys():
         LOG.info(f"Running pathotype prediction on {g} ...")
         predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
-        input_sequence_file = ecoli_genome_files_dict[g]['modheaderfile'] 
+        if verify_species_flag == True and 'Escherichia coli' not in merged_samples_dict[g]['species']:
+            LOG.info(f"Skipping pathotype prediction for {g} as species is not E.coli and --verify is specified ...")
+            continue
+        input_sequence_file = merged_samples_dict[g]['modheaderfile'] 
         cmd = [
             "blastn",
             "-query", path2patho_db,

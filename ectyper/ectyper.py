@@ -149,6 +149,7 @@ def run_program():
 
     
     LOG.info("Standardizing the E.coli genome headers based on file names")
+    
     predictions_dict={}; predictions_pathotype_dict={}
     if ecoli_genomes_dict:
         ecoli_genomes_dict = genomeFunctions.get_genome_names_from_files(
@@ -156,17 +157,6 @@ def run_program():
                 temp_dir,
                 args
                 )
-           
-        # Run pathotype predictions if requested
-        if args.pathotype:
-            predictions_pathotype_dict = predictionFunctions.predict_pathotype_and_shiga_toxin_subtype(ecoli_genomes_dict, other_genomes_dict,
-                                                                                   temp_dir,
-                                                                                   args.verify,
-                                                                                   args.percentIdentityPathotype, 
-                                                                                   args.percentCoveragePathotype, 
-                                                                                   args.output, args.debug, pathotype_db)
-            
-            
         # Run main serotype prediction function
         predictions_dict = run_prediction(ecoli_genomes_dict,
                                           args,
@@ -174,7 +164,24 @@ def run_program():
                                           temp_dir,
                                           ectyperdb_dict)
            
+          
+    if other_genomes_dict:
+        other_genomes_dict = genomeFunctions.get_genome_names_from_files(
+                other_genomes_dict,
+                temp_dir,
+                args
+                )  
+            
+                
 
+    # Run pathotype predictions if requested irrespective of --verify option
+    if args.pathotype:
+        predictions_pathotype_dict = predictionFunctions.predict_pathotype_and_shiga_toxin_subtype(ecoli_genomes_dict, other_genomes_dict,
+                                                                                   temp_dir,
+                                                                                   args.verify,
+                                                                                   args.percentIdentityPathotype, 
+                                                                                   args.percentCoveragePathotype, 
+                                                                                   args.output, args.debug, pathotype_db)
 
     # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
     final_predictions = predictionFunctions.add_non_predicted(

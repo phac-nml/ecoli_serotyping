@@ -260,7 +260,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
     :param args: Command line arguments
     :return: ecoli_genomes dictionary, other_genomes dictionary, notfound_files dictionary
     """
-    LOG.info("Verifying the E. coli-ness of the genome files and validity of file inputs")
+    LOG.info("Verifying the E.coli-ness of the genome files and validity of file inputs")
     ecoli_files_dict = {}
     other_files_dict = {}
     filesnotfound_dict = {}
@@ -298,7 +298,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             elif is_escherichia_genus(speciesname):
                 other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
             else:
-                other_files_dict[sampleName] = {"species":speciesname, "error":failverifyerrormessage}
+                other_files_dict[sampleName] = {"species":speciesname, "filepath":fasta, "error":failverifyerrormessage}
         else:
             ecoli_files_dict[sampleName] = {"species": speciesname,
                                             "filepath": fasta, "error": ""}
