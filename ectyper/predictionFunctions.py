@@ -286,14 +286,19 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
                         predictions_pathotype_dict[g]['pathotype_gene_counts'][pathotype].extend(pathotype_genes_found) 
 
         final_pathotypes_list = list(set(predictions_pathotype_dict[g]['pathotype']))
+        if 'EHEC' in final_pathotypes_list:
+            final_pathotypes_list.remove('EHEC'); final_pathotypes_list.remove('STEC')
+            final_pathotypes_list.append('EHEC-STEC')
         if '-' in final_pathotypes_list  or len(final_pathotypes_list) == 0:
-            predictions_pathotype_dict[g]['pathotype']= ['ND']
+            predictions_pathotype_dict[g]['pathotype'] = ['ND']
+            predictions_pathotype_dict[g]['pathotype_count'] = "0"
             predictions_pathotype_dict[g]['pathotype_rule_ids'] = '-'
             predictions_pathotype_dict[g]['pathotype_gene_counts']= '-'
         else:    
             predictions_pathotype_dict[g]['pathotype'] = final_pathotypes_list #final pathotype(s) list
+            predictions_pathotype_dict[g]['pathotype_count'] = f"{len(final_pathotypes_list)}"
             predictions_pathotype_dict[g]['pathotype_rule_ids'] = ";".join(predictions_pathotype_dict[g]['pathotype_rule_ids'])
-            predictions_pathotype_dict[g]['pathotype_gene_counts']= ";".join(sorted([f"{p}:{len(predictions_pathotype_dict[g]['pathotype_gene_counts'][p])}:{','.join(predictions_pathotype_dict[g]['pathotype_gene_counts'][p])}" for p in predictions_pathotype_dict[g]['pathotype_gene_counts']]))
+            predictions_pathotype_dict[g]['pathotype_gene_counts']= ";".join(sorted([f"{p}:{len(set(predictions_pathotype_dict[g]['pathotype_gene_counts'][p]))} ({','.join(sorted(set(predictions_pathotype_dict[g]['pathotype_gene_counts'][p])))})" for p in predictions_pathotype_dict[g]['pathotype_gene_counts']]))
    
     #write pathotype blastn results
     if debug == True:

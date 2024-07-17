@@ -37,13 +37,13 @@ MASH_URLS = ["https://drive.usercontent.google.com/download?id=1p0XVb7PuiApYk5nd
 HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference on average
 MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to pre-filter BLAST output  (identical to global threshold)
 MIN_O_COVERAGE_LS = 48 #low similarity group O antigen min coverage threshold to pre-filter BLAST output (based on cross-talk study results)
-PATHOTYPE_TOXIN_FIELDS = ['pathotype', 'pathotype_genes', 'pathotype_gene_names',  'pathotype_accessions', 'pathotype_allele_id', 
+PATHOTYPE_TOXIN_FIELDS = ['pathotype', 'pathotype_count', 'pathotype_genes', 'pathotype_gene_names',  'pathotype_accessions', 'pathotype_allele_id', 
                    'pathotype_pident', 'pathotype_pcov','pathotype_length_ratio', 'pathotype_rule_ids', 'pathotype_gene_counts',
                    'stx_genes', 'stx_accessions', 'stx_allele_ids', 'stx_pidents', 'stx_pcovs', 'stx_gene_lengths', 'stx_contigs', 'stx_gene_ranges']
 OUTPUT_TSV_HEADER = ['Name','Species','O-type','H-type','Serotype','QC',
              'Evidence','GeneScores','AlleleKeys','GeneIdentities(%)',
              'GeneCoverages(%)','GeneContigNames','GeneRanges',
-             'GeneLengths','Database','Warnings','Pathotype','PathotypeGenes', 'PathotypeGeneNames', 'PathotypeAccessions', 'PathotypeAlleleIDs', 
+             'GeneLengths','Database','Warnings','Pathotype', 'PathotypeCounts', 'PathotypeGenes', 'PathotypeGeneNames', 'PathotypeAccessions', 'PathotypeAlleleIDs', 
              'PathotypeIdentities(%)','PathotypeCoverages(%)','PathotypeGeneLengthRatios','PathotypeRuleIDs', 'PathotypeGeneCounts',
              'StxSubtypes','StxAccessions','StxAlleleIDs', 'StxIdentities(%)','StxCoverages(%)','StxLengths',
              'StxContigNames', 'StxCoordinates']
