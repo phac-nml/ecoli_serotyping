@@ -27,6 +27,10 @@ def fasta_custom_header_generator(record):
     """
     return f"{record.id}|{record.name}|{record.description}"
 
+def load_json(json_file):
+    with open(json_file) as fp:
+        return json.load(fp)
+
 def json2fasta(json_file, output_dir):
     """
 
@@ -103,20 +107,18 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                     range_min = min([i[0] for i in range_list ]); range_max = max([i[-1] for i in range_list])+1
                     ranges_candidate_list.append(range(range_min,range_max))
                 ranges_candidate_set_unique = [(i,len(i)) for i in set(ranges_candidate_list)]
-                #final dictionary result of unique non-overlapping ranges per contig
-                overlap_ranges_overall = []
-                for range_unique, range_length in ranges_candidate_set_unique:
-                    if range_unique in overlap_ranges_overall:
-                        continue
-                    #find if a given range still overlaps with any in the set
-                    overlap_bool = [True if len(set(r).intersection(range_unique)) > 0 else False for r, l in ranges_candidate_set_unique]
-                    overlap_indices = [i for i, b in enumerate(overlap_bool) if b == True]
-                    overlap_ranges = [r for i,r in enumerate(ranges_candidate_set_unique) if i in overlap_indices]
-                    overlap_ranges_overall.extend([r for r,l in overlap_ranges])
-                    overlap_max_len_range = max([r[1] for i,r in enumerate(overlap_ranges) if i in overlap_indices])
-                    final_select_range = [r for r, l in ranges_candidate_set_unique if l == overlap_max_len_range]
-                    #find if a given range still overlaps with any in the set
-                    clusters_of_ranges[f"{cluster_counter}"]={'range': final_select_range[0], 'contig':contig_name, 'range_length': range_length}
+                #final dictionary result of unique non-overlapping ranges per contig stored in clusters_of_ranges
+                for range_index, (range_unique, range_length ) in enumerate(ranges_candidate_set_unique):
+                    #find if a given range still overlaps with any in the set (exclude overlap of ranges with itself)
+                    overlap_bool = [True if len(set(r).intersection(range_unique)) > 0 and (range_unique,l) not in ranges_candidate_set_unique else False for r, l in ranges_candidate_set_unique]
+                    if all(overlap_bool) == False: #if no overlap is found select that range as final or else continue selection on max range length
+                        clusters_of_ranges[f"{cluster_counter}"]={'range': range_unique, 'contig':contig_name, 'range_length': range_length}
+                    else:
+                        overlap_indices = [i for i, b in enumerate(overlap_bool) if b == True and i != range_index] 
+                        overlap_ranges = [r for i,r in enumerate(ranges_candidate_set_unique) if i in overlap_indices]
+                        overlap_max_len_range = max([r[1] for i,r in enumerate(overlap_ranges) if i in overlap_indices])
+                        final_select_range = [r for r, l in ranges_candidate_set_unique if l == overlap_max_len_range][0]
+                        clusters_of_ranges[f"{cluster_counter}"]={'range': final_select_range, 'contig':contig_name, 'range_length': range_length}
                     cluster_counter += 1       
             #annotate shiga toxin dataframe with ranges identifiers
             stx_toxin_df.loc[:,'rangeid'] = stx_toxin_df.apply(lambda x: [range_id 
@@ -167,7 +169,10 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
     #report shiga toxin subtypes in alphabetical order    
     sorted_order = [i[0] for i in sorted(enumerate(results_dict['stx_genes']), key=lambda x:x[1])  ] 
     for k in results_dict.keys():
-        results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])        
+        if len(results_dict[k]) != 0:
+            results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])
+        else:
+            results_dict[k] = "-"   
     return results_dict
 
 def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, 
@@ -191,6 +196,7 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
     
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
+    json_patho_db = load_json(definitions.PATHOTYPE_ALLELE_JSON)
     
     predictions_pathotype_dict = {}
     pathotype_genes_overall_df = pd.DataFrame()
@@ -243,17 +249,21 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         pathotype_genes_top_hits = pathotype_genes_top_hits.sort_values('gene', axis=0)
         
         gene_list = pathotype_genes_top_hits['gene'].to_list()
+        accessions_list = pathotype_genes_top_hits['accession'].to_list()
         if len(gene_list)!= 0:
             predictions_pathotype_dict[g]['pathotype'] = []
             predictions_pathotype_dict[g]['pathotype_rule_ids']=[]
             predictions_pathotype_dict[g]['pathotype_genes'] = ",".join(gene_list)
+            predictions_pathotype_dict[g]['pathotype_gene_counts'] = {}
+            predictions_pathotype_dict[g]['pathotype_gene_names'] = ",".join([f"{g}: {r['description']}" for g, a in zip(gene_list,accessions_list) for r  in json_patho_db['markers'][g] if r['accession'] == a])
             predictions_pathotype_dict[g]['pathotype_allele_id']=";".join(pathotype_genes_top_hits['allele_id'].to_list())
-            predictions_pathotype_dict[g]['pathotype_accessions']=";".join(pathotype_genes_top_hits['accession'].to_list())
+            predictions_pathotype_dict[g]['pathotype_accessions']=";".join(accessions_list)
             predictions_pathotype_dict[g]['pathotype_pident'] = ";".join(pathotype_genes_top_hits['pident'].astype(str).to_list())
             predictions_pathotype_dict[g]['pathotype_pcov'] = ";".join(pathotype_genes_top_hits['qcovhsp'].astype(str).to_list())
             predictions_pathotype_dict[g]['pathotype_length_ratio'] = ";".join(pathotype_genes_top_hits.apply(lambda row : f"{row['length']}/{row['qlen']}", axis=1).to_list())
-    
+            #pathotypes assigner logic
             for pathotype in pathotype_db['pathotypes']:
+                pathotype_genes_found = []
                 for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
                     ngenes_in_rule = len(pathotype_db['pathotypes'][pathotype]['rules'][rule_id])
                     matched_gene_counter = 0
@@ -266,18 +276,25 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
                                 matched_gene_counter = 0
                                 break    
                         elif gene in gene_list:
+                            pathotype_genes_found.append(gene)
                             matched_gene_counter += 1
+                    #if pathotype rule was completely matched        
                     if ngenes_in_rule == matched_gene_counter:
                         predictions_pathotype_dict[g]['pathotype'].append(pathotype)
-                        predictions_pathotype_dict[g]['pathotype_rule_ids'].append(rule_id)              
+                        predictions_pathotype_dict[g]['pathotype_rule_ids'].extend([f"{rule_id}:{p}:{'+'.join(json_patho_db['pathotypes'][p]['rules'][r] )}" for p  in json_patho_db['pathotypes'] for r in json_patho_db['pathotypes'][p]['rules'] if r == rule_id])              
+                        predictions_pathotype_dict[g]['pathotype_gene_counts'][pathotype] = []
+                        predictions_pathotype_dict[g]['pathotype_gene_counts'][pathotype].extend(pathotype_genes_found) 
+
         final_pathotypes_list = list(set(predictions_pathotype_dict[g]['pathotype']))
         if '-' in final_pathotypes_list  or len(final_pathotypes_list) == 0:
             predictions_pathotype_dict[g]['pathotype']= ['ND']
             predictions_pathotype_dict[g]['pathotype_rule_ids'] = '-'
+            predictions_pathotype_dict[g]['pathotype_gene_counts']= '-'
         else:    
-            predictions_pathotype_dict[g]['pathotype']=final_pathotypes_list #final pathotype(s) list
+            predictions_pathotype_dict[g]['pathotype'] = final_pathotypes_list #final pathotype(s) list
             predictions_pathotype_dict[g]['pathotype_rule_ids'] = ";".join(predictions_pathotype_dict[g]['pathotype_rule_ids'])
-       
+            predictions_pathotype_dict[g]['pathotype_gene_counts']= ";".join(sorted([f"{p}:{len(predictions_pathotype_dict[g]['pathotype_gene_counts'][p])}:{','.join(predictions_pathotype_dict[g]['pathotype_gene_counts'][p])}" for p in predictions_pathotype_dict[g]['pathotype_gene_counts']]))
+   
     #write pathotype blastn results
     if debug == True:
         LOG.debug(f"Writting overall pathotype BLASTn results to {output_dir}/blastn_pathotype_alleles_overall.txt")
@@ -328,15 +345,14 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
 
     # Make prediction for each genome based on blast output
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
-        predictions_dict[genome_name] = get_prediction(per_genome_df, args)
-
+        predictions_dict[genome_name] = get_prediction(per_genome_df)
     LOG.info("Serotype prediction successfully completed")
     LOG.debug("Predictions dict:\n{}".format(predictions_dict))
 
     return predictions_dict, output_df
 
 
-def get_prediction(per_genome_df, args):
+def get_prediction(per_genome_df):
     """
      Make serotype prediction for a single genome based on the blast output
 
@@ -443,7 +459,7 @@ def get_prediction(per_genome_df, args):
 
     scorestupleslist = [(otypename,rank_Otype_dict[otypename]["sumscore"]) for otypename in rank_Otype_dict.keys()]
     scorestupleslist = sorted(scorestupleslist, key=lambda x: x[1], reverse=True) #[('O102', 1.73)]
-    best_order_list = [item[0] for item in scorestupleslist] #['O102']
+    best_order_list = sorted([item[0] for item in scorestupleslist], key=lambda x: int(x[1:])) #['O102']
 
 
     LOG.debug("Otype dict:{}".format(otype))

@@ -4,7 +4,7 @@
 """
 import os, shutil, random
 import datetime
-import json
+import json, gzip
 import logging
 from multiprocessing import Pool
 from functools import partial
@@ -45,6 +45,16 @@ def check_database_struct(db, dbpath):
                                  "Check database at {}.".format(key, antigen,allele, dbpath))
     LOG.info("Database structure QC is OK at {}".format(dbpath))
 
+def decompress_gunzip_files(raw_genome_files, temp_dir):
+    for idx, g in enumerate(raw_genome_files):
+        if 'gz' in g:
+            LOG.info(f"Decompression of the gunzip {g} file started ...")
+            with open(g, 'rb') as inf, open(f'{temp_dir}/{os.path.basename(g)[:-3]}', 'w', encoding='utf8') as tof:
+                decom_str = gzip.decompress(inf.read()).decode('utf-8')
+                tof.write(decom_str)    
+            LOG.info(f"Wrote decompressed file to {temp_dir}/{os.path.basename(g)[:-3]}")
+            raw_genome_files[idx]=os.path.join(temp_dir,os.path.basename(g)[:-3])
+    return raw_genome_files
 
 def run_program():
     """
@@ -109,9 +119,9 @@ def run_program():
     temp_dir = create_temporary_directory(output_directory)
     os.makedirs(temp_dir, exist_ok=True)
    
-    LOG.info("Gathering genome files")
-    raw_genome_files = genomeFunctions.get_files_as_list(args.input)
-
+    LOG.info("Gathering genome files list ...")
+    raw_genome_files = decompress_gunzip_files(genomeFunctions.get_files_as_list(args.input), temp_dir)
+  
     LOG.info("Identifying genome file types")
 
     raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
@@ -299,7 +309,7 @@ def create_alleles_fasta_file(temp_dir, ectyperdb_dict):
 
 def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir, ectyperdb_dict):
     """
-    Serotype prediction of all the input files, which have now been properly
+    Serotype prediction (O:H antigens) of all the input files, which have now been properly
     converted to fasta if required, and their headers standardized
 
     :param genome_files: List of genome files in fasta format
@@ -330,7 +340,6 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir, ectyperdb_d
         # merge the per-database predictions with the final predictions dict
         for r in results:
             predictions_dict = {**r, **predictions_dict}
-
     for genome_name in predictions_dict.keys():
         try:
             predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]

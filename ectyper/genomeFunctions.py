@@ -106,6 +106,7 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     :param args: Commandline arguments
     :return: Dictionary of files with the fasta headers modified for each filename {sampleid: {species:"","filepath":"","modheaderfile":"","error":""}}
     """
+
     files=[]
     for sample in files_dict.keys():
        files.append(files_dict[sample]["filepath"])

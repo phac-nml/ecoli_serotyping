@@ -1,5 +1,18 @@
 {
     "markers": {
+        "aafA": [
+            {
+                "accession": "AAB82330.1",
+                "description": "major fimbrial subunit of aggregative adherence fimbria II AafA ()",
+                "dnasequence": "ATGAAAAAAATCAGAATGTTTGCGATTGCTACTTTATTATCAAGTGGAGCCGCTATTAATGCAACTGCGGTAGCAAAAACTGCGACCAGTACTATCACTGTAGTGAATTTTTGTGATATAACGATAACACCGGCTACAAATCGTGATGTCAACGTTGACAGGAGCGCAAATATCGACCTGAGTTTTACTATTAGACAACCGCAACGCTGCGCTGATGCTGGTATGCGAATAAAAGCTTGGGGGGAAGCCAATCACGGTCAATTACTGATAAAACCTCAAGGAGGAAATAAATCAGCAGGATTCACTCTGGCCTCTCCTAGGTTTTCTTACATTCCGAATAATCCAGCAAACATTATGAATGGATTTGTTCTTACGAATCCTGGTGTTTATCAATTAGGAATGCAGGGCTCAATTACACCGGCTATCCCGCTACGACCAGGCCTATATGAAGTAGTATTAAATGCTGAGCTTGTGACAAATTAA",
+                "gene": "aafA",
+                "synonym": "aafII",
+                "protsequence": "MKKIRMFAIATLLSSGAAINATAVAKTATSTITVVNFCDITITPATNRDVNVDRSANIDLSFTIRQPQRCADAGMRIKAWGEANHGQLLIKPQGGNKSAGFTLASPRFSYIPNNPANIMNGFVLTNPGVYQLGMQGSITPAIPLRPGLYEVVLNAELVTN",
+                "source": "https://journals.asm.org/doi/10.1128/jcm.43.10.5362-5365.2005 , enteroaggregative E.coli linked to aafII (Table 1) ",
+                "id": "1",
+                "length_dnasequence": "483"
+            }
+        ],
         "aaiC": [
             {
                 "accession": "QCJ14421.1",
@@ -8,7 +21,7 @@
                 "gene": "aaiC",
                 "protsequence": "MVGVMSNSSALSREFVKIEIGGKVIKGNSKVENSGDYFDGHCPQAFHAFSGIDGTVFDLINLKLRVTKHIQDLLENFFKRGEKEVKIEILRRESTKSGSAYSSFKVVYQGCRMHNMLLAHDNDSNLILELSFTPEESVSIEMNIPSDDGKSTEKLGPMTYNLYKEALV",
                 "source": "https://github.com/B-UMMI/patho_typing/",
-                "id": "975",
+                "id": "2",
                 "length_dnasequence": "507"
             }
         ],
@@ -20,7 +33,7 @@
                 "gene": "aap",
                 "protsequence": "MKKIKFVIFSGILGISLNAFAGGSGWNADNVDPSQCIKQSGVQYTYNSGVSVCMQGLNEGKVRGVSVSGVFYYNDGTTSNFKGVVTPSTPVNTNQDINKTNKVGVQKYRALTEWVK",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "976",
+                "id": "3",
                 "length_dnasequence": "351"
             },
             {
@@ -30,7 +43,7 @@
                 "dnasequence": "ATGAAAAAAATTAAGTTTGTTATCTTTTCTGGCATCTTGGGTATCAGCCTGAATGCCTTTGCGGGTGGTAGCGGTTGGAACGCAGATAATGTGGACCCGTCCCAATGTATAAAACTGTCTGGAGTACAGTATACTTATAACAGCGGTGTCCCAGTATGTATGCAAGGCCTTAATGAAGGGAAAGTAAGGGGGGTGTCTGTCTCCGGGGTATTTTATTATAAGGACGGCACAACAAGCAACTTCAAAGGGGTTGTTACCCCCTCCACACCTGTAAATACGAACCAAGACATTAACAAGACAAATAAGGTTGGAGTCCAAAAATATAGTGCTCTAACCGAATGGGTTAAATAA",
                 "protsequence": "MKKIKFVIFSGILGISLNAFAGGSGWNADNVDPSQCIKLSGVQYTYNSGVPVCMQGLNEGKVRGVSVSGVFYYKDGTTSNFKGVVTPSTPVNTNQDINKTNKVGVQKYSALTEWVK",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "977",
+                "id": "4",
                 "length_dnasequence": "351"
             },
             {
@@ -40,7 +53,7 @@
                 "dnasequence": "ATGAAAAAAATTAAGTTTGTTATCTTTTCAGGCATCTTAGGTATCAGCCTGAATGCCTTTGCGGGTGGTAGCGGTTGGAGCGCAGATAATGTGGACCCGTCCCAATGTATAAAACTGTCTGGAGTACAGTATACTTATAACAACGGTGCCTCAGTATGTATGCAAGGCTTTAATGAAGGGAAAGTAAGGGGTGTGTCTGTCTCCGGGGTATTTTATTATAATGACGGCACAACAAGCAACTTCAAAGGGGTTGTTACTCCCTCCACACCTGTAAATACGAACCAAGACATTAAAAAGACAAATAAGGTTGGCGTCCAAAAATATCGTGCTCTAACCGAATGGGTTAAATAA",
                 "protsequence": "MKKIKFVIFSGILGISLNAFAGGSGWSADNVDPSQCIKLSGVQYTYNNGASVCMQGFNEGKVRGVSVSGVFYYNDGTTSNFKGVVTPSTPVNTNQDIKKTNK",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "978",
+                "id": "5",
                 "length_dnasequence": "351"
             }
         ],
@@ -53,7 +66,7 @@
                 "protsequence": "MRHILYSFLAINAYLFSTQTLAKDCIIDNFFQKSIQFNSYSLDIEELDINKHNNIKTMLPDINIGLGQYINNNQWFSSITDSHFYLSLSYNLLSAYEAKMQNNKLDIANYLKYIEMLSERNNYIINLFSEIINYKIKKSHLMLMFERYRKLNKEYEIAKRKMSIGLISVLDVEMIYNILQKIRFDIDVLEEEESLLSDKISREYHVPESAIPDITYHKLKECKTADFYTLLAENKKLKIKAADIDNDIRKLSEIPSFYLSFGLTPKQGGALGNMSLRKMDYSASLGISFPLMGLFSSSVNQKEKIISMSRTRNESLKENIKLDLLEKEIRQKIDRLEKNLAMMKNELTLKKRKVEYINYRLKNGQDDVISYLSSVENLHETENEFQKIGYEIEYYSLYHYFLLQHISNTGEM",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "-",
-                "id": "979",
+                "id": "6",
                 "length_dnasequence": "1239"
             },
             {
@@ -63,7 +76,7 @@
                 "gene": "aatA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "980",
+                "id": "7",
                 "length_dnasequence": "1239"
             },
             {
@@ -73,7 +86,7 @@
                 "gene": "aatA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "981",
+                "id": "8",
                 "length_dnasequence": "1239"
             }
         ],
@@ -85,7 +98,7 @@
                 "gene": "afaC",
                 "protsequence": "MRDTSSGRMKTGVTGLALAVMVACVMFRAESGIARTYSFDAAMLKGGGKGVDLTLFEEGGQLPGIYPVDIILNGSRVDSQEMAFHAERDAEGRPYLKTCLTREMLARYGVRIEEYPALFRASGEGRGASVAEEACADLTAIPQATESYQFAAQQLVLGIPQVALRPQLRGIAPEALWDDGIPAFLLNWQANAGRSEYRGYGKRVTDSYWVSLQPGINIGPWRVRNLTTWNRSSGQSGKWESSYIRAERGLNGIKSRLTLGEDYTPSDIFDSVPFRGAMMSSDESMVPYNLREFAPVVRGIARTQARIEVRQNGYLIQSQTVAPGAFALTDLPVTGSGSDLQVTVLESDGTAQVFTVPFTTPAIALREGYLKYNVTAGQYRSSDDAVEHTSLGQVTAMYGLPWGLTVYGGLQGAEHYQSAALGLGWSLGRLGAVSLDTTHSRGQQKGHDYETGDTWRIRYNKSFELTGTSFTAASYQYSSDGYHTLPDVLDTWRDDRYAYRHTENRSRRTTLSLSQSLGQWGYVGLNGSRDEYRDRPHRDYFGASYSTSWNNISLSVNWSRNRNSGGYYGGWSRTEDSVSMWMSVPLGRWFGGTDNDISATAQMQRSTGQDTRYEAGLNGRAFDRRLYWDVREQMVPGSESHADTSRLNLTWYGTYGELTGMYSYSSTMRQLNAGMSGSMVAHSEGVTFGQRTGDTVALIAAPGVSGASVGGWPGVRTDFRGYTLAGYASPYQENVLTLDPTTFPEDAEVPQTDSRVVPTKGAVVRAGFRTRVGGRALVSLARQDGTPLPFGAVVTVEGEAGQAAGSAGVVGDRGEVYLSGLKESGKLKAQWGENSLCHADYRLPEEKGPAGIFLTRTVCM",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "982",
+                "id": "9",
                 "length_dnasequence": "2583"
             },
             {
@@ -95,7 +108,7 @@
                 "gene": "afaC",
                 "protsequence": "MRDTSSGRMKTGVTGLALAVMVACVMFRAESGIARTYSFDAAMLKGGGKGVDLTLFEEGGQLPGIYPVDIILNGSRVDSQEMAFHAERDAEGRPYLKTCLTREMLARYGVRIEEYPALFRASGEGRGASVAEEACADLTAIPQATESYQFAAQQLVLGIPQVALRPQLRGIAPEALWDDGIPAFLLNWQANAGRSEYRGYGKRVTDSYWVSLQPGINIGPWRVRNLTTWNRSSGQSGKWESSYIRAERGLNGIKSRLTLGEDYTPSDIFDSVPFRGAMMSSDESMVPYNLREFAPVVRGIARTQARIEVRQNGYLIQSQTVAPGAFALTDLPVTGSGSDLQVTVLESDGTAQVFTVPFTTPAIALREGYLKYNVTAGQYRSSDDAVEHTSLGQVTAMYGLPWGLTVYGGLQGAEHYQSAALGLGWSLGRLGAVSLDTTHSRGQQKGHDYETGDTWRIRYNKSFELTGTSFTAASYQYSSDGYHTLPDVLDTWRDDRYAYRHTENRSRRTTLSLSQSLGQWGYVGLNGSRDEYRDRPHRDYFGASYSTSWNNISLSVNWSRNRNSGGYYGGWSRTEDSVSMWMSVPLGRWFGGTDNDISATAQMQRSTGQDTRYEAGLNGRAFDRRLYWDVREQMVPGSESHADTSRLNLTWYGTYGELTGMYSYSSTMRQLNAGMSGSMVAHSEGVTFGQRTGDTVALIAAPGVSGASVGGWPGVRTDFRGYTLAGYASPYQENVLTLDPTTFPEDAEVPQTDSRVVPTKGAVVRAGFRTRVGGRALVSLARQDGTPLPFGAVVTVEGEAGQAAGSAGVVGDRGEVYLSGLKESGKLKAQWGENSLCHADYRLPEEKGPAGIFLTRTVCM",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "983",
+                "id": "10",
                 "length_dnasequence": "2583"
             }
         ],
@@ -107,7 +120,7 @@
                 "protsequence": "MKKLAIIGATSVMMMTGTAQANFTSSGTNGKVDLTITEECRVTVESKSESFLRSGLVANRHITNLGIQSTGCGTGQRVALKLGAGSYDDTNGAHMTHENGTDKLLVSMGSATGDGTQDGGVYYINRDGNWNGQMVFIVRNDQQHLPTGKYTLNLEGGFWTK",
                 "description": "AFA-I adhesin",
                 "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/ and https://www.uniprot.org/uniprotkb/P08180",
-                "id": "984",
+                "id": "11",
                 "length_dnasequence": "486"
             },
             {
@@ -117,7 +130,7 @@
                 "protsequence": "MKKLAIMAAASMVFAVSSAHAGFTPSGTTGTTKLTVTEECQVRVGDLTVAKTRGQLTDAAPIGPVTVQALGCNARQVALKADTDNFEQGKFFLISDNNRDKLYVNIRPMDNSAWTTDNGVFYKNDVGSWGGTIGIYVDGQQTNTPPGNYTLTLTGGYWAK",
                 "description": "Afimbrial adhesin AFA-III",
                 "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/",
-                "id": "985",
+                "id": "12",
                 "length_dnasequence": "483"
             }
         ],
@@ -129,11 +142,11 @@
                 "gene": "daaE",
                 "description": "Dr family adhesin structural subunit DaaE",
                 "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7607503/",
-                "id": "986",
+                "id": "13",
                 "length_dnasequence": "480"
             },
             {
-                "id": "987",
+                "id": "14",
                 "accession": "AKN63257.1",
                 "dnasequence": "ATGAAAAAATTAGCGATAATGGCCGCCGCCAGCATGATTTTCACTGTGGGCTCCGCGCAAGCCACGTTCCAAGCGAGCGGGACAACGGGTATTACCACACTGACTGTGACCGAAGAGTGCCGGGTGCAGGTCGGTAACGTTACCGCGACGCTCGCGCGAAGCAAGCTAAAAGACGACACGGCTATAGGGGTGATCGGGGTAACCGCTCTAGGATGCAACGGCCTGCAGACCGCGTTGCAGGCCGACCCAGACAACTACGATGCGACAAATCTATATATGACTAGCCGCAACCATGACAAACTTAATGTCAAACTAAAAGCCACAGATGGGTCCAGTTGGACCTACGGGAACGGCGTGTTCTACAAAACCGAAGGCGGTAACTGGGGTGGGCTCGTTGGGATCTCCGTGGACGGGAACCAAACTGATAAACCGACCGGTGAATACACACTGAACCTCACCGGGGGTTACTGGGCAAAATGA",
                 "protsequence": "MKKLAIMAAASMIFTVGSAQATFQASGTTGITTLTVTEECRVQVGNVTATLARSKLKDDTAIGVIGVTALGCNGLQTALQADPDNYDATNLYMTSRNHDKLNVKLKATDGSSWTYGNGVFYKTEGGNWGGLVGISVDGNQTDKPTGEYTLNLTGGYWAK",
@@ -151,7 +164,7 @@
                 "protsequence": "MKTLKNMRRKNLYITLGLVSLLSGGANAASQQTTQTIRLTVTNDCPVTITTTPPQTVGVSSTTPIGFSAKVTTSDQCIKAGAKVWLWGTGPANKWVLQHAKVAKQKYTLNPSIDGGADFVNQGTDAKIYKKLTSGNKFLNASVSVNPKTQVLIPGEYTMILHAAVDF",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "description": "aggregative adherence fimbria I major subunit AggA",
-                "id": "988",
+                "id": "15",
                 "length_dnasequence": "504"
             },
             {
@@ -161,7 +174,7 @@
                 "protsequence": "MKTLKNMRRKNLYITLGLVSLLSGGANAASQQTTETIRLTVTNDCPVTITTTLPQTVGVSSTKQIVFSAKVTTSDQCIKAGAKVWLWGTGTANKWVLQHTKVAQQKYTLNPSIDGGAYFVAQGSNAKIYKKLTSGNKFLNASVSVNPTTQVLIPGEYTMIVHAAGRL",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "gene": "aggA",
-                "id": "989",
+                "id": "16",
                 "length_dnasequence": "504"
             },
             {
@@ -171,7 +184,7 @@
                 "gene": "aggA",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "description": "aggregative adherence fimbria I major subunit AggA",
-                "id": "990",
+                "id": "17",
                 "length_dnasequence": "516"
             },
             {
@@ -181,7 +194,7 @@
                 "gene": "aggA",
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "description": "aggregative adherence fimbria I major subunit AggA",
-                "id": "991",
+                "id": "18",
                 "length_dnasequence": "516"
             },
             {
@@ -191,7 +204,7 @@
                 "source": "manual curation of article PMC4512055 and AMRFinderPlus",
                 "protsequence": "ATGAAAACATTAAAAAATATGAGAAGAAAGAATTTATGTATTACTTTGGGTTTAGTTAGTCTTCTATCTGGGGGGGCTAACGCTGCGTTACAAAAACCTACATCAAAAACAACTGAGACAATCCGCCTCATCGTTACAAATGATTGTCCTGTTACTATAACTGCATTTAGTCCATCAACTACTGTTGGTGTATCGTCAACAAAACCAATAACATTGGGCGCAACAGTAACGACGGCAGATCAATGTGTTAAAGCCGGTGCAAGGGTCTGGTTATGGGGAACAGGTTTCCGTAATAAGTGGGTCCTACAGCATACTACAAATACAACACAAAAATACACATTACAACCCGATATAGATGGCAATGCAGATTTTCTGGCTAACGGAACTGATGCAACAATTCATAAAAAATTGACAATGAGAGACAAAACTCTGCGGGCAAGTGTTAATGTTAATCCTCAAGCTCAAGTATTGATACCAGGCGAATATACAATGACACTCCATGCCGGAATTAATTTTTAA",
                 "dnasequence": "MKTLKNMRRKNLCITLGLVSLLSGGANAALQKPTSKTTETIRLIVTNDCPVTITAFSPSTTVGVSSTKPITLGATVTTADQCVKAGARVWLWGTGFRNKWVLQHTTNTTQKYTLQPDIDGNADFLANGTDATIHKKLTMRDKTLRASVNVNPQAQVLIPGEYTMTLHAGINF",
-                "id": "992",
+                "id": "19",
                 "length_dnasequence": "172"
             }
         ],
@@ -203,7 +216,7 @@
                 "gene": "aggR",
                 "protsequence": "MKLKQNIEKEIIKINNIRIHQYTVLYTSNCTIDVYTKEGSNTYLRNELIFLERGINISVRLQKKKSTANPFIAIRLSSDTLRRLKDALMIIYGISKVDACSCPNWSKGIIVADADDSVLDTFKSIDNNDDSRITSDLIYLISKIENNKKIIESIYISAVSFFSDKVRNIIEKDLSKRWTLAIIADEFNVSEITIRKRLESEYITFNQILMQSRMSKAALLLLDNSYQISQISNMIGFSSTSYFIRLFVKHFGITPKQFLTYFKSQ",
                 "source": "https://github.com/B-UMMI/patho_typing/",
-                "id": "993",
+                "id": "20",
                 "length_dnasequence": "798"
             },
             {
@@ -213,7 +226,7 @@
                 "gene": "aggR",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "994",
+                "id": "21",
                 "length_dnasequence": "796"
             },
             {
@@ -223,7 +236,7 @@
                 "gene": "aggR",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "995",
+                "id": "22",
                 "length_dnasequence": "796"
             }
         ],
@@ -236,7 +249,7 @@
                 "protsequence": "MVSKIMNKKYEKGLSLIESAMVLALAATVTAGVMFYYQSASDSNKSQNAISEVMSATSAINGLYIGQTSYSGLDSTILLNTSAIPDNYKDTTNKKITNPFGGELNVGPANNNTAFGYYLTLTRLDKAACVSLATLNLGTSAKGYGVNISSENNITSFGNSADQAAKSTAITPAEAATACKNTDSTNKVTYFMK",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "-",
-                "id": "996",
+                "id": "23",
                 "length_dnasequence": "582"
             },
             {
@@ -246,7 +259,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "997",
+                "id": "24",
                 "length_dnasequence": "582"
             },
             {
@@ -256,7 +269,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "998",
+                "id": "25",
                 "length_dnasequence": "582"
             },
             {
@@ -266,7 +279,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "999",
+                "id": "26",
                 "length_dnasequence": "582"
             },
             {
@@ -276,7 +289,7 @@
                 "gene": "bfpA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1000",
+                "id": "27",
                 "length_dnasequence": "582"
             }
         ],
@@ -289,7 +302,7 @@
                 "protsequence": "MITHGFYARTRHKHKLKKTFIMLSAGLGLFFYVNQNSFANGENYFKLSSDSKLLTQNAAQDRLFYTLKTGETVANISKSQGISLSVIWSLNKHLYSSESEMMKAGPGQQIILPLKKLSVEYSALPVLGSAPVVAAGGVAGHTNKMTKMSPDATKSNTTDDKALNYAAQQAASLGSQLQSRSLNGDYAKDTALGMASSQASSQLQAWLQHYGTAEVNLQSGNNFDGSSLDFLLPFYDSENMLAFGQVGARYIDSRFTANLGAGQRFFLPENMLGYNVFIDQDFSGDNTRLGIGGEYWRDYFKSSVNGYFRMSGWHESYNKKDYDERPANGFDIRFNGYLPSYPALGAKLMYEQYYGDNVALFNSDKLQSNPGAATVGVNYTPIPLVTMGIDYRHGTGNENDLLYSMQFRYQFDKPWSQQIEPQYVNELRTLSGSRYDLVQRNNNIILEYKKQDILSLNIPHDINGTEHSTQKIQLIVKSKYGLDRIVWDDSALRSQGGQIQHGGSQSAQDYQAILPAYVQGGSNIYKVTARAYDRNGNSSNNVQLTITVLPNGQVVDQVGVTDFTADKTSAKADGIEAITYTATVKKNGVAQANVPVTFSIVSGTATLGANSARTDGNGKATVTLKSATPGQVVVSAKTAEMTSPLNASAVIFVDQTKASITEIKADKTTAKADGSDAITYTVRVMKEGAPVVDQKVTFSKDFGTLNKTEATTDQNGYATVKLSSNTPGKAIVSAKVSGVGTEVKATTVEFFAPLSIDGDKVTVIGTGITGALPKNWLQYGQVKLQATGGNGKYTWKSSNTKIASVDNSGVITLNEKGSATITVVSGDNQSATYTINAPGSIVIAVDKNTRVTYFDAENKCKTNSANLAQSKELLANIYSTWGAANKYPYYSGSKSLTAWIKQSSSEQSSGVSSTYDLVTKNQLINVGVNNKNAFSVCVK",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "-",
-                "id": "1001",
+                "id": "28",
                 "length_dnasequence": "2820"
             },
             {
@@ -299,7 +312,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1002",
+                "id": "29",
                 "length_dnasequence": "2847"
             },
             {
@@ -309,7 +322,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1003",
+                "id": "30",
                 "length_dnasequence": "2820"
             },
             {
@@ -319,7 +332,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1004",
+                "id": "31",
                 "length_dnasequence": "2847"
             },
             {
@@ -329,7 +342,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1005",
+                "id": "32",
                 "length_dnasequence": "2847"
             },
             {
@@ -339,7 +352,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1006",
+                "id": "33",
                 "length_dnasequence": "2847"
             },
             {
@@ -349,7 +362,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1007",
+                "id": "34",
                 "length_dnasequence": "2820"
             },
             {
@@ -359,7 +372,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1008",
+                "id": "35",
                 "length_dnasequence": "2820"
             },
             {
@@ -369,7 +382,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1009",
+                "id": "36",
                 "length_dnasequence": "2817"
             },
             {
@@ -379,7 +392,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1010",
+                "id": "37",
                 "length_dnasequence": "2820"
             },
             {
@@ -389,7 +402,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1011",
+                "id": "38",
                 "length_dnasequence": "2820"
             },
             {
@@ -399,7 +412,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1012",
+                "id": "39",
                 "length_dnasequence": "2847"
             },
             {
@@ -409,7 +422,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1013",
+                "id": "40",
                 "length_dnasequence": "2847"
             },
             {
@@ -419,7 +432,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1014",
+                "id": "41",
                 "length_dnasequence": "2847"
             },
             {
@@ -429,7 +442,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1015",
+                "id": "42",
                 "length_dnasequence": "2847"
             },
             {
@@ -439,7 +452,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1016",
+                "id": "43",
                 "length_dnasequence": "2817"
             },
             {
@@ -449,7 +462,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1017",
+                "id": "44",
                 "length_dnasequence": "2847"
             },
             {
@@ -459,7 +472,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1018",
+                "id": "45",
                 "length_dnasequence": "2820"
             },
             {
@@ -469,7 +482,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1019",
+                "id": "46",
                 "length_dnasequence": "2847"
             },
             {
@@ -479,7 +492,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1020",
+                "id": "47",
                 "length_dnasequence": "2847"
             },
             {
@@ -489,7 +502,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1021",
+                "id": "48",
                 "length_dnasequence": "2820"
             },
             {
@@ -499,7 +512,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1022",
+                "id": "49",
                 "length_dnasequence": "2820"
             },
             {
@@ -509,7 +522,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1023",
+                "id": "50",
                 "length_dnasequence": "2820"
             },
             {
@@ -519,7 +532,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1024",
+                "id": "51",
                 "length_dnasequence": "2847"
             },
             {
@@ -529,7 +542,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1025",
+                "id": "52",
                 "length_dnasequence": "2847"
             },
             {
@@ -539,7 +552,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1026",
+                "id": "53",
                 "length_dnasequence": "2823"
             },
             {
@@ -549,7 +562,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1027",
+                "id": "54",
                 "length_dnasequence": "2847"
             },
             {
@@ -559,7 +572,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1028",
+                "id": "55",
                 "length_dnasequence": "2817"
             },
             {
@@ -569,7 +582,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1029",
+                "id": "56",
                 "length_dnasequence": "2817"
             },
             {
@@ -579,7 +592,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1030",
+                "id": "57",
                 "length_dnasequence": "2820"
             },
             {
@@ -589,7 +602,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1031",
+                "id": "58",
                 "length_dnasequence": "2817"
             },
             {
@@ -599,7 +612,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1032",
+                "id": "59",
                 "length_dnasequence": "2820"
             },
             {
@@ -609,7 +622,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1033",
+                "id": "60",
                 "length_dnasequence": "2817"
             },
             {
@@ -619,7 +632,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1034",
+                "id": "61",
                 "length_dnasequence": "2847"
             },
             {
@@ -629,7 +642,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1035",
+                "id": "62",
                 "length_dnasequence": "2823"
             },
             {
@@ -639,7 +652,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1036",
+                "id": "63",
                 "length_dnasequence": "2817"
             },
             {
@@ -649,7 +662,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1037",
+                "id": "64",
                 "length_dnasequence": "2847"
             },
             {
@@ -659,7 +672,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1038",
+                "id": "65",
                 "length_dnasequence": "2820"
             },
             {
@@ -669,7 +682,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1039",
+                "id": "66",
                 "length_dnasequence": "2820"
             },
             {
@@ -679,7 +692,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1040",
+                "id": "67",
                 "length_dnasequence": "2847"
             },
             {
@@ -689,7 +702,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1041",
+                "id": "68",
                 "length_dnasequence": "2847"
             },
             {
@@ -699,7 +712,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1042",
+                "id": "69",
                 "length_dnasequence": "2847"
             },
             {
@@ -709,7 +722,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1043",
+                "id": "70",
                 "length_dnasequence": "2805"
             },
             {
@@ -719,7 +732,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1044",
+                "id": "71",
                 "length_dnasequence": "2808"
             },
             {
@@ -729,7 +742,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1045",
+                "id": "72",
                 "length_dnasequence": "2829"
             },
             {
@@ -739,7 +752,7 @@
                 "gene": "eae",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1046",
+                "id": "73",
                 "length_dnasequence": "2820"
             }
         ],
@@ -752,7 +765,7 @@
                 "protsequence": "MKNITFIFFILLASPLYANGDKLYRADSRPPDEIKRSGGLMPRGHNEYFDRGTQMNINLYDHARGTQTGFVRYDDGYVSTSLSLRSAHLAGQSILSGYSTYYIYVIATAPNMFNVNDVLGVYSPHPYEQEVSALGGIPYSQIYGWYRVNFGVIDERLHRNREYRDRYYRNLNIAPAEDGYRLAGFPPDHQAWREEPWIHHAPQGCGNSSRTITGDTCNEETQNLSTIYLREYQSKVKRQIFSDYQSEVDIYNGIRDEL",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "3",
-                "id": "1047",
+                "id": "74",
                 "length_dnasequence": "777"
             },
             {
@@ -762,7 +775,7 @@
                 "gene": "eltA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1048",
+                "id": "75",
                 "length_dnasequence": "777"
             },
             {
@@ -772,7 +785,7 @@
                 "gene": "eltA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1049",
+                "id": "76",
                 "length_dnasequence": "777"
             }
         ],
@@ -785,7 +798,7 @@
                 "protsequence": "MNKVKFYVLFTALLSSLCAHGAPQSITELCSEYHNTQIYTINDKILSYTESMAGKREMVIITFKSGATFQVEVPGSQHIDSQKKAIERMKDTLRITYLTETKIDKLCVWNNKTPNSIAAISMEN",
                 "source": "manual curation of https://www.ncbi.nlm.nih.gov/nuccore/EU113242",
                 "subtype": "3",
-                "id": "1050",
+                "id": "77",
                 "length_dnasequence": "375"
             },
             {
@@ -795,7 +808,7 @@
                 "gene": "eltB",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1051",
+                "id": "78",
                 "length_dnasequence": "375"
             }
         ],
@@ -807,7 +820,7 @@
                 "protsequence": "MTVNKIKNIFSNATSTTKSAFNTASSNVRTAGKKIILLIPDDYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGTAEKVLGLTERGVAIFAPQLDKLLQKYQNVGSKIGGTAENVGNNLGKAGTVLSALHNFTGIALSGMALDELLRKQRGGEDISQNDIAKSSIELINHLVDTVSSINSTVDSFSEQLNQLGSFLSSKPSLSSVGGKLQNLPDLGPLGDGLDVISGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLEAYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEDQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWTVKGLKSHKGVYDYSNLIQFVEKDNKYHQAKIISELGDKNDIVYSGSGSSEVFAGEGHDTVSYNKTDAGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVNEQEVSVGKRTEKIQYRDFEFRAGGISYDVIDKLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKKVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEIITDKDGREIKSDNIPHKNNDWSGYIKASSIASEKNMVNITSVANDINKIISSVSGLDSGDERLASLYNLALHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1052",
+                "id": "79",
                 "length_dnasequence": "2994"
             },
             {
@@ -817,7 +830,7 @@
                 "protsequence": "MTVNKIKNIFSNATSTTKSAFNTASSNVRTAGKKIILLIPDDYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGTAEKVLGLTERGVAIFAPQLDKLLQKYQNVGSKIGGTAENVGNNLGKAGTVLSALHNFTGIALSGMALDELLRKQRGGEDISQNDIAKSSIELINHLVDTVSSINSTVDSFSEQLNQLGSFLSSKPSLSSVGGKLQNLPDLGPLGDGLDVISGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLEAYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEDQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWTVKGLKSHKGVYDYSNLIQFVEKDNKYHQAKIISELGDKNDIVYSGSGSSEVFAGEGHDTVSYNKTDAGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVNEQEVSVGKRTEKIQYRDFEFRAGGISYDVIDKLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKKVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEIITDKDGREIKSDNIPHKNNDWSGYIKASSIASEKNMVNITSVANDINKIISSVSGLDSGDERLASLYNLALHQNNTHSTTLTTPV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1053",
+                "id": "80",
                 "length_dnasequence": "2994"
             },
             {
@@ -827,7 +840,7 @@
                 "protsequence": "MTVNKIKNIFNNATLTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGAAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGPLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAAADKFERAKQLESYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVAEKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFITPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSKLIQFVEKNNKHYQARIISELGDKDDVVYSGAGSSEVFAGEGYDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYGQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKVDKIPHNNNERSGYIKASNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1054",
+                "id": "81",
                 "length_dnasequence": "2997"
             },
             {
@@ -837,7 +850,7 @@
                 "protsequence": "MTVNKIKNIFNNATLTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGAAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGRTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGSLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAAADKFERAKQLESYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVAEKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFITPTFTPGEEVRERKQSGKYEYMTFLIVNGKDTWSVKGIKNHKGVYDYSKLIQFVEKDTKHYQARMISELGDKDDVVYSGAGSSEVFAGEGHDPVSYNKTDVGKLTIDATGASKPGEYIVPKNMYGDVEVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKVDKIPHNNNERSGYIKASNIASEKSMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1055",
+                "id": "82",
                 "length_dnasequence": "2997"
             },
             {
@@ -847,7 +860,7 @@
                 "protsequence": "MTVNKIKNIFNNATLTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGAAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGRTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGSLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAAADKFERAKQLESYSERFKKLNFDDAALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVAEKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFITPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSKLIQFVEKNNKHYQARMISELGDKDDVVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKVDKIPHNNNERSGYIKASNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1056",
+                "id": "83",
                 "length_dnasequence": "2997"
             },
             {
@@ -857,7 +870,7 @@
                 "protsequence": "MTVNKIKNIFNNATLTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGAAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGSLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAAADKFERAKQLESYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVAEKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFITPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSKLIQFVEKNNKHYQARIISELGDKDDVVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKVDKIPHNNNERSGYIKASNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "gene": "ehxA",
-                "id": "1057",
+                "id": "84",
                 "length_dnasequence": "2997"
             },
             {
@@ -867,7 +880,7 @@
                 "protsequence": "MTVNKIKNIFNNATLTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGAAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGRTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGSLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAAADKFERAKQLESYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVAEKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFITPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSKLIQFVEKNNKHYQARMISELGDKDDVVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKVDKIPHNNNERSGYIKASNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1058",
+                "id": "85",
                 "length_dnasequence": "2997"
             },
             {
@@ -877,7 +890,7 @@
                 "protsequence": "MTVNKIKNIFNNATSTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGTAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGPLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLESYSERFKKFNYEGDALLAAFHKESGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSNLIQFVEKDNKHYQARIISELGDKDDIVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGRGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKKVGNDLIMNKAINGALSFNESNDVNGITFKNWFAKDASGEDNHLVEVITDKDGREIKADKISHNNNEQSGYIKASNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1059",
+                "id": "86",
                 "length_dnasequence": "2997"
             },
             {
@@ -887,7 +900,7 @@
                 "protsequence": "MTVNKIKNIFNNATSTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGTAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGPLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLESYSERFKKFNYEGDALLAAFHKESGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSNLIQFVEKDNKHYQARIISELGDKDDIVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKKVGNDLIMNKAINGALSFNESNDVNGITFKNWFAKDASGEDNHLVEVITDKDGREIKADKISHNNNEQSGYIKASNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1060",
+                "id": "87",
                 "length_dnasequence": "2997"
             },
             {
@@ -897,7 +910,7 @@
                 "protsequence": "MTVNKIKNIFNNATSTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGTAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGPLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLESYSERFKKFNYEGDALLAAFHKESGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILDASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSNLIQFVEKDNKHYQARIISELGDKDDIVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKKVGNDLIMNKAINGALSFNESNDVNGITFKNWFAKDASGEDNHLVEVITDKDGREIKADKISHNNNEQSGYIKPSNIASEKNMVNITSVANDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1061",
+                "id": "88",
                 "length_dnasequence": "2997"
             },
             {
@@ -907,7 +920,7 @@
                 "protsequence": "MTVNKIKNIFNNATSTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADDLGIEIHRTERDDTAIANQFFGTAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSALQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPNLGPLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRMAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLESYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLEAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSNLIQFVEKDNKHYQARIISELGDKDDIVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDRDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKADKIPHNNNERSGYIKASNIASEKNMVNITSVADDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1062",
+                "id": "89",
                 "length_dnasequence": "2997"
             },
             {
@@ -917,7 +930,7 @@
                 "protsequence": "MTVNKIKNIFNNAALTTKSAFNTASSSVRSAGKKLILLIPDNYEAQGVGINELVKAADELGIEIHRTERDDTAIANQFFGTAEKVVGLTERGVAIFAPQLDKLLQKYQKVGSKIGGTAENVGNNLGKAGTVLSPLQNFTGIALSGMALDELLRKQREGEDISQNDIAKSSIELINQLVDTVSSINSTVDSFSEQLNQLGSFLSSKPRLSSVGGKLQNLPDLGPLGDGLDVVSGILSAVSASFILGNSDAHTGTKAAAGIELTTQVLGNVGKAVSQYILAQRIAQGLSTTAASAGLITSAVMLAISPLSFLAIADKFERAKQLESYSERFKKLNYEGDALLAAFHKETGAIDAALTTINTVLSSVSAGVSAASSASLIGAPISMLVSALTGTISGILEASKQAMFEHVADKFAARINEWEKEHGKNYFENGYDARHAAFLEDSLSLLADFSRQHAVERAVAITQQHWDEKIGELAGITRNADRSQSGKAYINYLENGGLLAAQPKEFTQQVFDPQKGTIDLSTGNVSSVLTFVTPTFTPGEEVRERKQSGKYEYMTSLIVNGKDTWSVKGIKNHKGVYDYSNLIQFVEKDNKHYQARIISELGDKDDIVYSGAGSSEVFAGEGHDTVSYNKTDVGKLTIDATGASKPGEYIVSKNMYGDVKVLQEVVKEQEVSVGKRTEKIQYRDFEFRTGGIPYDVIDNLHSVEELIGGKHDDEFKGGKFNDIFHGADGNDYIEGNYGNDRLYGDDGDDYISGGQGDDQLFGGSGNDKLSGGDGNNYLTGGSGNDELQAHGAYNILSGGTGDDKLYGGGGIDLLDGGEGNDYLNGGFGNDIYVYRQNYGHHTIADEGGKGDRLHLSDISFDDIAFKRVGNDLIMNKAINGVLSFNESNDVNGITFKNWFAKDASGADNHLVEVITDKDGREIKADKIPHNNNERSGYIKASNIASEKNMVNITSVADDINKIISSVSGFDSGDERLASLYNLSLHQNNTHSTTLTTTV",
                 "gene": "ehxA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1063",
+                "id": "90",
                 "length_dnasequence": "2997"
             }
         ],
@@ -929,7 +942,7 @@
                 "protsequence": "MPTITAAQIKSTLQSAKQSAANKLHSAGQSTKDALKKAAEQTRNAGNRLILLIPKDYKGQGSSLNDLVRTADELGIEVQYDEKNGTAITKQVFGTAEKLIGLTERGVTIFAPQLDKLLQKYQKAGNKLGGSAENIGDNLGKAGSVLSTFQNFLGTALSSMKIDELIKKQKSGGNVSSSELAKASIELINQLVDTAASLNNVNSFSQQLNKLGSVLSNTKHLNGVGNKLQNLPNLDNIGAGLDTVSGILSAISASFILSNADADTGTKAAAGVELTTKVLGNVGKGISQYIIAQRAAQGLSTSAAAAGLIASVVTLAISPLSFLSIADKFKRANKIEEYSQRFKKLGYDGDSLLAAFHKETGAIDASLTRISTVLASVSSGISAAATTSLVGAPVSALVGAVTGIISGILEASKQAMFEHVASKMADVIAEWEKKHGKNYFENGYDARHAAFLEDNFKILSQYNKEYSVERSVLITQQHWDTLIGELAGVTRNGDKTLSGKSYIDYYEEGKRLEKKPDEFQKQVFDPLKGNIDLSDSKSSTLLKFVTPLLTPGEEIRERRQSGKYEYITELLVKGVDKWTVKGVQDKGSVYDYSNLIQHASVGNNQYREIRIESHLGDGDDKVFLSAGSANIYAGKGHDVVYYDKTDTGYLTIDGTKATEAGNYTVTRVLGGDVKVLQEVVKEQEVSVGKRTEKTQYRSYEFTHINGKNLTETDNLYSVEELIGTTRADKFFGSKFADIFHGADGDDHIEGNDGNDRLYGDKGNDTLSGGNGDDQLYGGDGNDKLIGGAGNNYLNGGDGDDELQVQGNSLAKNVLSGGKGNDKLYGSEGADLLDGGEGNDLLKGGYGNDIYRYLSGYGHHIIDDDGGKDDKLSLADIDFRDVAFRREGNDLIMYKAEGNVLSIGHKNGITFKNWFEKESGDISNHQIEQIFDKDGRVITPDSLKKALEYQQSNNKASYVYGNDALAYGSQGNLNPLINEISKIISAAGNFDVKEERAAASLLQLSGNASDFSYGRNSITLTASA",
                 "gene": "hlyA",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1064",
+                "id": "91",
                 "length_dnasequence": "3072"
             },
             {
@@ -939,7 +952,7 @@
                 "protsequence": "MTTITTAQIKSTLQSAKQSAANKLHSAGQSTKDALKKAAEQTRNAGNRLILLIPKDYKGQGSSLNDLVRTADELGIEVQYDEKNGTAITKQVFGTAEKLIGLTERGVTIFAPQLDKLLQKYQKAGNILGGGAENIGDNLGKAGGILSTFQNFLGTALSSMKIDELIKKQKSGGNVSSSELAKASIELINQLVDTVASLNNNVNSFSQQLNTLGSVLSNTKHLNGVGNKLQNLPNLDNIGAGLDTVSGILSAISASFILSNADADTRTKAAAGVELTTKVLGNVGKGISQYIIAQRAAQGLSTSAAAAGLIASAVTLAISPLSFLSIADKFKRANKIEEYSQRFKKLGYDGDSLLAAFHKETGAIDASLTTISTVLASVSSGISAAATTSLVGAPVSALVGAVTGIISGILEASKQAMFEHVASKMADVIAEWEKKHGKNYFENGYDARHAAFLEDNFKILSQYNKEYSVERSVLITQQHWDTLIGELAGVTRNGDKTLSGKSYIDYYEEGKRLEKKXDEFQKQVFDPLKGNIDLSDSKSSTLLKFVTPLLTPGEEIRERRQSGKYEYITELLVKGVDKWTVKGVQDKGAVYDYSNLIQHASVGNNQYREIRIESHLGDGDDKVFLSAGSANIYAGKGHDVVYYDKTDTGYLTIDGTKATEAGNYTVTRVLGGDVKVLQEVVKEQEVSVGKRTEKTQYRSYEFTHINGKNLTETDNLYSVEELIGTTRADKFFGSKFTDIFHGADGDDLIEGNDGNDRLYGDKGNDTLSGGNGDDQLYGGDGNDKLIGVAGNNYLNGGDGDDEFQVQGNSLAKNVLFGGKGNDKLYGSEGADLLDGGEGDDLLKGGYGNDIYRYLSGYGHHIIDDDGGKEDKLSLADIDFRDVAFKREGNDLIMYKGEGNVLSIGHKNGITFRNWFEKESGDISNHEIEQIFDKSGRIITPDSLKKALEYQQRNNKASYVYGNDALAYGSQGDLNPLINEISKIISAAGSFDVKEERTAASLLQLSGNASDFSYGRNSITLTTSA",
                 "gene": "hlyA",
                 "source": "UniProt (https://www.uniprot.org/uniprotkb/)",
-                "id": "1065",
+                "id": "92",
                 "length_dnasequence": "3075"
             }
         ],
@@ -951,7 +964,7 @@
                 "protsequence": "MTEIVADKTVEVVKNAIETADGALDLYNKYLDQVIPWQTFDETIKELSRFKQEYSQAASVLVGDIKTLLMDSQDKYFEATQTVYEWCGVATQLLAAYILLFDEYNEKKASAQKDILIKVLDDGITKLNEAQKSLLVSSQSFNNASGKLLALDSQLTNDFSEKSSYFQSQVDKIRKEAYAGAAAGVVAGPFGLIISYSIAAGVVEGKLIPELKNKLKSVQNFFTTLSNTVKQANKDIDAAKLKLTTEIAAIGEIKTETETTRFYVDYDDLMLSLLKEAAKKMINTCNEYQKRHGKKTLFEVPEV",
                 "gene": "hlyE",
                 "source": "UniProt (https://www.uniprot.org/uniprotkb/)",
-                "id": "1066",
+                "id": "93",
                 "length_dnasequence": "903"
             },
             {
@@ -961,7 +974,7 @@
                 "protsequence": "MTNADQTVETVKTAIDTADKALDLYNKVLDQVIPWNTFNDTVKELSRFKEEYSQSASTLVGEIKSLLMNSQDRYFEATQVVYEWCGVTTQLLTAYLSLFNEYDEKKASAQKTILIKVLDDGIIKLEKAQQSLHASSQSFNSASGKLIALDSQLANDFDEKSDYFQGQVDKIRKEAYAGAAAGVVGGPFGLIISYSIAAGVVEGKLIPALKEKLKSVKDFFESLAATVKSANTDIDKAKSKLKDEISVIGDLKTETETTRFFVDYDDLMLKQLQDSATKLILSCNEYQKRHGKKN",
                 "gene": "hlyE",
                 "source": "BLASTp search",
-                "id": "1067",
+                "id": "94",
                 "length_dnasequence": "885"
             },
             {
@@ -971,7 +984,7 @@
                 "protsequence": "MTNADQTVETVKTAIDTADKALDLYNKVLDQVIPWNTFNDTVKELSRFKEEYSQSASTLVGEIKSLLMNSQDRYFEATQVVYEWCGVTTQLLTAYLSLFNEYDEKKASAQKTILIKVLDDGIIKLEKAQQSLHASSQSFNSASGKLIALDSQLANDFDEKSDYFQGQVDKIRKEAYAGAAAGVVGGPFGLIISYSIAAGVVEGKLIPALKEKLKSVKDFFESLAATVKSANTDIDKAKSKLKDEISVIGDLKTETETTRFFVDYDDLMLKQLQDSATKLILSCNEYQKRHGKKN",
                 "gene": "hlyE",
                 "source": "BLASTp search",
-                "id": "1068",
+                "id": "95",
                 "length_dnasequence": "885"
             },
             {
@@ -981,7 +994,7 @@
                 "protsequence": "MTEIVADKTVEVVKNAIETADGALDLYNKYLDQVIPWQTFDETIKELSRFKQEYSQAASVLVGDIKTLLMNSQDKYFEATQTVYEWCGVATQLLAAYILLFDEYNEKKASAQKDILIKVLDDGITKLNEAQKSLLVSSQSFNNASGKLLALDSQLTNDFSEKSSYFQSQVDKIRKEAYAGAAAGVVAGPFGLIISYSIAAGVVEGKLIPELKNKLKSVQNFFTTLSNTVKQANKDIDAAKLKLTTEIAAIGEIKTETETTRFYVDYDDLMLSLLKEAAKKMINTCNEYQKRHGKKTLFEVPEV",
                 "gene": "hlyE",
                 "source": "BLASTp search",
-                "id": "1069",
+                "id": "96",
                 "length_dnasequence": "912"
             }
         ],
@@ -993,7 +1006,7 @@
                 "gene": "icsA",
                 "protsequence": "MNQIHKFFCNMTQCSQGGAGELPTVKEKTCKLSFSPFVVGASLLLGGPIAFAIPLSGTQELHFSEDNYEKLLTPVDGLSPLGAGEDGMDAWYITSSNPSHASRTKLRINSDIMISAGHGGAGDNNDGNSCGGNGGDSITGSDLSIINQGMILGGSGGSGADHNGDGGEAVTGDNLFIINGEIISGGHGGDSYSDSDGGNGGDAVTGVNLPIINKGTISGGNGGNNYGEGDGGNGGDAITGSSLSVINKGTFAGGNGGAAYGYGYDGYGGNAITGDNLSIINNGAILGGNGGHWGDAINGSNMTIANSGYIISGKEDDGTQNVAGNAIHITGGNNSLILHEGSVITGDVQVNNSSILKIINNDYTGTTPTIEGDLCAGDCTTVSLSGNKFTVSGDVSFGENSSLNLAGISSLEASGNMSFGNNVKVEAIINNWAQKDYKLLSADKGITGFSVSNISIINPLLTTGAIDYTKSYISDQNKLIYGLSWNDTDGDSHGEFNLKENAELTVSTILADNLSHHNINSWDGKSLTKSGEGTLILAEKNTYSGFTNINAGILKMGTVEAMTRTAGVIVNKGATLNFSGMNQTVNTLLNSGTVLINNINAPFLPDPVIVTGNMTLEKNGHVILNNSSSNVGQTYVQKGNWHGKGGILSLGAVLGNDNSKTDRLEITGHASGITYVAVTNEGGSGDKTLEGVQIISTDSSDKNAFIQKGRIVAGSYDYRLKQGTVSGLNTNKWYLTSQMDNQESKQMSNQESTQMSSRRASSQLVSSLNLGEGSIHTWRPEAGSYIANLIAMNTMFSPSLYDRHGSTIVDPTTGQLSETTMWIRTVGGHNEHNLADRQLKTTANRMVYQIGGDILKTNFTDHDGLHVGIMGAYGYQDSKTHNKYTSYSSRGTVSGYTAGLYSSWFQDEKERTGLYMDAWLQYGWFNNTVKGDGFTGEKYSSKGITGALEAGYIYPTIRWTTHNNIDNALYLNPQVQITRHGVKANDYIEHNGTMVTSSGVNNIQAKLGLRTSLISHSCIDKETLRKFEPFLEVNWKWSSKQYGVIMNGMSNHQIGNRNVIELKTGVGGRLADNLSIWGNVSQQLGNNSYRDTQGILGVKYTF",
                 "source": "BioNumerics (https://www.bionumerics.com/) and manual curation https://www.nature.com/articles/nrmicro818",
-                "id": "1070",
+                "id": "97",
                 "length_dnasequence": "3309"
             }
         ],
@@ -1005,7 +1018,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1071",
+                "id": "98",
                 "length_dnasequence": "999"
             },
             {
@@ -1015,7 +1028,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1072",
+                "id": "99",
                 "length_dnasequence": "999"
             },
             {
@@ -1025,7 +1038,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1073",
+                "id": "100",
                 "length_dnasequence": "999"
             },
             {
@@ -1035,7 +1048,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1074",
+                "id": "101",
                 "length_dnasequence": "999"
             },
             {
@@ -1045,7 +1058,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1075",
+                "id": "102",
                 "length_dnasequence": "999"
             },
             {
@@ -1055,7 +1068,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1076",
+                "id": "103",
                 "length_dnasequence": "999"
             },
             {
@@ -1065,7 +1078,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1077",
+                "id": "104",
                 "length_dnasequence": "999"
             },
             {
@@ -1075,7 +1088,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1078",
+                "id": "105",
                 "length_dnasequence": "999"
             },
             {
@@ -1085,7 +1098,7 @@
                 "gene": "ipaD",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1079",
+                "id": "106",
                 "length_dnasequence": "999"
             }
         ],
@@ -1098,7 +1111,7 @@
                 "protsequence": "MKPAHNPSFFRSFCGLGCISRLSVEEQNITDYHRIWDNWAKEGAATEDRTQAVRLLKICLAFQEPALNLSLLRLRSLPYLPPHIQELNISSNELRSLPELPPSLTVLKASDNRLSRLPALPPHLVALDVSLNRVLTCLPSLPSSLQSLSALLNSLETLPDLPPALQKLSVGNNQLTALPELPCELQELSAFDNRLQELPPLPQNLRLLNVGENQLHRLPELPQRLQSLYIPNNQLNTLPDSIMNLHIYADVNIYNNPLSTRTLQALQRLTSSPDYHGPRIYFSMSDGQQNTLHRPLADAVTAWFPENKQSDVSQIWHAFEHEEHANTFSAFLDRLSDTVSARNTSGFREQVAAWLEKLSASAELRQQSFAVAADATESCEDRVALTWNNLRKTLLVHQASEGLFDNDTGALLSLGREMFRLEILEDIARDKVRTLHFVDEIEVYLAFQTMLAEKLQLSTAVKEMRFYGVSGVTANDLRTAEAMVRSREENEFTDWFSLWGPWHAVLKRTEADRWALAEEQKYEMLENEYPQRVADRLKASGLSGDADAEREAGAQVMRETEQQIYRQLTDEVLALRLPENGSQLHHS",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "H",
-                "id": "1080",
+                "id": "107",
                 "length_dnasequence": "1764"
             },
             {
@@ -1108,7 +1121,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1081",
+                "id": "108",
                 "length_dnasequence": "1716"
             },
             {
@@ -1118,7 +1131,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1082",
+                "id": "109",
                 "length_dnasequence": "1716"
             },
             {
@@ -1128,7 +1141,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1083",
+                "id": "110",
                 "length_dnasequence": "1716"
             },
             {
@@ -1138,7 +1151,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1084",
+                "id": "111",
                 "length_dnasequence": "1716"
             },
             {
@@ -1148,7 +1161,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1085",
+                "id": "112",
                 "length_dnasequence": "1656"
             },
             {
@@ -1158,7 +1171,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1086",
+                "id": "113",
                 "length_dnasequence": "1716"
             },
             {
@@ -1168,7 +1181,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1087",
+                "id": "114",
                 "length_dnasequence": "1716"
             },
             {
@@ -1178,7 +1191,7 @@
                 "gene": "ipaH",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1088",
+                "id": "115",
                 "length_dnasequence": "1716"
             }
         ],
@@ -1190,7 +1203,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1089",
+                "id": "116",
                 "length_dnasequence": "765"
             },
             {
@@ -1200,7 +1213,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1090",
+                "id": "117",
                 "length_dnasequence": "777"
             },
             {
@@ -1210,7 +1223,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1091",
+                "id": "118",
                 "length_dnasequence": "777"
             },
             {
@@ -1220,7 +1233,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1092",
+                "id": "119",
                 "length_dnasequence": "777"
             },
             {
@@ -1230,7 +1243,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1093",
+                "id": "120",
                 "length_dnasequence": "777"
             },
             {
@@ -1240,7 +1253,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1094",
+                "id": "121",
                 "length_dnasequence": "777"
             },
             {
@@ -1250,7 +1263,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1095",
+                "id": "122",
                 "length_dnasequence": "777"
             },
             {
@@ -1260,7 +1273,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1096",
+                "id": "123",
                 "length_dnasequence": "777"
             },
             {
@@ -1270,7 +1283,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1097",
+                "id": "124",
                 "length_dnasequence": "777"
             },
             {
@@ -1280,7 +1293,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1098",
+                "id": "125",
                 "length_dnasequence": "777"
             },
             {
@@ -1290,7 +1303,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1099",
+                "id": "126",
                 "length_dnasequence": "777"
             },
             {
@@ -1300,7 +1313,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1100",
+                "id": "127",
                 "length_dnasequence": "777"
             },
             {
@@ -1310,7 +1323,7 @@
                 "gene": "ltcA",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1101",
+                "id": "128",
                 "length_dnasequence": "777"
             }
         ],
@@ -1322,7 +1335,7 @@
                 "gene": "sta1",
                 "protsequence": "MKKLMLAIFISVLSFPSFSQSTESLDSSKEKITLETKKCDVVKNNSEKKSENMNNTFYCCELCCNPACAPCY",
                 "source": "https://www.ncbi.nlm.nih.gov/protein/147878",
-                "id": "1102",
+                "id": "129",
                 "length_dnasequence": "219"
             },
             {
@@ -1333,7 +1346,7 @@
                 "protsequence": "MKKLMLAIFISVLSFPSFSQSTESLDSSKEKITLETKKCDVVKNNSEKKSENMNNTFYCCELCCNPACAGCY",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "synonym": "estA1",
-                "id": "1103",
+                "id": "130",
                 "length_dnasequence": "219"
             }
         ],
@@ -1346,7 +1359,7 @@
                 "protsequence": "MKKSILFIFLSVLSFSPFAQDAKPAGSSKEKITLESKKCNIVKKNNESSPESMNSSNYCCELCCNPACTGCY",
                 "source": "manual curation (https://www.sciencedirect.com/science/article/pii/S1438422116300960#upi0005)",
                 "synonym": "estA2",
-                "id": "1104",
+                "id": "131",
                 "length_dnasequence": "219"
             }
         ],
@@ -1359,7 +1372,7 @@
                 "protsequence": "MPCSGGNMKKSILFIFLSVLSFSPFAQDAKPVESSKEKITLESKKCNIAKKSNKSGPESMNSSNYCCELCCNPACTGCY",
                 "source": "manual curation based on https://www.sciencedirect.com/science/article/pii/S1438422116300960#upi0005",
                 "synonym": "estA3/4",
-                "id": "1105",
+                "id": "132",
                 "length_dnasequence": "240"
             },
             {
@@ -1370,7 +1383,7 @@
                 "protsequence": "MKKSILFIFLSVLSFSPFAQDAKPVESSKEKITLESKKCNIAKKSNKSGPESMNSSNYCCELCCNPACTGCY",
                 "source": "manual curation (https://www.sciencedirect.com/science/article/pii/S1438422116300960#upi0005)",
                 "synonym": "estA3/4",
-                "id": "1106",
+                "id": "133",
                 "length_dnasequence": "219"
             }
         ],
@@ -1384,7 +1397,7 @@
                 "source": "-",
                 "subtype": "II",
                 "synonym": "ST",
-                "id": "1107",
+                "id": "134",
                 "length_dnasequence": "160"
             },
             {
@@ -1394,7 +1407,7 @@
                 "gene": "stb",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1108",
+                "id": "135",
                 "length_dnasequence": "216"
             },
             {
@@ -1404,7 +1417,7 @@
                 "gene": "stb",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1109",
+                "id": "136",
                 "length_dnasequence": "216"
             },
             {
@@ -1414,7 +1427,7 @@
                 "gene": "stb",
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
-                "id": "1110",
+                "id": "137",
                 "length_dnasequence": "216"
             }
         ],
@@ -1427,7 +1440,7 @@
                 "protsequence": "MKIIIFRVLTFFFVIFSVNVVAKEFTLDFSTAKTYVDSLNVIRSAIGTPLQTISSGGTSLLMIDSGTGDNLFAVDVRGIDPEEGRFNNLRLIVERNNLYVTGFVNRTNNVFYRFADFSHVTFPGTTAVTLSGDSSYTTLQRVAGISRTGMQINRHSLTTSYLDLMSHSGTSLTQSVARAMLRFVTVTAEALRFRQIQRGFRTTLDDLSGRSYVMTAEDVDLTLNWGRLSSVLPDYHGQDSVRVGRISFGSINAILGSVALILNCHHHASRVARMASDEFPSMCPADGRVRGITHNKILWDSSTLGAILMRRTISS",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "a",
-                "id": "1111",
+                "id": "138",
                 "length_dnasequence": "948"
             },
             {
@@ -1438,7 +1451,7 @@
                 "protsequence": "MKKTLLIAASLSFFSASALATPDCVTGKVEYTKYNDDDTFTVKVGDKELFTNRWNLQSLLLSAQITGMTVTIKTNACHNGGGFSEVIFR",
                 "source": "https://github.com/B-UMMI/patho_typing/",
                 "subtype": "a",
-                "id": "1112",
+                "id": "139",
                 "length_dnasequence": "270"
             },
             {
@@ -1449,7 +1462,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1113",
+                "id": "140",
                 "length_dnasequence": "1227"
             },
             {
@@ -1460,7 +1473,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1114",
+                "id": "141",
                 "length_dnasequence": "1227"
             },
             {
@@ -1471,7 +1484,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1115",
+                "id": "142",
                 "length_dnasequence": "1227"
             },
             {
@@ -1482,7 +1495,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1116",
+                "id": "143",
                 "length_dnasequence": "1227"
             },
             {
@@ -1493,7 +1506,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1117",
+                "id": "144",
                 "length_dnasequence": "1227"
             },
             {
@@ -1504,7 +1517,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1118",
+                "id": "145",
                 "length_dnasequence": "1227"
             },
             {
@@ -1515,7 +1528,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1119",
+                "id": "146",
                 "length_dnasequence": "1227"
             },
             {
@@ -1526,7 +1539,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1120",
+                "id": "147",
                 "length_dnasequence": "1227"
             },
             {
@@ -1537,7 +1550,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1121",
+                "id": "148",
                 "length_dnasequence": "1227"
             },
             {
@@ -1548,7 +1561,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1122",
+                "id": "149",
                 "length_dnasequence": "1227"
             },
             {
@@ -1559,7 +1572,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1123",
+                "id": "150",
                 "length_dnasequence": "1227"
             },
             {
@@ -1570,7 +1583,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1124",
+                "id": "151",
                 "length_dnasequence": "1227"
             },
             {
@@ -1581,7 +1594,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1125",
+                "id": "152",
                 "length_dnasequence": "1227"
             },
             {
@@ -1592,7 +1605,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1126",
+                "id": "153",
                 "length_dnasequence": "1227"
             },
             {
@@ -1603,7 +1616,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1127",
+                "id": "154",
                 "length_dnasequence": "1228"
             },
             {
@@ -1614,7 +1627,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1128",
+                "id": "155",
                 "length_dnasequence": "1228"
             },
             {
@@ -1625,7 +1638,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1129",
+                "id": "156",
                 "length_dnasequence": "1228"
             },
             {
@@ -1636,7 +1649,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1130",
+                "id": "157",
                 "length_dnasequence": "1228"
             },
             {
@@ -1647,7 +1660,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1131",
+                "id": "158",
                 "length_dnasequence": "1228"
             },
             {
@@ -1658,7 +1671,7 @@
                 "protsequence": "MKIMIFRALTFFFVIFSVNAIAKEFTLDFSTAKKYVDSLNVIRSAIGTPLQTISSGGTSLLMIDSGTGDNLFAVDIMGLEPEEERFNNLRLIVERNNLYVTGFVNRTNNVFYRFADFSHVTFPGTRAVTLSGDSSYTTLQRVAGISRTGMQINRHSLTTSYLDLMSYSGTSLTQSVARAMLRFVTVTAEALRFRQIQRGFRTTLDDLSGRSYVMTAEDVDLTLNWGRLSSILPDYHGQDSVRVGRISFGSINAILGSVALILNCHHHASRVARMTPDEFPSMCPTDGSGRGITHNKILWDSSTLGAILIRRTISS",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1132",
+                "id": "159",
                 "length_dnasequence": "1227"
             },
             {
@@ -1669,7 +1682,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1133",
+                "id": "160",
                 "length_dnasequence": "1227"
             },
             {
@@ -1680,7 +1693,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1134",
+                "id": "161",
                 "length_dnasequence": "1227"
             },
             {
@@ -1691,7 +1704,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1135",
+                "id": "162",
                 "length_dnasequence": "1227"
             },
             {
@@ -1702,7 +1715,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1136",
+                "id": "163",
                 "length_dnasequence": "948"
             },
             {
@@ -1713,7 +1726,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1137",
+                "id": "164",
                 "length_dnasequence": "948"
             },
             {
@@ -1724,7 +1737,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1138",
+                "id": "165",
                 "length_dnasequence": "948"
             },
             {
@@ -1735,7 +1748,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1139",
+                "id": "166",
                 "length_dnasequence": "948"
             },
             {
@@ -1746,7 +1759,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1140",
+                "id": "167",
                 "length_dnasequence": "948"
             },
             {
@@ -1757,7 +1770,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1141",
+                "id": "168",
                 "length_dnasequence": "948"
             },
             {
@@ -1768,7 +1781,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1142",
+                "id": "169",
                 "length_dnasequence": "948"
             },
             {
@@ -1779,7 +1792,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1143",
+                "id": "170",
                 "length_dnasequence": "948"
             },
             {
@@ -1790,7 +1803,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1144",
+                "id": "171",
                 "length_dnasequence": "948"
             },
             {
@@ -1801,7 +1814,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1145",
+                "id": "172",
                 "length_dnasequence": "948"
             },
             {
@@ -1812,7 +1825,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1146",
+                "id": "173",
                 "length_dnasequence": "948"
             },
             {
@@ -1823,7 +1836,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1147",
+                "id": "174",
                 "length_dnasequence": "948"
             },
             {
@@ -1834,7 +1847,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1148",
+                "id": "175",
                 "length_dnasequence": "948"
             },
             {
@@ -1845,7 +1858,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1149",
+                "id": "176",
                 "length_dnasequence": "948"
             },
             {
@@ -1856,7 +1869,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1150",
+                "id": "177",
                 "length_dnasequence": "948"
             },
             {
@@ -1867,7 +1880,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1151",
+                "id": "178",
                 "length_dnasequence": "942"
             },
             {
@@ -1878,7 +1891,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1152",
+                "id": "179",
                 "length_dnasequence": "270"
             },
             {
@@ -1889,7 +1902,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1153",
+                "id": "180",
                 "length_dnasequence": "270"
             },
             {
@@ -1900,7 +1913,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1154",
+                "id": "181",
                 "length_dnasequence": "270"
             },
             {
@@ -1911,7 +1924,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1155",
+                "id": "182",
                 "length_dnasequence": "270"
             },
             {
@@ -1922,7 +1935,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1156",
+                "id": "183",
                 "length_dnasequence": "270"
             },
             {
@@ -1933,7 +1946,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1157",
+                "id": "184",
                 "length_dnasequence": "270"
             },
             {
@@ -1944,7 +1957,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1158",
+                "id": "185",
                 "length_dnasequence": "270"
             },
             {
@@ -1955,7 +1968,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1159",
+                "id": "186",
                 "length_dnasequence": "270"
             },
             {
@@ -1966,7 +1979,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1160",
+                "id": "187",
                 "length_dnasequence": "270"
             },
             {
@@ -1977,7 +1990,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1161",
+                "id": "188",
                 "length_dnasequence": "270"
             },
             {
@@ -1988,7 +2001,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1162",
+                "id": "189",
                 "length_dnasequence": "270"
             },
             {
@@ -1999,7 +2012,7 @@
                 "protsequence": "MKKVLLIAVSLSFLSASVLAAPDCVTGKVEYTKYNDDDTFTVKVADKELFTNRWNLQSLLLSAQITGMTVTIKTTACHNGGGFSEVIFR",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1163",
+                "id": "190",
                 "length_dnasequence": "270"
             },
             {
@@ -2010,7 +2023,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1164",
+                "id": "191",
                 "length_dnasequence": "270"
             },
             {
@@ -2021,7 +2034,7 @@
                 "protsequence": "MKKILLIVASLSFFSASVLAAPDCVTGKVEYTKYNDDDTFTVKVGDKELYTTRWNLQSLLLSAQITGMTITIKTNSCRNGEGFSEVIFR",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "e",
-                "id": "1165",
+                "id": "192",
                 "length_dnasequence": "270"
             },
             {
@@ -2032,7 +2045,7 @@
                 "protsequence": "MILMIFRGLTFFFFILSANAVAQDFTVDFSTAKKYVDSLNAIRSAIGTPLHSISSGGTSLLMIDNGTGDNLFAVDIRGLDPEEERFDNLRLIIERNNLYVTGFVNRTSNIFYRFADFSHVTFPGTRAVTLSGDSSYTTLQRVAGIGRTGMQINRHSLTTSYLDLMSYSGSSLTQPVARAMLRFVTVTAEALRFRQIQRGFRTTLDDVSGHSYTMTVEDVDLTLNWGRLSSVLPDYHGQDSVRVGRISFGGVNAILGSVALILNCHHHTSRVSRMAPDEFPSMCPANGRERGITHDRVLWDSSTLGAILIRRAISS",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "e",
-                "id": "1166",
+                "id": "193",
                 "length_dnasequence": "948"
             },
             {
@@ -2043,7 +2056,7 @@
                 "protsequence": "",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "e",
-                "id": "1167",
+                "id": "194",
                 "length_dnasequence": "1227"
             }
         ],
@@ -2056,7 +2069,7 @@
                 "protsequence": "MKCILFKWVLCLLLGFSSVSYSREFTIDFSTQQSYVSSLNSIRTEISTPLEHISQGTTSVSVINHTPPGSYFAVDIRGLDVYQARFDHLRLIIEQNNLYVAGFVNTATNTFYRFSDFTHISVPGVTTASMTTDSSYTTLQRVAALERSGMQISRHSLVSSYLALMEFSGNTMTRDASRAVLRFVTVTAEALRFRQIQREFRQALSETAPVYTMTPGDVDLTLNWGRISNVLPEYRGEDGVRVGRISFNNISAILGTVAVILNCHHQGARSVRAVNEESQPECQITGDRPVIKINNTLWESNTAAAFLNRKSQFLYTTGK",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "a",
-                "id": "1168",
+                "id": "195",
                 "length_dnasequence": "960"
             },
             {
@@ -2067,7 +2080,7 @@
                 "protsequence": "MKKMFMAVLFALASVNAMAADCAKGKIEFSKYNEDDTFTVKVDGKEYWTSRWNLRPLLQSAQLTGMTVTIKSSTCESGSGFAEVQFNND",
                 "source": "manual curation of https://www.ncbi.nlm.nih.gov/nuccore/AF461173.1/",
                 "subtype": "a",
-                "id": "1169",
+                "id": "196",
                 "length_dnasequence": "270"
             },
             {
@@ -2078,7 +2091,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1170",
+                "id": "197",
                 "length_dnasequence": "1241"
             },
             {
@@ -2089,7 +2102,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1171",
+                "id": "198",
                 "length_dnasequence": "1241"
             },
             {
@@ -2100,7 +2113,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1172",
+                "id": "199",
                 "length_dnasequence": "1241"
             },
             {
@@ -2111,7 +2124,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1173",
+                "id": "200",
                 "length_dnasequence": "1241"
             },
             {
@@ -2122,7 +2135,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1174",
+                "id": "201",
                 "length_dnasequence": "1241"
             },
             {
@@ -2133,7 +2146,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1175",
+                "id": "202",
                 "length_dnasequence": "1241"
             },
             {
@@ -2144,7 +2157,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1176",
+                "id": "203",
                 "length_dnasequence": "1241"
             },
             {
@@ -2155,7 +2168,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1177",
+                "id": "204",
                 "length_dnasequence": "1241"
             },
             {
@@ -2166,7 +2179,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1178",
+                "id": "205",
                 "length_dnasequence": "1241"
             },
             {
@@ -2177,7 +2190,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/). Literature confirmed Stx2a (https://www.biorxiv.org/content/10.1101/2020.07.17.209239v1.full.pdf)",
                 "subtype": "a",
-                "id": "1179",
+                "id": "206",
                 "length_dnasequence": "1241"
             },
             {
@@ -2188,7 +2201,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1180",
+                "id": "207",
                 "length_dnasequence": "1241"
             },
             {
@@ -2199,7 +2212,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1181",
+                "id": "208",
                 "length_dnasequence": "1241"
             },
             {
@@ -2210,7 +2223,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1182",
+                "id": "209",
                 "length_dnasequence": "1241"
             },
             {
@@ -2221,7 +2234,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1183",
+                "id": "210",
                 "length_dnasequence": "1241"
             },
             {
@@ -2232,7 +2245,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1184",
+                "id": "211",
                 "length_dnasequence": "1241"
             },
             {
@@ -2243,7 +2256,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1185",
+                "id": "212",
                 "length_dnasequence": "1241"
             },
             {
@@ -2254,7 +2267,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1186",
+                "id": "213",
                 "length_dnasequence": "1241"
             },
             {
@@ -2265,7 +2278,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1187",
+                "id": "214",
                 "length_dnasequence": "1241"
             },
             {
@@ -2276,7 +2289,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1188",
+                "id": "215",
                 "length_dnasequence": "1241"
             },
             {
@@ -2287,7 +2300,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1189",
+                "id": "216",
                 "length_dnasequence": "1241"
             },
             {
@@ -2298,7 +2311,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1190",
+                "id": "217",
                 "length_dnasequence": "1241"
             },
             {
@@ -2309,7 +2322,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1191",
+                "id": "218",
                 "length_dnasequence": "1241"
             },
             {
@@ -2320,7 +2333,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1192",
+                "id": "219",
                 "length_dnasequence": "1241"
             },
             {
@@ -2331,7 +2344,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1193",
+                "id": "220",
                 "length_dnasequence": "1241"
             },
             {
@@ -2342,7 +2355,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1194",
+                "id": "221",
                 "length_dnasequence": "1241"
             },
             {
@@ -2353,7 +2366,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1195",
+                "id": "222",
                 "length_dnasequence": "1241"
             },
             {
@@ -2364,7 +2377,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1196",
+                "id": "223",
                 "length_dnasequence": "1241"
             },
             {
@@ -2375,7 +2388,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1197",
+                "id": "224",
                 "length_dnasequence": "1241"
             },
             {
@@ -2386,7 +2399,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1198",
+                "id": "225",
                 "length_dnasequence": "1241"
             },
             {
@@ -2397,7 +2410,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1199",
+                "id": "226",
                 "length_dnasequence": "1241"
             },
             {
@@ -2408,7 +2421,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1200",
+                "id": "227",
                 "length_dnasequence": "1241"
             },
             {
@@ -2419,7 +2432,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1201",
+                "id": "228",
                 "length_dnasequence": "1241"
             },
             {
@@ -2430,7 +2443,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1202",
+                "id": "229",
                 "length_dnasequence": "1241"
             },
             {
@@ -2441,7 +2454,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1203",
+                "id": "230",
                 "length_dnasequence": "1241"
             },
             {
@@ -2452,7 +2465,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/). Literature confirmed Stx2c (https://www.biorxiv.org/content/10.1101/2020.07.17.209239v1.full.pdf)",
                 "subtype": "c",
-                "id": "1204",
+                "id": "231",
                 "length_dnasequence": "1241"
             },
             {
@@ -2463,7 +2476,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1205",
+                "id": "232",
                 "length_dnasequence": "1241"
             },
             {
@@ -2474,7 +2487,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1206",
+                "id": "233",
                 "length_dnasequence": "1241"
             },
             {
@@ -2485,7 +2498,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1207",
+                "id": "234",
                 "length_dnasequence": "1241"
             },
             {
@@ -2496,7 +2509,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1208",
+                "id": "235",
                 "length_dnasequence": "1241"
             },
             {
@@ -2507,7 +2520,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1209",
+                "id": "236",
                 "length_dnasequence": "1241"
             },
             {
@@ -2518,7 +2531,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1210",
+                "id": "237",
                 "length_dnasequence": "1241"
             },
             {
@@ -2529,7 +2542,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1211",
+                "id": "238",
                 "length_dnasequence": "1241"
             },
             {
@@ -2540,7 +2553,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1212",
+                "id": "239",
                 "length_dnasequence": "1241"
             },
             {
@@ -2551,7 +2564,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1213",
+                "id": "240",
                 "length_dnasequence": "1241"
             },
             {
@@ -2562,7 +2575,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1214",
+                "id": "241",
                 "length_dnasequence": "1241"
             },
             {
@@ -2573,7 +2586,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1215",
+                "id": "242",
                 "length_dnasequence": "1241"
             },
             {
@@ -2584,7 +2597,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1216",
+                "id": "243",
                 "length_dnasequence": "1241"
             },
             {
@@ -2595,7 +2608,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1217",
+                "id": "244",
                 "length_dnasequence": "1241"
             },
             {
@@ -2606,7 +2619,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1218",
+                "id": "245",
                 "length_dnasequence": "1241"
             },
             {
@@ -2617,7 +2630,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1219",
+                "id": "246",
                 "length_dnasequence": "1241"
             },
             {
@@ -2628,7 +2641,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1220",
+                "id": "247",
                 "length_dnasequence": "1241"
             },
             {
@@ -2639,7 +2652,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1221",
+                "id": "248",
                 "length_dnasequence": "1241"
             },
             {
@@ -2650,7 +2663,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1222",
+                "id": "249",
                 "length_dnasequence": "1241"
             },
             {
@@ -2661,7 +2674,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1223",
+                "id": "250",
                 "length_dnasequence": "1241"
             },
             {
@@ -2672,7 +2685,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1224",
+                "id": "251",
                 "length_dnasequence": "1241"
             },
             {
@@ -2683,7 +2696,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1225",
+                "id": "252",
                 "length_dnasequence": "1241"
             },
             {
@@ -2694,7 +2707,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1226",
+                "id": "253",
                 "length_dnasequence": "1241"
             },
             {
@@ -2705,7 +2718,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1227",
+                "id": "254",
                 "length_dnasequence": "1241"
             },
             {
@@ -2716,7 +2729,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1228",
+                "id": "255",
                 "length_dnasequence": "1241"
             },
             {
@@ -2727,7 +2740,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1229",
+                "id": "256",
                 "length_dnasequence": "1241"
             },
             {
@@ -2738,7 +2751,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1230",
+                "id": "257",
                 "length_dnasequence": "1241"
             },
             {
@@ -2749,7 +2762,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1231",
+                "id": "258",
                 "length_dnasequence": "1241"
             },
             {
@@ -2760,7 +2773,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1232",
+                "id": "259",
                 "length_dnasequence": "1241"
             },
             {
@@ -2771,7 +2784,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1233",
+                "id": "260",
                 "length_dnasequence": "1241"
             },
             {
@@ -2782,7 +2795,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1234",
+                "id": "261",
                 "length_dnasequence": "1241"
             },
             {
@@ -2793,7 +2806,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1235",
+                "id": "262",
                 "length_dnasequence": "1241"
             },
             {
@@ -2804,7 +2817,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1236",
+                "id": "263",
                 "length_dnasequence": "1241"
             },
             {
@@ -2815,7 +2828,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1237",
+                "id": "264",
                 "length_dnasequence": "1241"
             },
             {
@@ -2826,7 +2839,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1238",
+                "id": "265",
                 "length_dnasequence": "1241"
             },
             {
@@ -2837,7 +2850,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1239",
+                "id": "266",
                 "length_dnasequence": "1241"
             },
             {
@@ -2848,7 +2861,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1240",
+                "id": "267",
                 "length_dnasequence": "1241"
             },
             {
@@ -2859,7 +2872,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1241",
+                "id": "268",
                 "length_dnasequence": "1241"
             },
             {
@@ -2870,7 +2883,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1242",
+                "id": "269",
                 "length_dnasequence": "1241"
             },
             {
@@ -2881,7 +2894,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1243",
+                "id": "270",
                 "length_dnasequence": "1241"
             },
             {
@@ -2892,7 +2905,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1244",
+                "id": "271",
                 "length_dnasequence": "1241"
             },
             {
@@ -2903,7 +2916,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1245",
+                "id": "272",
                 "length_dnasequence": "1241"
             },
             {
@@ -2914,7 +2927,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/). Literature confirmed Stx2d (https://www.biorxiv.org/content/10.1101/2020.07.17.209239v1.full.pdf)",
                 "subtype": "d",
-                "id": "1246",
+                "id": "273",
                 "length_dnasequence": "1241"
             },
             {
@@ -2925,7 +2938,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1247",
+                "id": "274",
                 "length_dnasequence": "1241"
             },
             {
@@ -2936,7 +2949,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1248",
+                "id": "275",
                 "length_dnasequence": "1241"
             },
             {
@@ -2947,7 +2960,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1249",
+                "id": "276",
                 "length_dnasequence": "1241"
             },
             {
@@ -2958,7 +2971,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1250",
+                "id": "277",
                 "length_dnasequence": "1242"
             },
             {
@@ -2969,7 +2982,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1251",
+                "id": "278",
                 "length_dnasequence": "1242"
             },
             {
@@ -2980,7 +2993,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1252",
+                "id": "279",
                 "length_dnasequence": "1242"
             },
             {
@@ -2991,7 +3004,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1253",
+                "id": "280",
                 "length_dnasequence": "1242"
             },
             {
@@ -3002,7 +3015,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1254",
+                "id": "281",
                 "length_dnasequence": "1242"
             },
             {
@@ -3013,7 +3026,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1255",
+                "id": "282",
                 "length_dnasequence": "1242"
             },
             {
@@ -3024,7 +3037,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1256",
+                "id": "283",
                 "length_dnasequence": "1242"
             },
             {
@@ -3035,7 +3048,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1257",
+                "id": "284",
                 "length_dnasequence": "1242"
             },
             {
@@ -3046,7 +3059,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1258",
+                "id": "285",
                 "length_dnasequence": "1242"
             },
             {
@@ -3057,7 +3070,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1259",
+                "id": "286",
                 "length_dnasequence": "1236"
             },
             {
@@ -3068,7 +3081,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1260",
+                "id": "287",
                 "length_dnasequence": "1236"
             },
             {
@@ -3079,7 +3092,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1261",
+                "id": "288",
                 "length_dnasequence": "1236"
             },
             {
@@ -3090,7 +3103,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1262",
+                "id": "289",
                 "length_dnasequence": "1242"
             },
             {
@@ -3101,7 +3114,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1263",
+                "id": "290",
                 "length_dnasequence": "1243"
             },
             {
@@ -3112,7 +3125,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1264",
+                "id": "291",
                 "length_dnasequence": "1236"
             },
             {
@@ -3123,7 +3136,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1265",
+                "id": "292",
                 "length_dnasequence": "1236"
             },
             {
@@ -3134,7 +3147,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/). Redesigned as stx2l (previously stx2e) by Xi Yang (https://doi.org/10.3390/microorganisms10061245) ",
                 "subtype": "l",
-                "id": "1266",
+                "id": "293",
                 "length_dnasequence": "1241"
             },
             {
@@ -3145,7 +3158,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1267",
+                "id": "294",
                 "length_dnasequence": "1242"
             },
             {
@@ -3156,7 +3169,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1268",
+                "id": "295",
                 "length_dnasequence": "1242"
             },
             {
@@ -3167,7 +3180,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1269",
+                "id": "296",
                 "length_dnasequence": "1242"
             },
             {
@@ -3178,7 +3191,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1270",
+                "id": "297",
                 "length_dnasequence": "1242"
             },
             {
@@ -3189,7 +3202,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1271",
+                "id": "298",
                 "length_dnasequence": "1243"
             },
             {
@@ -3200,7 +3213,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1272",
+                "id": "299",
                 "length_dnasequence": "1243"
             },
             {
@@ -3211,7 +3224,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1273",
+                "id": "300",
                 "length_dnasequence": "1236"
             },
             {
@@ -3222,7 +3235,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1274",
+                "id": "301",
                 "length_dnasequence": "1236"
             },
             {
@@ -3233,7 +3246,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1275",
+                "id": "302",
                 "length_dnasequence": "1236"
             },
             {
@@ -3244,7 +3257,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1276",
+                "id": "303",
                 "length_dnasequence": "1236"
             },
             {
@@ -3255,7 +3268,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1277",
+                "id": "304",
                 "length_dnasequence": "1236"
             },
             {
@@ -3266,7 +3279,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1278",
+                "id": "305",
                 "length_dnasequence": "1236"
             },
             {
@@ -3277,7 +3290,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1279",
+                "id": "306",
                 "length_dnasequence": "1236"
             },
             {
@@ -3288,7 +3301,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1280",
+                "id": "307",
                 "length_dnasequence": "1236"
             },
             {
@@ -3299,7 +3312,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1281",
+                "id": "308",
                 "length_dnasequence": "1236"
             },
             {
@@ -3310,7 +3323,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1282",
+                "id": "309",
                 "length_dnasequence": "1236"
             },
             {
@@ -3321,7 +3334,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1283",
+                "id": "310",
                 "length_dnasequence": "1236"
             },
             {
@@ -3332,7 +3345,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1284",
+                "id": "311",
                 "length_dnasequence": "1236"
             },
             {
@@ -3343,7 +3356,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1285",
+                "id": "312",
                 "length_dnasequence": "1243"
             },
             {
@@ -3354,7 +3367,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1286",
+                "id": "313",
                 "length_dnasequence": "1235"
             },
             {
@@ -3365,7 +3378,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1287",
+                "id": "314",
                 "length_dnasequence": "1243"
             },
             {
@@ -3376,7 +3389,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1288",
+                "id": "315",
                 "length_dnasequence": "1243"
             },
             {
@@ -3387,7 +3400,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1289",
+                "id": "316",
                 "length_dnasequence": "1236"
             },
             {
@@ -3398,7 +3411,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1290",
+                "id": "317",
                 "length_dnasequence": "960"
             },
             {
@@ -3409,7 +3422,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1291",
+                "id": "318",
                 "length_dnasequence": "960"
             },
             {
@@ -3420,7 +3433,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/). Redesigned as stx2l (previously stx2e) by Xi Yang (https://doi.org/10.3390/microorganisms10061245)",
                 "subtype": "l",
-                "id": "1292",
+                "id": "319",
                 "length_dnasequence": "960"
             },
             {
@@ -3431,7 +3444,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1293",
+                "id": "320",
                 "length_dnasequence": "960"
             },
             {
@@ -3442,7 +3455,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1294",
+                "id": "321",
                 "length_dnasequence": "960"
             },
             {
@@ -3453,7 +3466,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1295",
+                "id": "322",
                 "length_dnasequence": "960"
             },
             {
@@ -3464,7 +3477,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1296",
+                "id": "323",
                 "length_dnasequence": "960"
             },
             {
@@ -3475,7 +3488,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1297",
+                "id": "324",
                 "length_dnasequence": "960"
             },
             {
@@ -3486,7 +3499,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1298",
+                "id": "325",
                 "length_dnasequence": "960"
             },
             {
@@ -3497,7 +3510,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1299",
+                "id": "326",
                 "length_dnasequence": "960"
             },
             {
@@ -3508,7 +3521,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1300",
+                "id": "327",
                 "length_dnasequence": "960"
             },
             {
@@ -3519,7 +3532,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1301",
+                "id": "328",
                 "length_dnasequence": "960"
             },
             {
@@ -3530,7 +3543,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1302",
+                "id": "329",
                 "length_dnasequence": "960"
             },
             {
@@ -3541,7 +3554,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1303",
+                "id": "330",
                 "length_dnasequence": "960"
             },
             {
@@ -3552,7 +3565,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1304",
+                "id": "331",
                 "length_dnasequence": "960"
             },
             {
@@ -3563,7 +3576,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1305",
+                "id": "332",
                 "length_dnasequence": "960"
             },
             {
@@ -3574,7 +3587,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1306",
+                "id": "333",
                 "length_dnasequence": "960"
             },
             {
@@ -3585,7 +3598,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1307",
+                "id": "334",
                 "length_dnasequence": "960"
             },
             {
@@ -3596,7 +3609,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1308",
+                "id": "335",
                 "length_dnasequence": "960"
             },
             {
@@ -3607,7 +3620,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1309",
+                "id": "336",
                 "length_dnasequence": "960"
             },
             {
@@ -3618,7 +3631,7 @@
                 "protsequence": "MKCILFKWVLCLLLGFSSVSYSQEFTIDFSTQQSYVSSLNSIRTAISTPLEHISQGATSVSVINHTPPGSYISVGIRGLDVYQERFDHLRLIIERNNLYVAGFVNTTTNTFYRFSDFAHISLPGVTTISMTTDSSYTTLQRVAALERSGMQISRHSLVSSYLALMEFSGNTMTREASRAVLRFVTVTAEALRFRQIQREFRQALSETAPVYTMTPEDVDLTLNWGRISNVLPEYRGEDGVRVGRISFNNISAILGTVAVILNCHHQGARFVRAVNEESQPQCQITGDRPVIKINNKLWESNTAAAFLNRKSQSLYTTGE",
                 "source": "BioNumerics (https://www.bionumerics.com/) calls for 'e' subtype but AMRFinder and publications https://www.sciencedirect.com/science/article/pii/S0362028X22077699 and https://www.sciencedirect.com/science/article/pii/S1438422119304618 calls of 'i' subtype.",
                 "subtype": "i",
-                "id": "1310",
+                "id": "337",
                 "length_dnasequence": "960"
             },
             {
@@ -3629,7 +3642,7 @@
                 "protsequence": "MKKMFMAVLFALVSVNAMAADCAKGKIEFSKYNGDNTFTIKVDGKEYWTNRWNLQPLLQSAQLTGMTVTIKSNTCDSGSGFAEVQFNND",
                 "source": "AMRFinder and publications https://www.sciencedirect.com/science/article/pii/S0362028X22077699 plus https://www.sciencedirect.com/science/article/pii/S1438422119304618 calls of 'i' subtype.",
                 "subtype": "i",
-                "id": "1311",
+                "id": "338",
                 "length_dnasequence": "270"
             },
             {
@@ -3640,7 +3653,7 @@
                 "protsequence": "",
                 "source": "AMRFinder and publications https://www.sciencedirect.com/science/article/pii/S0362028X22077699 plus https://www.sciencedirect.com/science/article/pii/S1438422119304618 calls of 'i' subtype.",
                 "subtype": "i",
-                "id": "1312",
+                "id": "339",
                 "length_dnasequence": "1242"
             },
             {
@@ -3651,7 +3664,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1313",
+                "id": "340",
                 "length_dnasequence": "960"
             },
             {
@@ -3662,7 +3675,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1314",
+                "id": "341",
                 "length_dnasequence": "960"
             },
             {
@@ -3673,7 +3686,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1315",
+                "id": "342",
                 "length_dnasequence": "960"
             },
             {
@@ -3684,7 +3697,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1316",
+                "id": "343",
                 "length_dnasequence": "960"
             },
             {
@@ -3695,7 +3708,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1317",
+                "id": "344",
                 "length_dnasequence": "960"
             },
             {
@@ -3706,7 +3719,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1318",
+                "id": "345",
                 "length_dnasequence": "960"
             },
             {
@@ -3717,7 +3730,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "g",
-                "id": "1319",
+                "id": "346",
                 "length_dnasequence": "960"
             },
             {
@@ -3728,7 +3741,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1320",
+                "id": "347",
                 "length_dnasequence": "960"
             },
             {
@@ -3739,7 +3752,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1321",
+                "id": "348",
                 "length_dnasequence": "960"
             },
             {
@@ -3750,7 +3763,7 @@
                 "protsequence": "MKCILFKWVLCLLLGFSSVSYSREFTIDFSTQQSYVSSLNSIRTEISTPLEHISQGTTSVSVINHTPPGSYFSVDIRGLDVYQARFDHLRLIIEQNNLYVAGFVNTATNTFYRFSDFTHISVPGVTTVSMTTDSSYTTLQRVAALERSGMQISRHSLVSSYLALMEFSGNTMTRDASRAVLRFVTVTAEALRFRQIQREFRQALSETAPVYTMTPGDVDLTLNWGRISNVLPEYQGEDGVRVGRISFNNISAILGTVAVILNCHHQGARSVRAVNEDSQPECQITGDRPVIKINNTLWESNTAAAFLNRKSQSLYTTGE",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1322",
+                "id": "349",
                 "length_dnasequence": "960"
             },
             {
@@ -3761,7 +3774,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1323",
+                "id": "350",
                 "length_dnasequence": "960"
             },
             {
@@ -3772,7 +3785,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1324",
+                "id": "351",
                 "length_dnasequence": "960"
             },
             {
@@ -3783,7 +3796,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1325",
+                "id": "352",
                 "length_dnasequence": "960"
             },
             {
@@ -3794,7 +3807,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1326",
+                "id": "353",
                 "length_dnasequence": "960"
             },
             {
@@ -3805,7 +3818,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1327",
+                "id": "354",
                 "length_dnasequence": "960"
             },
             {
@@ -3816,7 +3829,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1328",
+                "id": "355",
                 "length_dnasequence": "960"
             },
             {
@@ -3827,7 +3840,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1329",
+                "id": "356",
                 "length_dnasequence": "960"
             },
             {
@@ -3838,7 +3851,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1330",
+                "id": "357",
                 "length_dnasequence": "960"
             },
             {
@@ -3849,7 +3862,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1331",
+                "id": "358",
                 "length_dnasequence": "960"
             },
             {
@@ -3860,7 +3873,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1332",
+                "id": "359",
                 "length_dnasequence": "960"
             },
             {
@@ -3871,7 +3884,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1333",
+                "id": "360",
                 "length_dnasequence": "960"
             },
             {
@@ -3882,7 +3895,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1334",
+                "id": "361",
                 "length_dnasequence": "960"
             },
             {
@@ -3893,7 +3906,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1335",
+                "id": "362",
                 "length_dnasequence": "960"
             },
             {
@@ -3904,7 +3917,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1336",
+                "id": "363",
                 "length_dnasequence": "960"
             },
             {
@@ -3915,7 +3928,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1337",
+                "id": "364",
                 "length_dnasequence": "960"
             },
             {
@@ -3926,7 +3939,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1338",
+                "id": "365",
                 "length_dnasequence": "960"
             },
             {
@@ -3937,7 +3950,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1339",
+                "id": "366",
                 "length_dnasequence": "963"
             },
             {
@@ -3948,7 +3961,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1340",
+                "id": "367",
                 "length_dnasequence": "960"
             },
             {
@@ -3959,7 +3972,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1341",
+                "id": "368",
                 "length_dnasequence": "960"
             },
             {
@@ -3970,7 +3983,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1342",
+                "id": "369",
                 "length_dnasequence": "960"
             },
             {
@@ -3981,7 +3994,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1343",
+                "id": "370",
                 "length_dnasequence": "960"
             },
             {
@@ -3992,7 +4005,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1344",
+                "id": "371",
                 "length_dnasequence": "960"
             },
             {
@@ -4003,7 +4016,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1345",
+                "id": "372",
                 "length_dnasequence": "960"
             },
             {
@@ -4014,7 +4027,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1346",
+                "id": "373",
                 "length_dnasequence": "960"
             },
             {
@@ -4025,7 +4038,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1347",
+                "id": "374",
                 "length_dnasequence": "960"
             },
             {
@@ -4036,7 +4049,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1348",
+                "id": "375",
                 "length_dnasequence": "960"
             },
             {
@@ -4047,7 +4060,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1349",
+                "id": "376",
                 "length_dnasequence": "960"
             },
             {
@@ -4058,7 +4071,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1350",
+                "id": "377",
                 "length_dnasequence": "960"
             },
             {
@@ -4069,7 +4082,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1351",
+                "id": "378",
                 "length_dnasequence": "960"
             },
             {
@@ -4080,7 +4093,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1352",
+                "id": "379",
                 "length_dnasequence": "960"
             },
             {
@@ -4091,7 +4104,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1353",
+                "id": "380",
                 "length_dnasequence": "960"
             },
             {
@@ -4102,7 +4115,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1354",
+                "id": "381",
                 "length_dnasequence": "960"
             },
             {
@@ -4113,7 +4126,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1355",
+                "id": "382",
                 "length_dnasequence": "960"
             },
             {
@@ -4124,7 +4137,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1356",
+                "id": "383",
                 "length_dnasequence": "960"
             },
             {
@@ -4135,7 +4148,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1357",
+                "id": "384",
                 "length_dnasequence": "960"
             },
             {
@@ -4146,7 +4159,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1358",
+                "id": "385",
                 "length_dnasequence": "960"
             },
             {
@@ -4157,7 +4170,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1359",
+                "id": "386",
                 "length_dnasequence": "960"
             },
             {
@@ -4168,7 +4181,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1360",
+                "id": "387",
                 "length_dnasequence": "960"
             },
             {
@@ -4179,7 +4192,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1361",
+                "id": "388",
                 "length_dnasequence": "960"
             },
             {
@@ -4190,7 +4203,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1362",
+                "id": "389",
                 "length_dnasequence": "960"
             },
             {
@@ -4201,7 +4214,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1363",
+                "id": "390",
                 "length_dnasequence": "960"
             },
             {
@@ -4212,7 +4225,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1364",
+                "id": "391",
                 "length_dnasequence": "960"
             },
             {
@@ -4223,7 +4236,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1365",
+                "id": "392",
                 "length_dnasequence": "960"
             },
             {
@@ -4234,7 +4247,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1366",
+                "id": "393",
                 "length_dnasequence": "960"
             },
             {
@@ -4245,7 +4258,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1367",
+                "id": "394",
                 "length_dnasequence": "960"
             },
             {
@@ -4256,7 +4269,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1368",
+                "id": "395",
                 "length_dnasequence": "960"
             },
             {
@@ -4267,7 +4280,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1369",
+                "id": "396",
                 "length_dnasequence": "960"
             },
             {
@@ -4278,7 +4291,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1370",
+                "id": "397",
                 "length_dnasequence": "960"
             },
             {
@@ -4289,7 +4302,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1371",
+                "id": "398",
                 "length_dnasequence": "960"
             },
             {
@@ -4300,7 +4313,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1372",
+                "id": "399",
                 "length_dnasequence": "960"
             },
             {
@@ -4311,7 +4324,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1373",
+                "id": "400",
                 "length_dnasequence": "960"
             },
             {
@@ -4322,7 +4335,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1374",
+                "id": "401",
                 "length_dnasequence": "960"
             },
             {
@@ -4333,7 +4346,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1375",
+                "id": "402",
                 "length_dnasequence": "960"
             },
             {
@@ -4344,7 +4357,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1376",
+                "id": "403",
                 "length_dnasequence": "960"
             },
             {
@@ -4355,7 +4368,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1377",
+                "id": "404",
                 "length_dnasequence": "960"
             },
             {
@@ -4366,7 +4379,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1378",
+                "id": "405",
                 "length_dnasequence": "960"
             },
             {
@@ -4377,7 +4390,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1379",
+                "id": "406",
                 "length_dnasequence": "960"
             },
             {
@@ -4388,7 +4401,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1380",
+                "id": "407",
                 "length_dnasequence": "960"
             },
             {
@@ -4399,7 +4412,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1381",
+                "id": "408",
                 "length_dnasequence": "960"
             },
             {
@@ -4410,7 +4423,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1382",
+                "id": "409",
                 "length_dnasequence": "960"
             },
             {
@@ -4421,7 +4434,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1383",
+                "id": "410",
                 "length_dnasequence": "960"
             },
             {
@@ -4432,7 +4445,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1384",
+                "id": "411",
                 "length_dnasequence": "960"
             },
             {
@@ -4443,7 +4456,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1385",
+                "id": "412",
                 "length_dnasequence": "960"
             },
             {
@@ -4454,7 +4467,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1386",
+                "id": "413",
                 "length_dnasequence": "960"
             },
             {
@@ -4465,7 +4478,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1387",
+                "id": "414",
                 "length_dnasequence": "960"
             },
             {
@@ -4476,7 +4489,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1388",
+                "id": "415",
                 "length_dnasequence": "960"
             },
             {
@@ -4487,7 +4500,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1389",
+                "id": "416",
                 "length_dnasequence": "954"
             },
             {
@@ -4498,7 +4511,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1390",
+                "id": "417",
                 "length_dnasequence": "960"
             },
             {
@@ -4509,7 +4522,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1391",
+                "id": "418",
                 "length_dnasequence": "960"
             },
             {
@@ -4520,7 +4533,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1392",
+                "id": "419",
                 "length_dnasequence": "960"
             },
             {
@@ -4531,7 +4544,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1393",
+                "id": "420",
                 "length_dnasequence": "960"
             },
             {
@@ -4542,7 +4555,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1394",
+                "id": "421",
                 "length_dnasequence": "960"
             },
             {
@@ -4553,7 +4566,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1395",
+                "id": "422",
                 "length_dnasequence": "960"
             },
             {
@@ -4564,7 +4577,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1396",
+                "id": "423",
                 "length_dnasequence": "960"
             },
             {
@@ -4575,7 +4588,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1397",
+                "id": "424",
                 "length_dnasequence": "960"
             },
             {
@@ -4586,7 +4599,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1398",
+                "id": "425",
                 "length_dnasequence": "960"
             },
             {
@@ -4597,7 +4610,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1399",
+                "id": "426",
                 "length_dnasequence": "960"
             },
             {
@@ -4608,7 +4621,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1400",
+                "id": "427",
                 "length_dnasequence": "960"
             },
             {
@@ -4619,7 +4632,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1401",
+                "id": "428",
                 "length_dnasequence": "960"
             },
             {
@@ -4630,7 +4643,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1402",
+                "id": "429",
                 "length_dnasequence": "960"
             },
             {
@@ -4641,7 +4654,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1403",
+                "id": "430",
                 "length_dnasequence": "960"
             },
             {
@@ -4652,7 +4665,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1404",
+                "id": "431",
                 "length_dnasequence": "960"
             },
             {
@@ -4663,7 +4676,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "b",
-                "id": "1405",
+                "id": "432",
                 "length_dnasequence": "270"
             },
             {
@@ -4674,7 +4687,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1406",
+                "id": "433",
                 "length_dnasequence": "270"
             },
             {
@@ -4685,7 +4698,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1407",
+                "id": "434",
                 "length_dnasequence": "261"
             },
             {
@@ -4696,7 +4709,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1408",
+                "id": "435",
                 "length_dnasequence": "270"
             },
             {
@@ -4707,7 +4720,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1409",
+                "id": "436",
                 "length_dnasequence": "270"
             },
             {
@@ -4718,7 +4731,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1410",
+                "id": "437",
                 "length_dnasequence": "270"
             },
             {
@@ -4729,7 +4742,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1411",
+                "id": "438",
                 "length_dnasequence": "270"
             },
             {
@@ -4740,7 +4753,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1412",
+                "id": "439",
                 "length_dnasequence": "270"
             },
             {
@@ -4751,7 +4764,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1413",
+                "id": "440",
                 "length_dnasequence": "270"
             },
             {
@@ -4762,7 +4775,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1414",
+                "id": "441",
                 "length_dnasequence": "270"
             },
             {
@@ -4773,7 +4786,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1415",
+                "id": "442",
                 "length_dnasequence": "270"
             },
             {
@@ -4784,7 +4797,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1416",
+                "id": "443",
                 "length_dnasequence": "270"
             },
             {
@@ -4795,7 +4808,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1417",
+                "id": "444",
                 "length_dnasequence": "270"
             },
             {
@@ -4806,7 +4819,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1418",
+                "id": "445",
                 "length_dnasequence": "270"
             },
             {
@@ -4817,7 +4830,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "c",
-                "id": "1419",
+                "id": "446",
                 "length_dnasequence": "270"
             },
             {
@@ -4828,7 +4841,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/). Redesigned as stx2l (previously stx2e) by Xi Yang (https://doi.org/10.3390/microorganisms10061245)",
                 "subtype": "l",
-                "id": "1420",
+                "id": "447",
                 "length_dnasequence": "270"
             },
             {
@@ -4839,7 +4852,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1421",
+                "id": "448",
                 "length_dnasequence": "270"
             },
             {
@@ -4850,7 +4863,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1422",
+                "id": "449",
                 "length_dnasequence": "270"
             },
             {
@@ -4861,7 +4874,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1423",
+                "id": "450",
                 "length_dnasequence": "270"
             },
             {
@@ -4872,7 +4885,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1424",
+                "id": "451",
                 "length_dnasequence": "270"
             },
             {
@@ -4883,7 +4896,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1425",
+                "id": "452",
                 "length_dnasequence": "270"
             },
             {
@@ -4894,7 +4907,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1426",
+                "id": "453",
                 "length_dnasequence": "270"
             },
             {
@@ -4905,7 +4918,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1427",
+                "id": "454",
                 "length_dnasequence": "270"
             },
             {
@@ -4916,7 +4929,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1428",
+                "id": "455",
                 "length_dnasequence": "270"
             },
             {
@@ -4927,7 +4940,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1429",
+                "id": "456",
                 "length_dnasequence": "270"
             },
             {
@@ -4938,7 +4951,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1430",
+                "id": "457",
                 "length_dnasequence": "270"
             },
             {
@@ -4949,7 +4962,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1431",
+                "id": "458",
                 "length_dnasequence": "270"
             },
             {
@@ -4960,7 +4973,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1432",
+                "id": "459",
                 "length_dnasequence": "270"
             },
             {
@@ -4971,7 +4984,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1433",
+                "id": "460",
                 "length_dnasequence": "270"
             },
             {
@@ -4982,7 +4995,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1434",
+                "id": "461",
                 "length_dnasequence": "270"
             },
             {
@@ -4993,7 +5006,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1435",
+                "id": "462",
                 "length_dnasequence": "270"
             },
             {
@@ -5004,7 +5017,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1436",
+                "id": "463",
                 "length_dnasequence": "270"
             },
             {
@@ -5015,7 +5028,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1437",
+                "id": "464",
                 "length_dnasequence": "270"
             },
             {
@@ -5026,7 +5039,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "a",
-                "id": "1438",
+                "id": "465",
                 "length_dnasequence": "270"
             },
             {
@@ -5037,7 +5050,7 @@
                 "protsequence": "MKKMFMAVLFALVSVNAMAADCAKGKIEFSKYNENDTFTVKVAGKEYWTNRWNLQPLLQSAQLTGMTVTIKSSTCASGSGFAEVQFNND",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1439",
+                "id": "466",
                 "length_dnasequence": "270"
             },
             {
@@ -5048,7 +5061,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1440",
+                "id": "467",
                 "length_dnasequence": "270"
             },
             {
@@ -5059,7 +5072,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1441",
+                "id": "468",
                 "length_dnasequence": "270"
             },
             {
@@ -5070,7 +5083,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "d",
-                "id": "1442",
+                "id": "469",
                 "length_dnasequence": "270"
             },
             {
@@ -5081,7 +5094,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1443",
+                "id": "470",
                 "length_dnasequence": "264"
             },
             {
@@ -5092,7 +5105,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "f",
-                "id": "1444",
+                "id": "471",
                 "length_dnasequence": "264"
             },
             {
@@ -5103,7 +5116,7 @@
                 "protsequence": "",
                 "source": "BioNumerics (https://www.bionumerics.com/)",
                 "subtype": "e",
-                "id": "1445",
+                "id": "472",
                 "length_dnasequence": "264"
             },
             {
@@ -5114,7 +5127,7 @@
                 "gene": "stx2A",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "h",
-                "id": "1446",
+                "id": "473",
                 "length_dnasequence": "960"
             },
             {
@@ -5125,7 +5138,7 @@
                 "gene": "stx2B",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "h",
-                "id": "1447",
+                "id": "474",
                 "length_dnasequence": "264"
             },
             {
@@ -5136,7 +5149,7 @@
                 "gene": "stx2h",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "h",
-                "id": "1448",
+                "id": "475",
                 "length_dnasequence": "1236"
             },
             {
@@ -5147,7 +5160,7 @@
                 "gene": "stx2A",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "j",
-                "id": "1449",
+                "id": "476",
                 "length_dnasequence": "951"
             },
             {
@@ -5158,7 +5171,7 @@
                 "gene": "stx2B",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "j",
-                "id": "1450",
+                "id": "477",
                 "length_dnasequence": "264"
             },
             {
@@ -5169,7 +5182,7 @@
                 "gene": "stx2j",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
                 "subtype": "j",
-                "id": "1451",
+                "id": "478",
                 "length_dnasequence": "1234"
             },
             {
@@ -5180,7 +5193,7 @@
                 "source": "AMRFinder and publications https://www.sciencedirect.com/science/article/pii/S0362028X22077699 plus https://www.sciencedirect.com/science/article/pii/S1438422119304618 and https://www.sciencedirect.com/science/article/pii/S1438422119304618",
                 "gene": "stx2A",
                 "description": "Shiga toxin 2 subunit A subtype k (stx2k)",
-                "id": "1452",
+                "id": "479",
                 "length_dnasequence": "960"
             },
             {
@@ -5191,7 +5204,7 @@
                 "gene": "stx2k",
                 "description": "Shiga toxin 2 subtype k complete sequence (subunits A and B)",
                 "source": "Publication https://www.sciencedirect.com/science/article/pii/S1438422119304618",
-                "id": "1453",
+                "id": "480",
                 "length_dnasequence": "1241"
             },
             {
@@ -5202,7 +5215,7 @@
                 "gene": "stx2A",
                 "description": "Shiga toxin 2 subunit A subtype m (stx2m)",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1454",
+                "id": "481",
                 "length_dnasequence": "960"
             },
             {
@@ -5213,7 +5226,7 @@
                 "subtype": "m",
                 "gene": "stx2B",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1455",
+                "id": "482",
                 "length_dnasequence": "264"
             },
             {
@@ -5224,7 +5237,7 @@
                 "subtype": "m",
                 "gene": "stx2m",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1456",
+                "id": "483",
                 "length_dnasequence": "1236"
             },
             {
@@ -5235,7 +5248,7 @@
                 "gene": "stx2A",
                 "description": "Shiga toxin 2 subunit A subtype n (stx2n)",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1457",
+                "id": "484",
                 "length_dnasequence": "942"
             },
             {
@@ -5246,7 +5259,7 @@
                 "gene": "stx2B",
                 "description": "Shiga toxin 2 subunit B subtype n (stx2n)",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1458",
+                "id": "485",
                 "length_dnasequence": "264"
             },
             {
@@ -5257,7 +5270,7 @@
                 "gene": "stx2n",
                 "description": "Shiga toxin 2 subtype n complete sequence (subunits A and B)",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1459",
+                "id": "486",
                 "length_dnasequence": "1236"
             },
             {
@@ -5268,7 +5281,7 @@
                 "protsequence": "MKKMFIVALFSLVSVNAMAADCAKGKIEFSKYNGNNTFTVKVAGKEYWTNRWNLQPLLQSAQLTGMTVTIKSITCDSGSGFAEVQFN",
                 "gene": "stx2B",
                 "source": "Publication https://journals.asm.org/doi/full/10.1128/jcm.02229-21",
-                "id": "1460",
+                "id": "487",
                 "length_dnasequence": "264"
             },
             {
@@ -5279,7 +5292,7 @@
                 "protsequence": "MKCILLKWVLCLLLGFSSVSYSREFTIDFSTQQSYVSSLNSIRTAISTPLEHISQGATSVSVINHTPPGSYIAVDIRGLDIYQARFDHLRLIVDQNNLYVAGFVNTATNTFYRFSDFAHISVPGVTTVSMTTDSSYTTLQRVAALERSGMQISRHSLVSSYLALMEFSGNAMTREASRAVLRFVTVTAEALRFRQIQREFRQALSEAAPVYTMTPEDVDLTLNWGRISNVLPAFRGEDGVRVGRISFNNISAILGTMAVILNCHHQGARSVRSVNEYKQPECQITGDRSVIKINNILWESNTAAAFLNRKSQSLYDTGK",
                 "gene": "stx2A",
                 "source": "Publication https://journals.asm.org/doi/full/10.1128/jcm.02229-21",
-                "id": "1461",
+                "id": "488",
                 "length_dnasequence": "960"
             },
             {
@@ -5290,7 +5303,7 @@
                 "protsequence": "",
                 "gene": "stx2o",
                 "source": "AMRFinderPlus https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/latest/AMR_CDS",
-                "id": "1462",
+                "id": "489",
                 "length_dnasequence": "1236"
             }
         ]
@@ -5323,7 +5336,8 @@
                     "aaiC",
                     "aggR",
                     "aggA",
-                    "aap"
+                    "aap",
+                    "aafA"
                 ],
                 "5": [
                     "aatA"
@@ -5339,21 +5353,24 @@
                 ],
                 "9": [
                     "aap"
+                ],
+                "10": [
+                    "aafA"
                 ]
             }
         },
         "EHEC": {
             "name": "Enterohaemorrhagic Escherichia coli",
             "rules": {
-                "10": [
+                "11": [
                     "stx1",
                     "eae"
                 ],
-                "11": [
+                "12": [
                     "stx2",
                     "eae"
                 ],
-                "12": [
+                "13": [
                     "stx1",
                     "stx2",
                     "eae"
@@ -5363,13 +5380,13 @@
         "EIEC": {
             "name": "Enteroinvasive Escherichia coli",
             "rules": {
-                "13": [
+                "14": [
                     "ipaH"
                 ],
-                "14": [
+                "15": [
                     "ipaD"
                 ],
-                "15": [
+                "16": [
                     "ipaH",
                     "ipaD"
                 ]
@@ -5378,17 +5395,17 @@
         "EPEC": {
             "name": "Enteropathogenic Escherichia coli",
             "rules": {
-                "16": [
+                "17": [
                     "eae",
                     "!stx1",
                     "!stx2"
                 ],
-                "17": [
+                "18": [
                     "bfpA",
                     "!stx1",
                     "!stx2"
                 ],
-                "18": [
+                "19": [
                     "eae",
                     "bfpA",
                     "!stx1",
@@ -5399,25 +5416,25 @@
         "ETEC": {
             "name": "Enterotoxigenic Escherichia coli",
             "rules": {
-                "19": [
+                "20": [
                     "ltcA"
                 ],
-                "20": [
+                "21": [
                     "sta1"
                 ],
-                "21": [
+                "22": [
                     "sta2"
                 ],
-                "22": [
+                "23": [
                     "sta3/4"
                 ],
-                "23": [
+                "24": [
                     "stb"
                 ],
-                "24": [
+                "25": [
                     "eltA"
                 ],
-                "25": [
+                "26": [
                     "eltB"
                 ]
             }
@@ -5425,18 +5442,18 @@
         "STEC": {
             "name": "Shiga toxin-producing Escherichia coli",
             "rules": {
-                "26": [
+                "27": [
                     "stx1"
                 ],
-                "27": [
+                "28": [
                     "stx2"
                 ],
-                "28": [
+                "29": [
                     "stx1",
                     "stx2"
                 ]
             }
         }
     },
-    "version": "2024-05-28"
+    "version": "2024-07-03"
 }
