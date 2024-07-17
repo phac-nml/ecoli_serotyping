@@ -11,7 +11,7 @@ DATA_DIR = os.path.join(ROOT_DIR, 'Data')
 WORKPLACE_DIR = os.getcwd()
 
 SEROTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_alleles_db.json')
-PATHOTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_pathotyping_database_v2.json')
+PATHOTYPE_ALLELE_JSON = os.path.join(DATA_DIR, 'ectyper_patho_stx_toxin_typing_database.json')
 SPECIES_ID_SKETCH = os.path.join(DATA_DIR, 'EnteroRef_GTDBSketch_20231003_V2.msh')
 #ECOLI_MARKERS = os.path.join(DATA_DIR, 'ecoli_specific_markers.fasta')
 #REFSEQ_SUMMARY = os.path.join(DATA_DIR, 'assembly_summary_refseq.txt')
