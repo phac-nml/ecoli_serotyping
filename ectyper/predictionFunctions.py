@@ -67,6 +67,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                     'stx_pidents': [],
                     'stx_pcovs':[],
                     'stx_contigs':[],
+                    'stx_contigs_num': [],
                     'stx_gene_lengths':[],
                     'stx_gene_ranges':[]
                 }
@@ -74,9 +75,9 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
         stx_toxin_df = pathotype_genes_tmp_df.query(f'gene == "{gene}"')
         stx_toxin_df.loc[:,['stx_subtype', 'stx_seqtype', 'stx_contig_name','rangeid']] = '-'
    
-            
+          
         
-        if stx_toxin_df.empty == False:
+        if stx_toxin_df.empty == False:   
             #homogenize allele coordinates for +1 and -1 strands making coordinates on +1 strand
             hits_coordinates = stx_toxin_df.query('sframe == -1')[['send','sstart']]
             stx_toxin_df.loc[list(stx_toxin_df.loc[:,'sframe'] == -1),'sstart'] = hits_coordinates['send']
@@ -85,6 +86,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             stx_toxin_df.loc[:,'stx_subtype'] = stx_toxin_df['qseqid'].apply(lambda x:x.split('|')[4]).copy().to_list() #extract subtypes
             stx_toxin_df.loc[:,'stx_contig_name']  = stx_toxin_df['sseqid'].apply(lambda x: x.split('|')[2]).copy().to_list() #extract contig names
             stx_contigs = stx_toxin_df.stx_contig_name.unique()
+            results_dict['stx_contigs_num'].append(f"{gene}:{len(stx_contigs)}")
             stx_types = ['complete_sequence','subunit_A', 'subunit_B'] #extract molecule types
             stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
             stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
@@ -173,6 +175,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])
         else:
             results_dict[k] = "-"   
+    print(results_dict)        
     return results_dict
 
 def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, 
@@ -200,7 +203,6 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
     
     predictions_pathotype_dict = {}
     pathotype_genes_overall_df = pd.DataFrame()
-
 
     #perform pathotyping for all samples if --pathotype key is provided unless a --verify option is specified
     merged_samples_dict = ecoli_genome_files_dict.copy()
@@ -265,9 +267,9 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
             for pathotype in pathotype_db['pathotypes']:
                 pathotype_genes_found = []
                 for rule_id in pathotype_db['pathotypes'][pathotype]['rules'].keys():
-                    ngenes_in_rule = len(pathotype_db['pathotypes'][pathotype]['rules'][rule_id])
+                    ngenes_in_rule = len(pathotype_db['pathotypes'][pathotype]['rules'][rule_id]['genes'])
                     matched_gene_counter = 0
-                    for gene in pathotype_db['pathotypes'][pathotype]['rules'][rule_id]:
+                    for gene in pathotype_db['pathotypes'][pathotype]['rules'][rule_id]['genes']:
                         if "!" in gene:
                             gene = re.sub('!','',gene)
                             if gene not in gene_list:
@@ -281,7 +283,7 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
                     #if pathotype rule was completely matched        
                     if ngenes_in_rule == matched_gene_counter:
                         predictions_pathotype_dict[g]['pathotype'].append(pathotype)
-                        predictions_pathotype_dict[g]['pathotype_rule_ids'].extend([f"{rule_id}:{p}:{'+'.join(json_patho_db['pathotypes'][p]['rules'][r] )}" for p  in json_patho_db['pathotypes'] for r in json_patho_db['pathotypes'][p]['rules'] if r == rule_id])              
+                        predictions_pathotype_dict[g]['pathotype_rule_ids'].extend([f"{rule_id}:{p}:{'+'.join(json_patho_db['pathotypes'][p]['rules'][r]['genes'] )}" for p  in json_patho_db['pathotypes'] for r in json_patho_db['pathotypes'][p]['rules'] if r == rule_id])              
                         predictions_pathotype_dict[g]['pathotype_gene_counts'][pathotype] = []
                         predictions_pathotype_dict[g]['pathotype_gene_counts'][pathotype].extend(pathotype_genes_found) 
 
@@ -299,12 +301,14 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
             predictions_pathotype_dict[g]['pathotype_count'] = f"{len(final_pathotypes_list)}"
             predictions_pathotype_dict[g]['pathotype_rule_ids'] = ";".join(predictions_pathotype_dict[g]['pathotype_rule_ids'])
             predictions_pathotype_dict[g]['pathotype_gene_counts']= ";".join(sorted([f"{p}:{len(set(predictions_pathotype_dict[g]['pathotype_gene_counts'][p]))} ({','.join(sorted(set(predictions_pathotype_dict[g]['pathotype_gene_counts'][p])))})" for p in predictions_pathotype_dict[g]['pathotype_gene_counts']]))
-   
+        # add pathotype database version
+        predictions_pathotype_dict[g]['pathotype_database'] = f"v{json_patho_db['version']}" 
     #write pathotype blastn results
     if debug == True:
         LOG.debug(f"Writting overall pathotype BLASTn results to {output_dir}/blastn_pathotype_alleles_overall.txt")
         pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
     
+
     return predictions_pathotype_dict
         
 

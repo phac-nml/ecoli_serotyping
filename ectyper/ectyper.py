@@ -196,16 +196,16 @@ def run_program():
     # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
     final_predictions = predictionFunctions.add_non_predicted(
         raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
-
+    
     for sample in final_predictions.keys():
         final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"
         if args.pathotype:
-            if sample in predictions_pathotype_dict: #could happen that file is non-fasta and pathotyping was called
+            if sample in predictions_pathotype_dict: #could happen that file is non-fasta and pathotyping is called
                 final_predictions[sample]["pathotype"] = "/".join(sorted(predictions_pathotype_dict[sample]['pathotype']))
                 for field_name in  [f for f in definitions.PATHOTYPE_TOXIN_FIELDS if 'pathotype_' in f]:
                     final_predictions[sample][field_name] = predictions_pathotype_dict[sample][field_name]
                 
-                for field_name in [f for f in definitions.PATHOTYPE_TOXIN_FIELDS if 'stx' in f]:
+                for field_name in [f for f in definitions.PATHOTYPE_TOXIN_FIELDS if 'stx_' in f]:
                     final_predictions[sample][field_name] = predictions_pathotype_dict[sample][field_name]
                     
         if 'O' in final_predictions[sample]: #not all samples will have O-antigen dictionary
@@ -225,7 +225,7 @@ def run_program():
 
         if args.verify:
             final_predictions[sample]["QC"] = predictionFunctions.getQuality_control_results(sample,final_predictions,ectyperdb_dict)
-
+  
     # Store most recent result in working directory
     LOG.info("Reporting final results to output.tsv file ...")
     predictionFunctions.report_result(final_predictions, output_directory,

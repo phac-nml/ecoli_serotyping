@@ -5312,148 +5312,231 @@
         "DAEC": {
             "name": "Diffusely adherent Escherichia coli",
             "rules": {
-                "0": [
-                    "afaC",
-                    "afaE",
-                    "daaE"
-                ],
-                "1": [
-                    "afaC"
-                ],
-                "2": [
-                    "afaE"
-                ],
-                "3": [
-                    "daaE"
-                ]
+                "0": {
+                    "genes": [
+                        "afaC",
+                        "afaE",
+                        "daaE"
+                    ],
+                    "publication": "PMID:37549901"
+                },
+                "1": {
+                    "genes": [
+                        "afaC"
+                    ],
+                    "publication": "PMID:37549901"
+                },
+                "2": {
+                    "genes": [
+                        "afaE"
+                    ],
+                    "publication": "PMID:37549901"
+                },
+                "3": {
+                    "genes": [
+                        "daaE"
+                    ],
+                    "publication": "PMID:37549901"
+                }
             }
         },
         "EAEC": {
             "name": "Enteroaggregative Escherichia coli",
             "rules": {
-                "4": [
-                    "aatA",
-                    "aaiC",
-                    "aggR",
-                    "aggA",
-                    "aap",
-                    "aafA"
-                ],
-                "5": [
-                    "aatA"
-                ],
-                "6": [
-                    "aaiC"
-                ],
-                "7": [
-                    "aggR"
-                ],
-                "8": [
-                    "aggA"
-                ],
-                "9": [
-                    "aap"
-                ],
-                "10": [
-                    "aafA"
-                ]
+                "4": {
+                    "genes": [
+                        "aatA",
+                        "aaiC",
+                        "aggR",
+                        "aggA",
+                        "aafA"
+                    ],
+                    "publication": "PMID:32391284"
+                },
+                "5": {
+                    "genes": [
+                        "aatA"
+                    ],
+                    "publication": "PMID:37549901"
+                },
+                "6": {
+                    "genes": [
+                        "aaiC"
+                    ],
+                    "publication": "PMID:37549901"
+                },
+                "7": {
+                    "genes": [
+                        "aggR"
+                    ],
+                    "publication": "PMID:37549901"
+                },
+                "8": {
+                    "genes": [
+                        "aggA"
+                    ],
+                    "publication": "PMID:32391284"
+                },
+                "9": {
+                    "genes": [
+                        "aafA"
+                    ],
+                    "publication": "PMID:32391284"
+                }
             }
         },
         "EHEC": {
             "name": "Enterohaemorrhagic Escherichia coli",
             "rules": {
-                "11": [
-                    "stx1",
-                    "eae"
-                ],
-                "12": [
-                    "stx2",
-                    "eae"
-                ],
-                "13": [
-                    "stx1",
-                    "stx2",
-                    "eae"
-                ]
+                "10": {
+                    "genes": [
+                        "stx1",
+                        "eae"
+                    ],
+                    "publication": "PMID:11403406,PMID:37549901"
+                },
+                "11": {
+                    "genes": [
+                        "stx2",
+                        "eae"
+                    ],
+                    "publication": "PMID:11403406,PMID:37549901"
+                },
+                "12": {
+                    "genes": [
+                        "stx1",
+                        "stx2",
+                        "eae"
+                    ],
+                    "publication": "PMID:11403406,PMID:37549901"
+                }
             }
         },
         "EIEC": {
             "name": "Enteroinvasive Escherichia coli",
             "rules": {
-                "14": [
-                    "ipaH"
-                ],
-                "15": [
-                    "ipaD"
-                ],
-                "16": [
-                    "ipaH",
-                    "ipaD"
-                ]
+                "13": {
+                    "genes": [
+                        "ipaH"
+                    ],
+                    "publication": "PMID:37549901;PMID:32582565"
+                },
+                "14": {
+                    "genes": [
+                        "ipaD"
+                    ],
+                    "publication": "PMID:32582565"
+                },
+                "15": {
+                    "genes": [
+                        "ipaH",
+                        "ipaD"
+                    ],
+                    "publication": "PMID:32582565"
+                }
             }
         },
         "EPEC": {
             "name": "Enteropathogenic Escherichia coli",
             "rules": {
-                "17": [
-                    "eae",
-                    "!stx1",
-                    "!stx2"
-                ],
-                "18": [
-                    "bfpA",
-                    "!stx1",
-                    "!stx2"
-                ],
-                "19": [
-                    "eae",
-                    "bfpA",
-                    "!stx1",
-                    "!stx2"
-                ]
+                "16": {
+                    "genes": [
+                        "eae",
+                        "!stx1",
+                        "!stx2"
+                    ],
+                    "publication": "PMID:11403406"
+                },
+                "17": {
+                    "genes": [
+                        "bfpA",
+                        "!stx1",
+                        "!stx2"
+                    ],
+                    "publication": "PMID:11403406"
+                },
+                "18": {
+                    "genes": [
+                        "eae",
+                        "bfpA",
+                        "!stx1",
+                        "!stx2"
+                    ],
+                    "publication": "PMID:11403406"
+                }
             }
         },
         "ETEC": {
             "name": "Enterotoxigenic Escherichia coli",
             "rules": {
-                "20": [
-                    "ltcA"
-                ],
-                "21": [
-                    "sta1"
-                ],
-                "22": [
-                    "sta2"
-                ],
-                "23": [
-                    "sta3/4"
-                ],
-                "24": [
-                    "stb"
-                ],
-                "25": [
-                    "eltA"
-                ],
-                "26": [
-                    "eltB"
-                ]
+                "19": {
+                    "genes": [
+                        "ltcA"
+                    ],
+                    "publication": "PMID:32773499"
+                },
+                "20": {
+                    "genes": [
+                        "sta1"
+                    ],
+                    "publication": "PMID:32773499"
+                },
+                "21": {
+                    "genes": [
+                        "sta2"
+                    ],
+                    "publication": "PMID:32773499"
+                },
+                "22": {
+                    "genes": [
+                        "sta3/4"
+                    ],
+                    "publication": "PMID:32773499"
+                },
+                "23": {
+                    "genes": [
+                        "stb"
+                    ],
+                    "publication": "PMID:9488426"
+                },
+                "24": {
+                    "genes": [
+                        "eltA"
+                    ],
+                    "publication": "PMID:32016818"
+                },
+                "25": {
+                    "genes": [
+                        "eltB"
+                    ],
+                    "publication": "PMID:32016818"
+                }
             }
         },
         "STEC": {
             "name": "Shiga toxin-producing Escherichia coli",
             "rules": {
-                "27": [
-                    "stx1"
-                ],
-                "28": [
-                    "stx2"
-                ],
-                "29": [
-                    "stx1",
-                    "stx2"
-                ]
+                "26": {
+                    "genes": [
+                        "stx1"
+                    ],
+                    "publication": "PMID:26355415"
+                },
+                "27": {
+                    "genes": [
+                        "stx2"
+                    ],
+                    "publication": "PMID:26355415"
+                },
+                "28": {
+                    "genes": [
+                        "stx1",
+                        "stx2"
+                    ],
+                    "publication": "PMID:26355415"
+                }
             }
         }
     },
-    "version": "2024-07-03"
+    "version": "2024-07-19"
 }
