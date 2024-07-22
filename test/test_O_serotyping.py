@@ -73,7 +73,7 @@ def test_closeOalles_O42_O28(caplog):
     ectyper.run_program()
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          secondrow = outfp.readlines()[1]
-    assert re.match(r".+Escherichia coli.+O42\/O28\tH25\tO42\/O28:H25", secondrow)
+    assert re.match(r".+Escherichia coli.+O28\/O42\tH25\tO28\/O42:H25", secondrow)
 
 
 def test_Shigella_typing(caplog):
@@ -179,7 +179,7 @@ def test_Ecoli_O17H18(caplog):
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #check only second row
-    assert "Escherichia coli\tO77/O17/O44/O106\tH18\tO77/O17/O44/O106:H18\tWARNING MIXED O-TYPE" in secondrow
+    assert "Escherichia coli\tO17/O77/O44/O106\tH18\tO17/O77/O44/O106:H18\tWARNING MIXED O-TYPE" in secondrow
 
 def test_download_refseq_mash(caplog, tmpdir):
     caplog.set_level(logging.DEBUG)

@@ -45,7 +45,7 @@ def get_files_as_list(file_or_directory):
                 if os.path.exists(os.path.abspath(filename)):
                     files_list.append(os.path.abspath(filename))
         else:
-            LOG.info("Checking file " + file_or_directory)
+            LOG.info("Checking existence of file " + file_or_directory)
             input_abs_file_path = os.path.abspath(file_or_directory)
             if os.path.exists(input_abs_file_path):
                 files_list.append(os.path.abspath(input_abs_file_path))
@@ -106,15 +106,13 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     :param args: Commandline arguments
     :return: Dictionary of files with the fasta headers modified for each filename {sampleid: {species:"","filepath":"","modheaderfile":"","error":""}}
     """
-
     files=[]
     for sample in files_dict.keys():
        files.append(files_dict[sample]["filepath"])
     
-    LOG.debug("Updating fasta headers ....")
+    LOG.info("Updating fasta headers ....")
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
-
-
+    
     with Pool(processes=args.cores) as pool:
         (results)= pool.map(partial_ghw, files)
 
@@ -146,10 +144,14 @@ def genome_header_wrapper(file, temp_dir):
 
     with open(new_file, "w") as outfile:
         with open(file) as infile:
-            for record in SeqIO.parse(infile, "fasta"):
-                outfile.write(
-                    ">lcl|" + n_name + "|" + record.description.replace('|','_') + "\n") #the | symbol used to find contig names in FASTA headers so should be avoided
-                outfile.write(str(record.seq) + "\n")
+            try:
+                for record in SeqIO.parse(infile, "fasta"):
+                    outfile.write(
+                        ">lcl|" + n_name + "|" + record.description.replace('|','_') + "\n") #the | symbol used to find contig names in FASTA headers so should be avoided
+                    outfile.write(str(record.seq) + "\n")
+            except:
+                LOG.warning(f"File {infile.name} is not a valid FASTA file and all further processing steps will be skipped ...")
+                pass        
 
     return {"oldfile":file,"newfile":new_file, "samplename":n_name}
 
