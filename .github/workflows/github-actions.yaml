@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: "3.12"
     - name: Install dependencies
@@ -35,7 +35,7 @@ jobs:
         else
           pip3 install -e .
         fi
-        mob_init
+        ectyper_init
     - name: Test  with pytest
       run: |
         pytest -o log_cli=true --basetemp=tmp-pytest
