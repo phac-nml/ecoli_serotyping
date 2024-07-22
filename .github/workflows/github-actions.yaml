@@ -27,7 +27,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install samtools bowtie2 mash bcftools ncbi-blast+ seqtk libcurl4-openssl-dev libssl-dev ca-certificates -y
-        sudo apt-get install python3-pip python3-dev python3-pandas python3-requests  python-biopython -y
+        sudo apt-get install python3-pip python3-dev python3-pandas python3-requests  python3-biopython -y
         python3 -m pip install --upgrade pip setuptools
         pip3 install pytest
         if [ -f requirements.txt ]; then 
