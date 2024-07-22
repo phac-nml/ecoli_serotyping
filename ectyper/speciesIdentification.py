@@ -305,7 +305,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
 
     for bf in ofiles:
         sampleName = getSampleName(bf)
-        LOG.warning("Non fasta / fastq file.")
+        LOG.warning(f"{sampleName} is non fasta / fastq file. Species identification aborted")
         other_files_dict[sampleName] = {"error":"Non fasta / fastq file. ","filepath":bf,"species":"-"}
 
     for file in filesnotfound:
