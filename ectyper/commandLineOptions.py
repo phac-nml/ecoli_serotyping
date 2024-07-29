@@ -57,9 +57,19 @@ def parse_command_line(args=None):
         "--input",
         help="Location of E. coli genome file(s). Can be a single file, a \
             comma-separated list of files, or a directory",
-        required=True
+        required=True,
+        nargs="+"
     )
 
+    parser.add_argument(
+        "-d",
+        "--maxdepth",
+        help="Maximum number of directories to descend when searching an input directory of files",
+        default=1e6, 
+        type=int,   
+        required=False
+    )
+    
     parser.add_argument(
         "-c",
         "--cores",

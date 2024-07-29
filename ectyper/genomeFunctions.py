@@ -15,9 +15,14 @@ from ectyper import definitions, subprocess_util, predictionFunctions,commandLin
 
 LOG = logging.getLogger(__name__)
 
+def get_relative_directory_level(path = '.', init_min_level=0):
+    level = os.path.abspath(path).count(os.sep) - init_min_level
+    if os.path.isdir(path):
+       return  level + 1 #directory paths are missing terminating '/' symbol so need to adjust counter
+    else:
+       return level
 
-
-def get_files_as_list(file_or_directory):
+def get_files_as_list(files_or_directories, max_depth_level):
     """
     Creates a list of files from either the given file, or all files within the
     directory specified (where each file name is its absolute path).
@@ -30,26 +35,41 @@ def get_files_as_list(file_or_directory):
     """
 
     files_list = []
-    if file_or_directory:
-        if os.path.isdir(file_or_directory):
-            LOG.info("Gathering genomes from directory " + file_or_directory)
+    init_min_dir_level = min([os.path.abspath(p).count(os.sep)+1 if os.path.isdir(p) else os.path.abspath(p).count(os.sep) for p in files_or_directories])
+   
+    for file_or_directory in sorted([os.path.abspath(p) for p in files_or_directories]):
 
+        dir_level_current = get_relative_directory_level(file_or_directory, init_min_dir_level)
+        LOG.info(f"Gathering genomes from directory {file_or_directory} at level {dir_level_current} ...")
+
+        if dir_level_current > max_depth_level:
+            LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping directory {file_or_directory} ...")
+            continue
+        
+        # if single directory is specified
+        if os.path.isdir(file_or_directory):
             # Create a list containing the file names
-            for root, dirs, files in os.walk(file_or_directory):
+            for root, dirs, files in os.walk(os.path.abspath(file_or_directory)):
+                dir_level = get_relative_directory_level(root, init_min_dir_level)
+                LOG.info(f"In '{root}' level {dir_level} identified {len(dirs)} sub-directory(ies) and {len(files)} file(s) ...")
+                if dir_level > max_depth_level:
+                    continue
                 for filename in files:
                     files_list.append(os.path.join(root, filename))
-            LOG.info(f"Identified {len(files_list)} genomes in {file_or_directory}")        
         # check if input is concatenated file locations separated by , (comma)
         elif ',' in file_or_directory:
-            LOG.info("Using genomes in the input list separated by ','")
+            LOG.info("Using file paths in the input list separated by the ',' symbol ...")
             missing_inputs_count = 0
             for filename in file_or_directory.split(','):
-                if os.path.exists(os.path.abspath(filename)):
+                if os.path.exists(os.path.abspath(filename)) == True and os.path.isdir(filename) == False:
                     files_list.append(os.path.abspath(filename))
+                elif os.path.isdir(os.path.abspath(filename)):
+                    LOG.warning(f"Provided {filename} is a directory and not a file. Only paths to files are acceptable in ',' separated list ...")   
                 else:
                     LOG.warning(f"File {filename} not found in the ',' separated list")
                     missing_inputs_count += 1
-            LOG.info(f"Total of {len(files_list)} genomes identified with a valid path and {missing_inputs_count} missing")           
+            LOG.info(f"Total of {len(files_list)} files identified with a valid path and {missing_inputs_count} are missing ...")           
+        # a path to a file is specified
         else:
             LOG.info("Checking existence of file " + file_or_directory)
             input_abs_file_path = os.path.abspath(file_or_directory)
@@ -62,8 +82,8 @@ def get_files_as_list(file_or_directory):
     if not files_list:
         LOG.critical("No files were found for the ectyper run")
         raise FileNotFoundError("No files were found to run on")
-
-    sorted_files = sorted(files_list)
+    LOG.info(f"Overall identified {len(files_list)} file(s) to process ...");
+    sorted_files = sorted(list(set(files_list)))
     LOG.debug(sorted_files)
     return sorted_files
 
