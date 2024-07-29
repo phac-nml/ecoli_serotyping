@@ -120,10 +120,10 @@ def run_program():
     os.makedirs(temp_dir, exist_ok=True)
    
     LOG.info("Gathering genome files list ...")
-    raw_genome_files = decompress_gunzip_files(genomeFunctions.get_files_as_list(args.input), temp_dir)
+    input_files_list = genomeFunctions.get_files_as_list(args.input)
+    raw_genome_files = decompress_gunzip_files(input_files_list, temp_dir)
   
-    LOG.info("Identifying genome file types")
-
+    LOG.info(f"Identifying genome file types on {len(raw_genome_files)} inputs ...")
     raw_files_dict = genomeFunctions.identify_raw_files(raw_genome_files,
                                                             args)
 

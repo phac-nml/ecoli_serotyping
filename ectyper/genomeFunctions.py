@@ -38,12 +38,18 @@ def get_files_as_list(file_or_directory):
             for root, dirs, files in os.walk(file_or_directory):
                 for filename in files:
                     files_list.append(os.path.join(root, filename))
+            LOG.info(f"Identified {len(files_list)} genomes in {file_or_directory}")        
         # check if input is concatenated file locations separated by , (comma)
         elif ',' in file_or_directory:
-            LOG.info("Using genomes in the input list")
+            LOG.info("Using genomes in the input list separated by ','")
+            missing_inputs_count = 0
             for filename in file_or_directory.split(','):
                 if os.path.exists(os.path.abspath(filename)):
                     files_list.append(os.path.abspath(filename))
+                else:
+                    LOG.warning(f"File {filename} not found in the ',' separated list")
+                    missing_inputs_count += 1
+            LOG.info(f"Total of {len(files_list)} genomes identified with a valid path and {missing_inputs_count} missing")           
         else:
             LOG.info("Checking existence of file " + file_or_directory)
             input_abs_file_path = os.path.abspath(file_or_directory)
@@ -213,7 +219,9 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
         '-U', reads,
         '-S', sam_reads
     ]
+
     subprocess_util.run_subprocess(bowtie_run)
+
 
     # Convert reads from sam to bam
     bam_reads = os.path.join(temp_dir, output_name + '.bam')
