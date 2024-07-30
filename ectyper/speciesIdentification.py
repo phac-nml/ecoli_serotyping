@@ -162,7 +162,7 @@ def get_species(file, args, cores=1):
     Returns:
         str: name of estimated species
     """
-
+    LOG.debug(f"Get species prediction for {file}")
     top_match="-"; top_match_dist="-"; top_match_hashratio="-"; species="-"
     sketch_metadata_file = args.reference+'.txt' 
     if os.path.exists(sketch_metadata_file) == False:
@@ -202,36 +202,36 @@ def get_species(file, args, cores=1):
 
 
     if len(top_hit_lines) < 1:
+        top_hit_line = ""
         LOG.warning('For {file} no hits returned by MASH species id sketch search. Species identification failed!')
     else:
+        top_hit_line = top_hit_lines[0]
         LOG.info('For {} following top hits and hash ratios returned by MASH {}'.format(file,
                                                                         [(top_hit_line.split("\t")[0],top_hit_line.split("\t")[4]) for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]))
 
+    
+    top_hit_line_elements = top_hit_line.split()
 
-    for top_hit_line in top_hit_lines:
-
-        top_hit_line_elements = top_hit_line.split()
-
-        if len(top_hit_line_elements) < 5:
-            LOG.warning("No columns in the mash results output to split. Species identification failed!")
-            continue
-
+    if len(top_hit_line_elements) < 5:
+        LOG.warning("No columns in the mash results output to split. Species identification failed!")
+        species = "-"
+    else:
         top_match = top_hit_line_elements[0]; top_match_dist = top_hit_line_elements[2]; top_match_hashratio = top_hit_line_elements[4]
         matched_hashes = top_match_hashratio.split('/')[0]
         matched_meta_line = subprocess_util.run_subprocess(['grep',top_match, sketch_metadata_file],
-                                                      ignorereturncode=True).stdout.decode('utf-8').split('\t')
+                                                        ignorereturncode=True).stdout.decode('utf-8').split('\t')
         if len(matched_meta_line) == 4 and matched_hashes != '0':
             m=re.search('s__(.+)',matched_meta_line[3])
             if m:
-               species = m.group(1).strip('"')
-               LOG.info(
-        "MASH species top hit {} identified as {} with distance {} to {} and shared hashes ratio {}".format(top_match, species, top_match_dist, file,
-                                                                                            top_match_hashratio))
-               LOG.info("MASH dist predicted species name: '{}' based on species ID sketch {}".format(species, args.reference))
+                species = m.group(1).strip('"')
+                LOG.info(
+            "MASH species top hit {} identified as {} with distance {} to {} and shared hashes ratio {}".format(top_match, species, top_match_dist, file,
+                                                                                                top_match_hashratio))
+                LOG.info("MASH dist predicted species name: '{}' based on species ID sketch {}".format(species, args.reference))
         else:
             LOG.warning(f"Could not determine species based on MASH distance for {file}")
-            species = "-"
-        return species    
+            species = "-" 
+    return species    
         
 
 def getSampleName(file):

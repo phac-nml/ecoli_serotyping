@@ -40,14 +40,14 @@ def get_files_as_list(files_or_directories, max_depth_level):
     for file_or_directory in sorted([os.path.abspath(p) for p in files_or_directories]):
 
         dir_level_current = get_relative_directory_level(file_or_directory, init_min_dir_level)
-        LOG.info(f"Gathering genomes from directory {file_or_directory} at level {dir_level_current} ...")
-
+        
         if dir_level_current > max_depth_level:
-            LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping directory {file_or_directory} ...")
+            LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping {file_or_directory} ...")
             continue
         
         # if single directory is specified
         if os.path.isdir(file_or_directory):
+            LOG.info(f"Gathering genomes from directory {file_or_directory} at level {dir_level_current} ...")
             # Create a list containing the file names
             for root, dirs, files in os.walk(os.path.abspath(file_or_directory)):
                 dir_level = get_relative_directory_level(root, init_min_dir_level)

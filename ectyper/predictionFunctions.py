@@ -174,8 +174,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
         if len(results_dict[k]) != 0:
             results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])
         else:
-            results_dict[k] = "-"   
-    print(results_dict)        
+            results_dict[k] = "-"          
     return results_dict
 
 def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, 
@@ -193,10 +192,10 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
     Returns:
         list: list of pathotypes
     """
-    LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
+    LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} E.coli and non-E.coli {len(other_genomes_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
 
     if len(other_genomes_dict.keys()) > 0 and verify_species_flag == True:
-        LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. Omit --verify option if you want to type ALL samples regardless ...")
+        LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. If you still want to type ALL samples regardless omit --verify option ...")
     
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
     json_patho_db = load_json(definitions.PATHOTYPE_ALLELE_JSON)
@@ -223,7 +222,8 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
             "-outfmt", "6 qseqid qlen sseqid length pident sstart send sframe slen qcovhsp bitscore sseq"
         ]
         LOG.debug(f"BLASTN results on pathotype database written to {temp_dir}/blast_pathotype_result.txt ...")
-        subprocess_util.run_subprocess(cmd)
+        cmd_status = subprocess_util.run_subprocess(cmd)
+        
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
             LOG.warning(f"No pathotype signatures found for sample {g} as pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty. Skipping ...")
             predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
