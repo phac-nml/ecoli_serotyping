@@ -221,11 +221,17 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
             "-out", f"{temp_dir}/blast_pathotype_result.txt",
             "-outfmt", "6 qseqid qlen sseqid length pident sstart send sframe slen qcovhsp bitscore sseq"
         ]
-        LOG.debug(f"BLASTN results on pathotype database written to {temp_dir}/blast_pathotype_result.txt ...")
-        cmd_status = subprocess_util.run_subprocess(cmd)
         
+        cmd_status = subprocess_util.run_subprocess(cmd)
+        if cmd_status.returncode == 0:
+            LOG.info(f"BLASTN on pathotype database for {g} was successful and results written to {temp_dir}/blast_pathotype_result.txt ...")
+        else:
+            LOG.critical(f"BLASTn against pathotype database failed with error code {cmd_status.returncode} and pathotype results for {g} would NOT be available. Skipping pathotyping ...")
+            continue
+
+
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
-            LOG.warning(f"No pathotype signatures found for sample {g} as pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty. Skipping ...")
+            LOG.warning(f"No pathotype signatures found for sample {g} as pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty. Skipping pathotyping...")
             predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
             predictions_pathotype_dict[g]['pathotype']= ['ND']
             continue

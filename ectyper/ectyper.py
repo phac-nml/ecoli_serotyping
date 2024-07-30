@@ -196,7 +196,7 @@ def run_program():
     # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
     final_predictions = predictionFunctions.add_non_predicted(
         raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
-    print(final_predictions)
+    
     
     for sample in final_predictions.keys():
         final_predictions[sample]["database"] = "v"+ectyperdb_dict["version"] + " (" + ectyperdb_dict["date"] + ")"

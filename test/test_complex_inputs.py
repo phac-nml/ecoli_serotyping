@@ -52,7 +52,7 @@ def test_emtpy_BLAST_antigen_hits(tmpdir):
     with open(file=ectyper.definitions.SEROTYPE_ALLELE_JSON) as fp:
             ectyperdb_dict = json.load(fp)
     alleles_fasta_file = ectyper.create_alleles_fasta_file(tmpdir, ectyperdb_dict)
-    db_prediction_dict = ectyper.genome_group_prediction([args.input], alleles_fasta_file, args, tmpdir, ectyperdb_dict)
+    db_prediction_dict = ectyper.genome_group_prediction(args.input, alleles_fasta_file, args, tmpdir, ectyperdb_dict)
     assert db_prediction_dict == {}
 
 def test_invalid_fasta():
