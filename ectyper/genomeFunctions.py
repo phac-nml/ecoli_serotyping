@@ -35,12 +35,14 @@ def get_files_as_list(files_or_directories, max_depth_level):
     """
 
     files_list = []
+    
+    
     init_min_dir_level = min([os.path.abspath(p).count(os.sep)+1 if os.path.isdir(p) else os.path.abspath(p).count(os.sep) for p in files_or_directories])
    
-    for file_or_directory in sorted([os.path.abspath(p) for p in files_or_directories]):
+    for file_or_directory in sorted([os.path.abspath(p) for p in files_or_directories if len(p) != 0]):
 
         dir_level_current = get_relative_directory_level(file_or_directory, init_min_dir_level)
-        
+
         if dir_level_current > max_depth_level:
             LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping {file_or_directory} ...")
             continue

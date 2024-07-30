@@ -59,7 +59,7 @@ def test_integration_no_file():
     :return: None
     """
     file = ''
-    set_input(file)
+    set_input(input=file)
     with pytest.raises(FileNotFoundError) as se:
         ectyper.run_program()
     assert se.type == FileNotFoundError

@@ -65,6 +65,7 @@ def run_program():
     
     args = commandLineOptions.parse_command_line()
     
+    
     output_directory = create_output_directory(args.output)
     
     # Create a file handler for log messages in the output directory for the root thread
