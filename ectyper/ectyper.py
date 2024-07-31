@@ -121,7 +121,7 @@ def run_program():
     os.makedirs(temp_dir, exist_ok=True)
    
     LOG.info("Gathering genome files list ...")
-    input_files_list = genomeFunctions.get_files_as_list(args.input, args.maxdepth)
+    input_files_list = genomeFunctions.get_files_as_list(args.input, args.maxdirdepth)
     raw_genome_files = decompress_gunzip_files(input_files_list, temp_dir)
   
     LOG.info(f"Identifying genome file types on {len(raw_genome_files)} inputs ...")
@@ -157,7 +157,6 @@ def run_program():
             raw_files_dict['filesnotfound'],
             args)
     
-
     
     LOG.info("Standardizing the E.coli genome headers based on file names")
     

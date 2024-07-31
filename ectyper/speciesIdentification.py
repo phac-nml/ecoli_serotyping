@@ -266,14 +266,10 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
     filesnotfound_dict = {}
 
     fasta_files = fasta_fastq_files_dict.keys()
+    
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
         speciesname = "-"
-
-        if is_valid_fasta_file(fasta, sampleName) == False:
-            failverifyerrormessage = f"Sample {sampleName} FASTA file ({fasta}) is empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens database or input FASTA is empty/corrupted. Please check sequence input file of {sampleName}"
-            other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
-            return ecoli_files_dict, other_files_dict, filesnotfound_dict
 
         if sampleName in ecoli_files_dict or sampleName in other_files_dict:
             error_msg = "Duplicated parsed filenames found ('{}'). Offending file paths {}. Only unique file names are supported in batch mode".format(
@@ -281,6 +277,10 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             )
             LOG.error(error_msg)
             raise ValueError(error_msg)
+        
+        if is_valid_fasta_file(fasta, sampleName) == False:
+            failverifyerrormessage = f"Sample {sampleName} FASTA file ({fasta}) is invalid/empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens database or input FASTA is empty/corrupted. Please check sequence input file of {sampleName}"
+  
 
         #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
         if fasta_fastq_files_dict[fasta]:
@@ -288,7 +288,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             speciesname = get_species(fastq_file, args, args.cores)
         else:
             speciesname = get_species(fasta, args, args.cores)
-
+        
         if args.verify:
             failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples." \
                                                                              "If sure that sample is E.coli run without --verify parameter."
@@ -311,5 +311,5 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
     for file in filesnotfound:
         sampleName = getSampleName(file)
         filesnotfound_dict[sampleName]={"error":"File {} not found!".format(file)}
-
+    
     return ecoli_files_dict, other_files_dict,filesnotfound_dict

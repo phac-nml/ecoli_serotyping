@@ -62,10 +62,9 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
-        "-d",
-        "--maxdepth",
+        "--maxdirdepth",
         help="Maximum number of directories to descend when searching an input directory of files",
-        default=1e6, 
+        default=0, 
         type=int,   
         required=False
     )

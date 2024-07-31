@@ -47,7 +47,7 @@ def get_files_as_list(files_or_directories, max_depth_level):
             LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping {file_or_directory} ...")
             continue
         
-        # if single directory is specified
+        # if directory is specified
         if os.path.isdir(file_or_directory):
             LOG.info(f"Gathering genomes from directory {file_or_directory} at level {dir_level_current} ...")
             # Create a list containing the file names

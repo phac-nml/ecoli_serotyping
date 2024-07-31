@@ -868,7 +868,7 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, filesnotfo
     :param predictions_data_frame: the Dict containing the ectyper predictions
     :return: modified prediction file
     """
-
+    
     # genome names are given without the filename extension
     for g in all_genomes_list:
         gname = os.path.splitext(os.path.split(g)[1])[0]
@@ -887,7 +887,7 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, filesnotfo
             }
             else:
                 predictions_dict[gname] = {
-                    'error':  "No O and H antigen determinant E.coli genes were found. Try running with --verify parameter",
+                    'error':  f"No O and H antigen determinant E.coli genes were found in {gname}",
                     'species': ecoli_dict[gname]["species"]
                 }
 
