@@ -17,6 +17,7 @@ def set_input(input,
               percent_iden=None,
               verify = True,
               output=tempfile.mkdtemp(),
+              maxdirdepth=0,
               cores=1,
               print_sequence=False):
     """
@@ -27,7 +28,7 @@ def set_input(input,
     :return: None
     """
     args = ['-i', input,
-            #'-r', os.path.join(TEST_ROOT, 'Data/test_sketch.msh'),
+            '--maxdirdepth', str(maxdirdepth),
             '-c', str(cores)]
 
     if percent_iden:
@@ -134,10 +135,10 @@ def test_multiple_directories(caplog):
     :return: None
     """
     the_dir = os.path.join(TEST_ROOT, 'Data/test_dir')
-    set_input(the_dir, cores=4, verify=True, print_sequence=True)
+    set_input(the_dir, cores=4, verify=True, maxdirdepth=1, print_sequence=True)
     ectyper.run_program()
-    assert any([True if re.match(r".+sample2.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample2"
-    assert any([True if re.match(r".+sample3.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample3"
+    assert any([True if re.match(r".+sample2.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample 2"
+    assert any([True if re.match(r".+sample3.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample 3"
     assert any([True if re.match(r".+sample4.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample 4" 
     assert any([True if re.match(r".+badfasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with badfasta"
     assert any([True if re.match(r".+sample.fasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with sample.fasta"

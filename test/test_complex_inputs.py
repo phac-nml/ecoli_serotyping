@@ -57,12 +57,12 @@ def test_emtpy_BLAST_antigen_hits(tmpdir):
 
 def test_invalid_fasta():
      fastafile=os.path.join(TEST_ROOT, 'Data/invalid_fasta.fasta')
-     set_input(input=fastafile, verify=False, refseqmash=True)
+     set_input(input=fastafile, verify=True, refseqmash=True)
      args = ectyper.commandLineOptions.parse_command_line()
      ecoli_files_dict, other_files_dict,filesnotfound_dict = ectyper.speciesIdentification.verify_ecoli_and_inputs(fasta_fastq_files_dict={fastafile:''}, ofiles=[], filesnotfound=[], args=args)
      assert ecoli_files_dict == {}
      assert other_files_dict['invalid_fasta']['error'] != ''
-     assert 'is empty' in other_files_dict['invalid_fasta']['error'], f'"is empty" not found in "{other_files_dict['invalid_fasta']['error']}"' 
+     assert 'is invalid/empty' in other_files_dict['invalid_fasta']['error'], f'"is invalid/empty" not found in "{other_files_dict['invalid_fasta']['error']}"' 
      assert filesnotfound_dict == {}
 
      

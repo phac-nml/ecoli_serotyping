@@ -264,6 +264,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
     ecoli_files_dict = {}
     other_files_dict = {}
     filesnotfound_dict = {}
+    failverifyerrormessage = ''
 
     fasta_files = fasta_fastq_files_dict.keys()
     
@@ -279,7 +280,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             raise ValueError(error_msg)
         
         if is_valid_fasta_file(fasta, sampleName) == False:
-            failverifyerrormessage = f"Sample {sampleName} FASTA file ({fasta}) is invalid/empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens database or input FASTA is empty/corrupted. Please check sequence input file of {sampleName}"
+            failverifyerrormessage += f"Sample {sampleName} FASTA file ({fasta}) is invalid/empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens or input FASTA is corrupted. Please check sequence input file '{sampleName}'."
   
 
         #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
@@ -290,7 +291,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             speciesname = get_species(fasta, args, args.cores)
         
         if args.verify:
-            failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples." \
+            failverifyerrormessage += "Sample identified as " + speciesname + ": serotyping results are only valid for E.coli samples." \
                                                                              "If sure that sample is E.coli run without --verify parameter."
             if re.match("Escherichia coli", speciesname):
                 ecoli_files_dict[sampleName] = {"species":speciesname,
