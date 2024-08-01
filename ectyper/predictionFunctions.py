@@ -367,7 +367,7 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
     # Make prediction for each genome based on blast output
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         predictions_dict[genome_name] = get_prediction(per_genome_df)
-    LOG.info(f"Serotype prediction successfully completed for {genome_name}")
+        LOG.info(f"Serotype prediction successfully completed for {genome_name}")
     LOG.debug("Predictions dict:\n{}".format(predictions_dict))
 
     return predictions_dict, output_df
