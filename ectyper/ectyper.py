@@ -62,7 +62,7 @@ def run_program():
     Creates all required files and controls function execution.
     :return: success or failure
     """
-    
+    LOG.setLevel(logging.INFO)
     args = commandLineOptions.parse_command_line()
     
     
@@ -76,7 +76,7 @@ def run_program():
         LOG.setLevel(logging.DEBUG)
     else:
         fh.setLevel(logging.INFO)
-        LOG.setLevel(logging.INFO)
+        
     LOG.addHandler(fh)
 
     #try to load database
@@ -235,7 +235,7 @@ def run_program():
     
     if args.debug == False:
         shutil.rmtree(temp_dir, ignore_errors=True)
-    LOG.info("ECTyper has finished successfully.")
+    LOG.info(f"ECTyper has finished successfully. Results available at {os.path.abspath(args.output)}")
 
 def getOantigenHighSimilarGroup(final_predictions, sample):
     pred_Otypes = final_predictions[sample]['O']["serogroup"].split("/") #if call is a mixed call
@@ -263,8 +263,8 @@ def create_output_directory(output_dir):
     :param output_dir: The user-specified output directory, if any
     :return: The output directory
     """
-    # If no output directory is specified for the run, create a one based on
-    # time
+    # If no output directory is specified for the run, create a one based on time
+    
 
 
     if output_dir is None:
@@ -283,6 +283,13 @@ def create_output_directory(output_dir):
 
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
+
+    # clean previous ECTyper output files if the directory was used in previous runs 
+    for file in definitions.OUTPUT_FILES_LIST:
+        path2file = os.path.join(output_dir,file)
+        if os.path.exists(path2file):
+            LOG.info(f"Cleaning ECTyper previous files. Removing previously generated {path2file} ...")
+            os.remove(path2file) 
     return out_dir
 
 
@@ -398,9 +405,14 @@ def genome_group_prediction(g_group, alleles_fasta, args, temp_dir, ectyperdb_di
             blast_output_file,
             ectyperdb_dict,
             args);
-
-    blast_output_file_path = os.path.join(args.output,"blast_output_alleles.txt")
-    blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , sep="\t", index=False)
-    LOG.info("BLAST output file against reference alleles is written at {}".format(blast_output_file_path))
+    
+    blast_output_file_path = os.path.join(args.output,f"blastn_output_alleles.txt")
+    if os.path.exists(blast_output_file_path) == False:
+        blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , sep="\t", index=False)
+        LOG.info("BLAST output file against reference alleles is written at {}".format(blast_output_file_path))
+    else:
+        blast_output_df[sorted(blast_output_df.columns)].to_csv(blast_output_file_path , mode="a", header=False, sep="\t", index=False)
+        LOG.info("Appending BLAST output file against reference alleles at {}".format(blast_output_file_path))
+    
 
     return db_prediction_dict

@@ -47,3 +47,5 @@ OUTPUT_TSV_HEADER = ['Name','Species','O-type','H-type','Serotype','QC',
              'PathotypeIdentities(%)','PathotypeCoverages(%)','PathotypeGeneLengthRatios','PathotypeRuleIDs', 'PathotypeGeneCounts', 'PathoDBVer',
              'StxSubtypes','StxAccessions','StxAlleleIDs', 'StxIdentities(%)','StxCoverages(%)','StxLengths',
              'StxContigNames', 'StxContigNum','StxCoordinates']
+OUTPUT_FILES_LIST = ['blastn_output_alleles.txt', 'blastn_pathotype_alleles_overall.txt', 'mash_output.txt', 
+                     'stx1_allhits_annotated_df.txt', 'stx2_allhits_annotated_df.txt']

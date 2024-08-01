@@ -134,7 +134,11 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             if debug:
                 stx_df_out_filename = f'{gene}_allhits_annotated_df.txt'
                 LOG.debug(f"Wrote {gene} annotated potential hits dataframe to {output_dir}/{stx_df_out_filename}")
-                stx_toxin_df.to_csv(os.path.join(output_dir,stx_df_out_filename), sep="\t", index=False)
+                path2stx_df = os.path.join(output_dir,stx_df_out_filename)
+                if os.path.exists(path2stx_df) == False:
+                    stx_toxin_df.to_csv(path2stx_df, sep="\t", index=False)
+                else:
+                    stx_toxin_df.to_csv(path2stx_df , mode="a", header=False, sep="\t", index=False)     
             # get top hit for each common gene range. Provide mixed call if >1 hits share the same 'bitscore'
             stx_subtypes_dict={}
             for range_id in stx_toxin_df['rangeid'].unique():
@@ -312,7 +316,9 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
     #write pathotype blastn results
     if debug == True:
         LOG.debug(f"Writting overall pathotype BLASTn results to {output_dir}/blastn_pathotype_alleles_overall.txt")
-        pathotype_genes_overall_df.to_csv(f'{output_dir}/blastn_pathotype_alleles_overall.txt',sep="\t", index=False)
+        path2pathotype_df = f'{output_dir}/blastn_pathotype_alleles_overall.txt'
+        pathotype_genes_overall_df.to_csv(path2pathotype_df,sep="\t", index=False)
+        
     
 
     return predictions_pathotype_dict
@@ -361,7 +367,7 @@ def predict_serotype(blast_output_file, ectyper_dict, args):
     # Make prediction for each genome based on blast output
     for genome_name, per_genome_df in output_df.groupby('genome_name'):
         predictions_dict[genome_name] = get_prediction(per_genome_df)
-    LOG.info("Serotype prediction successfully completed")
+    LOG.info(f"Serotype prediction successfully completed for {genome_name}")
     LOG.debug("Predictions dict:\n{}".format(predictions_dict))
 
     return predictions_dict, output_df

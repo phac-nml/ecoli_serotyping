@@ -185,7 +185,7 @@ def get_species(file, args, cores=1):
 
     if args.debug:
         LOG.debug("Wrote MASH against reference sketch results to {}".format(args.output))
-        with open(file=args.output+"/mash_output.txt", mode="w") as fp:
+        with open(file=args.output+"/mash_output.txt", mode="a") as fp:
             fp.write(sort_output.stdout.decode("utf-8"))
         fp.close()
 
