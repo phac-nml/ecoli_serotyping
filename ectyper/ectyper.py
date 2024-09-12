@@ -66,7 +66,7 @@ def run_program():
     args = commandLineOptions.parse_command_line()
     
     
-    output_directory = create_output_directory(args.output)
+    output_directory = create_output_directory(args)
     
     # Create a file handler for log messages in the output directory for the root thread
     fh = logging.FileHandler(os.path.join(output_directory, 'ectyper.log'), 'w', 'utf-8')
@@ -121,6 +121,7 @@ def run_program():
     os.makedirs(temp_dir, exist_ok=True)
    
     LOG.info("Gathering genome files list ...")
+    
     input_files_list = genomeFunctions.get_files_as_list(args.input, args.maxdirdepth)
     raw_genome_files = decompress_gunzip_files(input_files_list, temp_dir)
   
@@ -256,9 +257,9 @@ def getOantigenHighSimilarGroup(final_predictions, sample):
 
 
 
-def create_output_directory(output_dir):
+def create_output_directory(args):
     """
-    Create the output directory for ectyper
+    Create the output directory for ectyper if does not exist already
 
     :param output_dir: The user-specified output directory, if any
     :return: The output directory
@@ -267,7 +268,7 @@ def create_output_directory(output_dir):
     
 
 
-    if output_dir is None:
+    if args.output is None:
         date_dir = ''.join([
             'ectyper_',
             str(datetime.datetime.now().date()),
@@ -275,18 +276,19 @@ def create_output_directory(output_dir):
             str(datetime.datetime.now().time()).replace(':', '.')
         ])
         out_dir = os.path.join(definitions.WORKPLACE_DIR, date_dir)
+        args.output = out_dir
     else:
-        if os.path.isabs(output_dir):
-            out_dir = output_dir
+        if os.path.isabs(args.output):
+            out_dir = args.output 
         else:
-            out_dir = os.path.join(definitions.WORKPLACE_DIR, output_dir)
+            out_dir = os.path.join(definitions.WORKPLACE_DIR, args.output)
 
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
-
+    
     # clean previous ECTyper output files if the directory was used in previous runs 
     for file in definitions.OUTPUT_FILES_LIST:
-        path2file = os.path.join(output_dir,file)
+        path2file = os.path.join(out_dir,file)
         if os.path.exists(path2file):
             LOG.info(f"Cleaning ECTyper previous files. Removing previously generated {path2file} ...")
             os.remove(path2file) 

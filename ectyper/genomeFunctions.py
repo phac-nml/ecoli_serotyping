@@ -5,7 +5,7 @@ Genome Utilities
 '''
 
 import logging
-import os
+import os, glob
 import tempfile
 from tarfile import is_tarfile
 from Bio import SeqIO
@@ -28,7 +28,7 @@ def get_files_as_list(files_or_directories, max_depth_level):
     directory specified (where each file name is its absolute path).
 
     Args:
-        file_or_directory (str): file or directory name given on commandline
+        file_or_directory (str): file or directory name given on command line
 
     Returns:
         files_list (list(str)): List of all the files found.
@@ -38,11 +38,9 @@ def get_files_as_list(files_or_directories, max_depth_level):
     
     
     init_min_dir_level = min([os.path.abspath(p).count(os.sep)+1 if os.path.isdir(p) else os.path.abspath(p).count(os.sep) for p in files_or_directories])
-   
     for file_or_directory in sorted([os.path.abspath(p) for p in files_or_directories if len(p) != 0]):
-
         dir_level_current = get_relative_directory_level(file_or_directory, init_min_dir_level)
-
+ 
         if dir_level_current > max_depth_level:
             LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping {file_or_directory} ...")
             continue
@@ -53,9 +51,9 @@ def get_files_as_list(files_or_directories, max_depth_level):
             # Create a list containing the file names
             for root, dirs, files in os.walk(os.path.abspath(file_or_directory)):
                 dir_level = get_relative_directory_level(root, init_min_dir_level)
-                LOG.info(f"In '{root}' level {dir_level} identified {len(dirs)} sub-directory(ies) and {len(files)} file(s) ...")
                 if dir_level > max_depth_level:
                     continue
+                LOG.info(f"In '{root}' level {dir_level} identified {len(dirs)} sub-directory(ies) and {len(files)} file(s) ...")
                 for filename in files:
                     files_list.append(os.path.join(root, filename))
         # check if input is concatenated file locations separated by , (comma)
@@ -73,7 +71,6 @@ def get_files_as_list(files_or_directories, max_depth_level):
             LOG.info(f"Total of {len(files_list)} files identified with a valid path and {missing_inputs_count} are missing ...")           
         # a path to a file is specified
         else:
-            LOG.info("Checking existence of file " + file_or_directory)
             input_abs_file_path = os.path.abspath(file_or_directory)
             if os.path.exists(input_abs_file_path):
                 files_list.append(os.path.abspath(input_abs_file_path))
@@ -82,9 +79,9 @@ def get_files_as_list(files_or_directories, max_depth_level):
 
 
     if not files_list:
-        LOG.critical("No files were found for the ectyper run")
+        LOG.critical("No files were found for the ectyper to run on")
         raise FileNotFoundError("No files were found to run on")
-    LOG.info(f"Overall identified {len(files_list)} file(s) to process ...");
+    LOG.info(f"Overall identified {len(files_list)} file(s) ({','.join([os.path.basename(f) for f in files_list])}) to process ...");
     sorted_files = sorted(list(set(files_list)))
     LOG.debug(sorted_files)
     return sorted_files
@@ -402,7 +399,7 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir, pathotype)
     """
 
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
-    LOG.info("Creating combined serotype and identification fasta file")
+    LOG.info(f"Creating combined reference database fasta file at {combined_file} ...")
 
     with open(combined_file, 'w') as ofh:
         #with open(definitions.ECOLI_MARKERS, 'r') as mfh:

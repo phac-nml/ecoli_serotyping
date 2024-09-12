@@ -32,7 +32,7 @@ OSEROTYPE_GROUPS_DICT = {'1': ['O20','O137'],
                          '15':['O89','O101','O162'],
                          '16':['O169','O183']
                          }
-MASH_URLS = ["https://drive.usercontent.google.com/download?id=1p0XVb7PuiApYk5ndjLksIc3RcDmUwi6L&export=download&confirm=f"]
+MASH_URLS = ["https://zenodo.org/records/10211569/files/EnteroRef_GTDBSketch_20231003_V2.msh?download=1"]
 
 HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference on average
 MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to pre-filter BLAST output  (identical to global threshold)
