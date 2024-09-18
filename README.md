@@ -7,14 +7,14 @@
 
 # ECTyper (an easy typer)
 `ECTyper` is a standalone versatile serotyping module for _Escherichia coli_. It supports both _fasta_ (assembled) and _fastq_ (raw reads) file formats.
-The tool provides convenient species identification coupled to quality control module giving a complete, transparent and reference laboratories suitable report on E.coli serotyping.
+The tool provides convenient species identification coupled to quality control module giving a complete, transparent and reference laboratories suitable report on *E.coli* serotyping, Shiga toxin typing and pathotyping.
 
 # Introduction
-*Escherichia coli* is a priority foodborne pathogen of public health concern and popular model organism. Phenotypic characterization such as serotyping, toxin typing and pathotyping provide critical information for surveillance and outbreak detection activities and research including source attribution, outbreak cluster assignment, pathogenicy potential, risk assessement and others. 
+*Escherichia coli* is a priority foodborne pathogen of public health concern and popular model organism. Phenotypic characterization such as serotyping, toxin typing and pathotyping provide critical information for surveillance and outbreak detection activities and research including source attribution, outbreak cluster assignment, pathogenicity potential, risk assessement and others. 
 
-`ECTyper` uses whole-genome sequencing (WGS) for E.coli characterizion including species identification, *in silico* serotyping covering O and H antigens, Shiga toxin typing and DEC pathotyping. It is a versatile, scallable, easy to use tool allowing to obtain key information on E.coli accepting both raw and assembled inputs.
+`ECTyper` uses whole-genome sequencing (WGS) for E.coli characterization including species identification, *in silico* serotyping covering O and H antigens, Shiga toxin typing and DEC pathotyping. It is a versatile, scallable, easy to use tool allowing to obtain key information on E.coli accepting both raw and assembled inputs.
 
-As WGS becomes standard within public health and research laboratories, it is important to harness the high thourghput and resolution potential of this technology providing accurate and rapid at scale typing of E.coli both in public health, clinical and research contexts.
+As WGS becomes standard within public health and research laboratories, it is important to harness the high throughput and resolution potential of this technology providing accurate and rapid at scale typing of E.coli both in public health, clinical and research contexts.
 
 ## Citation
 Bessonov, Kyrylo, Chad Laing, James Robertson, Irene Yong, Kim Ziebell, Victor PJ Gannon, Anil Nichani, Gitanjali Arya, John HE Nash, and Sara Christianson. "ECTyper: in silico Escherichia coli serotype and species prediction from raw and assembled whole-genome sequence data." Microbial genomics 7, no. 12 (2021): 000728. [https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728](https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728)
@@ -25,7 +25,7 @@ For any questions, issues or comments please make a Github issue or reach out to
 # Installation
 Multiple installation options are available depending on the user context and needs. The most convinient installation is as a `conda` package as it will install all required dependencies. 
 
-### Images
+### Images availability
 Docker and Singularity images are also available from [https://biocontainers.pro/tools/ectyper](https://biocontainers.pro/tools/ectyper) that could be useful for NextFlow or hassle-free deployment
 
 ### Databases
@@ -151,17 +151,22 @@ optional arguments:
 
 
 ## Configuration and fine-tunning parameters
-`ECTyper` requires minimum options to run (`-i` and `-o`) but allows for extensive configuration to accomodate wide variaty of typing scenarios
+`ECTyper` requires minimum options to run (`-i` input directory or file) but allows for extensive configuration to accomodate wide variaty of typing scenarios
 
 | Parameter|      Explanation                                                 | Usage scenario                                                                    |
 |----------|:----------------------------------------------------------------:|:----------------------------------------------------------------------------------:
-| `-opid`  |  Specify minimum `%identity` threshold just for O antigen match| Poor coverage of O antigen genes or for exploratory work (recommended value is 90)  |
-| `-opcov` |  Minimum `%covereage` threshold for a valid match against reference O antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 95)|
-| `-hpid`  |  Specify minimum `%identity` threshold just for H antigen match| Poor coverage of O antigen genes or for exploratory work (recommend value is 95)    |
-| `-hpcov` |  Minimum `%covereage` threshold for a valid match against reference H antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 95)|
-|`--verify`|  Verify species of the input and run QC module providing information on the reliability of the result and any typing issues | User not sure if sample is E.coli and wants to obtain if serotype prediction is of sufficient quality for reporting purposes|
+| `--maxdirdepth`|  Maximum number of directory levels to use in a directory for input file search| Given a directory path use this number of levels (default 0 levels) to go down the specified directory path in search for files. Useful is a directory contains multiple sub-directories |
+| `-c`     | The number of cores to run on | Use multiple cores to run multiple samples and subtools on. Especially useful if a directory contains multiple files or working with raw reads in FASTQ format |
+| `-opid`  |  Minimum `%identity` threshold just for O antigen match| Poor coverage of O antigen genes or for exploratory work (recommended value is 90)  |
+| `-opcov` |  Minimum `%covereage` threshold for a valid match against reference O antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 90)|
+| `-hpid`  |  Minimum `%identity` threshold just for H antigen match| Poor coverage of O antigen genes or for exploratory work (recommend value is 95)    |
+| `-hpcov` |  Minimum `%covereage` threshold for a valid match against reference H antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 50)|
+|`--verify`|  Verify species of the input and run QC module providing information on the reliability of the result and any typing issues | User not sure if sample is E.coli and wants to obtain if serotype prediction is of sufficient quality for reporting purposes and predicted species is *E.coli*. Note that pathotyping and Shiga toxin module will not run if `--verify` is specified and species is other than *E.coli*|
 | `-r`     |  Specify custom MASH sketch of reference genomes that will be used for species inference | User has a new assembled genome that is not available in NCBI RefSeq database. Make sure to add metadata to `assembly_summary_refseq.txt` and provide custom accession number that start with `GCF_` prefix|
 |`--dbpath`|  Provide custom appended database of O and H antigen reference alleles in JSON format following structure and field names as default database `ectyper_alleles_db.json` | User wants to add new alleles to the alleles database to improve typing performance |
+| `--pathotype` | Perform DEC pathotype and Shiga toxin subtyping prediction on a sample | Predict DEC pathotype using the key diagnostic pathotype markers. Results are only valid for E.coli samples. Also performs Shiga toxin subtyping if `stx1` or `stx2` genes are present  |
+| `-pathpid` | Minimum `%identity` threshold for pathotype and Shiga toxin subtyping results filtering | All gene hits from pathotype database also containing `stx` genes will use this minimum cutoff to filter results. The default value is minimum 90% identity |
+| `-pathcov` | Minimum `%coverage` threshold for pathotype and Shiga toxin subtyping results filtering |  All gene hits from pathotype database also containing `stx` genes will use this minimum cutoff to filter results. The default value is minimum 50% coverage | 
 
 # Data Input
 Both raw and assembled reads are accepted in FASTA and FASTQ formats from any sequencing platform. The tool was designed for single sample inputs, but was shown to work on multi-taxa metagenomic raw reads FASTQ inputs.
@@ -178,6 +183,22 @@ The log messages are stored in `ectyper.log` text file
 ├── ectyper.log
 └── output.tsv
 ```
+## Species identification module
+ECTyper performs species identification by selecting the closest reference genome to the query input (i.e.having the smallest MASH distance) from the custom made MASH sketch currently represented by the 119,980 reference genomes with assigned taxonomy information. The enhanced ECTyper [species ID sketch](#databases) is both based on [The Genome Taxonomy Database (GTDB)](https://gtdb.ecogenomic.org/) release 214 (covering all known bacteria and archaea domains) and manually curated and selected  *Escherichia* and *Shigella* genera reference genomes from the [EnteroBase](https://enterobase.warwick.ac.uk/species/index/ecoli) and [GenBank/RefSeq NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/) public databases.
+
+The `comment` field of the MASH sketch uses taxonomic path from domain to species level to meet the [MikroKondo MASH sketch guidelines](https://github.com/phac-nml/mikrokondo?tab=readme-ov-file#step-4-further-resources-to-download). For example, taxonomic path for *E.coli* is formatted as such `"d__Bacteria;p__Pseudomonadota;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Escherichia;s__Escherichia coli"`. The sketch was generated using 1000 hashes per sketch (`-s 1000`) and k-mer size of 21 (`-k 21`) that are the default `mash sketch` parameters.
+
+The *Escherichia* and *Shigella* genera genomes sourced from EnteroBase accessed on 2023-09-07 were assembled using the [`shovill v1.1.0`](https://github.com/tseemann/shovill) assembler run on raw reads downloaded from the [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) via the corresponding SRA accession number. The *Escherichia* and *Shigella*  RefSeq NCBI genomes were downloaded from [NCBI FTP](https://ftp.ncbi.nlm.nih.gov/) by accessing metadata from the [`assembly_summary_refseq.txt`](https://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/assembly_summary_refseq.txt) file, filtering the `organism_name` field using all known *Escherichia* and *Shigella* genera species. The reported species for the EnteroBase and RefSeq sourced genomes were verified by running the [`ShigEiFinder v1.3.5`](https://github.com/LanLab/ShigEiFinder) and checking the `SEROTYPE` field. Samples with values `SB13` (*Shigella boydii type 13*) and `Unknown` were rejected. 
+
+For each *Escherichia* and *Shigella* species selected genomes a distance matrix was calculated by running [`mash triangle`](https://manpages.debian.org/testing/mash/mash-triangle.1.en.html) followed by the agglomerative hierarchical clustering using average linkage method via the [`linkage()` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html) form SciPy package. Next flat clusters were formed on the previously calculated hierarchical clustering object using the SciPy [`fcluster()` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html) with `distance` as the clusters forming criterion. The flat clusters with 2 or more members (i.e. genomes) were selected and clusters with a single member (i.e. singletons) were discarded as potential outliers or noise. Finally the cluster centroids (i.e. representative cluster genomes) were defined by the partition around medoids algorithm (PAM) via the [`fasterpam()`](https://python-kmedoids.readthedocs.io/en/latest/) function from the `kmedoids` package. These cluster centroids formed the final list of *Escherichia* and *Shigella* genomes selected for the original GTDB sketch enhancement. Currently the MASH ECTyper species sketch contains 34,736 *Escherichia* and 4,627 *Shigella* genomes.
+
+The ECTyper species identification module performance was tested and validated against the highly curated 493 genomes with species and cgMLST clustering data covering *Shigella flexneri*, *Shigella dysenteriae*, *Shigella boydii*, *Shigella sonnei* and *E.coli* species described by the [Iman Yassine et al.  2022 publication (DOI: 10.1038/s41467-022-28121-1)](https://www.nature.com/articles/s41467-022-28121-1)
+
+## Serotyping module
+
+## Pathotyping module
+
+## Shiga toxin typing module
 
 ## Quality Control (QC) module
 To provide an easier interpretation of the results and typing metrics, following QC codes were developed. 
@@ -190,7 +211,7 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 |PASS (REPORTABLE) |Both O and H antigen alleles meet min `%identity` or `%coverage` thresholds (ensuring no antigen cross-talk) and single antigen predicted for O and H|
 |FAIL (-:- TYPING) |Sample is E.coli and O and H antigens are not typed. Serotype:  -:- |
 |WARNING MIXED O-TYPE|A mixed O antigen call is predicted requiring wet-lab confirmation |
-|WARNING (WRONG SPECIES)| A sample is non-E.coli (e.g. E.albertii, Shigella, etc.) based on RefSeq assemblies|
+|WARNING (WRONG SPECIES)| A sample is non-E.coli (e.g. *E.albertii*, *Shigella*, etc.) based on RefSeq assemblies|
 |WARNING (-:H TYPING)| A sample is E.coli and O antigen is not predicted (e.g. -:H18)|
 |WARNING (O:- TYPING)| A sample is E.coli and O antigen is not predicted (e.g. O17:-)|
 |WARNING (O NON-REPORT)|O antigen alleles do not meet min %identity or %coverage thresholds|
@@ -226,13 +247,12 @@ Selected columns from the `ECTyper` typical report are shown below.
 EC20151709|Escherichia coli|O157:H43|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;|100;99.916;99.934;   |   100;100;100;  |  contig00002;contig00002;contig00003; |   62558-63949;64651-65835;59962-61467;   | 1392;1185;1506; |v1.0 (2020-05-07)  |     - |
 
 
-FAQs
 
 ## FAQ
 
 **Does ECTyper can be run on multiple samples in a directory?**
 
-ECTyper proves flexible ways to specify inputs located in different locations. One can provide multiple paths to several directories separated by space. In addition, one can specify file type to look for in a given diretory(ies). Note that paths that contain a star `*` symbol would only look for files in specified directory and would not look in subdirectories. For example,
+ECTyper proves flexible ways to specify inputs located in different locations. One can provide multiple paths to several directories separated by space. In addition, one can specify file type to look for in a given directory(ies). Note that paths that contain a star `*` symbol would only look for files in specified directory and would not look in subdirectories. For example,
 
 - Process all files in `folder1` and `folder2` directories and file `sample.fasta` located in `folder3` 
 
@@ -243,14 +263,14 @@ ECTyper proves flexible ways to specify inputs located in different locations. O
 
 **Why ECTyper sometimes provides serotype results separated by forward  slash / for O-antigen**
 
-Some O-antigens display very high degree of homology and are very hard to discern even using wet-lab agglutination assays. Even using both `wzx` and `wzy` genes it is not possible to reliably resolve those O-antigens. The 16 high similarity groups were identified by [Joensen, Katrine G., et al.](https://journals.asm.org/doi/full/10.1128/jcm.00008-15). Thus, if a given O-antigen is a member of any of those high similarity groups, all potential O-antigens are reported separated by `/` such as group 9 reporeted as `O17/O44/O73/O77/O106`.
+Some O-antigens display very high degree of homology and are very hard to discern even using wet-lab agglutination assays. Even using both `wzx` and `wzy` genes it is not possible to reliably resolve those O-antigens. The 16 high similarity groups were identified by [Joensen, Katrine G., et al.](https://journals.asm.org/doi/full/10.1128/jcm.00008-15). Thus, if a given O-antigen is a member of any of those high similarity groups, all potential O-antigens are reported separated by `/` such as group 9 reported as `O17/O44/O73/O77/O106`.
 
 
 # Availability
 
 |Resource|Description|Type|
 |--------|:----------|:---|
-|[PyPI](https://pypi.org/project/ectyper/)| PyPI pacakge that could be installed via `pip` utility|Terminal|
+|[PyPI](https://pypi.org/project/ectyper/)| PyPI package that could be installed via `pip` utility|Terminal|
 |[Conda](https://anaconda.org/bioconda/ectyper)   | Conda package available from BioConda channel|Terminal|
 |[Docker](https://hub.docker.com/r/kbessonov/ectyper)| Images containing completely initialized ECTyper with all dependencies |Terminal|
 |[Singluarity](https://biocontainers.pro/tools/ectyper) | Images containing completely initialized ECTyper with all dependencies |Terminal|
