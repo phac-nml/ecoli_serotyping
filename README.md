@@ -192,13 +192,59 @@ The *Escherichia* and *Shigella* genera genomes sourced from EnteroBase accessed
 
 For each *Escherichia* and *Shigella* species selected genomes a distance matrix was calculated by running [`mash triangle`](https://manpages.debian.org/testing/mash/mash-triangle.1.en.html) followed by the agglomerative hierarchical clustering using average linkage method via the [`linkage()` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html) form SciPy package. Next flat clusters were formed on the previously calculated hierarchical clustering object using the SciPy [`fcluster()` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html) with `distance` as the clusters forming criterion. The flat clusters with 2 or more members (i.e. genomes) were selected and clusters with a single member (i.e. singletons) were discarded as potential outliers or noise. Finally the cluster centroids (i.e. representative cluster genomes) were defined by the partition around medoids algorithm (PAM) via the [`fasterpam()`](https://python-kmedoids.readthedocs.io/en/latest/) function from the `kmedoids` package. These cluster centroids formed the final list of *Escherichia* and *Shigella* genomes selected for the original GTDB sketch enhancement. Currently the MASH ECTyper species sketch contains 34,736 *Escherichia* and 4,627 *Shigella* genomes.
 
-The ECTyper species identification module performance was tested and validated against the highly curated 493 genomes with species and cgMLST clustering data covering *Shigella flexneri*, *Shigella dysenteriae*, *Shigella boydii*, *Shigella sonnei* and *E.coli* species described by the [Iman Yassine et al.  2022 publication (DOI: 10.1038/s41467-022-28121-1)](https://www.nature.com/articles/s41467-022-28121-1)
+The ECTyper species identification module performance was tested and validated against the highly curated 493 genomes with species and cgMLST clustering data covering *Shigella flexneri*, *Shigella dysenteriae*, *Shigella boydii*, *Shigella sonnei* and *E.coli* species described by the [Iman Yassine et al.  2022](https://www.nature.com/articles/s41467-022-28121-1)
 
 ## Serotyping module
+Independent of the input type (FASTQ or FASTA) [the reference database of O and H antigen alleles](./ectyper/Data/ectyper_alleles_db.json) is being scanned. The best matching alleles hits for O antigen (`wzx`, `wzy`, `wzm`, `wzt`) and H antigen (mostly represented by `fliC` in addition to `flkA`, `fllA` and `flmA`) genes are ranked by maximizing BOTH `%identity` and `%coverage` values via the allele `gene score=(%identity*%coverage)/10000` using the [BLASTN](https://blast.ncbi.nlm.nih.gov/Blast.cgi) default run parameters. For O and H antigen the highest scoring antigen is reported. Since some O antigens display very high level of sequence similarity  represented by the 16 high similarity O groups delineated by the [Atsushi Iguchi et al. 2015](https://academic.oup.com/dnaresearch/article/22/1/101/442161?login=false), the mixed O antigen calls are possible separated  by the `\` symbol such as the group 9 that will be reported as `O17/O44/O73/O77/O106` mixed O serotype call. To account for any sequencing and other errors, if predicted O antigen is a member of the high similarity group, all O antigens in the group will be reported resulting in a mixed O antigen final call. The H antigens are better separated and are always reported as a single antigen call. For more serotyping details and benchmarking results please see the ECTyper v1.0.0 publication in the [Citation](#citation) section.
 
 ## Pathotyping module
+Most of the E.coli samples are non-pathogenic, but some present public health risk and could lead from mild to sever health conditions. ECTyper currently supports typing of the 7 diarrheagenic *Escherichia coli* (DEC) pathotypes: DAEC, EAEC, EHEC, EIEC, EPEC, ETEC and STEC. Please note that the EHEC pathotype is being reported as `EHEC-STEC` as it is a STEC subtype that could cause bloody dysentery and hemolytic uremic syndrome (HUS). 
+
+This module uses highly curated database of the diagnostic pathotype markers listed in the [pathotype and toxin typing database](./ectyper/Data/ectyper_patho_stx_toxin_typing_database.json) in JSON format (see [Databases](#databases) section). The database was assembled by curating the existing literature and tools. Each database entry contains diagnostic marker accession number, nucleotide sequence and its length, gene symbol, source and other information in the following format:
+
+```
+{
+  "accession": "QGG66503.1",
+  "description": "intimin",
+  "dnasequence": "ATGATTACTCATGGTTTTT...",
+  "gene": "eae",
+  "protsequence": "MITHGFYARTRHKHKLK...",
+  "source": "https://github.com/B-UMMI/patho_typing/",
+  "subtype": "-",
+  "id": "28",
+  "length_dnasequence": "2820"
+}
+```
+Importantly the pathotype database under the `pathotypes` key contains the set of pathotyping classification gene-based rules that are used to predict a given E.coli pathotype from BLASTN output using the following format below. 
+
+```
+"EPEC": {
+          "name": "Enteropathogenic Escherichia coli",
+          "rules": {
+          "16": {
+                  "genes": [
+                        "eae",
+                        "!stx1",
+                        "!stx2"
+                    ],
+                    "publication": "PMID:11403406"
+                }
+          }
+}                
+```
+The `!` in front of the gene symbol (e.g., `!stx2` ) indicates the negation that is a given gene must NOT BE PRESENT in order to satisfy a given rule. 
+
+Each pathotype classification rule might have one or more genes listed under the `genes` key. Each rule also has a corresponding publication reference under the `publication` key as an additional evidence and rule validity support. 
+
+Each rule is tested for presence or absence of genes listed under the `genes` rule key. If all presence or absence conditions (i.e. the genes marked by the `!`) are met a given rule is considered to be valid and pathotype assigned.  Thus a given sample might have several rules that would concurrently apply that could lead to mixed pathotype prediction separated via the `/` symbol such as `ETEC/STEC`.
 
 ## Shiga toxin typing module
+The Shiga toxin subtyping module supports typing of the *`stx1`* and *`stx2`* gene subtypes that is relevant both for epidemiological and risk assessment purposes (e.g., disease severity). This module also heavily relies on the [pathotype and toxin typing database](./ectyper/Data/ectyper_patho_stx_toxin_typing_database.json) (see [Databases](#databases) section).
+
+Currently the database supports 4 *`stx1`* subtypes: *`stx1a`*, *`stx1c`*, *`stx1d`* and stx1e and 15 *`stx2`* subtypes: *`stx2a`*, *`stx2b`*, *`stx2c`*, *`stx2d`*, *`stx2e`*, *`stx2f`*, *`stx2g`* ,*`stx2h`*, *`stx2i`*, *`stx2j`*, *`stx2k`*,*`stx2l`*, *`stx2m`*, *`stx2n`*, *`stx2o`*.
+
+The input sequences are queried against the *`stx1`* and *`stx2`* markers via BLASTN and top hits are being reported separated by the `,` symbol. The module supports the multi-copy `stx` gene presence by taking into account the genomic `stx` location parameters such as its coordinates and contig location. The `StxSubtypes` lists all unique `stx` subtypes such as `stx2e;stx2k`, the `StxContigNum` lists contig number that `stx1` or `stx2` markers were found irrespective of the subtype such as `stx2:1` (i.e. `stx2` was found on a single contig), the `StxContigNames` and `StxCoordinates` lists all contig names and corresponding genomic coordinates for each stx type listed in the  `StxSubtypes` field according to the listed sorted order.  
+
 
 ## Quality Control (QC) module
 To provide an easier interpretation of the results and typing metrics, following QC codes were developed. 

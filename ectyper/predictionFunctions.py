@@ -174,11 +174,16 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                 
     #report shiga toxin subtypes in alphabetical order    
     sorted_order = [i[0] for i in sorted(enumerate(results_dict['stx_genes']), key=lambda x:x[1])  ] 
+
     for k in results_dict.keys():
-        if len(results_dict[k]) != 0:
+        if k == 'stx_contigs_num':
+            results_dict[k] = ";".join(sorted(results_dict[k]))
+            continue
+        if len(results_dict[k]) != 0 and len(results_dict[k]) == len(sorted_order):
             results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])
-        else:
-            results_dict[k] = "-"          
+        elif len(results_dict[k]) == 0 :
+            results_dict[k] = "-"
+                      
     return results_dict
 
 def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_genomes_dict, temp_dir, verify_species_flag, pident, pcov, 
