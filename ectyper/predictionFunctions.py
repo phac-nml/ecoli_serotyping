@@ -64,16 +64,16 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                     'stx_genes':[],
                     'stx_accessions':[],
                     'stx_allele_ids':[],
+                    'stx_genes_full_name': [],
                     'stx_pidents': [],
                     'stx_pcovs':[],
                     'stx_contigs':[],
-                    'stx_contigs_num': [],
                     'stx_gene_lengths':[],
                     'stx_gene_ranges':[]
                 }
     for gene in ['stx1', 'stx2']:
         stx_toxin_df = pathotype_genes_tmp_df.query(f'gene == "{gene}"')
-        stx_toxin_df.loc[:,['stx_subtype', 'stx_seqtype', 'stx_contig_name','rangeid']] = '-'
+        stx_toxin_df.loc[:,['stx_subtype', 'stx_gene_full_name', 'stx_seqtype', 'stx_contig_name','rangeid']] = '-'
    
           
         
@@ -84,14 +84,14 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             stx_toxin_df.loc[list(stx_toxin_df.loc[:,'sframe'] == -1), 'send'] = hits_coordinates['sstart']
             #annotate stx dataframe of potential hits with shiga toxin subtype, contig name and sequence type
             stx_toxin_df.loc[:,'stx_subtype'] = stx_toxin_df['qseqid'].apply(lambda x:x.split('|')[4]).copy().to_list() #extract subtypes
+            stx_toxin_df.loc[:,'stx_gene_full_name'] = stx_toxin_df['qseqid'].apply(lambda x:re.sub("_", " ", x.split('|')[5])).copy().to_list() #extract gene names
             stx_toxin_df.loc[:,'stx_contig_name']  = stx_toxin_df['sseqid'].apply(lambda x: x.split('|')[2]).copy().to_list() #extract contig names
             stx_contigs = stx_toxin_df.stx_contig_name.unique()
-            results_dict['stx_contigs_num'].append(f"{gene}:{len(stx_contigs)}")
-            stx_types = ['complete_sequence','subunit_A', 'subunit_B'] #extract molecule types
-            stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
-            stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
+            #stx_types = ['complete_sequence','subunit_A', 'subunit_B'] #extract molecule types
+            #stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
+            #stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
 
-            # for each contig cluster stx ranges by based on coordinates overlap. create groups of overlapping ranges
+            # for each contig cluster stx ranges based on coordinates overlap create groups of overlapping ranges
             clusters_of_ranges = {}; cluster_counter=0
             for contig_name in stx_contigs:
                 stx_toxin_df_tmp = stx_toxin_df.query(f'stx_contig_name == "{contig_name}"')
@@ -129,8 +129,8 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                                                                         x['stx_contig_name'] == clusters_of_ranges[range_id]['contig']][0], 
                                                                         axis=1).copy().to_list()
             stx_toxin_df = stx_toxin_df.astype({'rangeid':'int32', 'bitscore':'int32'})
-            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping ranges found on {len([v['contig'] for v in clusters_of_ranges.values()])} contigs for {gene} with ranges ({[ {v['contig']: (min(v['range']),max(v['range']))} for v in clusters_of_ranges.values()]} )".rstrip("\n"))
-            #write shiga toxin dataframe for inspection just in case
+            LOG.info(f"Total of {len(clusters_of_ranges)} non-overlapping {gene} ranges found on {len(set([v['contig'] for v in clusters_of_ranges.values()]))} contig(s) with ranges {[ {v['contig']: (min(v['range']),max(v['range']))} for v in clusters_of_ranges.values()]}".rstrip("\n"))
+            #write shiga toxin dataframe for inspection just in case in debug mode
             if debug:
                 stx_df_out_filename = f'{gene}_allhits_annotated_df.txt'
                 LOG.debug(f"Wrote {gene} annotated potential hits dataframe to {output_dir}/{stx_df_out_filename}")
@@ -146,6 +146,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                 tmp_df = stx_toxin_df.query(f'rangeid == {range_id} and bitscore == {max_bitscore}')
                 for subtype in tmp_df['stx_subtype'].unique():
                     stx_hit = tmp_df.query(f'`stx_subtype` == "{subtype}"').iloc[0]
+                    
                     if subtype not in stx_subtypes_dict: #insert only subtypes not already encountered in the dictionary even if that would a data loss as usually those a lower quality results
                         stx_subtypes_dict[subtype] = stx_hit[['sstart','send']].to_dict()
                         stx_subtypes_dict[subtype]['index'] = stx_hit.name
@@ -159,6 +160,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                         stx_subtypes_dict[subtype]['pident'] = stx_hit.pident
                         stx_subtypes_dict[subtype]['pcov'] = stx_hit.qcovhsp
                         stx_subtypes_dict[subtype]['subtype'] = subtype
+                        stx_subtypes_dict[subtype]['gene_full_name'] = stx_hit.stx_gene_full_name
                        
         
             for contig in set([stx_subtypes_dict[s]['contig'] for s in stx_subtypes_dict.keys()]):
@@ -166,19 +168,17 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                     results_dict['stx_genes'].append(dict_item['gene'])
                     results_dict['stx_accessions'].append(dict_item['accession'])
                     results_dict['stx_allele_ids'].append(dict_item['allele_id'])
+                    results_dict['stx_genes_full_name'].append(dict_item['gene_full_name'])
                     results_dict['stx_pidents'].append(str(dict_item['pident']))
                     results_dict['stx_pcovs'].append(str(dict_item['pcov']))
                     results_dict['stx_gene_lengths'].append(str(dict_item['length']))
                     results_dict['stx_contigs'].append(str(dict_item['contig']))
                     results_dict['stx_gene_ranges'].append(str(dict_item['gene_range']))
+
                 
     #report shiga toxin subtypes in alphabetical order    
     sorted_order = [i[0] for i in sorted(enumerate(results_dict['stx_genes']), key=lambda x:x[1])  ] 
-
     for k in results_dict.keys():
-        if k == 'stx_contigs_num':
-            results_dict[k] = ";".join(sorted(results_dict[k]))
-            continue
         if len(results_dict[k]) != 0 and len(results_dict[k]) == len(sorted_order):
             results_dict[k] = ";".join([results_dict[k][i] for i in sorted_order])
         elif len(results_dict[k]) == 0 :

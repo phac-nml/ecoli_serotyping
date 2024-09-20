@@ -183,7 +183,10 @@ The log messages are stored in `ectyper.log` text file
 ├── ectyper.log
 └── output.tsv
 ```
-## Species identification module
+
+## Main submodules descriptions
+
+### Species identification module
 ECTyper performs species identification by selecting the closest reference genome to the query input (i.e.having the smallest MASH distance) from the custom made MASH sketch currently represented by the 119,980 reference genomes with assigned taxonomy information. The enhanced ECTyper [species ID sketch](#databases) is both based on [The Genome Taxonomy Database (GTDB)](https://gtdb.ecogenomic.org/) release 214 (covering all known bacteria and archaea domains) and manually curated and selected  *Escherichia* and *Shigella* genera reference genomes from the [EnteroBase](https://enterobase.warwick.ac.uk/species/index/ecoli) and [GenBank/RefSeq NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/) public databases.
 
 The `comment` field of the MASH sketch uses taxonomic path from domain to species level to meet the [MikroKondo MASH sketch guidelines](https://github.com/phac-nml/mikrokondo?tab=readme-ov-file#step-4-further-resources-to-download). For example, taxonomic path for *E.coli* is formatted as such `"d__Bacteria;p__Pseudomonadota;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Escherichia;s__Escherichia coli"`. The sketch was generated using 1000 hashes per sketch (`-s 1000`) and k-mer size of 21 (`-k 21`) that are the default `mash sketch` parameters.
@@ -194,10 +197,10 @@ For each *Escherichia* and *Shigella* species selected genomes a distance matrix
 
 The ECTyper species identification module performance was tested and validated against the highly curated 493 genomes with species and cgMLST clustering data covering *Shigella flexneri*, *Shigella dysenteriae*, *Shigella boydii*, *Shigella sonnei* and *E.coli* species described by the [Iman Yassine et al.  2022](https://www.nature.com/articles/s41467-022-28121-1)
 
-## Serotyping module
+### Serotyping module
 Independent of the input type (FASTQ or FASTA) [the reference database of O and H antigen alleles](./ectyper/Data/ectyper_alleles_db.json) is being scanned. The best matching alleles hits for O antigen (`wzx`, `wzy`, `wzm`, `wzt`) and H antigen (mostly represented by `fliC` in addition to `flkA`, `fllA` and `flmA`) genes are ranked by maximizing BOTH `%identity` and `%coverage` values via the allele `gene score=(%identity*%coverage)/10000` using the [BLASTN](https://blast.ncbi.nlm.nih.gov/Blast.cgi) default run parameters. For O and H antigen the highest scoring antigen is reported. Since some O antigens display very high level of sequence similarity  represented by the 16 high similarity O groups delineated by the [Atsushi Iguchi et al. 2015](https://academic.oup.com/dnaresearch/article/22/1/101/442161?login=false), the mixed O antigen calls are possible separated  by the `\` symbol such as the group 9 that will be reported as `O17/O44/O73/O77/O106` mixed O serotype call. To account for any sequencing and other errors, if predicted O antigen is a member of the high similarity group, all O antigens in the group will be reported resulting in a mixed O antigen final call. The H antigens are better separated and are always reported as a single antigen call. For more serotyping details and benchmarking results please see the ECTyper v1.0.0 publication in the [Citation](#citation) section.
 
-## Pathotyping module
+### Pathotyping module
 Most of the E.coli samples are non-pathogenic, but some present public health risk and could lead from mild to sever health conditions. ECTyper currently supports typing of the 7 diarrheagenic *Escherichia coli* (DEC) pathotypes: DAEC, EAEC, EHEC, EIEC, EPEC, ETEC and STEC. Please note that the EHEC pathotype is being reported as `EHEC-STEC` as it is a STEC subtype that could cause bloody dysentery and hemolytic uremic syndrome (HUS). 
 
 This module uses highly curated database of the diagnostic pathotype markers listed in the [pathotype and toxin typing database](./ectyper/Data/ectyper_patho_stx_toxin_typing_database.json) in JSON format (see [Databases](#databases) section). The database was assembled by curating the existing literature and tools. Each database entry contains diagnostic marker accession number, nucleotide sequence and its length, gene symbol, source and other information in the following format:
@@ -238,15 +241,15 @@ Each pathotype classification rule might have one or more genes listed under the
 
 Each rule is tested for presence or absence of genes listed under the `genes` rule key. If all presence or absence conditions (i.e. the genes marked by the `!`) are met a given rule is considered to be valid and pathotype assigned.  Thus a given sample might have several rules that would concurrently apply that could lead to mixed pathotype prediction separated via the `/` symbol such as `ETEC/STEC`.
 
-## Shiga toxin typing module
+### Shiga toxin typing module
 The Shiga toxin subtyping module supports typing of the *`stx1`* and *`stx2`* gene subtypes that is relevant both for epidemiological and risk assessment purposes (e.g., disease severity). This module also heavily relies on the [pathotype and toxin typing database](./ectyper/Data/ectyper_patho_stx_toxin_typing_database.json) (see [Databases](#databases) section).
 
 Currently the database supports 4 *`stx1`* subtypes: *`stx1a`*, *`stx1c`*, *`stx1d`* and stx1e and 15 *`stx2`* subtypes: *`stx2a`*, *`stx2b`*, *`stx2c`*, *`stx2d`*, *`stx2e`*, *`stx2f`*, *`stx2g`* ,*`stx2h`*, *`stx2i`*, *`stx2j`*, *`stx2k`*,*`stx2l`*, *`stx2m`*, *`stx2n`*, *`stx2o`*.
 
-The input sequences are queried against the *`stx1`* and *`stx2`* markers via BLASTN and top hits are being reported separated by the `,` symbol. The module supports the multi-copy `stx` gene presence by taking into account the genomic `stx` location parameters such as its coordinates and contig location. The `StxSubtypes` lists all unique `stx` subtypes such as `stx2e;stx2k`, the `StxContigNum` lists contig number that `stx1` or `stx2` markers were found irrespective of the subtype such as `stx2:1` (i.e. `stx2` was found on a single contig), the `StxContigNames` and `StxCoordinates` lists all contig names and corresponding genomic coordinates for each stx type listed in the  `StxSubtypes` field according to the listed sorted order.  
+The input sequences are queried against the *`stx1`* and *`stx2`* markers via BLASTN and top hits are being reported separated by the `;` symbol. The module supports the multi-copy `stx` gene presence by taking into account the genomic `stx` location attributes for each `stx` subtype (i.e. gene coordinates, contig location, overlap with other `stx` hits). The multi-copy `stx` gene reporting is not exhaustive (not all hits are being reported). That is if multiple `stx` hits are found in the input, the highest quality longest hit per each `stx` subtype is being reported (i.e. the hit with the highest `bitscore`).  The `StxSubtypes` field lists all UNIQUE `stx` subtypes such as `stx2e;stx2k` even if their genomic locations overlap or are identical due to truncated incomplete `stx` alleles. The `StxContigNames` and `StxCoordinates` lists all contig names and corresponding genomic coordinates for each listed `stx` type in the  `StxSubtypes` field according to the alphabetical order.  
 
 
-## Quality Control (QC) module
+### Quality Control (QC) module
 To provide an easier interpretation of the results and typing metrics, following QC codes were developed. 
 These codes allow to quickly filter "reportable" and "non-reportable" samples. The QC module is tightly linked to ECTyper allele database, specifically, `MinPident` and `MinPcov` fields.
 For each reference allele minimum `%identity` and `%coverage` values were determined as a function of potential "cross-talk" between antigens (i.e. multiple potential antigen calls at a given setting).
@@ -264,7 +267,7 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 |WARNING (H NON-REPORT)|H antigen alleles do not meet min %id or %cov thresholds|
 |WARNING (O and H NON-REPORT)| Both O and H antigen alleles do not meet min %identity or %coverage thresholds|
  
-## Report format
+## Report format (`output.tsv`)
 `ECTyper` capitalizes on a concise minimum output coupled to easy results interpretation and reporting. `ECTyper v1.0` serotyping results are available in a tab-delimited `output.tsv` file consisting of the 16 columns listed below:
 
 1. **Name**: Sample name (usually a unique identifier) 
