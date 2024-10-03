@@ -1,8 +1,8 @@
 import sys
 import pytest
 import tempfile
-import os, json
-from ectyper import ectyper
+import os, json, logging
+from ectyper import ectyper, commandLineOptions
 
 
 
@@ -66,4 +66,33 @@ def test_invalid_fasta():
      assert filesnotfound_dict == {}
 
      
+def test_no_output_dir_specified():  
+    fastafile=os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
+    set_input(input=fastafile, output=None) 
+    args = commandLineOptions.parse_command_line()
+    output_directory = ectyper.create_output_directory(args)
+    print (output_directory)
+    assert 'ectyper_' in output_directory, "The output directory does not contain 'ectyper_' pattern"
+    assert os.path.exists(output_directory), f"{output_directory} does not exist"
+
+def test_multiple_inputs(caplog):
+    caplog.set_level(logging.DEBUG)
+    fastafiles=",".join([os.path.join(TEST_ROOT, 'Data/EscherichiaO17H18.fasta'),
+                        os.path.join(TEST_ROOT, 'Data/EscherichiaO28H5.fasta')])
+    
+
+    set_input(input=fastafiles, output=os.path.join(TEST_ROOT,"ectyper_multiple_comma_inputs")) 
+    args = commandLineOptions.parse_command_line()
+    ectyper.run_program()
+    output_tsv = os.path.join(args.output,"output.tsv")
+    output_blastn_antigens = os.path.join(args.output,"blastn_output_alleles.txt")
+    assert os.path.exists(output_tsv), f"File missing {output_tsv}"
+    with open(output_tsv) as fp:
+        output_tsv_lines = fp.readlines()
+    with open(output_blastn_antigens) as fp:
+        output_blastn_antigens_lines  = fp.readlines()   
+    assert any([True if 'O17/O77/O44/O106:H18' in line else False for line in output_tsv_lines]), "No matches of 'O17/O77/O44/O106:H18' serotype"
+    assert any([True if 'O28/O42:H25' in line else False for line in output_tsv_lines]), "No matches of 'O28/O42:H25' serotype"
+    assert any([True if 'EscherichiaO17H18' in line else False for line in output_blastn_antigens_lines]), "No matches of 'EscherichiaO17H18' in BLAST output"
+    assert any([True if 'EscherichiaO28H5' in line else False for line in output_blastn_antigens_lines]), "No matches of 'EscherichiaO28H5' in BLAST output"
     

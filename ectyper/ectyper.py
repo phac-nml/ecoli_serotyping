@@ -276,6 +276,7 @@ def create_output_directory(args):
             str(datetime.datetime.now().time()).replace(':', '.')
         ])
         out_dir = os.path.join(definitions.WORKPLACE_DIR, date_dir)
+        LOG.info(f"No output folder specified .... All output will be saved in {out_dir}")
         args.output = out_dir
     else:
         if os.path.isabs(args.output):

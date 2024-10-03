@@ -2,7 +2,7 @@
 
 import logging
 import subprocess
-import timeit
+import timeit, os
 
 LOG = logging.getLogger(__name__)
 
@@ -17,7 +17,8 @@ def run_subprocess(cmd, input_data=None, un=False, ignorereturncode=False):
     Returns:
         stdout (str): The stdout of cmd
     """
-
+    env_copy = os.environ.copy()
+    env_copy['LC_ALL'] = "C" #issue 87 to get consistent sorting (https://github.com/phac-nml/ecoli_serotyping/issues/87)
     start_time = timeit.default_timer()
     comp_proc = subprocess.run(
         cmd,
@@ -26,7 +27,8 @@ def run_subprocess(cmd, input_data=None, un=False, ignorereturncode=False):
         check=False,
         universal_newlines=un,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stderr=subprocess.PIPE,
+        env=env_copy 
     )
 
 

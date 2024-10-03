@@ -55,7 +55,6 @@ def test_failed_species_identification_nospeciesverify(caplog):
     file = os.path.join(TEST_ROOT, 'Data/GCF_001672015.1.fna')
     set_input(input=file, verify=False)
     ectyper.run_program()
-    print()
     assert "GCF_001672015.1\tEscherichia coli\t-\tH8\t-:H8\t-" in caplog.text
 
 
