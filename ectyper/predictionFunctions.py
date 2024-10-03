@@ -87,9 +87,6 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
             stx_toxin_df.loc[:,'stx_gene_full_name'] = stx_toxin_df['qseqid'].apply(lambda x:re.sub("_", " ", x.split('|')[5])).copy().to_list() #extract gene names
             stx_toxin_df.loc[:,'stx_contig_name']  = stx_toxin_df['sseqid'].apply(lambda x: x.split('|')[2]).copy().to_list() #extract contig names
             stx_contigs = stx_toxin_df.stx_contig_name.unique()
-            #stx_types = ['complete_sequence','subunit_A', 'subunit_B'] #extract molecule types
-            #stx_seqtype = stx_toxin_df['qseqid'].apply(lambda x: stx_types[[i for i, type in enumerate(stx_types) if type in x][0]]).to_list()
-            #stx_toxin_df.loc[:,'stx_seqtype'] = stx_seqtype 
 
             # for each contig cluster stx ranges based on coordinates overlap create groups of overlapping ranges
             clusters_of_ranges = {}; cluster_counter=0
