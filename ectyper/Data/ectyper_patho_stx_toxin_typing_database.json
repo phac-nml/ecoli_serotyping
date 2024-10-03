@@ -1424,7 +1424,7 @@
                 "id": "136",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1432,7 +1432,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1452,7 +1452,7 @@
                 "id": "137",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1460,7 +1460,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1480,7 +1480,7 @@
                 "id": "138",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1488,7 +1488,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1508,7 +1508,7 @@
                 "id": "139",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1516,7 +1516,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1536,7 +1536,7 @@
                 "id": "140",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1544,7 +1544,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1564,7 +1564,7 @@
                 "id": "141",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1572,7 +1572,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1592,7 +1592,7 @@
                 "id": "142",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1600,7 +1600,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1620,7 +1620,7 @@
                 "id": "143",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1628,7 +1628,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1648,7 +1648,7 @@
                 "id": "144",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1656,7 +1656,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1676,7 +1676,7 @@
                 "id": "145",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1684,7 +1684,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1704,7 +1704,7 @@
                 "id": "146",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1712,7 +1712,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1732,7 +1732,7 @@
                 "id": "147",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1740,7 +1740,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1760,7 +1760,7 @@
                 "id": "148",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1768,7 +1768,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1788,7 +1788,7 @@
                 "id": "149",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1796,7 +1796,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1816,7 +1816,7 @@
                 "id": "150",
                 "length_dnasequence": "1228",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1824,7 +1824,7 @@
                         948,
                         958
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         958,
                         1228
                     ]
@@ -1844,7 +1844,7 @@
                 "id": "151",
                 "length_dnasequence": "1228",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1852,7 +1852,7 @@
                         948,
                         958
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         958,
                         1228
                     ]
@@ -1872,7 +1872,7 @@
                 "id": "152",
                 "length_dnasequence": "1228",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1880,7 +1880,7 @@
                         948,
                         958
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         958,
                         1228
                     ]
@@ -1900,7 +1900,7 @@
                 "id": "153",
                 "length_dnasequence": "1228",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1908,7 +1908,7 @@
                         948,
                         958
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         958,
                         1228
                     ]
@@ -1928,7 +1928,7 @@
                 "id": "154",
                 "length_dnasequence": "1228",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1936,7 +1936,7 @@
                         948,
                         958
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         958,
                         1228
                     ]
@@ -1956,7 +1956,7 @@
                 "id": "155",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1964,7 +1964,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -1984,7 +1984,7 @@
                 "id": "156",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -1992,7 +1992,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -2012,7 +2012,7 @@
                 "id": "157",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -2020,7 +2020,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -2040,7 +2040,7 @@
                 "id": "158",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -2048,7 +2048,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -2068,7 +2068,7 @@
                 "id": "159",
                 "length_dnasequence": "1227",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         948
                     ],
@@ -2076,7 +2076,7 @@
                         948,
                         957
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         957,
                         1227
                     ]
@@ -2098,7 +2098,7 @@
                 "id": "160",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2106,7 +2106,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2126,7 +2126,7 @@
                 "id": "161",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2134,7 +2134,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2154,7 +2154,7 @@
                 "id": "162",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2162,7 +2162,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2182,7 +2182,7 @@
                 "id": "163",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2190,7 +2190,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2210,7 +2210,7 @@
                 "id": "164",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2218,7 +2218,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2238,7 +2238,7 @@
                 "id": "165",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2246,7 +2246,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2266,7 +2266,7 @@
                 "id": "166",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2274,7 +2274,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2294,7 +2294,7 @@
                 "id": "167",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2302,7 +2302,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2322,7 +2322,7 @@
                 "id": "168",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2330,7 +2330,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2350,7 +2350,7 @@
                 "id": "169",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2358,7 +2358,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2378,7 +2378,7 @@
                 "id": "170",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2386,7 +2386,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2406,7 +2406,7 @@
                 "id": "171",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2414,7 +2414,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2434,7 +2434,7 @@
                 "id": "172",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2442,7 +2442,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2462,7 +2462,7 @@
                 "id": "173",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2470,7 +2470,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2490,7 +2490,7 @@
                 "id": "174",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2498,7 +2498,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2518,7 +2518,7 @@
                 "id": "175",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2526,7 +2526,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2546,7 +2546,7 @@
                 "id": "176",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2554,7 +2554,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2574,7 +2574,7 @@
                 "id": "177",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2582,7 +2582,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2602,7 +2602,7 @@
                 "id": "178",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2610,7 +2610,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2630,7 +2630,7 @@
                 "id": "179",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2638,7 +2638,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2658,7 +2658,7 @@
                 "id": "180",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2666,7 +2666,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2686,7 +2686,7 @@
                 "id": "181",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2694,7 +2694,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2714,7 +2714,7 @@
                 "id": "182",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2722,7 +2722,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2742,7 +2742,7 @@
                 "id": "183",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2750,7 +2750,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2770,7 +2770,7 @@
                 "id": "184",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2778,7 +2778,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2798,7 +2798,7 @@
                 "id": "185",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2806,7 +2806,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2826,7 +2826,7 @@
                 "id": "186",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2834,7 +2834,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2854,7 +2854,7 @@
                 "id": "187",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2862,7 +2862,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2882,7 +2882,7 @@
                 "id": "188",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2890,7 +2890,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2910,7 +2910,7 @@
                 "id": "189",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2918,7 +2918,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2938,7 +2938,7 @@
                 "id": "190",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2946,7 +2946,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2966,7 +2966,7 @@
                 "id": "191",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -2974,7 +2974,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -2994,7 +2994,7 @@
                 "id": "192",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3002,7 +3002,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3022,7 +3022,7 @@
                 "id": "193",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3030,7 +3030,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3050,7 +3050,7 @@
                 "id": "194",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3058,7 +3058,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3078,7 +3078,7 @@
                 "id": "195",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3086,7 +3086,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3106,7 +3106,7 @@
                 "id": "196",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3114,7 +3114,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3134,7 +3134,7 @@
                 "id": "197",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3142,7 +3142,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3162,7 +3162,7 @@
                 "id": "198",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3170,7 +3170,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3190,7 +3190,7 @@
                 "id": "199",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3198,7 +3198,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3218,7 +3218,7 @@
                 "id": "200",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3226,7 +3226,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3246,7 +3246,7 @@
                 "id": "201",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3254,7 +3254,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3274,7 +3274,7 @@
                 "id": "202",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3282,7 +3282,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3302,7 +3302,7 @@
                 "id": "203",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3310,7 +3310,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3330,7 +3330,7 @@
                 "id": "204",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3338,7 +3338,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3358,7 +3358,7 @@
                 "id": "205",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3366,7 +3366,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3386,7 +3386,7 @@
                 "id": "206",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3394,7 +3394,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3414,7 +3414,7 @@
                 "id": "207",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3422,7 +3422,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3442,7 +3442,7 @@
                 "id": "208",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3450,7 +3450,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3470,7 +3470,7 @@
                 "id": "209",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3478,7 +3478,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3498,7 +3498,7 @@
                 "id": "210",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3506,7 +3506,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3526,7 +3526,7 @@
                 "id": "211",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3534,7 +3534,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3554,7 +3554,7 @@
                 "id": "212",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3562,7 +3562,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3582,7 +3582,7 @@
                 "id": "213",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3590,7 +3590,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3610,7 +3610,7 @@
                 "id": "214",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3618,7 +3618,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3638,7 +3638,7 @@
                 "id": "215",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3646,7 +3646,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3666,7 +3666,7 @@
                 "id": "216",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3674,7 +3674,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3694,7 +3694,7 @@
                 "id": "217",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3702,7 +3702,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3722,7 +3722,7 @@
                 "id": "218",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3730,7 +3730,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3750,7 +3750,7 @@
                 "id": "219",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3758,7 +3758,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3778,7 +3778,7 @@
                 "id": "220",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3786,7 +3786,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3806,7 +3806,7 @@
                 "id": "221",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3814,7 +3814,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3834,7 +3834,7 @@
                 "id": "222",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3842,7 +3842,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3862,7 +3862,7 @@
                 "id": "223",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3870,7 +3870,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3890,7 +3890,7 @@
                 "id": "224",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3898,7 +3898,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3918,7 +3918,7 @@
                 "id": "225",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3926,7 +3926,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3946,7 +3946,7 @@
                 "id": "226",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3954,7 +3954,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -3974,7 +3974,7 @@
                 "id": "227",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -3982,7 +3982,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4002,7 +4002,7 @@
                 "id": "228",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4010,7 +4010,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4030,7 +4030,7 @@
                 "id": "229",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4038,7 +4038,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4058,7 +4058,7 @@
                 "id": "230",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4066,7 +4066,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4086,7 +4086,7 @@
                 "id": "231",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4094,7 +4094,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4114,7 +4114,7 @@
                 "id": "232",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4122,7 +4122,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4142,7 +4142,7 @@
                 "id": "233",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4150,7 +4150,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4170,7 +4170,7 @@
                 "id": "234",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4178,7 +4178,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4198,7 +4198,7 @@
                 "id": "235",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4206,7 +4206,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4226,7 +4226,7 @@
                 "id": "236",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4234,7 +4234,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4254,7 +4254,7 @@
                 "id": "237",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4262,7 +4262,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4282,7 +4282,7 @@
                 "id": "238",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4290,7 +4290,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4310,7 +4310,7 @@
                 "id": "239",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4318,7 +4318,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4338,7 +4338,7 @@
                 "id": "240",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4346,7 +4346,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4366,7 +4366,7 @@
                 "id": "241",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4374,7 +4374,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4394,7 +4394,7 @@
                 "id": "242",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4402,7 +4402,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4422,7 +4422,7 @@
                 "id": "243",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4430,7 +4430,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4450,7 +4450,7 @@
                 "id": "244",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4458,7 +4458,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4478,7 +4478,7 @@
                 "id": "245",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4486,7 +4486,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4506,7 +4506,7 @@
                 "id": "246",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4514,7 +4514,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4534,7 +4534,7 @@
                 "id": "247",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4542,7 +4542,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4562,7 +4562,7 @@
                 "id": "248",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4570,7 +4570,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4590,7 +4590,7 @@
                 "id": "249",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4598,7 +4598,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4618,7 +4618,7 @@
                 "id": "250",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4626,7 +4626,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4646,7 +4646,7 @@
                 "id": "251",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4654,7 +4654,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4674,7 +4674,7 @@
                 "id": "252",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         954
                     ],
@@ -4682,7 +4682,7 @@
                         954,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4702,7 +4702,7 @@
                 "id": "253",
                 "length_dnasequence": "1243",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4710,7 +4710,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4730,7 +4730,7 @@
                 "id": "254",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4738,7 +4738,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4758,7 +4758,7 @@
                 "id": "255",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4766,7 +4766,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4786,7 +4786,7 @@
                 "id": "256",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4794,7 +4794,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -4814,7 +4814,7 @@
                 "id": "257",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4822,7 +4822,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4842,7 +4842,7 @@
                 "id": "258",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4850,7 +4850,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4870,7 +4870,7 @@
                 "id": "259",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4878,7 +4878,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4898,7 +4898,7 @@
                 "id": "260",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4906,7 +4906,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -4926,7 +4926,7 @@
                 "id": "261",
                 "length_dnasequence": "1243",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4934,7 +4934,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4954,7 +4954,7 @@
                 "id": "262",
                 "length_dnasequence": "1243",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4962,7 +4962,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -4982,7 +4982,7 @@
                 "id": "263",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -4990,7 +4990,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5010,7 +5010,7 @@
                 "id": "264",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5018,7 +5018,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5038,7 +5038,7 @@
                 "id": "265",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5046,7 +5046,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5066,7 +5066,7 @@
                 "id": "266",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5074,7 +5074,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5094,7 +5094,7 @@
                 "id": "267",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5102,7 +5102,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5122,7 +5122,7 @@
                 "id": "268",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5130,7 +5130,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5150,7 +5150,7 @@
                 "id": "269",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5158,7 +5158,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5178,7 +5178,7 @@
                 "id": "270",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5186,7 +5186,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5206,7 +5206,7 @@
                 "id": "271",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5214,7 +5214,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5234,7 +5234,7 @@
                 "id": "272",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5242,7 +5242,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5262,7 +5262,7 @@
                 "id": "273",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5270,7 +5270,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5290,7 +5290,7 @@
                 "id": "274",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5298,7 +5298,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5318,7 +5318,7 @@
                 "id": "275",
                 "length_dnasequence": "1243",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5326,7 +5326,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5346,7 +5346,7 @@
                 "id": "276",
                 "length_dnasequence": "1235",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5354,7 +5354,7 @@
                         960,
                         956
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         956,
                         1235
                     ]
@@ -5374,7 +5374,7 @@
                 "id": "277",
                 "length_dnasequence": "1243",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5382,7 +5382,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5402,7 +5402,7 @@
                 "id": "278",
                 "length_dnasequence": "1243",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5410,7 +5410,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5430,7 +5430,7 @@
                 "id": "279",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5438,7 +5438,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5458,7 +5458,7 @@
                 "id": "280",
                 "length_dnasequence": "1242",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5466,7 +5466,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1242
                     ]
@@ -5486,7 +5486,7 @@
                 "id": "281",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5494,7 +5494,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5514,7 +5514,7 @@
                 "id": "282",
                 "length_dnasequence": "1234",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         951
                     ],
@@ -5522,7 +5522,7 @@
                         951,
                         970
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         970,
                         1234
                     ]
@@ -5542,7 +5542,7 @@
                 "id": "283",
                 "length_dnasequence": "1241",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5550,7 +5550,7 @@
                         960,
                         971
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         971,
                         1241
                     ]
@@ -5570,7 +5570,7 @@
                 "id": "284",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5578,7 +5578,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5598,7 +5598,7 @@
                 "id": "285",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         942
                     ],
@@ -5606,7 +5606,7 @@
                         942,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
@@ -5626,7 +5626,7 @@
                 "id": "286",
                 "length_dnasequence": "1236",
                 "coordinates": {
-                    "subunit A": [
+                    "subunit_A": [
                         0,
                         960
                     ],
@@ -5634,7 +5634,7 @@
                         960,
                         972
                     ],
-                    "subunit B": [
+                    "subunit_B": [
                         972,
                         1236
                     ]
