@@ -757,6 +757,9 @@ def report_result(final_dict, output_dir, output_file, args):
     for sample in final_dict.keys():
         output_line = [sample] #name of a query sample/genome
         output_line.append(final_dict[sample]["species"]) #add species info
+        output_line.append(final_dict[sample]["species_mash_hash_ratio2ref"]) #add species top hit mash hash ratios
+        output_line.append(final_dict[sample]["species_mash_dist2ref"]) #add species mash distance
+        output_line.append(final_dict[sample]["species_mash_top_reference"]) #add species mash top hit id
 
         if "O" in final_dict[sample].keys():
             Otype=final_dict[sample]["O"]["serogroup"]
@@ -876,6 +879,7 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, filesnotfo
     :param predictions_data_frame: the Dict containing the ectyper predictions
     :return: modified prediction file
     """
+    print(other_dict)
     
     # genome names are given without the filename extension
     for g in all_genomes_list:
@@ -886,17 +890,26 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, filesnotfo
             if gname in other_dict:
                 predictions_dict[gname] = {
                     'error': other_dict[gname]["error"],
-                    'species': other_dict[gname]["species"]
+                    'species': other_dict[gname]["species"],
+                    'species_mash_hash_ratio2ref': other_dict[gname]["species_mash_hash_ratio2ref"],
+                    'species_mash_dist2ref': other_dict[gname]["species_mash_dist2ref"],
+                    'species_mash_top_reference' : other_dict[gname]["species_mash_top_reference"]
                 }
             elif gname in filesnotfound_dict:
                 predictions_dict[gname] = {
                 'error': filesnotfound_dict[gname]["error"],
-                'species': '-'
+                'species': '-',
+                'species_mash_hash_ratio2ref':'-',
+                'species_mash_dist2ref': '-',
+                'species_mash_top_reference' : '-'
             }
             else:
                 predictions_dict[gname] = {
                     'error':  f"No O and H antigen determinant E.coli genes were found in {gname}",
-                    'species': ecoli_dict[gname]["species"]
+                    'species': ecoli_dict[gname]["species"],
+                    'species_mash_hash_ratio2ref': ecoli_dict[gname]["species_mash_hash_ratio2ref"],
+                    'species_mash_dist2ref': ecoli_dict[gname]["species_mash_dist2ref"],
+                    'species_mash_top_reference' : ecoli_dict[gname]["species_mash_top_reference"]
                 }
 
     return predictions_dict

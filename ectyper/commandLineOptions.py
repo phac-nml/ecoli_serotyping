@@ -2,7 +2,7 @@
 
 import argparse
 from ectyper import __version__
-import json, os
+import json
 import ectyper.definitions as definitions
 
 def parse_command_line(args=None):

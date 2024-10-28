@@ -30,7 +30,7 @@ Docker and Singularity images are also available from [https://biocontainers.pro
 
 ### Databases
 ECTyper uses multiple databases 
-  - the species identification database is available from [https://zenodo.org/records/10211569](https://zenodo.org/records/10211569)
+  - the species identification database is available from [Zenodo](https://doi.org/10.5281/zenodo.10211568) repository
   - the O and H antigen allele sequences are stored in [ectyper_alleles_db.json](ectyper/Data/ectyper_alleles_db.json)
   - the toxin and pathotype signature marker sequences are stored in [ectyper_patho_stx_toxin_typing_database.json](ectyper/Data/ectyper_patho_stx_toxin_typing_database.json)
 

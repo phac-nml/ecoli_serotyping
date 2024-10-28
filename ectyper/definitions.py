@@ -32,7 +32,7 @@ OSEROTYPE_GROUPS_DICT = {'1': ['O20','O137'],
                          '15':['O89','O101','O162'],
                          '16':['O169','O183']
                          }
-MASH_URLS = ["https://zenodo.org/records/10211569/files/EnteroRef_GTDBSketch_20231003_V2.msh?download=1"]
+MASH_URLS = ["https://zenodo.org/records/13969103/files/EnteroRef_GTDBSketch_20231003_V2.msh?download=1"]
 
 HIGH_SIMILARITY_THRESHOLD_O = 0.00771 # alleles that are 99.23% apart will be reported as mixed call ~ 8 nt difference on average
 MIN_O_IDENTITY_LS = 95 #low similarity group O antigen min identity threshold to pre-filter BLAST output  (identical to global threshold)
@@ -40,7 +40,7 @@ MIN_O_COVERAGE_LS = 48 #low similarity group O antigen min coverage threshold to
 PATHOTYPE_TOXIN_FIELDS = ['pathotype', 'pathotype_count', 'pathotype_genes', 'pathotype_gene_names',  'pathotype_accessions', 'pathotype_allele_id', 
                    'pathotype_pident', 'pathotype_pcov','pathotype_length_ratio', 'pathotype_rule_ids', 'pathotype_gene_counts', 'pathotype_database',
                    'stx_genes', 'stx_accessions', 'stx_allele_ids', 'stx_genes_full_name', 'stx_pidents', 'stx_pcovs', 'stx_gene_lengths', 'stx_contigs', 'stx_gene_ranges']
-OUTPUT_TSV_HEADER = ['Name','Species','O-type','H-type','Serotype','QC',
+OUTPUT_TSV_HEADER = ['Name','Species', 'SpeciesMashRatio', 'SpeciesMashDistance','SpeciesMashTopID','O-type','H-type','Serotype','QC',
              'Evidence','GeneScores','AlleleKeys','GeneIdentities(%)',
              'GeneCoverages(%)','GeneContigNames','GeneRanges',
              'GeneLengths','DatabaseVer','Warnings','Pathotype', 'PathotypeCounts', 'PathotypeGenes', 'PathotypeGeneNames', 'PathotypeAccessions', 'PathotypeAlleleIDs', 

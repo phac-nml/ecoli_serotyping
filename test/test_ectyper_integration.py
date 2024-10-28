@@ -144,7 +144,7 @@ def test_multiple_directories(caplog):
     assert any([True if re.match(r".+sample.fasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with sample.fasta"
     assert any([True if re.match(r".+sampletar.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with sampletar"
     assert any([True if re.match(r".+test_junk.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with test_junk"
-    assert any([True if re.match(r".+GCA_000181775\.1_ASM18177v1_genomic\s+Escherichia\s+coli\s+O157\s+H7.+REPORTABLE", line) else False for line in caplog.text.splitlines()]), "Issue with GCF_000181775.1_ASM18177v1"
+    assert any([True if re.match(r".+GCA_000181775\.1_ASM18177v1_genomic\s+Escherichia\s+coli.+O157\s+H7.+REPORTABLE", line) else False for line in caplog.text.splitlines()]), "Issue with GCF_000181775.1_ASM18177v1"
 
 
 def test_mash_sketch_and_assembly_metadata(tmpdir):

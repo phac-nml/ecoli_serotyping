@@ -348,15 +348,24 @@ def run_prediction(genome_files_dict, args, alleles_fasta, temp_dir, ectyperdb_d
     with Pool(processes=args.cores) as pool:
         results = pool.map(gp, genome_groups)
 
-        # merge the per-database predictions with the final predictions dict
+        # merge the database predictions with the final predictions dict
         for r in results:
             predictions_dict = {**r, **predictions_dict}
+           
     for genome_name in predictions_dict.keys():
+        predictions_dict[genome_name]["species"] = "-"
+        predictions_dict[genome_name]["species_mash_hash_ratio2ref"] = "-"
+        predictions_dict[genome_name]["species_mash_dist2ref"] = "-"
+        predictions_dict[genome_name]["species_mash_top_reference"] = "-"
         try:
             predictions_dict[genome_name]["species"] = genome_files_dict[genome_name]["species"]
+            predictions_dict[genome_name]["species_mash_hash_ratio2ref"] = genome_files_dict[genome_name]["species_mash_hash_ratio2ref"]
+            predictions_dict[genome_name]["species_mash_dist2ref"] = genome_files_dict[genome_name]["species_mash_dist2ref"]
+            predictions_dict[genome_name]["species_mash_top_reference"] = genome_files_dict[genome_name]["species_mash_top_reference"]
             predictions_dict[genome_name]["error"] = genome_files_dict[genome_name]["error"]
         except KeyError as e:
             predictions_dict[genome_name]["error"] = "Error: "+str(e)+" in "+genome_name
+            LOG.error(f"Failed on {genome_name} sample that does not exist in the 'genome_files_dict' dictionary with the {e} error")
 
     return predictions_dict
 
