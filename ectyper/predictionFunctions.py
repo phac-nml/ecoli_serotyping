@@ -547,7 +547,7 @@ def get_prediction(per_genome_df):
 
 
     if highsimilarity_oantigens:
-        mixedoantigen = sorted([selectedOantigen] + highsimilarity_oantigens, key = lambda x: re.search('O(\d+)',x).group(1), reverse=True)
+        mixedoantigen = sorted([selectedOantigen] + highsimilarity_oantigens, key = lambda x: int(re.search(r'O(\d+)',x).group(1)), reverse=False)
         serotype['O']['serogroup'] = "/".join(mixedoantigen)
         LOG.info("Highly similar O-antigen candidates were found for {}".format(mixedoantigen))
     elif selectedOantigen != "":
