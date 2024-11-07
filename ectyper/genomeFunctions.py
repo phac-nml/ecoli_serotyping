@@ -211,7 +211,7 @@ def create_bowtie_base(temp_dir, reference, cores):
     return bowtie_base
 
 
-def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
+def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1, longreads=False):
     """
     Assembles fastq reads to the specified reference file.
     :param reads: The fastq file to assemble
@@ -232,7 +232,6 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
     bowtie_run = [
         'bowtie2',
         '--threads',f'{cores}',
-        '--local',
         '--score-min L,1,-0.5',
         '--np 5',
         '--no-unal',
@@ -240,6 +239,8 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
         '-U', reads,
         '-S', sam_reads
     ]
+    if longreads == True: #for nanopore reads do local alignment as long reads are longer than references
+            bowtie_run.append('--local')
 
     subprocess_util.run_subprocess(bowtie_run)
 
@@ -377,7 +378,8 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
                   bowtie_base=bowtie_base,
                   combined_fasta=combined_fasta,
                   temp_dir=temp_dir,
-                  cores=cores)
+                  cores=cores,
+                  longreads=args.longreads)
 
     all_fasta_files_dict = dict.fromkeys(raw_files_dict['fasta']) #add assembled genomes as new keys
     with Pool(processes=args.cores) as pool:

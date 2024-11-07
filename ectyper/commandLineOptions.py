@@ -62,6 +62,13 @@ def parse_command_line(args=None):
     )
 
     parser.add_argument(
+        "--longreads",
+        action="store_true",
+        default=False,
+        help="Enable for raw long reads FASTQ inputs (ONT, PacBio, other sequencing platforms). [default %(default)s]"
+    )
+
+    parser.add_argument(
         "--maxdirdepth",
         help="Maximum number of directories to descend when searching an input directory of files [default %(default)s levels]. Only works on path inputs not containing '*' wildcard",
         default=0, 

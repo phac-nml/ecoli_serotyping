@@ -138,7 +138,7 @@ def test_Ecoli_O17H18(caplog):
          rows = outfp.readlines()
     secondrow=rows[1:][0] #check only second row
     assert "Escherichia coli" in secondrow.split('\t')
-    assert "O17/O77/O44/O106\tH18\tO17/O77/O44/O106:H18\tWARNING MIXED O-TYPE" in secondrow
+    assert "O17/O44/O77/O106\tH18\tO17/O44/O77/O106:H18\tWARNING MIXED O-TYPE" in secondrow
 
 def test_download_refseq_mash(caplog, tmpdir):
     caplog.set_level(logging.DEBUG)

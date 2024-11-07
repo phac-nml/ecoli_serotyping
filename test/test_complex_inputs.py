@@ -91,7 +91,7 @@ def test_multiple_inputs(caplog):
         output_tsv_lines = fp.readlines()
     with open(output_blastn_antigens) as fp:
         output_blastn_antigens_lines  = fp.readlines()   
-    assert any([True if 'O17/O77/O44/O106:H18' in line else False for line in output_tsv_lines]), "No matches of 'O17/O77/O44/O106:H18' serotype"
+    assert any([True if 'O17/O44/O77/O106:H18' in line else False for line in output_tsv_lines]), "No matches of 'O17/O44/O77/O106:H18' serotype"
     assert any([True if 'O28/O42:H25' in line else False for line in output_tsv_lines]), "No matches of 'O28/O42:H25' serotype"
     assert any([True if 'EscherichiaO17H18' in line else False for line in output_blastn_antigens_lines]), "No matches of 'EscherichiaO17H18' in BLAST output"
     assert any([True if 'EscherichiaO28H5' in line else False for line in output_blastn_antigens_lines]), "No matches of 'EscherichiaO28H5' in BLAST output"
