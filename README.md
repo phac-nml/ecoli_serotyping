@@ -123,6 +123,7 @@ optional arguments:
   -i INPUT, --input INPUT
                         Location of E. coli genome file(s). Can be a single file, a comma-
                         separated list of files, or a directory
+  --longreads           Enable for raw long reads FASTQ inputs (ONT, PacBio, other sequencing platforms). [default False]                      
   -c CORES, --cores CORES
                         The number of cores to run ectyper with
   -opid PERCENTIDENTITYOTYPE, --percentIdentityOtype PERCENTIDENTITYOTYPE
