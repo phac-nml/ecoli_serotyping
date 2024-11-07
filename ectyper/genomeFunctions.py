@@ -232,8 +232,10 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
     bowtie_run = [
         'bowtie2',
         '--threads',f'{cores}',
+        '--local',
         '--score-min L,1,-0.5',
         '--np 5',
+        '--no-unal',
         '-x', bowtie_base,
         '-U', reads,
         '-S', sam_reads
@@ -248,7 +250,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1):
         'samtools', 'view',
         '--threads', f'{cores}',
         '-S',
-        '-F 4',
+        '-F 4', #filter out the unmapped reads
         '-q 1',
         '-b',
         '-o', bam_reads,

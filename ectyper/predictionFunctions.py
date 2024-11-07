@@ -534,7 +534,6 @@ def get_prediction(per_genome_df):
 
     #find pairwise distance between all alleles indentified by BLAST search and find alleles with IDENTICAL O-antigen score
     #Note that difference in score of 0 between O antigens is considered to be identical
-
     identicalscorestupleslist = [(orow, ocol, abs(i - j)) for ocol, i in scorestupleslist for orow, j in scorestupleslist
                             if i - j == 0 and (orow == selectedOantigen or ocol == selectedOantigen) and
                             (orow != ocol)]
@@ -548,7 +547,7 @@ def get_prediction(per_genome_df):
 
 
     if highsimilarity_oantigens:
-        mixedoantigen = [selectedOantigen] + highsimilarity_oantigens
+        mixedoantigen = sorted([selectedOantigen] + highsimilarity_oantigens, key = lambda x: re.search('O(\d+)',x).group(1), reverse=True)
         serotype['O']['serogroup'] = "/".join(mixedoantigen)
         LOG.info("Highly similar O-antigen candidates were found for {}".format(mixedoantigen))
     elif selectedOantigen != "":
