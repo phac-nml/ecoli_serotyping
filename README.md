@@ -17,7 +17,7 @@ The tool provides convenient species identification coupled to quality control m
 As WGS becomes standard within public health and research laboratories, it is important to harness the high throughput and resolution potential of this technology providing accurate and rapid at scale typing of E.coli both in public health, clinical and research contexts.
 
 ## Citation
-If you find `ectyper` useful, please cite the following paper:
+If you find `ECTyper` useful, please cite the following paper:
 
 > Bessonov, Kyrylo, Chad Laing, James Robertson, Irene Yong, Kim Ziebell, Victor PJ Gannon, Anil Nichani, Gitanjali Arya, John HE Nash, and Sara Christianson. **"ECTyper: in silico Escherichia coli serotype and species prediction from raw and assembled whole-genome sequence data."** Microbial genomics 7, no. 12 (2021): 000728. [https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728](https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728)
 
@@ -27,7 +27,7 @@ For any questions, issues or comments please make a Github issue or reach out to
 # Installation
 Multiple installation options are available depending on the user context and needs. The most convinient installation is as a `conda` package as it will install all required dependencies. 
 
-### Images availability
+### Docker and Singularity images availability
 Docker and Singularity images are also available from [https://biocontainers.pro/tools/ectyper](https://biocontainers.pro/tools/ectyper) that could be useful for NextFlow or hassle-free deployment
 
 ### Databases
@@ -72,10 +72,10 @@ Install python dependencies via `pip`:
 Clone the repository or checkout a particular release (e.g `v1.0.0`, `v2.0.0` etc.):
   ```
   git clone https://github.com/phac-nml/ecoli_serotyping.git
-  git checkout v1.0.0 #optionally checkout a specific release version
+  git checkout v2.0.0 #optionally checkout a specific release version
   ```
 
-Finally, install ectyper  
+Finally, install ectyper from source 
 ```
 python3 setup.py install # option 1
 pip3 install .   # option 2
@@ -102,12 +102,12 @@ pip3 install .   # option 2
 1. View the results on the console or in `cat [output folder]/output.csv`
 
 ## Example Input Scenarios
-* `ectyper -i ecoliA.fasta`  for a single file (the output folder will be named using `ectyper_<date>_<time>` pattern)
-* `ectyper -i ecoliA.fasta -o output_dir` for a single file, results stored in `output_dir` folder
-* `ectyper -i ecoliA.fasta ecoliB.fastq ecoli_folder/`	for multiple files and directory separated by space
-* `ectyper -i ecoliA.fasta ecoliB.fastq,ecoliC.fna`
+* `ectyper -i ecoliA.fasta`  for a single file (the output folder will be named using `ectyper_<date>_<time>` pattern as `-o` is not specified)
+* `ectyper -i ecoliA.fasta -o output_dir` for a single file with results stored in `output_dir` folder
+* `ectyper -i ecoliA.fasta ecoliB.fastq ecoli_folder/`	for multiple files and the directory `ecoli_folder/` separated by space. Again the output folder will be named using `ectyper_<date>_<time>` pattern)
+* `ectyper -i ecoliA.fasta ecoliB.fastq,ecoliC.fna` for multiple files separated by comma `,` symbol 
 * `ectyper -i ecoli_folder`	scan for input files in a folder and subdirectories (all files in the folder will be checked by the tool)
-* `ectyper -i ecoli_folder/*.fasta` scan for FASTA input files in a folder and subdirectories
+* `ectyper -i ecoli_folder/*.fasta` scan for FASTA input files in a folder and subdirectories with `fasta` extension
 
 ## Advanced Usage
 ```
@@ -129,7 +129,7 @@ optional arguments:
   -c CORES, --cores CORES
                         The number of cores to run ectyper with
   -opid PERCENTIDENTITYOTYPE, --percentIdentityOtype PERCENTIDENTITYOTYPE
-                        Percent identity required for an O antigen allele match [default 90]
+                        Percent identity required for an O antigen allele match [default 95]
   -hpid PERCENTIDENTITYHTYPE, --percentIdentityHtype PERCENTIDENTITYHTYPE
                         Percent identity required for an H antigen allele match [default 95]
   -oplen PERCENTLENGTHOTYPE, --percentLengthOtype PERCENTLENGTHOTYPE
@@ -160,7 +160,7 @@ optional arguments:
 |----------|:----------------------------------------------------------------:|:----------------------------------------------------------------------------------:
 | `--maxdirdepth`|  Maximum number of directory levels to use in a directory for input file search| Given a directory path use this number of levels (default 0 levels) to go down the specified directory path in search for files. Useful is a directory contains multiple sub-directories |
 | `-c`     | The number of cores to run on | Use multiple cores to run multiple samples and subtools on. Especially useful if a directory contains multiple files or working with raw reads in FASTQ format |
-| `-opid`  |  Minimum `%identity` threshold just for O antigen match| Poor coverage of O antigen genes or for exploratory work (recommended value is 90)  |
+| `-opid`  |  Minimum `%identity` threshold just for O antigen match| Poor coverage of O antigen genes or for exploratory work (recommended value is 95)  |
 | `-opcov` |  Minimum `%covereage` threshold for a valid match against reference O antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 90)|
 | `-hpid`  |  Minimum `%identity` threshold just for H antigen match| Poor coverage of O antigen genes or for exploratory work (recommend value is 95)    |
 | `-hpcov` |  Minimum `%covereage` threshold for a valid match against reference H antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 50)|
@@ -247,7 +247,9 @@ Each rule is tested for presence or absence of genes listed under the `genes` ru
 ### Shiga toxin typing module
 The Shiga toxin subtyping module supports typing of the *`stx1`* and *`stx2`* gene subtypes that is relevant both for epidemiological and risk assessment purposes (e.g., disease severity). This module also heavily relies on the [pathotype and toxin typing database](./ectyper/Data/ectyper_patho_stx_toxin_typing_database.json) (see [Databases](#databases) section).
 
-Currently the database supports 4 *`stx1`* subtypes: *`stx1a`*, *`stx1c`*, *`stx1d`* and stx1e and 15 *`stx2`* subtypes: *`stx2a`*, *`stx2b`*, *`stx2c`*, *`stx2d`*, *`stx2e`*, *`stx2f`*, *`stx2g`* ,*`stx2h`*, *`stx2i`*, *`stx2j`*, *`stx2k`*,*`stx2l`*, *`stx2m`*, *`stx2n`*, *`stx2o`*.
+Currently the database supports 
+  * 4 **`stx1`** subtypes: *`stx1a`*, *`stx1c`*, *`stx1d`* and `stx1e`
+  * 15 **`stx2`** subtypes: *`stx2a`*, *`stx2b`*, *`stx2c`*, *`stx2d`*, *`stx2e`*, *`stx2f`*, *`stx2g`* ,*`stx2h`*, *`stx2i`*, *`stx2j`*, *`stx2k`*,*`stx2l`*, *`stx2m`*, *`stx2n`*, *`stx2o`*.
 
 The input sequences are queried against the *`stx1`* and *`stx2`* markers via BLASTN and top hits are being reported separated by the `;` symbol. The module supports the multi-copy `stx` gene presence by taking into account the genomic `stx` location attributes for each `stx` subtype (i.e. gene coordinates, contig location, overlap with other `stx` hits). The multi-copy `stx` gene reporting is not exhaustive (not all hits are being reported). That is if multiple `stx` hits are found in the input, the highest quality hit(s) per each non-overlapping `stx` gene range is being reported (i.e. single or multiple top hits are possible with the highest identical `bitscore` value as some hits could not be resolved due to sequence truncation). For example, if several `stx` allele hits have identical `bitscore` in a given `stx` gene range, all such hits are being reported.  Note that the `StxSubtypes` field lists only UNIQUE `stx` subtypes for the entire input sample such as `stx2e;stx2k` even if their genomic locations overlap or are identical due to truncated incomplete `stx` allele signatures. The `StxContigNames` and `StxCoordinates` lists all contig names and corresponding genomic coordinates for each listed `stx` type in the  `StxSubtypes` field according to the alphabetical order. This allows to easily spot `stx` subtypes with the same genomic coordinates. Finally, these fields allow to better understand `stx` alleles context/function and spot truncated alleles while providing genomic location context.  
 
@@ -289,13 +291,20 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 15. **Database**: database release version and date
 16. **Warnings**: any additional warnings linked to the quality control status or any other error message(s). 
 
+<br>
 
-Selected columns from the `ECTyper` typical report are shown below. 
+Selected columns from the `ECTyper` typical serotyping report
 
 |Name|Species|Serotype|Evidence|QC|GeneScores|AlleleKeys|GeneIdentities(%)   |    GeneCoverages(%)   |     GeneContigNames| GeneRanges   |   GeneLengths  |   Database |        Warnings|
 |------|:------|:-------|:--|:---------|:------------|:-----|:-----|:----|:----|:----|:----|:---|:--|
 |15-520|Escherichia coli|O174:H21|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1; wzy:1; fliC:1;|O104-5-wzx-origin;O104-13-wzy;H7-6-fliC-origin;|100;100;100;|    100;100;100;|contig00049;contig00001;contig00019;|   22302-23492;178-1290;6507-8264;| 1191;1113;1758;| v1.0 (2020-05-07)  |     -  |
 EC20151709|Escherichia coli|O157:H43|Based on 3 allele(s)|PASS (REPORTABLE)|wzx:1;wzy:0.999;fliC:1|O157-5-wzx-origin;O157-9-wzy-origin;H43-1-fliC-origin;|100;99.916;99.934;   |   100;100;100;  |  contig00002;contig00002;contig00003; |   62558-63949;64651-65835;59962-61467;   | 1392;1185;1506; |v1.0 (2020-05-07)  |     - |
+
+Selected columns from the `ECTyper` typical pathotyping and shiga toxin subtyping report
+
+| Name       | Species          | SpeciesMashRatio | SpeciesMashTopID | Serotype | Pathotype | PathotypeGenes      | PathotypeGeneNames                                                                                                                                        | PathotypeAccessions                         | PathotypeIdentities(%)    | PathotypeCoverages(%) | PathotypeRuleIDs          | PathotypeGeneCounts         | StxSubtypes | StxAccessions     | StxIdentities(%) | StxCoverages(%) | StxLengths | StxContigNames          | StxCoordinates        |
+|------------|------------------|------------------|------------------|----------|-----------|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|---------------------------|-----------------------|---------------------------|-----------------------------|-------------|-------------------|------------------|-----------------|------------|-------------------------|-----------------------|
+| SRR7947260 | Escherichia coli | 992/1000         | GCF_005046225.1  | O109:H16 | ETEC/STEC | ehxA,hlyE,sta1,stx2 | ehxA: enterohemolysin A,hlyE: hemolysin E chromosomal,sta1: heat-stable enterotoxin ST,stx2: Shiga toxin 2 subtype a complete sequence (subunits A and B) | EF204927.1;AVXX01000010.1;AJ555214;AB030484 | 99.619;97.807;95.89;100.0 | 70;100;100;100        | 20:ETEC:sta1;27:STEC:stx2 | ETEC:1 (sta1);STEC:1 (stx2) | stx2a;stx2g | AB030484;AY286000 | 100.0;99.758     | 100;100         | 1241;1242  | contig00064;contig00074 | 3723-4963;14725-15966 |
 
 
 

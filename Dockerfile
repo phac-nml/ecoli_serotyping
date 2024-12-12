@@ -5,7 +5,7 @@ RUN apt install libcurl4-openssl-dev libssl-dev -y
 RUN pip3 install Cython numpy
 RUN apt install mash ncbi-blast+  bowtie2 seqtk samtools bcftools -y
 RUN git clone https://github.com/phac-nml/ecoli_serotyping.git
-# install the tool and initilize its species ID MASH database
+# install the tool and initialize its species ID MASH database
 RUN cd ecoli_serotyping && git checkout v2.0.0 && pip3 install .
 RUN ectyper_init
 
