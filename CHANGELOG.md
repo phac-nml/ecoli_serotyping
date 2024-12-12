@@ -38,4 +38,15 @@ specified and MASH distance to RefSeq genomes fails
   * Now species verification via MASH distance to RefSeq genomes and E.coli specific alleles is done only if `--verify`
 parameter is specified. 
   * If `--verify` is not specified, all input genomes are treated as E.coli without doing any species verification
+
+**v2.0.0**
+* Updated species identification module now based on GTDB + custom Escherichia and Shigella sketch covering all known bacterial species
+* Implemented pathotyping covering 7 DEC *Escherichia coli* pathotypes (`DAEC`, `EAEC`, `EHEC`, `EIEC`, `EPEC`, `ETEC` and `STEC`) supporting simultaneous presence of multiple signatures (e.g. `ETEC/STEC`). Note that `EHEC` is reported as `EHEC-STEC` as this is a more severe subtype of `STEC`. 
+* Implemented Shiga 1 and 2 toxin typing supporting multiple toxin signatures present in a single sample.
+  * A total of 4 *stx1* subtypes are supported: `stx1a`, `stx1c`, `stx1d` and `stx1e`.
+  * A total of 15 *stx2* subtypes are supported: `stx2a`, `stx2b`, `stx2c`, `stx2d`, `stx2e`, `stx2f`, `stx2g` ,`stx2h`, `stx2i`, `stx2j`, `stx2k`, `stx2l`, `stx2m`, `stx2n`, `stx2o`.
+* new database of pathotypes and toxins in JSON clear transparent format composed of the key virulence factors based on both BioNumerics and literature sources  
+* support for gzip compressed inputs `fastq.gz` and `fasta.gz` saving storage and increasing versatility
+* other toxin typing covering enterohemolysin A (`ehxA`), hemolysin E (`hlyE`),  hemolysin A (`hlyA`)
+
   

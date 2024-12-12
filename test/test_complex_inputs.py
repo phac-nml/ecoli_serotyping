@@ -24,7 +24,7 @@ def set_input(input,
     :param output: Location of output
     :return: None
     """
-    print(input)
+
     args = ['-i', input,
             '-c', str(cores),
             ]

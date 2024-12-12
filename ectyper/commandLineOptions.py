@@ -89,7 +89,7 @@ def parse_command_line(args=None):
         "--percentIdentityOtype",
         type=check_percentage,
         help="Percent identity required for an O antigen allele match [default %(default)s]",
-        default=90
+        default=95
     )
 
     parser.add_argument(

@@ -17,7 +17,9 @@ The tool provides convenient species identification coupled to quality control m
 As WGS becomes standard within public health and research laboratories, it is important to harness the high throughput and resolution potential of this technology providing accurate and rapid at scale typing of E.coli both in public health, clinical and research contexts.
 
 ## Citation
-Bessonov, Kyrylo, Chad Laing, James Robertson, Irene Yong, Kim Ziebell, Victor PJ Gannon, Anil Nichani, Gitanjali Arya, John HE Nash, and Sara Christianson. "ECTyper: in silico Escherichia coli serotype and species prediction from raw and assembled whole-genome sequence data." Microbial genomics 7, no. 12 (2021): 000728. [https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728](https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728)
+If you find `ectyper` useful, please cite the following paper:
+
+> Bessonov, Kyrylo, Chad Laing, James Robertson, Irene Yong, Kim Ziebell, Victor PJ Gannon, Anil Nichani, Gitanjali Arya, John HE Nash, and Sara Christianson. **"ECTyper: in silico Escherichia coli serotype and species prediction from raw and assembled whole-genome sequence data."** Microbial genomics 7, no. 12 (2021): 000728. [https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728](https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000728)
 
 ## Contact
 For any questions, issues or comments please make a Github issue or reach out to [Kyrylo Bessonov](kyrylo.bessonov@phac-aspc.gc.ca).
@@ -327,6 +329,7 @@ Some O-antigens display very high degree of homology and are very hard to discer
 |[Galaxy ToolShed](https://toolshed.g2.bx.psu.edu/view/nml/ectyper/)| Galaxy wrapper available for installation on a private/public instance|Web-based|
 |[Galaxy Europe](https://usegalaxy.eu/root?tool_id=ectyper)| Galaxy public server to execute your analysis from anywhere|Web-based| 
 |[IRIDA plugin](https://github.com/phac-nml/irida-plugin-ectyper)| IRIDA instances could easily install additional pipeline|Web-based|
+
 
 # Legal and Compliance Information
 
