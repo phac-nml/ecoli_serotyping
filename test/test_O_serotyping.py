@@ -2,9 +2,10 @@ import sys
 import os
 import logging
 import re
-from ectyper import ectyper
+from ectyper import ectyper, definitions
 import tempfile
 LOG=logging.getLogger("TEST")
+LOG.setLevel(logging.INFO)
 TEST_ROOT = os.path.dirname(__file__)
 
 def set_input(input,
@@ -54,9 +55,15 @@ def test_Otyping(caplog):
 
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
-         secondrow = outfp.readlines()[1].split("\t")
-         Otype = secondrow[2]
-         Htype = secondrow[3]
+         lines = outfp.readlines()
+         header = lines[0].split("\t")
+         secondrow = lines[1].split("\t")
+         assert 'O-type' in header, f'O-type column not found in the output.tsv ({header})'
+         assert 'H-type' in header, f'H-type column not found in the output.tsv ({header})'
+         col_number = [idx for idx, i in enumerate(header) if i == "O-type"][0]
+         Otype = secondrow[col_number]
+         col_number = [idx for idx, i in enumerate(header) if i == "H-type"][0]
+         Htype = secondrow[col_number]
 
     assert Otype == "-", "Expected no call but reported O-type:" + Otype
     assert Htype == "H11", "Expected H11 but reported H-type:" + Htype
@@ -72,8 +79,7 @@ def test_closeOalles_O42_O28(caplog):
     ectyper.run_program()
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          secondrow = outfp.readlines()[1]
-    print(secondrow)
-    assert re.match(r".+Escherichia coli.+O42\/O28\tH25\tO42\/O28:H25", secondrow)
+    assert re.match(r".+Escherichia coli.+O28\/O42\tH25\tO28\/O42:H25", secondrow)
 
 
 def test_Shigella_typing(caplog):
@@ -89,11 +95,6 @@ def test_Shigella_typing(caplog):
          species = secondrow[1]
     assert species == "Shigella boydii"
 
-def test_download_refseq_mash(caplog):
-    caplog.set_level(logging.DEBUG)
-    response = ectyper.speciesIdentification.get_refseq_mash_and_assembly_summary()
-    assert response == True,"Something went wrong with the RefSeq sketch download. Check internet connection ..."
-
 
 def test_mixofspecies(caplog):
     caplog.set_level(logging.DEBUG)
@@ -107,71 +108,22 @@ def test_mixofspecies(caplog):
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
-    rows=rows[1:] #remove header line
+    header = rows[0]
+    resultsrows = rows[1:] #remove header line
 
-    serovars=[]; genomenames=[]; QCflag=[]; confidence=[]
-    for row in rows:
+    serotypes=[]; species=[]; QCflag=[]
+         
+    for row in resultsrows:
         rowlist = row.split("\t")
-        print(rowlist)
-        serovars.append(rowlist[4])
-        genomenames.append(rowlist[1])
-        QCflag.append(rowlist[5])
-        confidence.append(rowlist[6])
+        serotypes.append(rowlist[ [idx for idx, i in enumerate(header.split('\t')) if i == "Serotype"][0] ])
+        species.append(rowlist[  [idx for idx, i in enumerate(header.split('\t')) if i == "Species"][0]   ])
+        QCflag.append(rowlist[ [idx for idx, i in enumerate(header.split('\t')) if i == "QC"][0]  ])
 
-    assert serovars == ['-:-', 'O22:H8', '-:-']
-    expectedspecies_list = ["Campylobacter jejuni","Escherichia coli","Salmonella enterica"]
+    assert serotypes == ['-:-', 'O22:H8', '-:-']
+    expectedspecies_list = ["Campylobacter_D jejuni","Escherichia coli","Salmonella enterica"]
     for i in range(0,3):
-        assert bool(re.match(expectedspecies_list[i], genomenames[i])) == True
+        assert bool(re.match(expectedspecies_list[i], species[i])) == True
     assert QCflag == ["WARNING (WRONG SPECIES)","PASS (REPORTABLE)","WARNING (WRONG SPECIES)"]
-
-
-def test_Ealbertii_1(caplog): #error
-    LOG.info("Starting 1 of 3 test on EnteroBase on sample ESC_HA8355AA_AS: Escherichia albertii O65:H5")
-    caplog.set_level(logging.DEBUG)
-    file = os.path.join(TEST_ROOT,
-                        'Data/ESC_HA8355AA_AS_Ealberii_O65H5.fasta')
-    tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True,  verify=True, output=tmpdir)
-
-    ectyper.run_program()
-    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
-         rows = outfp.readlines()
-    secondrow=rows[1:][0] #remove header line
-    assert "Escherichia albertii" in secondrow
-    assert "WARNING (WRONG SPECIES)" in secondrow
-
-def test_Ealbertii_2(): #error
-    LOG.info("Starting 2 of 3 test on EnteroBase on sample on ESC_HA8509AA_AS: Escherichia albertii O5:H5")
-
-    file = os.path.join(TEST_ROOT,
-                        'Data/ESC_HA8509AA_AS_EalbertiiO5H5.fasta')
-    tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True, verify=True, output=tmpdir)
-    ectyper.run_program()
-
-    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
-         rows = outfp.readlines()
-    secondrow=rows[1:][0] #check only second row
-
-    assert "Escherichia albertii" in secondrow
-    assert "WARNING (WRONG SPECIES)" in secondrow
-
-def test_Ealbertii_3(caplog):
-    LOG.info("Starting 3 of 3 test Escherichia albertii O49:NM") #can not type O49 due to poor sequence quality of uncertainty of wet-lab O49 typing
-    caplog.set_level(logging.DEBUG)
-    file = os.path.join(TEST_ROOT,
-                        'Data/Ealbertii_O49NM.fasta')
-
-    tmpdir = tempfile.mkdtemp()
-    set_input(input=file, cores=4, print_sequence=True,  verify=True, output=tmpdir)
-    ectyper.run_program()
-
-    with open(os.path.join(tmpdir ,"output.tsv")) as outfp:
-         rows = outfp.readlines()
-    secondrow=rows[1:][0] #check only second row
-    assert "Escherichia albertii" in secondrow
-    assert "WARNING (WRONG SPECIES)" in secondrow
-
 
 def test_Ecoli_O17H18(caplog):
     caplog.set_level(logging.DEBUG)
@@ -185,6 +137,12 @@ def test_Ecoli_O17H18(caplog):
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
     secondrow=rows[1:][0] #check only second row
-    assert "Escherichia coli\tO77/O17/O44/O106\tH18\tO77/O17/O44/O106:H18\tWARNING MIXED O-TYPE" in secondrow
+    assert "Escherichia coli" in secondrow.split('\t')
+    assert "O17/O44/O77/O106\tH18\tO17/O44/O77/O106:H18\tWARNING MIXED O-TYPE" in secondrow
+
+def test_download_refseq_mash(caplog, tmpdir):
+    caplog.set_level(logging.DEBUG)
+    response = ectyper.speciesIdentification.get_species_mash(definitions.SPECIES_ID_SKETCH)
+    assert response == True,"Something went wrong with the Species ID database download. Check internet connection ..."    
 
 

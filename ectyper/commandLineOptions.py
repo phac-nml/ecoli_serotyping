@@ -40,7 +40,7 @@ def parse_command_line(args=None):
     dbversion = checkdbversion()
 
     parser = argparse.ArgumentParser(
-        description='ectyper v{} database v{} Prediction of Escherichia coli serotype from '
+        description='ectyper v{} antigen database v{}. Prediction of Escherichia coli serotype, pathotype and shiga toxin tying from '
                     'raw reads'
                     ' or assembled genome sequences. The default settings are recommended.'.format(__version__, dbversion)
     )
@@ -57,9 +57,25 @@ def parse_command_line(args=None):
         "--input",
         help="Location of E. coli genome file(s). Can be a single file, a \
             comma-separated list of files, or a directory",
-        required=True
+        required=True,
+        nargs="+"
     )
 
+    parser.add_argument(
+        "--longreads",
+        action="store_true",
+        default=False,
+        help="Enable for raw long reads FASTQ inputs (ONT, PacBio, other sequencing platforms). [default %(default)s]"
+    )
+
+    parser.add_argument(
+        "--maxdirdepth",
+        help="Maximum number of directories to descend when searching an input directory of files [default %(default)s levels]. Only works on path inputs not containing '*' wildcard",
+        default=0, 
+        type=int,   
+        required=False
+    )
+    
     parser.add_argument(
         "-c",
         "--cores",
@@ -73,7 +89,7 @@ def parse_command_line(args=None):
         "--percentIdentityOtype",
         type=check_percentage,
         help="Percent identity required for an O antigen allele match [default %(default)s]",
-        default=90
+        default=95
     )
 
     parser.add_argument(
@@ -88,7 +104,7 @@ def parse_command_line(args=None):
         "-opcov",
         "--percentCoverageOtype",
         type=check_percentage,
-        help="Minumum percent coverage required for an O antigen allele match [default %(default)s]",
+        help="Minimum percent coverage required for an O antigen allele match [default %(default)s]",
         default=90
     )
 
@@ -96,7 +112,7 @@ def parse_command_line(args=None):
         "-hpcov",
         "--percentCoverageHtype",
         type=check_percentage,
-        help="Minumum percent coverage required for an H antigen allele match [default %(default)s]",
+        help="Minimum percent coverage required for an H antigen allele match [default %(default)s]",
         default=50
     )
 
@@ -114,14 +130,13 @@ def parse_command_line(args=None):
 
     parser.add_argument(
         "-r",
-        "--refseq",
-        help="Location of pre-computed MASH RefSeq sketch. If provided, "
+        "--reference",
+        default=definitions.SPECIES_ID_SKETCH,
+        help="Location of pre-computed MASH sketch for species identification. If provided, "
              "genomes "
              "identified as non-E. coli will have their species identified "
              "using "
-             "MASH. For best results the pre-sketched RefSeq archive "
-             "https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh "
-             "is recommended"
+             "MASH dist"
     )
 
     parser.add_argument(
@@ -140,7 +155,29 @@ def parse_command_line(args=None):
 
     parser.add_argument(
         "--dbpath",
-        help="Path to a custom database of O and H antigen alleles in JSON format.\nCheck Data/ectyper_database.json for more information"
+        help="Path to a custom database of O and H antigen alleles in JSON format.\n"
+    )
+
+    parser.add_argument(
+        "--pathotype",
+        action="store_true",
+        help="Predict E.coli pathotype and Shiga toxin subtype(s) if present\n"
+    )
+
+    parser.add_argument(
+        "-pathpid",
+        "--percentIdentityPathotype",
+        type=check_percentage,
+        help="Minimum percent identity required for a pathotype reference allele match [default: %(default)s]",
+        default=90
+    )
+
+    parser.add_argument(
+        "-pathpcov",
+        "--percentCoveragePathotype",
+        type=check_percentage,
+        help="Minimum percent coverage required for a pathotype reference allele match [default: %(default)s]",
+        default=50
     )
 
     if args is None:

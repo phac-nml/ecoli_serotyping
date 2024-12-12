@@ -2,21 +2,22 @@ import sys
 import pytest
 import tempfile
 import os
-from ectyper import ectyper
+from ectyper import ectyper, definitions
 import subprocess
 import pandas
 import logging
 import re
 
 TEST_ROOT = os.path.dirname(__file__)
-logging.basicConfig(level=logging.INFO)
 LOG=logging.getLogger("TEST")
+LOG.setLevel(logging.INFO)
 
 
 def set_input(input,
               percent_iden=None,
               verify = True,
               output=tempfile.mkdtemp(),
+              maxdirdepth=0,
               cores=1,
               print_sequence=False):
     """
@@ -27,7 +28,7 @@ def set_input(input,
     :return: None
     """
     args = ['-i', input,
-            #'-r', os.path.join(TEST_ROOT, 'Data/test_sketch.msh'),
+            '--maxdirdepth', str(maxdirdepth),
             '-c', str(cores)]
 
     if percent_iden:
@@ -59,7 +60,7 @@ def test_integration_no_file():
     :return: None
     """
     file = ''
-    set_input(file)
+    set_input(input=file)
     with pytest.raises(FileNotFoundError) as se:
         ectyper.run_program()
     assert se.type == FileNotFoundError
@@ -99,8 +100,9 @@ def test_integration_validfasta_noverify(caplog):
     file = os.path.join(TEST_ROOT, 'Data/Escherichia.fna')
     set_input(file, verify=False)
     ectyper.run_program()
+    print(caplog.text)
     assert "O103\tH2\tO103:H2" in caplog.text
-    assert "Escherichia\t-\tO103\tH2" in caplog.text
+    assert "Escherichia coli" in caplog.text
 
 def test_valid_fastq_file(caplog):
     """
@@ -133,50 +135,35 @@ def test_multiple_directories(caplog):
     :return: None
     """
     the_dir = os.path.join(TEST_ROOT, 'Data/test_dir')
-    set_input(the_dir, cores=4, verify=True, print_sequence=True)
+    set_input(the_dir, cores=4, verify=True, maxdirdepth=1, print_sequence=True)
     ectyper.run_program()
-    assert any([True if re.match(r".+sample2.+WARNING\s+\(WRONG\s+SPECIES\).+Sample identified as -", line) else False for line in caplog.text.splitlines()]) #O148:H44
-    assert any([True if re.match(r".+sample3.+WARNING\s+\(WRONG\s+SPECIES\).+Sample identified as -", line) else False for line in caplog.text.splitlines()]) #O148:H44
-    assert any([True if re.match(r".+sample4.+WARNING\s+\(WRONG\s+SPECIES\).+Sample identified as -", line) else False for line in caplog.text.splitlines()]) #O148:H44
-    assert any([True if re.match(r".+badfasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
-    assert any([True if re.match(r".+sample.fasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
-    assert any([True if re.match(r".+sampletar.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
-    assert any([True if re.match(r".+test_junk.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()])
+    assert any([True if re.match(r".+sample2.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample 2"
+    assert any([True if re.match(r".+sample3.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample 3"
+    assert any([True if re.match(r".+sample4.+WARNING\s+\(WRONG\s+SPECIES\)", line) else False for line in caplog.text.splitlines()]), "Issue with sample 4" 
+    assert any([True if re.match(r".+badfasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with badfasta"
+    assert any([True if re.match(r".+sample.fasta.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with sample.fasta"
+    assert any([True if re.match(r".+sampletar.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with sampletar"
+    assert any([True if re.match(r".+test_junk.+WARNING\s+\(WRONG\s+SPECIES\).+Non fasta / fastq file", line) else False for line in caplog.text.splitlines()]), "Issue with test_junk"
+    assert any([True if re.match(r".+GCA_000181775\.1_ASM18177v1_genomic\s+Escherichia\s+coli.+O157\s+H7.+REPORTABLE", line) else False for line in caplog.text.splitlines()]), "Issue with GCF_000181775.1_ASM18177v1"
 
 
-def test_mash_sketch_and_assembly_metadata():
+def test_mash_sketch_and_assembly_metadata(tmpdir):
     """
     Test if all accessions in mash sketch are a complete subset of the assembly stats superset.
     Ensure that all accession numbers are represented in the meta data assembly stats
     """
-    ectyper.speciesIdentification.get_refseq_mash_and_assembly_summary()
-    ROOT_DIR = os.path.abspath(os.path.join(TEST_ROOT, '..'))
-    MASHSTATSMETAFILE=os.path.join(TEST_ROOT+"/mash_refseq_meta.txt")
-    MASHINFILE = os.path.join(ROOT_DIR, 'ectyper/Data/refseq.genomes.k21s1000.msh')
-    ASSEMBLYREFSEQMETAFILE = os.path.join(ROOT_DIR, 'ectyper/Data/assembly_summary_refseq.txt')
-
+    ectyper.speciesIdentification.get_species_mash(definitions.SPECIES_ID_SKETCH)
+    MASHSTATSMETAFILE=os.path.join(tmpdir+"/species_id_mash_meta.txt")
+    MASHINFILE = definitions.SPECIES_ID_SKETCH
 
     cmd = ["mash info -t " +  MASHINFILE   + " > " + MASHSTATSMETAFILE]
-    print("File written to {}".format(MASHSTATSMETAFILE))
+    LOG.info("Mash info text file written to {}".format(MASHSTATSMETAFILE))
     subprocess.run(cmd, shell=True)
     mashsketchdatadf = pandas.read_csv(MASHSTATSMETAFILE,sep="\t")
-    mashaccessions=[re.findall(r"(GCF_\d+)\.+",item)[0] for item in mashsketchdatadf.iloc[:,2].values.tolist()]
-    LOG.info("Extracted {} MASH RefSeq accessions".format(len(mashaccessions)))
+    assert mashsketchdatadf.columns.to_list() == ['#Hashes', 'Length', 'ID', 'Comment']
+    assert ['GCA' in item for item in mashsketchdatadf["ID"]], "GCA_ identifiers not found"
+    assert ['s__Escherichia coli' in item for item in mashsketchdatadf["Comment"]], "GCA_ identifiers not found"
 
-
-    genomeassemblystatrefseqsdf = pandas.read_csv(ASSEMBLYREFSEQMETAFILE, sep="\t", skiprows=1)
-    metaaccessionsrefseq = [re.findall(r"(GCF_\d+)\.+",item)[0]  for item  in genomeassemblystatrefseqsdf.iloc[:, 0].values.tolist()]
-    metaaccessionsrefseqdict = dict.fromkeys(metaaccessionsrefseq, True)
-
-
-    LOG.info("Extracted {} assembly metadata accessions from {}".format(len(metaaccessionsrefseq),MASHSTATSMETAFILE))
-
-    notfoundaccessions = []
-    for accession in mashaccessions:
-        if not metaaccessionsrefseqdict.get(accession):
-            notfoundaccessions.append(accession)
-
-    LOG.info("{} of accessions not found in metadata file {}".format(len(notfoundaccessions),MASHSTATSMETAFILE))
 
 
 

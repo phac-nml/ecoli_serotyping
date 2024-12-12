@@ -1,4 +1,5 @@
-import logging
+import logging, os
+from ectyper import commandLineOptions
 
 def create_logger():
     """
@@ -9,15 +10,11 @@ def create_logger():
 
     log = logging.getLogger('ectyper')
     formatter = logging.Formatter(
-        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-    log.setLevel(logging.DEBUG)
-
+        '%(asctime)s %(name)s:%(lineno)d %(levelname)-5s %(message)s')
+    
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
     console.setFormatter(formatter)
-
-
-    #console.setLevel(logging.INFO)
     log.addHandler(console)
 
     return log

@@ -6,17 +6,15 @@ import re
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from Bio import SeqIO
 import time #for file age calculations
 
 
 LOG = logging.getLogger(__name__)
 
 
-def bool_downloadMashRefSketch(targetpath):
-    if os.path.exists(targetpath) == False:
-       return True
-    #if the file size is smaller than 700MB, re-download mash sketch
-    elif os.path.getsize(targetpath) < 700000000:
+def bool_downloadMashSketch(targetpath):
+    if os.path.exists(targetpath) == False or os.path.exists(targetpath+'.txt') == False :
        return True
     else:
         return False
@@ -44,76 +42,60 @@ def setLockFile(lockfilepath):
             time.sleep(60)  # recheck every 1 min if lock file was removed
         LOG.info("Lock file doest not exist or is removed by other process. Continue with databases download ...")
 
-def get_refseq_mash_and_assembly_summary():
+def get_species_mash(targetpath, force_download=False):
     """
-    Get MASH sketch of refseq genomes for species identification and check that the most recent version is installed
-    :return returns boolean value depending on success of failure to download RefSeq MASH sketch
+    Get MASH sketch of genomes for species identification and check that the most recent version is installed
+    :return returns boolean value depending on success of failure to download the MASH sketch
     """
 
 
-    targetpath = os.path.join(os.path.dirname(__file__),"Data/refseq.genomes.k21s1000.msh")
-    lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock")
+    lockfilepath = os.path.join(os.path.dirname(__file__),"Data/.lock") #prevents race condition
+    if os.path.exists(lockfilepath):
+        os.remove(lockfilepath)
 
 
-    if bool_downloadMashRefSketch(targetpath):
+    if bool_downloadMashSketch(targetpath) or force_download == True:
+        LOG.info("MASH species id sketch is missing and needs to be downloaded ...")
         setLockFile(lockfilepath)
         for url in definitions.MASH_URLS:
-            LOG.info("Trying to download MASH sketch from {}.".format(url))
             try:
-                LOG.info("Downloading ~700MB from {}.".format(url))
-                response = requests.get(url,timeout=10, verify=False)
-                response.raise_for_status()
-                LOG.info("Response code for MASH sketch download for mirror {} is {}".format(response.status_code,url))
-                if response.status_code == 200:
-                  with open(file=targetpath, mode="wb") as fp:
-                      fp.write(response.content)
-                  download_assembly_summary()
-                  os.remove(lockfilepath)
+                if os.path.exists(targetpath) == False or force_download == True:
+                    LOG.info("Downloading ~900MB from {}.".format(url))
+                    response = requests.get(url,timeout=10, verify=False)
+                    response.raise_for_status()
+                    LOG.info("Response code for MASH sketch download for mirror {} is {}".format(url, response.status_code))
+                    if response.status_code == 200:
+                        with open(file=targetpath, mode="wb") as fp:
+                            fp.write(response.content)
+                generate_sketch_info_summary(targetpath)
+                os.remove(lockfilepath)
             except Exception as e:
-                LOG.error("Failed to download refseq.genomes.k21s1000.msh from {}.\nError msg {}".format(url,e))
+                LOG.error("Failed to download {}.\nError msg {}".format(url,e))
                 pass
 
             #checks if download was successful and of the right size
-            if bool_downloadMashRefSketch(targetpath) == False:
-                LOG.info("Sucessfully downloaded RefSeq MASH sketch from {} for species verification".format(url))
+            if bool_downloadMashSketch(targetpath) == False:
+                LOG.info("Successfully downloaded MASH sketch from {} for species verification".format(url))
                 return True
             else:
                 LOG.error("Something went wrong with the file download from {}. Trying next mirror ...".format(url))
         LOG.error("All mirrors tried but none worked. Check you Internet connection or download manually (see README)...")
-        os.remove(lockfilepath)
+        os.remove(lockfilepath) # remove lock file
         return False #if all mirrors failed
 
     else:
-        assemblysummarypath = os.path.join(os.path.dirname(__file__), "Data/assembly_summary_refseq.txt")
-        if os.path.exists(assemblysummarypath) == False or os.path.getsize(assemblysummarypath) == 0:
-            download_assembly_summary()
-        LOG.info("RefSeq sketch (refseq.genomes.k21s1000.msh) and assembly meta data (assembly_summary_refseq.txt) is in good health and does not need to be downloaded")
+        LOG.info("MASH species id sketch at {} exists and is in good health and does not need to be downloaded".format(
+            targetpath
+        ))
         return True
 
-def download_assembly_summary():
-    sourceurls = definitions.assembly_summary_refseq_url_dict
-
-    try:
-        for targetfile, url in sourceurls.items():
-            targetpath = os.path.join(os.path.dirname(__file__), "Data/"+targetfile)
-            response = requests.get(url, timeout=10, verify=False)
-            response.raise_for_status()
-
-            if response.status_code == 200:
-                with open(file=targetpath, mode="w", encoding="utf8") as fp:
-                    fp.write(response.text)
-                LOG.info("Successfully downloaded {} with response code {}".format(targetfile, response.status_code))
-            else:
-                LOG.critical("Server response error {}. Failed to download {}".format(response.status_code,targetfile))
-
-            if not os.path.exists(targetpath):
-                LOG.critical("The {} file does not exist or is corrupted at {} path".format(targetfile, targetpath))
-                exit(1)
-
-    except Exception as e:
-        print(e)
-        LOG.critical("Failed to download or write to a disk assembly_summary_genbank.txt or assembly_summary_refseq.txt.\nError msg {}".format(str(e)))
-        pass
+def generate_sketch_info_summary(mash_sketch_path):
+    mash_sketch_metadata_file = mash_sketch_path+'.txt'
+    process = subprocess_util.run_subprocess(['mash','info', '-t', mash_sketch_path])
+    if process.returncode == 0:
+        with open(mash_sketch_path+".txt", "w") as fp:
+            fp.write(process.stdout.decode('utf-8'))
+        LOG.info(f'Successfully generated sketch metadata file at {mash_sketch_metadata_file}')
 
 
 
@@ -170,7 +152,7 @@ def get_num_hits(target, temp_dir):
     return num_hit
 
 
-def get_species(file, args):
+def get_species(file, args, cores=1):
     """
     Given a fasta/fastq file, return the most likely species identification
 
@@ -180,11 +162,15 @@ def get_species(file, args):
     Returns:
         str: name of estimated species
     """
-
+    LOG.debug(f"Get species prediction for {file}")
     top_match="-"; top_match_dist="-"; top_match_hashratio="-"; species="-"
+    sketch_metadata_file = args.reference+'.txt' 
+    if os.path.exists(sketch_metadata_file) == False:
+        raise FileNotFoundError(f'Missing required species ID sketch at {sketch_metadata_file} path')
+
     mash_cmd = [
-        'mash', 'dist',
-        args.refseq,
+        'mash', 'dist', '-p', f"{cores}",
+        args.reference,
         file
     ]
     mash_output = subprocess_util.run_subprocess(mash_cmd)
@@ -195,10 +181,11 @@ def get_species(file, args):
     ]
     sort_output = subprocess_util.run_subprocess(sort_cmd,
                                                  input_data=mash_output.stdout)
+    
 
     if args.debug:
         LOG.debug("Wrote MASH against reference sketch results to {}".format(args.output))
-        with open(file=args.output+"/mash_output.txt", mode="w") as fp:
+        with open(file=args.output+"/mash_output.txt", mode="a") as fp:
             fp.write(sort_output.stdout.decode("utf-8"))
         fp.close()
 
@@ -211,71 +198,40 @@ def get_species(file, args):
     head_output = subprocess_util.run_subprocess(head_cmd,
                                                  input_data=sort_output.stdout)
     top_hit_lines = head_output.stdout.decode("utf-8").split('\n')
+   
 
 
     if len(top_hit_lines) < 1:
-        LOG.warning("No hits returned by mash sketch search. Species identification failed!")
+        top_hit_line = ""
+        LOG.warning('For {file} no hits returned by MASH species id sketch search. Species identification failed!')
     else:
-        LOG.info("Following top hits returned by MASH {}".format([top_hit_line.split("\t")[0] for top_hit_line in top_hit_lines]))
+        top_hit_line = top_hit_lines[0]
+        LOG.info('For {} following top hits and hash ratios returned by MASH {}'.format(file,
+                                                                        [(top_hit_line.split("\t")[0],top_hit_line.split("\t")[4]) for top_hit_line in top_hit_lines if len(top_hit_line.split("\t")[0])>0]))
 
+    top_hit_line_elements = top_hit_line.split()
 
-    for top_hit_line in top_hit_lines:
-
-        top_hit_line_elements = top_hit_line.split()
-
-        if len(top_hit_line_elements) < 5:
-            LOG.warning("No columns in the mash results ouptut to split. Species identification failed!")
-            continue
-
+    if len(top_hit_line_elements) < 5:
+        LOG.warning("No columns in the mash results output to split. Species identification failed!")
+        species = "-"
+    else:
         top_match = top_hit_line_elements[0]; top_match_dist = top_hit_line_elements[2]; top_match_hashratio = top_hit_line_elements[4]
-
-        m = re.match(r"(GCF_\d+)", top_match)
-
-        top_match_hashratio_tuple = re.findall(r'(\d+)\/(\d+)', top_match_hashratio)[0]
-        top_match_sharedhashes = int(top_match_hashratio_tuple[0])
-
-        if m:
-            refseq_key = m.group(1)
+        matched_hashes = top_match_hashratio.split('/')[0]
+        matched_meta_line = subprocess_util.run_subprocess(['grep',top_match, sketch_metadata_file],
+                                                        ignorereturncode=True).stdout.decode('utf-8').split('\t')
+        if len(matched_meta_line) == 4 and matched_hashes != '0':
+            m=re.search('s__(.+)',matched_meta_line[3])
+            if m:
+                species = m.group(1).strip('"')
+                LOG.info(
+            "MASH species top hit {} identified as {} with distance {} to {} and shared hashes ratio {}".format(top_match, species, top_match_dist, file,
+                                                                                                top_match_hashratio))
+                LOG.info("MASH dist predicted species name: '{}' based on species ID sketch {}".format(species, args.reference))
         else:
-            LOG.warning("Could not detemine species based on MASH Distance"
-                        "Could not extract GCF_# accession number from the MASH dist results.".format(top_match))
-            continue #try other top match
-
-        if m is None or top_match_sharedhashes < 3:
-            LOG.warning("\nTop MASH sketch hit {} with {} shared hashes."
-                        "\nCould not assign species based on MASH distance to reference sketch file.\n"
-                        "Due to either:\n"
-                        "1. MASH sketch meta data accessions do not start with the GCF_ prefix in assembly_summary_refseq.txt or\n"
-                        "2. Number of shared hashes to reference is less than 100 (i.e. too distant).\n"
-                        "3. Genome coverage is very limited causing species verification to fail.\n"
-                        "If sample is E.coli, try running without --verify parameter"
-                        .format(top_match,top_match_hashratio))
-            species = "-" # if after top 10 genome IDs still no accession number match, give up
-            return species
-
-        LOG.info(refseq_key)
-        grep_cmd = [
-            'grep',
-            refseq_key,
-            definitions.REFSEQ_SUMMARY
-        ]
-        grep_output = subprocess_util.run_subprocess(grep_cmd, ignorereturncode=True)
-        grep_output_decoded = grep_output.stdout.decode("utf-8").split('\t')
-
-        if grep_output_decoded and len(grep_output_decoded) >= 8:
-            species = grep_output.stdout.decode("utf-8").split('\t')[7]
-        else:
-            species = "-"
-
-        if not species == "-":
-            break  #no need to continue looping if top hit species is found
-
-    LOG.info(
-        "MASH species RefSeq top hit {} with distance {} and shared hashes ratio {}".format(top_match, top_match_dist,
-                                                                                            top_match_hashratio))
-    LOG.info("MASH dist predicted species name: {}".format(species))
-
-    return species
+            LOG.warning(f"Could not determine species based on MASH distance for {file}")
+            species = "-" 
+    return species, top_match_hashratio, top_match_dist, top_match   
+        
 
 def getSampleName(file):
     # get only the name of the file for use in the fasta header
@@ -284,60 +240,85 @@ def getSampleName(file):
     n_name = file_path_name.replace(' ', '_')  # sample name
     return n_name
 
-def verify_ecoli(fasta_fastq_files_dict, ofiles, filesnotfound, args, temp_dir):
+def is_valid_fasta_file(fasta, sampleName):
+    # try to read the first sequence of FASTA file and make a format validity decision. No reason to check all reads
+    for contig in SeqIO.parse(fasta, "fasta").records:
+        if contig.seq != '':
+            LOG.debug(f'{sampleName}: input file {fasta} is a valid FASTA')       
+            return True
+        else:
+            LOG.warning(f'{sampleName}: input FASTA file {fasta} format is invalid FASTA. Skipping further analyses ...')
+            return False          
+            
+    
+def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args):
     """
-    Verifying the _E. coli_-ness of the genome files
+    Verifying the E. coli-ness of the genome files and validity of file inputs
     :param fasta_files: [] of all fasta files
     :param ofiles: [] of all non-fasta files
     :param args: Command line arguments
-    :param temp_dir: ectyper run temp_dir
     :return: ecoli_genomes dictionary, other_genomes dictionary, notfound_files dictionary
     """
-
+    LOG.info("Verifying the E.coli-ness of the genome files and validity of file inputs")
     ecoli_files_dict = {}
     other_files_dict = {}
     filesnotfound_dict = {}
+    failverifyerrormessage = ''
 
     fasta_files = fasta_fastq_files_dict.keys()
+    
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
         speciesname = "-"
 
+        if sampleName in ecoli_files_dict or sampleName in other_files_dict:
+            error_msg = "Duplicated parsed filenames found ('{}'). Offending file paths {}. Only unique file names are supported in batch mode".format(
+                                sampleName, [file for file in fasta_files if sampleName in file]
+            )
+            LOG.error(error_msg)
+            raise ValueError(error_msg)
+        
+        if is_valid_fasta_file(fasta, sampleName) == False:
+            failverifyerrormessage += f"Sample {sampleName} FASTA file ({fasta}) is invalid/empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens or input FASTA is corrupted. Please check sequence input file '{sampleName}'."
+  
 
+        #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
+        if fasta_fastq_files_dict[fasta]:
+            fastq_file = fasta_fastq_files_dict[fasta]
+            speciesname, species_mash_hash_ratio, species_mash_dist, species_top_hit_accession   = get_species(fastq_file, args, args.cores)
+        else:
+            speciesname, species_mash_hash_ratio, species_mash_dist, species_top_hit_accession  = get_species(fasta, args, args.cores)
+        
         if args.verify:
-
-            # assign the default RefSeq sketch if none is specified
-            if args.refseq == None:
-                args.refseq = os.path.join(os.path.dirname(__file__),
-                                           "Data/refseq.genomes.k21s1000.msh")
-
-            #do species prediction of fastq files if available for better accuracy
-            if fasta_fastq_files_dict[fasta]:
-                fastq_file = fasta_fastq_files_dict[fasta]
-                speciesname = get_species(fastq_file, args)
-            else:
-                speciesname = get_species(fasta, args)
-
-            failverifyerrormessage = "Sample identified as " + speciesname + ": serotyping results are only available for E.coli samples." \
-                                                                             "If sure that sample is E.coli run without --verify parameter."
+            failverifyerrormessage += "Sample identified as " + speciesname + ": typing results are only valid for E.coli samples." \
+                                                                             "If sure that sample is E.coli or want results regardless try running without the --verify parameter."
             if re.match("Escherichia coli", speciesname):
-                ecoli_files_dict[sampleName] = {"species":speciesname,
+                ecoli_files_dict[sampleName] = {"species":speciesname, "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
+                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
                                                 "filepath":fasta, "error": ""}
             elif is_escherichia_genus(speciesname):
-                other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,"error":failverifyerrormessage}
+                other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta, 
+                                                "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
+                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
+                                                "error":failverifyerrormessage}
             else:
-                other_files_dict[sampleName] = {"species":speciesname, "error":failverifyerrormessage}
+                other_files_dict[sampleName] = {"species":speciesname, "filepath":fasta, 
+                                                "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
+                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
+                                                "error":failverifyerrormessage}
         else:
-            ecoli_files_dict[sampleName] = {"species": speciesname,
-                                            "filepath": fasta, "error": ""}
-
+            ecoli_files_dict[sampleName] = {"species": speciesname,"filepath": fasta, 
+                                            "species_mash_hash_ratio2ref":species_mash_hash_ratio, "species_mash_dist2ref": species_mash_dist, 
+                                            "species_mash_top_reference":species_top_hit_accession, "error": ""}
+            
     for bf in ofiles:
         sampleName = getSampleName(bf)
-        LOG.warning("Non fasta / fastq file.")
-        other_files_dict[sampleName] = {"error":"Non fasta / fastq file. ","filepath":bf,"species":"-"}
+        LOG.warning(f"{sampleName} is non fasta / fastq file. Species identification aborted")
+        other_files_dict[sampleName] = {"error":"Non fasta / fastq file. ","filepath":bf,"species":"-", 
+                                        "species_mash_hash_ratio2ref":"-", "species_mash_dist2ref":"-", "species_mash_top_reference":"-"}
 
     for file in filesnotfound:
         sampleName = getSampleName(file)
-        filesnotfound_dict[sampleName]={"error":"File {} not found!".format(file)}
-
+        filesnotfound_dict[sampleName]={"error":"File {} not found!".format(file), }
+    
     return ecoli_files_dict, other_files_dict,filesnotfound_dict

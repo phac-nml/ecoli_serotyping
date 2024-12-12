@@ -5,54 +5,84 @@ Genome Utilities
 '''
 
 import logging
-import os
+import os, glob
 import tempfile
 from tarfile import is_tarfile
 from Bio import SeqIO
 from multiprocessing import Pool
 from functools import partial
-from ectyper import definitions, subprocess_util
+from ectyper import definitions, subprocess_util, predictionFunctions,commandLineOptions
 
 LOG = logging.getLogger(__name__)
 
+def get_relative_directory_level(path = '.', init_min_level=0):
+    level = os.path.abspath(path).count(os.sep) - init_min_level
+    if os.path.isdir(path):
+       return  level + 1 #directory paths are missing terminating '/' symbol so need to adjust counter
+    else:
+       return level
 
-
-def get_files_as_list(file_or_directory):
+def get_files_as_list(files_or_directories, max_depth_level):
     """
     Creates a list of files from either the given file, or all files within the
     directory specified (where each file name is its absolute path).
 
     Args:
-        file_or_directory (str): file or directory name given on commandline
+        file_or_directory (str): file or directory name given on command line
 
     Returns:
         files_list (list(str)): List of all the files found.
     """
 
     files_list = []
-    if file_or_directory:
+    
+    
+    init_min_dir_level = min([os.path.abspath(p).count(os.sep)+1 if os.path.isdir(p) else os.path.abspath(p).count(os.sep) for p in files_or_directories])
+    for file_or_directory in sorted([os.path.abspath(p) for p in files_or_directories if len(p) != 0]):
+        dir_level_current = get_relative_directory_level(file_or_directory, init_min_dir_level)
+ 
+        if dir_level_current > max_depth_level:
+            LOG.info(f"Directory level exceeded ({dir_level_current} > {max_depth_level}), skipping {file_or_directory} ...")
+            continue
+        
+        # if directory is specified
         if os.path.isdir(file_or_directory):
-            LOG.info("Gathering genomes from directory " + file_or_directory)
-
+            LOG.info(f"Gathering genomes from directory {file_or_directory} at level {dir_level_current} ...")
             # Create a list containing the file names
-            for root, dirs, files in os.walk(file_or_directory):
+            for root, dirs, files in os.walk(os.path.abspath(file_or_directory)):
+                dir_level = get_relative_directory_level(root, init_min_dir_level)
+                if dir_level > max_depth_level:
+                    continue
+                LOG.info(f"In '{root}' level {dir_level} identified {len(dirs)} sub-directory(ies) and {len(files)} file(s) ...")
                 for filename in files:
                     files_list.append(os.path.join(root, filename))
-        # check if input is concatenated file locations
+        # check if input is concatenated file locations separated by , (comma)
         elif ',' in file_or_directory:
-            LOG.info("Using genomes in the input list")
+            LOG.info("Using file paths in the input list separated by the ',' symbol ...")
+            missing_inputs_count = 0
             for filename in file_or_directory.split(','):
-                files_list.append(os.path.abspath(filename))
+                if os.path.exists(os.path.abspath(filename)) == True and os.path.isdir(filename) == False:
+                    files_list.append(os.path.abspath(filename))
+                elif os.path.isdir(os.path.abspath(filename)):
+                    LOG.warning(f"Provided {filename} is a directory and not a file. Only paths to files are acceptable in ',' separated list ...")   
+                else:
+                    LOG.warning(f"File {filename} not found in the ',' separated list")
+                    missing_inputs_count += 1
+            LOG.info(f"Total of {len(files_list)} files identified with a valid path and {missing_inputs_count} are missing ...")           
+        # a path to a file is specified
         else:
-            LOG.info("Using genomes in file " + file_or_directory)
-            files_list.append(os.path.abspath(file_or_directory))
+            input_abs_file_path = os.path.abspath(file_or_directory)
+            if os.path.exists(input_abs_file_path):
+                files_list.append(os.path.abspath(input_abs_file_path))
+            else:
+                LOG.warning(f"File {input_abs_file_path} not found")    
 
 
     if not files_list:
-        LOG.critical("No files were found for the ectyper run")
+        LOG.critical("No files were found for the ectyper to run on")
         raise FileNotFoundError("No files were found to run on")
-
-    sorted_files = sorted(files_list)
+    LOG.info(f"Overall identified {len(files_list)} file(s) ({','.join([os.path.basename(f) for f in files_list])}) to process ...");
+    sorted_files = sorted(list(set(files_list)))
     LOG.debug(sorted_files)
     return sorted_files
 
@@ -104,10 +134,10 @@ def get_genome_names_from_files(files_dict, temp_dir, args):
     files=[]
     for sample in files_dict.keys():
        files.append(files_dict[sample]["filepath"])
-
+    
+    LOG.info("Updating fasta headers ....")
     partial_ghw = partial(genome_header_wrapper, temp_dir=temp_dir)
-
-
+    
     with Pool(processes=args.cores) as pool:
         (results)= pool.map(partial_ghw, files)
 
@@ -139,15 +169,19 @@ def genome_header_wrapper(file, temp_dir):
 
     with open(new_file, "w") as outfile:
         with open(file) as infile:
-            for record in SeqIO.parse(infile, "fasta"):
-                outfile.write(
-                    ">lcl|" + n_name + "|" + record.description + "\n")
-                outfile.write(str(record.seq) + "\n")
+            try:
+                for record in SeqIO.parse(infile, "fasta"):
+                    outfile.write(
+                        ">lcl|" + n_name + "|" + record.description.replace('|','_') + "\n") #the | symbol used to find contig names in FASTA headers so should be avoided
+                    outfile.write(str(record.seq) + "\n")
+            except:
+                LOG.warning(f"File {infile.name} is not a valid FASTA file and all further processing steps will be skipped ...")
+                pass        
 
     return {"oldfile":file,"newfile":new_file, "samplename":n_name}
 
 
-def create_bowtie_base(temp_dir, reference):
+def create_bowtie_base(temp_dir, reference, cores):
     """
     Create the bowtie reference, based on the combined E. coli markers and
     O- and H- type alleles
@@ -165,6 +199,7 @@ def create_bowtie_base(temp_dir, reference):
     bowtie_build = [
         'bowtie2-build',
         '-f',
+        '--threads', f"{cores}",
         reference,
         bowtie_base
     ]
@@ -176,7 +211,7 @@ def create_bowtie_base(temp_dir, reference):
     return bowtie_base
 
 
-def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
+def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir, cores=1, longreads=False):
     """
     Assembles fastq reads to the specified reference file.
     :param reads: The fastq file to assemble
@@ -196,20 +231,27 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     sam_reads = os.path.join(temp_dir, output_name + '.sam')
     bowtie_run = [
         'bowtie2',
+        '--threads',f'{cores}',
         '--score-min L,1,-0.5',
         '--np 5',
+        '--no-unal',
         '-x', bowtie_base,
         '-U', reads,
         '-S', sam_reads
     ]
+    if longreads == True: #for nanopore reads do local alignment as long reads are longer than references
+            bowtie_run.append('--local')
+
     subprocess_util.run_subprocess(bowtie_run)
+
 
     # Convert reads from sam to bam
     bam_reads = os.path.join(temp_dir, output_name + '.bam')
     sam_convert = [
         'samtools', 'view',
+        '--threads', f'{cores}',
         '-S',
-        '-F 4',
+        '-F 4', #filter out the unmapped reads
         '-q 1',
         '-b',
         '-o', bam_reads,
@@ -220,7 +262,7 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
     # Sort the reads
     sorted_bam_reads = os.path.join(temp_dir, output_name + '.sorted.bam')
     sam_sort = [
-        'samtools', 'sort',
+        'samtools', 'sort', '--threads', f'{cores}',
         bam_reads,
         '-o', sorted_bam_reads
     ]
@@ -228,14 +270,14 @@ def assemble_reads(reads, bowtie_base, combined_fasta, temp_dir):
 
     # Create fasta from the reads
     mpileup = [
-        'bcftools', 'mpileup',
+        'bcftools', 'mpileup', '--threads', f'{cores}',
         '-f', combined_fasta,
         sorted_bam_reads]
     mpileup_output = subprocess_util.run_subprocess(mpileup)
 
     variant_calling = [
         'bcftools',
-        'call',
+        'call', '--threads', f'{cores}',
         '-c'
     ]
     variant_calling_output = \
@@ -303,7 +345,8 @@ def identify_raw_files(raw_files, args):
                 other_files.append(f)
             elif ftype == 'filenotfound':
                 filesnotfound_files.append(f)
-    LOG.info("Folowing files were not found in the input: {}".format(",".join(filesnotfound_files)))
+    if len(filesnotfound_files) > 0:          
+        LOG.warning("Folowing files were not found in the input: {}".format(",".join(filesnotfound_files)))
     LOG.debug('raw fasta files: {}'.format(fasta_files))
     LOG.debug('raw fastq files: {}'.format(fastq_files))
     LOG.debug("other non- fasta/fastq files: {}".format(other_files))
@@ -327,11 +370,16 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
     :param args: Commandline arguments
     :return: list of all fasta files, including the assembled fastq
     """
-
+    if len(raw_files_dict['fastq']) == 1:
+        cores = args.cores
+    else:
+        cores = 1    
     par = partial(assemble_reads,
                   bowtie_base=bowtie_base,
                   combined_fasta=combined_fasta,
-                  temp_dir=temp_dir)
+                  temp_dir=temp_dir,
+                  cores=cores,
+                  longreads=args.longreads)
 
     all_fasta_files_dict = dict.fromkeys(raw_files_dict['fasta']) #add assembled genomes as new keys
     with Pool(processes=args.cores) as pool:
@@ -342,7 +390,7 @@ def assemble_fastq(raw_files_dict, temp_dir, combined_fasta, bowtie_base, args):
     return all_fasta_files_dict
 
 
-def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
+def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir, pathotype):
     """
     Create a combined E. coli specific marker and serotyping allele file
     Do this every program run to prevent the need for keeping a separate
@@ -350,11 +398,12 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
 
     :param alleles_fasta: The O- and H- alleles file
     :param temp_dir: Temporary directory for program run
+    :param pathotype: Boolean value indicating if pathotyping information is requested
     :return: The combined alleles and markers file
     """
 
     combined_file = os.path.join(temp_dir, 'combined_ident_serotype.fasta')
-    LOG.info("Creating combined serotype and identification fasta file")
+    LOG.info(f"Creating combined reference database fasta file at {combined_file} ...")
 
     with open(combined_file, 'w') as ofh:
         #with open(definitions.ECOLI_MARKERS, 'r') as mfh:
@@ -362,5 +411,11 @@ def create_combined_alleles_and_markers_file(alleles_fasta, temp_dir):
 
         with open(alleles_fasta, 'r') as sfh:
             ofh.write(sfh.read())
+        
+        #add pathotype allele references if required
+        if pathotype:
+            path2patho_db  = predictionFunctions.json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
+            with open(path2patho_db, 'r') as sfh:
+                ofh.write(sfh.read())
 
     return combined_file
