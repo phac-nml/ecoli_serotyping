@@ -4,8 +4,6 @@ import tempfile
 from ectyper import definitions, subprocess_util
 import re
 import requests
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from Bio import SeqIO
 import time #for file age calculations
 
@@ -164,7 +162,7 @@ def get_species(file, args, cores=1):
     """
     LOG.debug(f"Get species prediction for {file}")
     top_match="-"; top_match_dist="-"; top_match_hashratio="-"; species="-"
-    sketch_metadata_file = args.reference+'.txt' 
+    sketch_metadata_file = args.reference+'.txt'
     if os.path.exists(sketch_metadata_file) == False:
         raise FileNotFoundError(f'Missing required species ID sketch at {sketch_metadata_file} path')
 
@@ -181,7 +179,7 @@ def get_species(file, args, cores=1):
     ]
     sort_output = subprocess_util.run_subprocess(sort_cmd,
                                                  input_data=mash_output.stdout)
-    
+
 
     if args.debug:
         LOG.debug("Wrote MASH against reference sketch results to {}".format(args.output))
@@ -198,7 +196,7 @@ def get_species(file, args, cores=1):
     head_output = subprocess_util.run_subprocess(head_cmd,
                                                  input_data=sort_output.stdout)
     top_hit_lines = head_output.stdout.decode("utf-8").split('\n')
-   
+
 
 
     if len(top_hit_lines) < 1:
@@ -229,9 +227,9 @@ def get_species(file, args, cores=1):
                 LOG.info("MASH dist predicted species name: '{}' based on species ID sketch {}".format(species, args.reference))
         else:
             LOG.warning(f"Could not determine species based on MASH distance for {file}")
-            species = "-" 
-    return species, top_match_hashratio, top_match_dist, top_match   
-        
+            species = "-"
+    return species, top_match_hashratio, top_match_dist, top_match
+
 
 def getSampleName(file):
     # get only the name of the file for use in the fasta header
@@ -244,13 +242,13 @@ def is_valid_fasta_file(fasta, sampleName):
     # try to read the first sequence of FASTA file and make a format validity decision. No reason to check all reads
     for contig in SeqIO.parse(fasta, "fasta").records:
         if contig.seq != '':
-            LOG.debug(f'{sampleName}: input file {fasta} is a valid FASTA')       
+            LOG.debug(f'{sampleName}: input file {fasta} is a valid FASTA')
             return True
         else:
             LOG.warning(f'{sampleName}: input FASTA file {fasta} format is invalid FASTA. Skipping further analyses ...')
-            return False          
-            
-    
+            return False
+
+
 def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args):
     """
     Verifying the E. coli-ness of the genome files and validity of file inputs
@@ -266,7 +264,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
     failverifyerrormessage = ''
 
     fasta_files = fasta_fastq_files_dict.keys()
-    
+
     for fasta in fasta_files:
         sampleName = getSampleName(fasta)
         speciesname = "-"
@@ -277,10 +275,10 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             )
             LOG.error(error_msg)
             raise ValueError(error_msg)
-        
+
         if is_valid_fasta_file(fasta, sampleName) == False:
             failverifyerrormessage += f"Sample {sampleName} FASTA file ({fasta}) is invalid/empty. This could happen when FASTA file generated from FASTQ input lacks raw reads mapping to O- and H- antigens or input FASTA is corrupted. Please check sequence input file '{sampleName}'."
-  
+
 
         #do species always regardless of --verify param. Do prediction on fastq files if available for better accuracy
         if fasta_fastq_files_dict[fasta]:
@@ -288,37 +286,37 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             speciesname, species_mash_hash_ratio, species_mash_dist, species_top_hit_accession   = get_species(fastq_file, args, args.cores)
         else:
             speciesname, species_mash_hash_ratio, species_mash_dist, species_top_hit_accession  = get_species(fasta, args, args.cores)
-        
+
         if args.verify:
             failverifyerrormessage += "Sample identified as " + speciesname + ": typing results are only valid for E.coli samples." \
                                                                              "If sure that sample is E.coli or want results regardless try running without the --verify parameter."
             if re.match("Escherichia coli", speciesname):
-                ecoli_files_dict[sampleName] = {"species":speciesname, "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
-                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
+                ecoli_files_dict[sampleName] = {"species":speciesname, "species_mash_hash_ratio2ref":species_mash_hash_ratio,
+                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession,
                                                 "filepath":fasta, "error": ""}
             elif is_escherichia_genus(speciesname):
-                other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta, 
-                                                "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
-                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
+                other_files_dict[sampleName] = {"species":speciesname,"filepath":fasta,
+                                                "species_mash_hash_ratio2ref":species_mash_hash_ratio,
+                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession,
                                                 "error":failverifyerrormessage}
             else:
-                other_files_dict[sampleName] = {"species":speciesname, "filepath":fasta, 
-                                                "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
-                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
+                other_files_dict[sampleName] = {"species":speciesname, "filepath":fasta,
+                                                "species_mash_hash_ratio2ref":species_mash_hash_ratio,
+                                                "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession,
                                                 "error":failverifyerrormessage}
         else:
-            ecoli_files_dict[sampleName] = {"species": speciesname,"filepath": fasta, 
-                                            "species_mash_hash_ratio2ref":species_mash_hash_ratio, "species_mash_dist2ref": species_mash_dist, 
+            ecoli_files_dict[sampleName] = {"species": speciesname,"filepath": fasta,
+                                            "species_mash_hash_ratio2ref":species_mash_hash_ratio, "species_mash_dist2ref": species_mash_dist,
                                             "species_mash_top_reference":species_top_hit_accession, "error": ""}
-            
+
     for bf in ofiles:
         sampleName = getSampleName(bf)
         LOG.warning(f"{sampleName} is non fasta / fastq file. Species identification aborted")
-        other_files_dict[sampleName] = {"error":"Non fasta / fastq file. ","filepath":bf,"species":"-", 
+        other_files_dict[sampleName] = {"error":"Non fasta / fastq file. ","filepath":bf,"species":"-",
                                         "species_mash_hash_ratio2ref":"-", "species_mash_dist2ref":"-", "species_mash_top_reference":"-"}
 
     for file in filesnotfound:
         sampleName = getSampleName(file)
         filesnotfound_dict[sampleName]={"error":"File {} not found!".format(file), }
-    
+
     return ecoli_files_dict, other_files_dict,filesnotfound_dict
