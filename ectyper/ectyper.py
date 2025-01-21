@@ -47,7 +47,7 @@ def check_database_struct(db, dbpath):
 
 def decompress_gunzip_files(raw_genome_files, temp_dir):
     for idx, g in enumerate(raw_genome_files):
-        if g.endswith("gz"):
+        if g.endswith(".gz"):
             LOG.info(f"Decompression of the gunzip {g} file started ...")
             with open(g, 'rb') as inf, open(f'{temp_dir}/{os.path.basename(g)[:-3]}', 'w', encoding='utf8') as tof:
                 decom_str = gzip.decompress(inf.read()).decode('utf-8')
