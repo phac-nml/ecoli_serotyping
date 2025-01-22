@@ -35,7 +35,7 @@ requirements:
         - bowtie2 >=2.3.*
         - mash >=2.0.*
         - bcftools >=1.8.*
-        - biopython >=1.70.*
+        - biopython >=1.70.*,<1.85
         - blast >=2.7.1.*
         - seqtk >=1.2.*
         - requests >=2.*.*

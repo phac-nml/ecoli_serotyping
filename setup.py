@@ -12,7 +12,7 @@ setup(
     license='Apache 2',
     scripts=['bin/ectyper'],
     packages=['ectyper'],
-    install_requires=['requests','biopython','pandas'],
+    install_requires=['requests','biopython<1.85','pandas<3'],
     package_data={'ectyper': ['Data/*.json', 'Data/*.py']},
     zip_safe=False,
     test_suite='py.test',
