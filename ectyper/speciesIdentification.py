@@ -242,7 +242,7 @@ def getSampleName(file):
 
 def is_valid_fasta_file(fasta, sampleName):
     # try to read the first sequence of FASTA file and make a format validity decision. No reason to check all reads
-    for contig in SeqIO.parse(fasta, "fasta").records:
+    for contig in SeqIO.parse(fasta, "fasta"):
         if contig.seq != '':
             LOG.debug(f'{sampleName}: input file {fasta} is a valid FASTA')       
             return True

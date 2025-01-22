@@ -69,7 +69,7 @@ Install dependencies. On Ubuntu distro run
 
 Install python dependencies via `pip`:
   ```
-  pip3 install pandas "biopython<1.85"
+  pip3 install pandas "biopython<=1.85"
   ```
 Clone the repository or checkout a particular release (e.g `v1.0.0`, `v2.0.0` etc.):
   ```
@@ -93,7 +93,7 @@ pip3 install .   # option 2
 - mash >= 2.0
 
 ### Python packages:
-- biopython >= 1.70,<1.85 (see issue #99)
+- biopython >= 1.70,<=1.85
 - pandas >= 0.23.1
 - requests >= 2.0
 
