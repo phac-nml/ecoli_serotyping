@@ -136,9 +136,48 @@ def test_Ecoli_O17H18(caplog):
 
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
          rows = outfp.readlines()
-    secondrow=rows[1:][0] #check only second row
+    columnslist = rows[0].split('\t')
+    secondrow=rows[1] #check only second row
+    secondrow_values=secondrow.split('\t')
+    assert len(secondrow_values) == len(columnslist), f"Unequal number of columns {len(columnslist)} and values {len(secondrow_values)}"
     assert "Escherichia coli" in secondrow.split('\t')
     assert "O17/O44/O77/O106\tH18\tO17/O44/O77/O106:H18\tWARNING MIXED O-TYPE" in secondrow
+
+def test_Ecoli_O178H19_singleOant_highsimilarity(caplog):
+    caplog.set_level(logging.DEBUG)
+    file = os.path.join(TEST_ROOT,
+                        'Data/EC20121408_O178H19_singleO178.fa.gz') #EC20180127_O153O178H19.fa
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=False, verify=True, debug=True, output=tmpdir)
+
+    ectyper.run_program()
+
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
+         rows = outfp.readlines()
+    
+    secondrow=rows[1] #check only second row
+    secondrow_values=secondrow.split('\t')
+    assert "Escherichia coli" in secondrow_values
+    assert "O178:H19" in secondrow_values
+    
+def test_Ecoli_O153O178H19_mixedOant_highsimilarity(caplog):
+    caplog.set_level(logging.DEBUG)
+    file = os.path.join(TEST_ROOT,
+                        'Data/EC20180127_O153O178H19_mixedO.fa.gz') 
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=file, cores=4, print_sequence=False, verify=True, debug=True, output=tmpdir)
+
+    ectyper.run_program()
+
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
+         rows = outfp.readlines()
+    
+    secondrow=rows[1] #check only second row
+    secondrow_values=secondrow.split('\t')
+    assert "Escherichia coli" in secondrow_values
+    assert "O153/O178:H19" in secondrow_values
+
+
 
 def test_download_refseq_mash(caplog, tmpdir):
     caplog.set_level(logging.DEBUG)

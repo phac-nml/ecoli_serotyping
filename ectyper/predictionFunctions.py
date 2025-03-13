@@ -481,8 +481,8 @@ def get_prediction(per_genome_df):
 
 
     scorestupleslist = [(otypename,rank_Otype_dict[otypename]["sumscore"]) for otypename in rank_Otype_dict.keys()]
-    scorestupleslist = sorted(scorestupleslist, key=lambda x: x[1], reverse=True) #[('O102', 1.73)]
-    best_order_list = sorted([item[0] for item in scorestupleslist], key=lambda x: int(x[1:])) #['O102']
+    scorestupleslist = sorted(scorestupleslist, key=lambda x: x[1], reverse=True) #[('O102', 1.73)] #sort by gene score (wzx+wzy)
+    best_order_list = [item[0] for item in scorestupleslist] #['O102'] get only the antigen names ordered
 
 
     LOG.debug("Otype dict:{}".format(otype))
@@ -535,12 +535,12 @@ def get_prediction(per_genome_df):
     #find pairwise distance between all alleles indentified by BLAST search and find alleles with IDENTICAL O-antigen score
     #Note that difference in score of 0 between O antigens is considered to be identical
     identicalscorestupleslist = [(orow, ocol, abs(i - j)) for ocol, i in scorestupleslist for orow, j in scorestupleslist
-                            if i - j == 0 and (orow == selectedOantigen or ocol == selectedOantigen) and
+                            if abs(i - j) == 0 and (orow == selectedOantigen or ocol == selectedOantigen) and
                             (orow != ocol)]
 
     #find highly similar antigens at 99.9% indentity which is only 1 nt apart
     highsimilarity_oantigens = [orow for ocol, i in scorestupleslist for orow, j in
-                                scorestupleslist if i - j <= definitions.HIGH_SIMILARITY_THRESHOLD_O
+                                scorestupleslist if abs(i - j) <= definitions.HIGH_SIMILARITY_THRESHOLD_O
                                 and orow != selectedOantigen
                                 and (orow == selectedOantigen or ocol == selectedOantigen)
                                 and (orow != ocol)]
@@ -853,7 +853,7 @@ def report_result(final_dict, output_dir, output_file, args):
             for field in definitions.PATHOTYPE_TOXIN_FIELDS:
                 output_line.append(final_dict[sample][field])
         else:
-            output_line.extend(['-']*len([f for f in definitions.OUTPUT_TSV_HEADER if 'Pathotype' in f or 'Stx' in f]))
+            output_line.extend(['-']*len([f for f in definitions.OUTPUT_TSV_HEADER if 'Patho' in f or 'Stx' in f]))
         print_line = "\t".join(output_line)
         output.append(print_line + "\n")
         LOG.info(print_line)
@@ -878,7 +878,6 @@ def add_non_predicted(all_genomes_list, predictions_dict, other_dict, filesnotfo
     :param predictions_data_frame: the Dict containing the ectyper predictions
     :return: modified prediction file
     """
-    print(other_dict)
     
     # genome names are given without the filename extension
     for g in all_genomes_list:
