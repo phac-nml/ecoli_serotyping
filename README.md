@@ -262,7 +262,7 @@ The QC module covers the following serotyping scenarios. More scenarios might be
 |WARNING MIXED O-TYPE|A mixed O antigen call is predicted requiring wet-lab confirmation |
 |WARNING (WRONG SPECIES)| A sample is non-E.coli (e.g. *E.albertii*, *Shigella*, etc.) based on RefSeq assemblies|
 |WARNING (-:H TYPING)| A sample is E.coli and O antigen is not predicted (e.g. -:H18)|
-|WARNING (O:- TYPING)| A sample is E.coli and O antigen is not predicted (e.g. O17:-)|
+|WARNING (O:- TYPING)| A sample is E.coli and H antigen is not predicted (e.g. O17:-)|
 |WARNING (O NON-REPORT)|O antigen alleles do not meet min %identity or %coverage thresholds|
 |WARNING (H NON-REPORT)|H antigen alleles do not meet min %id or %cov thresholds|
 |WARNING (O and H NON-REPORT)| Both O and H antigen alleles do not meet min %identity or %coverage thresholds|

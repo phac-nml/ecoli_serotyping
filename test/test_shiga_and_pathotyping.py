@@ -51,7 +51,12 @@ def test_single_stx2_subtyping(caplog):
     set_input(input=file, cores=4, verify=True, debug=False, output=tmpdir, pathotype=True)
     ectyper.run_program()
     with open(os.path.join(tmpdir,"output.tsv")) as outfp:
-        secondrow = outfp.readlines()[1]
+        rows = outfp.readlines()
+      
+    columnslist = rows[0].split('\t')   
+    secondrow = rows[1]
+    secondrow_values=secondrow.split('\t')
+    assert len(secondrow_values) == len(columnslist), f"Unequal number of columns {len(columnslist)} and values {len(secondrow_values)}"
     assert "STEC" in secondrow   
     assert "stx2a" in secondrow
 
