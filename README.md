@@ -146,6 +146,11 @@ options:
   -s, --sequence        Prints the allele sequences if enabled as the final columns of the output
   --debug               Print more detailed log including debug messages
   --dbpath DBPATH       Path to a custom database of O and H antigen alleles in JSON format. Check Data/ectyper_database.json for more information
+  --pathotype           Predict E.coli pathotype and Shiga toxin subtype(s) if present
+  -pathpid PERCENTIDENTITYPATHOTYPE, --percentIdentityPathotype PERCENTIDENTITYPATHOTYPE
+                        Minimum percent identity required for a pathotype reference allele match [default: 90]
+  -pathpcov PERCENTCOVERAGEPATHOTYPE, --percentCoveragePathotype PERCENTCOVERAGEPATHOTYPE
+                        Minimum percent coverage required for a pathotype reference allele match [default: 50]
 ```
 
 
@@ -165,7 +170,7 @@ options:
 |`--dbpath`|  Provide custom appended database of O and H antigen reference alleles in JSON format following structure and field names as default database `ectyper_alleles_db.json` | User wants to add new alleles to the alleles database to improve typing performance |
 | `--pathotype` | Perform DEC pathotype and Shiga toxin subtyping prediction on a sample | Predict DEC pathotype using the key diagnostic pathotype markers. Results are only valid for E.coli samples. Also performs Shiga toxin subtyping if `stx1` or `stx2` genes are present  |
 | `-pathpid` | Minimum `%identity` threshold for pathotype and Shiga toxin subtyping results filtering | All gene hits from pathotype database also containing `stx` genes will use this minimum cutoff to filter results. The default value is minimum 90% identity |
-| `-pathcov` | Minimum `%coverage` threshold for pathotype and Shiga toxin subtyping results filtering |  All gene hits from pathotype database also containing `stx` genes will use this minimum cutoff to filter results. The default value is minimum 50% coverage | 
+| `-pathpcov` | Minimum `%coverage` threshold for pathotype and Shiga toxin subtyping results filtering |  All gene hits from pathotype database also containing `stx` genes will use this minimum cutoff to filter results. The default value is minimum 50% coverage | 
 
 # Data Input
 Both raw and assembled reads are accepted in FASTA and FASTQ formats from any sequencing platform. The tool was designed for single sample inputs, but was shown to work on multi-taxa metagenomic raw reads FASTQ inputs.
