@@ -7,9 +7,9 @@ import pandas as pd
 import ectyper.definitions as definitions
 from ectyper import subprocess_util
 
-from Bio import SeqRecord
+from Bio import SeqRecord, SeqIO
 from Bio.Seq import  Seq
-from Bio.SeqIO import FastaIO
+#from Bio.SeqIO import FastaIO
 
 LOG = logging.getLogger(__name__)
 
@@ -51,15 +51,17 @@ def json2fasta(json_file, output_dir):
             seq_name = item['accession']+'|'+marker+'|'+item['gene']
             if 'subtype' in item and 'stx' in marker:
                 seq_name = seq_name+"|"+item['subtype']
-            sequences.append(SeqRecord.SeqRecord(seq= Seq(item['dnasequence']) , id = item['id'], name= seq_name, 
-                                                 description = re.sub(' ','_',item["description"]))) 
-    with open(fasta_pathotypedb_path, "w") as fp:
-        fasta_out = FastaIO.FastaWriter(fp, wrap=None, record2title=fasta_custom_header_generator )
-        fasta_out.write_file(sequences)
+            sequence = SeqRecord.SeqRecord(seq= Seq(item['dnasequence']) , id = item['id'], name= seq_name, 
+                                                 description = re.sub(' ','_',item["description"]))
+            sequence.id = fasta_custom_header_generator(sequence)
+            sequences.append(sequence) 
+    
+    SeqIO.write(sequences, fasta_pathotypedb_path, "fasta")
+
     LOG.info(f"Created pathotype database in fasta format from JSON at {fasta_pathotypedb_path}") 
     return fasta_pathotypedb_path
 
-def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
+def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, g, debug):
     results_dict = {
                     'stx_genes':[],
                     'stx_accessions':[],
@@ -72,12 +74,10 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                     'stx_gene_ranges':[]
                 }
     for gene in ['stx1', 'stx2']:
-        stx_toxin_df = pathotype_genes_tmp_df.query(f'gene == "{gene}"')
-        stx_toxin_df.loc[:,['stx_subtype', 'stx_gene_full_name', 'stx_seqtype', 'stx_contig_name','rangeid']] = '-'
-   
-          
+        stx_toxin_df = pathotype_genes_tmp_df.query(f'gene == "{gene}"') #check for stx1 and stx2 gene signatures in BLAST results
         
-        if stx_toxin_df.empty == False:   
+        if stx_toxin_df.empty == False: 
+            stx_toxin_df.loc[:,['stx_subtype', 'stx_gene_full_name', 'stx_seqtype', 'stx_contig_name','rangeid']] = '-' #add extra columns to dataframe to populate  
             #homogenize allele coordinates for +1 and -1 strands making coordinates on +1 strand
             hits_coordinates = stx_toxin_df.query('sframe == -1')[['send','sstart']]
             stx_toxin_df.loc[list(stx_toxin_df.loc[:,'sframe'] == -1),'sstart'] = hits_coordinates['send']
@@ -172,6 +172,8 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug):
                     results_dict['stx_contigs'].append(str(dict_item['contig']))
                     results_dict['stx_gene_ranges'].append(str(dict_item['gene_range']))
 
+        else:
+            LOG.info(f"No stx1 or stx2 gene signatures found in {g} sample.")
                 
     #report shiga toxin subtypes in alphabetical order    
     sorted_order = [i[0] for i in sorted(enumerate(results_dict['stx_genes']), key=lambda x:x[1])  ] 
@@ -201,7 +203,7 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
     LOG.info(f"Starting pathotype predictions on {len(ecoli_genome_files_dict.keys())} E.coli and non-E.coli {len(other_genomes_dict.keys())} samples. Reminder: Please use --verify option to run pathotype predictions only on E.coli samples ...")
 
     if len(other_genomes_dict.keys()) > 0 and verify_species_flag == True:
-        LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s) will not be pathotyped. If you still want to type ALL samples regardless omit --verify option ...")
+        LOG.info(f"A total of {len(other_genomes_dict.keys())} non-E.coli sample(s). Pathotype results might not apply or be relevant ...")
     
     path2patho_db = json2fasta(definitions.PATHOTYPE_ALLELE_JSON, temp_dir)
     json_patho_db = load_json(definitions.PATHOTYPE_ALLELE_JSON)
@@ -216,9 +218,11 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
     for g in merged_samples_dict.keys():
         LOG.info(f"Running pathotype prediction on {g} ...")
         predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
+        
         if verify_species_flag == True and 'Escherichia coli' not in merged_samples_dict[g]['species']:
-            LOG.info(f"Skipping pathotype prediction for {g} as species is not E.coli and --verify is specified ...")
-            continue
+            other_genomes_dict[g]['error']+=f" Pathotyping and serotyping are intended only for E. coli only, interpret results with caution and at your own discretion."
+            LOG.warning(f"Pathotype predictions might not be valid/relevant for {g} as species is not E.coli  ...")
+
         input_sequence_file = merged_samples_dict[g]['modheaderfile'] 
         cmd = [
             "blastn",
@@ -237,7 +241,7 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
 
 
         if os.stat(f'{temp_dir}/blast_pathotype_result.txt').st_size == 0:
-            LOG.warning(f"No pathotype signatures found for sample {g} as pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty. Skipping pathotyping...")
+            LOG.warning(f"Pathotype BLAST results file {temp_dir}/blast_pathotype_result.txt is empty for sample {g}! Skipping pathotyping and toxin typing ...")
             predictions_pathotype_dict[g]={field:'-' for field in definitions.PATHOTYPE_TOXIN_FIELDS}
             predictions_pathotype_dict[g]['pathotype']= ['ND']
             continue
@@ -250,10 +254,10 @@ def predict_pathotype_and_shiga_toxin_subtype(ecoli_genome_files_dict, other_gen
         pathotype_genes_tmp_df['gene'] = pathotype_genes_tmp_df['qseqid'].apply(lambda x:x.split('|')[2])
         pathotype_genes_tmp_df['sample_id'] = g
         
-        pathotype_genes_tmp_df.query(f'pident >= {pident} and qcovhsp >= {pcov}', inplace=True) # Default BioNumerics threshold in pathotype module
+        pathotype_genes_tmp_df.query(f'pident >= {pident} and qcovhsp >= {pcov}', inplace=True) # Default threshold in pathotype module
 
         #shiga toxin subtyping
-        result_stx1_stx2 = shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, debug)
+        result_stx1_stx2 = shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, g, debug)
         predictions_pathotype_dict[g].update(result_stx1_stx2) #Update dictionary with shiga toxin typing results
         
         
@@ -686,7 +690,6 @@ def getQuality_control_results(sample, final_results_dict, ectyperdb_dict):
 
     #QC1: Check if species is E.coli
     if not re.match("Escherichia coli", final_results_dict[sample]["species"]):
-        final_results_dict[sample]["error"]=final_results_dict[sample]["error"]+"Sample was not identified as valid E.coli sample but as {}".format(final_results_dict[sample]["species"])
         return "WARNING (WRONG SPECIES)"
 
     if not 'O' and 'H' in final_results_dict[sample]:

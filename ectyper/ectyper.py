@@ -193,7 +193,7 @@ def run_program():
                                                                                    args.percentIdentityPathotype,
                                                                                    args.percentCoveragePathotype,
                                                                                    args.output, args.debug, pathotype_db)
-
+    print(predictions_pathotype_dict)
     # Add empty rows for genomes without a blast result or non-E.coli samples that did not undergo typing
     final_predictions = predictionFunctions.add_non_predicted(
         raw_genome_files, predictions_dict, other_genomes_dict, filesnotfound_dict, ecoli_genomes_dict)
@@ -224,7 +224,7 @@ def run_program():
             else:
                 final_predictions[sample]['O']['highlysimilargroup'] = ''
                 final_predictions[sample]['O']['highlysimilarantigens'] = []
-
+        print(final_predictions)
         if args.verify:
             final_predictions[sample]["QC"] = predictionFunctions.getQuality_control_results(sample,final_predictions,ectyperdb_dict)
 

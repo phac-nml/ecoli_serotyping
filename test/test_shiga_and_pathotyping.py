@@ -112,3 +112,21 @@ def test_multi_stx_overlap_same_contig(caplog):
     assert "stx2d" in secondrow   
     assert "contig00078;contig00078" in secondrow
 
+def test_verify_on_Shigella_and_pathotype(caplog):
+    caplog.set_level(logging.DEBUG)
+    files = ",".join([os.path.join(TEST_ROOT,'Data/ESC_BA0255AA_AS_Shigella_sonnei.fasta'), os.path.join(TEST_ROOT, 'Data/DRR015915_Shigella_boydii.fasta')])
+    tmpdir = tempfile.mkdtemp()
+    set_input(input=files, cores=4, verify=True, debug=True, output=tmpdir, pathotype=True)
+    ectyper.run_program()
+    with open(os.path.join(tmpdir,"output.tsv")) as outfp:
+        rows = outfp.readlines()
+        secondrow = rows[1]
+        thirdrow = rows[2]
+        print(secondrow,thirdrow)
+    assert "Shigella boydii" in secondrow
+    assert "ND" in secondrow   
+    assert "Shigella sonnei" in thirdrow    
+    assert "-:-" in thirdrow #check that serotyping info is not available
+    assert "EIEC" in thirdrow
+    assert "ipaH" in thirdrow
+    

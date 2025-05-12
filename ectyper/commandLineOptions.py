@@ -119,7 +119,8 @@ def parse_command_line(args=None):
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Enable E. coli species verification"
+        default=False,
+        help="Enable E. coli species verification and additional QC checks [default %(default)s]"
     )
 
     parser.add_argument(

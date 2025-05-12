@@ -290,8 +290,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
             speciesname, species_mash_hash_ratio, species_mash_dist, species_top_hit_accession  = get_species(fasta, args, args.cores)
         
         if args.verify:
-            failverifyerrormessage += "Sample identified as " + speciesname + ": typing results are only valid for E.coli samples." \
-                                                                             "If sure that sample is E.coli or want results regardless try running without the --verify parameter."
+            failverifyerrormessage += f"Sample {sampleName} identified as non-E. coli but as {speciesname}. If you DO NOT want E. coli QC verification, rerun ECTyper without --verify."
             if re.match("Escherichia coli", speciesname):
                 ecoli_files_dict[sampleName] = {"species":speciesname, "species_mash_hash_ratio2ref":species_mash_hash_ratio, 
                                                 "species_mash_dist2ref": species_mash_dist, "species_mash_top_reference":species_top_hit_accession, 
@@ -309,7 +308,7 @@ def verify_ecoli_and_inputs(fasta_fastq_files_dict, ofiles, filesnotfound, args)
         else:
             ecoli_files_dict[sampleName] = {"species": speciesname,"filepath": fasta, 
                                             "species_mash_hash_ratio2ref":species_mash_hash_ratio, "species_mash_dist2ref": species_mash_dist, 
-                                            "species_mash_top_reference":species_top_hit_accession, "error": ""}
+                                            "species_mash_top_reference":species_top_hit_accession, "error": ""}    
             
     for bf in ofiles:
         sampleName = getSampleName(bf)

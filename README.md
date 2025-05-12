@@ -138,7 +138,7 @@ options:
                         Minumum percent coverage required for an O antigen allele match [default 90]
   -hpcov PERCENTCOVERAGEHTYPE, --percentCoverageHtype PERCENTCOVERAGEHTYPE
                         Minumum percent coverage required for an H antigen allele match [default 50]
-  --verify              Enable E. coli species verification
+  --verify              Enable E. coli species verification and additional QC checks [default False]
   -o OUTPUT, --output OUTPUT
                         Directory location of output files
   -r REFSEQ, --refseq REFSEQ
@@ -165,7 +165,7 @@ options:
 | `-opcov` |  Minimum `%covereage` threshold for a valid match against reference O antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 90)|
 | `-hpid`  |  Minimum `%identity` threshold just for H antigen match| Poor coverage of O antigen genes or for exploratory work (recommend value is 95)    |
 | `-hpcov` |  Minimum `%covereage` threshold for a valid match against reference H antigen alleles | Poor coverage of O antigen genes and a user wants to get O antigen call regardless (recommend value is 50)|
-|`--verify`|  Verify species of the input and run QC module providing information on the reliability of the result and any typing issues | User not sure if sample is E.coli and wants to obtain if serotype prediction is of sufficient quality for reporting purposes and predicted species is *E.coli*. Note that pathotyping and Shiga toxin module will not run if `--verify` is specified and species is other than *E.coli*|
+|`--verify`|  Verify species (i.e. if sample is *E.coli*) and run QC module providing information on the reliability and suitability of the serotyping and pathotyping results as a function of predicted species. | It is recommended to include this parameter if user not sure if analyzed sample is *E.coli* and/or wants to verify if serotype prediction is of sufficient quality for reporting purposes recorded in the `QC` column of the `output.tsv` with all possible values listed in the [Table 1](https://www.microbiologyresearch.org/content/mgen/10.1099/mgen.0.000728.T1?fmt=ahah&fullscreen=true). Note that pathotype and Shiga toxin predictions will be reported for ANY predicted species if `--verify` and `--pathotype` are both specified. A warning message will be generated for non-*E.coli* species in the `Warnings` column of the `output.tsv` as pathotype prediction is only relevant for *E.coli* samples|
 | `-r`     |  Specify custom MASH sketch of reference genomes that will be used for species inference | User has a new assembled genome that is not available in NCBI RefSeq database. Make sure to add metadata to `assembly_summary_refseq.txt` and provide custom accession number that start with `GCF_` prefix|
 |`--dbpath`|  Provide custom appended database of O and H antigen reference alleles in JSON format following structure and field names as default database `ectyper_alleles_db.json` | User wants to add new alleles to the alleles database to improve typing performance |
 | `--pathotype` | Perform DEC pathotype and Shiga toxin subtyping prediction on a sample | Predict DEC pathotype using the key diagnostic pathotype markers. Results are only valid for E.coli samples. Also performs Shiga toxin subtyping if `stx1` or `stx2` genes are present  |
