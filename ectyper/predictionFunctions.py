@@ -173,7 +173,7 @@ def shiga_toxing_subtyping(pathotype_genes_tmp_df, output_dir, g, debug):
                     results_dict['stx_gene_ranges'].append(str(dict_item['gene_range']))
 
         else:
-            LOG.info(f"No stx1 or stx2 gene signatures found in {g} sample.")
+            LOG.info(f"No {gene} signatures found in {g} sample.")
                 
     #report shiga toxin subtypes in alphabetical order    
     sorted_order = [i[0] for i in sorted(enumerate(results_dict['stx_genes']), key=lambda x:x[1])  ] 
